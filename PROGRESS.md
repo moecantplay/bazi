@@ -44,9 +44,9 @@ Living checklist. Every checked task carries a one-line evidence note.
 - [ ] localStorage persistence
 
 ## M5 — Chart + Today
-- [ ] Chart screen (grid, day-master, balance, favorable, seal)
-- [ ] Today screen (±30d nav, palace touches)
-- [ ] Fixture A renders 甲戌 丙子 戊辰 庚申 + trine + Eating God
+- [x] Chart screen (grid, day-master, balance, favorable, seal) — reviewer APPROVE; stable section keys
+- [x] Today screen (±30d nav, palace touches) — UTC-safe date math, agency line last/distinct
+- [x] Fixture A renders 甲戌 丙子 戊辰 庚申 + trine + Eating God — headless-verified on the built export
 
 ## M6 — Cycles + settings + PWA
 - [x] Cycles screen (Fixture A start years correct) — headless-verified 丁丑@9/2004, 己卯 decade highlighted, 2026=丙午; reviewer APPROVE
@@ -54,8 +54,8 @@ Living checklist. Every checked task carries a one-line evidence note.
 - [x] PWA manifest + SW, no console errors — trailingSlash export, route precache verified, installability basics green
 
 ## M7 — E2E + README + DoD audit
-- [ ] 3 Playwright flows green
-- [ ] README + clean-clone verify
+- [ ] 3 Playwright flows green — ui-dev running
+- [x] README + clean-clone verify — fresh clone → pnpm install → pnpm verify GREEN (scratchpad clean-clone)
 - [ ] Full DoD re-audit green
 
 ## Flags / unverifiable values

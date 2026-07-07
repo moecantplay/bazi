@@ -8,7 +8,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "echo \"web has no unit tests; engine/content cover logic, E2E via pnpm e2e\"",
-    "e2e": "playwright test"
+    "e2e": "playwright install chromium && next build && playwright test",
+    "e2e:screenshot": "node scripts/screenshot-chart.mjs"
   },
   "dependencies": {
     "@daymaster/bazi-engine": "workspace:*",

@@ -36,7 +36,7 @@ function Column({ label, palace, pillar, tenGod, isDay, isHour }: ColumnSpec) {
   const branch = pillar ? describeBranch(pillar.branch) : null;
 
   return (
-    <div className="flex flex-1 flex-col items-center gap-3">
+    <div data-pillar={label.toLowerCase()} className="flex flex-1 flex-col items-center gap-3">
       <div className="flex flex-col items-center">
         <span className="text-[13px] font-medium text-ink">{label}</span>
         <span className="text-[11px] uppercase tracking-wide text-ink-soft">{palace}</span>
