@@ -32,4 +32,5 @@ Co-Star-style daily-reading app on a BaZi (Four Pillars) engine. Local-only, no 
 - 2026-07-07 Engine input conventions: instant = JS Date (absolute UTC); IANA zone string for local reading; dailyPillar takes "YYYY-MM-DD"; longitude east-positive; out-of-table years (pre-1900/post-2100) throw RangeError.
 - 2026-07-07 EoT mean longitude from Meeus polynomial (source-commented) — accepted exception to "astronomy-engine only", see PROGRESS.md flags.
 - 2026-07-07 astronomy-engine loaded via createRequire to dodge ESM/CJS dual-build inconsistency between vite and tsx.
+- 2026-07-07 apps/web webpack config: extensionAlias .js→.ts (engine uses NodeNext specifiers) + NormalModuleReplacementPlugin shims node:module→shims/node-module.mjs so the engine's createRequire bundles for the browser.
 - 2026-07-07 Post-review design decisions: cinnabar strictly seal-only (buttons = ink fill/paper text; day-column marker = ink underline); element hues never normal-size text (fills/swatches or ≥19px bold); input borders = --ink-soft (hairline is dividers only).

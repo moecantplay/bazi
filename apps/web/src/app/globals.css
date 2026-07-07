@@ -1,3 +1,117 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*
+ * Design tokens (DESIGN.md). Cinnabar is reserved for the seal only; it is
+ * intentionally never applied to buttons, links, or accents anywhere else.
+ */
+:root {
+  --paper: #f5f6f4;
+  --ink: #181c22;
+  --ink-soft: #565d68;
+  --cinnabar: #bf3a2b;
+  --paper-raised: #ffffff;
+  --hairline: #d8dbd6;
+
+  --element-wood: #3a7d44;
+  --element-fire: #d0662a;
+  --element-earth: #9c7a3c;
+  --element-metal: #7a8494;
+  --element-water: #2e5e8c;
+}
+
+html {
+  background-color: var(--paper);
+}
+
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Visible keyboard focus everywhere (DESIGN.md floor). */
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* Han characters use system serif faces; no CJK webfont is downloaded. */
+.font-han {
+  font-family: "Songti SC", "Noto Serif SC", serif;
+}
+
+/*
+ * Chart-reveal motion. The seal stamps in, then pillar columns fade up in a
+ * 60ms stagger. Everything is gated behind prefers-reduced-motion so that
+ * reduced-motion users get an instant, static render.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .seal-stamp {
+    animation: seal-stamp 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .pillar-rise {
+    animation: pillar-rise 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .fade-in {
+    animation: fade-in 120ms ease-out both;
+  }
+
+  /* Pillar columns fade up in a 60ms stagger once the seal has stamped in. */
+  .reveal-columns > * {
+    animation: pillar-rise 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .reveal-columns > *:nth-child(1) {
+    animation-delay: 300ms;
+  }
+  .reveal-columns > *:nth-child(2) {
+    animation-delay: 360ms;
+  }
+  .reveal-columns > *:nth-child(3) {
+    animation-delay: 420ms;
+  }
+  .reveal-columns > *:nth-child(4) {
+    animation-delay: 480ms;
+  }
+}
+
+@keyframes seal-stamp {
+  0% {
+    opacity: 0;
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 0 rgba(24, 28, 34, 0));
+  }
+  70% {
+    filter: drop-shadow(0 4px 8px rgba(24, 28, 34, 0.18));
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: drop-shadow(0 0 0 rgba(24, 28, 34, 0));
+  }
+}
+
+@keyframes pillar-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

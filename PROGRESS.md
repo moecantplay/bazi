@@ -12,19 +12,20 @@ Living checklist. Every checked task carries a one-line evidence note.
 - [x] Initial commit on green verify — full `pnpm verify` green (typecheck+lint+test+build, static export OK)
 
 ## M1 — Engine core
-- [ ] Types + reference tables in data/
-- [ ] Solar-term generator + data/solar-terms.json (1900–2100) + anchor tests
-- [ ] sexagenary / yearPillar / monthPillar / dayPillar / hourPillar / annualPillar / dailyPillar
-- [ ] EngineConfig (lateZiHour, trueSolarTime)
-- [ ] Golden fixtures A–D green
+- [x] Types + reference tables in data/ — char-by-char reviewer-verified vs §11
+- [x] Solar-term generator + data/solar-terms.json (1900–2100) + anchor tests — 2412 entries, strictly increasing, anchors within ±1d
+- [x] sexagenary / yearPillar / monthPillar / dayPillar / hourPillar / annualPillar / dailyPillar — 50 tests green
+- [x] EngineConfig (lateZiHour, trueSolarTime) — fixture D + EoT bounds tested
+- [x] Golden fixtures A–D green — reviewer independently recomputed boundaries (立春 2000 to the ms)
 
 ## M2 — Engine derived
-- [ ] hiddenStems / tenGods
-- [ ] interactions (combines/clashes/trines/punishments/harms + palaces)
-- [ ] luckPillars (direction + start age + 8 pillars)
-- [ ] strength / favorableElements
-- [ ] ReadingFacts emitted
-- [ ] ≥20 total fixtures, coverage ≥90%
+- [x] hiddenStems / tenGods — reviewer re-derived full 10×10 matrix, exact match
+- [x] interactions (combines/clashes/trines/punishments/harms + palaces) — duplicate-branch pairs verified
+- [x] luckPillars (direction + start age + 8 pillars) — fixture A: 114 months → age 9 / 2004, recomputed by reviewer
+- [x] strength / favorableElements — labeled interpretive, one school; fixture A weak, [fire, earth]
+- [x] ReadingFacts emitted — natalFacts + dailyFacts deterministic, annual+daily transits
+- [x] ≥20 total fixtures, coverage ≥90% — 90 tests, 97.7% lines
+- [ ] Follow-ups: >2100 RangeError guard + backward-luck startAge assertion (engine-dev running)
 
 ## M3 — Content
 - [x] VOICE.md — packages/content/VOICE.md (hard rules, calibration, palace vocab, disclaimer copy)
