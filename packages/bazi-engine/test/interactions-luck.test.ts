@@ -121,4 +121,19 @@ describe("luck pillars — backward case (yin year, male)", () => {
     expect(render(pillars[0]!.pillar)).toBe("辛巳");
     expect(render(pillars[1]!.pillar)).toBe("庚辰");
   });
+
+  it("starts at age 3 in 1998 (gap to previous 芒种 1995-06-06)", () => {
+    // Backward → measure to the previous jié 芒种 (1995-06-06T03:42Z).
+    // gap ≈ 9.05 days → round(9.05 × 4) = 36 months → floor(36/12) = 3.
+    // 1995-06 + 36 months = 1998-06, so the first pillar takes effect in 1998.
+    const pillars = luckPillars({
+      instant,
+      zone: "Asia/Jakarta",
+      yearStem: "乙",
+      monthPillar: { stem: "壬", branch: "午" },
+      sex: "male",
+    });
+    expect(pillars[0]!.startAge).toBe(3);
+    expect(pillars[0]!.startYear).toBe(1998);
+  });
 });

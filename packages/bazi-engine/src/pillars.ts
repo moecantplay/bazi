@@ -22,6 +22,23 @@ const YEAR_ANCHOR = 1984;
 /** Sexagenary anchor for the day cycle: 1949-10-01 (local civil date) is 甲子. */
 const DAY_ANCHOR = DateTime.utc(1949, 10, 1);
 
+/**
+ * Supported year range, matching the embedded solar-term table (1900–2100).
+ * `annualPillar`/`dailyPillar` compute from pure cycle arithmetic and would
+ * otherwise silently extrapolate past the table, so they enforce this window to
+ * stay consistent with the table-backed pillar functions.
+ */
+const MIN_SUPPORTED_YEAR = 1900;
+const MAX_SUPPORTED_YEAR = 2100;
+
+function assertSupportedYear(year: number): void {
+  if (year < MIN_SUPPORTED_YEAR || year > MAX_SUPPORTED_YEAR) {
+    throw new RangeError(
+      `Year ${year} is outside the supported range ${MIN_SUPPORTED_YEAR}–${MAX_SUPPORTED_YEAR}`,
+    );
+  }
+}
+
 /** Read `instant` as local civil time in `zone`, throwing on an invalid zone. */
 function zonedTime(instant: Date, zone: string): DateTime {
   const zoned = DateTime.fromJSDate(instant, { zone });
@@ -138,6 +155,7 @@ export function hourPillar(
  * `annualPillar(2026)` = 丙午. Used for annual (流年) pillars.
  */
 export function annualPillar(year: number): Pillar {
+  assertSupportedYear(year);
   return sexagenaryPillar(year - YEAR_ANCHOR);
 }
 
@@ -150,5 +168,6 @@ export function dailyPillar(date: string, zone: string): Pillar {
   if (!noon.isValid) {
     throw new Error(`Invalid date "${date}" or zone "${zone}": ${noon.invalidReason ?? "unknown"}`);
   }
+  assertSupportedYear(noon.year);
   return dayPillar(noon.toJSDate(), zone);
 }

@@ -62,20 +62,36 @@ function termAt(index: number): SolarTermEntry {
   return SOLAR_TERMS[index]!;
 }
 
-/** The jié governing `instant`: the most recent term at or before it. */
-export function findGoverningTerm(instant: Date): SolarTermEntry {
+/** Epoch-millis of the first and last jié the embedded table covers. */
+const FIRST_INSTANT = epochAt(0);
+const LAST_INSTANT = epochAt(SOLAR_TERMS.length - 1);
+
+/** Throw if `instant` falls outside the table's coverage on either side. */
+function assertInRange(instant: Date): void {
   const target = instant.getTime();
-  const position = lastAtOrBefore(SOLAR_TERMS.length, target, epochAt);
-  if (position < 0) {
+  if (target < FIRST_INSTANT) {
     throw new RangeError(
       `Instant ${instant.toISOString()} precedes the solar-term table (from ${termAt(0).iso})`,
     );
   }
+  if (target > LAST_INSTANT) {
+    throw new RangeError(
+      `Instant ${instant.toISOString()} is past the final solar term (${termAt(SOLAR_TERMS.length - 1).iso})`,
+    );
+  }
+}
+
+/** The jié governing `instant`: the most recent term at or before it. */
+export function findGoverningTerm(instant: Date): SolarTermEntry {
+  assertInRange(instant);
+  const target = instant.getTime();
+  const position = lastAtOrBefore(SOLAR_TERMS.length, target, epochAt);
   return termAt(position);
 }
 
 /** The first jié strictly after `instant` (the next month boundary). */
 export function findNextTerm(instant: Date): SolarTermEntry {
+  assertInRange(instant);
   const target = instant.getTime();
   const position = lastAtOrBefore(SOLAR_TERMS.length, target, epochAt);
   const next = position + 1;
@@ -93,6 +109,7 @@ export function findNextTerm(instant: Date): SolarTermEntry {
  * 立春 is the intended solar-year number.
  */
 export function findSolarYear(instant: Date): number {
+  assertInRange(instant);
   const target = instant.getTime();
   const position = lastAtOrBefore(
     LI_CHUN_INDICES.length,
