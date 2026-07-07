@@ -27,14 +27,15 @@ Living checklist. Every checked task carries a one-line evidence note.
 - [ ] ≥20 total fixtures, coverage ≥90%
 
 ## M3 — Content
-- [ ] VOICE.md
+- [x] VOICE.md — packages/content/VOICE.md (hard rules, calibration, palace vocab, disclaimer copy)
 - [ ] Natal bank (~120) / daily bank (~150) / luck transitions
 - [ ] Deterministic seeded selection
 - [ ] Disclaimer copy
 
 ## M4 — UI shell + onboarding
-- [ ] DESIGN.md + reviewer critique
+- [x] DESIGN.md + reviewer critique — reviewer APPROVE after 6 fixes (AA element-hue rule, seal-only cinnabar, ink-soft input borders)
 - [ ] Onboarding flow incl. unknown-time + city picker (cited dataset)
+- [x] City dataset — 2000 cities from GeoNames cities15000 (CC BY 4.0, cited), 180KB, generator script apps/web/scripts/generate-cities.mjs
 - [ ] Seal component
 - [ ] localStorage persistence
 

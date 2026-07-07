@@ -25,3 +25,8 @@ Co-Star-style daily-reading app on a BaZi (Four Pillars) engine. Local-only, no 
 - 2026-07-07 Packages ship raw TS (`main: src/index.ts`) transpiled by Next via `transpilePackages` — no build step per package; `build` = `tsc --noEmit`.
 - 2026-07-07 Day-pillar anchor: 1949-10-01 = 甲子 per brief §4.4.
 - 2026-07-07 apps/web has no unit tests by design; logic lives in packages, web is covered by Playwright E2E.
+- 2026-07-07 City dataset: GeoNames cities15000 (CC BY 4.0), top 2000 by population, regenerate via `node apps/web/scripts/generate-cities.mjs <cities15000.txt>`.
+- 2026-07-07 VOICE.md written by orchestrator (register + hard rules); content-writer must comply, not rewrite it.
+- 2026-07-07 Fire element accent (#D0662A, orange) deliberately distinct from cinnabar (#BF3A2B) so the seal stays the only cinnabar mass.
+- 2026-07-07 Dark mode out of scope for v1 (one light theme done properly).
+- 2026-07-07 Post-review design decisions: cinnabar strictly seal-only (buttons = ink fill/paper text; day-column marker = ink underline); element hues never normal-size text (fills/swatches or ≥19px bold); input borders = --ink-soft (hairline is dividers only).
