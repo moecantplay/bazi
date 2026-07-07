@@ -1,15 +1,15 @@
 "use client";
 
 import { AppShell } from "@/components/app-shell";
-import { PlaceholderScreen } from "@/components/placeholder-screen";
+import { ChartView } from "@/components/chart-view";
 import { ProfileGate } from "@/components/profile-gate";
 
 export default function ChartPage() {
   return (
     <ProfileGate>
-      {() => (
+      {(profile) => (
         <AppShell title="Chart">
-          <PlaceholderScreen note="Your pillars and their reading arrive here, together with your chart." />
+          <ChartView profile={profile} />
         </AppShell>
       )}
     </ProfileGate>

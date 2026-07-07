@@ -9,7 +9,13 @@
 export const CONTENT_VERSION = "0.1.0";
 
 export { DISCLAIMER } from "./vocab.js";
-export type { ReadingLine, ReadingSection, NatalReading, DailyReading } from "./types.js";
+export type {
+  ReadingLine,
+  ReadingSection,
+  ReadingSectionKey,
+  NatalReading,
+  DailyReading,
+} from "./types.js";
 export { natalReading } from "./natal-reading.js";
 export { dailyReading } from "./daily-reading.js";
 export { luckTransitionLines } from "./luck-reading.js";

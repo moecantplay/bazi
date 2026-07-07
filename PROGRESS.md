@@ -25,17 +25,20 @@ Living checklist. Every checked task carries a one-line evidence note.
 - [x] strength / favorableElements — labeled interpretive, one school; fixture A weak, [fire, earth]
 - [x] ReadingFacts emitted — natalFacts + dailyFacts deterministic, annual+daily transits
 - [x] ≥20 total fixtures, coverage ≥90% — 90 tests, 97.7% lines
-- [ ] Follow-ups: >2100 RangeError guard + backward-luck startAge assertion (engine-dev running)
+- [x] Follow-ups: >2100 RangeError guard + backward-luck startAge assertion — 98 tests green, committed
 
 ## M3 — Content
 - [x] VOICE.md — packages/content/VOICE.md (hard rules, calibration, palace vocab, disclaimer copy)
-- [ ] Natal bank (~120) / daily bank (~150) / luck transitions
-- [ ] Deterministic seeded selection
-- [ ] Disclaimer copy
+- [x] Natal bank (114) / daily bank (62 templates → ~139 rendered variants) / luck transitions (10) — reviewer APPROVE, committed
+- [x] Deterministic seeded selection — FNV-1a, determinism tests
+- [x] Disclaimer copy — byte-identical to VOICE.md, asserted in tests
 
 ## M4 — UI shell + onboarding
 - [x] DESIGN.md + reviewer critique — reviewer APPROVE after 6 fixes (AA element-hue rule, seal-only cinnabar, ink-soft input borders)
-- [ ] Onboarding flow incl. unknown-time + city picker (cited dataset)
+- [x] Onboarding flow incl. unknown-time + city picker (cited dataset) — reviewer APPROVE; 14/14 headless flow checks, zero console errors
+- [x] Seal component — pure FNV-1a/mulberry32-seeded SVG, cinnabar-only mass
+- [x] localStorage persistence — daymaster.profile.v1 via single lib/profile.ts gateway
+- [x] Settings screen (full) — toggles persist immediately, delete-my-data with confirm (built early, ahead of M6)
 - [x] City dataset — 2000 cities from GeoNames cities15000 (CC BY 4.0, cited), 180KB, generator script apps/web/scripts/generate-cities.mjs
 - [ ] Seal component
 - [ ] localStorage persistence
@@ -46,9 +49,9 @@ Living checklist. Every checked task carries a one-line evidence note.
 - [ ] Fixture A renders 甲戌 丙子 戊辰 庚申 + trine + Eating God
 
 ## M6 — Cycles + settings + PWA
-- [ ] Cycles screen (Fixture A start years correct)
-- [ ] Settings (toggles, disclaimer, delete data)
-- [ ] PWA manifest + SW, no console errors
+- [x] Cycles screen (Fixture A start years correct) — headless-verified 丁丑@9/2004, 己卯 decade highlighted, 2026=丙午; reviewer APPROVE
+- [x] Settings (toggles, disclaimer, delete data) — shipped in M4
+- [x] PWA manifest + SW, no console errors — trailingSlash export, route precache verified, installability basics green
 
 ## M7 — E2E + README + DoD audit
 - [ ] 3 Playwright flows green

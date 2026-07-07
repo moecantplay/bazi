@@ -3,9 +3,12 @@
  * Year - Month - Day - Hour (the traditional right-to-left order flipped, and
  * labeled clearly). The Day column carries an ink underline: it's you. An
  * unknown birth time renders the Hour column as an empty frame, never fake data.
+ *
+ * When `tenGods` is supplied (the chart screen), each non-day stem gets a small
+ * ten-god caption; the onboarding reveal omits it.
  */
 
-import type { Pillar } from "@daymaster/bazi-engine";
+import type { ChartTenGods, Pillar, TenGod } from "@daymaster/bazi-engine";
 import type { ChartPillars } from "@/lib/pillars";
 import { describeBranch, describeStem } from "@/lib/display";
 
@@ -13,6 +16,7 @@ interface ColumnSpec {
   label: string;
   palace: string;
   pillar: Pillar | null;
+  tenGod?: TenGod | null;
   isDay?: boolean;
   isHour?: boolean;
 }
@@ -27,7 +31,7 @@ function Glyph({ char, pinyin, gloss }: { char: string; pinyin: string; gloss: s
   );
 }
 
-function Column({ label, palace, pillar, isDay, isHour }: ColumnSpec) {
+function Column({ label, palace, pillar, tenGod, isDay, isHour }: ColumnSpec) {
   const stem = pillar ? describeStem(pillar.stem) : null;
   const branch = pillar ? describeBranch(pillar.branch) : null;
 
@@ -40,7 +44,14 @@ function Column({ label, palace, pillar, isDay, isHour }: ColumnSpec) {
 
       {pillar && stem && branch ? (
         <div className="flex flex-col items-center gap-4">
-          <Glyph char={pillar.stem} pinyin={stem.pinyin} gloss={stem.gloss} />
+          <div className="flex flex-col items-center">
+            <Glyph char={pillar.stem} pinyin={stem.pinyin} gloss={stem.gloss} />
+            {tenGod && (
+              <span className="mt-1.5 text-center text-[10px] leading-tight text-ink-soft">
+                {tenGod.english} {tenGod.chinese}
+              </span>
+            )}
+          </div>
           <Glyph char={pillar.branch} pinyin={branch.pinyin} gloss={branch.gloss} />
         </div>
       ) : (
@@ -62,14 +73,15 @@ function Column({ label, palace, pillar, isDay, isHour }: ColumnSpec) {
 interface Props {
   pillars: ChartPillars;
   className?: string;
+  tenGods?: ChartTenGods;
 }
 
-export function PillarColumns({ pillars, className }: Props) {
+export function PillarColumns({ pillars, className, tenGods }: Props) {
   const columns: ColumnSpec[] = [
-    { label: "Year", palace: "roots", pillar: pillars.year },
-    { label: "Month", palace: "career", pillar: pillars.month },
+    { label: "Year", palace: "roots", pillar: pillars.year, tenGod: tenGods?.year },
+    { label: "Month", palace: "career", pillar: pillars.month, tenGod: tenGods?.month },
     { label: "Day", palace: "home", pillar: pillars.day, isDay: true },
-    { label: "Hour", palace: "horizon", pillar: pillars.hour, isHour: true }
+    { label: "Hour", palace: "horizon", pillar: pillars.hour, tenGod: tenGods?.hour, isHour: true }
   ];
 
   return (

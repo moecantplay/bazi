@@ -41,7 +41,7 @@ function dayMasterSection(facts: readonly ReadingFact[], seedKey: string): Readi
   const opener = block[0] as string;
   const rest = pickDistinct(block.slice(1), 2, seedKey, `dm:${fact.stem}`);
   const lines: ReadingLine[] = [opener, ...rest].map((text) => ({ text, factTag }));
-  return { title: "Your day-master", lines };
+  return { key: "day-master", title: "Your day-master", lines };
 }
 
 function elementsSection(facts: readonly ReadingFact[], seedKey: string): ReadingSection | null {
@@ -81,7 +81,7 @@ function elementsSection(facts: readonly ReadingFact[], seedKey: string): Readin
   if (lines.length === 0) {
     return null;
   }
-  return { title: "Your elements", lines };
+  return { key: "elements", title: "Your elements", lines };
 }
 
 function suitsSection(facts: readonly ReadingFact[], seedKey: string): ReadingSection | null {
@@ -102,7 +102,7 @@ function suitsSection(facts: readonly ReadingFact[], seedKey: string): ReadingSe
     factTag: `${elementWord(careerElement)} · inclinations`,
   });
 
-  return { title: "What tends to suit you", lines };
+  return { key: "favorable", title: "What tends to suit you", lines };
 }
 
 function structureSection(facts: readonly ReadingFact[], seedKey: string): ReadingSection | null {
@@ -125,7 +125,7 @@ function structureSection(facts: readonly ReadingFact[], seedKey: string): Readi
       seedKey,
     ),
   );
-  return { title: "Your chart's structure", lines };
+  return { key: "structure", title: "Your chart's structure", lines };
 }
 
 /** Build the full natal reading. Sections with no lines are omitted. */

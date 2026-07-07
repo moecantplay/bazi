@@ -7,23 +7,8 @@
 
 import type { Chart, Element, LuckPillar } from "@daymaster/bazi-engine";
 import { describeBranch, describeStem } from "@/lib/display";
+import { ELEMENT_LABEL, ELEMENT_SWATCH_CLASS } from "@/lib/elements";
 import { AnnualRow } from "./annual-row";
-
-const ELEMENT_SWATCH: Record<Element, string> = {
-  wood: "bg-element-wood",
-  fire: "bg-element-fire",
-  earth: "bg-element-earth",
-  metal: "bg-element-metal",
-  water: "bg-element-water"
-};
-
-const ELEMENT_LABEL: Record<Element, string> = {
-  wood: "Wood",
-  fire: "Fire",
-  earth: "Earth",
-  metal: "Metal",
-  water: "Water"
-};
 
 function metaLine(luck: LuckPillar): string {
   const stem = describeStem(luck.pillar.stem);
@@ -34,7 +19,7 @@ function metaLine(luck: LuckPillar): string {
 function ElementTag({ element }: { element: Element }) {
   return (
     <span className="inline-flex items-center gap-1.5 rounded-full bg-paper px-2 py-1 text-[11px] text-ink-soft">
-      <span className={`h-2.5 w-2.5 rounded-sm ${ELEMENT_SWATCH[element]}`} aria-hidden />
+      <span className={`h-2.5 w-2.5 rounded-sm ${ELEMENT_SWATCH_CLASS[element]}`} aria-hidden />
       {ELEMENT_LABEL[element]}
     </span>
   );

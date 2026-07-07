@@ -13,8 +13,13 @@ export interface ReadingLine {
   factTag: string | null;
 }
 
+/** Stable machine identifiers for natal sections; display titles may change. */
+export type ReadingSectionKey = "day-master" | "elements" | "favorable" | "structure";
+
 /** A titled group of lines within a natal reading. */
 export interface ReadingSection {
+  /** Stable key for programmatic lookup — consumers must not match on title. */
+  key: ReadingSectionKey;
   title: string;
   lines: ReadingLine[];
 }

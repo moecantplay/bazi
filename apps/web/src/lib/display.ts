@@ -7,7 +7,7 @@
  * its English immediately, so these maps are always rendered alongside the Han.
  */
 
-import type { Branch, Element, Stem } from "@daymaster/bazi-engine";
+import type { Branch, Element, Palace, Stem } from "@daymaster/bazi-engine";
 import {
   BRANCH_ELEMENTS,
   BRANCHES,
@@ -98,4 +98,20 @@ export function describeBranch(branch: Branch): Glyph {
     gloss: BRANCH_ANIMAL[branch],
     element: BRANCH_ELEMENT[branch]
   };
+}
+
+/**
+ * The VOICE.md palace vocabulary for each natal pillar. Year = roots, month =
+ * career, day = home, hour = horizon. Transit-only palaces have no natal word.
+ */
+const PALACE_WORD: Partial<Record<Palace, string>> = {
+  year: "roots",
+  month: "career",
+  day: "home",
+  hour: "horizon"
+};
+
+/** The palace word for a natal pillar, or null for transit-only palaces. */
+export function palaceWord(palace: Palace): string | null {
+  return PALACE_WORD[palace] ?? null;
 }
