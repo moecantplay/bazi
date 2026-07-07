@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Inter } from "next/font/google";
+import { ServiceWorker } from "@/components/service-worker";
 import "./globals.css";
 
 const inter = Inter({
@@ -16,7 +17,16 @@ const fraunces = Fraunces({
 
 export const metadata: Metadata = {
   title: "Daymaster",
-  description: "Daily readings from your Four Pillars chart."
+  description: "Daily readings from your Four Pillars chart.",
+  manifest: "/manifest.webmanifest",
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" }
+    ],
+    apple: "/icon-192.png"
+  },
+  appleWebApp: { capable: true, title: "Daymaster", statusBarStyle: "default" }
 };
 
 export const viewport: Viewport = {
@@ -32,7 +42,10 @@ interface Props {
 export default function RootLayout({ children }: Props) {
   return (
     <html lang="en" className={`${inter.variable} ${fraunces.variable}`}>
-      <body className="font-sans">{children}</body>
+      <body className="font-sans">
+        {children}
+        <ServiceWorker />
+      </body>
     </html>
   );
 }

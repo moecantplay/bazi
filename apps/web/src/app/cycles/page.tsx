@@ -1,15 +1,16 @@
 "use client";
 
 import { AppShell } from "@/components/app-shell";
-import { PlaceholderScreen } from "@/components/placeholder-screen";
+import { LuckTimeline } from "@/components/luck-timeline";
 import { ProfileGate } from "@/components/profile-gate";
+import { chartFor } from "@/lib/chart";
 
 export default function CyclesPage() {
   return (
     <ProfileGate>
-      {() => (
+      {(profile) => (
         <AppShell title="Cycles">
-          <PlaceholderScreen note="Your luck cycles arrive here, once your chart is ready." />
+          <LuckTimeline chart={chartFor(profile)} />
         </AppShell>
       )}
     </ProfileGate>

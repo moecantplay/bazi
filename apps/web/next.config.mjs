@@ -7,6 +7,9 @@ const nodeModuleShim = resolve(projectDir, "shims/node-module.mjs");
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "export",
+  // Emit route directories (/today/index.html) so clean URLs resolve on bare
+  // static hosts and the service worker can precache the route documents.
+  trailingSlash: true,
   transpilePackages: ["@daymaster/bazi-engine", "@daymaster/content"],
   webpack: (config, { webpack }) => {
     // The engine's TypeScript sources use NodeNext-style ".js" import
