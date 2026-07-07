@@ -1,0 +1,16 @@
+{
+  "name": "daymaster",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@9.15.9",
+  "scripts": {
+    "verify": "pnpm -r typecheck && pnpm -r lint && pnpm -r test && pnpm -r build",
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "pnpm -r lint",
+    "build": "pnpm -r build"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}
