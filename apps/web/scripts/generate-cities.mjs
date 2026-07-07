@@ -32,7 +32,7 @@ const rows = readFileSync(input, "utf8")
   .filter((c) => c.tz && Number.isFinite(c.population))
   .sort((a, b) => b.population - a.population)
   .slice(0, MAX_CITIES)
-  .map(({ population: _population, ...city }) => city)
+  .map((c) => ({ name: c.name, country: c.country, lat: c.lat, lng: c.lng, tz: c.tz }))
   .sort((a, b) => a.name.localeCompare(b.name));
 
 const out = {
