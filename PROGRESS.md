@@ -72,11 +72,12 @@ Living checklist. Every checked task carries a one-line evidence note.
 - [ ] CSS-variable theme implementation, `prefers-color-scheme` default + Settings override, persisted
 - [ ] Playwright settings flow extended for theme toggle, zero console errors
 
-## M10 — Plain-meaning voice pass (not started)
-- [ ] VOICE.md rule: every system term followed by a plain-life gloss (metaphor / everyday situation)
-- [ ] Central gloss map in vocab.ts; banks + UI labels audited and rewritten against the rule
-- [ ] Chart fact tags get one-line "what this means" descriptions
-- [ ] Voice tests updated; determinism preserved
+## M10 — Plain-meaning voice pass
+- [x] VOICE.md rule 11: every system term followed by a plain-life gloss — calibration examples added, "naked jargon" listed as a wrong
+- [x] Central gloss maps in vocab.ts (INTERACTION_GLOSSES, TEN_GOD_GLOSSES, DAY_MASTER_GLOSS, LUCK_PILLAR_GLOSS), exported from the package
+- [x] Banks rewritten against the rule: transit/natal interactions, ten-god day lines, strong/weak day-master, luck templates — day-master archetypes already compliant
+- [x] Chart jargon translated in UI: ten-god captions under pillar stems get short glosses, day-master heading gets its gloss, Cycles timeline opens with the luck-pillar gloss
+- [x] Voice test asserts every gloss exists and is voice-clean; 45 content tests green, verify green, 3/3 E2E
 
 ## Stretch (not started)
 - [ ] M8 Compare — two-chart interaction reading (offered as follow-up; DoD core is green)

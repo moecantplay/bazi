@@ -8,7 +8,13 @@
 
 export const CONTENT_VERSION = "0.1.0";
 
-export { DISCLAIMER } from "./vocab.js";
+export {
+  DISCLAIMER,
+  DAY_MASTER_GLOSS,
+  INTERACTION_GLOSSES,
+  LUCK_PILLAR_GLOSS,
+  TEN_GOD_GLOSSES,
+} from "./vocab.js";
 export type {
   ReadingLine,
   ReadingSection,

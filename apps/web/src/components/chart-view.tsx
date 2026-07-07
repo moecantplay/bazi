@@ -7,6 +7,7 @@
 
 "use client";
 
+import { DAY_MASTER_GLOSS } from "@daymaster/content";
 import type { ReadingSection, ReadingSectionKey } from "@daymaster/content";
 import { PillarColumns } from "@/components/pillar-columns";
 import { Seal } from "@/components/seal";
@@ -64,7 +65,10 @@ export function ChartView({ profile }: Props) {
 
       {dayMaster && archetype && (
         <section className="flex flex-col gap-3">
-          <Heading>Your day-master</Heading>
+          <div className="flex flex-col gap-0.5">
+            <Heading>Your day-master</Heading>
+            <p className="text-[12px] text-ink-soft">{DAY_MASTER_GLOSS}</p>
+          </div>
           <p className="font-display text-2xl leading-snug text-ink">{archetype.text}</p>
           {dayMasterRest.map((line, index) => (
             <p key={index} className="text-[15px] leading-relaxed text-ink">

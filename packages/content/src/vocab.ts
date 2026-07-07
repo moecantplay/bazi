@@ -72,3 +72,37 @@ export function interactionTag(
 ): string {
   return `${branches.join("")} ${interactionWord(interaction)} · ${palaceWord(roomPalace)}`;
 }
+
+/**
+ * Plain-meaning glosses (VOICE.md §11). The single source of truth for what
+ * each system term means in ordinary life; banks and UI captions draw from
+ * here so a term is always translated the same way. Short fragments, no
+ * terminal punctuation — they render as captions and inline asides.
+ */
+export const INTERACTION_GLOSSES: Record<InteractionType, string> = {
+  "six-clash": "two schedules booked for the same hour — something has to move",
+  "six-combine": "two people who finish each other's sentences",
+  trine: "three branches pulling one direction, a crew that has rowed together for years",
+  punishment: "a stone in your shoe — small, recurring, quieter once named",
+  harm: "a slow leak rather than a burst pipe",
+};
+
+/** Everyday translation of each ten god, keyed by the engine's english label. */
+export const TEN_GOD_GLOSSES: Record<string, string> = {
+  Friend: "peers at your table",
+  "Rob Wealth": "friendly rivalry",
+  "Eating God": "making for the joy of it",
+  "Hurting Officer": "the witty rule-bender",
+  "Indirect Wealth": "the lucky find",
+  "Direct Wealth": "the earned paycheck",
+  "Seven Killings": "pressure that trains you",
+  "Direct Officer": "the dependable rule-keeper",
+  "Indirect Resource": "insight from the odd angle",
+  "Direct Resource": "being looked after",
+};
+
+/** What "day-master" means, for headings and captions. */
+export const DAY_MASTER_GLOSS = "the stem that stands for you";
+
+/** What a luck pillar is, for the cycles screen. */
+export const LUCK_PILLAR_GLOSS = "a ten-year stretch of prevailing weather";

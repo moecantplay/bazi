@@ -67,16 +67,16 @@ export const BALANCED_LINES: readonly string[] = [
 
 /** Strong-day-master lines: resourced, able to carry load. */
 export const STRONG_LINES: readonly string[] = [
-  "Your day-master stands strong — well-rooted and well-supplied. You can take on load; the risk is taking on too much before you notice.",
-  "You carry a strong day-master: resourced, self-supporting, able to push. The discipline worth practicing is knowing when to stop pushing.",
-  "A strong day-master means you rarely run empty. Direct that surplus on purpose, or it spends itself on whatever's nearest.",
+  "Your day-master — the stem that stands for you — reads strong: a hiker with a full pack and good boots. You can take on load; the risk is taking on too much before you notice.",
+  "You carry a strong day-master, meaning the you at the chart's center is well-rooted and well-supplied. The discipline worth practicing is knowing when to stop pushing.",
+  "A strong day-master means you rarely run empty — a stove that holds its heat. Direct that surplus on purpose, or it spends itself on whatever's nearest.",
 ];
 
 /** Weak-day-master lines: a light pack, never a deficiency (VOICE.md §8). */
 export const WEAK_LINES: readonly string[] = [
-  "Your day-master travels light — a weak reading, which is not a lack. It means you move easily, borrow well, and do your best work with the right support around you.",
-  "You carry a light pack: a weaker day-master that thrives in good company more than alone. Choosing your allies is choosing your strength.",
-  "A weak day-master is a lean one, not a poor one. You go further by leaning smartly than by carrying everything yourself.",
+  "Your day-master — the stem that stands for you — travels light; a weak reading is a light pack, not a lack. You move easily, borrow well, and do your best work with the right support around you.",
+  "You carry a light pack: a weaker day-master that thrives in good company, the cyclist riding in the group rather than alone into the wind. Choosing your allies is choosing your strength.",
+  "A weak day-master is lean, not poor — the traveler who packs half and moves twice as far. You go further by leaning smartly than by carrying everything yourself.",
 ];
 
 /** One line per favorable element — the rooms that tend to suit you. */

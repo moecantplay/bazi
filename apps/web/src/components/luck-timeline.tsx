@@ -6,6 +6,7 @@
  */
 
 import type { Chart, Element, LuckPillar } from "@daymaster/bazi-engine";
+import { LUCK_PILLAR_GLOSS } from "@daymaster/content";
 import { describeBranch, describeStem } from "@/lib/display";
 import { ELEMENT_LABEL, ELEMENT_SWATCH_CLASS } from "@/lib/elements";
 import { AnnualRow } from "./annual-row";
@@ -101,6 +102,9 @@ export function LuckTimeline({ chart, now = new Date() }: Props) {
 
   return (
     <div className="flex flex-col gap-6">
+      <p className="text-[13px] leading-relaxed text-ink-soft">
+        Each node is one luck pillar — {LUCK_PILLAR_GLOSS}.
+      </p>
       {beforeFirst && first && (
         <p className="text-[15px] leading-relaxed text-ink-soft">
           Your first luck pillar begins in {first.startYear}. Until then, the natal chart is the

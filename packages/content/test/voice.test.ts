@@ -5,7 +5,16 @@
  */
 
 import { describe, expect, it } from "vitest";
-import { DISCLAIMER, dailyReading, luckTransitionLines, natalReading } from "../src/index.js";
+import {
+  DAY_MASTER_GLOSS,
+  DISCLAIMER,
+  INTERACTION_GLOSSES,
+  LUCK_PILLAR_GLOSS,
+  TEN_GOD_GLOSSES,
+  dailyReading,
+  luckTransitionLines,
+  natalReading,
+} from "../src/index.js";
 import type { ReadingLine } from "../src/index.js";
 import {
   INTERACTIONS,
@@ -101,6 +110,27 @@ describe("voice compliance", () => {
     expect(DISCLAIMER).toBe(
       "Daymaster is for reflection and entertainment, not advice. BaZi is a living tradition with many schools; this app implements one reading of it, with its assumptions documented. Nothing here predicts your future or diagnoses anything about you. You remain the author.",
     );
+  });
+
+  it("every system term has a voice-clean gloss (VOICE.md §11)", () => {
+    for (const god of TEN_GODS) {
+      expect(TEN_GOD_GLOSSES[god], `gloss for ${god}`).toBeDefined();
+    }
+    for (const interaction of INTERACTIONS) {
+      expect(INTERACTION_GLOSSES[interaction], `gloss for ${interaction}`).toBeDefined();
+    }
+    const glosses = [
+      DAY_MASTER_GLOSS,
+      LUCK_PILLAR_GLOSS,
+      ...Object.values(INTERACTION_GLOSSES),
+      ...Object.values(TEN_GOD_GLOSSES),
+    ];
+    for (const gloss of glosses) {
+      expect(gloss.length, "gloss must be non-empty").toBeGreaterThan(0);
+      for (const pattern of BANNED_PATTERNS) {
+        expect(pattern.test(gloss), `banned by ${pattern} -> "${gloss}"`).toBe(false);
+      }
+    }
   });
 
   it("unknown-time charts never reference the hour palace", () => {

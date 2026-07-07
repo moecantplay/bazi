@@ -18,6 +18,7 @@ Calm, precise, literary. A well-read friend who takes the system seriously but t
 8. **Friction is information.** Clashes, punishments, and weak charts are described as textures with uses, not curses. A clash is movement; a weak day-master is a light pack.
 9. **No hour-claims for unknown-time charts.** If the chart has three pillars, nothing may reference the hour pillar, the "hour palace," or anything derived from it.
 10. **Chinese respectfully, translated immediately.** Characters appear (子午, 戊), always with the English right there. Never use Chinese as decoration or mystique.
+11. **No term without a translation.** A system term — clash, combine, trine, punishment, harm, day-master, a ten-god name, luck pillar, strong/weak — never stands alone. The same line gives its meaning in ordinary life: a metaphor or a situation the reader has been in ("a clash — two schedules booked for the same hour"). A reader meeting the word for the first time gets the meaning without looking anything up. Canonical short glosses live in `src/vocab.ts`; banks and UI captions draw from the same well so a term is always translated the same way.
 
 ## Calibration examples
 
@@ -25,11 +26,15 @@ Day-master card (戊, mountain) — this is the register:
 > You are the mountain: slow to move, impossible to ignore. Your problem is never capacity. It is remembering you're allowed to choose what to carry.
 
 Clash day:
-> 子午 clash in your career palace. Friction — but friction is movement. Send the message you've been sitting on.
+> 子午 clash in your career palace — two schedules booked for the same hour, and something has to move. Send the message you've been sitting on.
+
+Ten-god note (translated, not just named):
+> The day carries an Eating God note (食神) — the part of you that cooks for friends rather than for a review.
 
 Wrong (fatalistic, vague, third person): ~~"Natives with this configuration will face obstacles in relationships this year."~~
 Wrong (directive): ~~"A favorable Metal day — a good time to invest."~~
 Wrong (mystical filler): ~~"The universe is aligning your energies today."~~
+Wrong (naked jargon): ~~"A punishment pattern crosses your roots and career palace."~~ — names the mechanic, translates nothing.
 
 ## Palace vocabulary
 

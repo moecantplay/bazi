@@ -44,29 +44,29 @@ export function elementDayLine(element: Element, favorable: boolean): ReadingLin
 /** Ten God lines keyed by the english label the engine emits. */
 const TEN_GOD_LINES: Record<string, string> = {
   Friend:
-    "The day carries a Friend note (比肩) — company, peers, shared footing. A grain that favors collaboration over going it alone.",
+    "The day carries a Friend note (比肩) — peers at your table, people carrying the same pack you do. A grain that favors doing it together over going it alone.",
   "Rob Wealth":
-    "The day carries a Rob Wealth note (劫财) — spirited, competitive, a little scattered around resources. Good drive; keep an eye on what it spends.",
+    "The day carries a Rob Wealth note (劫财) — friendly rivalry, the housemate who eats your leftovers and still makes you laugh. Good drive; keep an eye on what it spends.",
   "Eating God":
-    "The day carries an Eating God note (食神) — easy output, appetite, unforced making. A pleasant grain for creating and enjoying.",
+    "The day carries an Eating God note (食神) — the part of you that cooks for friends rather than for a review. A pleasant grain for making and enjoying without a scoreboard.",
   "Hurting Officer":
-    "The day carries a Hurting Officer note (伤官) — expressive, clever, allergic to rules. Bright for creating, restless against constraint.",
+    "The day carries a Hurting Officer note (伤官) — the witty rule-bender who improves the recipe and annoys the chef. Bright for creating, restless inside anyone else's format.",
   "Indirect Wealth":
-    "The day carries an Indirect Wealth note (偏财) — opportunity, flow, the unexpected windfall. Light and mobile; hold it loosely.",
+    "The day carries an Indirect Wealth note (偏财) — the lucky find, chances that arrive sideways like a good parking spot. Light and mobile; hold it loosely.",
   "Direct Wealth":
-    "The day carries a Direct Wealth note (正财) — steady returns, diligence, the earned kind. A grain that rewards patience and care.",
+    "The day carries a Direct Wealth note (正财) — the earned paycheck, value that arrives because you showed up all month. A grain that rewards patience and care.",
   "Seven Killings":
-    "The day carries a Seven Killings note (七杀) — pressure, challenge, a demand for backbone. Sharp weather; met squarely, it forges rather than breaks.",
+    "The day carries a Seven Killings note (七杀) — pressure that trains you, the coach who makes you run the hill again. Met squarely, it forges rather than breaks.",
   "Direct Officer":
-    "The day carries a Direct Officer note (正官) — structure, duty, the value of doing it properly. A grain that favors order and follow-through.",
+    "The day carries a Direct Officer note (正官) — the dependable rule-keeper, the part of you that files it properly and sleeps well. A grain that favors order and follow-through.",
   "Indirect Resource":
-    "The day carries an Indirect Resource note (偏印) — insight, intuition, the unconventional angle. Good for thinking sideways and learning oddly.",
+    "The day carries an Indirect Resource note (偏印) — insight from the odd angle, the answer that arrives in the shower. Good for thinking sideways and learning strangely.",
   "Direct Resource":
-    "The day carries a Direct Resource note (正印) — support, study, care from others. A grain that favors rest and taking things in.",
+    "The day carries a Direct Resource note (正印) — being looked after, the friend who brings soup without being asked. A grain that favors rest and taking things in.",
 };
 
 const TEN_GOD_GENERIC =
-  "The day carries a distinct ten-god note. Read it as texture for today, not instruction.";
+  "The day carries a distinct ten-god note — one of ten flavors of how the day's stem relates to yours. Read it as texture for today, not instruction.";
 
 /** Every ten-god line including the generic fallback, for exhaustive voice checking. */
 export const TEN_GOD_TEMPLATES: readonly string[] = [

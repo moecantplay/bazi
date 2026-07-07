@@ -23,38 +23,38 @@ export interface NatalInteractionInput {
 }
 
 const COMBINE: readonly string[] = [
-  "A six-combine ties your {palaces} together: {branches} pull toward each other and cooperate. Things in those rooms tend to move as a pair.",
-  "{branches} sit in combine across your {palaces}. Where they meet, cooperation comes easily; the only risk is comfort settling into inertia.",
+  "A six-combine ties your {palaces} together — {branches} pulling toward each other like two people finishing each other's sentences. Things in those rooms tend to move as a pair.",
+  "{branches} sit in combine across your {palaces}, cooperating the way old colleagues do without a meeting. The only risk is comfort settling into inertia.",
 ];
 
 const CLASH: readonly string[] = [
-  "{branches} clash across your {palaces}. Friction lives here, and friction is movement — this is a hinge, not a wound.",
-  "A six-clash runs between your {palaces}: {branches} facing off. Expect some restlessness there, and read it as a prompt to act rather than a verdict.",
+  "{branches} clash across your {palaces} — two schedules permanently booked for the same hour. Friction lives here, and friction is movement: a hinge, not a wound.",
+  "A six-clash runs between your {palaces}: {branches} facing off, furniture that never quite fits the same room. Read the restlessness there as a prompt to act, not a verdict.",
 ];
 
 const TRINE_FULL: readonly string[] = [
-  "A full {element} trine sits in your chart — {branches} locking into a complete frame. It's a strong, self-reinforcing current of {element} you can lean on.",
-  "{branches} form a complete {element} trine. That frame gives you a dependable reserve of {element} to draw from.",
+  "A full {element} trine sits in your chart — {branches} locking together like a three-legged stool, the steadiest shape there is. It gives you a dependable reserve of {element} to lean on.",
+  "{branches} form a complete {element} trine: three branches pulling one direction, a crew that has rowed together for years. That current of {element} is yours to draw from.",
 ];
 
 const TRINE_HALF: readonly string[] = [
-  "A half {element} trine forms in your chart — {branches}, two of the three. The frame is there in outline; the missing piece is a room worth watching for.",
-  "{branches} make a half {element} trine. The current is real but partial — it strengthens whenever the third branch turns up in transit.",
+  "A half {element} trine forms in your chart — {branches}, two legs of a three-legged stool. The frame holds in outline; it steadies whenever the third branch turns up in passing.",
+  "{branches} make a half {element} trine — two friends waiting on a third before the plan really moves. The current of {element} is real but partial.",
 ];
 
 const PUNISHMENT_MUTUAL: readonly string[] = [
-  "A punishment pattern ({branches}) crosses your {palaces}. It tends to show up as friction that repeats until it's named — awkward, workable, not fated.",
-  "{branches} form a punishment between your {palaces}. The knot here loosens when you meet it head-on instead of working around it.",
+  "A punishment pattern ({branches}) crosses your {palaces} — a stone in your shoe, small but insistent. It tends to repeat until it's named; named, it mostly quiets.",
+  "{branches} form a punishment between your {palaces}, the squeaky stair you keep stepping on. The knot loosens when you meet it head-on instead of working around it.",
 ];
 
 const PUNISHMENT_SELF: readonly string[] = [
-  "A self-punishment sits on {branches} in your {palaces}. The pressure here is often self-directed; the work is easing the grip you keep on yourself.",
-  "{branches} carry a self-punishment in your {palaces}. When this room aches, look first at the standards you're holding yourself to.",
+  "A self-punishment sits on {branches} in your {palaces} — the bar you keep raising on yourself after everyone else has gone home. When this room aches, look first at your own grip.",
+  "{branches} carry a self-punishment in your {palaces}: pressure from inside, like re-grading your own finished work at midnight. Easing that grip is the work here.",
 ];
 
 const HARM: readonly string[] = [
-  "A harm links {branches} across your {palaces} — a quieter undermining than a clash. It rewards attention before it rewards force.",
-  "{branches} form a harm between your {palaces}. Small erosions rather than big collisions; catch them early and they stay small.",
+  "A harm links {branches} across your {palaces} — a slow leak rather than a burst pipe. It rewards attention before it rewards force.",
+  "{branches} form a harm between your {palaces}: small erosions, the overnight drip of a kitchen tap. Catch them early and they stay small.",
 ];
 
 const GENERIC: readonly string[] = [

@@ -9,6 +9,7 @@
  */
 
 import type { ChartTenGods, Pillar, TenGod } from "@daymaster/bazi-engine";
+import { TEN_GOD_GLOSSES } from "@daymaster/content";
 import type { ChartPillars } from "@/lib/pillars";
 import { describeBranch, describeStem } from "@/lib/display";
 
@@ -47,8 +48,13 @@ function Column({ label, palace, pillar, tenGod, isDay, isHour }: ColumnSpec) {
           <div className="flex flex-col items-center">
             <Glyph char={pillar.stem} pinyin={stem.pinyin} gloss={stem.gloss} />
             {tenGod && (
-              <span className="mt-1.5 text-center text-[10px] leading-tight text-ink-soft">
-                {tenGod.english} {tenGod.chinese}
+              <span className="mt-1.5 flex flex-col text-center text-[10px] leading-tight text-ink-soft">
+                <span>
+                  {tenGod.english} {tenGod.chinese}
+                </span>
+                {TEN_GOD_GLOSSES[tenGod.english] && (
+                  <span className="italic">{TEN_GOD_GLOSSES[tenGod.english]}</span>
+                )}
               </span>
             )}
           </div>
