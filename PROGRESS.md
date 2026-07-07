@@ -54,9 +54,24 @@ Living checklist. Every checked task carries a one-line evidence note.
 - [x] PWA manifest + SW, no console errors — trailingSlash export, route precache verified, installability basics green
 
 ## M7 — E2E + README + DoD audit
-- [ ] 3 Playwright flows green — ui-dev running
+- [x] 3 Playwright flows green — onboarding→chart, chart→today→date-nav, settings-toggle-changes-output; 3/3 against the built static export, re-run by orchestrator
 - [x] README + clean-clone verify — fresh clone → pnpm install → pnpm verify GREEN (scratchpad clean-clone)
-- [ ] Full DoD re-audit green
+- [x] Full DoD re-audit green — see DoD audit below
+
+## DoD audit (final, 2026-07-07)
+1. [x] pnpm verify green from clean clone — fresh clone in scratchpad, README steps, GREEN
+2. [x] §5 golden tests pass; fixtures ≥20; engine coverage ≥90% — 98 engine tests green; 97.77% lines / 96.44% branch (threshold enforced in vitest config)
+3. [x] Fixture A renders 甲戌 丙子 戊辰 庚申 + Water trine + Eating God — E2E onboarding-to-chart.spec.ts
+4. [x] 3 consecutive daily readings differ, each cites ≥1 computed fact — E2E chart-today-datenav.spec.ts (data-fact-tag assertions)
+5. [x] Unknown-time → 3-pillar chart, no hour-dependent copy — engine unknown-time fixtures (no hour palace/facts), content tests (no hour phrasing), UI "hour unknown" frame verified headlessly
+6. [x] Cycles shows Fixture A luck pillars with correct start years — 丁丑@2004 … verified headlessly against engine goldens
+7. [x] 3 Playwright smoke flows green — 3/3, single worker, pinned clock, real static export
+8. [x] PWA installable + no console errors — manifest + SW verified on the served export (fetchable manifest, SW controls page, icons resolve, offline fallback); zero console/page errors across every headless drive (14/14, 10/10, 8/8 checks)
+9. [x] Disclaimer in onboarding + settings; VOICE holds on 20-line random sample — disclaimer byte-identical (tested); reviewer sampled 20 lines across banks, all compliant
+10. [x] README: what/quickstart/architecture/doctrine/screenshot — docs/screenshot-chart.png captured from the real /chart
+
+## Stretch (not started)
+- [ ] M8 Compare — two-chart interaction reading (offered as follow-up; DoD core is green)
 
 ## Flags / unverifiable values
 - Equation of time uses the sun's geometric mean longitude from the standard Meeus polynomial (280.46646 + 36000.76983·T + 0.0003032·T², Astronomical Algorithms ch. 25) because astronomy-engine exposes only apparent RA. ACCEPTED: standard published constants, source-commented in src/true-solar-time.ts, validated against known EoT extremes (±20 min bound, Nov ≈ +16.5 min).
