@@ -1,8 +1,8 @@
 # Daymaster
 
-A daily-reading app in the shape of Co-Star, with a different engine under the hood: **BaZi** (Chinese Four Pillars, 八字). Enter your birth date, time (or "I don't know"), city, and sex, and Daymaster computes your Four Pillars chart and gives you a natal reading, a daily reading driven by *real* computed interactions between today's pillar and your chart, and your 10-year luck-cycle timeline.
+A daily-reading app in the shape of Co-Star, with a different engine under the hood: **BaZi** (Chinese Four Pillars, 八字). Enter your birth date, time (or "I don't know"), city, and sex, and Daymaster computes your Four Pillars chart and gives you a natal reading, a daily reading driven by *real* computed interactions between today's pillar and your chart, your 10-year luck-cycle timeline, and a Compare screen that reads how a second person's chart meets yours.
 
-Everything runs on your device. No accounts, no server, no network calls — an installable PWA whose charts live in localStorage.
+Everything runs on your device. No accounts, no server, no network calls — an installable PWA whose charts live in localStorage. Light and dark themes follow your device, or pin either in Settings.
 
 ## Quickstart
 
