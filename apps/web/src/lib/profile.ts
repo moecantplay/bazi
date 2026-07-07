@@ -55,7 +55,8 @@ function isCity(value: unknown): value is StoredCity {
   );
 }
 
-function isBirth(value: unknown): value is StoredBirth {
+/** Validates a stored birth block; also used by the compare companion store. */
+export function isStoredBirth(value: unknown): value is StoredBirth {
   if (!isObject(value)) {
     return false;
   }
@@ -83,7 +84,7 @@ function isProfile(value: unknown): value is StoredProfile {
     return false;
   }
   return (
-    isBirth(value.birth) &&
+    isStoredBirth(value.birth) &&
     isConfig(value.config) &&
     typeof value.createdAt === "string"
   );

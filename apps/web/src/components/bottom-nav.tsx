@@ -1,7 +1,7 @@
 /**
- * The four-tab bottom navigation (Chart - Today - Cycles - Settings), safe-area
- * padded and shown on every main screen. Hidden during onboarding, which owns
- * the full viewport. The active tab is ink; the rest are ink-soft.
+ * The five-tab bottom navigation (Chart - Today - Cycles - Compare - Settings),
+ * safe-area padded and shown on every main screen. Hidden during onboarding,
+ * which owns the full viewport. The active tab is ink; the rest are ink-soft.
  */
 
 "use client";
@@ -56,6 +56,16 @@ const TABS: Tab[] = [
         <circle cx="7" cy="7" r="2.5" />
         <circle cx="7" cy="17" r="2.5" />
         <path d="M7 9.5v5M11 7h9M11 17h9" />
+      </svg>
+    )
+  },
+  {
+    href: "/compare",
+    label: "Compare",
+    icon: (
+      <svg {...iconProps} aria-hidden>
+        <circle cx="9" cy="12" r="5.5" />
+        <circle cx="15" cy="12" r="5.5" />
       </svg>
     )
   },

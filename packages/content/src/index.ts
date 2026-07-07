@@ -21,7 +21,9 @@ export type {
   ReadingSectionKey,
   NatalReading,
   DailyReading,
+  CompareReading,
 } from "./types.js";
 export { natalReading } from "./natal-reading.js";
 export { dailyReading } from "./daily-reading.js";
 export { luckTransitionLines } from "./luck-reading.js";
+export { compareReading } from "./compare-reading.js";

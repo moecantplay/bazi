@@ -11,14 +11,14 @@
 
 // RELEASE CHECKLIST: bump this on every deploy. HTML is served cache-first, so
 // installed clients keep the old shell until the version changes.
-const CACHE_VERSION = "daymaster-v1";
+const CACHE_VERSION = "daymaster-v2";
 
 // Always resolvable, so addAll (all-or-nothing) is safe here.
 const CORE = ["/", "/manifest.webmanifest", "/icon-192.png", "/icon-512.png", "/icon.svg"];
 
 // Route documents (trailingSlash export emits /route/index.html); precached
 // best-effort so one 404 can't abort install.
-const ROUTES = ["/onboarding/", "/today/", "/chart/", "/cycles/", "/settings/"];
+const ROUTES = ["/onboarding/", "/today/", "/chart/", "/cycles/", "/compare/", "/settings/"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

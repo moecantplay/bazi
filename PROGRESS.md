@@ -79,8 +79,11 @@ Living checklist. Every checked task carries a one-line evidence note.
 - [x] Chart jargon translated in UI: ten-god captions under pillar stems get short glosses, day-master heading gets its gloss, Cycles timeline opens with the luck-pillar gloss
 - [x] Voice test asserts every gloss exists and is voice-clean; 45 content tests green, verify green, 3/3 E2E
 
-## Stretch (not started)
-- [ ] M8 Compare — two-chart interaction reading (offered as follow-up; DoD core is green)
+## M8 — Compare (stretch, done)
+- [x] Engine: compareInteractions + compareFacts — cross-chart PAIR relations only (combines/clashes/harms/子卯 punishment/mirror self-punishments/trine pairs), day-master ten gods both directions, element support; 12 tests written first, hand-derived vs the 1949-10-01 甲子 anchor chart; 110 engine tests green
+- [x] Content: compare bank + compareReading — relation lines per element cycle, seen-as lines reusing TEN_GOD_GLOSSES, cross-interaction templates with M10 glosses, mirror-punishment phrasing, ≤3 seeded interaction lines; all templates in the voice sweep; 51 content tests green
+- [x] Web: /compare screen (5th tab) — compact second-birth form (unknown-time path, city picker, sex), companion persisted at daymaster.compare.v1, same engine config as primary, both pillar grids + cited reading cards, change-person clears; delete-my-data clears companion too; SW precaches /compare/ (cache bumped v2)
+- [x] E2E compare flow (fill → read pair → reload persists → change person clears); 5/5 flows green, verify green
 
 ## Flags / unverifiable values
 - Equation of time uses the sun's geometric mean longitude from the standard Meeus polynomial (280.46646 + 36000.76983·T + 0.0003032·T², Astronomical Algorithms ch. 25) because astronomy-engine exposes only apparent RA. ACCEPTED: standard published constants, source-commented in src/true-solar-time.ts, validated against known EoT extremes (±20 min bound, Nov ≈ +16.5 min).

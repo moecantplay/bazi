@@ -107,3 +107,9 @@ export { strength, type StrengthInput } from "./strength.js";
 export { favorableElements, type FavorableInput } from "./favorable-elements.js";
 export { computeChart } from "./chart.js";
 export { natalFacts, dailyFacts, type ReadingFact } from "./facts.js";
+export {
+  compareFacts,
+  compareInteractions,
+  type CompareFact,
+  type CompareInteraction,
+} from "./compare.js";

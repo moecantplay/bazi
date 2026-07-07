@@ -11,6 +11,7 @@ import {
   INTERACTION_GLOSSES,
   LUCK_PILLAR_GLOSS,
   TEN_GOD_GLOSSES,
+  compareReading,
   dailyReading,
   luckTransitionLines,
   natalReading,
@@ -21,6 +22,7 @@ import {
   NATAL_PALACES,
   TEN_GODS,
   allBankLines,
+  compareFactSet,
   dailyFactSet,
   natalFactSets,
   natalWithInteractions,
@@ -87,6 +89,7 @@ function allEmittedLines(): ReadingLine[] {
       lines.push(...reading.lines, reading.agency);
     }
     lines.push(...luckTransitionLines({ fromAge: 33, toAge: 43 }, seed));
+    lines.push(...compareReading(compareFactSet(), seed).lines);
   }
   return lines;
 }

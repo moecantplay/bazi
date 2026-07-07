@@ -19,6 +19,7 @@ import { NATAL_INTERACTION_TEMPLATES } from "../src/banks/natal-interactions.js"
 import { TRANSIT_INTERACTION_TEMPLATES } from "../src/banks/transit-interactions.js";
 import { ELEMENT_DAY_TEMPLATES, TEN_GOD_TEMPLATES } from "../src/banks/transit-days.js";
 import { AGENCY_POOLS } from "../src/banks/agency.js";
+import { COMPARE_TEMPLATES } from "../src/banks/compare.js";
 import { LUCK_TEMPLATES } from "../src/banks/luck.js";
 
 export const STEMS: readonly Stem[] = [
@@ -68,7 +69,16 @@ function render(template: string): string {
     .replaceAll("{when}", "today")
     .replaceAll("{element}", "Water")
     .replaceAll("{from}", "33")
-    .replaceAll("{to}", "43");
+    .replaceAll("{to}", "43")
+    .replaceAll("{aBranch}", "子")
+    .replaceAll("{bBranch}", "午")
+    .replaceAll("{aPalace}", "career palace")
+    .replaceAll("{bPalace}", "roots")
+    .replaceAll("{aElement}", "Water")
+    .replaceAll("{bElement}", "Wood")
+    .replaceAll("{god}", "Eating God")
+    .replaceAll("{chinese}", "食神")
+    .replaceAll("{gloss}", "making for the joy of it");
 }
 
 /** Every user-facing line in the whole bank, rendered with sample values. */
@@ -87,9 +97,73 @@ export function allBankLines(): string[] {
     ...ELEMENT_DAY_TEMPLATES,
     ...TEN_GOD_TEMPLATES,
     ...Object.values(AGENCY_POOLS).flat(),
+    ...COMPARE_TEMPLATES,
     ...LUCK_TEMPLATES,
   ];
   return raw.map(render);
+}
+
+/** A compare fact array with one fact of every kind/variant present. */
+export function compareFactSet(): import("@daymaster/bazi-engine").CompareFact[] {
+  return [
+    {
+      kind: "compare-day-masters",
+      aStem: "戊",
+      bStem: "甲",
+      aElement: "earth",
+      bElement: "wood",
+      relation: "officer",
+      aSeesB: { english: "Seven Killings", chinese: "七杀" },
+      bSeesA: { english: "Indirect Wealth", chinese: "偏财" },
+    },
+    {
+      kind: "compare-interaction",
+      interaction: "six-combine",
+      branches: ["子", "丑"],
+      aPalace: "month",
+      bPalace: "year",
+    },
+    {
+      kind: "compare-interaction",
+      interaction: "six-clash",
+      branches: ["子", "午"],
+      aPalace: "month",
+      bPalace: "hour",
+    },
+    {
+      kind: "compare-interaction",
+      interaction: "trine",
+      element: "water",
+      branches: ["申", "子"],
+      aPalace: "hour",
+      bPalace: "day",
+    },
+    {
+      kind: "compare-interaction",
+      interaction: "punishment",
+      punishmentKind: "mutual",
+      branches: ["子", "卯"],
+      aPalace: "day",
+      bPalace: "month",
+    },
+    {
+      kind: "compare-interaction",
+      interaction: "punishment",
+      punishmentKind: "self",
+      branches: ["辰", "辰"],
+      aPalace: "day",
+      bPalace: "day",
+    },
+    {
+      kind: "compare-interaction",
+      interaction: "harm",
+      branches: ["戌", "酉"],
+      aPalace: "year",
+      bPalace: "month",
+    },
+    { kind: "compare-element-support", direction: "b-to-a", element: "fire" },
+    { kind: "compare-element-support", direction: "a-to-b", element: "water" },
+  ];
 }
 
 /** A representative set of complete natal fact arrays covering the enum space. */

@@ -35,3 +35,8 @@ export interface DailyReading {
   /** One concrete thing to do today, always present, rendered last. */
   agency: ReadingLine;
 }
+
+/** A two-chart comparison reading: ordered lines, no agency line. */
+export interface CompareReading {
+  lines: ReadingLine[];
+}

@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/button";
 import { Toggle } from "@/components/toggle";
 import { DISCLAIMER } from "@/lib/copy";
+import { clearCompanion } from "@/lib/compare-profile";
 import {
   clearProfile,
   saveConfig,
@@ -77,6 +78,7 @@ export function SettingsContent({ profile }: Props) {
 
   function handleDelete() {
     clearProfile();
+    clearCompanion();
     clearThemePreference();
     router.replace("/onboarding");
   }
