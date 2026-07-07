@@ -55,4 +55,4 @@ Living checklist. Every checked task carries a one-line evidence note.
 - [ ] Full DoD re-audit green
 
 ## Flags / unverifiable values
-(none yet)
+- Equation of time uses the sun's geometric mean longitude from the standard Meeus polynomial (280.46646 + 36000.76983·T + 0.0003032·T², Astronomical Algorithms ch. 25) because astronomy-engine exposes only apparent RA. ACCEPTED: standard published constants, source-commented in src/true-solar-time.ts, validated against known EoT extremes (±20 min bound, Nov ≈ +16.5 min).
