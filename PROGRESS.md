@@ -67,10 +67,10 @@ Living checklist. Every checked task carries a one-line evidence note.
 9. [x] Disclaimer in onboarding + settings; VOICE holds on 20-line random sample — disclaimer byte-identical (tested); reviewer sampled 20 lines across banks, all compliant
 10. [x] README: what/quickstart/architecture/doctrine/screenshot — docs/screenshot-chart.png captured from the real /chart
 
-## M9 — Dark mode (not started)
-- [ ] DESIGN.md dark theme tokens + reviewer critique (contrast, seal-only cinnabar, element-hue rules on dark)
-- [ ] CSS-variable theme implementation, `prefers-color-scheme` default + Settings override, persisted
-- [ ] Playwright settings flow extended for theme toggle, zero console errors
+## M9 — Dark mode
+- [x] DESIGN.md dark section — token table with computed WCAG ratios (ink 14.40:1, ink-soft 7.87:1, element hues 5.87–6.90:1), seal-only cinnabar preserved via new `--seal-paper` token (interior stays stamped-paper white; corner notches follow the page)
+- [x] CSS-variable dark theme: `prefers-color-scheme` default, `data-theme` pin from Settings (System/Light/Dark radiogroup), `daymaster.theme.v1` in localStorage, pre-paint inline script so pinned themes never flash, PWA theme-color per scheme, delete-my-data clears it
+- [x] Playwright theme spec — pin dark, survive reload, Light beats dark OS, System follows OS; 4/4 E2E green, verify green
 
 ## M10 — Plain-meaning voice pass
 - [x] VOICE.md rule 11: every system term followed by a plain-life gloss — calibration examples added, "naked jargon" listed as a wrong

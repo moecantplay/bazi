@@ -30,10 +30,19 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f5f6f4",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f5f6f4" },
+    { media: "(prefers-color-scheme: dark)", color: "#14171c" }
+  ],
   width: "device-width",
   initialScale: 1
 };
+
+/**
+ * Runs before first paint so a pinned theme never flashes. Mirrors
+ * lib/theme.ts (applyThemePreference) — keep the two in sync.
+ */
+const THEME_INIT_SCRIPT = `try{var t=localStorage.getItem("daymaster.theme.v1");if(t==="light"||t==="dark"){document.documentElement.dataset.theme=t}}catch(e){}`;
 
 interface Props {
   children: React.ReactNode;
@@ -43,6 +52,7 @@ export default function RootLayout({ children }: Props) {
   return (
     <html lang="en" className={`${inter.variable} ${fraunces.variable}`}>
       <body className="font-sans">
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         {children}
         <ServiceWorker />
       </body>

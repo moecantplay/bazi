@@ -5,6 +5,8 @@
 /*
  * Design tokens (DESIGN.md). Cinnabar is reserved for the seal only; it is
  * intentionally never applied to buttons, links, or accents anywhere else.
+ * --seal-paper is the seal's carved interior: paper-white in BOTH themes,
+ * because the seal is stamped paper, not themed UI.
  */
 :root {
   --paper: #f5f6f4;
@@ -13,12 +15,49 @@
   --cinnabar: #bf3a2b;
   --paper-raised: #ffffff;
   --hairline: #d8dbd6;
+  --seal-paper: #f5f6f4;
 
   --element-wood: #3a7d44;
   --element-fire: #d0662a;
   --element-earth: #9c7a3c;
   --element-metal: #7a8494;
   --element-water: #2e5e8c;
+}
+
+/*
+ * Dark theme (DESIGN.md §Dark). The same block appears twice on purpose:
+ * the media query covers "system preference, no explicit choice", the
+ * data-theme attribute covers an explicit choice from Settings. Keep the
+ * two lists byte-identical when editing.
+ */
+:root[data-theme="dark"] {
+  --paper: #14171c;
+  --ink: #e8e6e1;
+  --ink-soft: #a6acb6;
+  --paper-raised: #1d222b;
+  --hairline: #2c323c;
+
+  --element-wood: #63a871;
+  --element-fire: #e0764a;
+  --element-earth: #c09b55;
+  --element-metal: #96a1b2;
+  --element-water: #6fa0d0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #14171c;
+    --ink: #e8e6e1;
+    --ink-soft: #a6acb6;
+    --paper-raised: #1d222b;
+    --hairline: #2c323c;
+
+    --element-wood: #63a871;
+    --element-fire: #e0764a;
+    --element-earth: #c09b55;
+    --element-metal: #96a1b2;
+    --element-water: #6fa0d0;
+  }
 }
 
 html {

@@ -1,7 +1,7 @@
 /**
  * Settings body: the two engine toggles (each persisted the moment it changes),
- * the disclaimer in full, and a two-step "Delete my data" that clears the
- * profile and returns to onboarding.
+ * the appearance choice (system / light / dark), the disclaimer in full, and a
+ * two-step "Delete my data" that clears the profile and returns to onboarding.
  */
 
 "use client";
@@ -17,6 +17,18 @@ import {
   type StoredConfig,
   type StoredProfile
 } from "@/lib/profile";
+import {
+  clearThemePreference,
+  loadThemePreference,
+  saveThemePreference,
+  type ThemePreference
+} from "@/lib/theme";
+
+const APPEARANCE_OPTIONS: { value: ThemePreference; label: string }[] = [
+  { value: "system", label: "System" },
+  { value: "light", label: "Light" },
+  { value: "dark", label: "Dark" }
+];
 
 interface Props {
   profile: StoredProfile;
@@ -32,7 +44,13 @@ interface Row {
 export function SettingsContent({ profile }: Props) {
   const router = useRouter();
   const [config, setConfig] = useState<StoredConfig>(profile.config);
+  const [theme, setTheme] = useState<ThemePreference>(() => loadThemePreference());
   const [confirmingDelete, setConfirmingDelete] = useState(false);
+
+  function chooseTheme(next: ThemePreference) {
+    setTheme(next);
+    saveThemePreference(next);
+  }
 
   function persist(next: StoredConfig) {
     setConfig(next);
@@ -59,6 +77,7 @@ export function SettingsContent({ profile }: Props) {
 
   function handleDelete() {
     clearProfile();
+    clearThemePreference();
     router.replace("/onboarding");
   }
 
@@ -74,6 +93,35 @@ export function SettingsContent({ profile }: Props) {
             <Toggle checked={row.checked} onChange={row.onChange} label={row.label} />
           </div>
         ))}
+      </section>
+
+      <section>
+        <h2 className="text-[13px] font-medium uppercase tracking-wide text-ink-soft">
+          Appearance
+        </h2>
+        <div role="radiogroup" aria-label="Appearance" className="mt-3 flex gap-2">
+          {APPEARANCE_OPTIONS.map((option) => {
+            const active = option.value === theme;
+            return (
+              <button
+                key={option.value}
+                role="radio"
+                aria-checked={active}
+                onClick={() => chooseTheme(option.value)}
+                className={`flex-1 rounded-lg px-4 py-2.5 text-[15px] font-medium transition-opacity duration-100 ${
+                  active
+                    ? "bg-ink text-paper"
+                    : "border border-ink-soft bg-transparent text-ink hover:opacity-80"
+                }`}
+              >
+                {option.label}
+              </button>
+            );
+          })}
+        </div>
+        <p className="mt-2 text-[13px] leading-relaxed text-ink-soft">
+          System follows your device. Light and dark stay put.
+        </p>
       </section>
 
       <section>

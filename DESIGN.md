@@ -27,7 +27,23 @@ Element accents — used ONLY when that element is referenced (balance viz bars,
 
 Element hues are never normal-size text. They appear as fills (bars, swatch dots, chip backgrounds behind ink text) or as large/bold text only (≥19px bold — all five clear the 3:1 large-text threshold on paper; Fire 3.45, Metal 3.49, Earth 3.68, Wood 4.62, Water 6.26). Labels next to a swatch are always `--ink` or `--ink-soft`.
 
-Dark mode is out of scope for v1 (one calm light theme done properly).
+## Dark theme
+
+Same design, inverted paper. Applied when the OS prefers dark (and no explicit choice pins light), or when Settings pins dark via `data-theme="dark"` on `<html>`. Preference lives at `daymaster.theme.v1`; an inline script in the layout stamps the attribute before first paint.
+
+| Token | Hex | Verified contrast on `--paper` |
+|---|---|---|
+| `--paper` | `#14171C` | ink-paper, blue-black family as light ink |
+| `--ink` | `#E8E6E1` | 14.40:1 |
+| `--ink-soft` | `#A6ACB6` | 7.87:1 (6.99:1 on raised) |
+| `--paper-raised` | `#1D222B` | cards, inputs |
+| `--hairline` | `#2C323C` | dividers only |
+| `--cinnabar` | `#BF3A2B` | unchanged in both themes — 3.30:1 as a graphic mass |
+| `--seal-paper` | `#F5F6F4` | seal interior stays stamped-paper white in BOTH themes (5.02:1 on cinnabar); notches keep `--paper` so the chipped corners match the page |
+
+Dark element accents (fills/swatches and ≥19px bold only, same rule as light): Wood `#63A871` 6.30, Fire `#E0764A` 5.87, Earth `#C09B55` 6.90, Metal `#96A1B2` 6.88, Water `#6FA0D0` 6.51 — all clear even the 4.5:1 small-text bar. Fire remains distinct from cinnabar.
+
+The seal is the only cinnabar mass in dark mode too. PWA `theme-color` follows the scheme via two viewport meta entries.
 
 ## Type roles
 

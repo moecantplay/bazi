@@ -131,12 +131,12 @@ export function Seal({ pillars, size = 132, className }: Props) {
         height="84"
         rx="5"
         fill="none"
-        stroke="var(--paper)"
+        stroke="var(--seal-paper)"
         strokeWidth={geometry.borderWeight}
       />
       <g
         transform={`rotate(${geometry.rotation} 50 50)`}
-        fill="var(--paper)"
+        fill="var(--seal-paper)"
         fontSize={fontSize}
         fontFamily='"Songti SC", "Noto Serif SC", serif'
         textAnchor="middle"
