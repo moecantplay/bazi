@@ -74,6 +74,19 @@ export function findGoverningTerm(instant: Date): SolarTermEntry {
   return termAt(position);
 }
 
+/** The first jié strictly after `instant` (the next month boundary). */
+export function findNextTerm(instant: Date): SolarTermEntry {
+  const target = instant.getTime();
+  const position = lastAtOrBefore(SOLAR_TERMS.length, target, epochAt);
+  const next = position + 1;
+  if (next >= SOLAR_TERMS.length) {
+    throw new RangeError(
+      `Instant ${instant.toISOString()} is at or past the end of the solar-term table`,
+    );
+  }
+  return termAt(next);
+}
+
 /**
  * The solar year (立春-bounded) that `instant` falls in, as its Gregorian year
  * label. 立春 always lands in early February, so the UTC year of the governing

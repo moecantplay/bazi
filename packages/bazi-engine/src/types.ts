@@ -70,3 +70,131 @@ export interface SolarTermEntry {
   /** Exact instant of the term as an ISO-8601 UTC timestamp. */
   iso: string;
 }
+
+/** Biological sex, used only to determine luck-pillar direction. */
+export type Sex = "male" | "female";
+
+/** A slot a branch can occupy: the four natal palaces plus transit palaces. */
+export type Palace = "year" | "month" | "day" | "hour" | "luck" | "annual" | "daily";
+
+/** A branch tagged with the palace it sits in. */
+export interface PalacedBranch {
+  branch: Branch;
+  palace: Palace;
+}
+
+/** A Ten God (十神) relationship label. */
+export interface TenGod {
+  chinese: string;
+  english: string;
+}
+
+/** Kinds of branch interaction the engine detects. */
+export type InteractionType = "six-combine" | "six-clash" | "trine" | "punishment" | "harm";
+
+interface InteractionBase {
+  type: InteractionType;
+  /** Participating branches (reference-table order) and their palaces, aligned. */
+  branches: Branch[];
+  palaces: Palace[];
+}
+
+export interface CombineInteraction extends InteractionBase {
+  type: "six-combine";
+}
+export interface ClashInteraction extends InteractionBase {
+  type: "six-clash";
+}
+export interface HarmInteraction extends InteractionBase {
+  type: "harm";
+}
+export interface TrineInteraction extends InteractionBase {
+  type: "trine";
+  element: Element;
+  /** `"full"` = all three branches present; `"half"` = exactly two of three. */
+  completeness: "full" | "half";
+}
+export interface PunishmentInteraction extends InteractionBase {
+  type: "punishment";
+  kind: "mutual" | "self";
+}
+
+/** Any detected branch interaction. */
+export type Interaction =
+  | CombineInteraction
+  | ClashInteraction
+  | HarmInteraction
+  | TrineInteraction
+  | PunishmentInteraction;
+
+/** Day-master strength verdict with the scores behind it. */
+export interface StrengthResult {
+  value: "strong" | "weak";
+  /** Weighted count of elements that support the day master. */
+  supporterScore: number;
+  /** Weighted count of elements that drain the day master. */
+  drainerScore: number;
+  /** Whether the month branch's element supports the day master. */
+  seasonalSupport: boolean;
+}
+
+/** One 10-year luck pillar (大运). */
+export interface LuckPillar {
+  pillar: Pillar;
+  /** Age (whole years, floored) at which the pillar takes effect. */
+  startAge: number;
+  /** Gregorian calendar year in which the pillar takes effect. */
+  startYear: number;
+}
+
+/** Input echoes carried on the chart for downstream (transit) computation. */
+export interface ChartMeta {
+  zone: string;
+  sex: Sex;
+  hourKnown: boolean;
+  config: EngineConfig;
+}
+
+/** Input to {@link computeChart}. */
+export interface ChartInput {
+  instant: Date;
+  zone: string;
+  sex: Sex;
+  /** When false, the hour pillar and everything derived from it are omitted. */
+  hourKnown: boolean;
+  longitude?: number;
+  config?: EngineConfig;
+}
+
+/** Hidden stems per pillar; `hour` is null for an unknown-time chart. */
+export interface ChartHiddenStems {
+  year: Stem[];
+  month: Stem[];
+  day: Stem[];
+  hour: Stem[] | null;
+}
+
+/** Ten gods of each visible non-day stem vs the day master. */
+export interface ChartTenGods {
+  year: TenGod;
+  month: TenGod;
+  hour: TenGod | null;
+}
+
+/** A fully derived natal chart. */
+export interface Chart {
+  year: Pillar;
+  month: Pillar;
+  day: Pillar;
+  hour: Pillar | null;
+  dayMaster: Stem;
+  hiddenStems: ChartHiddenStems;
+  tenGods: ChartTenGods;
+  /** Counts of visible stem elements plus branch elements (hour only if known). */
+  fiveElementCounts: Record<Element, number>;
+  strength: StrengthResult;
+  favorableElements: Element[];
+  interactions: Interaction[];
+  luckPillars: LuckPillar[];
+  meta: ChartMeta;
+}
