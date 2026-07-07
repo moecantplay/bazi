@@ -40,9 +40,6 @@ Living checklist. Every checked task carries a one-line evidence note.
 - [x] localStorage persistence — daymaster.profile.v1 via single lib/profile.ts gateway
 - [x] Settings screen (full) — toggles persist immediately, delete-my-data with confirm (built early, ahead of M6)
 - [x] City dataset — 2000 cities from GeoNames cities15000 (CC BY 4.0, cited), 180KB, generator script apps/web/scripts/generate-cities.mjs
-- [ ] Seal component
-- [ ] localStorage persistence
-
 ## M5 — Chart + Today
 - [x] Chart screen (grid, day-master, balance, favorable, seal) — reviewer APPROVE; stable section keys
 - [x] Today screen (±30d nav, palace touches) — UTC-safe date math, agency line last/distinct
@@ -69,6 +66,17 @@ Living checklist. Every checked task carries a one-line evidence note.
 8. [x] PWA installable + no console errors — manifest + SW verified on the served export (fetchable manifest, SW controls page, icons resolve, offline fallback); zero console/page errors across every headless drive (14/14, 10/10, 8/8 checks)
 9. [x] Disclaimer in onboarding + settings; VOICE holds on 20-line random sample — disclaimer byte-identical (tested); reviewer sampled 20 lines across banks, all compliant
 10. [x] README: what/quickstart/architecture/doctrine/screenshot — docs/screenshot-chart.png captured from the real /chart
+
+## M9 — Dark mode (not started)
+- [ ] DESIGN.md dark theme tokens + reviewer critique (contrast, seal-only cinnabar, element-hue rules on dark)
+- [ ] CSS-variable theme implementation, `prefers-color-scheme` default + Settings override, persisted
+- [ ] Playwright settings flow extended for theme toggle, zero console errors
+
+## M10 — Plain-meaning voice pass (not started)
+- [ ] VOICE.md rule: every system term followed by a plain-life gloss (metaphor / everyday situation)
+- [ ] Central gloss map in vocab.ts; banks + UI labels audited and rewritten against the rule
+- [ ] Chart fact tags get one-line "what this means" descriptions
+- [ ] Voice tests updated; determinism preserved
 
 ## Stretch (not started)
 - [ ] M8 Compare — two-chart interaction reading (offered as follow-up; DoD core is green)

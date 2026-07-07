@@ -56,3 +56,16 @@ Milestone plan expanded from the project brief. Tasks get checked off in PROGRES
 
 ## M8 (stretch) — Compare
 - Second birth entry, two-chart interaction reading, local only
+
+## M9 — Dark mode
+- Extend DESIGN.md with a dark theme: dark-paper background tokens, ink/paper roles inverted via CSS variables, element hues re-tuned for AA contrast on dark, seal remains the only cinnabar mass in both themes
+- Default from `prefers-color-scheme`, manual override toggle in Settings, persisted in localStorage
+- Reviewer critique pass (same bar as M4: contrast, hue rules, seal-only cinnabar hold in dark)
+- Extend Playwright settings flow: toggling theme changes rendering, zero console errors
+
+## M10 — Plain-meaning voice pass
+- New VOICE.md hard rule: no system term stands alone. Every mechanic named in user-facing copy (ten gods, clash/combine/trine/punishment/harm, palaces, day-master, strength) is immediately followed by a plain-life gloss — a metaphor or everyday situation the reader can recognize
+- Central gloss map in `packages/content/src/vocab.ts` so the same term is always translated the same way across banks and screens
+- Audit all banks + chart-screen labels against the rule; rewrite lines that cite a mechanic without translating it
+- Chart screen: each fact tag (e.g. "Eating God", "Water trine") gets a one-line "what this means for you" description
+- Selection stays deterministic (same hash inputs); voice tests updated for the new rule
