@@ -19,6 +19,7 @@ Calm, precise, literary. A well-read friend who takes the system seriously but t
 9. **No hour-claims for unknown-time charts.** If the chart has three pillars, nothing may reference the hour pillar, the "hour palace," or anything derived from it.
 10. **Chinese respectfully, translated immediately.** Characters appear (子午, 戊), always with the English right there. Never use Chinese as decoration or mystique.
 11. **No term without a translation.** A system term — clash, combine, trine, punishment, harm, day-master, a ten-god name, luck pillar, strong/weak — never stands alone. The same line gives its meaning in ordinary life: a metaphor or a situation the reader has been in ("a clash — two schedules booked for the same hour"). A reader meeting the word for the first time gets the meaning without looking anything up. Canonical short glosses live in `src/vocab.ts`; banks and UI captions draw from the same well so a term is always translated the same way.
+12. **Layered guidance.** What a day suits arrives in two layers with different rules. The chip layer is scannable labels in the almanac tradition: "Favors" and "Watch" (never "avoid", "inauspicious", "bad luck"), each naming an activity in modern words with its classical category as the gloss (commitments 嫁娶, launches 開市). The prose layer stays weather (rule 4) — what the day's grain makes cheaper or costlier and why — and may close with a soft directive for a small, unregulated act: "sign the small thing today", "give the trip one more day". Postponement, never prohibition; rule 5 stands in full, so nothing directive about money, health, law, marriage, or divorce — a wedding *date* may be called favourable, the wedding itself is never advised. A Watch chip with no prose nearby explaining why is wrong. The agency line still ends every daily reading (rule 6).
 
 ## Calibration examples
 
@@ -31,10 +32,18 @@ Clash day:
 Ten-god note (translated, not just named):
 > The day carries an Eating God note (食神) — the part of you that cooks for friends rather than for a review.
 
+Day-guidance pair (chip + prose, rule 12) — this is the register:
+> **Favors** commitments 嫁娶 · launches 開市 — A 成 day, the almanac's "success" note: the day the month's work likes to come together. With your fire running warm too, say yes to the thing you've already half-decided.
+
+Watch chip explained, soft directive (postponement, not prohibition):
+> **Watch** moving 移徙 — Today's 戌 sits opposite your home palace — furniture-moving weather it isn't. The boxes will still be there tomorrow; let them wait a day.
+
 Wrong (fatalistic, vague, third person): ~~"Natives with this configuration will face obstacles in relationships this year."~~
 Wrong (directive): ~~"A favorable Metal day — a good time to invest."~~
 Wrong (mystical filler): ~~"The universe is aligning your energies today."~~
 Wrong (naked jargon): ~~"A punishment pattern crosses your roots and career palace."~~ — names the mechanic, translates nothing.
+Wrong (verdict chip): ~~"Inauspicious for marriage"~~ — chips lean, they don't sentence.
+Wrong (prohibition): ~~"Don't sign anything today."~~ — say "worth one more day" instead.
 
 ## Palace vocabulary
 

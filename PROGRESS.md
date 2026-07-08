@@ -105,7 +105,15 @@ Living checklist. Every checked task carries a one-line evidence note.
 - [x] Perf: cities.json (180KB) is its own post-mount chunk — onboarding first-load JS 266→228kB, compare 269→229kB
 - [x] A11y/audit: main landmark on all shell screens; every screen screenshotted light+dark at 390px and reviewed; full verify green; 15/15 E2E (10 consecutive clean full-suite runs)
 
+## M13 — Almanac & horizons (date selection, day leanings, year/month/week outlook) (2026-07-08)
+- [x] Engine: 12 Day Officers (建除十二神) — officer = day branch measured from month branch, keyed at local noon; jié-boundary repeat asserted as a property; golden anchor 2026-06-21 = 丙寅/甲午 = 成 from the product owner's Sinarmas 2026 almanac reference (favors match the printed page). 27 new tests, 155 engine tests green
+- [x] Engine: per-activity dayQuality (officer 宜/忌 ±2, favourable-element day +1, personal breaker/combine on the home palace, career/roots clashes — interpretive one-school, hour pillar never consulted, unknown-time safe); horizonFacts (流年/流月, new "monthly" transit palace); findDates (≤366-day range, 1–2 charts, combined = min, ties → earlier date)
+- [ ] Content: VOICE.md rule 12 (layered guidance: Favors/Watch chips + weather prose + soft directives, postponement never prohibition) — rule written; banks/glosses/dayGuidance/horizonReading/dateVerdictLine in progress
+- [ ] Web: Today guidance chips + prose + 7-day strip; Cycles year/month outlook; /dates/ finder with per-chart leaning swatches (the reference red/green grid) — in progress
+- [ ] E2E: chips, week strip, Cycles horizons, /dates/ flow; full verify green
+
 ## Flags / unverifiable values
+- Day-officer 宜/忌 activity table (data/day-officer-tables.ts) is INTERPRETIVE: the officer sequence and month/day-branch rule are standard (協紀辨方書 lineage; cross-checked against wonyanconsult.com and fourpillars.pro, 2026-07-08), but per-officer activity lists vary by almanac publisher. Ours is a conservative common core; one printed-almanac golden anchor (Sinarmas 2026, 2026-06-21 成 day) is asserted in tests. Refine if more printed pages become available.
 - Equation of time uses the sun's geometric mean longitude from the standard Meeus polynomial (280.46646 + 36000.76983·T + 0.0003032·T², Astronomical Algorithms ch. 25) because astronomy-engine exposes only apparent RA. ACCEPTED: standard published constants, source-commented in src/true-solar-time.ts, validated against known EoT extremes (±20 min bound, Nov ≈ +16.5 min).
 - 神煞 學堂, 詞館, 血刃 are OMITTED: the reference app (master-reading screenshot, 2026-07-08) places 學堂@卯, 詞館@申, 血刃@戌 for Fixture A, and none of the classical rule variants I could verify (三命通會 day-stem or nayin-命 keyings) reproduce those placements. Rather than guess a school, they're left out; add once the app's rule can be confirmed (its 神煞 help screen, or more example charts).
 - 命宮/身宮 (life/body palace) OMITTED: the formula is school-variant (month/hour indexing differs by lineage) and the reference screenshot doesn't show the 命身胎息 tab, so no golden value exists to pick a school against. 胎元 (single unambiguous rule) IS implemented.
