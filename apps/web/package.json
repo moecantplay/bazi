@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node scripts/generate-sw.mjs",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "echo \"web has no unit tests; engine/content cover logic, E2E via pnpm e2e\"",
-    "e2e": "playwright install chromium && next build && playwright test",
+    "e2e": "playwright install chromium && pnpm run build && playwright test",
     "e2e:screenshot": "node scripts/screenshot-chart.mjs"
   },
   "dependencies": {

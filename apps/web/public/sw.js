@@ -1,34 +1,37 @@
 /*
  * Daymaster service worker — offline-safe app shell.
  *
- * install:  precache the core shell and best-effort the route documents.
+ * install:  precache the full static export (documents, RSC payloads, chunks,
+ *           fonts, icons) as listed by scripts/generate-sw.mjs at build time.
  * fetch:    cache-first for same-origin GETs, filling the cache on a miss;
- *           navigations fall back to the cached start page when offline.
- * activate: drop caches from older versions and take control immediately.
+ *           navigations fall back to the cached Today screen when offline.
+ * activate: drop caches from older versions and take control of open pages.
+ * update:   a new deploy installs alongside the old one and WAITS; the page
+ *           shows a refresh prompt and posts SKIP_WAITING when the user opts
+ *           in, so running clients are never yanked to a half-updated state.
  *
  * No cross-origin requests are ever made — only same-origin asset fetches.
+ * The two INJECT lines are rewritten in out/sw.js on every build; the values
+ * here are dev-safe fallbacks.
  */
 
-// RELEASE CHECKLIST: bump this on every deploy. HTML is served cache-first, so
-// installed clients keep the old shell until the version changes.
-const CACHE_VERSION = "daymaster-v2";
-
-// Always resolvable, so addAll (all-or-nothing) is safe here.
-const CORE = ["/", "/manifest.webmanifest", "/icon-192.png", "/icon-512.png", "/icon.svg"];
-
-// Route documents (trailingSlash export emits /route/index.html); precached
-// best-effort so one 404 can't abort install.
-const ROUTES = ["/onboarding/", "/today/", "/chart/", "/cycles/", "/compare/", "/settings/"];
+const CACHE_VERSION = "daymaster-dev"; // __INJECT_CACHE_VERSION__
+const PRECACHE = ["/"]; // __INJECT_PRECACHE__
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
     (async () => {
       const cache = await caches.open(CACHE_VERSION);
-      await cache.addAll(CORE);
-      await Promise.allSettled(ROUTES.map((route) => cache.add(route)));
-      await self.skipWaiting();
+      // All-or-nothing: the new version only ever activates complete.
+      await cache.addAll(PRECACHE);
     })()
   );
+});
+
+self.addEventListener("message", (event) => {
+  if (event.data === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
 });
 
 self.addEventListener("activate", (event) => {
@@ -66,7 +69,9 @@ self.addEventListener("fetch", (event) => {
         return response;
       } catch (error) {
         if (request.mode === "navigate") {
-          const fallback = await cache.match("/");
+          // Offline navigation to something unprecached: land on Today (its
+          // ProfileGate routes onward), never on the blank redirect shell.
+          const fallback = (await cache.match("/today/")) ?? (await cache.match("/"));
           if (fallback) {
             return fallback;
           }
