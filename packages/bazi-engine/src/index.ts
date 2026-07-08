@@ -33,6 +33,13 @@ export type {
   TrineInteraction,
   PunishmentInteraction,
   StrengthResult,
+  LifeStage,
+  PillarLifeStages,
+  ChartLifeStages,
+  NaYin,
+  ChartNaYin,
+  ShenshaHit,
+  LuckStart,
   LuckPillar,
   ChartMeta,
   ChartInput,
@@ -102,7 +109,19 @@ export {
 export { hiddenStems } from "./hidden-stems.js";
 export { tenGods } from "./ten-gods.js";
 export { interactions, natalPalacedBranches } from "./interactions.js";
-export { luckPillars, type LuckPillarInput } from "./luck-pillars.js";
+export { lifeStage, pillarLifeStages } from "./life-stages.js";
+export { LIFE_STAGES, GROWTH_ANCHOR } from "../data/life-stage-tables.js";
+export { naYin } from "./nayin.js";
+export { NAYIN } from "../data/nayin-tables.js";
+export {
+  shensha,
+  voidBranches,
+  type ShenshaContext,
+  type ShenshaTarget,
+} from "./shensha.js";
+export { SHENSHA_DEFINITIONS, type ShenshaKey } from "../data/shensha-tables.js";
+export { taiYuan } from "./tai-yuan.js";
+export { luckPillars, luckStart, type LuckPillarInput } from "./luck-pillars.js";
 export { strength, type StrengthInput } from "./strength.js";
 export { favorableElements, type FavorableInput } from "./favorable-elements.js";
 export { computeChart } from "./chart.js";

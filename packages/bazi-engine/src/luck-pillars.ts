@@ -9,9 +9,9 @@ import { DateTime } from "luxon";
 import { polarityOfStem } from "./attributes.js";
 import { pillarToSexagenaryIndex, sexagenaryPillar } from "./sexagenary.js";
 import { findGoverningTerm, findNextTerm } from "./solar-terms.js";
-import type { LuckPillar, Pillar, Sex, Stem } from "./types.js";
+import type { LuckPillar, LuckStart, Pillar, Sex, Stem } from "./types.js";
 
-const MS_PER_DAY = 86_400_000;
+const MS_PER_HOUR = 3_600_000;
 const LUCK_PILLAR_COUNT = 8;
 const YEARS_PER_PILLAR = 10;
 
@@ -36,29 +36,42 @@ function isForward(yearStem: Stem, sex: Sex): boolean {
 }
 
 /**
- * Convert the day-gap to the bounding jié into whole months.
+ * Exact offset from birth to the first luck pillar (起運).
  *
- * Rule: 3 days = 1 year, so 1 day = 4 months; months = round(days × 4). This is
- * one common school's rounding (brief §4.9). startAge = floor(months / 12), and
- * each later pillar begins 120 months (10 years) after the one before.
+ * Rule (brief §4.9 school, extended to full precision): the gap from birth to
+ * the bounding jié converts at 3 days = 1 year, hence 6 hours = 1 month and
+ * 1 hour = 5 days (one 時辰 = 10 days). Each unit floors before the next
+ * converts, matching how professional charting apps state "9年5個月25天".
  */
-function monthsFromGap(gapDays: number): number {
-  return Math.round(gapDays * 4);
+export function luckStart(input: LuckPillarInput): LuckStart {
+  const { instant, zone, yearStem, sex } = input;
+  const forward = isForward(yearStem, sex);
+  const boundary = forward ? findNextTerm(instant) : findGoverningTerm(instant);
+  const gapHours = Math.abs(Date.parse(boundary.iso) - instant.getTime()) / MS_PER_HOUR;
+
+  const years = Math.floor(gapHours / 72);
+  const afterYears = gapHours - years * 72;
+  const months = Math.floor(afterYears / 6);
+  const days = Math.floor((afterYears - months * 6) * 5);
+
+  const startISO = DateTime.fromJSDate(instant, { zone })
+    .plus({ years, months, days })
+    .toISODate();
+  if (startISO === null) {
+    throw new RangeError("luckStart: birth instant is outside the representable range");
+  }
+  return { years, months, days, startISO };
 }
 
 export function luckPillars(input: LuckPillarInput): LuckPillar[] {
-  const { instant, zone, yearStem, monthPillar, sex } = input;
+  const { zone, yearStem, monthPillar, sex } = input;
   const forward = isForward(yearStem, sex);
   const step = forward ? 1 : -1;
 
-  const boundary = forward ? findNextTerm(instant) : findGoverningTerm(instant);
-  const gapDays = Math.abs(Date.parse(boundary.iso) - instant.getTime()) / MS_PER_DAY;
-  const totalMonths = monthsFromGap(gapDays);
-
-  const startAge = Math.floor(totalMonths / 12);
-  // The pillar takes effect at the calendar year of birth + the accrued months.
-  const effectiveStart = DateTime.fromJSDate(instant, { zone }).plus({ months: totalMonths });
-  const startYear = effectiveStart.year;
+  const start = luckStart(input);
+  // Western age at the moment the first pillar takes effect.
+  const startAge = start.years;
+  const startYear = DateTime.fromISO(start.startISO, { zone }).year;
 
   const monthIndex = pillarToSexagenaryIndex(monthPillar);
   const pillars: LuckPillar[] = [];

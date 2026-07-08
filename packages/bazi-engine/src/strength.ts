@@ -10,6 +10,7 @@
 
 import { elementOfBranch, elementOfStem } from "./attributes.js";
 import { relate } from "./five-elements.js";
+import { hiddenStems } from "./hidden-stems.js";
 import type { Element, Pillar, StrengthResult, Stem } from "./types.js";
 
 /** Interpretive weights: the seasonal (month) branch counts double. */
@@ -54,7 +55,19 @@ export function strength(input: StrengthInput): StrengthResult {
   }
 
   const seasonalSupport = isSupport(dayMasterElement, elementOfBranch(input.month.branch));
+
+  // 得地 (rooted): the day master's own element hides in some branch — a root
+  // to stand on. Same-element hidden stems only (比劫 roots), the common rule.
+  const rooted = pillars.some((pillar) =>
+    hiddenStems(pillar.branch).some((hidden) => elementOfStem(hidden) === dayMasterElement),
+  );
+
+  // 得勢 (backed): supporters are a strict majority of the OTHER visible stems.
+  const otherStems = pillars.filter((pillar) => pillar !== input.day).map((pillar) => pillar.stem);
+  const backers = otherStems.filter((stem) => isSupport(dayMasterElement, elementOfStem(stem)));
+  const backed = backers.length * 2 > otherStems.length;
+
   // Tie goes to weak: a day master needs a clear majority to count as strong.
   const value = supporterScore > drainerScore ? "strong" : "weak";
-  return { value, supporterScore, drainerScore, seasonalSupport };
+  return { value, supporterScore, drainerScore, seasonalSupport, rooted, backed };
 }

@@ -10,9 +10,13 @@ import { elementOfBranch, elementOfStem } from "./attributes.js";
 import { favorableElements } from "./favorable-elements.js";
 import { hiddenStems } from "./hidden-stems.js";
 import { interactions, natalPalacedBranches } from "./interactions.js";
-import { luckPillars } from "./luck-pillars.js";
+import { pillarLifeStages } from "./life-stages.js";
+import { luckPillars, luckStart } from "./luck-pillars.js";
+import { naYin } from "./nayin.js";
 import { dayPillar, hourPillar, monthPillar, yearPillar } from "./pillars.js";
+import { shensha, type ShenshaTarget } from "./shensha.js";
 import { strength } from "./strength.js";
+import { taiYuan } from "./tai-yuan.js";
 import { tenGods } from "./ten-gods.js";
 import { DEFAULT_CONFIG, type Chart, type ChartInput, type Element, type Pillar } from "./types.js";
 
@@ -48,6 +52,14 @@ export function computeChart(input: ChartInput): Chart {
   const visiblePillars = [year, month, day, ...(hour ? [hour] : [])];
   const strengthResult = strength({ dayMaster, year, month, day, hour });
 
+  const shenshaTargets: ShenshaTarget[] = [
+    { palace: "year", pillar: year },
+    { palace: "month", pillar: month },
+    { palace: "day", pillar: day },
+    ...(hour ? [{ palace: "hour", pillar: hour } as ShenshaTarget] : []),
+  ];
+  const luckInput = { instant, zone, yearStem: year.stem, monthPillar: month, sex };
+
   return {
     year,
     month,
@@ -80,7 +92,25 @@ export function computeChart(input: ChartInput): Chart {
         hour: hour ? hour.branch : null,
       }),
     ),
-    luckPillars: luckPillars({ instant, zone, yearStem: year.stem, monthPillar: month, sex }),
+    lifeStages: {
+      year: pillarLifeStages(dayMaster, year),
+      month: pillarLifeStages(dayMaster, month),
+      day: pillarLifeStages(dayMaster, day),
+      hour: hour ? pillarLifeStages(dayMaster, hour) : null,
+    },
+    naYin: {
+      year: naYin(year),
+      month: naYin(month),
+      day: naYin(day),
+      hour: hour ? naYin(hour) : null,
+    },
+    shensha: shensha(
+      { dayStem: dayMaster, dayPillar: day, yearBranch: year.branch, monthBranch: month.branch },
+      shenshaTargets,
+    ),
+    taiYuan: taiYuan(month),
+    luckPillars: luckPillars(luckInput),
+    luckStart: luckStart(luckInput),
     meta: { zone, sex, hourKnown, config },
   };
 }

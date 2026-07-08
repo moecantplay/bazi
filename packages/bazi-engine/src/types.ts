@@ -134,8 +134,68 @@ export interface StrengthResult {
   supporterScore: number;
   /** Weighted count of elements that drain the day master. */
   drainerScore: number;
-  /** Whether the month branch's element supports the day master. */
+  /** 得令 — whether the month branch's element supports the day master. */
   seasonalSupport: boolean;
+  /** 得地 — whether the day master has a same-element root in any branch's hidden stems. */
+  rooted: boolean;
+  /** 得勢 — whether supporters are the strict majority of the other visible stems. */
+  backed: boolean;
+}
+
+/** One of the twelve life stages (十二長生), e.g. 長生 "Growth". */
+export interface LifeStage {
+  chinese: string;
+  english: string;
+}
+
+/** The two life stages a pillar displays. */
+export interface PillarLifeStages {
+  /** The day master's stage at this pillar's branch. */
+  dayMaster: LifeStage;
+  /** The pillar stem's own stage at its own branch (自坐). */
+  self: LifeStage;
+}
+
+/** Life stages for every natal pillar; `hour` is null for unknown-time charts. */
+export interface ChartLifeStages {
+  year: PillarLifeStages;
+  month: PillarLifeStages;
+  day: PillarLifeStages;
+  hour: PillarLifeStages | null;
+}
+
+/** A pillar's Na Yin (納音) melodic element. */
+export interface NaYin {
+  chinese: string;
+  english: string;
+  element: Element;
+}
+
+/** Na Yin for every natal pillar; `hour` is null for unknown-time charts. */
+export interface ChartNaYin {
+  year: NaYin;
+  month: NaYin;
+  day: NaYin;
+  hour: NaYin | null;
+}
+
+/** One symbolic star (神煞) landing on a pillar. */
+export interface ShenshaHit {
+  /** Stable machine key, e.g. "wenchang-scholar". */
+  key: string;
+  chinese: string;
+  english: string;
+  /** The pillar the star lands on. */
+  palace: Palace;
+}
+
+/** The exact luck-pillar starting offset after birth (3 days = 1 year rule). */
+export interface LuckStart {
+  years: number;
+  months: number;
+  days: number;
+  /** ISO calendar date (local to the birth zone) the first pillar takes effect. */
+  startISO: string;
 }
 
 /** One 10-year luck pillar (大运). */
@@ -195,6 +255,14 @@ export interface Chart {
   strength: StrengthResult;
   favorableElements: Element[];
   interactions: Interaction[];
+  lifeStages: ChartLifeStages;
+  naYin: ChartNaYin;
+  /** Symbolic stars landing on the natal pillars. */
+  shensha: ShenshaHit[];
+  /** 胎元, the conception pillar derived from the month pillar. */
+  taiYuan: Pillar;
   luckPillars: LuckPillar[];
+  /** Exact offset after birth when the first luck pillar takes effect. */
+  luckStart: LuckStart;
   meta: ChartMeta;
 }
