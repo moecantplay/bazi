@@ -15,6 +15,7 @@ import { DISCLAIMER } from "@/lib/copy";
 import { clearCompanion } from "@/lib/compare-profile";
 import { formatLong } from "@/lib/dates";
 import { clearHanCharactersPreference } from "@/lib/han-characters";
+import { clearStreak } from "@/lib/streak";
 import { useHanCharacters } from "@/components/han-characters-provider";
 import {
   clearProfile,
@@ -93,6 +94,7 @@ export function SettingsContent({ profile }: Props) {
     clearCompanion();
     clearThemePreference();
     clearHanCharactersPreference();
+    clearStreak();
     router.replace("/onboarding");
   }
 
