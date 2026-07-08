@@ -6,10 +6,12 @@
 
 import { describe, expect, it } from "vitest";
 import {
+  ACTIVITY_LABELS,
   DAY_MASTER_GLOSS,
   DISCLAIMER,
   INTERACTION_GLOSSES,
   LUCK_PILLAR_GLOSS,
+  OFFICER_GLOSSES,
   TEN_GOD_GLOSSES,
   compareReading,
   dailyReading,
@@ -17,6 +19,8 @@ import {
   natalReading,
 } from "../src/index.js";
 import type { ReadingLine } from "../src/index.js";
+import { DATE_WHY_CLAUSES, DAY_GUIDANCE_TEMPLATES } from "../src/banks/day-guidance.js";
+import { HORIZON_TEMPLATES } from "../src/banks/horizons.js";
 import {
   INTERACTIONS,
   NATAL_PALACES,
@@ -132,6 +136,42 @@ describe("voice compliance", () => {
       expect(gloss.length, "gloss must be non-empty").toBeGreaterThan(0);
       for (const pattern of BANNED_PATTERNS) {
         expect(pattern.test(gloss), `banned by ${pattern} -> "${gloss}"`).toBe(false);
+      }
+    }
+  });
+
+  it("layered-guidance templates never verdict or prohibit (VOICE.md rule 12)", () => {
+    // The chip/prose layer bans these outright; postponement replaces every one.
+    const rule12Banned: readonly RegExp[] = [
+      /\bavoid\b/i,
+      /\binauspicious\b/i,
+      /\bbad luck\b/i,
+      /\bdon['’]t\b/i,
+    ];
+    const templates = [
+      ...DAY_GUIDANCE_TEMPLATES,
+      ...HORIZON_TEMPLATES,
+      ...Object.values(DATE_WHY_CLAUSES),
+    ];
+    for (const template of templates) {
+      for (const pattern of rule12Banned) {
+        expect(pattern.test(template), `banned by ${pattern} -> "${template}"`).toBe(false);
+      }
+    }
+  });
+
+  it("every officer gloss, activity label, and why-clause is voice-clean", () => {
+    const fragments = [
+      ...Object.values(OFFICER_GLOSSES),
+      ...Object.values(ACTIVITY_LABELS).map((label) => label.label),
+      ...Object.values(DATE_WHY_CLAUSES),
+    ];
+    expect(Object.keys(OFFICER_GLOSSES)).toHaveLength(12);
+    expect(Object.keys(ACTIVITY_LABELS)).toHaveLength(10);
+    for (const fragment of fragments) {
+      expect(fragment.length, "fragment must be non-empty").toBeGreaterThan(0);
+      for (const pattern of BANNED_PATTERNS) {
+        expect(pattern.test(fragment), `banned by ${pattern} -> "${fragment}"`).toBe(false);
       }
     }
   });

@@ -24,6 +24,8 @@ import { LUCK_TEMPLATES } from "../src/banks/luck.js";
 import { STAR_TEMPLATES } from "../src/banks/stars.js";
 import { STAGE_TEMPLATES } from "../src/banks/stages.js";
 import { DO_DONT_TEMPLATES } from "../src/banks/dos-donts.js";
+import { DAY_GUIDANCE_TEMPLATES } from "../src/banks/day-guidance.js";
+import { HORIZON_TEMPLATES } from "../src/banks/horizons.js";
 import { LIFE_STAGE_GLOSSES, STAR_GLOSSES } from "../src/vocab.js";
 
 export const STEMS: readonly Stem[] = [
@@ -85,7 +87,17 @@ function render(template: string): string {
     .replaceAll("{bElement}", "Wood")
     .replaceAll("{god}", "Eating God")
     .replaceAll("{chinese}", "食神")
-    .replaceAll("{gloss}", "making for the joy of it");
+    .replaceAll("{gloss}", "making for the joy of it")
+    .replaceAll("{officerCn}", "成")
+    .replaceAll("{officerEn}", "Success")
+    .replaceAll("{officerGloss}", "the day the month's work likes to come together")
+    .replaceAll("{actLower}", "commitments")
+    .replaceAll("{why}", "a combine eases your home palace")
+    .replaceAll("{periodCap}", "This year")
+    .replaceAll("{periodNoun}", "year")
+    .replaceAll("{tgEn}", "Eating God")
+    .replaceAll("{tgCn}", "食神")
+    .replaceAll("{tgGloss}", "making for the joy of it");
 }
 
 /** Every user-facing line in the whole bank, rendered with sample values. */
@@ -109,6 +121,8 @@ export function allBankLines(): string[] {
     ...STAR_TEMPLATES,
     ...STAGE_TEMPLATES,
     ...DO_DONT_TEMPLATES,
+    ...DAY_GUIDANCE_TEMPLATES,
+    ...HORIZON_TEMPLATES,
     ...Object.values(STAR_GLOSSES).map((gloss) => `A star — ${gloss}.`),
     ...Object.values(LIFE_STAGE_GLOSSES).map((gloss) => `A stage — ${gloss}.`),
   ];

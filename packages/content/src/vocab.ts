@@ -3,7 +3,7 @@
  * interactions, plus the verbatim disclaimer. Formatting only — no chart math.
  */
 
-import type { Element, InteractionType, Palace } from "@daymaster/bazi-engine";
+import { ACTIVITIES, type ActivityKey, type Element, type InteractionType, type Palace } from "@daymaster/bazi-engine";
 
 /** Verbatim from VOICE.md — do not edit without editing VOICE.md. */
 export const DISCLAIMER =
@@ -160,6 +160,68 @@ export const STAR_GLOSSES: Record<string, string> = {
   "sangmen-mourning": "a room where grief once sat — tenderness worth honoring",
   "kongwang-void": "an empty seat at the table — what's booked there lands lighter than expected",
 };
+
+/**
+ * Everyday translation of each of the twelve Day Officers (建除十二神), keyed by
+ * the engine's officer key. A plain-life gloss in the register of the other
+ * glosses: concrete, no fatalism, weather not verdict. Short fragments with no
+ * terminal punctuation — they render as captions and complete "A 成 Success
+ * day — {gloss}."
+ */
+export const OFFICER_GLOSSES: Record<string, string> = {
+  jian: "the day the month sets its stake in the ground",
+  chu: "sweeping-out day, clearing the old to make room",
+  man: "the cup filled to the brim, abundance that wants sharing",
+  ping: "the level road, even footing and nothing tipping",
+  ding: "the settled day, where things stay put once you set them down",
+  zhi: "hands on the tiller, grip and follow-through",
+  po: "the day things come apart, better for endings than beginnings",
+  wei: "the high ledge, a day to step with care rather than leap",
+  cheng: "the day the month's work likes to come together",
+  shou: "gathering-in day, taking in what's owed and offered",
+  kai: "the door swung wide, fresh starts and open roads",
+  bi: "the shutters drawn, a day to seal, store, and settle",
+};
+
+/** A modern label for an almanac activity, with its classical category. */
+export interface ActivityLabel {
+  /** Modern-life words for the activity ("Commitments", "Deals & paperwork"). */
+  label: string;
+  /** Classical category characters (嫁娶 …), so the Han toggle can hide them. */
+  chinese: string;
+  /** Literal English of the classical category, for captions. */
+  classical: string;
+}
+
+/** Modern-life labels for each activity; classical fields track the engine table. */
+const ACTIVITY_MODERN_LABELS: Record<ActivityKey, string> = {
+  commit: "Commitments",
+  launch: "Launches",
+  sign: "Deals & paperwork",
+  move: "Moving",
+  travel: "Travel",
+  study: "Learning",
+  clear: "Clearing out",
+  rest: "Rest",
+  ask: "The big ask",
+  gather: "Gatherings",
+};
+
+/**
+ * The modern label plus classical category for every activity. The chinese and
+ * classical fields are read from the engine's ACTIVITIES table so they never
+ * drift from it; only the modern label lives here.
+ */
+export const ACTIVITY_LABELS: Record<ActivityKey, ActivityLabel> = Object.fromEntries(
+  ACTIVITIES.map((activity) => [
+    activity.key,
+    {
+      label: ACTIVITY_MODERN_LABELS[activity.key],
+      chinese: activity.chinese,
+      classical: activity.classical,
+    },
+  ]),
+) as Record<ActivityKey, ActivityLabel>;
 
 /**
  * The three checks behind strong/weak, in plain terms (令 season, 地 ground,
