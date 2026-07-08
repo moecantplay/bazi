@@ -3,34 +3,59 @@
  * ending in the seal-stamp chart reveal. Progress dots track the five gathering
  * steps; Back is available on every step after the first. The bottom tab nav is
  * intentionally absent here — onboarding owns the viewport until a chart exists.
+ *
+ * Answers persist to sessionStorage as they're entered, so a refresh resumes
+ * where the flow left off. The first step also offers "restore from a backup
+ * file" for someone returning on a new device.
  */
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { CityStep } from "@/components/onboarding/city-step";
 import { DateStep } from "@/components/onboarding/date-step";
 import { DisclaimerStep } from "@/components/onboarding/disclaimer-step";
-import { EMPTY_DRAFT, type OnboardingDraft } from "@/components/onboarding/draft";
+import {
+  clearDraft,
+  loadDraftEnvelope,
+  saveDraftEnvelope,
+  type OnboardingDraft
+} from "@/components/onboarding/draft";
 import { ProgressDots } from "@/components/onboarding/progress-dots";
 import { RevealStep } from "@/components/onboarding/reveal-step";
 import { SexStep } from "@/components/onboarding/sex-step";
 import { TimeStep } from "@/components/onboarding/time-step";
+import { importBackup, type ImportResult } from "@/lib/backup";
 import type { StoredBirth, StoredCity } from "@/lib/profile";
 
 const GATHERING_STEPS = 5;
 const REVEAL_STEP = GATHERING_STEPS; // index 5
 
+const RESTORE_ERRORS: Record<Exclude<ImportResult, "ok">, string> = {
+  invalid: "That file doesn’t look like a Daymaster backup.",
+  storage:
+    "This browser wouldn’t let us store the restored chart — that happens in private browsing."
+};
+
 export default function OnboardingPage() {
-  const [step, setStep] = useState(0);
-  const [draft, setDraft] = useState<OnboardingDraft>(EMPTY_DRAFT);
+  const router = useRouter();
+  const [{ step, draft }, setFlow] = useState(() => loadDraftEnvelope());
+  const [restoreError, setRestoreError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    saveDraftEnvelope({ step, draft });
+  }, [step, draft]);
 
   function update(partial: Partial<OnboardingDraft>) {
-    setDraft((current) => ({ ...current, ...partial }));
+    setFlow((current) => ({ ...current, draft: { ...current.draft, ...partial } }));
   }
 
-  const goNext = () => setStep((current) => Math.min(current + 1, REVEAL_STEP));
-  const goBack = () => setStep((current) => Math.max(current - 1, 0));
+  const goNext = () =>
+    setFlow((current) => ({ ...current, step: Math.min(current.step + 1, REVEAL_STEP) }));
+  const goBack = () =>
+    setFlow((current) => ({ ...current, step: Math.max(current.step - 1, 0) }));
 
   function assembleBirth(city: StoredCity, sex: StoredBirth["sex"]): StoredBirth {
     return {
@@ -39,6 +64,16 @@ export default function OnboardingPage() {
       city,
       sex
     };
+  }
+
+  async function handleRestoreFile(file: File) {
+    const result = importBackup(await file.text());
+    if (result !== "ok") {
+      setRestoreError(RESTORE_ERRORS[result]);
+      return;
+    }
+    clearDraft();
+    router.replace("/today");
   }
 
   const onReveal = step === REVEAL_STEP && draft.city !== null && draft.sex !== null;
@@ -94,6 +129,37 @@ export default function OnboardingPage() {
             <RevealStep birth={assembleBirth(draft.city, draft.sex)} />
           )}
         </main>
+
+        {step === 0 && (
+          <footer className="pb-2 pt-5 text-center">
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className="text-[13px] text-ink-soft underline underline-offset-2 hover:text-ink"
+            >
+              Have a backup file? Restore it
+            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="application/json,.json"
+              className="sr-only"
+              aria-label="Restore from a backup file"
+              onChange={(event) => {
+                const file = event.target.files?.[0];
+                if (file) {
+                  void handleRestoreFile(file);
+                }
+                event.target.value = "";
+              }}
+            />
+            {restoreError && (
+              <p role="alert" className="mt-2 text-[13px] text-ink-soft">
+                {restoreError}
+              </p>
+            )}
+          </footer>
+        )}
       </div>
     </div>
   );

@@ -10,8 +10,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/button";
 import { Toggle } from "@/components/toggle";
+import { BACKUP_FILENAME, serializeBackup } from "@/lib/backup";
 import { DISCLAIMER } from "@/lib/copy";
 import { clearCompanion } from "@/lib/compare-profile";
+import { formatLong } from "@/lib/dates";
 import { clearHanCharactersPreference } from "@/lib/han-characters";
 import { useHanCharacters } from "@/components/han-characters-provider";
 import {
@@ -94,6 +96,25 @@ export function SettingsContent({ profile }: Props) {
     router.replace("/onboarding");
   }
 
+  function handleDownload() {
+    const json = serializeBackup();
+    if (json === null) {
+      return;
+    }
+    const blob = new Blob([json], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = BACKUP_FILENAME;
+    anchor.click();
+    URL.revokeObjectURL(url);
+  }
+
+  const { birth } = profile;
+  const birthSummary = `${formatLong(birth.date)} · ${
+    birth.time ?? "hour unknown"
+  } · ${birth.city.name}`;
+
   return (
     <div className="flex flex-col gap-8">
       <section className="flex flex-col divide-y divide-hairline">
@@ -139,6 +160,25 @@ export function SettingsContent({ profile }: Props) {
 
       <section>
         <h2 className="text-[13px] font-medium uppercase tracking-wide text-ink-soft">
+          Your data
+        </h2>
+        <p className="mt-3 text-[15px] text-ink">{birthSummary}</p>
+        <p className="mt-1 text-[13px] leading-relaxed text-ink-soft">
+          Your chart lives only on this device. Download a backup to keep it safe or move it
+          somewhere new.
+        </p>
+        <div className="mt-3 flex flex-wrap gap-3">
+          <Button variant="quiet" onClick={() => router.push("/settings/edit")}>
+            Edit birth details
+          </Button>
+          <Button variant="quiet" onClick={handleDownload}>
+            Download my data
+          </Button>
+        </div>
+      </section>
+
+      <section>
+        <h2 className="text-[13px] font-medium uppercase tracking-wide text-ink-soft">
           About your readings
         </h2>
         <p className="mt-3 text-[15px] leading-relaxed text-ink">{DISCLAIMER}</p>
@@ -148,7 +188,8 @@ export function SettingsContent({ profile }: Props) {
         {confirmingDelete ? (
           <div className="flex flex-col gap-3">
             <p className="text-[15px] text-ink">
-              This erases your chart and settings from this device. It can&rsquo;t be undone.
+              This erases your chart, your comparison companion, and every preference from
+              this device. It can&rsquo;t be undone.
             </p>
             <div className="flex gap-3">
               <Button variant="destructive" onClick={handleDelete}>
