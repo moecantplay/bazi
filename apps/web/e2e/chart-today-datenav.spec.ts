@@ -48,6 +48,12 @@ test("seeded chart renders and Today's date nav works and clamps", async ({ page
   }
   await expect(next).toBeDisabled();
   await expect(page.getByText(longDate(addDays(TODAY, 30)))).toBeVisible();
+  await expect(page.getByText("Readings reach 30 days out from today.")).toBeVisible();
+
+  // Tapping the date opens a picker that jumps anywhere in the window.
+  await page.getByRole("button", { name: /jump to a date/i }).click();
+  await page.getByLabel("Jump to a date").fill(addDays(TODAY, 5));
+  await expect(page.getByText(longDate(addDays(TODAY, 5)))).toBeVisible();
 
   // Past midnight, regaining visibility re-anchors the strip to the new day —
   // a PWA reopened the next morning must not keep showing yesterday.
@@ -74,4 +80,28 @@ test("seeded chart renders and Today's date nav works and clamps", async ({ page
     document.dispatchEvent(new Event("visibilitychange"));
   }, `${addDays(TODAY, 1)}T09:00:00Z`);
   await expect(page.getByText(longDate(addDays(TODAY, 1)))).toBeVisible();
+});
+
+test("streak counts consecutive opens and the tomorrow note shows only on today", async ({
+  page,
+  context
+}) => {
+  await seedProfile(context, FIXTURE_A);
+  await pinClock(context, `${TODAY}T09:00:00Z`);
+  // Yesterday's visit is already on record; today's open should extend it.
+  await context.addInitScript(
+    ([key, json]) => {
+      window.localStorage.setItem(key, json);
+    },
+    ["daymaster.streak.v1", JSON.stringify({ count: 3, lastOpen: addDays(TODAY, -1) })] as const
+  );
+
+  await page.goto("/today/");
+  await expect(page.getByText("4 days running")).toBeVisible();
+  await expect(page.getByText("Tomorrow reads differently. It’ll be here in the morning.")).toBeVisible();
+
+  // Neither line follows the reader to other dates.
+  await page.getByRole("button", { name: "Next day" }).click();
+  await expect(page.getByText("4 days running")).toHaveCount(0);
+  await expect(page.getByText("Tomorrow reads differently. It’ll be here in the morning.")).toHaveCount(0);
 });

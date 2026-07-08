@@ -1,7 +1,9 @@
 /**
- * The Today screen: a ±30-day date strip around the device's real today, the
- * displayed day's pillar and which natal palaces its branch touches, the daily
- * reading as stacked cards, and the agency line last, set apart in display type.
+ * The Today screen: a ±30-day date strip around the device's real today (tap
+ * the date to jump within the window), the displayed day's pillar and which
+ * natal palaces its branch touches, the daily reading as stacked cards, and
+ * the agency line last, set apart in display type. A quiet streak line and a
+ * come-back-tomorrow note are screen chrome, not reading copy.
  *
  * All reading text comes from the content package and is deterministic in the
  * daily seedKey, so revisiting a date always shows the same words.
@@ -15,10 +17,11 @@ import type { ReadingLine } from "@daymaster/content";
 import { stripHanCharacters } from "@daymaster/content";
 import { ReadingCard } from "@/components/reading-card";
 import { useHanCharacters } from "@/components/han-characters-provider";
-import { addDays, formatLong, todayLabel } from "@/lib/dates";
+import { addDays, daysBetween, formatLong, todayLabel } from "@/lib/dates";
 import { describeBranch, describeStem, palaceWord } from "@/lib/display";
 import { dailyBundleFor } from "@/lib/reading";
 import type { StoredProfile } from "@/lib/profile";
+import { recordTodayOpen } from "@/lib/streak";
 
 const RANGE = 30;
 
@@ -106,6 +109,12 @@ function useTodayLabel(): string {
 export function TodayView({ profile }: Props) {
   const today = useTodayLabel();
   const [offset, setOffset] = useState(0);
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [streak, setStreak] = useState(0);
+
+  useEffect(() => {
+    setStreak(recordTodayOpen(today));
+  }, [today]);
 
   const dateISO = addDays(today, offset);
   const bundle = useMemo(() => dailyBundleFor(profile, dateISO), [profile, dateISO]);
@@ -118,39 +127,79 @@ export function TodayView({ profile }: Props) {
   const step = (delta: number) =>
     setOffset((current) => Math.min(RANGE, Math.max(-RANGE, current + delta)));
 
+  const atBoundary = Math.abs(offset) >= RANGE;
+
+  function jumpTo(value: string) {
+    if (value.length === 0) {
+      return;
+    }
+    const target = Math.min(RANGE, Math.max(-RANGE, daysBetween(today, value)));
+    setOffset(target);
+    setPickerOpen(false);
+  }
+
   return (
     <div className="flex flex-col gap-8">
-      <div className="flex items-center justify-between gap-2">
-        <button
-          type="button"
-          aria-label="Previous day"
-          onClick={() => step(-1)}
-          disabled={offset <= -RANGE}
-          className="px-3 py-2 text-2xl leading-none text-ink disabled:opacity-30"
-        >
-          &lsaquo;
-        </button>
-        <div className="flex flex-col items-center">
-          <p className="font-display text-xl text-ink">{formatLong(dateISO)}</p>
-          {offset !== 0 && (
-            <button
-              type="button"
-              onClick={() => setOffset(0)}
-              className="mt-1 text-[12px] text-ink-soft hover:text-ink"
-            >
-              Back to today
-            </button>
-          )}
+      <div className="flex flex-col items-center gap-1">
+        <div className="flex w-full items-center justify-between gap-2">
+          <button
+            type="button"
+            aria-label="Previous day"
+            onClick={() => step(-1)}
+            disabled={offset <= -RANGE}
+            className="px-3 py-2 text-2xl leading-none text-ink disabled:opacity-30"
+          >
+            &lsaquo;
+          </button>
+          <div className="flex flex-col items-center" aria-live="polite">
+            {pickerOpen ? (
+              <input
+                type="date"
+                autoFocus
+                aria-label="Jump to a date"
+                defaultValue={dateISO}
+                min={addDays(today, -RANGE)}
+                max={addDays(today, RANGE)}
+                onChange={(event) => jumpTo(event.target.value)}
+                onBlur={() => setPickerOpen(false)}
+                className="rounded-lg border border-ink-soft bg-paper-raised px-3 py-1.5 text-base text-ink"
+              />
+            ) : (
+              <button
+                type="button"
+                onClick={() => setPickerOpen(true)}
+                aria-label={`${formatLong(dateISO)} — jump to a date`}
+                className="font-display text-xl text-ink"
+              >
+                {formatLong(dateISO)}
+              </button>
+            )}
+            {offset !== 0 && !pickerOpen && (
+              <button
+                type="button"
+                onClick={() => setOffset(0)}
+                className="mt-1 text-[12px] text-ink-soft hover:text-ink"
+              >
+                Back to today
+              </button>
+            )}
+            {offset === 0 && !pickerOpen && streak >= 2 && (
+              <p className="mt-1 text-[12px] text-ink-soft">{streak} days running</p>
+            )}
+          </div>
+          <button
+            type="button"
+            aria-label="Next day"
+            onClick={() => step(1)}
+            disabled={offset >= RANGE}
+            className="px-3 py-2 text-2xl leading-none text-ink disabled:opacity-30"
+          >
+            &rsaquo;
+          </button>
         </div>
-        <button
-          type="button"
-          aria-label="Next day"
-          onClick={() => step(1)}
-          disabled={offset >= RANGE}
-          className="px-3 py-2 text-2xl leading-none text-ink disabled:opacity-30"
-        >
-          &rsaquo;
-        </button>
+        {atBoundary && (
+          <p className="text-[12px] text-ink-soft">Readings reach 30 days out from today.</p>
+        )}
       </div>
 
       <div className="flex flex-col items-center gap-2">
@@ -188,6 +237,12 @@ export function TodayView({ profile }: Props) {
       <div className="rounded-xl border-t-2 border-ink bg-paper-raised p-5">
         <p className="font-display text-xl leading-snug text-ink">{bundle.reading.agency.text}</p>
       </div>
+
+      {offset === 0 && (
+        <p className="-mt-4 text-center text-[12px] text-ink-soft">
+          Tomorrow reads differently. It&rsquo;ll be here in the morning.
+        </p>
+      )}
     </div>
   );
 }
