@@ -78,6 +78,12 @@ body {
   outline-offset: 2px;
 }
 
+/* Headings focused programmatically (step changes, for screen readers) are
+   not interactive — no ring. Interactive elements keep the floor above. */
+[tabindex="-1"]:focus-visible {
+  outline: none;
+}
+
 /* Han characters use system serif faces; no CJK webfont is downloaded. */
 .font-han {
   font-family: "Songti SC", "Noto Serif SC", serif;

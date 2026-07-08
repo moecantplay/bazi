@@ -4,6 +4,8 @@ A daily-reading app in the shape of Co-Star, with a different engine under the h
 
 Everything runs on your device. No accounts, no server, no network calls — an installable PWA whose charts live in localStorage. Light and dark themes follow your device, or pin either in Settings.
 
+Because there is no account, your data stays yours in the plainest way: Settings can edit your birth details in place, download a JSON backup (restorable from onboarding on a new device), and delete everything. Compare keeps a named list of saved people. Charts share two ways, both serverless: a card image drawn on-device, and a link that encodes the birth details so the recipient's device recomputes the identical chart. The service worker precaches the whole export — every screen works offline — and new deploys wait for a user-accepted refresh.
+
 ## Quickstart
 
 Requirements: Node 20+, pnpm 9.

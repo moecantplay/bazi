@@ -17,7 +17,7 @@ export function AppShell({ title, children }: Props) {
     <div className="min-h-screen bg-paper">
       <div className="mx-auto flex min-h-screen w-full max-w-app flex-col px-5 pb-28 pt-8">
         <h1 className="font-display text-3xl text-ink">{title}</h1>
-        <div className="mt-6 flex-1">{children}</div>
+        <main className="mt-6 flex-1">{children}</main>
       </div>
       <BottomNav />
     </div>
