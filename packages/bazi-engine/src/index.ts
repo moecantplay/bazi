@@ -127,6 +127,24 @@ export { favorableElements, type FavorableInput } from "./favorable-elements.js"
 export { computeChart } from "./chart.js";
 export { natalFacts, dailyFacts, type ReadingFact } from "./facts.js";
 export {
+  ACTIVITIES,
+  ACTIVITY_KEYS,
+  DAY_OFFICERS,
+  type ActivityDefinition,
+  type ActivityKey,
+  type DayOfficerDefinition,
+} from "../data/day-officer-tables.js";
+export { dayOfficer, officerForBranches } from "./day-officers.js";
+export {
+  dayQuality,
+  type ActivityAssessment,
+  type ActivityLeaning,
+  type ActivityReason,
+  type DayQuality,
+} from "./day-quality.js";
+export { horizonFacts, type HorizonFacts } from "./horizons.js";
+export { findDates, type DateCandidate } from "./date-finder.js";
+export {
   compareFacts,
   compareInteractions,
   type CompareFact,

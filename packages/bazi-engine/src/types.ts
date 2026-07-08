@@ -75,7 +75,15 @@ export interface SolarTermEntry {
 export type Sex = "male" | "female";
 
 /** A slot a branch can occupy: the four natal palaces plus transit palaces. */
-export type Palace = "year" | "month" | "day" | "hour" | "luck" | "annual" | "daily";
+export type Palace =
+  | "year"
+  | "month"
+  | "day"
+  | "hour"
+  | "luck"
+  | "annual"
+  | "monthly"
+  | "daily";
 
 /** A branch tagged with the palace it sits in. */
 export interface PalacedBranch {

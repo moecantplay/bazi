@@ -19,6 +19,7 @@ const PALACE_WORDS: Record<Palace, string> = {
   day: "home palace",
   hour: "horizon",
   annual: "this year's current",
+  monthly: "this month's current",
   daily: "today's current",
   luck: "this decade",
 };

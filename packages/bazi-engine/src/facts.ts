@@ -63,10 +63,17 @@ export type ReadingFact =
     }
   | { kind: "element-day"; element: Element; favorable: boolean }
   | { kind: "ten-god-day"; god: string; english: string }
+  | {
+      kind: "element-period";
+      period: "annual" | "monthly";
+      element: Element;
+      favorable: boolean;
+    }
+  | { kind: "ten-god-period"; period: "annual" | "monthly"; god: string; english: string }
   | { kind: "star-day"; star: string; chinese: string; english: string; transitPalace: Palace }
   | { kind: "stage-day"; stage: LifeStage };
 
-const TRANSIT_PALACES: readonly Palace[] = ["daily", "annual"];
+const TRANSIT_PALACES: readonly Palace[] = ["daily", "monthly", "annual"];
 
 function dominantElement(counts: Record<Element, number>): Element {
   return ELEMENT_PRODUCTION_ORDER.reduce((best, element) =>
@@ -164,7 +171,7 @@ export function natalFacts(chart: Chart): ReadingFact[] {
 }
 
 /** Transit interactions between a single transit branch and the natal branches. */
-function transitInteractionFacts(
+export function transitInteractionFacts(
   chart: Chart,
   branch: Branch,
   transitPalace: Palace,
