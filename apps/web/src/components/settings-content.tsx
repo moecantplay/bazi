@@ -9,6 +9,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/button";
+import { InstallHint } from "@/components/install-hint";
 import { Toggle } from "@/components/toggle";
 import { BACKUP_FILENAME, serializeBackup } from "@/lib/backup";
 import { DISCLAIMER } from "@/lib/copy";
@@ -159,6 +160,8 @@ export function SettingsContent({ profile }: Props) {
           System follows your device. Light and dark stay put.
         </p>
       </section>
+
+      <InstallHint />
 
       <section>
         <h2 className="text-[13px] font-medium uppercase tracking-wide text-ink-soft">
