@@ -20,6 +20,9 @@ export default defineConfig({
   reporter: [["list"]],
   use: {
     baseURL: `http://localhost:${process.env.E2E_PORT ?? 3210}`,
+    // Date labels format in the device locale; pin it so e2e/helpers.longDate
+    // (en-GB) keeps matching what the app renders.
+    locale: "en-GB",
     trace: "retain-on-failure",
     ...(chromePath ? { launchOptions: { executablePath: chromePath } } : {})
   },

@@ -35,9 +35,13 @@ export function daysBetween(from: string, to: string): number {
   return Math.round((labelToUtc(to) - labelToUtc(from)) / 86_400_000);
 }
 
-/** A human date like "Tue, 7 Jul 2026", formatted in UTC to match the label. */
+/**
+ * A human date like "Tue, 7 Jul 2026", formatted in UTC to match the label.
+ * The locale is the device's own so day/month order matches what the user
+ * expects everywhere else on their phone.
+ */
 export function formatLong(iso: string): string {
-  return new Intl.DateTimeFormat("en-GB", {
+  return new Intl.DateTimeFormat(undefined, {
     timeZone: "UTC",
     weekday: "short",
     day: "numeric",
