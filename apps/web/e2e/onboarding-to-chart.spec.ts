@@ -55,6 +55,9 @@ test("full onboarding for fixture A saves a chart that reads correctly", async (
   for (const char of PILLAR_CHARS) {
     await expect(page.getByText(char).first()).toBeVisible();
   }
-  await expect(page.locator("body")).toContainText(/trine/i);
   await expect(page.getByText(/Eating God/).first()).toBeVisible();
+
+  // Structure lines live behind their collapsed heading.
+  await page.getByText(/Your chart's structure/).click();
+  await expect(page.locator("body")).toContainText(/trine/i);
 });

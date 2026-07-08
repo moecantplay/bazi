@@ -1,12 +1,15 @@
 /**
- * The Chart screen: seal, the four-pillar hero (with per-stem ten gods), the
- * day-master archetype, the five-element balance, favorable elements, and the
- * chart's structural interactions. Prose comes from the content package; the UI
- * adds only headings and the data visualizations.
+ * The Chart screen, shallow to deep: seal, the day-master archetype (the
+ * anchor a first-time reader needs), the four-pillar hero with per-stem ten
+ * gods (stage/sound/star captions behind a detail toggle), the five-element
+ * balance, favorable elements, then the structural interactions and stars as
+ * collapsed sections. Prose comes from the content package; the UI adds only
+ * headings and the data visualizations.
  */
 
 "use client";
 
+import { useState, type ReactNode } from "react";
 import {
   DAY_MASTER_GLOSS,
   LIFE_STAGE_GLOSS,
@@ -28,6 +31,34 @@ import type { StoredProfile } from "@/lib/profile";
 function Heading({ children }: { children: string }) {
   return (
     <h2 className="text-[13px] font-medium uppercase tracking-wide text-ink-soft">{children}</h2>
+  );
+}
+
+/** A collapsed-by-default section: the heading is the disclosure control. */
+function CollapsibleSection({
+  title,
+  count,
+  children
+}: {
+  title: string;
+  count: number;
+  children: ReactNode;
+}) {
+  return (
+    <details className="group">
+      <summary className="flex cursor-pointer list-none items-center gap-2 [&::-webkit-details-marker]:hidden">
+        <span
+          aria-hidden
+          className="text-[11px] text-ink-soft transition-transform group-open:rotate-90"
+        >
+          ▸
+        </span>
+        <h2 className="text-[13px] font-medium uppercase tracking-wide text-ink-soft">
+          {title} · {count}
+        </h2>
+      </summary>
+      <div className="mt-3 flex flex-col gap-3">{children}</div>
+    </details>
   );
 }
 
@@ -67,25 +98,12 @@ export function ChartView({ profile }: Props) {
   const [archetype, ...dayMasterRest] = dayMaster?.lines ?? [];
   const taiYuanStem = describeStem(chart.taiYuan.stem);
   const taiYuanBranch = describeBranch(chart.taiYuan.branch);
+  const [pillarDetailOpen, setPillarDetailOpen] = useState(false);
 
   return (
     <div className="flex flex-col gap-10">
       <div className="flex justify-center">
         <Seal pillars={[chart.year, chart.month, chart.day, chart.hour]} />
-      </div>
-
-      <div className="flex flex-col gap-3">
-        <PillarColumns
-          pillars={pillars}
-          tenGods={chart.tenGods}
-          lifeStages={chart.lifeStages}
-          naYin={chart.naYin}
-          stars={chart.shensha}
-        />
-        <p className="text-center text-[11px] leading-relaxed text-ink-soft">
-          stage = {LIFE_STAGE_GLOSS}; sound = {NAYIN_GLOSS}. Named lines below each pillar are its
-          stars — motifs your chart keeps returning to.
-        </p>
       </div>
 
       {dayMaster && archetype && (
@@ -103,6 +121,30 @@ export function ChartView({ profile }: Props) {
         </section>
       )}
 
+      <div className="flex flex-col gap-3">
+        <PillarColumns
+          pillars={pillars}
+          tenGods={chart.tenGods}
+          lifeStages={pillarDetailOpen ? chart.lifeStages : undefined}
+          naYin={pillarDetailOpen ? chart.naYin : undefined}
+          stars={pillarDetailOpen ? chart.shensha : undefined}
+        />
+        {pillarDetailOpen && (
+          <p className="text-center text-[11px] leading-relaxed text-ink-soft">
+            stage = {LIFE_STAGE_GLOSS}; sound = {NAYIN_GLOSS}. Named lines below each pillar are
+            its stars — motifs your chart keeps returning to.
+          </p>
+        )}
+        <button
+          type="button"
+          aria-expanded={pillarDetailOpen}
+          onClick={() => setPillarDetailOpen((open) => !open)}
+          className="self-center text-[12px] text-ink-soft underline underline-offset-2 hover:text-ink"
+        >
+          {pillarDetailOpen ? "Hide pillar detail" : "More pillar detail"}
+        </button>
+      </div>
+
       <section className="flex flex-col gap-4">
         <Heading>{elements?.title ?? "Your elements"}</Heading>
         <ElementBalance counts={chart.fiveElementCounts} />
@@ -118,20 +160,22 @@ export function ChartView({ profile }: Props) {
       )}
 
       {structure && structure.lines.length > 0 && (
-        <section className="flex flex-col gap-3">
-          <Heading>{structure.title}</Heading>
-          {structure.lines.map((line, index) => (
-            <ReadingCard key={index} line={line} />
-          ))}
+        <section>
+          <CollapsibleSection title={structure.title} count={structure.lines.length}>
+            {structure.lines.map((line, index) => (
+              <ReadingCard key={index} line={line} />
+            ))}
+          </CollapsibleSection>
         </section>
       )}
 
       {stars && stars.lines.length > 0 && (
-        <section className="flex flex-col gap-3">
-          <Heading>{stars.title}</Heading>
-          {stars.lines.map((line, index) => (
-            <ReadingCard key={index} line={line} />
-          ))}
+        <section>
+          <CollapsibleSection title={stars.title} count={stars.lines.length}>
+            {stars.lines.map((line, index) => (
+              <ReadingCard key={index} line={line} />
+            ))}
+          </CollapsibleSection>
         </section>
       )}
 
