@@ -11,6 +11,7 @@
 
 import { useMemo, useState } from "react";
 import type { ReadingFact } from "@daymaster/bazi-engine";
+import type { ReadingLine } from "@daymaster/content";
 import { ReadingCard } from "@/components/reading-card";
 import { addDays, formatLong, todayLabel } from "@/lib/dates";
 import { describeBranch, describeStem, palaceWord } from "@/lib/display";
@@ -43,6 +44,27 @@ function dailyPalaceTouches(facts: ReadingFact[]): string[] {
     }
   }
   return [...words];
+}
+
+/** One column of the day's suggestions; the caption cites the fact behind each. */
+function SuggestionList({ title, lines }: { title: string; lines: ReadingLine[] }) {
+  return (
+    <div className="rounded-xl border border-hairline bg-paper-raised p-4">
+      <h3 className="text-[12px] font-medium uppercase tracking-wide text-ink-soft">{title}</h3>
+      <ul className="mt-2 flex flex-col gap-2.5">
+        {lines.map((line, index) => (
+          <li key={index}>
+            <p className="text-[14px] leading-relaxed text-ink">{line.text}</p>
+            {line.factTag && (
+              <p data-fact-tag className="mt-0.5 text-[11px] text-ink-soft">
+                {line.factTag}
+              </p>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
 interface Props {
@@ -117,6 +139,11 @@ export function TodayView({ profile }: Props) {
         {bundle.reading.lines.map((line, index) => (
           <ReadingCard key={index} line={line} />
         ))}
+      </div>
+
+      <div data-dos-donts className="grid gap-3 sm:grid-cols-2">
+        <SuggestionList title="Worth doing" lines={bundle.reading.dos} />
+        <SuggestionList title="Worth postponing" lines={bundle.reading.donts} />
       </div>
 
       <div className="rounded-xl border-t-2 border-ink bg-paper-raised p-5">

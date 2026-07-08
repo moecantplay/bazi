@@ -7,8 +7,9 @@
 
 "use client";
 
-import { DAY_MASTER_GLOSS } from "@daymaster/content";
+import { DAY_MASTER_GLOSS, LIFE_STAGE_GLOSS, NAYIN_GLOSS } from "@daymaster/content";
 import type { ReadingSection, ReadingSectionKey } from "@daymaster/content";
+import { describeBranch, describeStem } from "@/lib/display";
 import { PillarColumns } from "@/components/pillar-columns";
 import { Seal } from "@/components/seal";
 import { ElementBalance } from "@/components/element-balance";
@@ -52,8 +53,11 @@ export function ChartView({ profile }: Props) {
   const elements = sectionOf("elements");
   const suits = sectionOf("favorable");
   const structure = sectionOf("structure");
+  const stars = sectionOf("stars");
 
   const [archetype, ...dayMasterRest] = dayMaster?.lines ?? [];
+  const taiYuanStem = describeStem(chart.taiYuan.stem);
+  const taiYuanBranch = describeBranch(chart.taiYuan.branch);
 
   return (
     <div className="flex flex-col gap-10">
@@ -61,7 +65,19 @@ export function ChartView({ profile }: Props) {
         <Seal pillars={[chart.year, chart.month, chart.day, chart.hour]} />
       </div>
 
-      <PillarColumns pillars={pillars} tenGods={chart.tenGods} />
+      <div className="flex flex-col gap-3">
+        <PillarColumns
+          pillars={pillars}
+          tenGods={chart.tenGods}
+          lifeStages={chart.lifeStages}
+          naYin={chart.naYin}
+          stars={chart.shensha}
+        />
+        <p className="text-center text-[11px] leading-relaxed text-ink-soft">
+          stage = {LIFE_STAGE_GLOSS}; sound = {NAYIN_GLOSS}. Named lines below each pillar are its
+          stars — motifs your chart keeps returning to.
+        </p>
+      </div>
 
       {dayMaster && archetype && (
         <section className="flex flex-col gap-3">
@@ -100,6 +116,25 @@ export function ChartView({ profile }: Props) {
           ))}
         </section>
       )}
+
+      {stars && stars.lines.length > 0 && (
+        <section className="flex flex-col gap-3">
+          <Heading>{stars.title}</Heading>
+          {stars.lines.map((line, index) => (
+            <ReadingCard key={index} line={line} />
+          ))}
+        </section>
+      )}
+
+      <p className="text-[12px] leading-relaxed text-ink-soft">
+        Conception pillar (胎元) — the classical estimate of the month you were conceived:{" "}
+        <span className="font-han text-ink">
+          {chart.taiYuan.stem}
+          {chart.taiYuan.branch}
+        </span>{" "}
+        {taiYuanStem.pinyin} {taiYuanStem.element} · {taiYuanBranch.pinyin}{" "}
+        {taiYuanBranch.element}.
+      </p>
     </div>
   );
 }

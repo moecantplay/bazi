@@ -103,7 +103,9 @@ export function LuckTimeline({ chart, now = new Date() }: Props) {
   return (
     <div className="flex flex-col gap-6">
       <p className="text-[13px] leading-relaxed text-ink-soft">
-        Each node is one luck pillar — {LUCK_PILLAR_GLOSS}.
+        Each node is one luck pillar — {LUCK_PILLAR_GLOSS}. Yours begin{" "}
+        {chart.luckStart.years} years, {chart.luckStart.months} months, and {chart.luckStart.days}{" "}
+        days after birth (起運), from the classical count of days to the nearest seasonal marker.
       </p>
       {beforeFirst && first && (
         <p className="text-[15px] leading-relaxed text-ink-soft">
