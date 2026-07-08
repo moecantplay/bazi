@@ -17,6 +17,7 @@ import { PillarColumns } from "@/components/pillar-columns";
 import { Seal } from "@/components/seal";
 import { computePillars, isYearInRange, type ChartPillars } from "@/lib/pillars";
 import { saveProfile, type StoredBirth, type StoredProfile } from "@/lib/profile";
+import { clearDraft } from "./draft";
 
 interface Props {
   birth: StoredBirth;
@@ -58,6 +59,7 @@ export function RevealStep({ birth }: Props) {
       setSaveFailed(true);
       return;
     }
+    clearDraft();
     router.replace("/today");
   }
 

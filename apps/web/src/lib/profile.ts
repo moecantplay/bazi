@@ -42,7 +42,8 @@ function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
 }
 
-function isCity(value: unknown): value is StoredCity {
+/** Validates a stored city; also used by the onboarding draft store. */
+export function isStoredCity(value: unknown): value is StoredCity {
   if (!isObject(value)) {
     return false;
   }
@@ -66,7 +67,7 @@ export function isStoredBirth(value: unknown): value is StoredBirth {
     typeof value.date === "string" &&
     timeOk &&
     sexOk &&
-    isCity(value.city)
+    isStoredCity(value.city)
   );
 }
 
@@ -79,7 +80,8 @@ function isConfig(value: unknown): value is StoredConfig {
   return lateZiOk && typeof value.trueSolarTime === "boolean";
 }
 
-function isProfile(value: unknown): value is StoredProfile {
+/** Validates a whole stored profile; also used by the backup importer. */
+export function isStoredProfile(value: unknown): value is StoredProfile {
   if (!isObject(value)) {
     return false;
   }
@@ -101,7 +103,7 @@ export function loadProfile(): StoredProfile | null {
       return null;
     }
     const parsed: unknown = JSON.parse(raw);
-    return isProfile(parsed) ? parsed : null;
+    return isStoredProfile(parsed) ? parsed : null;
   } catch {
     // Malformed JSON or storage access denied: behave as if no profile exists.
     return null;
