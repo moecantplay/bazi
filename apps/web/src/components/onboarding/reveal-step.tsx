@@ -9,7 +9,7 @@
 
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { DEFAULT_CONFIG } from "@daymaster/bazi-engine";
 import { Button } from "@/components/button";
@@ -29,6 +29,7 @@ interface ChartResult {
 
 export function RevealStep({ birth }: Props) {
   const router = useRouter();
+  const [saveFailed, setSaveFailed] = useState(false);
 
   const result = useMemo<ChartResult>(() => {
     try {
@@ -53,7 +54,10 @@ export function RevealStep({ birth }: Props) {
       },
       createdAt: new Date().toISOString()
     };
-    saveProfile(profile);
+    if (!saveProfile(profile)) {
+      setSaveFailed(true);
+      return;
+    }
     router.replace("/today");
   }
 
@@ -92,6 +96,12 @@ export function RevealStep({ birth }: Props) {
         <Button className="w-full" onClick={handleSave}>
           Save chart
         </Button>
+        {saveFailed && (
+          <p role="alert" className="mt-3 text-center text-sm text-ink-soft">
+            This browser wouldn&rsquo;t let us store your chart — that happens in private
+            browsing. Try a regular window, and your chart stays on this device.
+          </p>
+        )}
       </div>
     </div>
   );

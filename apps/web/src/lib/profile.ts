@@ -108,12 +108,21 @@ export function loadProfile(): StoredProfile | null {
   }
 }
 
-/** Persist the profile, replacing any existing one. */
-export function saveProfile(profile: StoredProfile): void {
+/**
+ * Persist the profile, replacing any existing one. Returns false when storage
+ * refuses the write (private browsing, quota) so callers can tell the user
+ * instead of crashing mid-onboarding.
+ */
+export function saveProfile(profile: StoredProfile): boolean {
   if (typeof window === "undefined") {
-    return;
+    return false;
   }
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
+  try {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 /** Update only the config block of the stored profile, leaving birth intact. */

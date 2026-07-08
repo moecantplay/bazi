@@ -26,12 +26,21 @@ export function loadCompanion(): StoredBirth | null {
   }
 }
 
-/** Persist the companion, replacing any existing one. */
-export function saveCompanion(birth: StoredBirth): void {
+/**
+ * Persist the companion, replacing any existing one. Returns false when
+ * storage refuses the write; the in-memory comparison still works for the
+ * session, it just won't survive a reload.
+ */
+export function saveCompanion(birth: StoredBirth): boolean {
   if (typeof window === "undefined") {
-    return;
+    return false;
   }
-  window.localStorage.setItem(COMPARE_KEY, JSON.stringify(birth));
+  try {
+    window.localStorage.setItem(COMPARE_KEY, JSON.stringify(birth));
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 /** Remove the stored companion. */
