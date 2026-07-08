@@ -15,6 +15,7 @@ import {
   STEM_POLARITIES,
   STEMS
 } from "@daymaster/bazi-engine";
+import { BRANCH_ANIMALS } from "@daymaster/content";
 
 interface Glyph {
   pinyin: string;
@@ -50,22 +51,6 @@ const BRANCH_PINYIN: Record<Branch, string> = {
   亥: "hài"
 };
 
-/** The zodiac animal each branch names — its immediate, familiar translation. */
-const BRANCH_ANIMAL: Record<Branch, string> = {
-  子: "rat",
-  丑: "ox",
-  寅: "tiger",
-  卯: "rabbit",
-  辰: "dragon",
-  巳: "snake",
-  午: "horse",
-  未: "goat",
-  申: "monkey",
-  酉: "rooster",
-  戌: "dog",
-  亥: "pig"
-};
-
 // Both stems and branches are drawn from the engine's canonical arrays, so a
 // character always resolves to a valid index; the fallbacks satisfy the
 // compiler's index-access checks without ever running.
@@ -95,7 +80,7 @@ export function describeStem(stem: Stem): Glyph {
 export function describeBranch(branch: Branch): Glyph {
   return {
     pinyin: BRANCH_PINYIN[branch],
-    gloss: BRANCH_ANIMAL[branch],
+    gloss: BRANCH_ANIMALS[branch],
     element: BRANCH_ELEMENT[branch]
   };
 }

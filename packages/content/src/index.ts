@@ -28,6 +28,7 @@ export type {
   DailyReading,
   CompareReading,
 } from "./types.js";
+export { BRANCH_ANIMALS, stripHanCharacters } from "./strip-han.js";
 export { natalReading } from "./natal-reading.js";
 export { dailyReading } from "./daily-reading.js";
 export { luckTransitionLines } from "./luck-reading.js";

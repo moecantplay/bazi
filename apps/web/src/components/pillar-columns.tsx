@@ -8,7 +8,12 @@
  * ten-god caption; the onboarding reveal omits it. `lifeStages`, `naYin`, and
  * `stars` likewise add chart-screen detail captions when provided — every
  * system term carries its plain-meaning gloss inline (VOICE.md §11).
+ *
+ * With Chinese characters turned off (Settings), the English gloss takes the
+ * character's place as the readable word and captions drop their Han.
  */
+
+"use client";
 
 import type {
   ChartLifeStages,
@@ -23,6 +28,7 @@ import type {
 import { LIFE_STAGE_GLOSSES, STAR_GLOSSES, TEN_GOD_GLOSSES } from "@daymaster/content";
 import type { ChartPillars } from "@/lib/pillars";
 import { describeBranch, describeStem } from "@/lib/display";
+import { useHanCharacters } from "@/components/han-characters-provider";
 
 interface ColumnSpec {
   label: string;
@@ -37,6 +43,16 @@ interface ColumnSpec {
 }
 
 function Glyph({ char, pinyin, gloss }: { char: string; pinyin: string; gloss: string }) {
+  const { showHanCharacters } = useHanCharacters();
+
+  if (!showHanCharacters) {
+    return (
+      <div className="flex flex-col items-center py-2">
+        <span className="text-center text-[16px] font-medium leading-tight text-ink">{gloss}</span>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col items-center">
       <span className="font-han text-[44px] leading-none text-ink">{char}</span>
@@ -66,6 +82,7 @@ function Column({
   isDay,
   isHour,
 }: ColumnSpec) {
+  const { showHanCharacters } = useHanCharacters();
   const stem = pillar ? describeStem(pillar.stem) : null;
   const branch = pillar ? describeBranch(pillar.branch) : null;
 
@@ -83,7 +100,7 @@ function Column({
             {tenGod && (
               <span className="mt-1.5 flex flex-col text-center text-[10px] leading-tight text-ink-soft">
                 <span>
-                  {tenGod.english} {tenGod.chinese}
+                  {showHanCharacters ? `${tenGod.english} ${tenGod.chinese}` : tenGod.english}
                 </span>
                 {TEN_GOD_GLOSSES[tenGod.english] && (
                   <span className="italic">{TEN_GOD_GLOSSES[tenGod.english]}</span>
@@ -97,17 +114,27 @@ function Column({
             <div className="flex flex-col items-center gap-1">
               {lifeStages && (
                 <DetailCaption
-                  label={`stage ${lifeStages.dayMaster.chinese} ${lifeStages.dayMaster.english}`}
+                  label={
+                    showHanCharacters
+                      ? `stage ${lifeStages.dayMaster.chinese} ${lifeStages.dayMaster.english}`
+                      : `stage ${lifeStages.dayMaster.english}`
+                  }
                   title={LIFE_STAGE_GLOSSES[lifeStages.dayMaster.english]}
                 />
               )}
               {naYin && (
-                <DetailCaption label={`sound ${naYin.chinese} ${naYin.english}`} />
+                <DetailCaption
+                  label={
+                    showHanCharacters
+                      ? `sound ${naYin.chinese} ${naYin.english}`
+                      : `sound ${naYin.english}`
+                  }
+                />
               )}
               {stars?.map((star) => (
                 <DetailCaption
                   key={star.key}
-                  label={`${star.chinese} ${star.english}`}
+                  label={showHanCharacters ? `${star.chinese} ${star.english}` : star.english}
                   title={STAR_GLOSSES[star.key]}
                 />
               ))}

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Inter } from "next/font/google";
+import { HanCharactersProvider } from "@/components/han-characters-provider";
 import { ServiceWorker } from "@/components/service-worker";
 import "./globals.css";
 
@@ -50,10 +51,13 @@ interface Props {
 
 export default function RootLayout({ children }: Props) {
   return (
-    <html lang="en" className={`${inter.variable} ${fraunces.variable}`}>
+    // suppressHydrationWarning: THEME_INIT_SCRIPT stamps data-theme on <html>
+    // before hydration, so this one element's attributes legitimately differ
+    // from the server HTML. Suppression is attribute-only and one level deep.
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${fraunces.variable}`}>
       <body className="font-sans">
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
-        {children}
+        <HanCharactersProvider>{children}</HanCharactersProvider>
         <ServiceWorker />
       </body>
     </html>

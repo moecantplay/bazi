@@ -40,6 +40,18 @@ export async function seedProfile(context: BrowserContext, profile: unknown): Pr
   );
 }
 
+export const COMPARE_KEY = "daymaster.compare.v1";
+
+/** Seed the stored comparison companion before the app loads. */
+export async function seedCompanion(context: BrowserContext, birth: unknown): Promise<void> {
+  await context.addInitScript(
+    ([key, json]) => {
+      window.localStorage.setItem(key, json);
+    },
+    [COMPARE_KEY, JSON.stringify(birth)] as const
+  );
+}
+
 /** Pin `new Date()` / `Date.now()` to a fixed instant for date-dependent screens. */
 export async function pinClock(context: BrowserContext, iso: string): Promise<void> {
   await context.addInitScript((isoStr: string) => {

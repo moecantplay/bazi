@@ -5,9 +5,12 @@
  * line names the year it starts and nothing is highlighted.
  */
 
+"use client";
+
 import type { Chart, Element, LuckPillar } from "@daymaster/bazi-engine";
 import { LUCK_PILLAR_GLOSS } from "@daymaster/content";
 import { describeBranch, describeStem } from "@/lib/display";
+import { useHanCharacters } from "@/components/han-characters-provider";
 import { ELEMENT_LABEL, ELEMENT_SWATCH_CLASS } from "@/lib/elements";
 import { AnnualRow } from "./annual-row";
 
@@ -39,7 +42,13 @@ function Spans({ luck }: { luck: LuckPillar }) {
   );
 }
 
+/** The pillar's readable name when characters are off: "yang wood · horse". */
+function glossPair(luck: LuckPillar): string {
+  return `${describeStem(luck.pillar.stem).gloss} · ${describeBranch(luck.pillar.branch).gloss}`;
+}
+
 function CurrentCard({ luck, currentYear }: { luck: LuckPillar; currentYear: number }) {
+  const { showHanCharacters } = useHanCharacters();
   const stemElement = describeStem(luck.pillar.stem).element;
   const branchElement = describeBranch(luck.pillar.branch).element;
 
@@ -48,10 +57,14 @@ function CurrentCard({ luck, currentYear }: { luck: LuckPillar; currentYear: num
       <div className="text-[11px] uppercase tracking-wide text-ink-soft">Current decade</div>
       <div className="mt-2 flex items-end justify-between gap-3">
         <div>
-          <span className="font-han text-4xl leading-none text-ink">
-            {luck.pillar.stem}
-            {luck.pillar.branch}
-          </span>
+          {showHanCharacters ? (
+            <span className="font-han text-4xl leading-none text-ink">
+              {luck.pillar.stem}
+              {luck.pillar.branch}
+            </span>
+          ) : (
+            <span className="font-display text-xl leading-tight text-ink">{glossPair(luck)}</span>
+          )}
           <p className="mt-2 text-[12px] text-ink-soft">{metaLine(luck)}</p>
         </div>
         <Spans luck={luck} />
@@ -68,13 +81,20 @@ function CurrentCard({ luck, currentYear }: { luck: LuckPillar; currentYear: num
 }
 
 function PlainNode({ luck }: { luck: LuckPillar }) {
+  const { showHanCharacters } = useHanCharacters();
   return (
     <div className="flex items-start justify-between gap-3 pb-1">
       <div>
-        <span className="font-han text-2xl leading-none text-ink">
-          {luck.pillar.stem}
-          {luck.pillar.branch}
-        </span>
+        {showHanCharacters ? (
+          <span className="font-han text-2xl leading-none text-ink">
+            {luck.pillar.stem}
+            {luck.pillar.branch}
+          </span>
+        ) : (
+          <span className="font-display text-[17px] leading-tight text-ink">
+            {glossPair(luck)}
+          </span>
+        )}
         <p className="mt-1.5 text-[12px] text-ink-soft">{metaLine(luck)}</p>
       </div>
       <Spans luck={luck} />
@@ -88,6 +108,7 @@ interface Props {
 }
 
 export function LuckTimeline({ chart, now = new Date() }: Props) {
+  const { showHanCharacters } = useHanCharacters();
   const currentYear = now.getFullYear();
   const luckPillars = chart.luckPillars;
   const first = luckPillars[0];
@@ -105,7 +126,8 @@ export function LuckTimeline({ chart, now = new Date() }: Props) {
       <p className="text-[13px] leading-relaxed text-ink-soft">
         Each node is one luck pillar — {LUCK_PILLAR_GLOSS}. Yours begin{" "}
         {chart.luckStart.years} years, {chart.luckStart.months} months, and {chart.luckStart.days}{" "}
-        days after birth (起運), from the classical count of days to the nearest seasonal marker.
+        days after birth{showHanCharacters && " (起運)"}, from the classical count of days to the
+        nearest seasonal marker.
       </p>
       {beforeFirst && first && (
         <p className="text-[15px] leading-relaxed text-ink-soft">

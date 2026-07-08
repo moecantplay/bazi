@@ -12,6 +12,8 @@ import { Button } from "@/components/button";
 import { Toggle } from "@/components/toggle";
 import { DISCLAIMER } from "@/lib/copy";
 import { clearCompanion } from "@/lib/compare-profile";
+import { clearHanCharactersPreference } from "@/lib/han-characters";
+import { useHanCharacters } from "@/components/han-characters-provider";
 import {
   clearProfile,
   saveConfig,
@@ -44,6 +46,7 @@ interface Row {
 
 export function SettingsContent({ profile }: Props) {
   const router = useRouter();
+  const { showHanCharacters, setShowHanCharacters } = useHanCharacters();
   const [config, setConfig] = useState<StoredConfig>(profile.config);
   const [theme, setTheme] = useState<ThemePreference>(() => loadThemePreference());
   const [confirmingDelete, setConfirmingDelete] = useState(false);
@@ -73,6 +76,13 @@ export function SettingsContent({ profile }: Props) {
         "Adjust the clock time to the sun's actual position at your birthplace before computing hour and day.",
       checked: config.trueSolarTime,
       onChange: (checked) => persist({ ...config, trueSolarTime: checked })
+    },
+    {
+      label: "Show Chinese characters",
+      explanation:
+        "The traditional stem and branch characters, always with English beside them. Turn off to read everything in English only.",
+      checked: showHanCharacters,
+      onChange: setShowHanCharacters
     }
   ];
 
@@ -80,6 +90,7 @@ export function SettingsContent({ profile }: Props) {
     clearProfile();
     clearCompanion();
     clearThemePreference();
+    clearHanCharactersPreference();
     router.replace("/onboarding");
   }
 
