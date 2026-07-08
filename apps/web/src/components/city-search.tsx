@@ -3,13 +3,15 @@
  * matching on city and country, fully keyboard operable (arrow keys move the
  * highlight, Enter selects). The dataset's attribution is shown beneath, as its
  * license requires.
+ *
+ * The 180KB dataset loads as its own chunk after mount, so the data-entry
+ * screens become interactive without parsing it first.
  */
 
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { KeyboardEvent } from "react";
-import citiesData from "@/data/cities.json";
 import type { StoredCity } from "@/lib/profile";
 
 interface CityDataset {
@@ -17,7 +19,6 @@ interface CityDataset {
   cities: StoredCity[];
 }
 
-const dataset = citiesData as CityDataset;
 const MAX_RESULTS = 40;
 
 function matches(city: StoredCity, query: string): boolean {
@@ -33,15 +34,33 @@ interface Props {
 export function CitySearch({ selected, onSelect }: Props) {
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
+  const [dataset, setDataset] = useState<CityDataset | null>(null);
   const listRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    import("@/data/cities.json")
+      .then((module) => {
+        if (!cancelled) {
+          setDataset(module.default as CityDataset);
+        }
+      })
+      .catch(() => {
+        // Chunk unreachable (offline, uncached): search stays empty rather
+        // than crashing; the service worker precaches it for repeat visits.
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const results = useMemo(() => {
     const trimmed = query.trim().toLowerCase();
-    if (trimmed.length < 2) {
+    if (trimmed.length < 2 || dataset === null) {
       return [];
     }
     return dataset.cities.filter((city) => matches(city, trimmed)).slice(0, MAX_RESULTS);
-  }, [query]);
+  }, [query, dataset]);
 
   function choose(city: StoredCity) {
     onSelect(city);
@@ -124,14 +143,16 @@ export function CitySearch({ selected, onSelect }: Props) {
         </ul>
       )}
 
-      {query.trim().length >= 2 && results.length === 0 && (
+      {dataset !== null && query.trim().length >= 2 && results.length === 0 && (
         <p className="text-sm text-ink-soft">
           We couldn&rsquo;t find that city. Try the nearest larger town &mdash; timezone is what
           matters.
         </p>
       )}
 
-      <p className="text-[11px] leading-snug text-ink-soft">{dataset.attribution}</p>
+      {dataset !== null && (
+        <p className="text-[11px] leading-snug text-ink-soft">{dataset.attribution}</p>
+      )}
     </div>
   );
 }
