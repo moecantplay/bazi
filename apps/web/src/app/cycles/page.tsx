@@ -1,6 +1,7 @@
 "use client";
 
 import { AppShell } from "@/components/app-shell";
+import { HorizonOutlook } from "@/components/horizon-outlook";
 import { LuckTimeline } from "@/components/luck-timeline";
 import { ProfileGate } from "@/components/profile-gate";
 import { chartFor } from "@/lib/chart";
@@ -10,7 +11,10 @@ export default function CyclesPage() {
     <ProfileGate>
       {(profile) => (
         <AppShell title="Cycles">
-          <LuckTimeline chart={chartFor(profile)} />
+          <div className="flex flex-col gap-10">
+            <HorizonOutlook profile={profile} />
+            <LuckTimeline chart={chartFor(profile)} />
+          </div>
         </AppShell>
       )}
     </ProfileGate>

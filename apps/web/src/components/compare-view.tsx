@@ -6,6 +6,7 @@
 
 "use client";
 
+import Link from "next/link";
 import { Button } from "@/components/button";
 import { PillarColumns } from "@/components/pillar-columns";
 import { ReadingCard } from "@/components/reading-card";
@@ -69,10 +70,16 @@ export function CompareView({ profile, person, onChangePerson }: Props) {
         ))}
       </section>
 
-      <div>
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <Button variant="quiet" onClick={onChangePerson}>
           Change person
         </Button>
+        <Link
+          href="/dates/"
+          className="text-[13px] text-ink-soft underline underline-offset-2 hover:text-ink"
+        >
+          Find a day that suits you both &rarr;
+        </Link>
       </div>
     </div>
   );

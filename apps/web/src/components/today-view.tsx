@@ -12,10 +12,13 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import type { ReadingFact } from "@daymaster/bazi-engine";
 import type { ReadingLine } from "@daymaster/content";
 import { stripHanCharacters } from "@daymaster/content";
+import { GuidanceBlock } from "@/components/guidance-block";
 import { ReadingCard } from "@/components/reading-card";
+import { WeekStrip } from "@/components/week-strip";
 import { useHanCharacters } from "@/components/han-characters-provider";
 import { addDays, daysBetween, formatLong, todayLabel } from "@/lib/dates";
 import { describeBranch, describeStem, palaceWord } from "@/lib/display";
@@ -202,6 +205,8 @@ export function TodayView({ profile }: Props) {
         )}
       </div>
 
+      <WeekStrip profile={profile} today={today} selectedISO={dateISO} onSelect={jumpTo} />
+
       <div className="flex flex-col items-center gap-2">
         {showHanCharacters ? (
           <span className="font-han text-4xl leading-none text-ink">
@@ -228,6 +233,15 @@ export function TodayView({ profile }: Props) {
           <ReadingCard key={index} line={line} />
         ))}
       </div>
+
+      <GuidanceBlock profile={profile} dateISO={dateISO} />
+
+      <Link
+        href="/dates/"
+        className="-mt-2 text-[13px] text-ink-soft underline underline-offset-2 hover:text-ink"
+      >
+        Find a day for something &rarr;
+      </Link>
 
       <div data-dos-donts className="grid gap-3 sm:grid-cols-2">
         <SuggestionList title="Worth doing" lines={bundle.reading.dos} />

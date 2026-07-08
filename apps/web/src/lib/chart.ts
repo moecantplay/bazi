@@ -15,11 +15,10 @@ import {
   type Chart,
   type ChartInput
 } from "@daymaster/bazi-engine";
-import type { StoredProfile } from "./profile";
+import type { StoredBirth, StoredConfig, StoredProfile } from "./profile";
 import { zonedTimeToUtc } from "./zoned-time";
 
-function chartInputFor(profile: StoredProfile): ChartInput {
-  const { birth, config } = profile;
+function birthChartInput(birth: StoredBirth, config: StoredConfig): ChartInput {
   const zone = birth.city.tz;
   const time = birth.time ?? "12:00";
   const instant = zonedTimeToUtc(birth.date, time, zone);
@@ -43,7 +42,16 @@ export function chartFor(profile: StoredProfile): Chart {
   if (cache && cache.key === key) {
     return cache.chart;
   }
-  const chart = computeChart(chartInputFor(profile));
+  const chart = computeChart(birthChartInput(profile.birth, profile.config));
   cache = { key, chart };
   return chart;
+}
+
+/**
+ * A chart for an arbitrary stored birth (a saved comparison person), computed
+ * under the primary profile's engine config so every chart on screen shares one
+ * set of assumptions. Not memoized — callers hold their own results.
+ */
+export function chartForBirth(birth: StoredBirth, config: StoredConfig): Chart {
+  return computeChart(birthChartInput(birth, config));
 }
