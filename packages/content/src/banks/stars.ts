@@ -55,9 +55,9 @@ function textureFor(input: StarInput): string {
   return STAR_TEXTURES[input.star] ?? GENERIC_TEXTURE;
 }
 
-/** A natal star line: "Your career palace carries the Scholar Star (文昌) — …". */
+/** A natal star line: "The Scholar Star (文昌) sits in your career palace — …". */
 export function natalStarLine(input: StarInput, palace: Palace): ReadingLine {
-  const text = `Your ${palaceWord(palace)} carries the ${input.english} (${input.chinese}) — ${glossFor(input)}. ${textureFor(input)}`;
+  const text = `The ${input.english} (${input.chinese}) sits in your ${palaceWord(palace)} — ${glossFor(input)}. ${textureFor(input)}`;
   return { text, factTag: `${input.chinese} ${input.english} · ${palaceWord(palace)}` };
 }
 
