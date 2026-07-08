@@ -21,6 +21,10 @@ import { ELEMENT_DAY_TEMPLATES, TEN_GOD_TEMPLATES } from "../src/banks/transit-d
 import { AGENCY_POOLS } from "../src/banks/agency.js";
 import { COMPARE_TEMPLATES } from "../src/banks/compare.js";
 import { LUCK_TEMPLATES } from "../src/banks/luck.js";
+import { STAR_TEMPLATES } from "../src/banks/stars.js";
+import { STAGE_TEMPLATES } from "../src/banks/stages.js";
+import { DO_DONT_TEMPLATES } from "../src/banks/dos-donts.js";
+import { LIFE_STAGE_GLOSSES, STAR_GLOSSES } from "../src/vocab.js";
 
 export const STEMS: readonly Stem[] = [
   "甲",
@@ -63,6 +67,9 @@ export const TEN_GODS: readonly string[] = [
 /** Fill every placeholder with a representative value so templates read as real lines. */
 function render(template: string): string {
   return template
+    .replaceAll("{whose}", "Today's")
+    .replaceAll("{transit}", "午")
+    .replaceAll("{natal}", "子")
     .replaceAll("{branches}", "子午")
     .replaceAll("{palaces}", "career palace")
     .replaceAll("{palace}", "career palace")
@@ -99,6 +106,11 @@ export function allBankLines(): string[] {
     ...Object.values(AGENCY_POOLS).flat(),
     ...COMPARE_TEMPLATES,
     ...LUCK_TEMPLATES,
+    ...STAR_TEMPLATES,
+    ...STAGE_TEMPLATES,
+    ...DO_DONT_TEMPLATES,
+    ...Object.values(STAR_GLOSSES).map((gloss) => `A star — ${gloss}.`),
+    ...Object.values(LIFE_STAGE_GLOSSES).map((gloss) => `A stage — ${gloss}.`),
   ];
   return raw.map(render);
 }
@@ -180,7 +192,13 @@ export function natalFactSets(): ReadingFact[][] {
           dominant,
           missing,
         },
-        { kind: "strength", value: dominant === "wood" ? "strong" : "weak" },
+        {
+          kind: "strength",
+          value: dominant === "wood" ? "strong" : "weak",
+          seasonal: dominant === "wood",
+          rooted: true,
+          backed: dominant === "fire",
+        },
         { kind: "favorable", elements: [dominant, missing[0] as Element] },
       ]);
     }
@@ -198,8 +216,19 @@ export function natalWithInteractions(): ReadingFact[] {
       dominant: "earth",
       missing: [],
     },
-    { kind: "strength", value: "strong" },
+    { kind: "strength", value: "strong", seasonal: true, rooted: true, backed: false },
     { kind: "favorable", elements: ["water", "metal"] },
+    { kind: "star", star: "wenchang-scholar", chinese: "文昌", english: "Scholar Star", palace: "hour" },
+    { kind: "star", star: "taohua-peach-blossom", chinese: "咸池", english: "Peach Blossom", palace: "day" },
+    { kind: "star", star: "kongwang-void", chinese: "空亡", english: "Void", palace: "year" },
+    { kind: "star", star: "yima-travel-horse", chinese: "驛馬", english: "Travel Horse", palace: "month" },
+    {
+      kind: "life-stage",
+      palace: "day",
+      branch: "辰",
+      stage: { chinese: "冠帶", english: "Coming of Age" },
+    },
+    { kind: "na-yin", palace: "day", chinese: "大林木", english: "Great Forest Wood", element: "wood" },
     {
       kind: "natal-interaction",
       interaction: "six-combine",
@@ -265,8 +294,23 @@ export function dailyFactSet(
       branches: ["子", "午"],
       natalPalaces: [natalPalace],
       transitPalace,
+      transitBranch: "午",
     },
     { kind: "element-day", element: options.element ?? "wood", favorable: options.favorable ?? true },
     { kind: "ten-god-day", god: options.god ?? "比肩", english: options.english ?? "Friend" },
+    {
+      kind: "star-day",
+      star: "yima-travel-horse",
+      chinese: "驛馬",
+      english: "Travel Horse",
+      transitPalace,
+    },
+    { kind: "stage-day", stage: { chinese: "帝旺", english: "Peak" } },
   ];
 }
+
+/** Every star key the engine can emit, for exhaustive star-day checking. */
+export const STAR_KEYS: readonly string[] = Object.keys(STAR_GLOSSES);
+
+/** Every life-stage english label, for exhaustive stage-day checking. */
+export const STAGE_LABELS: readonly string[] = Object.keys(LIFE_STAGE_GLOSSES);

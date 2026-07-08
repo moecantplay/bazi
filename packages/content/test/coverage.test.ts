@@ -11,9 +11,12 @@ import {
   ELEMENTS,
   INTERACTIONS,
   NATAL_PALACES,
+  STAGE_LABELS,
+  STAR_KEYS,
   STEMS,
   TEN_GODS,
   dailyFactSet,
+  natalWithInteractions,
 } from "./collect.js";
 
 const SEED = "coverage-seed";
@@ -88,7 +91,9 @@ describe("coverage: natal", () => {
 
   it("both strength values yield a line", () => {
     for (const value of ["strong", "weak"] as const) {
-      const text = natalText([{ kind: "strength", value }]);
+      const text = natalText([
+        { kind: "strength", value, seasonal: value === "strong", rooted: true, backed: false },
+      ]);
       expect(text.length, `strength ${value}`).toBeGreaterThan(0);
     }
   });
@@ -139,8 +144,12 @@ describe("coverage: daily", () => {
         for (const transitPalace of ["daily", "annual"] as const) {
           const reading = dailyReading(dailyFactSet(interaction, palace, transitPalace), SEED);
           expect(reading.lines.length, `${interaction}/${palace}/${transitPalace}`).toBeGreaterThanOrEqual(2);
-          expect(reading.lines.length).toBeLessThanOrEqual(4);
+          expect(reading.lines.length).toBeLessThanOrEqual(6);
           expect(reading.agency.text.length).toBeGreaterThan(0);
+          expect(reading.dos.length, "dos always present").toBeGreaterThanOrEqual(1);
+          expect(reading.dos.length).toBeLessThanOrEqual(2);
+          expect(reading.donts.length, "donts always present").toBeGreaterThanOrEqual(1);
+          expect(reading.donts.length).toBeLessThanOrEqual(2);
         }
       }
     }
@@ -154,6 +163,7 @@ describe("coverage: daily", () => {
         branches: ["子", "午"],
         natalPalaces: ["month"],
         transitPalace: "daily",
+        transitBranch: "午",
       },
     ];
     const reading = dailyReading(facts, SEED);
@@ -194,5 +204,53 @@ describe("coverage: daily", () => {
     expect(reading.lines.length).toBe(2);
     expect(reading.agency.text.length).toBeGreaterThan(0);
     expect(reading.agency.factTag).toBeNull();
+  });
+
+  it("a minimal reading still offers one do and one don't (generic fallback)", () => {
+    const reading = dailyReading(
+      [{ kind: "ten-god-day", god: "正官", english: "Direct Officer" }],
+      SEED,
+    );
+    expect(reading.dos.length).toBe(1);
+    expect(reading.donts.length).toBe(1);
+    expect(reading.dos[0]?.factTag).toBeNull();
+    expect(reading.donts[0]?.factTag).toBeNull();
+  });
+
+  it("every star key yields a star-day line naming the star", () => {
+    for (const star of STAR_KEYS) {
+      const text = dailyText([
+        { kind: "star-day", star, chinese: "星", english: `Star ${star}`, transitPalace: "daily" },
+      ]);
+      expect(text, star).toContain(`Star ${star}`);
+    }
+  });
+
+  it("every life-stage label yields a stage-day line naming the stage", () => {
+    for (const label of STAGE_LABELS) {
+      const text = dailyText([
+        { kind: "stage-day", stage: { chinese: "段", english: label } },
+      ]);
+      expect(text, label).toContain(`'${label}' stage`);
+    }
+  });
+});
+
+describe("coverage: natal stars and strength why", () => {
+  it("natal star facts produce a stars section capped at three lines", () => {
+    const reading = natalReading(natalWithInteractions(), SEED);
+    const stars = reading.sections.find((section) => section.key === "stars");
+    expect(stars).toBeDefined();
+    expect(stars!.lines.length).toBeGreaterThanOrEqual(1);
+    expect(stars!.lines.length).toBeLessThanOrEqual(3);
+  });
+
+  it("the strength verdict is followed by its three-check explanation", () => {
+    const reading = natalReading(natalWithInteractions(), SEED);
+    const elements = reading.sections.find((section) => section.key === "elements");
+    const why = elements?.lines.find((line) => line.factTag === "strength · three checks");
+    expect(why).toBeDefined();
+    expect(why!.text).toContain("Three checks");
+    expect(why!.text).toContain("得令");
   });
 });

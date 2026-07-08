@@ -37,6 +37,7 @@ describe("factTag correctness", () => {
         branches: ["子", "午"],
         natalPalaces: ["month"],
         transitPalace: "daily",
+        transitBranch: "午",
       },
     ];
     const reading = dailyReading(facts, "seed");

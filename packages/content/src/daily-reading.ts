@@ -1,8 +1,8 @@
 /**
  * Assemble a daily reading. Body lines are prioritised: transit interactions
- * first, then the element of the day, then the day's Ten God. Every reading is
- * 2–4 body lines plus one agency line, which is always present and rendered
- * last.
+ * first, then the element of the day, the day's Ten God, at most one activated
+ * star, and the day's life stage. Do's and don'ts (1–2 each) are derived from
+ * the same facts; the agency line is always present and rendered last.
  *
  * Deterministic in (facts, seedKey). No chart math — facts carry everything.
  */
@@ -12,16 +12,33 @@ import type { DailyReading, ReadingLine } from "./types.js";
 import { pick, pickDistinct } from "./hash.js";
 import { transitInteractionLine } from "./banks/transit-interactions.js";
 import { elementDayLine, tenGodDayLine } from "./banks/transit-days.js";
+import { starDayLine } from "./banks/stars.js";
+import { stageDayLine } from "./banks/stages.js";
+import {
+  ELEMENT_DOS,
+  ELEMENT_DONTS,
+  GENERIC_DOS,
+  GENERIC_DONTS,
+  INTERACTION_DOS,
+  INTERACTION_DONTS,
+  STAR_DOS,
+  STAR_DONTS,
+  doDontLine,
+  type DoDontCandidate,
+} from "./banks/dos-donts.js";
 import { AGENCY_POOLS, agencyTagForPalace, type AgencyTag } from "./banks/agency.js";
+import { elementWord, interactionWord, transitWhen } from "./vocab.js";
 
 type FactOf<K extends ReadingFact["kind"]> = Extract<ReadingFact, { kind: K }>;
 
 const MAX_TRANSIT_LINES = 2;
+const MAX_SUGGESTIONS = 2;
 
-function transitFacts(facts: readonly ReadingFact[]): FactOf<"transit-interaction">[] {
-  return facts.filter(
-    (fact): fact is FactOf<"transit-interaction"> => fact.kind === "transit-interaction",
-  );
+function factsOf<K extends ReadingFact["kind"]>(
+  facts: readonly ReadingFact[],
+  kind: K,
+): FactOf<K>[] {
+  return facts.filter((fact): fact is FactOf<K> => fact.kind === kind);
 }
 
 /** Up to MAX_TRANSIT_LINES transit facts, seed-chosen when there are more. */
@@ -45,10 +62,76 @@ function transitLines(
         branches: fact.branches,
         natalPalaces: fact.natalPalaces,
         transitPalace: fact.transitPalace,
+        transitBranch: fact.transitBranch,
       },
       seedKey,
     ),
   );
+}
+
+/** Collect every justified do/don't candidate, in stable fact order. */
+function suggestionCandidates(
+  facts: readonly ReadingFact[],
+  chosenTransits: readonly FactOf<"transit-interaction">[],
+): { dos: DoDontCandidate[]; donts: DoDontCandidate[] } {
+  const dos: DoDontCandidate[] = [];
+  const donts: DoDontCandidate[] = [];
+
+  for (const transit of chosenTransits) {
+    const tag = `${transit.branches.join("")} ${interactionWord(transit.interaction)} · ${transitWhen(transit.transitPalace)}`;
+    const doText = INTERACTION_DOS[transit.interaction];
+    if (doText) {
+      dos.push({ text: doText, factTag: tag });
+    }
+    const dontText = INTERACTION_DONTS[transit.interaction];
+    if (dontText) {
+      donts.push({ text: dontText, factTag: tag });
+    }
+  }
+
+  const elementDay = facts.find(
+    (fact): fact is FactOf<"element-day"> => fact.kind === "element-day",
+  );
+  if (elementDay) {
+    if (elementDay.favorable) {
+      dos.push({
+        text: ELEMENT_DOS[elementDay.element],
+        factTag: `${elementWord(elementDay.element)} day · suits you`,
+      });
+    } else {
+      donts.push({
+        text: ELEMENT_DONTS[elementDay.element],
+        factTag: `${elementWord(elementDay.element)} day · against your grain`,
+      });
+    }
+  }
+
+  for (const star of factsOf(facts, "star-day")) {
+    const tag = `${star.chinese} ${star.english} · ${transitWhen(star.transitPalace)}`;
+    const doText = STAR_DOS[star.star];
+    if (doText) {
+      dos.push({ text: doText, factTag: tag });
+    }
+    const dontText = STAR_DONTS[star.star];
+    if (dontText) {
+      donts.push({ text: dontText, factTag: tag });
+    }
+  }
+
+  return { dos, donts };
+}
+
+/** 1–2 suggestions: justified candidates first, generic fallback when dry. */
+function chooseSuggestions(
+  candidates: readonly DoDontCandidate[],
+  fallback: readonly string[],
+  seedKey: string,
+  salt: string,
+): ReadingLine[] {
+  if (candidates.length === 0) {
+    return [{ text: pick(fallback, seedKey, salt), factTag: null }];
+  }
+  return pickDistinct(candidates, MAX_SUGGESTIONS, seedKey, salt).map(doDontLine);
 }
 
 /** Pick the agency line, echoing a DISPLAYED transit's palace when one exists. */
@@ -70,7 +153,7 @@ function agencyLine(
 
 /** Build the full daily reading. */
 export function dailyReading(facts: ReadingFact[], seedKey: string): DailyReading {
-  const transits = transitFacts(facts);
+  const transits = factsOf(facts, "transit-interaction");
   const chosen = chooseTransits(transits, seedKey);
   const lines: ReadingLine[] = [...transitLines(chosen, seedKey)];
 
@@ -86,5 +169,22 @@ export function dailyReading(facts: ReadingFact[], seedKey: string): DailyReadin
     lines.push(tenGodDayLine(tenGod.english, tenGod.god));
   }
 
-  return { lines, agency: agencyLine(chosen, seedKey) };
+  const starDays = factsOf(facts, "star-day");
+  if (starDays.length > 0) {
+    const star = pick(starDays, seedKey, "stardaysel");
+    lines.push(starDayLine(star, star.transitPalace));
+  }
+
+  const stageDay = facts.find((fact): fact is FactOf<"stage-day"> => fact.kind === "stage-day");
+  if (stageDay) {
+    lines.push(stageDayLine(stageDay.stage));
+  }
+
+  const candidates = suggestionCandidates(facts, chosen);
+  return {
+    lines,
+    dos: chooseSuggestions(candidates.dos, GENERIC_DOS, seedKey, "dos"),
+    donts: chooseSuggestions(candidates.donts, GENERIC_DONTS, seedKey, "donts"),
+    agency: agencyLine(chosen, seedKey),
+  };
 }

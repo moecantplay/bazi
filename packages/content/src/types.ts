@@ -14,7 +14,7 @@ export interface ReadingLine {
 }
 
 /** Stable machine identifiers for natal sections; display titles may change. */
-export type ReadingSectionKey = "day-master" | "elements" | "favorable" | "structure";
+export type ReadingSectionKey = "day-master" | "elements" | "favorable" | "structure" | "stars";
 
 /** A titled group of lines within a natal reading. */
 export interface ReadingSection {
@@ -29,9 +29,13 @@ export interface NatalReading {
   sections: ReadingSection[];
 }
 
-/** A daily reading: the body lines plus the always-present agency line. */
+/** A daily reading: body lines, do/don't suggestions, and the agency line. */
 export interface DailyReading {
   lines: ReadingLine[];
+  /** Small actions the day's grain makes cheaper (1–2, always present). */
+  dos: ReadingLine[];
+  /** Things worth postponing today (1–2, always present), never prohibitions. */
+  donts: ReadingLine[];
   /** One concrete thing to do today, always present, rendered last. */
   agency: ReadingLine;
 }
