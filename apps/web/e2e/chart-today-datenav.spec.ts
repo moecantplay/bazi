@@ -48,4 +48,30 @@ test("seeded chart renders and Today's date nav works and clamps", async ({ page
   }
   await expect(next).toBeDisabled();
   await expect(page.getByText(longDate(addDays(TODAY, 30)))).toBeVisible();
+
+  // Past midnight, regaining visibility re-anchors the strip to the new day —
+  // a PWA reopened the next morning must not keep showing yesterday.
+  await page.getByRole("button", { name: "Back to today" }).click();
+  await expect(page.getByText(longDate(TODAY))).toBeVisible();
+  await page.evaluate((iso) => {
+    const fixed = new Date(iso).getTime();
+    const RealDate = Date;
+    class FakeDate extends RealDate {
+      constructor(...args: unknown[]) {
+        if (args.length === 0) {
+          super(fixed);
+        } else {
+          // @ts-expect-error forward arbitrary Date constructor args
+          super(...args);
+        }
+      }
+      static now() {
+        return fixed;
+      }
+    }
+    // @ts-expect-error replace the global Date with the re-pinned subclass
+    window.Date = FakeDate;
+    document.dispatchEvent(new Event("visibilitychange"));
+  }, `${addDays(TODAY, 1)}T09:00:00Z`);
+  await expect(page.getByText(longDate(addDays(TODAY, 1)))).toBeVisible();
 });

@@ -9,7 +9,7 @@
 
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { ReadingFact } from "@daymaster/bazi-engine";
 import type { ReadingLine } from "@daymaster/content";
 import { stripHanCharacters } from "@daymaster/content";
@@ -76,8 +76,35 @@ interface Props {
   profile: StoredProfile;
 }
 
+/**
+ * The device's current date, re-checked whenever the app regains focus or
+ * visibility — a PWA reopened after midnight must show the new day, not the
+ * day it was backgrounded on.
+ */
+function useTodayLabel(): string {
+  const [today, setToday] = useState(() => todayLabel());
+
+  useEffect(() => {
+    function refresh() {
+      if (document.visibilityState === "hidden") {
+        return;
+      }
+      const fresh = todayLabel();
+      setToday((current) => (current === fresh ? current : fresh));
+    }
+    window.addEventListener("focus", refresh);
+    document.addEventListener("visibilitychange", refresh);
+    return () => {
+      window.removeEventListener("focus", refresh);
+      document.removeEventListener("visibilitychange", refresh);
+    };
+  }, []);
+
+  return today;
+}
+
 export function TodayView({ profile }: Props) {
-  const [today] = useState(() => todayLabel());
+  const today = useTodayLabel();
   const [offset, setOffset] = useState(0);
 
   const dateISO = addDays(today, offset);
