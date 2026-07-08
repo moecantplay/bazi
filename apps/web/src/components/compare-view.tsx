@@ -1,7 +1,7 @@
 /**
  * The Compare reading: both charts' pillars side by side (compact, no ten-god
- * captions), then the comparison lines as cited cards. "Change person" swaps
- * the companion out; the reading itself comes from lib/compare.ts.
+ * captions), then the comparison lines as cited cards. "Change person" returns
+ * to the saved-people picker; the reading itself comes from lib/compare.ts.
  */
 
 "use client";
@@ -11,15 +11,18 @@ import { PillarColumns } from "@/components/pillar-columns";
 import { ReadingCard } from "@/components/reading-card";
 import { compareBundleFor } from "@/lib/compare";
 import { chartFor } from "@/lib/chart";
-import type { StoredBirth, StoredProfile } from "@/lib/profile";
+import { formatLong } from "@/lib/dates";
+import type { StoredPerson } from "@/lib/people";
+import type { StoredProfile } from "@/lib/profile";
 
 interface Props {
   profile: StoredProfile;
-  companion: StoredBirth;
+  person: StoredPerson;
   onChangePerson: () => void;
 }
 
-export function CompareView({ profile, companion, onChangePerson }: Props) {
+export function CompareView({ profile, person, onChangePerson }: Props) {
+  const companion = person.birth;
   const yourChart = chartFor(profile);
   const { companionChart, reading } = compareBundleFor(profile, companion);
 
@@ -39,9 +42,11 @@ export function CompareView({ profile, companion, onChangePerson }: Props) {
 
       <section className="flex flex-col gap-4">
         <div className="flex items-baseline justify-between">
-          <h2 className="text-[13px] font-medium uppercase tracking-wide text-ink-soft">Them</h2>
+          <h2 className="text-[13px] font-medium uppercase tracking-wide text-ink-soft">
+            {person.name}
+          </h2>
           <span className="text-[12px] text-ink-soft">
-            born {companion.date}
+            born {formatLong(companion.date)}
             {companion.time ? ` · ${companion.time}` : " · time unknown"} · {companion.city.name}
           </span>
         </div>

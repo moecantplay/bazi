@@ -12,8 +12,8 @@ import { Button } from "@/components/button";
 import { Toggle } from "@/components/toggle";
 import { BACKUP_FILENAME, serializeBackup } from "@/lib/backup";
 import { DISCLAIMER } from "@/lib/copy";
-import { clearCompanion } from "@/lib/compare-profile";
 import { formatLong } from "@/lib/dates";
+import { clearPeople } from "@/lib/people";
 import { clearHanCharactersPreference } from "@/lib/han-characters";
 import { clearStreak } from "@/lib/streak";
 import { useHanCharacters } from "@/components/han-characters-provider";
@@ -91,7 +91,7 @@ export function SettingsContent({ profile }: Props) {
 
   function handleDelete() {
     clearProfile();
-    clearCompanion();
+    clearPeople();
     clearThemePreference();
     clearHanCharactersPreference();
     clearStreak();

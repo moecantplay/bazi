@@ -40,15 +40,18 @@ export async function seedProfile(context: BrowserContext, profile: unknown): Pr
   );
 }
 
-export const COMPARE_KEY = "daymaster.compare.v1";
+export const PEOPLE_KEY = "daymaster.people.v1";
+export const PEOPLE_ACTIVE_KEY = "daymaster.people-active.v1";
 
-/** Seed the stored comparison companion before the app loads. */
+/** Seed one saved comparison person, already selected, before the app loads. */
 export async function seedCompanion(context: BrowserContext, birth: unknown): Promise<void> {
+  const person = { id: "seeded-person", name: "Them", birth };
   await context.addInitScript(
-    ([key, json]) => {
-      window.localStorage.setItem(key, json);
+    ([peopleKey, activeKey, json, id]) => {
+      window.localStorage.setItem(peopleKey, json);
+      window.localStorage.setItem(activeKey, id);
     },
-    [COMPARE_KEY, JSON.stringify(birth)] as const
+    [PEOPLE_KEY, PEOPLE_ACTIVE_KEY, JSON.stringify([person]), person.id] as const
   );
 }
 

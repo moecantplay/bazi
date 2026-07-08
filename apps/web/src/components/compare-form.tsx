@@ -1,7 +1,8 @@
 /**
- * The second-person birth form for Compare: date, time (or unknown), city,
- * sex. One compact card rather than the onboarding steps — the reader has
- * done this before. Saving hands the validated birth back to the screen.
+ * The second-person birth form for Compare: a name to file them under, then
+ * date, time (or unknown), city, sex. One compact card rather than the
+ * onboarding steps — the reader has done this before. Saving hands the name
+ * and validated birth back to the screen, which stores them as a person.
  */
 
 "use client";
@@ -13,7 +14,9 @@ import { isYearInRange } from "@/lib/pillars";
 import type { Sex, StoredBirth, StoredCity } from "@/lib/profile";
 
 interface Props {
-  onSave: (birth: StoredBirth) => void;
+  onSave: (name: string, birth: StoredBirth) => void;
+  /** Softens the intro copy when a saved-people list sits above the form. */
+  hasSavedPeople?: boolean;
 }
 
 const SEX_OPTIONS: { value: Sex; label: string }[] = [
@@ -21,7 +24,8 @@ const SEX_OPTIONS: { value: Sex; label: string }[] = [
   { value: "male", label: "Male" }
 ];
 
-export function CompareForm({ onSave }: Props) {
+export function CompareForm({ onSave, hasSavedPeople = false }: Props) {
+  const [name, setName] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [unknownTime, setUnknownTime] = useState(false);
@@ -36,7 +40,7 @@ export function CompareForm({ onSave }: Props) {
     if (!canSave || city === null || sex === null) {
       return;
     }
-    onSave({
+    onSave(name.trim() || "Them", {
       date,
       time: unknownTime ? null : time,
       city,
@@ -47,9 +51,21 @@ export function CompareForm({ onSave }: Props) {
   return (
     <div className="flex flex-col gap-6">
       <p className="text-[15px] leading-relaxed text-ink-soft">
-        Enter a second person&rsquo;s birth details to read how your two charts meet. Their
-        details stay on this device, like yours.
+        {hasSavedPeople
+          ? "Or add someone new. Their details stay on this device, like yours."
+          : "Enter a second person’s birth details to read how your two charts meet. Their details stay on this device, like yours."}
       </p>
+
+      <label className="flex flex-col gap-2">
+        <span className="text-sm text-ink">Their name</span>
+        <input
+          type="text"
+          value={name}
+          placeholder="So you can find them again"
+          onChange={(event) => setName(event.target.value)}
+          className="w-full rounded-lg border border-ink-soft bg-paper-raised px-4 py-3 text-base text-ink placeholder:text-ink-soft"
+        />
+      </label>
 
       <label className="flex flex-col gap-2">
         <span className="text-sm text-ink">Their birth date</span>

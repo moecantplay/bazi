@@ -5,17 +5,16 @@
  * envelope is versioned so a future schema can still read old files.
  */
 
-import { loadCompanion, saveCompanion } from "./compare-profile";
 import {
   loadHanCharactersPreference,
   saveHanCharactersPreference
 } from "./han-characters";
+import { loadPeople, savePeople, type StoredPerson } from "./people";
 import {
   isStoredBirth,
   isStoredProfile,
   loadProfile,
   saveProfile,
-  type StoredBirth,
   type StoredProfile
 } from "./profile";
 import { loadThemePreference, saveThemePreference } from "./theme";
@@ -25,7 +24,7 @@ export interface BackupFile {
   version: 1;
   exportedAt: string; // ISO
   profile: StoredProfile;
-  companion: StoredBirth | null;
+  people: StoredPerson[];
   theme: "system" | "light" | "dark";
   showHanCharacters: boolean;
 }
@@ -43,7 +42,7 @@ export function serializeBackup(): string | null {
     version: 1,
     exportedAt: new Date().toISOString(),
     profile,
-    companion: loadCompanion(),
+    people: loadPeople(),
     theme: loadThemePreference(),
     showHanCharacters: loadHanCharactersPreference()
   };
@@ -52,19 +51,31 @@ export function serializeBackup(): string | null {
 
 export type ImportResult = "ok" | "invalid" | "storage";
 
+function isPersonEntry(value: unknown): value is StoredPerson {
+  if (typeof value !== "object" || value === null) {
+    return false;
+  }
+  const person = value as Record<string, unknown>;
+  return (
+    typeof person.id === "string" &&
+    typeof person.name === "string" &&
+    isStoredBirth(person.birth)
+  );
+}
+
 function isBackup(value: unknown): value is BackupFile {
   if (typeof value !== "object" || value === null) {
     return false;
   }
   const backup = value as Record<string, unknown>;
-  const companionOk = backup.companion === null || isStoredBirth(backup.companion);
+  const peopleOk = Array.isArray(backup.people) && backup.people.every(isPersonEntry);
   const themeOk =
     backup.theme === "system" || backup.theme === "light" || backup.theme === "dark";
   return (
     backup.app === "daymaster" &&
     backup.version === 1 &&
     isStoredProfile(backup.profile) &&
-    companionOk &&
+    peopleOk &&
     themeOk &&
     typeof backup.showHanCharacters === "boolean"
   );
@@ -84,8 +95,8 @@ export function importBackup(raw: string): ImportResult {
   if (!saveProfile(parsed.profile)) {
     return "storage";
   }
-  if (parsed.companion !== null) {
-    saveCompanion(parsed.companion);
+  if (parsed.people.length > 0) {
+    savePeople(parsed.people);
   }
   saveThemePreference(parsed.theme);
   saveHanCharactersPreference(parsed.showHanCharacters);

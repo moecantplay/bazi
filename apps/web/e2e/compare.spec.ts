@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { FIXTURE_A, seedProfile } from "./helpers";
 
-const COMPARE_KEY = "daymaster.compare.v1";
+const LEGACY_COMPARE_KEY = "daymaster.compare.v1";
 
 test("compare flow: enter a second person, read the pair, change person", async ({
   page,
@@ -31,9 +31,71 @@ test("compare flow: enter a second person, read the pair, change person", async 
   await page.reload();
   await expect(page.locator("[data-compare-reading]")).toBeVisible();
 
-  // Change person returns to the form and clears storage.
+  // Change person returns to the picker; the person stays saved by name.
   await page.getByRole("button", { name: "Change person" }).click();
   await expect(page.getByRole("button", { name: "Read the pair" })).toBeVisible();
-  const stored = await page.evaluate((key) => window.localStorage.getItem(key), COMPARE_KEY);
+  await expect(page.getByText("Saved people")).toBeVisible();
+  const stored = await page.evaluate(
+    (key) => window.localStorage.getItem(key),
+    LEGACY_COMPARE_KEY
+  );
   expect(stored).toBeNull();
+});
+
+test("saved people: add two, switch without re-entry, remove one", async ({ page, context }) => {
+  await seedProfile(context, FIXTURE_A);
+
+  await page.goto("/compare/");
+  await page.getByLabel("Their name").fill("Ana");
+  await page.getByLabel("Their birth date").fill("1949-10-01");
+  await page.getByLabel("Their birth time").fill("12:00");
+  await page.getByPlaceholder("Search for your birth city").fill("Jakarta");
+  await page.getByRole("option", { name: /Jakarta, Indonesia/ }).getByRole("button").click();
+  await page.getByRole("radio", { name: "Female" }).click();
+  await page.getByRole("button", { name: "Read the pair" }).click();
+  await expect(page.getByRole("heading", { name: "Ana" })).toBeVisible();
+
+  // Add a second person from the picker.
+  await page.getByRole("button", { name: "Change person" }).click();
+  await page.getByLabel("Their name").fill("Bo");
+  await page.getByLabel("Their birth date").fill("1994-12-09");
+  await page.getByLabel("Their birth time").fill("08:00");
+  await page.getByPlaceholder("Search for your birth city").fill("Jakarta");
+  await page.getByRole("option", { name: /Jakarta, Indonesia/ }).getByRole("button").click();
+  await page.getByRole("radio", { name: "Male", exact: true }).click();
+  await page.getByRole("button", { name: "Read the pair" }).click();
+  await expect(page.getByRole("heading", { name: "Bo" })).toBeVisible();
+
+  // Switch back to Ana straight from the list — no re-entry.
+  await page.getByRole("button", { name: "Change person" }).click();
+  await page.getByRole("button", { name: /^Ana/ }).click();
+  await expect(page.getByRole("heading", { name: "Ana" })).toBeVisible();
+
+  // Remove Bo; only Ana remains saved.
+  await page.getByRole("button", { name: "Change person" }).click();
+  await page.getByRole("button", { name: "Remove Bo" }).click();
+  await expect(page.getByRole("button", { name: /^Bo/ })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: /^Ana/ })).toBeVisible();
+});
+
+test("a legacy single companion migrates to a saved person", async ({ page, context }) => {
+  await seedProfile(context, FIXTURE_A);
+  await context.addInitScript(
+    ([key, json]) => {
+      window.localStorage.setItem(key, json);
+    },
+    [
+      LEGACY_COMPARE_KEY,
+      JSON.stringify({
+        date: "1949-10-01",
+        time: "12:00",
+        city: FIXTURE_A.birth.city,
+        sex: "male"
+      })
+    ] as const
+  );
+
+  await page.goto("/compare/");
+  await expect(page.getByRole("heading", { name: "Them" })).toBeVisible();
+  await expect(page.locator("[data-compare-reading]")).toBeVisible();
 });
