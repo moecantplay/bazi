@@ -9,7 +9,7 @@
 
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import {
   DAY_MASTER_GLOSS,
   LIFE_STAGE_GLOSS,
@@ -24,6 +24,7 @@ import { Seal } from "@/components/seal";
 import { ElementBalance } from "@/components/element-balance";
 import { ElementChips } from "@/components/element-chips";
 import { ReadingCard } from "@/components/reading-card";
+import { ShareActions } from "@/components/share-actions";
 import { chartFor } from "@/lib/chart";
 import { natalReadingFor } from "@/lib/reading";
 import type { StoredProfile } from "@/lib/profile";
@@ -99,10 +100,22 @@ export function ChartView({ profile }: Props) {
   const taiYuanStem = describeStem(chart.taiYuan.stem);
   const taiYuanBranch = describeBranch(chart.taiYuan.branch);
   const [pillarDetailOpen, setPillarDetailOpen] = useState(false);
+  const sealContainerRef = useRef<HTMLDivElement>(null);
+
+  const presentPillars = [chart.year, chart.month, chart.day, chart.hour].filter(
+    (pillar) => pillar !== null
+  );
+  const pillarLine = presentPillars
+    .map((pillar) =>
+      showHanCharacters
+        ? `${pillar.stem}${pillar.branch}`
+        : `${describeStem(pillar.stem).gloss} ${describeBranch(pillar.branch).gloss}`
+    )
+    .join(" · ");
 
   return (
     <div className="flex flex-col gap-10">
-      <div className="flex justify-center">
+      <div ref={sealContainerRef} className="flex justify-center">
         <Seal pillars={[chart.year, chart.month, chart.day, chart.hour]} />
       </div>
 
@@ -177,6 +190,15 @@ export function ChartView({ profile }: Props) {
             ))}
           </CollapsibleSection>
         </section>
+      )}
+
+      {archetype && (
+        <ShareActions
+          sealContainerRef={sealContainerRef}
+          pillarLine={pillarLine}
+          archetype={display(archetype.text)}
+          birth={profile.birth}
+        />
       )}
 
       <p className="text-[12px] leading-relaxed text-ink-soft">

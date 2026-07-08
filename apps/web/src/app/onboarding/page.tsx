@@ -27,7 +27,8 @@ import { RevealStep } from "@/components/onboarding/reveal-step";
 import { SexStep } from "@/components/onboarding/sex-step";
 import { TimeStep } from "@/components/onboarding/time-step";
 import { importBackup, type ImportResult } from "@/lib/backup";
-import type { StoredBirth, StoredCity } from "@/lib/profile";
+import { loadProfile, type StoredBirth, type StoredCity } from "@/lib/profile";
+import { decodeShareParam, SHARE_PARAM, stashIncomingShare } from "@/lib/share-link";
 
 const GATHERING_STEPS = 5;
 const REVEAL_STEP = GATHERING_STEPS; // index 5
@@ -42,11 +43,33 @@ export default function OnboardingPage() {
   const router = useRouter();
   const [{ step, draft }, setFlow] = useState(() => loadDraftEnvelope());
   const [restoreError, setRestoreError] = useState<string | null>(null);
+  const [sharedChartWaiting, setSharedChartWaiting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     saveDraftEnvelope({ step, draft });
   }, [step, draft]);
+
+  // A ?share= link carries someone's chart for comparison. With a profile it
+  // goes straight to Compare; on a fresh device it waits until onboarding is
+  // done, and a notice on the first step says so.
+  useEffect(() => {
+    const value = new URLSearchParams(window.location.search).get(SHARE_PARAM);
+    if (value === null) {
+      return;
+    }
+    const birth = decodeShareParam(value);
+    if (birth === null) {
+      return;
+    }
+    stashIncomingShare(birth);
+    if (loadProfile() !== null) {
+      router.replace("/compare");
+      return;
+    }
+    window.history.replaceState(null, "", "/onboarding/");
+    setSharedChartWaiting(true);
+  }, [router]);
 
   function update(partial: Partial<OnboardingDraft>) {
     setFlow((current) => ({ ...current, draft: { ...current.draft, ...partial } }));
@@ -132,6 +155,12 @@ export default function OnboardingPage() {
 
         {step === 0 && (
           <footer className="pb-2 pt-5 text-center">
+            {sharedChartWaiting && (
+              <p className="mb-3 text-[13px] leading-relaxed text-ink-soft">
+                A chart came with your link. Set up your own first — you&rsquo;ll find theirs
+                waiting in Compare.
+              </p>
+            )}
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}

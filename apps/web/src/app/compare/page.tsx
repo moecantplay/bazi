@@ -16,10 +16,15 @@ import {
   type StoredPerson
 } from "@/lib/people";
 import type { StoredBirth } from "@/lib/profile";
+import { takeIncomingShare } from "@/lib/share-link";
 
 export default function ComparePage() {
+  // A chart that arrived via share link prefills the add-person form.
+  const [incoming] = useState<StoredBirth | null>(() => takeIncomingShare());
   const [people, setPeople] = useState<StoredPerson[]>(() => loadPeople());
-  const [activeId, setActiveId] = useState<string | null>(() => loadActivePersonId());
+  const [activeId, setActiveId] = useState<string | null>(() =>
+    incoming !== null ? null : loadActivePersonId()
+  );
 
   const active = people.find((person) => person.id === activeId) ?? null;
 
@@ -89,7 +94,11 @@ export default function ComparePage() {
                   </ul>
                 </section>
               )}
-              <CompareForm onSave={handleAdd} hasSavedPeople={people.length > 0} />
+              <CompareForm
+                onSave={handleAdd}
+                hasSavedPeople={people.length > 0}
+                initialBirth={incoming ?? undefined}
+              />
             </div>
           )}
         </AppShell>

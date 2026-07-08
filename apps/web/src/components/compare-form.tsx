@@ -17,6 +17,8 @@ interface Props {
   onSave: (name: string, birth: StoredBirth) => void;
   /** Softens the intro copy when a saved-people list sits above the form. */
   hasSavedPeople?: boolean;
+  /** Prefills the form — a chart that arrived via share link. */
+  initialBirth?: StoredBirth;
 }
 
 const SEX_OPTIONS: { value: Sex; label: string }[] = [
@@ -24,13 +26,13 @@ const SEX_OPTIONS: { value: Sex; label: string }[] = [
   { value: "male", label: "Male" }
 ];
 
-export function CompareForm({ onSave, hasSavedPeople = false }: Props) {
+export function CompareForm({ onSave, hasSavedPeople = false, initialBirth }: Props) {
   const [name, setName] = useState("");
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
-  const [unknownTime, setUnknownTime] = useState(false);
-  const [city, setCity] = useState<StoredCity | null>(null);
-  const [sex, setSex] = useState<Sex | null>(null);
+  const [date, setDate] = useState(initialBirth?.date ?? "");
+  const [time, setTime] = useState(initialBirth?.time ?? "");
+  const [unknownTime, setUnknownTime] = useState(initialBirth ? initialBirth.time === null : false);
+  const [city, setCity] = useState<StoredCity | null>(initialBirth?.city ?? null);
+  const [sex, setSex] = useState<Sex | null>(initialBirth?.sex ?? null);
 
   const dateOk = date.length > 0 && isYearInRange(date);
   const timeOk = unknownTime || time.length > 0;
