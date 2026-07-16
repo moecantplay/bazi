@@ -53,7 +53,7 @@ function CurrentCard({ luck, currentYear }: { luck: LuckPillar; currentYear: num
   const branchElement = describeBranch(luck.pillar.branch).element;
 
   return (
-    <div className="rounded-xl border border-hairline bg-paper-raised p-4 shadow-sm">
+    <div className="rounded-xl border border-hairline bg-paper-raised dark-borderless p-4 shadow-sm">
       <div className="text-[11px] uppercase tracking-wide text-ink-soft">Current decade</div>
       <div className="mt-2 flex items-end justify-between gap-3">
         <div>

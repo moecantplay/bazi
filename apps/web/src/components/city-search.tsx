@@ -136,7 +136,7 @@ export function CitySearch({ selected, onSelect }: Props) {
             setActiveIndex(0);
           }}
           onKeyDown={handleKeyDown}
-          className="w-full rounded-lg border border-ink-soft bg-paper-raised py-3 pl-11 pr-4 text-base text-ink placeholder:text-ink-soft"
+          className="field-input pl-11 placeholder:text-ink-soft"
         />
       </div>
 

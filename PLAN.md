@@ -63,6 +63,14 @@ Milestone plan expanded from the project brief. Tasks get checked off in PROGRES
 - Reviewer critique pass (same bar as M4: contrast, hue rules, seal-only cinnabar hold in dark)
 - Extend Playwright settings flow: toggling theme changes rendering, zero console errors
 
+## M15 — Design refinement pass (calm minimal; owner: unhappy with design/UI/layout)
+- Revise DESIGN.md: four-register type ladder, captions-not-links, ruled-prose vs boxes surface system, forms spec, dark elevation rule, layout section matching the real app → reviewer critique
+- Shared primitives: globals.css utilities, ReadingCard (ruled variant), FactTag (chevron metadata row), section kicker + column-rule, buttons/inputs/segmented control
+- Today hierarchy: day-pillar hero, guidance prose grouped by fact tag (one officer block), neutral gauge rows behind disclosure, underline cleanup
+- Forms: onboarding (in-flow action, no void), Compare form, Dates finder picker selected states + CJK wrap fix, disabled-button style
+- Chart/Cycles/Settings polish + dark fill-not-border pass
+- E2E selector updates, full verify, both-theme screenshot review, PROGRESS.md
+
 ## M10 — Plain-meaning voice pass
 - New VOICE.md hard rule: no system term stands alone. Every mechanic named in user-facing copy (ten gods, clash/combine/trine/punishment/harm, palaces, day-master, strength) is immediately followed by a plain-life gloss — a metaphor or everyday situation the reader can recognize
 - Central gloss map in `packages/content/src/vocab.ts` so the same term is always translated the same way across banks and screens

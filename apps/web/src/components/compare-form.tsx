@@ -10,6 +10,7 @@
 import { useState } from "react";
 import { Button } from "@/components/button";
 import { CitySearch } from "@/components/city-search";
+import { SegmentedControl } from "@/components/segmented-control";
 import { isYearInRange } from "@/lib/pillars";
 import type { Sex, StoredBirth, StoredCity } from "@/lib/profile";
 
@@ -65,7 +66,7 @@ export function CompareForm({ onSave, hasSavedPeople = false, initialBirth }: Pr
           value={name}
           placeholder="So you can find them again"
           onChange={(event) => setName(event.target.value)}
-          className="w-full rounded-lg border border-ink-soft bg-paper-raised px-4 py-3 text-base text-ink placeholder:text-ink-soft"
+          className="field-input placeholder:text-ink-soft"
         />
       </label>
 
@@ -77,7 +78,7 @@ export function CompareForm({ onSave, hasSavedPeople = false, initialBirth }: Pr
           max="2100-12-31"
           value={date}
           onChange={(event) => setDate(event.target.value)}
-          className="w-full rounded-lg border border-ink-soft bg-paper-raised px-4 py-3 text-base text-ink"
+          className="field-input"
         />
       </label>
       {date.length > 0 && !dateOk && (
@@ -94,7 +95,7 @@ export function CompareForm({ onSave, hasSavedPeople = false, initialBirth }: Pr
             value={time}
             disabled={unknownTime}
             onChange={(event) => setTime(event.target.value)}
-            className="w-full rounded-lg border border-ink-soft bg-paper-raised px-4 py-3 text-base text-ink disabled:opacity-40"
+            className="field-input disabled:opacity-40"
           />
         </label>
         <label className="mt-1 flex items-center gap-3 text-sm text-ink">
@@ -115,27 +116,12 @@ export function CompareForm({ onSave, hasSavedPeople = false, initialBirth }: Pr
 
       <div className="flex flex-col gap-2">
         <span className="text-sm text-ink">Their sex at birth</span>
-        <div className="flex gap-3" role="radiogroup" aria-label="Their sex at birth">
-          {SEX_OPTIONS.map((option) => {
-            const selected = sex === option.value;
-            return (
-              <button
-                key={option.value}
-                type="button"
-                role="radio"
-                aria-checked={selected}
-                onClick={() => setSex(option.value)}
-                className={`flex-1 rounded-lg border px-4 py-3 text-base ${
-                  selected
-                    ? "border-ink bg-ink text-paper"
-                    : "border-ink-soft bg-paper-raised text-ink"
-                }`}
-              >
-                {option.label}
-              </button>
-            );
-          })}
-        </div>
+        <SegmentedControl
+          options={SEX_OPTIONS}
+          value={sex}
+          onChange={setSex}
+          ariaLabel="Their sex at birth"
+        />
       </div>
 
       <Button onClick={handleSave} disabled={!canSave}>

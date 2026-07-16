@@ -23,8 +23,9 @@ test("Today shows the guidance chips and a cited guidance line", async ({ page, 
   await expect(guidance.getByText(/^Watch$/)).toBeVisible();
   await expect(guidance.locator("[data-fact-tag]").first()).toBeVisible();
 
-  // Every modelled activity gets a gauge row; tapping one unfolds its cited line.
+  // Leaning rows show up front; the disclosure reveals every modelled activity.
   const rows = page.locator("[data-areas] li");
+  await page.locator("[data-areas-toggle]").click();
   await expect(rows).toHaveCount(10);
   await rows.first().getByRole("button").click();
   await expect(page.locator("[data-areas] [data-fact-tag]").first()).toBeVisible();

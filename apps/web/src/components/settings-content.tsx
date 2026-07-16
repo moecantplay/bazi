@@ -10,6 +10,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/button";
 import { InstallHint } from "@/components/install-hint";
+import { SegmentedControl } from "@/components/segmented-control";
 import { Toggle } from "@/components/toggle";
 import { BACKUP_FILENAME, serializeBackup } from "@/lib/backup";
 import { DISCLAIMER } from "@/lib/copy";
@@ -133,28 +134,16 @@ export function SettingsContent({ profile }: Props) {
       </section>
 
       <section>
-        <h2 className="text-[13px] font-medium uppercase tracking-wide text-ink-soft">
+        <h2 className="kicker">
           Appearance
         </h2>
-        <div role="radiogroup" aria-label="Appearance" className="mt-3 flex gap-2">
-          {APPEARANCE_OPTIONS.map((option) => {
-            const active = option.value === theme;
-            return (
-              <button
-                key={option.value}
-                role="radio"
-                aria-checked={active}
-                onClick={() => chooseTheme(option.value)}
-                className={`flex-1 rounded-lg px-4 py-2.5 text-[15px] font-medium transition-opacity duration-100 ${
-                  active
-                    ? "bg-ink text-paper"
-                    : "border border-ink-soft bg-transparent text-ink hover:opacity-80"
-                }`}
-              >
-                {option.label}
-              </button>
-            );
-          })}
+        <div className="mt-3">
+          <SegmentedControl
+            options={APPEARANCE_OPTIONS}
+            value={theme}
+            onChange={chooseTheme}
+            ariaLabel="Appearance"
+          />
         </div>
         <p className="mt-2 text-[13px] leading-relaxed text-ink-soft">
           System follows your device. Light and dark stay put.
@@ -164,7 +153,7 @@ export function SettingsContent({ profile }: Props) {
       <InstallHint />
 
       <section>
-        <h2 className="text-[13px] font-medium uppercase tracking-wide text-ink-soft">
+        <h2 className="kicker">
           Your data
         </h2>
         <p className="mt-3 text-[15px] text-ink">{birthSummary}</p>
@@ -183,7 +172,7 @@ export function SettingsContent({ profile }: Props) {
       </section>
 
       <section>
-        <h2 className="text-[13px] font-medium uppercase tracking-wide text-ink-soft">
+        <h2 className="kicker">
           About your readings
         </h2>
         <p className="mt-3 text-[15px] leading-relaxed text-ink">{DISCLAIMER}</p>

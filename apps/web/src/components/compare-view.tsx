@@ -30,7 +30,7 @@ export function CompareView({ profile, person, onChangePerson }: Props) {
   return (
     <div className="flex flex-col gap-10">
       <section className="flex flex-col gap-4">
-        <h2 className="text-[13px] font-medium uppercase tracking-wide text-ink-soft">You</h2>
+        <h2 className="kicker">You</h2>
         <PillarColumns
           pillars={{
             year: yourChart.year,
@@ -43,7 +43,7 @@ export function CompareView({ profile, person, onChangePerson }: Props) {
 
       <section className="flex flex-col gap-4">
         <div className="flex items-baseline justify-between">
-          <h2 className="text-[13px] font-medium uppercase tracking-wide text-ink-soft">
+          <h2 className="kicker">
             {person.name}
           </h2>
           <span className="text-[12px] text-ink-soft">
@@ -62,12 +62,12 @@ export function CompareView({ profile, person, onChangePerson }: Props) {
       </section>
 
       <section className="flex flex-col gap-3" data-compare-reading>
-        <h2 className="text-[13px] font-medium uppercase tracking-wide text-ink-soft">
-          How your charts meet
-        </h2>
-        {reading.lines.map((line, index) => (
-          <ReadingCard key={index} line={line} />
-        ))}
+        <h2 className="kicker">How your charts meet</h2>
+        <div className="flex flex-col divide-y divide-hairline">
+          {reading.lines.map((line, index) => (
+            <ReadingCard key={index} line={line} />
+          ))}
+        </div>
       </section>
 
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -76,7 +76,7 @@ export function CompareView({ profile, person, onChangePerson }: Props) {
         </Button>
         <Link
           href="/dates/"
-          className="text-[13px] text-ink-soft underline underline-offset-2 hover:text-ink"
+          className="text-[12px] text-ink-soft hover:text-ink"
         >
           Find a day that suits you both &rarr;
         </Link>

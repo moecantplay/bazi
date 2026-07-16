@@ -3,6 +3,7 @@
  * the one-line note says exactly that and nothing more.
  */
 
+import { SegmentedControl } from "@/components/segmented-control";
 import type { Sex } from "@/lib/profile";
 import { StepFrame } from "./step-frame";
 
@@ -26,27 +27,12 @@ export function SexStep({ value, onChange, onNext }: Props) {
       onPrimary={onNext}
       primaryDisabled={value === null}
     >
-      <div className="flex flex-col gap-3" role="radiogroup" aria-label="Sex at birth">
-        {OPTIONS.map((option) => {
-          const selected = value === option.value;
-          return (
-            <button
-              key={option.value}
-              type="button"
-              role="radio"
-              aria-checked={selected}
-              onClick={() => onChange(option.value)}
-              className={`w-full rounded-lg border px-4 py-3 text-left text-base ${
-                selected
-                  ? "border-ink bg-ink text-paper"
-                  : "border-ink-soft bg-paper-raised text-ink"
-              }`}
-            >
-              {option.label}
-            </button>
-          );
-        })}
-      </div>
+      <SegmentedControl
+        options={OPTIONS}
+        value={value}
+        onChange={onChange}
+        ariaLabel="Sex at birth"
+      />
     </StepFrame>
   );
 }

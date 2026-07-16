@@ -31,7 +31,7 @@ import type { StoredProfile } from "@/lib/profile";
 
 function Heading({ children }: { children: string }) {
   return (
-    <h2 className="text-[13px] font-medium uppercase tracking-wide text-ink-soft">{children}</h2>
+    <h2 className="kicker">{children}</h2>
   );
 }
 
@@ -54,11 +54,11 @@ function CollapsibleSection({
         >
           ▸
         </span>
-        <h2 className="text-[13px] font-medium uppercase tracking-wide text-ink-soft">
+        <h2 className="kicker">
           {title} · {count}
         </h2>
       </summary>
-      <div className="mt-3 flex flex-col gap-3">{children}</div>
+      <div className="mt-3 flex flex-col divide-y divide-hairline">{children}</div>
     </details>
   );
 }
@@ -152,9 +152,9 @@ export function ChartView({ profile }: Props) {
           type="button"
           aria-expanded={pillarDetailOpen}
           onClick={() => setPillarDetailOpen((open) => !open)}
-          className="self-center text-[12px] text-ink-soft underline underline-offset-2 hover:text-ink"
+          className="self-center text-[12px] text-ink-soft hover:text-ink"
         >
-          {pillarDetailOpen ? "Hide pillar detail" : "More pillar detail"}
+          {pillarDetailOpen ? "Hide pillar detail" : "More pillar detail →"}
         </button>
       </div>
 

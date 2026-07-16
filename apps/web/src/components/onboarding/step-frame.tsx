@@ -1,6 +1,7 @@
 /**
  * Shared layout for a single onboarding step: a serif title, optional helper
- * line, the step's inputs, and a full-width primary button pinned to the bottom.
+ * line, the step's inputs, and the full-width primary action in flow directly
+ * after them (DESIGN.md §Layout — no dead void between input and button).
  * The button label always says what it does. The title takes focus when the
  * step mounts so screen readers announce where the flow has moved.
  */
@@ -35,14 +36,12 @@ export function StepFrame({
 
   return (
     <div className="flex flex-1 flex-col">
-      <div className="flex-1">
-        <h1 ref={headingRef} tabIndex={-1} className="font-display text-3xl text-ink outline-none">
-          {title}
-        </h1>
-        {subtitle && <p className="mt-2 text-sm text-ink-soft">{subtitle}</p>}
-        <div className="mt-8">{children}</div>
-      </div>
-      <div className="pt-8">
+      <h1 ref={headingRef} tabIndex={-1} className="font-display text-3xl text-ink outline-none">
+        {title}
+      </h1>
+      {subtitle && <p className="mt-2 text-sm text-ink-soft">{subtitle}</p>}
+      <div className="mt-8">{children}</div>
+      <div className="mt-10">
         <Button className="w-full" onClick={onPrimary} disabled={primaryDisabled}>
           {primaryLabel}
         </Button>

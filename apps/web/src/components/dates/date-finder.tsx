@@ -23,8 +23,7 @@ const DEFAULT_SPAN_DAYS = 60;
 /** "Just me" — the sentinel for searching the profile chart alone. */
 const JUST_ME = "me";
 
-const dateFieldClass =
-  "rounded-lg border border-ink-soft bg-paper-raised px-3 py-2 text-[15px] text-ink";
+const dateFieldClass = "field-input";
 
 interface Props {
   profile: StoredProfile;
@@ -83,7 +82,7 @@ export function DateFinder({ profile }: Props) {
       <ActivityPicker value={activity} onChange={setActivity} />
 
       <fieldset className="flex flex-col gap-3">
-        <legend className="text-[13px] font-medium uppercase tracking-wide text-ink-soft">
+        <legend className="kicker">
           Between
         </legend>
         <div className="flex items-end gap-3">
@@ -115,7 +114,7 @@ export function DateFinder({ profile }: Props) {
 
       {people.length > 0 && (
         <fieldset className="flex flex-col gap-2">
-          <legend className="text-[13px] font-medium uppercase tracking-wide text-ink-soft">
+          <legend className="kicker">
             Reading for
           </legend>
           <div className="flex flex-wrap gap-2">
@@ -146,7 +145,7 @@ export function DateFinder({ profile }: Props) {
 
       {search && (
         <section className="flex flex-col gap-3">
-          <h2 className="text-[13px] font-medium uppercase tracking-wide text-ink-soft">
+          <h2 className="kicker">
             Best days
           </h2>
           {search.clampedNote && <p className="text-[12px] text-ink-soft">{search.clampedNote}</p>}

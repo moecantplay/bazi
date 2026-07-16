@@ -68,7 +68,8 @@ export function WeekStrip({ profile, today, selectedISO, onSelect }: Props) {
   );
 
   return (
-    <div>
+    <div className="flex flex-col gap-2">
+      <h2 className="kicker">The week ahead</h2>
       <div className="-mx-1 overflow-x-auto">
         <ul className="flex min-w-max gap-1 px-1" aria-label="The week ahead">
           {cells.map(({ iso, tone }) => {
@@ -111,9 +112,9 @@ export function WeekStrip({ profile, today, selectedISO, onSelect }: Props) {
             type="button"
             data-week-legend
             onClick={() => setLegendOpen(true)}
-            className="mx-auto mt-1.5 block text-[11px] text-ink-soft underline decoration-dotted underline-offset-2 hover:text-ink"
+            className="mx-auto block text-[12px] text-ink-soft hover:text-ink"
           >
-            What the marks mean
+            What the marks mean &rsaquo;
           </button>
           {legendOpen && <GlossarySheet entry={legendEntry} onClose={() => setLegendOpen(false)} />}
         </>

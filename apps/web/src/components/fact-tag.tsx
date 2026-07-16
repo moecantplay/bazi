@@ -18,7 +18,7 @@ interface Props {
   className?: string;
 }
 
-export function FactTag({ line, className = "text-[12px] text-ink-soft" }: Props) {
+export function FactTag({ line, className = "caption" }: Props) {
   const { showHanCharacters } = useHanCharacters();
   const [open, setOpen] = useState(false);
 
@@ -43,9 +43,12 @@ export function FactTag({ line, className = "text-[12px] text-ink-soft" }: Props
           type="button"
           onClick={() => setOpen(true)}
           aria-label={`${display(line.factTag)} — what is this?`}
-          className="text-left underline decoration-dotted underline-offset-2 hover:text-ink"
+          className="inline-flex items-baseline gap-1 text-left hover:text-ink"
         >
           {display(line.factTag)}
+          <span aria-hidden="true" className="text-[13px] leading-none">
+            &rsaquo;
+          </span>
         </button>
       </p>
       {open && <GlossarySheet entry={entry} onClose={() => setOpen(false)} />}

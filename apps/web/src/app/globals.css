@@ -99,6 +99,54 @@ body {
 }
 
 /*
+ * Type-ladder and surface primitives (DESIGN.md §Type ladder, §Surfaces).
+ * Components compose these instead of restating the raw utilities so the
+ * ladder stays a ladder — every text node is one of the four registers.
+ */
+@layer components {
+  /* Section opener: uppercase micro-label under the 24×2 ink column-rule. */
+  .kicker {
+    @apply text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-soft;
+  }
+  .kicker::before {
+    content: "";
+    display: block;
+    width: 24px;
+    height: 2px;
+    margin-bottom: 6px;
+    background: var(--ink);
+  }
+
+  /* Caption register: fact tags, pinyin, meta rows. */
+  .caption {
+    @apply text-[12px] leading-snug text-ink-soft;
+  }
+
+  /* Form fields share one spec (DESIGN.md §Forms). */
+  .field-input {
+    @apply w-full rounded-[10px] bg-paper-raised px-4 py-3 text-base text-ink;
+    border: 1.5px solid var(--ink-soft);
+    min-height: 48px;
+  }
+}
+
+/*
+ * Dark elevation rule (DESIGN.md §Dark): boxed surfaces separate by fill,
+ * never by border. Boxes opt in with .dark-borderless; inputs keep their
+ * ink-soft borders (WCAG 1.4.11 non-text contrast). Selector pattern mirrors
+ * the token blocks above — keep both in step.
+ */
+:root[data-theme="dark"] .dark-borderless {
+  border-color: transparent;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .dark-borderless {
+    border-color: transparent;
+  }
+}
+
+/*
  * Chart-reveal motion. The seal stamps in, then pillar columns fade up in a
  * 60ms stagger. Everything is gated behind prefers-reduced-motion so that
  * reduced-motion users get an instant, static render.

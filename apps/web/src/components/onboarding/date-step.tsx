@@ -30,7 +30,7 @@ export function DateStep({ value, onChange, onNext }: Props) {
           max="2100-12-31"
           value={value}
           onChange={(event) => onChange(event.target.value)}
-          className="w-full rounded-lg border border-ink-soft bg-paper-raised px-4 py-3 text-base text-ink"
+          className="field-input"
         />
       </label>
       {showRangeError && (

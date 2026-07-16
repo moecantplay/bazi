@@ -11,7 +11,6 @@
 import type { ReadingLine } from "@daymaster/content";
 import { stripHanCharacters } from "@daymaster/content";
 import { FactTag } from "@/components/fact-tag";
-import { ReadingCard } from "@/components/reading-card";
 import { useHanCharacters } from "@/components/han-characters-provider";
 import type { GuidanceChip } from "@/lib/guidance";
 
@@ -26,8 +25,8 @@ function BoardColumn({ title, chips, suggestions }: ColumnProps) {
   const display = (text: string) => (showHanCharacters ? text : stripHanCharacters(text));
 
   return (
-    <div className="rounded-xl border border-hairline bg-paper-raised p-4">
-      <h3 className="text-[12px] font-medium uppercase tracking-wide text-ink-soft">{title}</h3>
+    <div className="rounded-xl border border-hairline bg-paper-raised p-4 dark-borderless">
+      <h3 className="kicker">{title}</h3>
       {chips.length > 0 && (
         <ul className="mt-2 flex flex-wrap gap-1.5">
           {chips.map((chip) => (
@@ -46,8 +45,8 @@ function BoardColumn({ title, chips, suggestions }: ColumnProps) {
       <ul className="mt-2.5 flex flex-col gap-2.5">
         {suggestions.map((line, index) => (
           <li key={index}>
-            <p className="text-[14px] leading-relaxed text-ink">{display(line.text)}</p>
-            <FactTag line={line} className="mt-0.5 text-[11px] text-ink-soft" />
+            <p className="text-[15px] leading-relaxed text-ink">{display(line.text)}</p>
+            <FactTag line={line} className="caption mt-0.5" />
           </li>
         ))}
       </ul>
@@ -63,6 +62,51 @@ interface Props {
   donts: ReadingLine[];
 }
 
+/**
+ * Consecutive prose lines that cite the same fact render as one block —
+ * caption once, sentences as paragraphs (DESIGN.md §Surfaces: guidance
+ * grouping). Without this, an officer day stacks three sibling cards all
+ * captioned e.g. "成 Success day".
+ */
+function groupByFactTag(lines: ReadingLine[]): ReadingLine[][] {
+  const groups: ReadingLine[][] = [];
+  let current: ReadingLine[] | null = null;
+  let currentTag: ReadingLine["factTag"] = null;
+  for (const line of lines) {
+    if (current && currentTag === line.factTag) {
+      current.push(line);
+    } else {
+      current = [line];
+      currentTag = line.factTag;
+      groups.push(current);
+    }
+  }
+  return groups;
+}
+
+function GuidanceGroup({ lines }: { lines: ReadingLine[] }) {
+  const { showHanCharacters } = useHanCharacters();
+  const display = (text: string) => (showHanCharacters ? text : stripHanCharacters(text));
+
+  const first = lines[0];
+  if (!first) {
+    return null;
+  }
+
+  return (
+    <div className="py-4 first:pt-0 last:pb-0">
+      <FactTag line={first} />
+      <div className="mt-1.5 flex flex-col gap-2">
+        {lines.map((line, index) => (
+          <p key={index} className="text-[15px] leading-relaxed text-ink">
+            {display(line.text)}
+          </p>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function DayBoard({ chips, proseLines, dos, donts }: Props) {
   const favors = chips.filter((chip) => chip.leaning === "favors");
   const watch = chips.filter((chip) => chip.leaning === "friction");
@@ -74,9 +118,9 @@ export function DayBoard({ chips, proseLines, dos, donts }: Props) {
         <BoardColumn title="Watch" chips={watch} suggestions={donts} />
       </div>
       {proseLines.length > 0 && (
-        <div className="flex flex-col gap-3">
-          {proseLines.map((line, index) => (
-            <ReadingCard key={index} line={line} />
+        <div className="flex flex-col divide-y divide-hairline">
+          {groupByFactTag(proseLines).map((group, index) => (
+            <GuidanceGroup key={index} lines={group} />
           ))}
         </div>
       )}

@@ -1,8 +1,9 @@
 /**
  * The Cycles horizon sections: "This year" (流年) and "This month" (流月), each
  * carrying its transit pillar glyphs and the outlook lines the content layer
- * phrases from the horizon facts. Sits above the decade timeline; styled like
- * the timeline's cards. Deterministic in the profile and the transit pillars.
+ * phrases from the horizon facts. Sits above the decade timeline as ruled
+ * prose (DESIGN.md §Surfaces). Deterministic in the profile and the transit
+ * pillars.
  */
 
 "use client";
@@ -22,11 +23,11 @@ function HorizonLines({ lines }: { lines: ReadingLine[] }) {
   const display = (text: string) => (showHanCharacters ? text : stripHanCharacters(text));
 
   return (
-    <ul className="mt-3 flex flex-col gap-2.5">
+    <ul className="mt-3 flex flex-col divide-y divide-hairline">
       {lines.map((line, index) => (
-        <li key={index}>
+        <li key={index} className="py-3 first:pt-0 last:pb-0">
           <FactTag line={line} />
-          <p className={`text-[14px] leading-relaxed text-ink ${line.factTag ? "mt-0.5" : ""}`}>
+          <p className={`text-[15px] leading-relaxed text-ink ${line.factTag ? "mt-1" : ""}`}>
             {display(line.text)}
           </p>
         </li>
@@ -45,19 +46,17 @@ export function HorizonOutlook({ profile, now }: Props) {
   const bundle = useMemo(() => horizonBundleFor(profile, dateISO), [profile, dateISO]);
 
   return (
-    <section className="flex flex-col gap-4">
-      <div data-horizon="year" className="rounded-xl border border-hairline bg-paper-raised p-4">
+    <section className="flex flex-col gap-8">
+      <div data-horizon="year">
         <div className="flex items-center justify-between gap-3">
-          <h2 className="text-[13px] font-medium uppercase tracking-wide text-ink-soft">This year</h2>
+          <h2 className="kicker">This year</h2>
           <PillarGlyph pillar={bundle.annualPillar} size="sm" />
         </div>
         <HorizonLines lines={bundle.annual} />
       </div>
-      <div data-horizon="month" className="rounded-xl border border-hairline bg-paper-raised p-4">
+      <div data-horizon="month">
         <div className="flex items-center justify-between gap-3">
-          <h2 className="text-[13px] font-medium uppercase tracking-wide text-ink-soft">
-            This month
-          </h2>
+          <h2 className="kicker">This month</h2>
           <PillarGlyph pillar={bundle.monthlyPillar} size="sm" />
         </div>
         <HorizonLines lines={bundle.monthly} />

@@ -149,7 +149,7 @@ export function TodayView({ profile }: Props) {
                 max={addDays(today, RANGE)}
                 onChange={(event) => jumpTo(event.target.value)}
                 onBlur={() => setPickerOpen(false)}
-                className="rounded-lg border border-ink-soft bg-paper-raised px-3 py-1.5 text-base text-ink"
+                className="field-input w-auto"
               />
             ) : (
               <button
@@ -195,17 +195,29 @@ export function TodayView({ profile }: Props) {
 
       <div className="flex flex-col items-center gap-2">
         {showHanCharacters ? (
-          <span className="font-han text-4xl leading-none text-ink">
+          <span className="font-han text-[56px] leading-none text-ink">
             {bundle.dayPillar.stem}
             {bundle.dayPillar.branch}
           </span>
         ) : (
-          <span className="font-display text-2xl leading-none text-ink">
+          <span className="font-display text-3xl leading-none text-ink">
             {stem.gloss} · {branch.gloss}
           </span>
         )}
-        <span className="text-[13px] text-ink-soft">
-          {stem.pinyin} {stem.element} · {branch.pinyin} {branch.element}
+        <span className="caption inline-flex items-center gap-1.5">
+          <span
+            aria-hidden="true"
+            className="h-2 w-2 rounded-full"
+            style={{ background: `var(--element-${stem.element})` }}
+          />
+          {stem.pinyin} {stem.element}
+          <span aria-hidden="true">·</span>
+          <span
+            aria-hidden="true"
+            className="h-2 w-2 rounded-full"
+            style={{ background: `var(--element-${branch.element})` }}
+          />
+          {branch.pinyin} {branch.element}
         </span>
         {touches.length > 0 && (
           <p className="mt-1 text-center text-[14px] text-ink">
@@ -214,7 +226,7 @@ export function TodayView({ profile }: Props) {
         )}
       </div>
 
-      <div data-reading-body className="flex flex-col gap-3">
+      <div data-reading-body className="flex flex-col divide-y divide-hairline">
         {bundle.reading.lines.map((line, index) => (
           <ReadingCard key={index} line={line} />
         ))}
@@ -223,7 +235,7 @@ export function TodayView({ profile }: Props) {
             type="button"
             data-about-reading
             onClick={() => setAboutOpen(true)}
-            className="self-start text-[13px] text-ink-soft underline underline-offset-2 hover:text-ink"
+            className="self-start pt-3 text-[12px] text-ink-soft hover:text-ink"
           >
             How this reading works &rarr;
           </button>
@@ -244,10 +256,7 @@ export function TodayView({ profile }: Props) {
 
       <WeekStrip profile={profile} today={today} selectedISO={dateISO} onSelect={jumpTo} />
 
-      <Link
-        href="/dates/"
-        className="-mt-2 text-[13px] text-ink-soft underline underline-offset-2 hover:text-ink"
-      >
+      <Link href="/dates/" className="-mt-2 text-[12px] text-ink-soft hover:text-ink">
         Find a day for something &rarr;
       </Link>
 

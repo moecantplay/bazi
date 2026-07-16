@@ -46,7 +46,7 @@ export function InstallHint() {
 
   return (
     <section>
-      <h2 className="text-[13px] font-medium uppercase tracking-wide text-ink-soft">
+      <h2 className="kicker">
         On your home screen
       </h2>
       <p className="mt-3 text-[15px] leading-relaxed text-ink">

@@ -49,15 +49,21 @@ interface Props {
 export function AreaGauges({ quality, seedKey }: Props) {
   const { showHanCharacters } = useHanCharacters();
   const [openActivity, setOpenActivity] = useState<string | null>(null);
+  const [showNeutral, setShowNeutral] = useState(false);
   const display = (text: string) => (showHanCharacters ? text : stripHanCharacters(text));
+
+  const leaning = quality.assessments.filter((entry) => entry.leaning !== "neutral");
+  const neutral = quality.assessments.filter((entry) => entry.leaning === "neutral");
+  // A day with no leanings at all keeps every row visible — a lone disclosure
+  // button under a kicker would be an empty section.
+  const collapsible = leaning.length > 0 && neutral.length > 0;
+  const visible = collapsible && !showNeutral ? leaning : [...leaning, ...neutral];
 
   return (
     <section data-areas className="flex flex-col gap-2">
-      <h2 className="text-[12px] font-medium uppercase tracking-wide text-ink-soft">
-        Your day, by area
-      </h2>
-      <ul className="flex flex-col divide-y divide-hairline rounded-xl border border-hairline bg-paper-raised">
-        {quality.assessments.map((assessment) => {
+      <h2 className="kicker">Your day, by area</h2>
+      <ul className="flex flex-col divide-y divide-hairline rounded-xl border border-hairline bg-paper-raised dark-borderless">
+        {visible.map((assessment) => {
           const isOpen = openActivity === assessment.activity;
           const label = ACTIVITY_LABELS[assessment.activity];
           const detail = isOpen
@@ -87,14 +93,27 @@ export function AreaGauges({ quality, seedKey }: Props) {
               </button>
               {detail && (
                 <div className="px-4 pb-3">
-                  <p className="text-[14px] leading-relaxed text-ink">{display(detail.text)}</p>
-                  <FactTag line={detail} className="mt-0.5 text-[11px] text-ink-soft" />
+                  <p className="text-[15px] leading-relaxed text-ink">{display(detail.text)}</p>
+                  <FactTag line={detail} className="caption mt-0.5" />
                 </div>
               )}
             </li>
           );
         })}
       </ul>
+      {collapsible && (
+        <button
+          type="button"
+          data-areas-toggle
+          aria-expanded={showNeutral}
+          onClick={() => setShowNeutral((current) => !current)}
+          className="self-start text-[12px] text-ink-soft hover:text-ink"
+        >
+          {showNeutral
+            ? "Show fewer areas"
+            : `Show all ${quality.assessments.length} areas →`}
+        </button>
+      )}
     </section>
   );
 }

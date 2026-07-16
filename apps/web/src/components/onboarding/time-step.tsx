@@ -31,7 +31,7 @@ export function TimeStep({ time, unknown, onTimeChange, onUnknownChange, onNext 
           value={time}
           disabled={unknown}
           onChange={(event) => onTimeChange(event.target.value)}
-          className="w-full rounded-lg border border-ink-soft bg-paper-raised px-4 py-3 text-base text-ink disabled:opacity-40"
+          className="field-input disabled:opacity-40"
         />
       </label>
 

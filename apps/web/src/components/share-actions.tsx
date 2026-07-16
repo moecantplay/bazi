@@ -60,7 +60,7 @@ export function ShareActions({ sealContainerRef, pillarLine, archetype, birth }:
 
   return (
     <section className="flex flex-col gap-3">
-      <h2 className="text-[13px] font-medium uppercase tracking-wide text-ink-soft">Share</h2>
+      <h2 className="kicker">Share</h2>
       <div className="flex flex-wrap gap-3">
         <Button variant="quiet" onClick={() => void handleImage()}>
           Share as image

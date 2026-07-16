@@ -164,9 +164,9 @@ export default function OnboardingPage() {
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="text-[13px] text-ink-soft underline underline-offset-2 hover:text-ink"
+              className="text-[12px] text-ink-soft hover:text-ink"
             >
-              Have a backup file? Restore it
+              Have a backup file? Restore it →
             </button>
             <input
               ref={fileInputRef}
