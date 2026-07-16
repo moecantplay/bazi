@@ -63,7 +63,7 @@ Four registers plus the Han register below. Every text node on every screen is o
 
 - A fact-tag caption ("子卯 punishment · career palace") is quiet metadata in the caption register, ending in a `›` chevron; the whole row is the tap target that opens its glossary sheet. **Never underlined.**
 - Links and captions are never underlined. The day-column "it's you" marker is the app's sole underline, and it is not a link. In-flow navigation ("Read more →", "Find a day for something →", "How this reading works →") is caption-register `--ink-soft`, arrow as the affordance, `--ink` on hover and pressed (`:active` — touch has no hover, so the pressed shift is the feedback).
-- Caption rows and arrow-links get a ≥44px hit area (padding may extend past the visual row — WCAG 2.5.8).
+- Caption rows and arrow-links both get a ≥44px hit area (padding may extend past the visual row — WCAG 2.5.8) and the `--ink` pressed shift on `:active`.
 - At most one arrow-link per section. If a section wants two, one of them belongs somewhere else.
 
 ## Surfaces: ruled prose vs. boxes
