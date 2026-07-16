@@ -175,6 +175,13 @@ body {
   .chip {
     @apply bg-ink-tint inline-flex items-baseline gap-1.5 rounded-full px-3 py-1;
   }
+
+  /* Disabled primary buttons take the same ink tint (DESIGN.md §Forms) —
+     here rather than a Tailwind variant because color-mix has no /alpha
+     utility to hang disabled: on. */
+  .btn-primary:disabled {
+    background-color: color-mix(in srgb, var(--ink) 10%, transparent);
+  }
 }
 
 /*

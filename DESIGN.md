@@ -12,8 +12,9 @@ Revised 2026-07-16 (M16, supersedes the same-day M15 surface language): the owne
 | `--ink-soft` | `#565D68` | Secondary text, captions, pinyin. AA on paper AND surface. |
 | `--cinnabar` | `#BF3A2B` | RESERVED for the seal. Nothing else — no buttons, no accents. |
 | `--surface` | `#EAEDE9` | Tonal containers (cards, list stacks, board, sheets). Borderless — the fill IS the edge. Verified: ink 14.49:1, ink-soft 5.63:1, element hues 3.17–5.75 (≥3:1 fills/large-text). |
-| `--paper-raised` | `#FFFFFF` | Inputs and the highest surface only. |
+| `--paper-raised` | `#FFFFFF` | Inputs only — a control fill whose edge is its 1.5px `--ink-soft` border, never fill contrast. |
 | `--hairline` | `#D8DBD6` | Rare in-container dividers only. Never a border; between containers, use gaps. |
+| scrim | black 40% (both themes) | Mandatory under sheets — a borderless sheet over tonal cards has no edge without it. |
 
 Primary actions are filled `--ink` with `--paper` text (15.77:1), pill-shaped. The day column's "it's you" marker is an ink underline (the app's sole underline; not a link).
 
@@ -37,24 +38,24 @@ Same system, inverted paper. Applied when the OS prefers dark (and no explicit c
 | `--ink` | `#E8E6E1` | 14.40:1 on paper, 12.32:1 on surface |
 | `--ink-soft` | `#A6ACB6` | 7.87:1 on paper, 6.73:1 on surface |
 | `--surface` | `#20252F` | tonal containers, borderless |
-| `--paper-raised` | `#1D222B` | inputs |
+| `--paper-raised` | `#1D222B` | inputs only — edge comes from the `--ink-soft` border, not fill (it sits below `--surface`; it is not "higher") |
 | `--hairline` | `#2C323C` | rare in-container dividers only |
-| `--cinnabar` | `#BF3A2B` | unchanged both themes — 3.30:1 as a graphic mass |
+| `--cinnabar` | `#BF3A2B` | unchanged both themes — 3.30:1 on `--paper`; the seal always sits on `--paper`, never inside a tonal container (2.82:1 on dark surface would fail the 3:1 graphics bar) |
 | `--seal-paper` | `#F5F6F4` | seal interior stays stamped-paper white in BOTH themes |
 
 Dark element accents (same usage rule): Wood `#63A871`, Fire `#E0764A`, Earth `#C09B55`, Metal `#96A1B2`, Water `#6FA0D0` — all ≥4.5:1 on paper, ≥3:1 on surface.
 
-Containers are borderless tonal fills in BOTH themes now — the M15 `dark-borderless` carve-out generalizes: nothing non-interactive carries a border in either theme. Interactive controls (inputs, segmented containers) keep their 1.5px `--ink-soft` border in both themes (WCAG 1.4.11). The seal is the only cinnabar mass in both themes. PWA `theme-color` follows the scheme.
+Containers are borderless tonal fills in BOTH themes now — the M15 `dark-borderless` carve-out generalizes: nothing non-interactive carries a border in either theme, with one named exception, the agency card's ink top-border (§Surfaces). Interactive controls (inputs, segmented containers) keep their 1.5px `--ink-soft` border in both themes (WCAG 1.4.11). The seal is the only cinnabar mass in both themes and renders on `--paper` only. PWA `theme-color` follows the scheme.
 
 ## Type
 
-One family — **Figtree** (via `next/font/google`, self-hosted at build; geometric-humanist, the closest Google-Sans feel on Google Fonts) — carrying a bold Material-style scale. Registers:
+One Latin family — **Figtree** (via `next/font/google`, self-hosted at build; geometric-humanist, the closest Google-Sans feel on Google Fonts) — carrying a bold Material-style scale, plus the Han register below. Registers:
 
 - **Display — 28–32px/700, -0.01em**: screen titles, the Today headline hook.
 - **Emphasis — 20–22px/600**: the agency line, the day-master archetype.
 - **Body — 15px/400/1.6 `--ink`**: reading prose, explanations, form labels. Reading prose is `--ink`, never `--ink-soft`.
 - **Section header — 13px/600 `--ink-soft`, sentence case**: section openers ("Favors", "Your day, by area", "This year"). No rule, no uppercase — Material subheader style. One per section; the Favors/Watch board counts as two sections, one header per column.
-- **Caption — 12px `--ink-soft`**: fact tags, pinyin, meta rows; `tabular-nums` when carrying numbers/dates.
+- **Caption — 12px `--ink-soft`**: fact tags, pinyin, meta rows. Numeric columns are right-aligned so alignment never depends on font features; apply `tabular-nums` on top where the family provides it.
 - **Han register**: `"Songti SC", "Noto Serif SC", serif`, 40–56px in the pillar grid, 56px Today hero. No CJK webfont.
 
 Named exception: form-field text is 16px so iOS never zooms a focused input.
@@ -68,23 +69,24 @@ Named exception: form-field text is 16px so iOS never zooms a focused input.
 
 ## Surfaces: tonal containers & segment stacks
 
-Separation is fill and gap, never line. Radius scale: **24px** standalone containers (reading cards, board columns, decade card), **28px** sheet top corners, **16px** inputs, **pill** buttons/chips/segmented controls.
+Separation is fill and gap, never line — and never shadow: in-flow surfaces cast none; a lone card mid-paper is carried by its 24px radius, 16–20px padding, and the tint (1.09:1 light / 1.17:1 dark is deliberately quiet, Material surface-container territory). The only elevation effects in the app are the sheet's scrim and the floating update toast's shadow. Radius scale: **24px** standalone containers (reading cards, board columns, decade card), **28px** sheet top corners, **16px** inputs, **pill** buttons/chips/segmented controls.
 
 - **Content cards**: every reading line (Today, Cycles outlooks, Compare, Chart callouts, guidance groups) is a `--surface` container, radius 24, padding 16–20, separated by 8px gaps. Borderless in both themes.
-- **Segment stacks** (Google settings idiom) for lists: area gauges, activity picker, settings toggle rows — each row a `--surface` segment, 2px gaps between rows, 8px inner radius with the stack's first row rounded 24px on top and the last 24px on bottom. Selected/active row = 2px inset `--ink` ring.
-- **Chips**: tonal pills — a 10% ink tint over their container (theme-proof on paper and on `--surface`; element tint behind ink text where an element is cited), no border.
-- The agency line keeps its distinct container: `--surface`, radius 24, with the ink top-border as the sole decorated container (named exception).
+- **Segment stacks** (Google settings idiom) for lists: area gauges, activity picker, settings toggle rows — each row a `--surface` segment, 2px gaps between rows. Corners per row: first 24/24/8/8, middle 8 all round, last 8/8/24/24; a single-row stack is 24 all round. The 2px inset `--ink` ring marks *selection* (the picker's chosen activity); an unfolded gauge row is expansion, not selection — no ring.
+- **Sheets**: `--surface`, 28px top corners, over the mandated 40% black scrim (both themes) — the scrim is the sheet's edge.
+- **Chips**: tonal pills, no border — a 10% ink tint over their container (theme-proof on paper and on `--surface`). Where an element is cited, the tint is `color-mix(<element hue> 24%, var(--surface))` with `--ink` text — verified: light Wood 10.77:1 / Fire 11.20:1, dark Wood 8.32:1 / Fire 8.67:1.
+- The agency line keeps its distinct container: `--surface`, radius 24, with the ink top-border as the sole decorated container (named exception, restated in §Dark).
 - Guidance grouping holds: prose lines sharing one fact tag render as ONE card — caption once, sentences as paragraphs.
 
 ## Layout
 
 Mobile-first, single column, max-width 28rem centered; 5-tab bottom nav (Chart · Today · Cycles · Compare · Settings), safe-area padded. `/dates/` is reached from Today and Compare.
 
-**Today** (top to bottom): quiet date strip → headline hook (display) → day-pillar block (56px Han, pinyin + element dots, palace-touch line) → reading as content cards → Favors/Watch board (two tonal columns: chips + suggestions) → grouped guidance cards → "Your day, by area" segment stack (leaning rows visible, neutral behind "Show all N areas") → week strip → finder link → agency card → tomorrow note.
+**Today** (top to bottom): quiet date strip → headline hook (display) → day-pillar block (56px Han, pinyin + element dots, palace-touch line) → reading as content cards → Favors/Watch board (two tonal columns: chips + suggestions) with its grouped guidance cards directly beneath, in the same section, officer group first (the M14 arrangement) → "Your day, by area" segment stack (leaning rows visible, neutral behind "Show all N areas") → week strip → finder link → agency card → tomorrow note.
 
 **Onboarding:** one step per screen; ≥8px progress dots, `--ink` current; input directly under the heading, pill primary action in flow directly after — no dead void; back always available; restore link beneath.
 
-**Forms (all screens):** inputs 48px min height, `--paper-raised` fill, 1.5px `--ink-soft` border, radius 16, 16px text, focus ring `--ink` 2px offset 2px. Two-way choices are segmented pills: one container with a 1.5px `--ink-soft` border, selected segment an `--ink` fill. Multi-option pickers: segment stacks (above); the Han category token (≤4 characters, nowrap) never breaks mid-token. Disabled primary: `--surface` fill, `--ink-soft` text — unpressable, not broken.
+**Forms (all screens):** inputs 48px min height, `--paper-raised` fill, 1.5px `--ink-soft` border, radius 16, 16px text, focus ring `--ink` 2px offset 2px. Two-way choices are segmented pills: one container with a 1.5px `--ink-soft` border, selected segment an `--ink` fill. Multi-option pickers: segment stacks (above); the Han category token (≤4 characters, nowrap) never breaks mid-token. Disabled primary: the chips' 10% ink tint as fill, `--ink-soft` text — unpressable, not broken, and still visible on paper or on a card (a `--surface` fill would vanish there).
 
 **Pillar grid (hero):** four columns Year · Month · Day · Hour; palace label (caption), stem + branch characters, pinyin + gloss beneath. Day column carries the ink underline. Unknown time → hour column is an empty frame captioned "hour unknown", never fake data.
 
@@ -98,7 +100,9 @@ Mobile-first, single column, max-width 28rem centered; 5-tab bottom nav (Chart �
 
 ## The signature: cinnabar seal
 
-Unchanged from M4: deterministic SVG from the four pillars — cinnabar square, rounded 8%, hash-seeded corner notches and rotation jitter, `--seal-paper` 白文 stem characters (three stacked when hour unknown). Chart screen, onboarding reveal, share surfaces. The only cinnabar mass anywhere.
+Unchanged from M4: deterministic SVG from the four pillars — cinnabar square, rounded 8%, hash-seeded corner notches and rotation jitter, `--seal-paper` 白文 stem characters (three stacked when hour unknown). Chart screen, onboarding reveal, share surfaces — always on `--paper`, never inside a tonal container. The only cinnabar mass anywhere.
+
+On screens without the seal, the recurring signatures are the 56px Songti day-pillar hero and the agency card's ink top-border; with Han characters off the hero renders in the display register, and the agency card plus the element accents carry the brand.
 
 ## Motion
 

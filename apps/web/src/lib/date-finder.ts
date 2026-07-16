@@ -89,9 +89,9 @@ export function findDatesFor(
  * cinnabar); neutral carries no hue. Fills may carry hue (DESIGN.md); text stays ink.
  */
 export const LEANING_TINT: Record<ActivityLeaning, string> = {
-  favors: "color-mix(in srgb, var(--element-wood) 24%, var(--paper-raised))",
-  neutral: "var(--paper-raised)",
-  friction: "color-mix(in srgb, var(--element-fire) 24%, var(--paper-raised))"
+  favors: "color-mix(in srgb, var(--element-wood) 24%, var(--surface))",
+  neutral: "var(--surface)",
+  friction: "color-mix(in srgb, var(--element-fire) 24%, var(--surface))"
 };
 
 /** Plain word for a leaning, for swatch aria labels. */
