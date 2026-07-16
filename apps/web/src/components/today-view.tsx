@@ -165,7 +165,7 @@ export function TodayView({ profile }: Props) {
               <button
                 type="button"
                 onClick={() => setOffset(0)}
-                className="mt-1 text-[12px] text-ink-soft hover:text-ink"
+                className="mt-1 px-3 py-1.5 text-[12px] text-ink-soft hover:text-ink"
               >
                 Back to today
               </button>
@@ -235,7 +235,7 @@ export function TodayView({ profile }: Props) {
             type="button"
             data-about-reading
             onClick={() => setAboutOpen(true)}
-            className="self-start pt-3 text-[12px] text-ink-soft hover:text-ink"
+            className="tap-target self-start pt-3 text-[12px] text-ink-soft hover:text-ink"
           >
             How this reading works &rarr;
           </button>
@@ -256,7 +256,7 @@ export function TodayView({ profile }: Props) {
 
       <WeekStrip profile={profile} today={today} selectedISO={dateISO} onSelect={jumpTo} />
 
-      <Link href="/dates/" className="-mt-2 text-[12px] text-ink-soft hover:text-ink">
+      <Link href="/dates/" className="tap-target -mt-2 text-[12px] text-ink-soft hover:text-ink">
         Find a day for something &rarr;
       </Link>
 

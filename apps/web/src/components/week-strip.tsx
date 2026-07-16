@@ -112,7 +112,7 @@ export function WeekStrip({ profile, today, selectedISO, onSelect }: Props) {
             type="button"
             data-week-legend
             onClick={() => setLegendOpen(true)}
-            className="mx-auto block text-[12px] text-ink-soft hover:text-ink"
+            className="mx-auto block px-3 py-2 text-[12px] text-ink-soft hover:text-ink active:text-ink"
           >
             What the marks mean &rsaquo;
           </button>

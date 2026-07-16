@@ -107,7 +107,7 @@ export function AreaGauges({ quality, seedKey }: Props) {
           data-areas-toggle
           aria-expanded={showNeutral}
           onClick={() => setShowNeutral((current) => !current)}
-          className="self-start text-[12px] text-ink-soft hover:text-ink"
+          className="tap-target self-start text-[12px] text-ink-soft hover:text-ink"
         >
           {showNeutral
             ? "Show fewer areas"

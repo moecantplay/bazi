@@ -76,7 +76,7 @@ export function CompareView({ profile, person, onChangePerson }: Props) {
         </Button>
         <Link
           href="/dates/"
-          className="text-[12px] text-ink-soft hover:text-ink"
+          className="tap-target text-[12px] text-ink-soft hover:text-ink"
         >
           Find a day that suits you both &rarr;
         </Link>

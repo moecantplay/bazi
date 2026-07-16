@@ -122,6 +122,18 @@ body {
     @apply text-[12px] leading-snug text-ink-soft;
   }
 
+  /* Quiet tap targets (caption rows, arrow links): the visual row stays
+     small, the target grows to ≥44px via padding pulled back by margin
+     (WCAG 2.5.8). Pressed state stands in for hover on touch. */
+  .tap-target {
+    @apply relative;
+    padding-block: 14px;
+    margin-block: -14px;
+  }
+  .tap-target:active {
+    color: var(--ink);
+  }
+
   /* Form fields share one spec (DESIGN.md §Forms). */
   .field-input {
     @apply w-full rounded-[10px] bg-paper-raised px-4 py-3 text-base text-ink;

@@ -39,7 +39,7 @@ export function ReadingCard({ line }: Props) {
           type="button"
           data-read-more
           onClick={() => setReadMoreOpen(true)}
-          className="mt-2 text-[12px] text-ink-soft hover:text-ink"
+          className="tap-target mt-2 text-[12px] text-ink-soft hover:text-ink"
         >
           Read more &rarr;
         </button>

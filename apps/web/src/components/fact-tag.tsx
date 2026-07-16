@@ -43,7 +43,7 @@ export function FactTag({ line, className = "caption" }: Props) {
           type="button"
           onClick={() => setOpen(true)}
           aria-label={`${display(line.factTag)} — what is this?`}
-          className="inline-flex items-baseline gap-1 text-left hover:text-ink"
+          className="tap-target inline-flex items-baseline gap-1 text-left hover:text-ink"
         >
           {display(line.factTag)}
           <span aria-hidden="true" className="text-[13px] leading-none">

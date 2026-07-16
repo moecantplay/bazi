@@ -44,17 +44,17 @@ Same design, inverted paper. Applied when the OS prefers dark (and no explicit c
 
 Dark element accents (fills/swatches and ≥19px bold only, same rule as light): Wood `#63A871` 6.30, Fire `#E0764A` 5.87, Earth `#C09B55` 6.90, Metal `#96A1B2` 6.88, Water `#6FA0D0` 6.51 — all clear even the 4.5:1 small-text bar. Fire remains distinct from cinnabar.
 
-**Elevation rule (dark):** boxed surfaces separate from the page by fill (`--paper-raised` on `--paper`), never by border. Hairlines in dark mode are dividers inside a surface only. A bordered box on dark paper is the one thing this theme must never produce — it flattens everything.
+**Elevation rule (dark):** boxed surfaces separate from the page by fill (`--paper-raised` on `--paper`), never by border. Hairlines in dark mode are dividers inside a surface only. A bordered box on dark paper is the one thing this theme must never produce — it flattens everything. Two carve-outs: interactive controls (inputs, segmented containers) keep their `--ink-soft` border in both themes (WCAG 1.4.11 — the fill-not-border rule covers non-interactive containers only), and the agency line keeps its ink top-border (a deliberate accent, the sole decorated box).
 
 The seal is the only cinnabar mass in dark mode too. PWA `theme-color` follows the scheme via two viewport meta entries.
 
 ## Type ladder
 
-Four registers. Every text node on every screen is one of these — no ad-hoc sizes.
+Four registers plus the Han register below. Every text node on every screen is one of these — no ad-hoc sizes. One named exception: form-field text is 16px (not body's 15px) so iOS never zooms a focused input.
 
 - **Display — "Fraunces"** (via `next/font/google`): screen titles, the Today headline hook, the day-master archetype line, the agency line. Never body text.
 - **Body — "Inter" 15px/1.6 `--ink`**: reading prose, explanations, form labels. Reading prose is `--ink`, never `--ink-soft` — the reading is the product, it doesn't whisper.
-- **Kicker — Inter 11px/600, uppercase, 0.08em tracking, `--ink-soft`**: section openers ("FAVORS", "YOUR DAY, BY AREA", "THIS YEAR"). Every kicker sits under a 24px × 2px `--ink` rule — the almanac column-rule, the app's recurring quiet signature. One kicker per section, nothing else uses uppercase.
+- **Kicker — Inter 11px/600, uppercase, 0.08em tracking, `--ink-soft`**: section openers ("FAVORS", "YOUR DAY, BY AREA", "THIS YEAR"). Every kicker sits under a 24px × 2px `--ink` rule — the almanac column-rule, the app's recurring quiet signature. One kicker per section, nothing else uses uppercase; the Favors/Watch board counts as two sections, one kicker per column.
 - **Caption — Inter 12px `--ink-soft`**: fact tags, pinyin, chrome notes, meta rows. `tabular-nums` whenever it carries numbers or dates (gauge values, year rows, age spans).
 
 **Han characters**: `"Songti SC", "Noto Serif SC", serif`. Pillar grid 40–56px; the Today day pillar is a hero at 56px. Pinyin (caption register) and English gloss beneath. No CJK webfont download.
@@ -62,7 +62,8 @@ Four registers. Every text node on every screen is one of these — no ad-hoc si
 ## Captions & links
 
 - A fact-tag caption ("子卯 punishment · career palace") is quiet metadata in the caption register, ending in a `›` chevron; the whole row is the tap target that opens its glossary sheet. **Never underlined.**
-- Underlines appear nowhere in the app. In-flow navigation ("Read more →", "Find a day for something →", "How this reading works →") is caption-register `--ink-soft`, arrow as the affordance, `--ink` on hover/active.
+- Links and captions are never underlined. The day-column "it's you" marker is the app's sole underline, and it is not a link. In-flow navigation ("Read more →", "Find a day for something →", "How this reading works →") is caption-register `--ink-soft`, arrow as the affordance, `--ink` on hover and pressed (`:active` — touch has no hover, so the pressed shift is the feedback).
+- Caption rows and arrow-links get a ≥44px hit area (padding may extend past the visual row — WCAG 2.5.8).
 - At most one arrow-link per section. If a section wants two, one of them belongs somewhere else.
 
 ## Surfaces: ruled prose vs. boxes
@@ -70,7 +71,7 @@ Four registers. Every text node on every screen is one of these — no ad-hoc si
 Two surface treatments, chosen by function — this is the hierarchy system:
 
 - **Ruled prose** (reading content): no box, no background. Blocks stack directly on `--paper`, separated by `--hairline` rules; each block = caption row + body prose. Applies to Today reading lines, Cycles outlook lines, Compare reading, Chart interpretation paragraphs.
-- **Boxes** (`--paper-raised`, radius 12px; hairline border in light, borderless fill in dark): functional objects only — the Favors/Watch board, the agency line (its ink top-border stays), the current-decade card, gauge disclosure rows, inputs, sheets. If everything is a box, nothing is; a box must earn its border by being a *thing*, not a paragraph.
+- **Boxes** (`--paper-raised`, radius 12px; hairline border in light, borderless fill in dark): non-interactive functional objects — the Favors/Watch board, the agency line (its ink top-border stays: the named exception), the current-decade card, gauge rows, sheets. Inputs and segmented containers are NOT boxes — they follow the Forms spec and keep `--ink-soft` borders in both themes. If everything is a box, nothing is; a box must earn its border by being a *thing*, not a paragraph.
 - **Guidance grouping:** prose lines sharing one fact tag render as ONE block — caption once, sentences as paragraphs beneath (kills the triple "成 Success day" stack). The officer block opens the guidance section.
 
 ## Layout
@@ -81,11 +82,15 @@ Mobile-first, single column, max-width 28rem centered; 5-tab bottom nav (Chart �
 
 **Onboarding:** one step per screen; progress dots ≥8px with `--ink` current; the step's input directly under the heading and the primary action in flow directly after it — no dead void; back always available. Restore-from-backup link beneath the action.
 
-**Forms (all screens):** inputs 48px min height, `--paper-raised` fill, 1.5px `--ink-soft` border, radius 10px, 16px text, focus ring `--ink` 2px offset 2px. Two-way choices (sex, appearance) are segmented controls: one bordered container, selected segment `--ink` fill with `--paper` text. Multi-option pickers (finder activities): hairline-bordered rows/cards, selected = 2px `--ink` border + raised fill; Han glosses on their own line, `white-space: nowrap`, never mid-phrase wrapped. Disabled primary action: `--paper-raised` fill, `--ink-soft` text, hairline border — unpressable, not broken.
+**Forms (all screens):** inputs 48px min height, `--paper-raised` fill, 1.5px `--ink-soft` border, radius 10px, 16px text, focus ring `--ink` 2px offset 2px. Two-way choices (sex, appearance) are segmented controls: one container with a 1.5px `--ink-soft` border, selected segment `--ink` fill with `--paper` text. Multi-option pickers (finder activities): a single raised list — rows separated by hairline dividers (dividers, not row borders), selected row = 2px inset `--ink` ring; the Han category token (≤4 characters, `white-space: nowrap`) never breaks mid-token, and the gloss wraps after it. Disabled primary action: `--paper-raised` fill, `--ink-soft` text, hairline border — unpressable, not broken.
 
 **Pillar grid (hero):** four columns — Year · Month · Day · Hour (labeled clearly). Each column: palace label (caption), stem character, branch character, pinyin + English beneath each. Day column carries a subtle `--ink` underline: it's you. Unknown time → hour column rendered as an empty frame with "hour unknown" caption, never fake data.
 
-**Cycles:** This year / This month outlook as ruled prose under kickers; vertical timeline, one node per luck pillar (pillar characters + age span + Gregorian years, captions tabular), current decade boxed with element-accent tags; annual pillars for the current decade as a compact row that never overflows the column — years scroll or wrap as pairs, no horizontal page scroll.
+**Cycles:** This year / This month outlook as ruled prose under kickers; vertical timeline, one node per luck pillar (pillar characters + age span + Gregorian years, captions tabular), current decade boxed with element-accent tags; annual pillars for the current decade as a compact row that scrolls horizontally inside its own container — the page itself never scrolls sideways.
+
+**Compare:** saved-people list, then the add-person form on the Forms spec; both pillar grids side by side; "How your charts meet" as ruled prose under a kicker; the finder link closes the screen.
+
+**Find a day (/dates/):** activity picker (Forms spec) → date window → optional saved person → ink-filled "Find days" → results as boxed rows (rank, date, officer caption, per-chart leaning swatches in the wood-green/fire-orange tints), verdict line as ruled prose inside the top pick.
 
 **Settings:** a plain stacked list — appearance, late-Zi and true-solar-time toggles (each with its one-line explanation), Han-characters toggle, install hint, data ownership block, the disclaimer in full, and "Delete my data" (destructive style: ink outline, confirm step).
 

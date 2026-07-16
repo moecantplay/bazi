@@ -152,7 +152,7 @@ export function ChartView({ profile }: Props) {
           type="button"
           aria-expanded={pillarDetailOpen}
           onClick={() => setPillarDetailOpen((open) => !open)}
-          className="self-center text-[12px] text-ink-soft hover:text-ink"
+          className="tap-target self-center text-[12px] text-ink-soft hover:text-ink"
         >
           {pillarDetailOpen ? "Hide pillar detail" : "More pillar detail →"}
         </button>

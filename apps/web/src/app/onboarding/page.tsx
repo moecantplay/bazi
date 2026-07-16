@@ -164,7 +164,7 @@ export default function OnboardingPage() {
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="text-[12px] text-ink-soft hover:text-ink"
+              className="tap-target text-[12px] text-ink-soft hover:text-ink"
             >
               Have a backup file? Restore it →
             </button>
