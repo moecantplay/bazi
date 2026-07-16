@@ -60,8 +60,8 @@ function transitLines(
   chosen: readonly FactOf<"transit-interaction">[],
   seedKey: string,
 ): ReadingLine[] {
-  return chosen.map((fact) =>
-    transitInteractionLine(
+  return chosen.map((fact) => ({
+    ...transitInteractionLine(
       {
         interaction: fact.interaction,
         branches: fact.branches,
@@ -71,7 +71,10 @@ function transitLines(
       },
       seedKey,
     ),
-  );
+    // Area grouping (research 2026-07-16): a transit line files under the
+    // first natal palace it touches; the UI titles the section by palace.
+    area: fact.natalPalaces[0] ?? ("overall" as const),
+  }));
 }
 
 /** Collect every justified do/don't candidate, in stable fact order. */
@@ -189,27 +192,29 @@ export function dailyReading(facts: ReadingFact[], seedKey: string): DailyReadin
   const chosen = chooseTransits(transits, seedKey);
   const lines: ReadingLine[] = [...transitLines(chosen, seedKey)];
 
+  // Day-level lines (element, ten god, star, stage) file under "overall" —
+  // the UI's "The day itself" section.
   const elementDay = facts.find(
     (fact): fact is FactOf<"element-day"> => fact.kind === "element-day",
   );
   if (elementDay) {
-    lines.push(elementDayLine(elementDay.element, elementDay.favorable));
+    lines.push({ ...elementDayLine(elementDay.element, elementDay.favorable), area: "overall" });
   }
 
   const tenGod = facts.find((fact): fact is FactOf<"ten-god-day"> => fact.kind === "ten-god-day");
   if (tenGod) {
-    lines.push(tenGodDayLine(tenGod.english, tenGod.god));
+    lines.push({ ...tenGodDayLine(tenGod.english, tenGod.god), area: "overall" });
   }
 
   const starDays = factsOf(facts, "star-day");
   if (starDays.length > 0) {
     const star = pick(starDays, seedKey, "stardaysel");
-    lines.push(starDayLine(star, star.transitPalace));
+    lines.push({ ...starDayLine(star, star.transitPalace), area: "overall" });
   }
 
   const stageDay = facts.find((fact): fact is FactOf<"stage-day"> => fact.kind === "stage-day");
   if (stageDay) {
-    lines.push(stageDayLine(stageDay.stage));
+    lines.push({ ...stageDayLine(stageDay.stage), area: "overall" });
   }
 
   const candidates = suggestionCandidates(facts, chosen);

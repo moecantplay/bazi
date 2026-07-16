@@ -6,6 +6,8 @@
  * lines that cite nothing).
  */
 
+import type { Palace } from "@daymaster/bazi-engine";
+
 /** One rendered line plus its citation. */
 export interface ReadingLine {
   text: string;
@@ -17,6 +19,13 @@ export interface ReadingLine {
    * to that explainer. Absent for pure-voice lines.
    */
   topic?: string;
+  /**
+   * The life area the line belongs to, for Co-Star-style area grouping: the
+   * natal palace a transit touches, or "overall" for day-level lines
+   * (element, ten god, star, stage). Absent on lines that never joined an
+   * area-grouped reading.
+   */
+  area?: Palace | "overall";
 }
 
 /** Stable machine identifiers for natal sections; display titles may change. */

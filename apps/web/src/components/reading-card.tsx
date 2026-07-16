@@ -21,9 +21,14 @@ interface Props {
   line: ReadingLine;
   /** Render without the tonal container — for lines already inside a card. */
   flat?: boolean;
+  /**
+   * Where the fact citation sits. Co-Star-style area sections put the prose
+   * first and cite beneath it; standalone cards keep the caption on top.
+   */
+  citation?: "above" | "below";
 }
 
-export function ReadingCard({ line, flat = false }: Props) {
+export function ReadingCard({ line, flat = false, citation = "above" }: Props) {
   const { showHanCharacters } = useHanCharacters();
   const [readMoreOpen, setReadMoreOpen] = useState(false);
   const display = (text: string) => (showHanCharacters ? text : stripHanCharacters(text));
@@ -32,10 +37,15 @@ export function ReadingCard({ line, flat = false }: Props) {
 
   return (
     <div className={flat ? "" : "card p-5"}>
-      <FactTag line={line} />
-      <p className={`text-[15px] leading-relaxed text-ink ${line.factTag ? "mt-1.5" : ""}`}>
+      {citation === "above" && <FactTag line={line} />}
+      <p
+        className={`text-[15px] leading-relaxed text-ink ${
+          citation === "above" && line.factTag ? "mt-1.5" : ""
+        }`}
+      >
         {display(line.text)}
       </p>
+      {citation === "below" && <FactTag line={line} className="caption mt-1.5" />}
       {dive && (
         <button
           type="button"

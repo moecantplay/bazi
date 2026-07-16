@@ -1,9 +1,10 @@
 /**
- * The day's merged guidance board (VOICE.md rule 12, arranged Co-Star-style):
- * two columns — "Favors" and "Watch" — each opening with the day's almanac
- * chips and following with the fact-cited suggestions, over the prose lines
- * that explain the day's grain. Chips carry no verdict; friction reads as
- * postponement, and a friction chip is always explained by a line below.
+ * The day's merged guidance board (VOICE.md rule 12; stark-list arrangement
+ * from the Co-Star research, 2026-07-16): two columns — "Favors" and "Watch"
+ * — each a plain word list of the day's almanac activities (Co-Star's do/don't
+ * idiom, our non-prohibitive labels) followed by the fact-cited suggestions,
+ * over the prose that explains the day's grain. A friction listing is always
+ * explained by a line below.
  */
 
 "use client";
@@ -28,13 +29,10 @@ function BoardColumn({ title, chips, suggestions }: ColumnProps) {
     <div className="card p-5">
       <h3 className="kicker">{title}</h3>
       {chips.length > 0 && (
-        <ul className="mt-2 flex flex-wrap gap-1.5">
+        <ul className="mt-2 flex flex-col gap-1">
           {chips.map((chip) => (
-            <li
-              key={chip.activity}
-              className="chip"
-            >
-              <span className="text-[13px] text-ink">{chip.label}</span>
+            <li key={chip.activity} className="flex items-baseline gap-1.5">
+              <span className="text-[15px] leading-relaxed text-ink">{chip.label}</span>
               {showHanCharacters && (
                 <span className="font-han text-[12px] text-ink-soft">{chip.chinese}</span>
               )}
@@ -42,10 +40,10 @@ function BoardColumn({ title, chips, suggestions }: ColumnProps) {
           ))}
         </ul>
       )}
-      <ul className="mt-2.5 flex flex-col gap-2.5">
+      <ul className="mt-3 flex flex-col gap-2.5 border-t border-hairline pt-3">
         {suggestions.map((line, index) => (
           <li key={index}>
-            <p className="text-[15px] leading-relaxed text-ink">{display(line.text)}</p>
+            <p className="text-[14px] leading-relaxed text-ink">{display(line.text)}</p>
             <FactTag line={line} className="caption mt-0.5" />
           </li>
         ))}

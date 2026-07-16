@@ -65,7 +65,7 @@ Named exception: form-field text is 16px so iOS never zooms a focused input.
 - A fact-tag caption ("子卯 punishment · career palace") is quiet metadata in the caption register ending in a `›` chevron; the whole row is the tap target that opens its glossary sheet. Never underlined.
 - Links and captions are never underlined (the day-column marker is the sole underline and isn't a link). In-flow navigation ("Read more →") is caption-register `--ink-soft`, arrow as affordance, `--ink` on hover.
 - Caption rows and arrow-links both get a ≥44px hit area (padding may extend past the visual row — WCAG 2.5.8) and the `--ink` pressed shift on `:active`.
-- At most one arrow-link per section.
+- At most one arrow-link per section. Per-line "Read more →" disclosures inside area sections are exempt — they belong to their line, not the section.
 
 ## Surfaces: tonal containers & segment stacks
 
@@ -82,7 +82,7 @@ Separation is fill and gap, never line — and never shadow: in-flow surfaces ca
 
 Mobile-first, single column, max-width 28rem centered; 5-tab bottom nav (Chart · Today · Cycles · Compare · Settings), safe-area padded. `/dates/` is reached from Today and Compare.
 
-**Today** (top to bottom): quiet date strip → headline hook (display) → day-pillar block (56px Han, pinyin + element dots, palace-touch line) → reading as content cards → Favors/Watch board (two tonal columns: chips + suggestions) with its grouped guidance cards directly beneath, in the same section, officer group first (the M14 arrangement) → "Your day, by area" segment stack (leaning rows visible, neutral behind "Show all N areas") → week strip → finder link → agency card → tomorrow note.
+**Today** (top to bottom; Co-Star content architecture per docs/research-2026-07-16-costar-layout.md): quiet date strip → hero: headline hook (display) over the day-pillar block (56px Han, pinyin + element dots) → "At a glance" segment stack — each activity a dot on a watch↔favors axis, offset = strength (wood-green right, fire-orange left, hollow tick-center when neutral); leaning rows visible, neutral behind "Show all N areas" → the reading as life-area section cards (Roots/Career/Home/Horizon from `ReadingLine.area`, day-level lines under "The day itself"), prose first and the fact citation BELOW each line → Favors/Watch board (two tonal columns: activity word lists — stark, chipless — over a hairline divider, then the fact-cited suggestions) with its grouped guidance cards directly beneath, officer group first (the M14 arrangement) → week strip → finder link → agency card → tomorrow note. The palace-touch sentence is retired — area section headers carry it.
 
 **Onboarding:** one step per screen; ≥8px progress dots, `--ink` current; input directly under the heading, pill primary action in flow directly after — no dead void; back always available; restore link beneath.
 

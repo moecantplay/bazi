@@ -1,11 +1,13 @@
 /**
- * "Your day, by area": every modelled activity as one row — the modern label
- * with its classical category as a gloss, a four-cell meter filled to the
- * score's strength (leaf-green favours, flame-orange friction, matching the
- * date finder's tint convention; cinnabar stays the seal's), and the leaning
- * word. Tapping a row unfolds the line that explains why the day leans that
- * way — drawn from the same frames as the chip explanations, so a chip and
- * its row never tell two stories.
+ * "At a glance" (Co-Star's trouble↔power chart, research 2026-07-16): every
+ * modelled activity as one row — the modern label with its classical category
+ * as a gloss, a dot on a watch↔favors axis whose offset from the center tick
+ * is the score's strength (leaf-green favours, flame-orange friction, matching
+ * the date finder's tints; cinnabar stays the seal's), and the leaning word.
+ * Sits directly under the day hero so the scan comes before the prose.
+ * Tapping a row unfolds the line that explains why the day leans that way —
+ * drawn from the same frames as the suggestion explanations, so the board and
+ * a row never tell two stories.
  */
 
 "use client";
@@ -17,25 +19,36 @@ import { FactTag } from "@/components/fact-tag";
 import { useHanCharacters } from "@/components/han-characters-provider";
 import { LEANING_WORD } from "@/lib/date-finder";
 
-const METER_CELLS = 4;
+/** Score offsets clamp to ±4 steps; the axis is 4 steps wide per side. */
+const MAX_STEPS = 4;
 
-function Meter({ assessment }: { assessment: ActivityAssessment }) {
-  const filled =
-    assessment.leaning === "neutral"
-      ? 0
-      : Math.min(METER_CELLS, Math.abs(assessment.score));
+/**
+ * A dot on a watch↔favors axis: friction pushes the dot left of the center
+ * tick, favors pushes it right, distance = |score|. Neutral sits hollow on
+ * the tick. Direction and strength in one glyph, Co-Star-plot style.
+ */
+function AxisDot({ assessment }: { assessment: ActivityAssessment }) {
+  const steps = Math.min(MAX_STEPS, Math.abs(assessment.score));
+  const signed =
+    assessment.leaning === "favors" ? steps : assessment.leaning === "friction" ? -steps : 0;
+  const percent = 50 + signed * (50 / MAX_STEPS);
   const hue =
-    assessment.leaning === "favors" ? "var(--element-wood)" : "var(--element-fire)";
+    assessment.leaning === "favors"
+      ? "var(--element-wood)"
+      : assessment.leaning === "friction"
+        ? "var(--element-fire)"
+        : undefined;
 
   return (
-    <span className="flex items-center gap-1" aria-hidden="true">
-      {Array.from({ length: METER_CELLS }, (_, index) => (
-        <span
-          key={index}
-          className="bg-ink-tint h-2 w-2 rounded-sm"
-          style={index < filled ? { background: hue } : undefined}
-        />
-      ))}
+    <span className="relative h-2 w-24 shrink-0" aria-hidden="true">
+      <span className="bg-ink-tint absolute inset-x-0 top-1/2 h-px -translate-y-1/2 rounded-full" />
+      <span className="absolute left-1/2 top-1/2 h-2 w-px -translate-x-1/2 -translate-y-1/2 bg-ink-soft opacity-40" />
+      <span
+        className={`absolute top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full ${
+          hue ? "" : "bg-ink-tint"
+        }`}
+        style={{ left: `${percent}%`, ...(hue ? { background: hue } : {}) }}
+      />
     </span>
   );
 }
@@ -61,7 +74,7 @@ export function AreaGauges({ quality, seedKey }: Props) {
 
   return (
     <section data-areas className="flex flex-col gap-2">
-      <h2 className="kicker">Your day, by area</h2>
+      <h2 className="kicker">At a glance</h2>
       <ul className="stack">
         {visible.map((assessment) => {
           const isOpen = openActivity === assessment.activity;
@@ -78,14 +91,16 @@ export function AreaGauges({ quality, seedKey }: Props) {
                 onClick={() => setOpenActivity(isOpen ? null : assessment.activity)}
                 className="flex w-full items-center justify-between gap-3 px-4 py-2.5 text-left"
               >
-                <span className="flex items-baseline gap-1.5">
+                <span className="flex min-w-0 flex-wrap items-baseline gap-x-1.5">
                   <span className="text-[14px] text-ink">{label.label}</span>
                   {showHanCharacters && (
-                    <span className="font-han text-[12px] text-ink-soft">{label.chinese}</span>
+                    <span className="whitespace-nowrap font-han text-[12px] text-ink-soft">
+                      {label.chinese}
+                    </span>
                   )}
                 </span>
                 <span className="flex items-center gap-2">
-                  <Meter assessment={assessment} />
+                  <AxisDot assessment={assessment} />
                   <span className="w-14 text-right text-[11px] text-ink-soft">
                     {LEANING_WORD[assessment.leaning]}
                   </span>
