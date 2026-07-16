@@ -12,11 +12,22 @@ test("Today shows the guidance chips and a cited guidance line", async ({ page, 
   await pinClock(context, `${TODAY}T09:00:00Z`);
 
   await page.goto("/today/");
+  // The headline hook opens the screen in display type.
+  await expect(page.locator("[data-headline]")).toBeVisible();
+  await expect(page.locator("[data-headline]")).not.toBeEmpty();
+
   const guidance = page.locator("[data-guidance]");
   await expect(guidance).toBeVisible();
-  // At least one almanac chip (Favors or Watch) with a fact-tagged prose line.
-  await expect(guidance.getByText(/^(Favors|Watch)$/).first()).toBeVisible();
+  // Both board columns with a fact-tagged prose line beneath them.
+  await expect(guidance.getByText(/^Favors$/)).toBeVisible();
+  await expect(guidance.getByText(/^Watch$/)).toBeVisible();
   await expect(guidance.locator("[data-fact-tag]").first()).toBeVisible();
+
+  // Every modelled activity gets a gauge row; tapping one unfolds its cited line.
+  const rows = page.locator("[data-areas] li");
+  await expect(rows).toHaveCount(10);
+  await rows.first().getByRole("button").click();
+  await expect(page.locator("[data-areas] [data-fact-tag]").first()).toBeVisible();
 });
 
 test("the week strip jumps the reading to the tapped day", async ({ page, context }) => {

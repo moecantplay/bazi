@@ -103,5 +103,9 @@ export function natalInteractionLine(
     .replaceAll("{palaces}", palacePhrase(input.palaces))
     .replaceAll("{element}", element);
   const roomPalace = input.palaces[0] ?? "day";
-  return { text, factTag: interactionTag(input.branches, input.interaction, roomPalace) };
+  return {
+    text,
+    factTag: interactionTag(input.branches, input.interaction, roomPalace),
+    topic: `interaction:${input.interaction}`,
+  };
 }

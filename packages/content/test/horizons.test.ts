@@ -7,7 +7,8 @@
 
 import { describe, expect, it } from "vitest";
 import type { Element, HorizonFacts, ReadingFact } from "@daymaster/bazi-engine";
-import { TEN_GOD_GLOSSES, horizonReading, stripHanCharacters } from "../src/index.js";
+import { horizonReading, stripHanCharacters } from "../src/index.js";
+import { TEN_GOD_PERIOD_THEMES } from "../src/banks/horizons.js";
 import { ELEMENTS, TEN_GODS } from "./collect.js";
 
 function horizon(annual: ReadingFact[], monthly: ReadingFact[]): HorizonFacts {
@@ -77,14 +78,20 @@ describe("horizonReading structure", () => {
 });
 
 describe("horizonReading coverage", () => {
-  it("every ten-god english yields a themed, glossed line", () => {
+  it("every ten-god english opens on the classic and translates it in full", () => {
     for (const english of TEN_GODS) {
       const reading = horizonReading(
         horizon([themeFact("annual", english)], []),
         "seed",
       );
-      expect(reading.annual[0]!.text, english).toContain(TEN_GOD_GLOSSES[english]!);
-      expect(reading.annual[0]!.text).not.toMatch(/distinct ten-god note/);
+      const text = reading.annual[0]!.text;
+      expect(text, english).toContain(english);
+      expect(text, english).toContain(TEN_GOD_PERIOD_THEMES[english]!);
+      expect(text).not.toMatch(/distinct ten-god note/);
+      // Classic first, modern understanding after: the term precedes the theme.
+      expect(text.indexOf(english), `classic must lead: "${text}"`).toBeLessThan(
+        text.indexOf(TEN_GOD_PERIOD_THEMES[english]!),
+      );
     }
   });
 

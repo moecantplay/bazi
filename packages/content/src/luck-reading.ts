@@ -24,5 +24,6 @@ export function luckTransitionLines(
       .replaceAll("{from}", String(params.fromAge))
       .replaceAll("{to}", String(params.toAge)),
     factTag: null,
+    topic: "luck-pillar",
   }));
 }

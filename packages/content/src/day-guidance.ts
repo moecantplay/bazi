@@ -28,6 +28,7 @@ import {
   EVEN_DAY_FRAMES,
   FAVORS_FRAMES,
   FRICTION_FRAMES,
+  NEUTRAL_AREA_FRAMES,
   OFFICER_LINE_FRAMES,
 } from "./banks/day-guidance.js";
 
@@ -107,6 +108,8 @@ interface ResolvedReason {
   /** Element word for the {element} slot (empty when the line names none). */
   element: string;
   factTag: string;
+  /** Glossary key for the concept behind the tag. */
+  topic: string;
 }
 
 /** Which reason best explains why an assessment leans the way it does. */
@@ -126,6 +129,7 @@ function resolveReason(
         palace: palaceWord("day"),
         element: "",
         factTag: interactionTag([combine.transitBranch, combine.natalBranch], "six-combine", "day"),
+        topic: "interaction:six-combine",
       };
     }
     const element = reasonOf(reasons, "element-day");
@@ -135,11 +139,18 @@ function resolveReason(
         palace: "",
         element: elementWord(element.element),
         factTag: `${elementWord(element.element)} day · suits you`,
+        topic: "elements",
       };
     }
     const officerReason = reasonOf(reasons, "officer");
     if (officerReason && officerReason.direction === 1) {
-      return { kind: "officerFavor", palace: "", element: "", factTag: officerTag };
+      return {
+        kind: "officerFavor",
+        palace: "",
+        element: "",
+        factTag: officerTag,
+        topic: `officer:${officer.key}`,
+      };
     }
     return null;
   }
@@ -151,6 +162,7 @@ function resolveReason(
       palace: palaceWord("day"),
       element: "",
       factTag: interactionTag([breaker.transitBranch, breaker.natalBranch], "six-clash", "day"),
+      topic: "interaction:six-clash",
     };
   }
   const palaceClash = reasonOf(reasons, "palace-clash");
@@ -164,11 +176,18 @@ function resolveReason(
         "six-clash",
         palaceClash.palace,
       ),
+      topic: "interaction:six-clash",
     };
   }
   const officerReason = reasonOf(reasons, "officer");
   if (officerReason && officerReason.direction === -1) {
-    return { kind: "officerAvoid", palace: "", element: "", factTag: officerTag };
+    return {
+      kind: "officerAvoid",
+      palace: "",
+      element: "",
+      factTag: officerTag,
+      topic: `officer:${officer.key}`,
+    };
   }
   return null;
 }
@@ -188,12 +207,20 @@ function officerLine(officer: DayQuality["officer"], seedKey: string): ReadingLi
     officerEn: officer.english,
     officerGloss: OFFICER_GLOSSES[officer.key] ?? "the day's own grain",
   });
-  return { text, factTag: `${officer.chinese} ${officer.english} day` };
+  return {
+    text,
+    factTag: `${officer.chinese} ${officer.english} day`,
+    topic: `officer:${officer.key}`,
+  };
 }
 
 function evenDayLine(officer: DayQuality["officer"], seedKey: string): ReadingLine {
   const text = pick(EVEN_DAY_FRAMES, seedKey, `guid:even:${officer.key}`);
-  return { text, factTag: `${officer.chinese} ${officer.english} day` };
+  return {
+    text,
+    factTag: `${officer.chinese} ${officer.english} day`,
+    topic: `officer:${officer.key}`,
+  };
 }
 
 /** Explain one chip's leaning, or null if no reason accounts for it. */
@@ -214,7 +241,7 @@ function explainLine(
     palace: resolved.palace,
     element: resolved.element,
   });
-  return { text, factTag: resolved.factTag };
+  return { text, factTag: resolved.factTag, topic: resolved.topic };
 }
 
 /** Build the day's chips and the prose that explains them. */
@@ -242,6 +269,32 @@ export function dayGuidance(quality: DayQuality, seedKey: string): DayGuidance {
     lines.push(evenDayLine(officer, seedKey));
   }
   return { chips, lines };
+}
+
+/**
+ * One area row's detail: why this activity leans the way it does today, or its
+ * even footing when nothing pulls at it. Leaning rows reuse the same frames as
+ * the chip explanations, so a chip and its area row never tell two stories.
+ */
+export function activityAreaLine(
+  quality: DayQuality,
+  activity: ActivityKey,
+  seedKey: string,
+): ReadingLine {
+  const assessment = quality.assessments.find((entry) => entry.activity === activity);
+  const officer = quality.officer;
+  if (assessment && assessment.leaning !== "neutral") {
+    const line = explainLine(officer, assessment, assessment.leaning, seedKey);
+    if (line) {
+      return line;
+    }
+  }
+  const template = pick(NEUTRAL_AREA_FRAMES, seedKey, `guid:area:${activity}`);
+  return {
+    text: fill(template, { actLower: ACTIVITY_LABELS[activity].label.toLowerCase() }),
+    factTag: `${officer.chinese} ${officer.english} day`,
+    topic: `officer:${officer.key}`,
+  };
 }
 
 /** The assessment driving a candidate's combined score for a leaning. */
@@ -291,5 +344,9 @@ export function dateVerdictLine(candidate: DateCandidate, seedKey: string): Read
     `date:verdict:${activity}:${leaning}:${candidate.date}`,
   );
   const verdict = fill(verdictTemplate, { actLower, why });
-  return { text: `${intro} ${verdict}`, factTag: `${officer.chinese} ${officer.english} day` };
+  return {
+    text: `${intro} ${verdict}`,
+    factTag: `${officer.chinese} ${officer.english} day`,
+    topic: `officer:${officer.key}`,
+  };
 }

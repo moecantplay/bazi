@@ -10,6 +10,7 @@
 import { useMemo } from "react";
 import type { ReadingLine } from "@daymaster/content";
 import { stripHanCharacters } from "@daymaster/content";
+import { FactTag } from "@/components/fact-tag";
 import { PillarGlyph } from "@/components/pillar-glyph";
 import { useHanCharacters } from "@/components/han-characters-provider";
 import { todayLabel } from "@/lib/dates";
@@ -24,11 +25,7 @@ function HorizonLines({ lines }: { lines: ReadingLine[] }) {
     <ul className="mt-3 flex flex-col gap-2.5">
       {lines.map((line, index) => (
         <li key={index}>
-          {line.factTag && (
-            <p data-fact-tag className="text-[12px] text-ink-soft">
-              {display(line.factTag)}
-            </p>
-          )}
+          <FactTag line={line} />
           <p className={`text-[14px] leading-relaxed text-ink ${line.factTag ? "mt-0.5" : ""}`}>
             {display(line.text)}
           </p>

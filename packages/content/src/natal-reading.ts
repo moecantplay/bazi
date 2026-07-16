@@ -41,7 +41,11 @@ function dayMasterSection(facts: readonly ReadingFact[], seedKey: string): Readi
   const factTag = `${fact.stem} · day-master`;
   const opener = block[0] as string;
   const rest = pickDistinct(block.slice(1), 2, seedKey, `dm:${fact.stem}`);
-  const lines: ReadingLine[] = [opener, ...rest].map((text) => ({ text, factTag }));
+  const lines: ReadingLine[] = [opener, ...rest].map((text) => ({
+    text,
+    factTag,
+    topic: "day-master",
+  }));
   return { key: "day-master", title: "Your day-master", lines };
 }
 
@@ -54,6 +58,7 @@ function elementsSection(facts: readonly ReadingFact[], seedKey: string): Readin
     lines.push({
       text: pick(DOMINANT_LINES[dominant], seedKey, `edom:${dominant}`),
       factTag: `${elementWord(dominant)} dominant`,
+      topic: "elements",
     });
 
     if (balance.missing.length > 0) {
@@ -61,11 +66,13 @@ function elementsSection(facts: readonly ReadingFact[], seedKey: string): Readin
       lines.push({
         text: pick(MISSING_LINES[missing], seedKey, `emiss:${missing}`),
         factTag: `${elementWord(missing)} absent`,
+        topic: "elements",
       });
     } else {
       lines.push({
         text: pick(BALANCED_LINES, seedKey, "ebalanced"),
         factTag: "balanced elements",
+        topic: "elements",
       });
     }
   }
@@ -76,6 +83,7 @@ function elementsSection(facts: readonly ReadingFact[], seedKey: string): Readin
     lines.push({
       text: pick(pool, seedKey, `str:${strength.value}`),
       factTag: `${strength.value} day-master`,
+      topic: "strength",
     });
     lines.push(strengthWhyLine(strength));
   }
@@ -102,7 +110,7 @@ function strengthWhyLine(strength: FactOf<"strength">): ReadingLine {
       ? `${passes} of the three run in your favor, so the chart reads strong.`
       : `Only ${passes} of the three run${passes === 1 ? "s" : ""} in your favor, so the chart reads weak — light, not lacking.`;
   const text = `Three checks sit behind that reading: you ${checks[0]}; you ${checks[1]}; and you ${checks[2]}. ${tally}`;
-  return { text, factTag: "strength · three checks" };
+  return { text, factTag: "strength · three checks", topic: "strength" };
 }
 
 function starsSection(facts: readonly ReadingFact[], seedKey: string): ReadingSection | null {
@@ -134,12 +142,14 @@ function suitsSection(facts: readonly ReadingFact[], seedKey: string): ReadingSe
   const lines: ReadingLine[] = shown.map((element: Element) => ({
     text: FAVORABLE_LINES[element],
     factTag: `${elementWord(element)} · suits you`,
+    topic: "favorable",
   }));
 
   const careerElement = pick(favorable.elements, seedKey, `career:${favorable.elements.join("")}`);
   lines.push({
     text: CAREER_LINES[careerElement],
     factTag: `${elementWord(careerElement)} · inclinations`,
+    topic: "favorable",
   });
 
   return { key: "favorable", title: "What tends to suit you", lines };

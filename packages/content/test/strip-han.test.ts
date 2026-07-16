@@ -52,4 +52,24 @@ describe("stripHanCharacters", () => {
       "The day carries a Friend note — peers at your table.",
     );
   });
+
+  it("collapses a glossed branch token to its animal", () => {
+    expect(stripHanCharacters("Today's 午 (horse) runs straight at the 子 (rat) in your roots.")).toBe(
+      "Today's horse runs straight at the rat in your roots.",
+    );
+  });
+
+  it("keeps a trine sentence grammatical once glossed branches are stripped", () => {
+    expect(
+      stripHanCharacters(
+        "Today's 子 (rat) completes a trine with 申 (monkey) and 辰 (dragon) in your horizon.",
+      ),
+    ).toBe("Today's rat completes a trine with monkey and dragon in your horizon.");
+  });
+
+  it("still drops a Han-inside parenthetical that follows a Han run", () => {
+    expect(stripHanCharacters("Indirect Resource (偏印) is the old name for this year's grain.")).toBe(
+      "Indirect Resource is the old name for this year's grain.",
+    );
+  });
 });

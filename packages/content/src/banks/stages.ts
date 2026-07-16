@@ -35,8 +35,13 @@ export const STAGE_TEMPLATES: readonly string[] = [
 
 /** "The day sits at your 'Peak' stage (帝旺) — noon sun… Spend the height…". */
 export function stageDayLine(stage: LifeStage): ReadingLine {
+  const known = LIFE_STAGE_GLOSSES[stage.english] !== undefined;
   const gloss = LIFE_STAGE_GLOSSES[stage.english] ?? "one season of a twelve-season cycle";
   const mood = STAGE_DAY_MOODS[stage.english] ?? GENERIC_MOOD;
   const text = `The day sits at your '${stage.english}' stage (${stage.chinese}) — ${gloss}. ${mood}`;
-  return { text, factTag: `${stage.chinese} ${stage.english} · today` };
+  const line: ReadingLine = { text, factTag: `${stage.chinese} ${stage.english} · today` };
+  if (known) {
+    line.topic = `stage:${stage.english}`;
+  }
+  return line;
 }

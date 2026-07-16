@@ -20,7 +20,7 @@ import {
 } from "../src/index.js";
 import type { ReadingLine } from "../src/index.js";
 import { DATE_WHY_CLAUSES, DAY_GUIDANCE_TEMPLATES } from "../src/banks/day-guidance.js";
-import { HORIZON_TEMPLATES } from "../src/banks/horizons.js";
+import { HORIZON_TEMPLATES, TEN_GOD_PERIOD_THEMES } from "../src/banks/horizons.js";
 import {
   INTERACTIONS,
   NATAL_PALACES,
@@ -81,7 +81,7 @@ function allEmittedLines(): ReadingLine[] {
       for (const palace of NATAL_PALACES) {
         for (const transitPalace of ["daily", "annual"] as const) {
           const reading = dailyReading(dailyFactSet(interaction, palace, transitPalace), seed);
-          lines.push(...reading.lines, reading.agency);
+          lines.push(reading.headline, ...reading.lines, reading.agency);
         }
       }
     }
@@ -126,11 +126,15 @@ describe("voice compliance", () => {
     for (const interaction of INTERACTIONS) {
       expect(INTERACTION_GLOSSES[interaction], `gloss for ${interaction}`).toBeDefined();
     }
+    for (const god of TEN_GODS) {
+      expect(TEN_GOD_PERIOD_THEMES[god], `period theme for ${god}`).toBeDefined();
+    }
     const glosses = [
       DAY_MASTER_GLOSS,
       LUCK_PILLAR_GLOSS,
       ...Object.values(INTERACTION_GLOSSES),
       ...Object.values(TEN_GOD_GLOSSES),
+      ...Object.values(TEN_GOD_PERIOD_THEMES),
     ];
     for (const gloss of glosses) {
       expect(gloss.length, "gloss must be non-empty").toBeGreaterThan(0);

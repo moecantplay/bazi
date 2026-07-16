@@ -17,7 +17,15 @@ import {
   type DayQuality,
   type Pillar,
 } from "@daymaster/bazi-engine";
-import { ACTIVITY_LABELS, OFFICER_GLOSSES, dateVerdictLine, dayGuidance, stripHanCharacters } from "../src/index.js";
+import {
+  ACTIVITY_LABELS,
+  OFFICER_GLOSSES,
+  activityAreaLine,
+  dateVerdictLine,
+  dayGuidance,
+  stripHanCharacters,
+} from "../src/index.js";
+import { NEUTRAL_AREA_FRAMES } from "../src/banks/day-guidance.js";
 
 const CHENG = DAY_OFFICERS.find((officer) => officer.key === "cheng")!;
 const PO = DAY_OFFICERS.find((officer) => officer.key === "po")!;
@@ -173,6 +181,39 @@ describe("dayGuidance lines", () => {
       expect(stripped.length).toBeGreaterThan(0);
       expect(stripped).not.toMatch(/[㐀-鿿]/);
     }
+  });
+});
+
+describe("activityAreaLine", () => {
+  it("explains a leaning activity with the same frames as its chip", () => {
+    const line = activityAreaLine(richQuality(), "travel", "seed");
+    // travel's friction is a clash on the roots palace; the line cites it.
+    expect(line.factTag).toContain("clash");
+    expect(line.text.toLowerCase()).toContain("travel");
+  });
+
+  it("reads even footing for a neutral activity, citing the officer", () => {
+    const line = activityAreaLine(richQuality(), "clear", "seed");
+    const actLower = ACTIVITY_LABELS.clear.label.toLowerCase();
+    const rendered = NEUTRAL_AREA_FRAMES.map((frame) => frame.replaceAll("{actLower}", actLower));
+    expect(rendered).toContain(line.text);
+    expect(line.factTag).toBe("成 Success day");
+    expect(line.topic).toBe("officer:cheng");
+  });
+
+  it("covers every modelled activity with a non-empty, strip-safe line", () => {
+    for (const entry of ACTIVITIES) {
+      const line = activityAreaLine(richQuality(), entry.key, "seed");
+      expect(line.text.length, entry.key).toBeGreaterThan(0);
+      expect(line.factTag, entry.key).not.toBeNull();
+      const stripped = stripHanCharacters(line.text);
+      expect(stripped).not.toMatch(/[㐀-鿿]/);
+    }
+  });
+
+  it("is deterministic in (quality, activity, seedKey)", () => {
+    const q = richQuality();
+    expect(activityAreaLine(q, "move", "s")).toEqual(activityAreaLine(q, "move", "s"));
   });
 });
 

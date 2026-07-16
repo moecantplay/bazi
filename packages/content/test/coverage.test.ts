@@ -6,7 +6,7 @@
 
 import { describe, expect, it } from "vitest";
 import type { InteractionType, Palace, ReadingFact } from "@daymaster/bazi-engine";
-import { dailyReading, natalReading } from "../src/index.js";
+import { dailyReading, natalReading, stripHanCharacters } from "../src/index.js";
 import {
   ELEMENTS,
   INTERACTIONS,
@@ -152,6 +152,19 @@ describe("coverage: daily", () => {
           expect(reading.donts.length).toBeLessThanOrEqual(2);
         }
       }
+    }
+  });
+
+  it("inline branches carry their animal gloss and survive the Han strip", () => {
+    // dailyFactSet's transit is 子午 with 午 brought by the day: the line must
+    // gloss both glyphs (VOICE.md §10) so stripping keeps the sentence whole.
+    for (const interaction of INTERACTIONS) {
+      const reading = dailyReading(dailyFactSet(interaction, "month", "daily"), SEED);
+      const transitLine = reading.lines[0]!.text;
+      expect(transitLine, interaction).toContain("午 (horse)");
+      const stripped = stripHanCharacters(transitLine);
+      expect(stripped, interaction).toContain("horse");
+      expect(stripped, interaction).not.toMatch(/[㐀-鿿]/);
     }
   });
 

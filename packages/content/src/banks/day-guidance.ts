@@ -61,6 +61,13 @@ export const EVEN_DAY_FRAMES: readonly string[] = [
   "The day sits level, no strong current in it. A fair time for the small, unglamorous task.",
 ];
 
+/** Detail line for an area row whose activity carries no leaning today. */
+export const NEUTRAL_AREA_FRAMES: readonly string[] = [
+  "Nothing in the day pulls at {actLower} either way; it goes the way you take it.",
+  "For {actLower}, the day sits level — no current with it, none against.",
+  "The day carries no particular grain for {actLower}. Ordinary footing, yours to use.",
+];
+
 /** A candidate day's verdict sentence in the finder, by how the day leans. */
 export const DATE_VERDICT_FRAMES: Record<"favors" | "neutral" | "friction", readonly string[]> = {
   favors: [
@@ -97,5 +104,6 @@ export const DAY_GUIDANCE_TEMPLATES: readonly string[] = [
   ...Object.values(FAVORS_FRAMES).flat(),
   ...Object.values(FRICTION_FRAMES).flat(),
   ...EVEN_DAY_FRAMES,
+  ...NEUTRAL_AREA_FRAMES,
   ...Object.values(DATE_VERDICT_FRAMES).flat(),
 ];

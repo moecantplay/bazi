@@ -9,17 +9,48 @@
  * branch citation rides the factTag as a pair. Prose leans on palace words.
  *
  * Placeholders: {periodCap} ("This year"/"This month"), {periodNoun}
- * ("year"/"month"), {tgEn} {tgCn} {tgGloss} the ten-god theme, {element} the
- * period element, {palace} the touched palace word.
+ * ("year"/"month"), {tgTheme} the plain-language theme, {tgEn} {tgCn} the
+ * ten-god label, {element} the period element, {palace} the touched palace
+ * word.
+ *
+ * Theme lines open on the classical name — explicitly framed as the old name,
+ * never as a bare subject — and follow with the modern understanding in full
+ * (VOICE.md §11). The classic gives the line its anchor; the translation does
+ * the explaining.
  */
 
 import type { Element } from "@daymaster/bazi-engine";
 
-/** Theme frames for a known ten-god period (article-free before {tgEn}). */
+/**
+ * What each ten-god season is about, in ordinary life — the phrase that leads
+ * the theme line. Noun phrases opening on the everyday meaning, expanded by a
+ * situation the reader has been in; the classical label never appears here.
+ */
+export const TEN_GOD_PERIOD_THEMES: Record<string, string> = {
+  Friend: "company — peers carrying the same pack as you, more done shoulder to shoulder than alone",
+  "Rob Wealth":
+    "friendly rivalry — a pace-setter at your elbow, good drive that tends to spend as freely as it earns",
+  "Eating God": "making for the joy of it — cooking for friends rather than for a review",
+  "Hurting Officer":
+    "improving the recipe — bright ideas that chafe inside anyone else's format, the wit that annoys the chef",
+  "Indirect Wealth":
+    "the lucky find — chances arriving sideways like a good parking spot, best held loosely",
+  "Direct Wealth": "the earned paycheck — value that arrives because you kept showing up",
+  "Seven Killings":
+    "pressure that trains you — the coach calling for the hill one more time, heavy going that builds real strength",
+  "Direct Officer":
+    "doing things properly — kept promises, tidy paperwork, a reputation quietly compounding",
+  "Indirect Resource":
+    "learning by your own strange route — hunches, side reading, answers that arrive in the shower",
+  "Direct Resource":
+    "being looked after — the friend who brings soup without being asked, room to rest and take things in",
+};
+
+/** Theme frames for a known ten-god period: the classic named first, translated in full. */
 export const THEME_FRAMES: readonly string[] = [
-  "{periodCap} carries the {tgEn} note ({tgCn}) — {tgGloss}. Read it as the season's prevailing grain, yours to work with.",
-  "The {periodNoun}'s theme is the {tgEn} note ({tgCn}) — {tgGloss}, a current more than a command.",
-  "{periodCap} leans on the {tgEn} note ({tgCn}) — {tgGloss}.",
+  "The old calendars name this {periodNoun} {tgEn} ({tgCn}). In everyday terms, {tgTheme}.",
+  "{periodCap} carries the {tgEn} note ({tgCn}) of the old calendars. Read it as {tgTheme}.",
+  "{tgEn} ({tgCn}) is the old name for this {periodNoun}'s grain. In modern terms, {tgTheme}.",
 ];
 
 /** Fallback theme frame for a ten-god label with no specific gloss. */

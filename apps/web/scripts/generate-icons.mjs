@@ -7,12 +7,13 @@
  *
  * Outputs: icon-192.png / icon-512.png (purpose "any"),
  * icon-maskable-512.png (artwork scaled to the ~80% safe zone so platform
- * masks can't crop it), and apple-touch-icon.png (180x180, opaque — iOS
- * flattens alpha to black).
+ * masks can't crop it), apple-touch-icon.png (180x180, opaque — iOS
+ * flattens alpha to black), and favicon.ico (48x48 — browsers blind-request
+ * /favicon.ico regardless of the declared icon links).
  */
 
 import { chromium } from "@playwright/test";
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 
@@ -60,5 +61,26 @@ for (const target of TARGETS) {
   });
   console.log(`wrote ${target.file}`);
 }
+
+// favicon.ico: a single 48x48 PNG in an ICO container (PNG-in-ICO is
+// supported by every browser that requests /favicon.ico).
+const FAVICON_SIZE = 48;
+await page.setViewportSize({ width: FAVICON_SIZE, height: FAVICON_SIZE });
+await page.setContent(variant(FAVICON_SIZE, 1), { waitUntil: "networkidle" });
+await page.waitForTimeout(100);
+const png = await page.screenshot({
+  clip: { x: 0, y: 0, width: FAVICON_SIZE, height: FAVICON_SIZE }
+});
+const header = Buffer.alloc(22);
+header.writeUInt16LE(1, 2); // type: icon
+header.writeUInt16LE(1, 4); // one image
+header.writeUInt8(FAVICON_SIZE, 6); // width
+header.writeUInt8(FAVICON_SIZE, 7); // height
+header.writeUInt16LE(1, 10); // color planes
+header.writeUInt16LE(32, 12); // bits per pixel
+header.writeUInt32LE(png.length, 14); // image data size
+header.writeUInt32LE(22, 18); // image data offset
+writeFileSync(resolve(publicDir, "favicon.ico"), Buffer.concat([header, png]));
+console.log("wrote favicon.ico");
 
 await browser.close();

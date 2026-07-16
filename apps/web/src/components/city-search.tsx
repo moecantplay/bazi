@@ -33,9 +33,11 @@ interface Props {
 
 export function CitySearch({ selected, onSelect }: Props) {
   const [query, setQuery] = useState("");
+  const [searching, setSearching] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [dataset, setDataset] = useState<CityDataset | null>(null);
   const listRef = useRef<HTMLUListElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -65,7 +67,9 @@ export function CitySearch({ selected, onSelect }: Props) {
   function choose(city: StoredCity) {
     onSelect(city);
     setQuery("");
+    setSearching(false);
     setActiveIndex(0);
+    inputRef.current?.blur();
   }
 
   function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
@@ -87,30 +91,54 @@ export function CitySearch({ selected, onSelect }: Props) {
     }
   }
 
+  // While the field is idle it displays the chosen city like a filled input;
+  // focusing it clears back to search mode, blurring without a pick restores it.
+  const selectedLabel = selected ? `${selected.name}, ${selected.country}` : "";
+  const inputValue = searching ? query : selectedLabel;
+
   return (
     <div className="flex flex-col gap-3">
-      {selected && (
-        <p className="text-sm text-ink">
-          Selected: <span className="font-medium">{selected.name}, {selected.country}</span>
-        </p>
-      )}
-
-      <input
-        type="text"
-        role="combobox"
-        aria-expanded={results.length > 0}
-        aria-controls="city-results"
-        aria-autocomplete="list"
-        autoComplete="off"
-        placeholder="Search for your birth city"
-        value={query}
-        onChange={(event) => {
-          setQuery(event.target.value);
-          setActiveIndex(0);
-        }}
-        onKeyDown={handleKeyDown}
-        className="w-full rounded-lg border border-ink-soft bg-paper-raised px-4 py-3 text-base text-ink placeholder:text-ink-soft"
-      />
+      <div className="relative">
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 20 20"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+          className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-ink-soft"
+        >
+          <circle cx="8.5" cy="8.5" r="5.5" />
+          <path d="m17 17-4.2-4.2" />
+        </svg>
+        <input
+          ref={inputRef}
+          type="text"
+          role="combobox"
+          aria-expanded={results.length > 0}
+          aria-controls="city-results"
+          aria-autocomplete="list"
+          aria-label="Search for your birth city"
+          autoComplete="off"
+          placeholder={selected ? "Search for a different city" : "Search for your birth city"}
+          value={inputValue}
+          onFocus={() => {
+            setSearching(true);
+            setQuery("");
+            setActiveIndex(0);
+          }}
+          onBlur={() => {
+            setSearching(false);
+            setQuery("");
+          }}
+          onChange={(event) => {
+            setQuery(event.target.value);
+            setActiveIndex(0);
+          }}
+          onKeyDown={handleKeyDown}
+          className="w-full rounded-lg border border-ink-soft bg-paper-raised py-3 pl-11 pr-4 text-base text-ink placeholder:text-ink-soft"
+        />
+      </div>
 
       {results.length > 0 && (
         <ul
@@ -127,6 +155,9 @@ export function CitySearch({ selected, onSelect }: Props) {
                 <button
                   type="button"
                   onMouseEnter={() => setActiveIndex(index)}
+                  // Keep focus in the input so onBlur doesn't dismiss the list
+                  // before this click lands.
+                  onMouseDown={(event) => event.preventDefault()}
                   onClick={() => choose(city)}
                   className={`flex w-full items-baseline justify-between gap-2 px-4 py-2.5 text-left text-sm ${
                     active ? "bg-paper text-ink" : "text-ink"

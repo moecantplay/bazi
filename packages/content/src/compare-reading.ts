@@ -8,7 +8,7 @@
 import type { CompareFact, InteractionType, Palace } from "@daymaster/bazi-engine";
 import type { CompareReading, ReadingLine } from "./types.js";
 import { pick, pickDistinct } from "./hash.js";
-import { TEN_GOD_GLOSSES, elementWord, interactionWord, palaceWord } from "./vocab.js";
+import { TEN_GOD_GLOSSES, branchToken, elementWord, interactionWord, palaceWord } from "./vocab.js";
 import {
   COMPARE_GENERIC_TEMPLATES,
   COMPARE_INTERACTION_TEMPLATES,
@@ -34,10 +34,21 @@ function dayMasterLines(fact: FactOf<"compare-day-masters">, seedKey: string): R
       .replaceAll("{chinese}", god.chinese)
       .replaceAll("{gloss}", TEN_GOD_GLOSSES[god.english] ?? "one of the ten flavors of relation");
 
+  const tenGodTopic = (english: string): string =>
+    TEN_GOD_GLOSSES[english] ? `ten-god:${english}` : "ten-gods";
+
   return [
-    { text: relationText, factTag },
-    { text: seen(SEEN_TEMPLATES.aSeesB, fact.aSeesB), factTag: `${fact.aSeesB.english} · ${fact.aSeesB.chinese}` },
-    { text: seen(SEEN_TEMPLATES.bSeesA, fact.bSeesA), factTag: `${fact.bSeesA.english} · ${fact.bSeesA.chinese}` },
+    { text: relationText, factTag, topic: "day-master" },
+    {
+      text: seen(SEEN_TEMPLATES.aSeesB, fact.aSeesB),
+      factTag: `${fact.aSeesB.english} · ${fact.aSeesB.chinese}`,
+      topic: tenGodTopic(fact.aSeesB.english),
+    },
+    {
+      text: seen(SEEN_TEMPLATES.bSeesA, fact.bSeesA),
+      factTag: `${fact.bSeesA.english} · ${fact.bSeesA.chinese}`,
+      topic: tenGodTopic(fact.bSeesA.english),
+    },
   ];
 }
 
@@ -60,20 +71,21 @@ function compareTag(
 function interactionLine(fact: FactOf<"compare-interaction">, seedKey: string): ReadingLine {
   const salt = `cmp:${fact.interaction}:${fact.branches.join("")}:${fact.aPalace}:${fact.bPalace}`;
   const text = pick(interactionTemplates(fact), seedKey, salt)
-    .replaceAll("{aBranch}", fact.branches[0])
-    .replaceAll("{bBranch}", fact.branches[1])
+    .replaceAll("{aBranch}", branchToken(fact.branches[0]))
+    .replaceAll("{bBranch}", branchToken(fact.branches[1]))
     .replaceAll("{aPalace}", palaceWord(fact.aPalace))
     .replaceAll("{bPalace}", palaceWord(fact.bPalace))
     .replaceAll("{element}", fact.element ? elementWord(fact.element) : "");
   return {
     text,
     factTag: compareTag(fact.branches, fact.interaction, fact.aPalace, fact.bPalace),
+    topic: `interaction:${fact.interaction}`,
   };
 }
 
 function supportLine(fact: FactOf<"compare-element-support">): ReadingLine {
   const text = SUPPORT_LINES[fact.direction].replaceAll("{element}", elementWord(fact.element));
-  return { text, factTag: `${elementWord(fact.element)} · support` };
+  return { text, factTag: `${elementWord(fact.element)} · support`, topic: "elements" };
 }
 
 /** Build the full comparison reading. */

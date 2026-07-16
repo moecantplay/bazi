@@ -3,7 +3,8 @@
  * interactions, plus the verbatim disclaimer. Formatting only — no chart math.
  */
 
-import { ACTIVITIES, type ActivityKey, type Element, type InteractionType, type Palace } from "@daymaster/bazi-engine";
+import { ACTIVITIES, type ActivityKey, type Branch, type Element, type InteractionType, type Palace } from "@daymaster/bazi-engine";
+import { BRANCH_ANIMALS } from "./strip-han.js";
 
 /** Verbatim from VOICE.md — do not edit without editing VOICE.md. */
 export const DISCLAIMER =
@@ -47,6 +48,16 @@ export function elementWord(element: Element): string {
   return `${element.charAt(0).toUpperCase()}${element.slice(1)}`;
 }
 
+/**
+ * A branch glyph with its animal right there — "子 (rat)" (VOICE.md §10).
+ * The only strip-safe way to put a lone branch inside prose: stripping keeps
+ * just the animal, so the sentence never loses its subject.
+ */
+export function branchToken(branch: string): string {
+  const animal = BRANCH_ANIMALS[branch as Branch];
+  return animal === undefined ? branch : `${branch} (${animal})`;
+}
+
 /** The voice word for an interaction type ("six-clash" -> "clash"). */
 const INTERACTION_WORDS: Record<InteractionType, string> = {
   "six-combine": "combine",
@@ -86,6 +97,20 @@ export const INTERACTION_GLOSSES: Record<InteractionType, string> = {
   trine: "three branches pulling one direction, a crew that has rowed together for years",
   punishment: "a stone in your shoe — small, recurring, quieter once named",
   harm: "a slow leak rather than a burst pipe",
+};
+
+/** The characters of each ten god, keyed by the engine's english label. */
+export const TEN_GOD_CHINESE: Record<string, string> = {
+  Friend: "比肩",
+  "Rob Wealth": "劫财",
+  "Eating God": "食神",
+  "Hurting Officer": "伤官",
+  "Indirect Wealth": "偏财",
+  "Direct Wealth": "正财",
+  "Seven Killings": "七杀",
+  "Direct Officer": "正官",
+  "Indirect Resource": "偏印",
+  "Direct Resource": "正印",
 };
 
 /** Everyday translation of each ten god, keyed by the engine's english label. */

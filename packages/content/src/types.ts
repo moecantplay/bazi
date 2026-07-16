@@ -11,6 +11,12 @@ export interface ReadingLine {
   text: string;
   /** Short human-readable citation, e.g. "子午 clash · career palace". */
   factTag: string | null;
+  /**
+   * Glossary key for the concept the citation names (e.g. "interaction:trine",
+   * "ten-god:Friend"), when one exists — the UI turns the caption into a link
+   * to that explainer. Absent for pure-voice lines.
+   */
+  topic?: string;
 }
 
 /** Stable machine identifiers for natal sections; display titles may change. */
@@ -29,8 +35,10 @@ export interface NatalReading {
   sections: ReadingSection[];
 }
 
-/** A daily reading: body lines, do/don't suggestions, and the agency line. */
+/** A daily reading: headline, body lines, suggestions, and the agency line. */
 export interface DailyReading {
+  /** Display-type hook that opens the reading; pure voice, cites nothing. */
+  headline: ReadingLine;
   lines: ReadingLine[];
   /** Small actions the day's grain makes cheaper (1–2, always present). */
   dos: ReadingLine[];

@@ -25,6 +25,7 @@ import { STAR_TEMPLATES } from "../src/banks/stars.js";
 import { STAGE_TEMPLATES } from "../src/banks/stages.js";
 import { DO_DONT_TEMPLATES } from "../src/banks/dos-donts.js";
 import { DAY_GUIDANCE_TEMPLATES } from "../src/banks/day-guidance.js";
+import { HEADLINE_TEMPLATES } from "../src/banks/headlines.js";
 import { HORIZON_TEMPLATES } from "../src/banks/horizons.js";
 import { LIFE_STAGE_GLOSSES, STAR_GLOSSES } from "../src/vocab.js";
 
@@ -69,9 +70,10 @@ export const TEN_GODS: readonly string[] = [
 /** Fill every placeholder with a representative value so templates read as real lines. */
 function render(template: string): string {
   return template
-    .replaceAll("{whose}", "Today's")
-    .replaceAll("{transit}", "午")
-    .replaceAll("{natal}", "子")
+    .replaceAll("{period}", "day")
+    .replaceAll("{periodPossCap}", "Today's")
+    .replaceAll("{transit}", "午 (horse)")
+    .replaceAll("{natal}", "子 (rat)")
     .replaceAll("{branches}", "子午")
     .replaceAll("{palaces}", "career palace")
     .replaceAll("{palace}", "career palace")
@@ -79,8 +81,8 @@ function render(template: string): string {
     .replaceAll("{element}", "Water")
     .replaceAll("{from}", "33")
     .replaceAll("{to}", "43")
-    .replaceAll("{aBranch}", "子")
-    .replaceAll("{bBranch}", "午")
+    .replaceAll("{aBranch}", "子 (rat)")
+    .replaceAll("{bBranch}", "午 (horse)")
     .replaceAll("{aPalace}", "career palace")
     .replaceAll("{bPalace}", "roots")
     .replaceAll("{aElement}", "Water")
@@ -97,7 +99,7 @@ function render(template: string): string {
     .replaceAll("{periodNoun}", "year")
     .replaceAll("{tgEn}", "Eating God")
     .replaceAll("{tgCn}", "食神")
-    .replaceAll("{tgGloss}", "making for the joy of it");
+    .replaceAll("{tgTheme}", "making for the joy of it — cooking for friends rather than for a review");
 }
 
 /** Every user-facing line in the whole bank, rendered with sample values. */
@@ -122,6 +124,7 @@ export function allBankLines(): string[] {
     ...STAGE_TEMPLATES,
     ...DO_DONT_TEMPLATES,
     ...DAY_GUIDANCE_TEMPLATES,
+    ...HEADLINE_TEMPLATES,
     ...HORIZON_TEMPLATES,
     ...Object.values(STAR_GLOSSES).map((gloss) => `A star — ${gloss}.`),
     ...Object.values(LIFE_STAGE_GLOSSES).map((gloss) => `A stage — ${gloss}.`),

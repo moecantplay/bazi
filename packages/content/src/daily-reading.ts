@@ -27,6 +27,11 @@ import {
   type DoDontCandidate,
 } from "./banks/dos-donts.js";
 import { AGENCY_POOLS, agencyTagForPalace, type AgencyTag } from "./banks/agency.js";
+import {
+  ELEMENT_HEADLINES,
+  GENERIC_HEADLINES,
+  INTERACTION_HEADLINES,
+} from "./banks/headlines.js";
 import { elementWord, interactionWord, transitWhen } from "./vocab.js";
 
 type FactOf<K extends ReadingFact["kind"]> = Extract<ReadingFact, { kind: K }>;
@@ -79,13 +84,14 @@ function suggestionCandidates(
 
   for (const transit of chosenTransits) {
     const tag = `${transit.branches.join("")} ${interactionWord(transit.interaction)} · ${transitWhen(transit.transitPalace)}`;
+    const topic = `interaction:${transit.interaction}`;
     const doText = INTERACTION_DOS[transit.interaction];
     if (doText) {
-      dos.push({ text: doText, factTag: tag });
+      dos.push({ text: doText, factTag: tag, topic });
     }
     const dontText = INTERACTION_DONTS[transit.interaction];
     if (dontText) {
-      donts.push({ text: dontText, factTag: tag });
+      donts.push({ text: dontText, factTag: tag, topic });
     }
   }
 
@@ -97,24 +103,27 @@ function suggestionCandidates(
       dos.push({
         text: ELEMENT_DOS[elementDay.element],
         factTag: `${elementWord(elementDay.element)} day · suits you`,
+        topic: "elements",
       });
     } else {
       donts.push({
         text: ELEMENT_DONTS[elementDay.element],
         factTag: `${elementWord(elementDay.element)} day · against your grain`,
+        topic: "elements",
       });
     }
   }
 
   for (const star of factsOf(facts, "star-day")) {
     const tag = `${star.chinese} ${star.english} · ${transitWhen(star.transitPalace)}`;
+    const topic = `star:${star.star}`;
     const doText = STAR_DOS[star.star];
     if (doText) {
-      dos.push({ text: doText, factTag: tag });
+      dos.push({ text: doText, factTag: tag, topic });
     }
     const dontText = STAR_DONTS[star.star];
     if (dontText) {
-      donts.push({ text: dontText, factTag: tag });
+      donts.push({ text: dontText, factTag: tag, topic });
     }
   }
 
@@ -132,6 +141,29 @@ function chooseSuggestions(
     return [{ text: pick(fallback, seedKey, salt), factTag: null }];
   }
   return pickDistinct(candidates, MAX_SUGGESTIONS, seedKey, salt).map(doDontLine);
+}
+
+/**
+ * The headline hook, keyed off a displayed transit interaction — preferring one
+ * of the day itself over a year/month theme, since headlines speak about the
+ * day — else the element of the day, else generic.
+ */
+function headlineLine(
+  chosen: readonly FactOf<"transit-interaction">[],
+  elementDay: FactOf<"element-day"> | undefined,
+  seedKey: string,
+): ReadingLine {
+  const first = chosen.find((fact) => fact.transitPalace === "daily") ?? chosen[0];
+  // An unknown interaction kind (future engine enum) falls through to element.
+  const pool = first ? INTERACTION_HEADLINES[first.interaction] : undefined;
+  if (first && pool) {
+    return { text: pick(pool, seedKey, `headline:${first.interaction}`), factTag: null };
+  }
+  if (elementDay) {
+    const pool = ELEMENT_HEADLINES[elementDay.favorable ? "favorable" : "unfavorable"];
+    return { text: pick(pool, seedKey, "headline:element"), factTag: null };
+  }
+  return { text: pick(GENERIC_HEADLINES, seedKey, "headline:generic"), factTag: null };
 }
 
 /** Pick the agency line, echoing a DISPLAYED transit's palace when one exists. */
@@ -182,6 +214,7 @@ export function dailyReading(facts: ReadingFact[], seedKey: string): DailyReadin
 
   const candidates = suggestionCandidates(facts, chosen);
   return {
+    headline: headlineLine(chosen, elementDay, seedKey),
     lines,
     dos: chooseSuggestions(candidates.dos, GENERIC_DOS, seedKey, "dos"),
     donts: chooseSuggestions(candidates.donts, GENERIC_DONTS, seedKey, "donts"),

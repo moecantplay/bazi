@@ -12,6 +12,8 @@ import type { ReadingLine } from "../types.js";
 export interface DoDontCandidate {
   text: string;
   factTag: string;
+  /** Glossary key for the concept behind the tag, when one exists. */
+  topic?: string;
 }
 
 /** "Do" lines for a day whose element suits the reader. */
@@ -94,5 +96,9 @@ export const DO_DONT_TEMPLATES: readonly string[] = [
 
 /** Wrap a candidate as a reading line. */
 export function doDontLine(candidate: DoDontCandidate): ReadingLine {
-  return { text: candidate.text, factTag: candidate.factTag };
+  const line: ReadingLine = { text: candidate.text, factTag: candidate.factTag };
+  if (candidate.topic) {
+    line.topic = candidate.topic;
+  }
+  return line;
 }

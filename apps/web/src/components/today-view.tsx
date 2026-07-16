@@ -1,9 +1,12 @@
 /**
- * The Today screen: a ±30-day date strip around the device's real today (tap
- * the date to jump within the window), the displayed day's pillar and which
- * natal palaces its branch touches, the daily reading as stacked cards, and
- * the agency line last, set apart in display type. A quiet streak line and a
- * come-back-tomorrow note are screen chrome, not reading copy.
+ * The Today screen, arranged Co-Star-style: a ±30-day date strip around the
+ * device's real today (tap the date to jump within the window), the day's
+ * headline hook in display type, the day pillar and which natal palaces it
+ * touches, the reading as stacked cards, the merged Favors/Watch board (chips
+ * plus fact-cited suggestions over the explaining prose), every activity as a
+ * gauge row, then the week strip — and the agency line last, set apart in
+ * display type. A quiet streak line and a come-back-tomorrow note are screen
+ * chrome, not reading copy.
  *
  * All reading text comes from the content package and is deterministic in the
  * daily seedKey, so revisiting a date always shows the same words.
@@ -14,15 +17,17 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import type { ReadingFact } from "@daymaster/bazi-engine";
-import type { ReadingLine } from "@daymaster/content";
-import { stripHanCharacters } from "@daymaster/content";
-import { GuidanceBlock } from "@/components/guidance-block";
+import { READING_TOPIC, glossaryEntry } from "@daymaster/content";
+import { AreaGauges } from "@/components/area-gauges";
+import { DayBoard } from "@/components/day-board";
+import { GlossarySheet } from "@/components/glossary-sheet";
 import { ReadingCard } from "@/components/reading-card";
 import { WeekStrip } from "@/components/week-strip";
 import { useHanCharacters } from "@/components/han-characters-provider";
 import { addDays, daysBetween, formatLong, todayLabel } from "@/lib/dates";
 import { describeBranch, describeStem, palaceWord } from "@/lib/display";
-import { dailyBundleFor } from "@/lib/reading";
+import { dayGuidanceFor } from "@/lib/guidance";
+import { dailyBundleFor, dailySeedKey } from "@/lib/reading";
 import type { StoredProfile } from "@/lib/profile";
 import { recordTodayOpen } from "@/lib/streak";
 
@@ -52,30 +57,6 @@ function dailyPalaceTouches(facts: ReadingFact[]): string[] {
     }
   }
   return [...words];
-}
-
-/** One column of the day's suggestions; the caption cites the fact behind each. */
-function SuggestionList({ title, lines }: { title: string; lines: ReadingLine[] }) {
-  const { showHanCharacters } = useHanCharacters();
-  const display = (text: string) => (showHanCharacters ? text : stripHanCharacters(text));
-
-  return (
-    <div className="rounded-xl border border-hairline bg-paper-raised p-4">
-      <h3 className="text-[12px] font-medium uppercase tracking-wide text-ink-soft">{title}</h3>
-      <ul className="mt-2 flex flex-col gap-2.5">
-        {lines.map((line, index) => (
-          <li key={index}>
-            <p className="text-[14px] leading-relaxed text-ink">{display(line.text)}</p>
-            {line.factTag && (
-              <p data-fact-tag className="mt-0.5 text-[11px] text-ink-soft">
-                {display(line.factTag)}
-              </p>
-            )}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
 }
 
 interface Props {
@@ -114,6 +95,8 @@ export function TodayView({ profile }: Props) {
   const [offset, setOffset] = useState(0);
   const [pickerOpen, setPickerOpen] = useState(false);
   const [streak, setStreak] = useState(0);
+  const [aboutOpen, setAboutOpen] = useState(false);
+  const aboutEntry = glossaryEntry(READING_TOPIC);
 
   useEffect(() => {
     setStreak(recordTodayOpen(today));
@@ -121,6 +104,7 @@ export function TodayView({ profile }: Props) {
 
   const dateISO = addDays(today, offset);
   const bundle = useMemo(() => dailyBundleFor(profile, dateISO), [profile, dateISO]);
+  const guidance = useMemo(() => dayGuidanceFor(profile, dateISO), [profile, dateISO]);
 
   const { showHanCharacters } = useHanCharacters();
   const stem = describeStem(bundle.dayPillar.stem);
@@ -205,7 +189,9 @@ export function TodayView({ profile }: Props) {
         )}
       </div>
 
-      <WeekStrip profile={profile} today={today} selectedISO={dateISO} onSelect={jumpTo} />
+      <h2 data-headline className="text-center font-display text-2xl leading-snug text-ink">
+        {bundle.reading.headline.text}
+      </h2>
 
       <div className="flex flex-col items-center gap-2">
         {showHanCharacters ? (
@@ -232,9 +218,31 @@ export function TodayView({ profile }: Props) {
         {bundle.reading.lines.map((line, index) => (
           <ReadingCard key={index} line={line} />
         ))}
+        {aboutEntry && (
+          <button
+            type="button"
+            data-about-reading
+            onClick={() => setAboutOpen(true)}
+            className="self-start text-[13px] text-ink-soft underline underline-offset-2 hover:text-ink"
+          >
+            How this reading works &rarr;
+          </button>
+        )}
+        {aboutOpen && aboutEntry && (
+          <GlossarySheet entry={aboutEntry} onClose={() => setAboutOpen(false)} />
+        )}
       </div>
 
-      <GuidanceBlock profile={profile} dateISO={dateISO} />
+      <DayBoard
+        chips={guidance.chips}
+        proseLines={guidance.lines}
+        dos={bundle.reading.dos}
+        donts={bundle.reading.donts}
+      />
+
+      <AreaGauges quality={guidance.quality} seedKey={dailySeedKey(profile, dateISO)} />
+
+      <WeekStrip profile={profile} today={today} selectedISO={dateISO} onSelect={jumpTo} />
 
       <Link
         href="/dates/"
@@ -242,11 +250,6 @@ export function TodayView({ profile }: Props) {
       >
         Find a day for something &rarr;
       </Link>
-
-      <div data-dos-donts className="grid gap-3 sm:grid-cols-2">
-        <SuggestionList title="Worth doing" lines={bundle.reading.dos} />
-        <SuggestionList title="Worth postponing" lines={bundle.reading.donts} />
-      </div>
 
       <div className="rounded-xl border-t-2 border-ink bg-paper-raised p-5">
         <p className="font-display text-xl leading-snug text-ink">{bundle.reading.agency.text}</p>

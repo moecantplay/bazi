@@ -23,7 +23,7 @@ test("full onboarding for fixture A saves a chart that reads correctly", async (
   // City.
   await page.getByPlaceholder("Search for your birth city").fill("Jakarta");
   await page.getByRole("button", { name: /Jakarta/ }).first().click();
-  await expect(page.getByText(/Selected:/)).toBeVisible();
+  await expect(page.getByRole("combobox")).toHaveValue(/Jakarta, Indonesia/);
   await page.getByRole("button", { name: "Next" }).click();
 
   // Sex.

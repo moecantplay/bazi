@@ -52,6 +52,9 @@ const HAN_ALL = /[㐀-鿿豈-﫿]/g;
 /** A standalone run of two or three branch characters, e.g. "子午" or "寅午戌". */
 const BRANCH_RUN = /(?<![㐀-鿿])([子丑寅卯辰巳午未申酉戌亥]{2,3})(?![㐀-鿿])/g;
 
+/** A Han run carrying its English gloss in parens, e.g. "子 (rat)". */
+const GLOSSED_HAN = /[㐀-鿿豈-﫿]+\s*\(([^()]*)\)/g;
+
 /** "(得令 — in season)" -> "(in season)"; "(文昌)" -> gone, with its space. */
 function stripParenthetical(whole: string, inside: string): string {
   if (!HAN.test(inside)) {
@@ -85,7 +88,12 @@ export function stripHanCharacters(text: string): string {
   if (!HAN.test(text)) {
     return text;
   }
-  const withoutParens = text.replace(/\s*\(([^)]*)\)/g, stripParenthetical);
+  // "子 (rat)" keeps only its gloss; parens whose inside has Han are left for
+  // stripParenthetical below ("note (偏印)" and friends).
+  const withGlosses = text.replace(GLOSSED_HAN, (whole, inside: string) =>
+    HAN.test(inside) ? whole : inside,
+  );
+  const withoutParens = withGlosses.replace(/\s*\(([^)]*)\)/g, stripParenthetical);
   const withPillars = withoutParens.replace(
     PILLAR_RUN,
     (_run, stem: string, branch: string) =>

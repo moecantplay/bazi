@@ -10,10 +10,11 @@
 import type { HorizonFacts, ReadingFact } from "@daymaster/bazi-engine";
 import type { ReadingLine } from "./types.js";
 import { pick } from "./hash.js";
-import { TEN_GOD_GLOSSES, elementWord, interactionTag, palaceWord } from "./vocab.js";
+import { elementWord, interactionTag, palaceWord } from "./vocab.js";
 import {
   ELEMENT_PERIOD_FAVORABLE,
   ELEMENT_PERIOD_UNFAVORABLE,
+  TEN_GOD_PERIOD_THEMES,
   THEME_FRAMES,
   THEME_GENERIC,
   TRANSIT_PERIOD_FRAMES,
@@ -46,11 +47,11 @@ function fill(template: string, subs: Record<string, string>): string {
 }
 
 function themeLine(fact: FactOf<"ten-god-period">, period: Period, seedKey: string): ReadingLine {
-  const gloss = TEN_GOD_GLOSSES[fact.english];
+  const theme = TEN_GOD_PERIOD_THEMES[fact.english];
   const noun = periodNoun(period);
-  if (gloss === undefined) {
+  if (theme === undefined) {
     const text = fill(THEME_GENERIC, { periodCap: periodCap(period), tgCn: fact.god });
-    return { text, factTag: `ten-god note · this ${noun}` };
+    return { text, factTag: `ten-god note · this ${noun}`, topic: "ten-gods" };
   }
   const template = pick(THEME_FRAMES, seedKey, `hz:${period}:theme:${fact.english}`);
   const text = fill(template, {
@@ -58,9 +59,13 @@ function themeLine(fact: FactOf<"ten-god-period">, period: Period, seedKey: stri
     periodNoun: noun,
     tgEn: fact.english,
     tgCn: fact.god,
-    tgGloss: gloss,
+    tgTheme: theme,
   });
-  return { text, factTag: `${fact.english} · ${fact.god} · this ${noun}` };
+  return {
+    text,
+    factTag: `${fact.english} · ${fact.god} · this ${noun}`,
+    topic: `ten-god:${fact.english}`,
+  };
 }
 
 function elementLine(fact: FactOf<"element-period">, period: Period): ReadingLine {
@@ -68,7 +73,7 @@ function elementLine(fact: FactOf<"element-period">, period: Period): ReadingLin
   const text = fill(table[fact.element], { periodNoun: periodNoun(period) });
   const noun = periodNoun(period);
   const factTag = `${elementWord(fact.element)} ${noun}${fact.favorable ? " · suits you" : ""}`;
-  return { text, factTag };
+  return { text, factTag, topic: "elements" };
 }
 
 function transitLine(
@@ -81,7 +86,11 @@ function transitLine(
   const template = pick(frames, seedKey, `hz:${period}:tr:${fact.interaction}:${fact.natalPalaces.join("")}`);
   const text = fill(template, { periodCap: periodCap(period), palace: palaceWord(room) });
   const factTag = `${interactionTag(fact.branches, fact.interaction, room)} · this ${periodNoun(period)}`;
-  return { text, factTag };
+  const line: ReadingLine = { text, factTag };
+  if (TRANSIT_PERIOD_FRAMES[fact.interaction]) {
+    line.topic = `interaction:${fact.interaction}`;
+  }
+  return line;
 }
 
 function periodLines(facts: readonly ReadingFact[], period: Period, seedKey: string): ReadingLine[] {

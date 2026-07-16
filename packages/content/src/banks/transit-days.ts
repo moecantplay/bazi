@@ -38,31 +38,35 @@ export function elementDayLine(element: Element, favorable: boolean): ReadingLin
   const table = favorable ? ELEMENT_DAY_FAVORABLE : ELEMENT_DAY_UNFAVORABLE;
   const text = table[element];
   const factTag = `${elementWord(element)} day${favorable ? " · suits you" : ""}`;
-  return { text, factTag };
+  return { text, factTag, topic: "elements" };
 }
 
-/** Ten God lines keyed by the english label the engine emits. */
+/**
+ * Ten God lines keyed by the english label the engine emits. Each line opens
+ * on the classical name — framed as the old name, never as a bare subject —
+ * and follows with the modern understanding in full (VOICE.md §11).
+ */
 const TEN_GOD_LINES: Record<string, string> = {
   Friend:
-    "The day carries a Friend note (比肩) — peers at your table, people carrying the same pack you do. A grain that favors doing it together over going it alone.",
+    "The old calendars call today a Friend day (比肩) — in everyday terms, peers at your table, people carrying the same pack you do. A grain that favors doing it together over going it alone.",
   "Rob Wealth":
-    "The day carries a Rob Wealth note (劫财) — friendly rivalry, the housemate who eats your leftovers and still makes you laugh. Good drive; keep an eye on what it spends.",
+    "The old books name today Rob Wealth (劫财) — in modern terms, friendly rivalry: the housemate who eats your leftovers and still makes you laugh. Good drive; keep an eye on what it spends.",
   "Eating God":
-    "The day carries an Eating God note (食神) — the part of you that cooks for friends rather than for a review. A pleasant grain for making and enjoying without a scoreboard.",
+    "The old calendars call today an Eating God day (食神) — put plainly, making for the joy of it, cooking for friends rather than for a review. A pleasant grain for enjoying without a scoreboard.",
   "Hurting Officer":
-    "The day carries a Hurting Officer note (伤官) — the witty rule-bender who improves the recipe and annoys the chef. Bright for creating, restless inside anyone else's format.",
+    "The old books name today Hurting Officer (伤官) — in everyday terms, the witty rule-bender who improves the recipe and annoys the chef. Bright for creating, restless inside anyone else's format.",
   "Indirect Wealth":
-    "The day carries an Indirect Wealth note (偏财) — the lucky find, chances that arrive sideways like a good parking spot. Light and mobile; hold it loosely.",
+    "The old calendars call today an Indirect Wealth day (偏财) — in modern terms, the lucky find: chances that arrive sideways like a good parking spot. Light and mobile; hold them loosely.",
   "Direct Wealth":
-    "The day carries a Direct Wealth note (正财) — the earned paycheck, value that arrives because you showed up all month. A grain that rewards patience and care.",
+    "The old books name today Direct Wealth (正财) — put plainly, the earned paycheck: value that arrives because you showed up all month. A grain that rewards patience and care.",
   "Seven Killings":
-    "The day carries a Seven Killings note (七杀) — pressure that trains you, the coach who makes you run the hill again. Met squarely, it forges rather than breaks.",
+    "The old calendars call today a Seven Killings day (七杀) — in everyday terms, pressure that trains you, the coach who makes you run the hill again. Met squarely, it forges rather than breaks.",
   "Direct Officer":
-    "The day carries a Direct Officer note (正官) — the dependable rule-keeper, the part of you that files it properly and sleeps well. A grain that favors order and follow-through.",
+    "The old books name today Direct Officer (正官) — in modern terms, doing things properly: kept promises, tidy paperwork, the part of you that sleeps well. A grain that favors order and follow-through.",
   "Indirect Resource":
-    "The day carries an Indirect Resource note (偏印) — insight from the odd angle, the answer that arrives in the shower. Good for thinking sideways and learning strangely.",
+    "The old calendars call today an Indirect Resource day (偏印) — put plainly, learning by your own strange route: answers that arrive in the shower or mid-walk. Good for thinking sideways and learning strangely.",
   "Direct Resource":
-    "The day carries a Direct Resource note (正印) — being looked after, the friend who brings soup without being asked. A grain that favors rest and taking things in.",
+    "The old books name today Direct Resource (正印) — in everyday terms, being looked after, the friend who brings soup without being asked. A grain that favors rest and taking things in.",
 };
 
 const TEN_GOD_GENERIC =
@@ -76,7 +80,8 @@ export const TEN_GOD_TEMPLATES: readonly string[] = [
 
 /** Build the ten-god-day line, with a safe fallback for unknown labels. */
 export function tenGodDayLine(english: string, chinese: string): ReadingLine {
+  const known = TEN_GOD_LINES[english] !== undefined;
   const text = TEN_GOD_LINES[english] ?? TEN_GOD_GENERIC;
-  const factTag = TEN_GOD_LINES[english] ? `${english} · ${chinese}` : "ten-god note";
-  return { text, factTag };
+  const factTag = known ? `${english} · ${chinese}` : "ten-god note";
+  return { text, factTag, topic: known ? `ten-god:${english}` : "ten-gods" };
 }

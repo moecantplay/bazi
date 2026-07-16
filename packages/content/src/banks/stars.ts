@@ -58,7 +58,11 @@ function textureFor(input: StarInput): string {
 /** A natal star line: "The Scholar Star (文昌) sits in your career palace — …". */
 export function natalStarLine(input: StarInput, palace: Palace): ReadingLine {
   const text = `The ${input.english} (${input.chinese}) sits in your ${palaceWord(palace)} — ${glossFor(input)}. ${textureFor(input)}`;
-  return { text, factTag: `${input.chinese} ${input.english} · ${palaceWord(palace)}` };
+  return {
+    text,
+    factTag: `${input.chinese} ${input.english} · ${palaceWord(palace)}`,
+    topic: `star:${input.star}`,
+  };
 }
 
 /** A daily star line: "Today lights your Peach Blossom (咸池) — …". */
@@ -66,5 +70,9 @@ export function starDayLine(input: StarInput, transitPalace: Palace): ReadingLin
   const when = transitWhen(transitPalace);
   const opener = when === "today" ? "Today lights" : "This year lights";
   const text = `${opener} your ${input.english} (${input.chinese}) — ${glossFor(input)}. ${textureFor(input)}`;
-  return { text, factTag: `${input.chinese} ${input.english} · ${when}` };
+  return {
+    text,
+    factTag: `${input.chinese} ${input.english} · ${when}`,
+    topic: `star:${input.star}`,
+  };
 }

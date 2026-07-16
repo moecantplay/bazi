@@ -9,6 +9,11 @@
  * because the seal is stamped paper, not themed UI.
  */
 :root {
+  /* Tells the browser to render native controls (date/time picker
+     indicators, selects, scrollbars) in the matching scheme — CSS variables
+     alone cannot recolor them. Must track the theme blocks below. */
+  color-scheme: light;
+
   --paper: #f5f6f4;
   --ink: #181c22;
   --ink-soft: #565d68;
@@ -31,6 +36,8 @@
  * two lists byte-identical when editing.
  */
 :root[data-theme="dark"] {
+  color-scheme: dark;
+
   --paper: #14171c;
   --ink: #e8e6e1;
   --ink-soft: #a6acb6;
@@ -46,6 +53,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
     --paper: #14171c;
     --ink: #e8e6e1;
     --ink-soft: #a6acb6;
