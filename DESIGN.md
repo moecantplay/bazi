@@ -1,116 +1,113 @@
-# Daymaster — DESIGN (ink & cinnabar)
+# Daymaster — DESIGN (ink & cinnabar, Material surfaces)
 
 One page. The UI implements this exactly; deviations go through this file first.
-Revised 2026-07-16 (M15): calm refinement — same identity, real hierarchy. What changed: reading prose is rule-separated, not boxed; a four-register type ladder; captions are quiet metadata, never underlined links; forms have a spec; dark mode separates by fill, not borders.
+Revised 2026-07-16 (M16, supersedes the same-day M15 surface language): the owner chose a Google/Material-Expressive look and feel — tonal borderless containers, gap separation instead of rules, big varied radii, pill controls, one friendly sans with a bold scale. The ink-and-cinnabar identity (palette, seal, element hues, voice) is unchanged; M15's hairline-ruled editorial prose, Fraunces display, and kicker column-rule are retired.
 
 ## Tokens
 
 | Token | Hex | Use |
 |---|---|---|
 | `--paper` | `#F5F6F4` | App background. Cool near-white, never cream. |
-| `--ink` | `#181C22` | Text, pillar characters, borders. Blue-black, never brown. |
-| `--ink-soft` | `#565D68` | Secondary text, captions, pinyin. AA on paper. |
-| `--cinnabar` | `#BF3A2B` | RESERVED for the seal. Nothing else — no buttons, no underlines, no accents. |
-| `--paper-raised` | `#FFFFFF` | Boxed surfaces, inputs. |
-| `--hairline` | `#D8DBD6` | Dividers only. Input borders use `--ink-soft` (≥3:1 non-text contrast per WCAG 1.4.11). |
+| `--ink` | `#181C22` | Text, pillar characters. Blue-black, never brown. |
+| `--ink-soft` | `#565D68` | Secondary text, captions, pinyin. AA on paper AND surface. |
+| `--cinnabar` | `#BF3A2B` | RESERVED for the seal. Nothing else — no buttons, no accents. |
+| `--surface` | `#EAEDE9` | Tonal containers (cards, list stacks, board, sheets). Borderless — the fill IS the edge. Verified: ink 14.49:1, ink-soft 5.63:1, element hues 3.17–5.75 (≥3:1 fills/large-text). |
+| `--paper-raised` | `#FFFFFF` | Inputs and the highest surface only. |
+| `--hairline` | `#D8DBD6` | Rare in-container dividers only. Never a border; between containers, use gaps. |
 
-Primary actions are filled `--ink` with `--paper` text (15.77:1). The day column's "it's you" marker is an ink underline.
+Primary actions are filled `--ink` with `--paper` text (15.77:1), pill-shaped. The day column's "it's you" marker is an ink underline (the app's sole underline; not a link).
 
-Element accents — used ONLY when that element is referenced (balance viz bars, chip swatches, gauge fills, tags):
+Element accents — used ONLY when that element is referenced (balance bars, chip tints, gauge fills, swatch dots):
 
-| Element | Hex | Note |
-|---|---|---|
-| Wood | `#3A7D44` | leaf green |
-| Fire | `#D0662A` | flame orange — deliberately distinct from cinnabar's red |
-| Earth | `#9C7A3C` | loess ochre |
-| Metal | `#7A8494` | cool steel |
-| Water | `#2E5E8C` | deep river blue |
+| Element | Hex | | Element | Hex |
+|---|---|---|---|---|
+| Wood | `#3A7D44` | | Metal | `#7A8494` |
+| Fire | `#D0662A` (distinct from cinnabar) | | Water | `#2E5E8C` |
+| Earth | `#9C7A3C` | | | |
 
-Element hues are never normal-size text. They appear as fills (bars, swatch dots, chip backgrounds behind ink text) or as large/bold text only (≥19px bold — all five clear the 3:1 large-text threshold on paper; Fire 3.45, Metal 3.49, Earth 3.68, Wood 4.62, Water 6.26). Labels next to a swatch are always `--ink` or `--ink-soft`.
+Element hues are never normal-size text: fills, swatch dots, tinted chip backgrounds behind ink text, or ≥19px bold only (all clear 3:1 on paper and on `--surface`). Labels next to a swatch are always `--ink` or `--ink-soft`.
 
 ## Dark theme
 
-Same design, inverted paper. Applied when the OS prefers dark (and no explicit choice pins light), or when Settings pins dark via `data-theme="dark"` on `<html>`. Preference lives at `daymaster.theme.v1`; an inline script in the layout stamps the attribute before first paint.
+Same system, inverted paper. Applied when the OS prefers dark (and no explicit choice pins light) or when Settings pins dark via `data-theme="dark"`; preference at `daymaster.theme.v1`, stamped pre-paint.
 
-| Token | Hex | Verified contrast on `--paper` |
+| Token | Hex | Verified contrast |
 |---|---|---|
-| `--paper` | `#14171C` | ink-paper, blue-black family as light ink |
-| `--ink` | `#E8E6E1` | 14.40:1 |
-| `--ink-soft` | `#A6ACB6` | 7.87:1 (6.99:1 on raised) |
-| `--paper-raised` | `#1D222B` | boxed surfaces, inputs |
-| `--hairline` | `#2C323C` | dividers only |
-| `--cinnabar` | `#BF3A2B` | unchanged in both themes — 3.30:1 as a graphic mass |
-| `--seal-paper` | `#F5F6F4` | seal interior stays stamped-paper white in BOTH themes (5.02:1 on cinnabar); notches keep `--paper` so the chipped corners match the page |
+| `--paper` | `#14171C` | |
+| `--ink` | `#E8E6E1` | 14.40:1 on paper, 12.32:1 on surface |
+| `--ink-soft` | `#A6ACB6` | 7.87:1 on paper, 6.73:1 on surface |
+| `--surface` | `#20252F` | tonal containers, borderless |
+| `--paper-raised` | `#1D222B` | inputs |
+| `--hairline` | `#2C323C` | rare in-container dividers only |
+| `--cinnabar` | `#BF3A2B` | unchanged both themes — 3.30:1 as a graphic mass |
+| `--seal-paper` | `#F5F6F4` | seal interior stays stamped-paper white in BOTH themes |
 
-Dark element accents (fills/swatches and ≥19px bold only, same rule as light): Wood `#63A871` 6.30, Fire `#E0764A` 5.87, Earth `#C09B55` 6.90, Metal `#96A1B2` 6.88, Water `#6FA0D0` 6.51 — all clear even the 4.5:1 small-text bar. Fire remains distinct from cinnabar.
+Dark element accents (same usage rule): Wood `#63A871`, Fire `#E0764A`, Earth `#C09B55`, Metal `#96A1B2`, Water `#6FA0D0` — all ≥4.5:1 on paper, ≥3:1 on surface.
 
-**Elevation rule (dark):** boxed surfaces separate from the page by fill (`--paper-raised` on `--paper`), never by border. Hairlines in dark mode are dividers inside a surface only. A bordered box on dark paper is the one thing this theme must never produce — it flattens everything. Two carve-outs: interactive controls (inputs, segmented containers) keep their `--ink-soft` border in both themes (WCAG 1.4.11 — the fill-not-border rule covers non-interactive containers only), and the agency line keeps its ink top-border (a deliberate accent, the sole decorated box).
+Containers are borderless tonal fills in BOTH themes now — the M15 `dark-borderless` carve-out generalizes: nothing non-interactive carries a border in either theme. Interactive controls (inputs, segmented containers) keep their 1.5px `--ink-soft` border in both themes (WCAG 1.4.11). The seal is the only cinnabar mass in both themes. PWA `theme-color` follows the scheme.
 
-The seal is the only cinnabar mass in dark mode too. PWA `theme-color` follows the scheme via two viewport meta entries.
+## Type
 
-## Type ladder
+One family — **Figtree** (via `next/font/google`, self-hosted at build; geometric-humanist, the closest Google-Sans feel on Google Fonts) — carrying a bold Material-style scale. Registers:
 
-Four registers plus the Han register below. Every text node on every screen is one of these — no ad-hoc sizes. One named exception: form-field text is 16px (not body's 15px) so iOS never zooms a focused input.
+- **Display — 28–32px/700, -0.01em**: screen titles, the Today headline hook.
+- **Emphasis — 20–22px/600**: the agency line, the day-master archetype.
+- **Body — 15px/400/1.6 `--ink`**: reading prose, explanations, form labels. Reading prose is `--ink`, never `--ink-soft`.
+- **Section header — 13px/600 `--ink-soft`, sentence case**: section openers ("Favors", "Your day, by area", "This year"). No rule, no uppercase — Material subheader style. One per section; the Favors/Watch board counts as two sections, one header per column.
+- **Caption — 12px `--ink-soft`**: fact tags, pinyin, meta rows; `tabular-nums` when carrying numbers/dates.
+- **Han register**: `"Songti SC", "Noto Serif SC", serif`, 40–56px in the pillar grid, 56px Today hero. No CJK webfont.
 
-- **Display — "Fraunces"** (via `next/font/google`): screen titles, the Today headline hook, the day-master archetype line, the agency line. Never body text.
-- **Body — "Inter" 15px/1.6 `--ink`**: reading prose, explanations, form labels. Reading prose is `--ink`, never `--ink-soft` — the reading is the product, it doesn't whisper.
-- **Kicker — Inter 11px/600, uppercase, 0.08em tracking, `--ink-soft`**: section openers ("FAVORS", "YOUR DAY, BY AREA", "THIS YEAR"). Every kicker sits under a 24px × 2px `--ink` rule — the almanac column-rule, the app's recurring quiet signature. One kicker per section, nothing else uses uppercase; the Favors/Watch board counts as two sections, one kicker per column.
-- **Caption — Inter 12px `--ink-soft`**: fact tags, pinyin, chrome notes, meta rows. `tabular-nums` whenever it carries numbers or dates (gauge values, year rows, age spans).
-
-**Han characters**: `"Songti SC", "Noto Serif SC", serif`. Pillar grid 40–56px; the Today day pillar is a hero at 56px. Pinyin (caption register) and English gloss beneath. No CJK webfont download.
+Named exception: form-field text is 16px so iOS never zooms a focused input.
 
 ## Captions & links
 
-- A fact-tag caption ("子卯 punishment · career palace") is quiet metadata in the caption register, ending in a `›` chevron; the whole row is the tap target that opens its glossary sheet. **Never underlined.**
-- Links and captions are never underlined. The day-column "it's you" marker is the app's sole underline, and it is not a link. In-flow navigation ("Read more →", "Find a day for something →", "How this reading works →") is caption-register `--ink-soft`, arrow as the affordance, `--ink` on hover and pressed (`:active` — touch has no hover, so the pressed shift is the feedback).
+- A fact-tag caption ("子卯 punishment · career palace") is quiet metadata in the caption register ending in a `›` chevron; the whole row is the tap target that opens its glossary sheet. Never underlined.
+- Links and captions are never underlined (the day-column marker is the sole underline and isn't a link). In-flow navigation ("Read more →") is caption-register `--ink-soft`, arrow as affordance, `--ink` on hover.
 - Caption rows and arrow-links both get a ≥44px hit area (padding may extend past the visual row — WCAG 2.5.8) and the `--ink` pressed shift on `:active`.
-- At most one arrow-link per section. If a section wants two, one of them belongs somewhere else.
+- At most one arrow-link per section.
 
-## Surfaces: ruled prose vs. boxes
+## Surfaces: tonal containers & segment stacks
 
-Two surface treatments, chosen by function — this is the hierarchy system:
+Separation is fill and gap, never line. Radius scale: **24px** standalone containers (reading cards, board columns, decade card), **28px** sheet top corners, **16px** inputs, **pill** buttons/chips/segmented controls.
 
-- **Ruled prose** (reading content): no box, no background. Blocks stack directly on `--paper`, separated by `--hairline` rules; each block = caption row + body prose. Applies to Today reading lines, Cycles outlook lines, Compare reading, Chart interpretation paragraphs.
-- **Boxes** (`--paper-raised`, radius 12px; hairline border in light, borderless fill in dark): non-interactive functional objects — the Favors/Watch board, the agency line (its ink top-border stays: the named exception), the current-decade card, gauge rows, sheets. Inputs and segmented containers are NOT boxes — they follow the Forms spec and keep `--ink-soft` borders in both themes. If everything is a box, nothing is; a box must earn its border by being a *thing*, not a paragraph.
-- **Guidance grouping:** prose lines sharing one fact tag render as ONE block — caption once, sentences as paragraphs beneath (kills the triple "成 Success day" stack). The officer block opens the guidance section.
+- **Content cards**: every reading line (Today, Cycles outlooks, Compare, Chart callouts, guidance groups) is a `--surface` container, radius 24, padding 16–20, separated by 8px gaps. Borderless in both themes.
+- **Segment stacks** (Google settings idiom) for lists: area gauges, activity picker, settings toggle rows — each row a `--surface` segment, 2px gaps between rows, 8px inner radius with the stack's first row rounded 24px on top and the last 24px on bottom. Selected/active row = 2px inset `--ink` ring.
+- **Chips**: tonal pills — a 10% ink tint over their container (theme-proof on paper and on `--surface`; element tint behind ink text where an element is cited), no border.
+- The agency line keeps its distinct container: `--surface`, radius 24, with the ink top-border as the sole decorated container (named exception).
+- Guidance grouping holds: prose lines sharing one fact tag render as ONE card — caption once, sentences as paragraphs.
 
 ## Layout
 
-Mobile-first, single column, max-width 28rem centered; 5-tab bottom nav (Chart · Today · Cycles · Compare · Settings) with icons + labels, safe-area padded. `/dates/` is reached from Today and Compare, not the nav.
+Mobile-first, single column, max-width 28rem centered; 5-tab bottom nav (Chart · Today · Cycles · Compare · Settings), safe-area padded. `/dates/` is reached from Today and Compare.
 
-**Today** (top to bottom): quiet date strip (caption register, ‹ › steppers) → headline hook (display, the screen's hero) → day-pillar block (56px Han, pinyin + element dots caption, palace-touch line) → reading as ruled prose → Favors/Watch board (boxed, chips + suggestions + grouped guidance prose) → "Your day, by area": leaning rows visible, neutral rows behind a "Show all N areas" disclosure → week strip → finder link → agency line (boxed, display type) → tomorrow note.
+**Today** (top to bottom): quiet date strip → headline hook (display) → day-pillar block (56px Han, pinyin + element dots, palace-touch line) → reading as content cards → Favors/Watch board (two tonal columns: chips + suggestions) → grouped guidance cards → "Your day, by area" segment stack (leaning rows visible, neutral behind "Show all N areas") → week strip → finder link → agency card → tomorrow note.
 
-**Onboarding:** one step per screen; progress dots ≥8px with `--ink` current; the step's input directly under the heading and the primary action in flow directly after it — no dead void; back always available. Restore-from-backup link beneath the action.
+**Onboarding:** one step per screen; ≥8px progress dots, `--ink` current; input directly under the heading, pill primary action in flow directly after — no dead void; back always available; restore link beneath.
 
-**Forms (all screens):** inputs 48px min height, `--paper-raised` fill, 1.5px `--ink-soft` border, radius 10px, 16px text, focus ring `--ink` 2px offset 2px. Two-way choices (sex, appearance) are segmented controls: one container with a 1.5px `--ink-soft` border, selected segment `--ink` fill with `--paper` text. Multi-option pickers (finder activities): a single raised list — rows separated by hairline dividers (dividers, not row borders), selected row = 2px inset `--ink` ring; the Han category token (≤4 characters, `white-space: nowrap`) never breaks mid-token, and the gloss wraps after it. Disabled primary action: `--paper-raised` fill, `--ink-soft` text, hairline border — unpressable, not broken.
+**Forms (all screens):** inputs 48px min height, `--paper-raised` fill, 1.5px `--ink-soft` border, radius 16, 16px text, focus ring `--ink` 2px offset 2px. Two-way choices are segmented pills: one container with a 1.5px `--ink-soft` border, selected segment an `--ink` fill. Multi-option pickers: segment stacks (above); the Han category token (≤4 characters, nowrap) never breaks mid-token. Disabled primary: `--surface` fill, `--ink-soft` text — unpressable, not broken.
 
-**Pillar grid (hero):** four columns — Year · Month · Day · Hour (labeled clearly). Each column: palace label (caption), stem character, branch character, pinyin + English beneath each. Day column carries a subtle `--ink` underline: it's you. Unknown time → hour column rendered as an empty frame with "hour unknown" caption, never fake data.
+**Pillar grid (hero):** four columns Year · Month · Day · Hour; palace label (caption), stem + branch characters, pinyin + gloss beneath. Day column carries the ink underline. Unknown time → hour column is an empty frame captioned "hour unknown", never fake data.
 
-**Cycles:** This year / This month outlook as ruled prose under kickers; vertical timeline, one node per luck pillar (pillar characters + age span + Gregorian years, captions tabular), current decade boxed with element-accent tags; annual pillars for the current decade as a compact row that scrolls horizontally inside its own container — the page itself never scrolls sideways.
+**Cycles:** This year / This month outlooks as content cards under section headers; vertical timeline (characters + age span + years, captions tabular); current decade as a 24px tonal card with element chips; annual pillars scroll inside their own row — the page never scrolls sideways.
 
-**Compare:** saved-people list, then the add-person form on the Forms spec; both pillar grids side by side; "How your charts meet" as ruled prose under a kicker; the finder link closes the screen.
+**Compare:** saved-people list (segment stack), add-person form per Forms spec, both pillar grids, "How your charts meet" as content cards, finder link last.
 
-**Find a day (/dates/):** activity picker (Forms spec) → date window → optional saved person → ink-filled "Find days" → results as boxed rows (rank, date, officer caption, per-chart leaning swatches in the wood-green/fire-orange tints), verdict line as ruled prose inside the top pick.
+**Find a day (/dates/):** activity segment stack → date window → optional saved person → pill "Find days" → results as tonal cards (rank, date, officer caption, per-chart leaning swatches in wood-green/fire-orange), verdict inside the top pick.
 
-**Settings:** a plain stacked list — appearance, late-Zi and true-solar-time toggles (each with its one-line explanation), Han-characters toggle, install hint, data ownership block, the disclaimer in full, and "Delete my data" (destructive style: ink outline, confirm step).
+**Settings:** toggle rows as a segment stack, appearance segmented pill, install hint, data ownership block, full disclaimer, "Delete my data" (ink-outline pill, confirm step).
 
 ## The signature: cinnabar seal
 
-Deterministic SVG generated from the four pillars (hash of the eight characters):
-
-- Square, rounded 8%, `--cinnabar` fill, subtle irregular edge (2–3 hash-seeded corner notches, as if hand-stamped).
-- Interior: the four pillar stem characters in a 2×2 grid, `--seal-paper` colored (白文 style); unknown-time charts use the three stems in a vertical stack.
-- Hash also seeds: stroke weight of the inner border (1 of 3), grid rotation jitter (±1.5°), and which corner carries the notch.
-- Appears: chart screen (top), onboarding reveal, share surfaces. It is the only cinnabar mass on any screen.
+Unchanged from M4: deterministic SVG from the four pillars — cinnabar square, rounded 8%, hash-seeded corner notches and rotation jitter, `--seal-paper` 白文 stem characters (three stacked when hour unknown). Chart screen, onboarding reveal, share surfaces. The only cinnabar mass anywhere.
 
 ## Motion
 
-One orchestrated moment: on first chart reveal the seal "stamps" in (scale 1.15→1.0 + opacity, 280ms cubic-out, one soft 4px paper-shadow pulse), then pillar columns fade up staggered 60ms. Everything else: 120ms opacity/transform only. All gated behind `prefers-reduced-motion: no-preference`; reduced-motion users get instant render.
+Springier, still sparse (Material Expressive nod): the seal stamp keeps its 280ms cubic-out moment; sheets slide up 240ms and interactive selections (segments, chips, week cells) settle with a gentle overshoot — `cubic-bezier(0.34, 1.56, 0.64, 1)`, ≤240ms, transform/opacity only. Everything gated behind `prefers-reduced-motion: no-preference`.
 
 ## Floor
 
-360px minimum width; visible `:focus-visible` rings (`--ink` 2px offset 2px); WCAG AA contrast — verified ratios: ink/paper 15.77:1, ink-soft/paper 6.13:1, cinnabar/paper 5.02:1, paper-on-cinnabar 5.02:1 (seal interior), element hues per the large-text rule above; zero console errors.
+360px minimum width; visible `:focus-visible` rings (`--ink` 2px offset 2px); WCAG AA — verified: ink/paper 15.77:1, ink-soft/paper 6.13:1, ink-soft/surface 5.63:1 (dark 6.73:1), cinnabar/paper 5.02:1, element hues ≥3:1 on paper and surface per the fills/large-text rule; zero console errors.
 
 ## Copy
 
-Sentence case everywhere. Buttons say what they do ("Save chart", "Show my chart" — never "Submit"). Errors say what happened and how to fix it, in that order: "We couldn't find that city. Try the nearest larger town — timezone is what matters." / "That date is outside the supported range (1900–2100). Check the year."
+Sentence case everywhere. Buttons say what they do ("Save chart", never "Submit"). Errors say what happened and how to fix it, in that order: "We couldn't find that city. Try the nearest larger town — timezone is what matters." / "That date is outside the supported range (1900–2100). Check the year."

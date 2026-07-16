@@ -85,8 +85,8 @@ export function WeekStrip({ profile, today, selectedISO, onSelect }: Props) {
                   aria-pressed={isSelected}
                   title={TONE_WORD[tone]}
                   aria-label={`${formatLong(iso)}${suffix} — ${TONE_WORD[tone]}`}
-                  className={`flex w-full min-w-[44px] flex-col items-center gap-1.5 rounded-lg px-2 py-2 ${
-                    isSelected ? "bg-paper-raised" : "hover:bg-paper-raised"
+                  className={`flex w-full min-w-[44px] flex-col items-center gap-1.5 rounded-full px-2 py-2.5 ${
+                    isSelected ? "spring-in bg-surface" : "hover:bg-surface"
                   }`}
                 >
                   <span className="text-[11px] text-ink-soft">{weekdayInitial(iso)}</span>

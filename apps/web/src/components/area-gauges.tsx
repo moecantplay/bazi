@@ -32,8 +32,8 @@ function Meter({ assessment }: { assessment: ActivityAssessment }) {
       {Array.from({ length: METER_CELLS }, (_, index) => (
         <span
           key={index}
-          className="h-2 w-2 rounded-sm border border-hairline"
-          style={index < filled ? { background: hue, borderColor: "transparent" } : undefined}
+          className="bg-ink-tint h-2 w-2 rounded-sm"
+          style={index < filled ? { background: hue } : undefined}
         />
       ))}
     </span>
@@ -62,7 +62,7 @@ export function AreaGauges({ quality, seedKey }: Props) {
   return (
     <section data-areas className="flex flex-col gap-2">
       <h2 className="kicker">Your day, by area</h2>
-      <ul className="flex flex-col divide-y divide-hairline rounded-xl border border-hairline bg-paper-raised dark-borderless">
+      <ul className="stack">
         {visible.map((assessment) => {
           const isOpen = openActivity === assessment.activity;
           const label = ACTIVITY_LABELS[assessment.activity];

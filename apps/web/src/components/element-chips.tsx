@@ -19,7 +19,7 @@ export function ElementChips({ elements }: Props) {
       {elements.map((element) => (
         <li
           key={element}
-          className="inline-flex items-center gap-1.5 rounded-full border border-hairline bg-paper-raised px-3 py-1.5 text-[13px] text-ink"
+          className="chip py-1.5 text-[13px] text-ink"
         >
           <span className={`h-3 w-3 rounded-sm ${ELEMENT_SWATCH_CLASS[element]}`} aria-hidden />
           {ELEMENT_LABEL[element]}

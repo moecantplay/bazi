@@ -48,7 +48,7 @@ export function DisclaimerStep({ onNext }: Props) {
       <div
         ref={scrollRef}
         onScroll={handleScroll}
-        className="max-h-56 overflow-y-auto rounded-lg border border-hairline bg-paper-raised p-4 text-[15px] leading-relaxed text-ink"
+        className="card max-h-56 overflow-y-auto p-5 text-[15px] leading-relaxed text-ink"
       >
         {DISCLAIMER}
       </div>

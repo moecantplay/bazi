@@ -77,7 +77,7 @@ export function DateResults({ candidates, chartLabels, verdictSeedBase }: Props)
   return (
     <ol data-date-results className="flex flex-col gap-3">
       {candidates.map((candidate, index) => (
-        <li key={candidate.date} className="rounded-xl border border-hairline bg-paper-raised dark-borderless p-4">
+        <li key={candidate.date} className="card p-4">
           <div className="flex items-start justify-between gap-3">
             <div className="flex flex-col gap-1">
               <span className="text-[15px] text-ink">{formatLong(candidate.date)}</span>
@@ -106,7 +106,10 @@ export function DateResults({ candidates, chartLabels, verdictSeedBase }: Props)
 
           {index === 0 && (
             <div className="mt-3 border-t border-hairline pt-3">
-              <ReadingCard line={dateVerdictLine(candidate, `${verdictSeedBase}|${candidate.date}`)} />
+              <ReadingCard
+                flat
+                line={dateVerdictLine(candidate, `${verdictSeedBase}|${candidate.date}`)}
+              />
             </div>
           )}
         </li>

@@ -52,7 +52,7 @@ export function GlossarySheet({ entry, onClose }: Props) {
         onClick={onClose}
         className="absolute inset-0 bg-black/40"
       />
-      <div className="relative max-h-[80vh] w-full max-w-md overflow-y-auto rounded-t-2xl border border-hairline bg-paper-raised dark-borderless p-6 pb-8 sm:rounded-2xl sm:pb-6">
+      <div className="sheet-in relative max-h-[80vh] w-full max-w-md overflow-y-auto rounded-t-[28px] bg-surface p-6 pb-8 sm:rounded-[28px] sm:pb-6">
         <div className="flex items-start justify-between gap-4">
           <h2 className="font-display text-lg leading-snug text-ink">{display(entry.title)}</h2>
           <button

@@ -49,7 +49,7 @@ export function SegmentedControl<T extends string>({
       role="radiogroup"
       aria-label={ariaLabel}
       onKeyDown={onKeyDown}
-      className="grid auto-cols-fr grid-flow-col overflow-hidden rounded-[10px] border-[1.5px] border-ink-soft bg-paper-raised"
+      className="grid auto-cols-fr grid-flow-col overflow-hidden rounded-full border-[1.5px] border-ink-soft bg-paper-raised"
     >
       {options.map((option, index) => {
         const selected = value === option.value;

@@ -23,9 +23,9 @@ function HorizonLines({ lines }: { lines: ReadingLine[] }) {
   const display = (text: string) => (showHanCharacters ? text : stripHanCharacters(text));
 
   return (
-    <ul className="mt-3 flex flex-col divide-y divide-hairline">
+    <ul className="mt-3 flex flex-col gap-2">
       {lines.map((line, index) => (
-        <li key={index} className="py-3 first:pt-0 last:pb-0">
+        <li key={index} className="card p-5">
           <FactTag line={line} />
           <p className={`text-[15px] leading-relaxed text-ink ${line.factTag ? "mt-1" : ""}`}>
             {display(line.text)}

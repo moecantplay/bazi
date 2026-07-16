@@ -25,14 +25,14 @@ function BoardColumn({ title, chips, suggestions }: ColumnProps) {
   const display = (text: string) => (showHanCharacters ? text : stripHanCharacters(text));
 
   return (
-    <div className="rounded-xl border border-hairline bg-paper-raised p-4 dark-borderless">
+    <div className="card p-5">
       <h3 className="kicker">{title}</h3>
       {chips.length > 0 && (
         <ul className="mt-2 flex flex-wrap gap-1.5">
           {chips.map((chip) => (
             <li
               key={chip.activity}
-              className="inline-flex items-baseline gap-1.5 rounded-full border border-hairline px-3 py-1"
+              className="chip"
             >
               <span className="text-[13px] text-ink">{chip.label}</span>
               {showHanCharacters && (
@@ -94,7 +94,7 @@ function GuidanceGroup({ lines }: { lines: ReadingLine[] }) {
   }
 
   return (
-    <div className="py-4 first:pt-0 last:pb-0">
+    <div className="card p-5">
       <FactTag line={first} />
       <div className="mt-1.5 flex flex-col gap-2">
         {lines.map((line, index) => (
@@ -118,7 +118,7 @@ export function DayBoard({ chips, proseLines, dos, donts }: Props) {
         <BoardColumn title="Watch" chips={watch} suggestions={donts} />
       </div>
       {proseLines.length > 0 && (
-        <div className="flex flex-col divide-y divide-hairline">
+        <div className="flex flex-col gap-2">
           {groupByFactTag(proseLines).map((group, index) => (
             <GuidanceGroup key={index} lines={group} />
           ))}

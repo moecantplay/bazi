@@ -10,6 +10,7 @@ const config: Config = {
         "ink-soft": "var(--ink-soft)",
         cinnabar: "var(--cinnabar)",
         "paper-raised": "var(--paper-raised)",
+        surface: "var(--surface)",
         hairline: "var(--hairline)",
         element: {
           wood: "var(--element-wood)",
@@ -20,8 +21,8 @@ const config: Config = {
         }
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
-        display: ["var(--font-fraunces)", "Georgia", "serif"],
+        sans: ["var(--font-figtree)", "system-ui", "sans-serif"],
+        display: ["var(--font-figtree)", "system-ui", "sans-serif"],
         han: ['"Songti SC"', '"Noto Serif SC"', "serif"]
       },
       maxWidth: {

@@ -58,7 +58,7 @@ function CollapsibleSection({
           {title} · {count}
         </h2>
       </summary>
-      <div className="mt-3 flex flex-col divide-y divide-hairline">{children}</div>
+      <div className="mt-3 flex flex-col gap-2">{children}</div>
     </details>
   );
 }
@@ -125,7 +125,7 @@ export function ChartView({ profile }: Props) {
             <Heading>Your day-master</Heading>
             <p className="text-[12px] text-ink-soft">{DAY_MASTER_GLOSS}</p>
           </div>
-          <p className="font-display text-2xl leading-snug text-ink">{display(archetype.text)}</p>
+          <p className="font-display text-[21px] font-semibold leading-snug text-ink">{display(archetype.text)}</p>
           {dayMasterRest.map((line, index) => (
             <p key={index} className="text-[15px] leading-relaxed text-ink">
               {display(line.text)}

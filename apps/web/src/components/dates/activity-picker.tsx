@@ -27,7 +27,7 @@ export function ActivityPicker({ value, onChange }: Props) {
       <legend className="kicker">
         What&rsquo;s the day for?
       </legend>
-      <div className="flex flex-col divide-y divide-hairline overflow-hidden rounded-xl border border-hairline bg-paper-raised dark-borderless">
+      <div className="stack">
         {ACTIVITY_KEYS.map((key) => {
           const label = ACTIVITY_LABELS[key];
           const selected = value === key;

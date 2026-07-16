@@ -1,18 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { Figtree } from "next/font/google";
 import { HanCharactersProvider } from "@/components/han-characters-provider";
 import { ServiceWorker } from "@/components/service-worker";
 import "./globals.css";
 
-const inter = Inter({
+const figtree = Figtree({
   subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap"
-});
-
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  variable: "--font-fraunces",
+  variable: "--font-figtree",
   display: "swap"
 });
 
@@ -54,7 +48,7 @@ export default function RootLayout({ children }: Props) {
     // suppressHydrationWarning: THEME_INIT_SCRIPT stamps data-theme on <html>
     // before hydration, so this one element's attributes legitimately differ
     // from the server HTML. Suppression is attribute-only and one level deep.
-    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${fraunces.variable}`}>
+    <html lang="en" suppressHydrationWarning className={figtree.variable}>
       <body className="font-sans">
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <HanCharactersProvider>{children}</HanCharactersProvider>

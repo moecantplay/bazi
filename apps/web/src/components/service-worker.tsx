@@ -86,7 +86,7 @@ export function ServiceWorker() {
   return (
     <div
       role="status"
-      className="fixed inset-x-0 bottom-20 z-50 mx-auto flex w-fit max-w-[92vw] items-center gap-4 rounded-full border border-hairline bg-paper-raised py-2 pl-5 pr-2 shadow-lg"
+      className="fixed inset-x-0 bottom-20 z-50 mx-auto flex w-fit max-w-[92vw] items-center gap-4 rounded-full bg-surface py-2 pl-5 pr-2 shadow-lg"
     >
       <p className="text-[13px] text-ink">A new version is ready.</p>
       <button

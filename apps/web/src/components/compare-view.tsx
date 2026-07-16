@@ -63,7 +63,7 @@ export function CompareView({ profile, person, onChangePerson }: Props) {
 
       <section className="flex flex-col gap-3" data-compare-reading>
         <h2 className="kicker">How your charts meet</h2>
-        <div className="flex flex-col divide-y divide-hairline">
+        <div className="flex flex-col gap-2">
           {reading.lines.map((line, index) => (
             <ReadingCard key={index} line={line} />
           ))}

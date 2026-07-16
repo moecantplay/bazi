@@ -71,6 +71,12 @@ Milestone plan expanded from the project brief. Tasks get checked off in PROGRES
 - Chart/Cycles/Settings polish + dark fill-not-border pass
 - E2E selector updates, full verify, both-theme screenshot review, PROGRESS.md
 
+## M16 — Material look-and-feel (owner: "like how Google works with their UI lately")
+- DESIGN.md v3: tonal borderless containers both themes (--surface tint), gap separation, radius scale (24 cards / 28 sheets / 16 inputs / pill controls), segment-stack lists, Figtree replaces Fraunces+Inter with a bold scale, sentence-case section headers (ink column-rule retired), springier selection/sheet motion → reviewer critique
+- Keep: ink/cinnabar palette, seal-only cinnabar, element hues, voice, layout order, a11y carve-outs (ink-soft control borders, ≥44px targets, pressed states)
+- Implement app-wide: card/stack/chip primitives, parents to gaps, pill buttons + segmented pills, tint chips, week-strip pill cells, sheet slide-up
+- Verify + E2E, both-theme screenshot review, PROGRESS/CLAUDE.md
+
 ## M10 — Plain-meaning voice pass
 - New VOICE.md hard rule: no system term stands alone. Every mechanic named in user-facing copy (ten gods, clash/combine/trine/punishment/harm, palaces, day-master, strength) is immediately followed by a plain-life gloss — a metaphor or everyday situation the reader can recognize
 - Central gloss map in `packages/content/src/vocab.ts` so the same term is always translated the same way across banks and screens

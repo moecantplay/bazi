@@ -19,6 +19,7 @@
   --ink-soft: #565d68;
   --cinnabar: #bf3a2b;
   --paper-raised: #ffffff;
+  --surface: #eaede9;
   --hairline: #d8dbd6;
   --seal-paper: #f5f6f4;
 
@@ -42,6 +43,7 @@
   --ink: #e8e6e1;
   --ink-soft: #a6acb6;
   --paper-raised: #1d222b;
+  --surface: #20252f;
   --hairline: #2c323c;
 
   --element-wood: #63a871;
@@ -59,6 +61,7 @@
     --ink: #e8e6e1;
     --ink-soft: #a6acb6;
     --paper-raised: #1d222b;
+    --surface: #20252f;
     --hairline: #2c323c;
 
     --element-wood: #63a871;
@@ -104,17 +107,17 @@ body {
  * ladder stays a ladder — every text node is one of the four registers.
  */
 @layer components {
-  /* Section opener: uppercase micro-label under the 24×2 ink column-rule. */
+  /* Section opener (DESIGN.md §Type): Material-subheader style — sentence
+     case, no rule. The class keeps its M15 name; only the look changed. */
   .kicker {
-    @apply text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-soft;
+    @apply text-[13px] font-semibold text-ink-soft;
   }
-  .kicker::before {
-    content: "";
-    display: block;
-    width: 24px;
-    height: 2px;
-    margin-bottom: 6px;
-    background: var(--ink);
+
+  /* Display register rides the one Figtree family with weight, not a second
+     face. Explicit font-weight utilities on the same element still win. */
+  .font-display {
+    font-weight: 700;
+    letter-spacing: -0.01em;
   }
 
   /* Caption register: fact tags, pinyin, meta rows. */
@@ -136,25 +139,41 @@ body {
 
   /* Form fields share one spec (DESIGN.md §Forms). */
   .field-input {
-    @apply w-full rounded-[10px] bg-paper-raised px-4 py-3 text-base text-ink;
+    @apply w-full rounded-2xl bg-paper-raised px-4 py-3 text-base text-ink;
     border: 1.5px solid var(--ink-soft);
     min-height: 48px;
   }
-}
 
-/*
- * Dark elevation rule (DESIGN.md §Dark): boxed surfaces separate by fill,
- * never by border. Boxes opt in with .dark-borderless; inputs keep their
- * ink-soft borders (WCAG 1.4.11 non-text contrast). Selector pattern mirrors
- * the token blocks above — keep both in step.
- */
-:root[data-theme="dark"] .dark-borderless {
-  border-color: transparent;
-}
+  /* Tonal containers (DESIGN.md §Surfaces): fill is the edge, no border,
+     in both themes. Content cards are the standalone shape; segment stacks
+     are the Google-settings list idiom — 2px gaps, soft inner corners, the
+     stack's outer corners rounded like a card. */
+  .card {
+    @apply rounded-3xl bg-surface;
+  }
+  .stack {
+    @apply flex flex-col gap-0.5;
+  }
+  .stack > * {
+    @apply rounded-lg bg-surface;
+  }
+  .stack > *:first-child {
+    @apply rounded-t-3xl;
+  }
+  .stack > *:last-child {
+    @apply rounded-b-3xl;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .dark-borderless {
-    border-color: transparent;
+  /* A 10% ink tint over whatever sits beneath — theme-proof fill for chips
+     and empty meter cells. color-mix because the ink token is a raw hex
+     custom property (no <alpha-value> plumbing for Tailwind's /10). */
+  .bg-ink-tint {
+    background-color: color-mix(in srgb, var(--ink) 10%, transparent);
+  }
+
+  /* Label chips: the ink tint as a pill, no border. */
+  .chip {
+    @apply bg-ink-tint inline-flex items-baseline gap-1.5 rounded-full px-3 py-1;
   }
 }
 
@@ -174,6 +193,16 @@ body {
 
   .fade-in {
     animation: fade-in 120ms ease-out both;
+  }
+
+  /* Material-Expressive nod (DESIGN.md §Motion): sheets slide up, and
+     selections settle with a gentle overshoot. Transform/opacity only. */
+  .sheet-in {
+    animation: sheet-in 240ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+
+  .spring-in {
+    animation: spring-in 200ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
   }
 
   /* Pillar columns fade up in a 60ms stagger once the seal has stamped in. */
@@ -227,5 +256,27 @@ body {
   }
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes sheet-in {
+  0% {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spring-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
   }
 }

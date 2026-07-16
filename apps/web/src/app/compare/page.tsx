@@ -66,16 +66,16 @@ export default function ComparePage() {
             <div className="flex flex-col gap-8">
               {people.length > 0 && (
                 <section className="flex flex-col gap-3">
-                  <h2 className="text-[13px] font-medium uppercase tracking-wide text-ink-soft">
+                  <h2 className="kicker">
                     Saved people
                   </h2>
-                  <ul className="flex flex-col divide-y divide-hairline">
+                  <ul className="stack">
                     {people.map((person) => (
-                      <li key={person.id} className="flex items-center gap-3 py-2">
+                      <li key={person.id} className="flex items-center gap-3 px-4 py-2">
                         <button
                           type="button"
                           onClick={() => choose(person.id)}
-                          className="flex-1 rounded-lg px-1 py-1.5 text-left hover:bg-paper-raised"
+                          className="flex-1 rounded-lg px-1 py-1.5 text-left hover:opacity-80"
                         >
                           <span className="block text-[15px] text-ink">{person.name}</span>
                           <span className="block text-[12px] text-ink-soft">

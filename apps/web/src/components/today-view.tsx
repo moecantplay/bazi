@@ -156,7 +156,7 @@ export function TodayView({ profile }: Props) {
                 type="button"
                 onClick={() => setPickerOpen(true)}
                 aria-label={`${formatLong(dateISO)} — jump to a date`}
-                className="font-display text-xl text-ink"
+                className="font-display text-lg font-semibold text-ink"
               >
                 {formatLong(dateISO)}
               </button>
@@ -189,7 +189,7 @@ export function TodayView({ profile }: Props) {
         )}
       </div>
 
-      <h2 data-headline className="text-center font-display text-2xl leading-snug text-ink">
+      <h2 data-headline className="text-center font-display text-[28px] leading-snug text-ink">
         {bundle.reading.headline.text}
       </h2>
 
@@ -226,7 +226,7 @@ export function TodayView({ profile }: Props) {
         )}
       </div>
 
-      <div data-reading-body className="flex flex-col divide-y divide-hairline">
+      <div data-reading-body className="flex flex-col gap-2">
         {bundle.reading.lines.map((line, index) => (
           <ReadingCard key={index} line={line} />
         ))}
@@ -260,8 +260,8 @@ export function TodayView({ profile }: Props) {
         Find a day for something &rarr;
       </Link>
 
-      <div className="rounded-xl border-t-2 border-ink bg-paper-raised p-5">
-        <p className="font-display text-xl leading-snug text-ink">{bundle.reading.agency.text}</p>
+      <div className="card border-t-2 border-ink p-5">
+        <p className="font-display text-[21px] font-semibold leading-snug text-ink">{bundle.reading.agency.text}</p>
       </div>
 
       {offset === 0 && (

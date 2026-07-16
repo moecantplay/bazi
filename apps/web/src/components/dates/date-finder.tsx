@@ -174,8 +174,8 @@ function PersonChoice({
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`rounded-full border px-3 py-1.5 text-[13px] ${
-        active ? "border-ink text-ink" : "border-hairline text-ink-soft hover:text-ink"
+      className={`rounded-full px-3.5 py-1.5 text-[13px] ${
+        active ? "bg-ink text-paper" : "bg-ink-tint text-ink hover:opacity-80"
       }`}
     >
       {label}
