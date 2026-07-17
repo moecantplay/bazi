@@ -72,10 +72,14 @@ const TABS: Tab[] = [
   {
     href: "/settings",
     label: "Settings",
+    // Tune sliders, not a spoked gear — a gear drawn in this stroke style
+    // reads as a second sun next to the Today tab.
     icon: (
       <svg {...iconProps} aria-hidden>
-        <circle cx="12" cy="12" r="3" />
-        <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1" />
+        <path d="M3 7h8M15 7h6M3 12h4M11 12h10M3 17h10M17 17h4" />
+        <circle cx="13" cy="7" r="2" />
+        <circle cx="9" cy="12" r="2" />
+        <circle cx="15" cy="17" r="2" />
       </svg>
     )
   }

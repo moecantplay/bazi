@@ -3,6 +3,7 @@
  * An unknown time yields a three-pillar chart with no hour claims anywhere.
  */
 
+import { PickerField } from "../picker-field";
 import { StepFrame } from "./step-frame";
 
 interface Props {
@@ -26,8 +27,9 @@ export function TimeStep({ time, unknown, onTimeChange, onUnknownChange, onNext 
     >
       <label className="flex flex-col gap-2">
         <span className="text-sm text-ink">Birth time</span>
-        <input
+        <PickerField
           type="time"
+          hint="Tap to pick a time"
           value={time}
           disabled={unknown}
           onChange={(event) => onTimeChange(event.target.value)}

@@ -10,6 +10,7 @@
 import { useState } from "react";
 import { Button } from "@/components/button";
 import { CitySearch } from "@/components/city-search";
+import { PickerField } from "@/components/picker-field";
 import { SegmentedControl } from "@/components/segmented-control";
 import { isYearInRange } from "@/lib/pillars";
 import type { Sex, StoredBirth, StoredCity } from "@/lib/profile";
@@ -72,13 +73,13 @@ export function CompareForm({ onSave, hasSavedPeople = false, initialBirth }: Pr
 
       <label className="flex flex-col gap-2">
         <span className="text-sm text-ink">Their birth date</span>
-        <input
+        <PickerField
           type="date"
+          hint="Tap to pick a date"
           min="1900-01-01"
           max="2100-12-31"
           value={date}
           onChange={(event) => setDate(event.target.value)}
-          className="field-input"
         />
       </label>
       {date.length > 0 && !dateOk && (
@@ -90,8 +91,9 @@ export function CompareForm({ onSave, hasSavedPeople = false, initialBirth }: Pr
       <div className="flex flex-col gap-2">
         <label className="flex flex-col gap-2">
           <span className="text-sm text-ink">Their birth time</span>
-          <input
+          <PickerField
             type="time"
+            hint="Tap to pick a time"
             value={time}
             disabled={unknownTime}
             onChange={(event) => setTime(event.target.value)}
@@ -103,7 +105,7 @@ export function CompareForm({ onSave, hasSavedPeople = false, initialBirth }: Pr
             type="checkbox"
             checked={unknownTime}
             onChange={(event) => setUnknownTime(event.target.checked)}
-            className="h-4 w-4"
+            className="h-4 w-4 accent-ink"
           />
           Time unknown — read three pillars
         </label>

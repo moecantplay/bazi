@@ -1,6 +1,7 @@
 /** Onboarding step 1: birth date, validated to the engine's 1900-2100 range. */
 
 import { isYearInRange } from "@/lib/pillars";
+import { PickerField } from "../picker-field";
 import { StepFrame } from "./step-frame";
 
 interface Props {
@@ -24,13 +25,13 @@ export function DateStep({ value, onChange, onNext }: Props) {
     >
       <label className="flex flex-col gap-2">
         <span className="text-sm text-ink">Birth date</span>
-        <input
+        <PickerField
           type="date"
+          hint="Tap to pick a date"
           min="1900-01-01"
           max="2100-12-31"
           value={value}
           onChange={(event) => onChange(event.target.value)}
-          className="field-input"
         />
       </label>
       {showRangeError && (

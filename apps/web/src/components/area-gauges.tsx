@@ -1,9 +1,10 @@
 /**
  * "At a glance" (Co-Star's trouble↔power chart, research 2026-07-16): every
  * modelled activity as one row — the modern label with its classical category
- * as a gloss, a dot on a watch↔favors axis whose offset from the center tick
- * is the score's strength (leaf-green favours, flame-orange friction, matching
- * the date finder's tints; cinnabar stays the seal's), and the leaning word.
+ * as a gloss, a bar growing from the center tick of a watch↔favors axis whose
+ * length is the score's strength (leaf-green favours, flame-orange friction,
+ * matching the date finder's tints; cinnabar stays the seal's), and the
+ * leaning word.
  * Sits directly under the day hero so the scan comes before the prose.
  * Tapping a row unfolds the line that explains why the day leans that way —
  * drawn from the same frames as the suggestion explanations, so the board and
@@ -23,32 +24,31 @@ import { LEANING_WORD } from "@/lib/date-finder";
 const MAX_STEPS = 4;
 
 /**
- * A dot on a watch↔favors axis: friction pushes the dot left of the center
- * tick, favors pushes it right, distance = |score|. Neutral sits hollow on
- * the tick. Direction and strength in one glyph, Co-Star-plot style.
+ * A bar growing out of the center tick of a watch↔favors axis: friction fills
+ * leftward, favors fills rightward, length = |score|. Neutral leaves the axis
+ * bare. A directional fill with no round thumb reads as a measurement, where
+ * the earlier dot-on-axis read as a draggable slider.
  */
-function AxisDot({ assessment }: { assessment: ActivityAssessment }) {
+function AxisBar({ assessment }: { assessment: ActivityAssessment }) {
   const steps = Math.min(MAX_STEPS, Math.abs(assessment.score));
-  const signed =
-    assessment.leaning === "favors" ? steps : assessment.leaning === "friction" ? -steps : 0;
-  const percent = 50 + signed * (50 / MAX_STEPS);
-  const hue =
-    assessment.leaning === "favors"
-      ? "var(--element-wood)"
-      : assessment.leaning === "friction"
-        ? "var(--element-fire)"
-        : undefined;
+  const favors = assessment.leaning === "favors";
+  const friction = assessment.leaning === "friction";
+  const width = (steps / MAX_STEPS) * 50;
 
   return (
     <span className="relative h-2 w-24 shrink-0" aria-hidden="true">
       <span className="bg-ink-tint absolute inset-x-0 top-1/2 h-px -translate-y-1/2 rounded-full" />
       <span className="absolute left-1/2 top-1/2 h-2 w-px -translate-x-1/2 -translate-y-1/2 bg-ink-soft opacity-40" />
-      <span
-        className={`absolute top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full ${
-          hue ? "" : "bg-ink-tint"
-        }`}
-        style={{ left: `${percent}%`, ...(hue ? { background: hue } : {}) }}
-      />
+      {(favors || friction) && (
+        <span
+          className="absolute top-1/2 h-1 -translate-y-1/2 rounded-full"
+          style={{
+            width: `${width}%`,
+            background: favors ? "var(--element-wood)" : "var(--element-fire)",
+            ...(favors ? { left: "50%" } : { right: "50%" })
+          }}
+        />
+      )}
     </span>
   );
 }
@@ -100,7 +100,7 @@ export function AreaGauges({ quality, seedKey }: Props) {
                   )}
                 </span>
                 <span className="flex items-center gap-2">
-                  <AxisDot assessment={assessment} />
+                  <AxisBar assessment={assessment} />
                   <span className="w-14 text-right text-[11px] text-ink-soft">
                     {LEANING_WORD[assessment.leaning]}
                   </span>

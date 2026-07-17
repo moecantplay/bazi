@@ -137,11 +137,32 @@ body {
     color: var(--ink);
   }
 
-  /* Form fields share one spec (DESIGN.md §Forms). */
+  /* Form fields share one spec (DESIGN.md §Forms). appearance-none matters
+     on iOS Safari: with the native appearance, date/time fields size to the
+     built-in control (ignoring width/height) and center their value. */
   .field-input {
-    @apply w-full rounded-2xl bg-paper-raised px-4 py-3 text-base text-ink;
+    @apply w-full appearance-none rounded-2xl bg-paper-raised px-4 py-3 text-base text-ink;
     border: 1.5px solid var(--ink-soft);
     min-height: 48px;
+  }
+  .field-input::-webkit-date-and-time-value {
+    text-align: left;
+    line-height: 1.5rem;
+    margin: 0;
+  }
+
+  /* iOS Safari renders an EMPTY date/time field as a fully blank box (every
+     other browser shows a dd/mm/yyyy-style template), so PickerField overlays
+     this hint. Only iOS gets it — -webkit-touch-callout exists only there —
+     because elsewhere the hint would double up with the template text. */
+  .picker-field-hint {
+    display: none;
+  }
+  @supports (-webkit-touch-callout: none) {
+    .picker-field-hint {
+      @apply absolute inset-y-0 left-4 flex items-center text-base text-ink-soft;
+      pointer-events: none;
+    }
   }
 
   /* Tonal containers (DESIGN.md §Surfaces): fill is the edge, no border,
@@ -181,6 +202,43 @@ body {
      utility to hang disabled: on. */
   .btn-primary:disabled {
     background-color: color-mix(in srgb, var(--ink) 10%, transparent);
+  }
+
+  /* The Today hero: the one saturated color mass per screen (DESIGN.md
+     §Today hero). An ink-wash of the day's two elements — the stem pools
+     from the top-left corner and feathers into the surface tone, the branch
+     warms the bottom-right. --hero-stem/--hero-branch are set inline per
+     day, so the wash re-resolves per theme. Text inside must be full --ink,
+     and only LARGE text may sit in the stem's strongest zone: ink is 4.06:1
+     there worst-case (dark earth/metal) — clears 3:1 for the 38px headline,
+     not 4.5:1 for body sizes. The caption zone stays ≤34% tint (ink ≥6.6:1). */
+  .hero-card {
+    background:
+      radial-gradient(
+        150% 110% at 8% 0%,
+        color-mix(in srgb, var(--hero-stem) 60%, var(--surface)) 0%,
+        color-mix(in srgb, var(--hero-stem) 38%, var(--surface)) 38%,
+        color-mix(in srgb, var(--hero-stem) 14%, var(--surface)) 62%,
+        transparent 78%
+      ),
+      radial-gradient(
+        70% 55% at 100% 104%,
+        color-mix(in srgb, var(--hero-branch) 34%, var(--surface)) 0%,
+        transparent 62%
+      ),
+      var(--surface);
+  }
+
+  /* Film-grain over the wash — an inline SVG turbulence tile, so no asset
+     and no network. Effective opacity ~8%; sits above the content like
+     print grain, pointer-events off. */
+  .hero-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.16'/%3E%3C/svg%3E");
   }
 }
 
