@@ -13,44 +13,28 @@ import type { ActivityAssessment, DateCandidate } from "@daymaster/bazi-engine";
 import { dateVerdictLine, OFFICER_GLOSSES } from "@daymaster/content";
 import { PillarGlyph } from "@/components/pillar-glyph";
 import { ReadingCard } from "@/components/reading-card";
-import { useHanCharacters } from "@/components/han-characters-provider";
 import { LEANING_TINT, LEANING_WORD } from "@/lib/date-finder";
 import { formatLong } from "@/lib/dates";
 
 function OfficerName({ officer }: { officer: DateCandidate["officer"] }) {
-  const { showHanCharacters } = useHanCharacters();
-  return (
-    <span className="text-[13px] text-ink">
-      {showHanCharacters && <span className="font-han">{officer.chinese} </span>}
-      {officer.english}
-    </span>
-  );
+  return <span className="text-[13px] text-ink">{officer.english}</span>;
 }
 
 function LeaningCell({
-  pillar,
   assessment,
   label
 }: {
-  pillar: DateCandidate["pillar"];
   assessment: ActivityAssessment;
   label: string;
 }) {
-  const { showHanCharacters } = useHanCharacters();
   return (
     <div
       className="flex flex-col items-center gap-0.5 rounded-lg px-3 py-1.5"
       style={{ background: LEANING_TINT[assessment.leaning] }}
       aria-label={`${label}: ${LEANING_WORD[assessment.leaning]}`}
     >
-      <span
-        className={
-          showHanCharacters
-            ? "font-han text-[15px] leading-none text-ink"
-            : "text-[12px] leading-none text-ink"
-        }
-      >
-        {showHanCharacters ? `${pillar.stem}${pillar.branch}` : LEANING_WORD[assessment.leaning]}
+      <span className="text-[12px] leading-none text-ink">
+        {LEANING_WORD[assessment.leaning]}
       </span>
       <span className="text-[10px] text-ink-soft">{label}</span>
     </div>
@@ -97,7 +81,6 @@ export function DateResults({ candidates, chartLabels, verdictSeedBase }: Props)
             {candidate.perChart.map((assessment, chartIndex) => (
               <LeaningCell
                 key={chartIndex}
-                pillar={candidate.pillar}
                 assessment={assessment}
                 label={chartLabels[chartIndex] ?? `Chart ${chartIndex + 1}`}
               />

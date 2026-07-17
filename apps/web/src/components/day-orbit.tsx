@@ -2,25 +2,19 @@
  * The Today hero's line-art centerpiece: the day stem at the center of a
  * fine orbit ring, the branch riding the ring in a scalloped paper badge,
  * and the two elements as node dots. Pure line art in the current ink —
- * decorative strokes and nodes are aria-hidden; the glyphs themselves are
- * the day pillar, so the group carries a label naming it.
- *
- * With Han characters off, the glyphs swap for their glosses like all copy
- * (the seal is the only artwork exempt from the toggle).
+ * decorative strokes and nodes are aria-hidden; the icon-and-gloss pairs
+ * are the day pillar itself, so the group carries a label naming it.
  */
 
 import type { Element } from "@daymaster/bazi-engine";
 import { AnimalGlyphMark, ElementGlyphMark } from "@/components/glyph-icon";
 
 interface Props {
-  stemCharacter: string;
-  branchCharacter: string;
   stemGloss: string;
   branchGloss: string;
   stemElement: Element;
   stemPolarity: "yang" | "yin";
   branchElement: Element;
-  showHanCharacters: boolean;
 }
 
 /** M3-style 12-scallop path in a 200×200 box, used as the branch badge. */
@@ -34,16 +28,12 @@ const SCALLOP =
   "C53 16 64 19 73 16 C82 13 90 4 100 4 Z";
 
 export function DayOrbit({
-  stemCharacter,
-  branchCharacter,
   stemGloss,
   branchGloss,
   stemElement,
   stemPolarity,
-  branchElement,
-  showHanCharacters
+  branchElement
 }: Props) {
-
   return (
     <svg
       className="mx-auto block"
@@ -64,58 +54,32 @@ export function DayOrbit({
         <line x1="216" y1="115" x2="223" y2="115" />
       </g>
 
-      {showHanCharacters ? (
-        <text
-          x="115"
-          y="134"
-          textAnchor="middle"
-          fontSize="64"
-          fill="var(--ink)"
-          className="font-han"
-        >
-          {stemCharacter}
+      <g style={{ color: "var(--ink)" }}>
+        <ElementGlyphMark
+          element={stemElement}
+          polarity={stemPolarity}
+          transform="translate(92, 72) scale(1.92)"
+        />
+        <text x="115" y="141" textAnchor="middle" fontSize="17" fontWeight="600" fill="var(--ink)">
+          {stemGloss}
         </text>
-      ) : (
-        <g style={{ color: "var(--ink)" }}>
-          <ElementGlyphMark
-            element={stemElement}
-            polarity={stemPolarity}
-            transform="translate(92, 72) scale(1.92)"
-          />
-          <text x="115" y="141" textAnchor="middle" fontSize="17" fontWeight="600" fill="var(--ink)">
-            {stemGloss}
-          </text>
-        </g>
-      )}
+      </g>
 
       <g transform="translate(190, 41) scale(0.31) translate(-100, -100)">
         <path aria-hidden="true" fill="var(--paper)" d={SCALLOP} />
-        {showHanCharacters ? (
+        <g style={{ color: "var(--ink)" }}>
+          <AnimalGlyphMark animal={branchGloss} transform="translate(64, 26) scale(3)" />
           <text
             x="100"
-            y="130"
+            y="152"
             textAnchor="middle"
-            fontSize="86"
+            fontSize="30"
+            fontWeight="600"
             fill="var(--ink)"
-            className="font-han"
           >
-            {branchCharacter}
+            {branchGloss}
           </text>
-        ) : (
-          <g style={{ color: "var(--ink)" }}>
-            <AnimalGlyphMark animal={branchGloss} transform="translate(64, 26) scale(3)" />
-            <text
-              x="100"
-              y="152"
-              textAnchor="middle"
-              fontSize="30"
-              fontWeight="600"
-              fill="var(--ink)"
-            >
-              {branchGloss}
-            </text>
-          </g>
-        )}
+        </g>
       </g>
 
       <g aria-hidden="true">

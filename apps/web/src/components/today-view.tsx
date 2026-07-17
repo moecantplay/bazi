@@ -24,7 +24,6 @@ import { DayOrbit } from "@/components/day-orbit";
 import { GlossarySheet } from "@/components/glossary-sheet";
 import { ReadingAreaSections } from "@/components/reading-area-sections";
 import { WeekStrip } from "@/components/week-strip";
-import { useHanCharacters } from "@/components/han-characters-provider";
 import { addDays, daysBetween, formatLong, todayLabel } from "@/lib/dates";
 import { describeBranch, describeStem } from "@/lib/display";
 import { dayGuidanceFor } from "@/lib/guidance";
@@ -106,7 +105,6 @@ export function TodayView({ profile }: Props) {
   const bundle = useMemo(() => dailyBundleFor(profile, dateISO), [profile, dateISO]);
   const guidance = useMemo(() => dayGuidanceFor(profile, dateISO), [profile, dateISO]);
 
-  const { showHanCharacters } = useHanCharacters();
   const stem = describeStem(bundle.dayPillar.stem);
   const branch = describeBranch(bundle.dayPillar.branch);
 
@@ -222,14 +220,11 @@ export function TodayView({ profile }: Props) {
 
         <div className="mt-7 flex flex-col items-center gap-2">
           <DayOrbit
-            stemCharacter={bundle.dayPillar.stem}
-            branchCharacter={bundle.dayPillar.branch}
             stemGloss={stem.gloss}
             branchGloss={branch.gloss}
             stemElement={stem.element}
             stemPolarity={stem.polarity}
             branchElement={branch.element}
-            showHanCharacters={showHanCharacters}
           />
           <span className="caption text-ink">
             {stem.pinyin} {stem.element} · {branch.pinyin} {branch.element}

@@ -9,8 +9,8 @@
  * `stars` likewise add chart-screen detail captions when provided — every
  * system term carries its plain-meaning gloss inline (VOICE.md §11).
  *
- * With Chinese characters turned off (Settings), the English gloss takes the
- * character's place as the readable word and captions drop their Han.
+ * Each stem and branch reads as its English gloss anchored by its element or
+ * animal icon.
  */
 
 "use client";
@@ -30,7 +30,6 @@ import type { ReactNode } from "react";
 import type { ChartPillars } from "@/lib/pillars";
 import { describeBranch, describeStem } from "@/lib/display";
 import { AnimalIcon, ElementIcon } from "@/components/glyph-icon";
-import { useHanCharacters } from "@/components/han-characters-provider";
 
 interface ColumnSpec {
   label: string;
@@ -44,38 +43,16 @@ interface ColumnSpec {
   isHour?: boolean;
 }
 
-function Glyph({
-  char,
-  pinyin,
-  gloss,
-  icon
-}: {
-  char: string;
-  pinyin: string;
-  gloss: string;
-  icon?: ReactNode;
-}) {
-  const { showHanCharacters } = useHanCharacters();
-
-  if (!showHanCharacters) {
-    return (
-      <div className="flex flex-col items-center gap-1.5 py-2">
-        {icon}
-        <span className="text-center text-[16px] font-medium leading-tight text-ink">{gloss}</span>
-      </div>
-    );
-  }
-
+function Glyph({ gloss, icon }: { gloss: string; icon?: ReactNode }) {
   return (
-    <div className="flex flex-col items-center">
-      <span className="font-han text-[44px] leading-none text-ink">{char}</span>
-      <span className="mt-1 text-[13px] text-ink-soft">{pinyin}</span>
-      <span className="text-[13px] text-ink-soft">{gloss}</span>
+    <div className="flex flex-col items-center gap-1.5 py-2">
+      {icon}
+      <span className="text-center text-[16px] font-medium leading-tight text-ink">{gloss}</span>
     </div>
   );
 }
 
-/** A small named caption ("stage 墓 Storage") with a plain-meaning tooltip. */
+/** A small named caption ("stage Storage") with a plain-meaning tooltip. */
 function DetailCaption({ label, title }: { label: string; title?: string }) {
   return (
     <span className="text-center text-[10px] leading-tight text-ink-soft" title={title}>
@@ -101,7 +78,6 @@ function Column({
   isDay,
   isHour,
 }: ColumnSpec) {
-  const { showHanCharacters } = useHanCharacters();
   const stem = pillar ? describeStem(pillar.stem) : null;
   const branch = pillar ? describeBranch(pillar.branch) : null;
 
@@ -118,17 +94,13 @@ function Column({
       {pillar && stem && branch ? (
         <>
           <Glyph
-            char={pillar.stem}
-            pinyin={stem.pinyin}
             gloss={stem.gloss}
             icon={<ElementIcon element={stem.element} polarity={stem.polarity} size={28} />}
           />
           <div className="pb-4 pt-1.5">
             {tenGod && (
               <span className="flex flex-col text-center text-[10px] leading-tight text-ink-soft">
-                <span>
-                  {showHanCharacters ? `${tenGod.english} ${tenGod.chinese}` : tenGod.english}
-                </span>
+                <span>{tenGod.english}</span>
                 {TEN_GOD_GLOSSES[tenGod.english] && (
                   <span className="italic">{TEN_GOD_GLOSSES[tenGod.english]}</span>
                 )}
@@ -136,8 +108,6 @@ function Column({
             )}
           </div>
           <Glyph
-            char={pillar.branch}
-            pinyin={branch.pinyin}
             gloss={branch.gloss}
             icon={<AnimalIcon animal={branch.gloss} element={branch.element} size={28} />}
           />
@@ -146,27 +116,15 @@ function Column({
               <div className="flex flex-col items-center gap-1">
                 {lifeStages && (
                   <DetailCaption
-                    label={
-                      showHanCharacters
-                        ? `stage ${lifeStages.dayMaster.chinese} ${lifeStages.dayMaster.english}`
-                        : `stage ${lifeStages.dayMaster.english}`
-                    }
+                    label={`stage ${lifeStages.dayMaster.english}`}
                     title={LIFE_STAGE_GLOSSES[lifeStages.dayMaster.english]}
                   />
                 )}
-                {naYin && (
-                  <DetailCaption
-                    label={
-                      showHanCharacters
-                        ? `sound ${naYin.chinese} ${naYin.english}`
-                        : `sound ${naYin.english}`
-                    }
-                  />
-                )}
+                {naYin && <DetailCaption label={`sound ${naYin.english}`} />}
                 {stars?.map((star) => (
                   <DetailCaption
                     key={star.key}
-                    label={showHanCharacters ? `${star.chinese} ${star.english}` : star.english}
+                    label={star.english}
                     title={STAR_GLOSSES[star.key]}
                   />
                 ))}

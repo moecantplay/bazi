@@ -1,14 +1,11 @@
 /**
  * Backup and restore of everything the app stores on-device: the profile, the
- * comparison companion, and the appearance/character preferences. This is the
- * local-only substitute for an account — a JSON file the user owns. The
- * envelope is versioned so a future schema can still read old files.
+ * comparison companion, and the appearance preference. This is the local-only
+ * substitute for an account — a JSON file the user owns. The envelope is
+ * versioned so a future schema can still read old files; retired preference
+ * fields in old files are tolerated and ignored.
  */
 
-import {
-  loadHanCharactersPreference,
-  saveHanCharactersPreference
-} from "./han-characters";
 import { loadPeople, savePeople, type StoredPerson } from "./people";
 import {
   isStoredBirth,
@@ -26,7 +23,6 @@ export interface BackupFile {
   profile: StoredProfile;
   people: StoredPerson[];
   theme: "system" | "light" | "dark";
-  showHanCharacters: boolean;
 }
 
 export const BACKUP_FILENAME = "daymaster-backup.json";
@@ -43,8 +39,7 @@ export function serializeBackup(): string | null {
     exportedAt: new Date().toISOString(),
     profile,
     people: loadPeople(),
-    theme: loadThemePreference(),
-    showHanCharacters: loadHanCharactersPreference()
+    theme: loadThemePreference()
   };
   return JSON.stringify(backup, null, 2);
 }
@@ -76,8 +71,7 @@ function isBackup(value: unknown): value is BackupFile {
     backup.version === 1 &&
     isStoredProfile(backup.profile) &&
     peopleOk &&
-    themeOk &&
-    typeof backup.showHanCharacters === "boolean"
+    themeOk
   );
 }
 
@@ -99,6 +93,5 @@ export function importBackup(raw: string): ImportResult {
     savePeople(parsed.people);
   }
   saveThemePreference(parsed.theme);
-  saveHanCharactersPreference(parsed.showHanCharacters);
   return "ok";
 }

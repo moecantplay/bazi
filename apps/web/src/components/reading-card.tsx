@@ -4,8 +4,8 @@
  * itself — a borderless `--surface` fill, radius 24; parents stack these with
  * 8px gaps. The caption opens its glossary explainer when the line carries a
  * topic; when that topic also has a read-more deep dive, the card closes with
- * a "Read more" arrow link that opens it. With Chinese characters turned off,
- * both texts render through stripHanCharacters.
+ * a "Read more" arrow link that opens it. Both texts render through
+ * stripHanCharacters so inline branch tokens read as their animal names.
  */
 
 "use client";
@@ -15,7 +15,6 @@ import type { ReadingLine } from "@daymaster/content";
 import { readMoreEntry, stripHanCharacters } from "@daymaster/content";
 import { FactTag } from "@/components/fact-tag";
 import { GlossarySheet } from "@/components/glossary-sheet";
-import { useHanCharacters } from "@/components/han-characters-provider";
 
 interface Props {
   line: ReadingLine;
@@ -29,9 +28,8 @@ interface Props {
 }
 
 export function ReadingCard({ line, flat = false, citation = "above" }: Props) {
-  const { showHanCharacters } = useHanCharacters();
   const [readMoreOpen, setReadMoreOpen] = useState(false);
-  const display = (text: string) => (showHanCharacters ? text : stripHanCharacters(text));
+  const display = (text: string) => stripHanCharacters(text);
 
   const dive = line.topic ? readMoreEntry(line.topic) : undefined;
 

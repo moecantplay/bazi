@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Figtree } from "next/font/google";
-import { HanCharactersProvider } from "@/components/han-characters-provider";
 import { ServiceWorker } from "@/components/service-worker";
 import "./globals.css";
 
@@ -51,7 +50,7 @@ export default function RootLayout({ children }: Props) {
     <html lang="en" suppressHydrationWarning className={figtree.variable}>
       <body className="font-sans">
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
-        <HanCharactersProvider>{children}</HanCharactersProvider>
+        {children}
         <ServiceWorker />
       </body>
     </html>

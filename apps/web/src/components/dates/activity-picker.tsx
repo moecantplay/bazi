@@ -2,17 +2,15 @@
  * The date-finder's activity chooser: the ten modelled almanac activities as
  * one raised list, rows separated by hairline dividers (DESIGN.md §Forms —
  * hairline stays a divider, never a row border). Each row names the activity
- * in modern words, its classical category character (when Chinese is on) and
- * a literal English gloss. Selecting one is a real radio underneath, so the
- * group is keyboard- and screen-reader-navigable; a 2px inset ink ring marks
- * the chosen row.
+ * in modern words with a literal gloss of its classical category. Selecting
+ * one is a real radio underneath, so the group is keyboard- and
+ * screen-reader-navigable; a 2px inset ink ring marks the chosen row.
  */
 
 "use client";
 
 import { ACTIVITY_KEYS, type ActivityKey } from "@daymaster/bazi-engine";
 import { ACTIVITY_LABELS } from "@daymaster/content";
-import { useHanCharacters } from "@/components/han-characters-provider";
 
 interface Props {
   value: ActivityKey | null;
@@ -20,8 +18,6 @@ interface Props {
 }
 
 export function ActivityPicker({ value, onChange }: Props) {
-  const { showHanCharacters } = useHanCharacters();
-
   return (
     <fieldset className="flex flex-col gap-3">
       <legend className="kicker">
@@ -50,12 +46,7 @@ export function ActivityPicker({ value, onChange }: Props) {
                     className="sr-only"
                   />
                 </span>
-                <span className="caption flex items-baseline gap-1.5">
-                  {showHanCharacters && (
-                    <span className="whitespace-nowrap font-han">{label.chinese}</span>
-                  )}
-                  {label.classical}
-                </span>
+                <span className="caption">{label.classical}</span>
               </span>
               <span
                 aria-hidden="true"

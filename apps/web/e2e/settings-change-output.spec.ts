@@ -1,9 +1,10 @@
 import { expect, test } from "@playwright/test";
 import { FIXTURE_LATE_ZI, PROFILE_KEY, pinClock, seedProfile } from "./helpers";
 
+// The Day column's stem and branch glosses ("yang wood", "rat", ...): a
+// late-Zi shift moves the day pillar, so this text changes with the rule.
 async function dayPillarText(page: import("@playwright/test").Page): Promise<string> {
-  const chars = await page.locator('[data-pillar="day"] .font-han').allInnerTexts();
-  return chars.join("");
+  return page.locator('[data-pillar="day"]').innerText();
 }
 
 test("late-Zi toggle changes the day pillar, and delete clears the profile", async ({
@@ -12,10 +13,6 @@ test("late-Zi toggle changes the day pillar, and delete clears the profile", asy
 }) => {
   await seedProfile(context, FIXTURE_LATE_ZI);
   await pinClock(context, "2026-07-07T09:00:00Z");
-  // Opt into Han characters: the day-pillar diff below reads .font-han glyphs.
-  await context.addInitScript(() => {
-    window.localStorage.setItem("daymaster.han.v1", "show");
-  });
 
   await page.goto("/chart/");
   await expect(page.getByRole("heading", { name: "Chart", exact: true })).toBeVisible();

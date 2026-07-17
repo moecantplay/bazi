@@ -18,7 +18,6 @@ import {
 } from "@daymaster/content";
 import type { ReadingSection, ReadingSectionKey } from "@daymaster/content";
 import { describeBranch, describeStem } from "@/lib/display";
-import { useHanCharacters } from "@/components/han-characters-provider";
 import { PillarColumns } from "@/components/pillar-columns";
 import { Seal } from "@/components/seal";
 import { ElementBalance } from "@/components/element-balance";
@@ -64,12 +63,11 @@ function CollapsibleSection({
 }
 
 function Prose({ section }: { section: ReadingSection }) {
-  const { showHanCharacters } = useHanCharacters();
   return (
     <div className="flex flex-col gap-3">
       {section.lines.map((line, index) => (
         <p key={index} className="text-[15px] leading-relaxed text-ink">
-          {showHanCharacters ? line.text : stripHanCharacters(line.text)}
+          {stripHanCharacters(line.text)}
         </p>
       ))}
     </div>
@@ -81,8 +79,7 @@ interface Props {
 }
 
 export function ChartView({ profile }: Props) {
-  const { showHanCharacters } = useHanCharacters();
-  const display = (text: string) => (showHanCharacters ? text : stripHanCharacters(text));
+  const display = (text: string) => stripHanCharacters(text);
   const chart = chartFor(profile);
   const reading = natalReadingFor(profile);
   const sectionOf = (key: ReadingSectionKey): ReadingSection | undefined =>
@@ -106,10 +103,8 @@ export function ChartView({ profile }: Props) {
     (pillar) => pillar !== null
   );
   const pillarLine = presentPillars
-    .map((pillar) =>
-      showHanCharacters
-        ? `${pillar.stem}${pillar.branch}`
-        : `${describeStem(pillar.stem).gloss} ${describeBranch(pillar.branch).gloss}`
+    .map(
+      (pillar) => `${describeStem(pillar.stem).gloss} ${describeBranch(pillar.branch).gloss}`
     )
     .join(" · ");
 
@@ -142,11 +137,9 @@ export function ChartView({ profile }: Props) {
           naYin={pillarDetailOpen ? chart.naYin : undefined}
           stars={pillarDetailOpen ? chart.shensha : undefined}
         />
-        {!showHanCharacters && (
-          <p className="text-center text-[11px] text-ink-soft">
-            solid symbol = yang &middot; outlined = yin
-          </p>
-        )}
+        <p className="text-center text-[11px] text-ink-soft">
+          solid symbol = yang &middot; outlined = yin
+        </p>
         {pillarDetailOpen && (
           <p className="text-center text-[11px] leading-relaxed text-ink-soft">
             stage = {LIFE_STAGE_GLOSS}; sound = {NAYIN_GLOSS}. Named lines below each pillar are
@@ -207,16 +200,7 @@ export function ChartView({ profile }: Props) {
       )}
 
       <p className="text-[12px] leading-relaxed text-ink-soft">
-        Conception pillar{showHanCharacters && " (胎元)"} — the classical estimate of the month
-        you were conceived:{" "}
-        {showHanCharacters && (
-          <>
-            <span className="font-han text-ink">
-              {chart.taiYuan.stem}
-              {chart.taiYuan.branch}
-            </span>{" "}
-          </>
-        )}
+        Conception pillar — the classical estimate of the month you were conceived:{" "}
         {taiYuanStem.pinyin} {taiYuanStem.element} · {taiYuanBranch.pinyin}{" "}
         {taiYuanBranch.element}.
       </p>

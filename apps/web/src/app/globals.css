@@ -96,11 +96,6 @@ body {
   outline: none;
 }
 
-/* Han characters use system serif faces; no CJK webfont is downloaded. */
-.font-han {
-  font-family: "Songti SC", "Noto Serif SC", serif;
-}
-
 /*
  * Type-ladder and surface primitives (DESIGN.md §Type ladder, §Surfaces).
  * Components compose these instead of restating the raw utilities so the

@@ -1,18 +1,15 @@
 /**
- * The ten annual (流年) pillars of one luck decade, as a compact scrollable row
- * of small two-character blocks. The current year is marked with the ink
- * underline the app uses for "this is now". Years outside the engine's
- * 1900-2100 range are omitted rather than allowed to throw. With Chinese
- * characters off, each block shows the year's animal instead — the block is
- * too narrow for more, and the tooltip keeps the full name.
+ * The ten annual pillars of one luck decade, as a compact scrollable row of
+ * small blocks. The current year is marked with the ink underline the app
+ * uses for "this is now". Years outside the engine's 1900-2100 range are
+ * omitted rather than allowed to throw. Each block shows only the year's
+ * animal — the block is too narrow for more, and the tooltip keeps the
+ * full name.
  */
-
-"use client";
 
 import { annualPillar, type Pillar } from "@daymaster/bazi-engine";
 import { describeBranch, describeStem } from "@/lib/display";
 import { AnimalIcon } from "@/components/glyph-icon";
-import { useHanCharacters } from "@/components/han-characters-provider";
 import { MAX_BIRTH_YEAR, MIN_BIRTH_YEAR } from "@/lib/pillars";
 
 interface AnnualYear {
@@ -41,7 +38,6 @@ interface Props {
 }
 
 export function AnnualRow({ startYear, currentYear }: Props) {
-  const { showHanCharacters } = useHanCharacters();
   const years = annualYears(startYear);
   if (years.length === 0) {
     return null;
@@ -58,26 +54,18 @@ export function AnnualRow({ startYear, currentYear }: Props) {
                 {year}
               </span>
               <span
-                className={
-                  showHanCharacters
-                    ? "font-han text-lg leading-none text-ink"
-                    : "text-[12px] leading-none text-ink"
-                }
+                className="text-[12px] leading-none text-ink"
                 aria-label={`${describeStem(pillar.stem).pinyin} ${describeBranch(pillar.branch).pinyin}`}
                 title={`${describeStem(pillar.stem).pinyin} ${describeBranch(pillar.branch).pinyin} · ${describeStem(pillar.stem).gloss} ${describeBranch(pillar.branch).gloss}`}
               >
-                {showHanCharacters ? (
-                  `${pillar.stem}${pillar.branch}`
-                ) : (
-                  <span className="flex flex-col items-center gap-0.5">
-                    <AnimalIcon
-                      animal={describeBranch(pillar.branch).gloss}
-                      element={describeBranch(pillar.branch).element}
-                      size={16}
-                    />
-                    {describeBranch(pillar.branch).gloss}
-                  </span>
-                )}
+                <span className="flex flex-col items-center gap-0.5">
+                  <AnimalIcon
+                    animal={describeBranch(pillar.branch).gloss}
+                    element={describeBranch(pillar.branch).element}
+                    size={16}
+                  />
+                  {describeBranch(pillar.branch).gloss}
+                </span>
               </span>
               <span
                 className={`h-0.5 w-6 rounded-full ${isCurrent ? "bg-ink" : "bg-transparent"}`}

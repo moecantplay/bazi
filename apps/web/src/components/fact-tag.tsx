@@ -11,7 +11,6 @@ import { useState } from "react";
 import type { ReadingLine } from "@daymaster/content";
 import { glossaryEntry, stripHanCharacters } from "@daymaster/content";
 import { GlossarySheet } from "@/components/glossary-sheet";
-import { useHanCharacters } from "@/components/han-characters-provider";
 
 interface Props {
   line: ReadingLine;
@@ -19,13 +18,12 @@ interface Props {
 }
 
 export function FactTag({ line, className = "caption" }: Props) {
-  const { showHanCharacters } = useHanCharacters();
   const [open, setOpen] = useState(false);
 
   if (!line.factTag) {
     return null;
   }
-  const display = (text: string) => (showHanCharacters ? text : stripHanCharacters(text));
+  const display = (text: string) => stripHanCharacters(text);
   const entry = line.topic ? glossaryEntry(line.topic) : undefined;
 
   if (!entry) {

@@ -2,15 +2,14 @@
  * A bottom sheet that explains one entry — a glossary category explainer
  * behind a reading caption, the "how this reading works" overview, or a
  * read-more deep dive (which adds a "Working with it" advice section). Closes
- * on the backdrop, the close button, or Escape. Renders through the Han
- * toggle like all reading text.
+ * on the backdrop, the close button, or Escape. Renders through
+ * stripHanCharacters like all reading text.
  */
 
 "use client";
 
 import { useEffect } from "react";
 import { stripHanCharacters } from "@daymaster/content";
-import { useHanCharacters } from "@/components/han-characters-provider";
 
 /** Structurally fits both GlossaryEntry and ReadMoreEntry. */
 interface SheetEntry {
@@ -25,8 +24,7 @@ interface Props {
 }
 
 export function GlossarySheet({ entry, onClose }: Props) {
-  const { showHanCharacters } = useHanCharacters();
-  const display = (text: string) => (showHanCharacters ? text : stripHanCharacters(text));
+  const display = (text: string) => stripHanCharacters(text);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {

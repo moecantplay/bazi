@@ -12,7 +12,6 @@
 import type { ReadingLine } from "@daymaster/content";
 import { stripHanCharacters } from "@daymaster/content";
 import { FactTag } from "@/components/fact-tag";
-import { useHanCharacters } from "@/components/han-characters-provider";
 import type { GuidanceChip } from "@/lib/guidance";
 
 interface ColumnProps {
@@ -22,8 +21,7 @@ interface ColumnProps {
 }
 
 function BoardColumn({ title, chips, suggestions }: ColumnProps) {
-  const { showHanCharacters } = useHanCharacters();
-  const display = (text: string) => (showHanCharacters ? text : stripHanCharacters(text));
+  const display = (text: string) => stripHanCharacters(text);
 
   return (
     <div className="card p-5">
@@ -31,11 +29,8 @@ function BoardColumn({ title, chips, suggestions }: ColumnProps) {
       {chips.length > 0 && (
         <ul className="mt-2 flex flex-col gap-1">
           {chips.map((chip) => (
-            <li key={chip.activity} className="flex items-baseline gap-1.5">
+            <li key={chip.activity}>
               <span className="text-[15px] leading-relaxed text-ink">{chip.label}</span>
-              {showHanCharacters && (
-                <span className="font-han text-[12px] text-ink-soft">{chip.chinese}</span>
-              )}
             </li>
           ))}
         </ul>
@@ -64,7 +59,7 @@ interface Props {
  * Consecutive prose lines that cite the same fact render as one block —
  * caption once, sentences as paragraphs (DESIGN.md §Surfaces: guidance
  * grouping). Without this, an officer day stacks three sibling cards all
- * captioned e.g. "成 Success day".
+ * captioned e.g. "Success day".
  */
 function groupByFactTag(lines: ReadingLine[]): ReadingLine[][] {
   const groups: ReadingLine[][] = [];
@@ -83,8 +78,7 @@ function groupByFactTag(lines: ReadingLine[]): ReadingLine[][] {
 }
 
 function GuidanceGroup({ lines }: { lines: ReadingLine[] }) {
-  const { showHanCharacters } = useHanCharacters();
-  const display = (text: string) => (showHanCharacters ? text : stripHanCharacters(text));
+  const display = (text: string) => stripHanCharacters(text);
 
   const first = lines[0];
   if (!first) {

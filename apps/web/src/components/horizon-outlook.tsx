@@ -1,5 +1,5 @@
 /**
- * The Cycles horizon sections: "This year" (流年) and "This month" (流月), each
+ * The Cycles horizon sections: "This year" and "This month", each
  * carrying its transit pillar glyphs and the outlook lines the content layer
  * phrases from the horizon facts. Sits above the decade timeline as ruled
  * prose (DESIGN.md §Surfaces). Deterministic in the profile and the transit
@@ -13,14 +13,12 @@ import type { ReadingLine } from "@daymaster/content";
 import { stripHanCharacters } from "@daymaster/content";
 import { FactTag } from "@/components/fact-tag";
 import { PillarGlyph } from "@/components/pillar-glyph";
-import { useHanCharacters } from "@/components/han-characters-provider";
 import { todayLabel } from "@/lib/dates";
 import { horizonBundleFor } from "@/lib/horizons";
 import type { StoredProfile } from "@/lib/profile";
 
 function HorizonLines({ lines }: { lines: ReadingLine[] }) {
-  const { showHanCharacters } = useHanCharacters();
-  const display = (text: string) => (showHanCharacters ? text : stripHanCharacters(text));
+  const display = (text: string) => stripHanCharacters(text);
 
   return (
     <ul className="mt-3 flex flex-col gap-2">

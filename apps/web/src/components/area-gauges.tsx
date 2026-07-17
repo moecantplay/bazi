@@ -17,7 +17,6 @@ import { useState } from "react";
 import type { ActivityAssessment, DayQuality } from "@daymaster/bazi-engine";
 import { ACTIVITY_LABELS, activityAreaLine, stripHanCharacters } from "@daymaster/content";
 import { FactTag } from "@/components/fact-tag";
-import { useHanCharacters } from "@/components/han-characters-provider";
 import { LEANING_WORD } from "@/lib/date-finder";
 
 /** Score offsets clamp to ±4 steps; the axis is 4 steps wide per side. */
@@ -60,10 +59,9 @@ interface Props {
 }
 
 export function AreaGauges({ quality, seedKey }: Props) {
-  const { showHanCharacters } = useHanCharacters();
   const [openActivity, setOpenActivity] = useState<string | null>(null);
   const [showNeutral, setShowNeutral] = useState(false);
-  const display = (text: string) => (showHanCharacters ? text : stripHanCharacters(text));
+  const display = (text: string) => stripHanCharacters(text);
 
   const leaning = quality.assessments.filter((entry) => entry.leaning !== "neutral");
   const neutral = quality.assessments.filter((entry) => entry.leaning === "neutral");
@@ -91,14 +89,7 @@ export function AreaGauges({ quality, seedKey }: Props) {
                 onClick={() => setOpenActivity(isOpen ? null : assessment.activity)}
                 className="flex w-full items-center justify-between gap-3 px-4 py-2.5 text-left"
               >
-                <span className="flex min-w-0 flex-wrap items-baseline gap-x-1.5">
-                  <span className="text-[14px] text-ink">{label.label}</span>
-                  {showHanCharacters && (
-                    <span className="whitespace-nowrap font-han text-[12px] text-ink-soft">
-                      {label.chinese}
-                    </span>
-                  )}
-                </span>
+                <span className="min-w-0 text-[14px] text-ink">{label.label}</span>
                 <span className="flex items-center gap-2">
                   <AxisBar assessment={assessment} />
                   <span className="w-14 text-right text-[11px] text-ink-soft">
