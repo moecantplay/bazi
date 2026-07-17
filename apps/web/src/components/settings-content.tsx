@@ -85,7 +85,7 @@ export function SettingsContent({ profile }: Props) {
     {
       label: "Show Chinese characters",
       explanation:
-        "The traditional stem and branch characters, always with English beside them. Turn off to read everything in English only.",
+        "The app reads in English by default. Turn on to see the traditional stem and branch characters alongside the English.",
       checked: showHanCharacters,
       onChange: setShowHanCharacters
     }

@@ -1,7 +1,17 @@
 import { expect, test } from "@playwright/test";
 import { pinClock } from "./helpers";
 
-const PILLAR_CHARS = ["甲", "戌", "丙", "子", "戊", "辰", "庚", "申"];
+// Fixture A pillars 甲戌 丙子 戊辰 庚申 as their English-first glosses.
+const PILLAR_WORDS = [
+  "yang wood",
+  "dog",
+  "yang fire",
+  "rat",
+  "yang earth",
+  "dragon",
+  "yang metal",
+  "monkey"
+];
 
 test("full onboarding for fixture A saves a chart that reads correctly", async ({
   page,
@@ -52,8 +62,8 @@ test("full onboarding for fixture A saves a chart that reads correctly", async (
   await page.getByRole("link", { name: "Chart" }).click();
   await expect(page.getByRole("heading", { name: "Chart", exact: true })).toBeVisible();
 
-  for (const char of PILLAR_CHARS) {
-    await expect(page.getByText(char).first()).toBeVisible();
+  for (const word of PILLAR_WORDS) {
+    await expect(page.getByText(word).first()).toBeVisible();
   }
   await expect(page.getByText(/Eating God/).first()).toBeVisible();
 

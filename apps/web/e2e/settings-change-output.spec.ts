@@ -12,6 +12,10 @@ test("late-Zi toggle changes the day pillar, and delete clears the profile", asy
 }) => {
   await seedProfile(context, FIXTURE_LATE_ZI);
   await pinClock(context, "2026-07-07T09:00:00Z");
+  // Opt into Han characters: the day-pillar diff below reads .font-han glyphs.
+  await context.addInitScript(() => {
+    window.localStorage.setItem("daymaster.han.v1", "show");
+  });
 
   await page.goto("/chart/");
   await expect(page.getByRole("heading", { name: "Chart", exact: true })).toBeVisible();

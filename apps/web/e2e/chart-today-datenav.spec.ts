@@ -10,7 +10,7 @@ test("seeded chart renders and Today's date nav works and clamps", async ({ page
   // Chart renders from the seeded profile.
   await page.goto("/chart/");
   await expect(page.getByRole("heading", { name: "Chart", exact: true })).toBeVisible();
-  await expect(page.getByText("甲").first()).toBeVisible();
+  await expect(page.getByText("yang wood").first()).toBeVisible();
 
   // Move to Today; the reading cites at least one fact.
   await page.getByRole("link", { name: "Today" }).click();
@@ -97,11 +97,14 @@ test("streak counts consecutive opens and the tomorrow note shows only on today"
   );
 
   await page.goto("/today/");
-  await expect(page.getByText("4 days running")).toBeVisible();
+  // The wording varies by day (streakLine picks from a bank), but the count is
+  // always in it.
+  await expect(page.locator("[data-streak]")).toBeVisible();
+  await expect(page.locator("[data-streak]")).toContainText("4");
   await expect(page.getByText("Tomorrow reads differently. It’ll be here in the morning.")).toBeVisible();
 
   // Neither line follows the reader to other dates.
   await page.getByRole("button", { name: "Next day" }).click();
-  await expect(page.getByText("4 days running")).toHaveCount(0);
+  await expect(page.locator("[data-streak]")).toHaveCount(0);
   await expect(page.getByText("Tomorrow reads differently. It’ll be here in the morning.")).toHaveCount(0);
 });

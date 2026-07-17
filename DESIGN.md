@@ -18,7 +18,7 @@ Revised 2026-07-16 (M16, supersedes the same-day M15 surface language): the owne
 
 Primary actions are filled `--ink` with `--paper` text (15.77:1), pill-shaped. The day column's "it's you" marker is an ink underline (the app's sole underline; not a link).
 
-Element accents — used ONLY when that element is referenced (balance bars, chip tints, gauge fills, swatch dots):
+Element accents — used ONLY when that element is referenced (balance bars, chip tints, gauge fills, swatch dots, the Today hero fill):
 
 | Element | Hex | | Element | Hex |
 |---|---|---|---|---|
@@ -27,6 +27,8 @@ Element accents — used ONLY when that element is referenced (balance bars, chi
 | Earth | `#9C7A3C` | | | |
 
 Element hues are never normal-size text: fills, swatch dots, tinted chip backgrounds behind ink text, or ≥19px bold only (all clear 3:1 on paper and on `--surface`). Labels next to a swatch are always `--ink` or `--ink-soft`.
+
+**Today hero (the one color mass per screen):** an ink-wash, not a flat tint — `.hero-card` layers two radial gradients over `--surface`: the day-stem element pools at the top-left (60% → 38% → 14% → transparent) and the branch element warms the bottom-right corner (34% → transparent), seeded per day via `--hero-stem`/`--hero-branch`, plus a film-grain overlay (inline SVG turbulence, ~8% effective). Everything inside is full `--ink`; only large text may sit in the stem's strongest zone (ink 4.06:1 worst case dark earth/metal — clears 3:1 large-text AA, not 4.5:1), so the 38px mixed-weight headline lives there and nothing else does. The caption zone stays ≤34% tint (ink ≥6.6:1). Below the headline sits the orbit line art (`DayOrbit`): fine 1px ink rings and ticks, the stem glyph 64px at center, the branch in a scalloped `--paper` badge riding the ring (the M3-shape nod), and the two elements as node dots — decorative strokes/nodes are line art like the seal, but the glyphs obey the Han toggle (glosses stand in when it's off). Cinnabar stays seal-only; a Fire day's hero uses `--element-fire`, never cinnabar.
 
 ## Dark theme
 
@@ -51,12 +53,12 @@ Containers are borderless tonal fills in BOTH themes now — the M15 `dark-borde
 
 One Latin family — **Figtree** (via `next/font/google`, self-hosted at build; geometric-humanist, the closest Google-Sans feel on Google Fonts) — carrying a bold Material-style scale, plus the Han register below. Registers:
 
-- **Display — 28–32px/700, -0.01em**: screen titles, the Today headline hook.
+- **Display — 28–32px/700, -0.01em**: screen titles. Named exception: the Today headline hook is 38px mixed-weight (400 with an extrabold middle run, -0.02em) — the hero's editorial register, used nowhere else.
 - **Emphasis — 20–22px/600**: the agency line, the day-master archetype.
 - **Body — 15px/400/1.6 `--ink`**: reading prose, explanations, form labels. Reading prose is `--ink`, never `--ink-soft`.
 - **Section header — 13px/600 `--ink-soft`, sentence case**: section openers ("Favors", "Your day, by area", "This year"). No rule, no uppercase — Material subheader style. One per section; the Favors/Watch board counts as two sections, one header per column.
 - **Caption — 12px `--ink-soft`**: fact tags, pinyin, meta rows. Numeric columns are right-aligned so alignment never depends on font features; apply `tabular-nums` on top where the family provides it.
-- **Han register**: `"Songti SC", "Noto Serif SC", serif`, 40–56px in the pillar grid, 56px Today hero. No CJK webfont.
+- **Han register**: `"Songti SC", "Noto Serif SC", serif`, 40–56px in the pillar grid, 64px stem + badge branch in the Today orbit. No CJK webfont. Opt-in: the app is English-first, so outside the seal this register renders only when "Show Chinese characters" is on.
 
 Named exception: form-field text is 16px so iOS never zooms a focused input.
 
@@ -82,7 +84,7 @@ Separation is fill and gap, never line — and never shadow: in-flow surfaces ca
 
 Mobile-first, single column, max-width 28rem centered; 5-tab bottom nav (Chart · Today · Cycles · Compare · Settings), safe-area padded. `/dates/` is reached from Today and Compare.
 
-**Today** (top to bottom; Co-Star content architecture per docs/research-2026-07-16-costar-layout.md): quiet date strip → hero: headline hook (display) over the day-pillar block (56px Han, pinyin + element dots) → "At a glance" segment stack — each activity a dot on a watch↔favors axis, offset = strength (wood-green right, fire-orange left, hollow tick-center when neutral); leaning rows visible, neutral behind "Show all N areas" → the reading as life-area section cards (Roots/Career/Home/Horizon from `ReadingLine.area`, day-level lines under "The day itself"), prose first and the fact citation BELOW each line → Favors/Watch board (two tonal columns: activity word lists — stark, chipless — over a hairline divider, then the fact-cited suggestions) with its grouped guidance cards directly beneath, officer group first (the M14 arrangement) → week strip → finder link → agency card → tomorrow note. The palace-touch sentence is retired — area section headers carry it.
+**Today** (top to bottom; Co-Star content architecture per docs/research-2026-07-16-costar-layout.md): quiet date strip → week strip → hero card: one 24px-radius ink-wash container (§Today hero), 38px mixed-weight headline hook over the `DayOrbit` line art (stem center, branch badge, element nodes) with the pinyin caption beneath — all `--ink` → "At a glance" segment stack — each activity a bar growing from the center tick of a watch↔favors axis, length = strength (wood-green right, fire-orange left, bare axis when neutral; no round thumb — a dot there read as a draggable slider); leaning rows visible, neutral behind "Show all N areas" → the reading as life-area section cards (Roots/Career/Home/Horizon from `ReadingLine.area`, day-level lines under "The day itself"), prose first and the fact citation BELOW each line → Favors/Watch board (two tonal columns: activity word lists — stark, chipless — over a hairline divider, then the fact-cited suggestions) with its grouped guidance cards directly beneath, officer group first (the M14 arrangement) → finder link → agency card → tomorrow note. The palace-touch sentence is retired — area section headers carry it.
 
 **Onboarding:** one step per screen; ≥8px progress dots, `--ink` current; input directly under the heading, pill primary action in flow directly after — no dead void; back always available; restore link beneath.
 
@@ -102,7 +104,7 @@ Mobile-first, single column, max-width 28rem centered; 5-tab bottom nav (Chart �
 
 Unchanged from M4: deterministic SVG from the four pillars — cinnabar square, rounded 8%, hash-seeded corner notches and rotation jitter, `--seal-paper` 白文 stem characters (three stacked when hour unknown). Chart screen, onboarding reveal, share surfaces — always on `--paper`, never inside a tonal container. The only cinnabar mass anywhere.
 
-On screens without the seal, the recurring signatures are the 56px Songti day-pillar hero and the agency card's ink top-border; with Han characters off the hero renders in the display register, and the agency card plus the element accents carry the brand.
+On screens without the seal, the recurring signatures are the ink-wash hero card with its orbit line art and the agency card's ink top-border; with Han characters off the orbit renders glosses in the display register (wash and line art kept), and the agency card plus the element accents carry the brand.
 
 ## Motion
 

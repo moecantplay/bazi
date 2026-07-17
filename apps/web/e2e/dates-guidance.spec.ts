@@ -51,7 +51,7 @@ test("Cycles shows this year's 丙午 outlook for the pinned clock", async ({ pa
   await page.goto("/cycles/");
   const year = page.locator('[data-horizon="year"]');
   await expect(year.getByRole("heading", { name: "This year" })).toBeVisible();
-  await expect(year.getByText("丙午")).toBeVisible();
+  await expect(year.getByText("yang fire · horse")).toBeVisible();
 });
 
 test("the date finder ranks days and names the top officer", async ({ page, context }) => {

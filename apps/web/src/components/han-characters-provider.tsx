@@ -4,7 +4,8 @@
  * flag through useHanCharacters and the Settings toggle writes through it.
  *
  * State initializes straight from localStorage (server-side it falls back to
- * shown). Every consumer sits behind ProfileGate, which renders nothing until
+ * hidden — the app is English-first and characters are the opt-in). Every
+ * consumer sits behind ProfileGate, which renders nothing until
  * after hydration, so the preference is always settled before any Han
  * character can paint — no flash, no hydration mismatch.
  */
@@ -23,7 +24,7 @@ interface HanCharactersContextValue {
 }
 
 const HanCharactersContext = createContext<HanCharactersContextValue>({
-  showHanCharacters: true,
+  showHanCharacters: false,
   setShowHanCharacters: () => undefined
 });
 
@@ -46,7 +47,7 @@ export function HanCharactersProvider({ children }: Props) {
   );
 }
 
-/** The current preference and its setter. Defaults to shown outside a provider. */
+/** The current preference and its setter. Defaults to hidden outside a provider. */
 export function useHanCharacters(): HanCharactersContextValue {
   return useContext(HanCharactersContext);
 }

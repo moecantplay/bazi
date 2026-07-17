@@ -24,7 +24,7 @@ test("offline: never-visited routes render fully from the precache", async ({
   await expect(page.getByText("Current decade")).toBeVisible();
 
   await page.goto("/chart/");
-  await expect(page.locator('[data-pillar="day"]')).toContainText("戊");
+  await expect(page.locator('[data-pillar="day"]')).toContainText("yang earth");
 
   await context.setOffline(false);
 });

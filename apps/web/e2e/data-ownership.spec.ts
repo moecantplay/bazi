@@ -22,12 +22,13 @@ test("edit birth details recomputes the chart without touching other settings", 
   await page.getByRole("button", { name: "Next" }).click();
   await page.getByRole("button", { name: "Next" }).click();
 
-  // Confirm shows the recomputed chart; the day after 戊辰 is 己巳.
+  // Confirm shows the recomputed chart; the day after 戊辰 (yang earth) is
+  // 己巳 (yin earth) — asserted via the gloss, the English-first default.
   await expect(page.getByText("Here’s the updated chart.")).toBeVisible();
   await page.getByRole("button", { name: "Save changes" }).click();
 
   await expect(page).toHaveURL(/\/chart\/?$/);
-  await expect(page.locator('[data-pillar="day"]')).toContainText("己");
+  await expect(page.locator('[data-pillar="day"]')).toContainText("yin earth");
 });
 
 test("backup downloads and restores the whole chart on a fresh start", async ({
