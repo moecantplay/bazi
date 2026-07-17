@@ -10,6 +10,7 @@
 import type { Chart, Element, LuckPillar } from "@daymaster/bazi-engine";
 import { LUCK_PILLAR_GLOSS } from "@daymaster/content";
 import { describeBranch, describeStem } from "@/lib/display";
+import { AnimalIcon, ElementIcon } from "@/components/glyph-icon";
 import { useHanCharacters } from "@/components/han-characters-provider";
 import { ELEMENT_LABEL, ELEMENT_SWATCH_CLASS } from "@/lib/elements";
 import { AnnualRow } from "./annual-row";
@@ -47,6 +48,18 @@ function glossPair(luck: LuckPillar): string {
   return `${describeStem(luck.pillar.stem).gloss} · ${describeBranch(luck.pillar.branch).gloss}`;
 }
 
+/** The element + animal icon pair that anchors a gloss pair in English mode. */
+function IconPair({ luck, size }: { luck: LuckPillar; size: number }) {
+  const stem = describeStem(luck.pillar.stem);
+  const branch = describeBranch(luck.pillar.branch);
+  return (
+    <span className="inline-flex items-center gap-1.5">
+      <ElementIcon element={stem.element} polarity={stem.polarity} size={size} />
+      <AnimalIcon animal={branch.gloss} element={branch.element} size={size} />
+    </span>
+  );
+}
+
 function CurrentCard({ luck, currentYear }: { luck: LuckPillar; currentYear: number }) {
   const { showHanCharacters } = useHanCharacters();
   const stemElement = describeStem(luck.pillar.stem).element;
@@ -63,7 +76,10 @@ function CurrentCard({ luck, currentYear }: { luck: LuckPillar; currentYear: num
               {luck.pillar.branch}
             </span>
           ) : (
-            <span className="font-display text-xl leading-tight text-ink">{glossPair(luck)}</span>
+            <span className="inline-flex items-center gap-2 font-display text-xl leading-tight text-ink">
+              <IconPair luck={luck} size={22} />
+              {glossPair(luck)}
+            </span>
           )}
           <p className="mt-2 text-[12px] text-ink-soft">{metaLine(luck)}</p>
         </div>
@@ -91,7 +107,8 @@ function PlainNode({ luck }: { luck: LuckPillar }) {
             {luck.pillar.branch}
           </span>
         ) : (
-          <span className="font-display text-[17px] leading-tight text-ink">
+          <span className="inline-flex items-center gap-2 font-display text-[17px] leading-tight text-ink">
+            <IconPair luck={luck} size={19} />
             {glossPair(luck)}
           </span>
         )}

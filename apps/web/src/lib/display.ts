@@ -23,6 +23,10 @@ interface Glyph {
   element: Element;
 }
 
+interface StemGlyph extends Glyph {
+  polarity: "yang" | "yin";
+}
+
 const STEM_PINYIN: Record<Stem, string> = {
   甲: "jiǎ",
   乙: "yǐ",
@@ -66,13 +70,14 @@ const BRANCH_ELEMENT: Record<Branch, Element> = Object.fromEntries(
   BRANCHES.map((branch, index) => [branch, BRANCH_ELEMENTS[index] ?? "water"])
 ) as Record<Branch, Element>;
 
-/** Display fields for a heavenly stem: pinyin, "yang wood"-style gloss, element. */
-export function describeStem(stem: Stem): Glyph {
+/** Display fields for a heavenly stem: pinyin, "yang wood"-style gloss, element, polarity. */
+export function describeStem(stem: Stem): StemGlyph {
   const element = STEM_ELEMENT[stem];
   return {
     pinyin: STEM_PINYIN[stem],
     gloss: `${STEM_POLARITY[stem]} ${element}`,
-    element
+    element,
+    polarity: STEM_POLARITY[stem]
   };
 }
 

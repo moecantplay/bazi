@@ -9,6 +9,7 @@
 
 import type { Pillar } from "@daymaster/bazi-engine";
 import { describeBranch, describeStem } from "@/lib/display";
+import { AnimalIcon, ElementIcon } from "@/components/glyph-icon";
 import { useHanCharacters } from "@/components/han-characters-provider";
 
 interface Props {
@@ -32,7 +33,17 @@ export function PillarGlyph({ pillar, size = "lg", showMeta = false }: Props) {
           {pillar.branch}
         </span>
       ) : (
-        <span className={`font-display ${glossSize} leading-tight text-ink`}>
+        <span className={`inline-flex items-center gap-1.5 font-display ${glossSize} leading-tight text-ink`}>
+          <ElementIcon
+            element={stem.element}
+            polarity={stem.polarity}
+            size={size === "lg" ? 22 : 17}
+          />
+          <AnimalIcon
+            animal={branch.gloss}
+            element={branch.element}
+            size={size === "lg" ? 22 : 17}
+          />
           {stem.gloss} · {branch.gloss}
         </span>
       )}

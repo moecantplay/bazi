@@ -9,13 +9,17 @@
  * (the seal is the only artwork exempt from the toggle).
  */
 
+import type { Element } from "@daymaster/bazi-engine";
+import { AnimalGlyphMark, ElementGlyphMark } from "@/components/glyph-icon";
+
 interface Props {
   stemCharacter: string;
   branchCharacter: string;
   stemGloss: string;
   branchGloss: string;
-  stemElement: string;
-  branchElement: string;
+  stemElement: Element;
+  stemPolarity: "yang" | "yin";
+  branchElement: Element;
   showHanCharacters: boolean;
 }
 
@@ -35,10 +39,10 @@ export function DayOrbit({
   stemGloss,
   branchGloss,
   stemElement,
+  stemPolarity,
   branchElement,
   showHanCharacters
 }: Props) {
-  const [stemWordA, stemWordB] = stemGloss.split(" ");
 
   return (
     <svg
@@ -72,12 +76,16 @@ export function DayOrbit({
           {stemCharacter}
         </text>
       ) : (
-        <text x="115" y="108" textAnchor="middle" fontSize="21" fontWeight="600" fill="var(--ink)">
-          {stemWordA}
-          <tspan x="115" dy="26">
-            {stemWordB}
-          </tspan>
-        </text>
+        <g style={{ color: "var(--ink)" }}>
+          <ElementGlyphMark
+            element={stemElement}
+            polarity={stemPolarity}
+            transform="translate(92, 72) scale(1.92)"
+          />
+          <text x="115" y="141" textAnchor="middle" fontSize="17" fontWeight="600" fill="var(--ink)">
+            {stemGloss}
+          </text>
+        </g>
       )}
 
       <g transform="translate(190, 41) scale(0.31) translate(-100, -100)">
@@ -94,9 +102,19 @@ export function DayOrbit({
             {branchCharacter}
           </text>
         ) : (
-          <text x="100" y="112" textAnchor="middle" fontSize="34" fontWeight="600" fill="var(--ink)">
-            {branchGloss}
-          </text>
+          <g style={{ color: "var(--ink)" }}>
+            <AnimalGlyphMark animal={branchGloss} transform="translate(64, 26) scale(3)" />
+            <text
+              x="100"
+              y="152"
+              textAnchor="middle"
+              fontSize="30"
+              fontWeight="600"
+              fill="var(--ink)"
+            >
+              {branchGloss}
+            </text>
+          </g>
         )}
       </g>
 

@@ -1,16 +1,14 @@
 import { expect, test } from "@playwright/test";
 import { pinClock } from "./helpers";
 
-// Fixture A pillars 甲戌 丙子 戊辰 庚申 as their English-first glosses.
-const PILLAR_WORDS = [
-  "yang wood",
-  "dog",
-  "yang fire",
-  "rat",
-  "yang earth",
-  "dragon",
-  "yang metal",
-  "monkey"
+// Fixture A pillars 甲戌 丙子 戊辰 庚申 as their English-first glosses, keyed by
+// column so the assertions target visible grid text (icon tooltips share the
+// same words as hidden SVG <title> nodes).
+const PILLAR_WORDS: Array<[pillar: string, words: string[]]> = [
+  ["year", ["yang wood", "dog"]],
+  ["month", ["yang fire", "rat"]],
+  ["day", ["yang earth", "dragon"]],
+  ["hour", ["yang metal", "monkey"]]
 ];
 
 test("full onboarding for fixture A saves a chart that reads correctly", async ({
@@ -62,8 +60,10 @@ test("full onboarding for fixture A saves a chart that reads correctly", async (
   await page.getByRole("link", { name: "Chart" }).click();
   await expect(page.getByRole("heading", { name: "Chart", exact: true })).toBeVisible();
 
-  for (const word of PILLAR_WORDS) {
-    await expect(page.getByText(word).first()).toBeVisible();
+  for (const [pillar, words] of PILLAR_WORDS) {
+    for (const word of words) {
+      await expect(page.locator(`[data-pillar="${pillar}"]`)).toContainText(word);
+    }
   }
   await expect(page.getByText(/Eating God/).first()).toBeVisible();
 

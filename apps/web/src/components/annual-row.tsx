@@ -11,6 +11,7 @@
 
 import { annualPillar, type Pillar } from "@daymaster/bazi-engine";
 import { describeBranch, describeStem } from "@/lib/display";
+import { AnimalIcon } from "@/components/glyph-icon";
 import { useHanCharacters } from "@/components/han-characters-provider";
 import { MAX_BIRTH_YEAR, MIN_BIRTH_YEAR } from "@/lib/pillars";
 
@@ -65,9 +66,18 @@ export function AnnualRow({ startYear, currentYear }: Props) {
                 aria-label={`${describeStem(pillar.stem).pinyin} ${describeBranch(pillar.branch).pinyin}`}
                 title={`${describeStem(pillar.stem).pinyin} ${describeBranch(pillar.branch).pinyin} · ${describeStem(pillar.stem).gloss} ${describeBranch(pillar.branch).gloss}`}
               >
-                {showHanCharacters
-                  ? `${pillar.stem}${pillar.branch}`
-                  : describeBranch(pillar.branch).gloss}
+                {showHanCharacters ? (
+                  `${pillar.stem}${pillar.branch}`
+                ) : (
+                  <span className="flex flex-col items-center gap-0.5">
+                    <AnimalIcon
+                      animal={describeBranch(pillar.branch).gloss}
+                      element={describeBranch(pillar.branch).element}
+                      size={16}
+                    />
+                    {describeBranch(pillar.branch).gloss}
+                  </span>
+                )}
               </span>
               <span
                 className={`h-0.5 w-6 rounded-full ${isCurrent ? "bg-ink" : "bg-transparent"}`}

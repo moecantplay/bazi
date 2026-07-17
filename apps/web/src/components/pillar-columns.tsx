@@ -26,8 +26,10 @@ import type {
   TenGod,
 } from "@daymaster/bazi-engine";
 import { LIFE_STAGE_GLOSSES, STAR_GLOSSES, TEN_GOD_GLOSSES } from "@daymaster/content";
+import type { ReactNode } from "react";
 import type { ChartPillars } from "@/lib/pillars";
 import { describeBranch, describeStem } from "@/lib/display";
+import { AnimalIcon, ElementIcon } from "@/components/glyph-icon";
 import { useHanCharacters } from "@/components/han-characters-provider";
 
 interface ColumnSpec {
@@ -42,12 +44,23 @@ interface ColumnSpec {
   isHour?: boolean;
 }
 
-function Glyph({ char, pinyin, gloss }: { char: string; pinyin: string; gloss: string }) {
+function Glyph({
+  char,
+  pinyin,
+  gloss,
+  icon
+}: {
+  char: string;
+  pinyin: string;
+  gloss: string;
+  icon?: ReactNode;
+}) {
   const { showHanCharacters } = useHanCharacters();
 
   if (!showHanCharacters) {
     return (
-      <div className="flex flex-col items-center py-2">
+      <div className="flex flex-col items-center gap-1.5 py-2">
+        {icon}
         <span className="text-center text-[16px] font-medium leading-tight text-ink">{gloss}</span>
       </div>
     );
@@ -104,7 +117,12 @@ function Column({
 
       {pillar && stem && branch ? (
         <>
-          <Glyph char={pillar.stem} pinyin={stem.pinyin} gloss={stem.gloss} />
+          <Glyph
+            char={pillar.stem}
+            pinyin={stem.pinyin}
+            gloss={stem.gloss}
+            icon={<ElementIcon element={stem.element} polarity={stem.polarity} size={28} />}
+          />
           <div className="pb-4 pt-1.5">
             {tenGod && (
               <span className="flex flex-col text-center text-[10px] leading-tight text-ink-soft">
@@ -117,7 +135,12 @@ function Column({
               </span>
             )}
           </div>
-          <Glyph char={pillar.branch} pinyin={branch.pinyin} gloss={branch.gloss} />
+          <Glyph
+            char={pillar.branch}
+            pinyin={branch.pinyin}
+            gloss={branch.gloss}
+            icon={<AnimalIcon animal={branch.gloss} element={branch.element} size={28} />}
+          />
           <div className="pt-4">
             {(lifeStages || naYin || (stars && stars.length > 0)) && (
               <div className="flex flex-col items-center gap-1">

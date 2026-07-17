@@ -227,6 +227,7 @@ export function TodayView({ profile }: Props) {
             stemGloss={stem.gloss}
             branchGloss={branch.gloss}
             stemElement={stem.element}
+            stemPolarity={stem.polarity}
             branchElement={branch.element}
             showHanCharacters={showHanCharacters}
           />

@@ -142,6 +142,11 @@ export function ChartView({ profile }: Props) {
           naYin={pillarDetailOpen ? chart.naYin : undefined}
           stars={pillarDetailOpen ? chart.shensha : undefined}
         />
+        {!showHanCharacters && (
+          <p className="text-center text-[11px] text-ink-soft">
+            solid symbol = yang &middot; outlined = yin
+          </p>
+        )}
         {pillarDetailOpen && (
           <p className="text-center text-[11px] leading-relaxed text-ink-soft">
             stage = {LIFE_STAGE_GLOSS}; sound = {NAYIN_GLOSS}. Named lines below each pillar are
