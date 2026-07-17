@@ -138,7 +138,7 @@ export function ChartView({ profile }: Props) {
           stars={pillarDetailOpen ? chart.shensha : undefined}
         />
         <p className="text-center text-[11px] text-ink-soft">
-          solid symbol = yang &middot; outlined = yin
+          element icon solid = yang &middot; outlined = yin
         </p>
         {pillarDetailOpen && (
           <p className="text-center text-[11px] leading-relaxed text-ink-soft">

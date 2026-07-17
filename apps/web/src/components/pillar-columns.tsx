@@ -46,8 +46,10 @@ interface ColumnSpec {
 function Glyph({ gloss, icon }: { gloss: string; icon?: ReactNode }) {
   return (
     <div className="flex flex-col items-center gap-1.5 py-2">
-      {icon}
-      <span className="text-center text-[16px] font-medium leading-tight text-ink">{gloss}</span>
+      <span className="flex h-12 w-12 items-center justify-center rounded-full bg-ink-tint">
+        {icon}
+      </span>
+      <span className="text-center text-[13px] font-medium leading-tight text-ink">{gloss}</span>
     </div>
   );
 }

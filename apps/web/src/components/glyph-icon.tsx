@@ -1,21 +1,22 @@
 /**
  * The element and animal glyph icons (DESIGN.md §Glyph icons): the visual
- * anchors that stand where Han characters stand when Chinese characters are
- * off. Elements render solid when yang, outline when yin — polarity you can
- * see — and default to their element hue; animals are line icons colored by
- * their branch's element. Every icon carries its name as an accessible label
- * and a hover tooltip; adjacent copy always names it in words too.
+ * anchors beside every stem's and branch's wording. Elements render solid
+ * when yang, outline when yin — polarity you can see — and default to their
+ * element hue; animals are filled silhouettes colored by their branch's
+ * element. Every icon carries its name as an accessible label and a hover
+ * tooltip; adjacent copy always names it in words too.
  *
  * ElementGlyphMark / AnimalGlyphMark are bare <g> versions for composing
- * inside another SVG (the Today orbit).
+ * inside another SVG (the Today orbit). The dragon swaps in a more detailed
+ * path at 40px and up — its compact path is what stays readable small.
  */
 
 import type { Element } from "@daymaster/bazi-engine";
-import {
-  ANIMAL_ICON_PATHS,
-  ELEMENT_ICON_PATHS,
-  type IconPrimitive
-} from "@/lib/glyph-icon-paths";
+import { ANIMAL_ICON_PATHS } from "@/lib/animal-icon-paths";
+import { ELEMENT_ICON_PATHS, type IconPrimitive } from "@/lib/glyph-icon-paths";
+
+/** Renders at or above this size use an animal's richer path when it has one. */
+const DETAIL_SIZE = 40;
 
 const STROKE = {
   fill: "none",
@@ -63,19 +64,20 @@ export function ElementGlyphMark({ element, polarity, transform }: ElementMarkPr
 interface AnimalMarkProps {
   animal: string;
   transform?: string;
+  /** The size the mark effectively renders at, for the dragon's detail swap. */
+  renderSize?: number;
 }
 
-/** Bare primitives for one animal, for composing inside an existing SVG. */
-export function AnimalGlyphMark({ animal, transform }: AnimalMarkProps) {
+/** The bare silhouette path for one animal, for composing inside an existing SVG. */
+export function AnimalGlyphMark({ animal, transform, renderSize = 24 }: AnimalMarkProps) {
   const paths = ANIMAL_ICON_PATHS[animal];
   if (!paths) {
     return null;
   }
+  const d = renderSize >= DETAIL_SIZE && paths.dLarge ? paths.dLarge : paths.d;
   return (
     <g transform={transform}>
-      {paths.map((prim, index) => (
-        <Primitive key={index} prim={prim} />
-      ))}
+      <path fill="currentColor" fillRule="evenodd" d={d} />
     </g>
   );
 }
@@ -124,7 +126,7 @@ export function AnimalIcon({ animal, element, size = 24, tone = "element" }: Ani
       style={tone === "element" ? { color: `var(--element-${element})` } : { color: "var(--ink)" }}
     >
       <title>{animal}</title>
-      <AnimalGlyphMark animal={animal} />
+      <AnimalGlyphMark animal={animal} renderSize={size} />
     </svg>
   );
 }
