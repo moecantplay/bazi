@@ -71,6 +71,12 @@ function DetailCaption({ label, title }: { label: string; title?: string }) {
   );
 }
 
+/**
+ * Each column is a subgrid spanning the parent's six shared rows (header /
+ * stem / ten-god / branch / details / you-marker), so a column missing a
+ * ten-god caption (the Day pillar) or wrapping a longer gloss never pushes
+ * its branch out of line with its neighbours.
+ */
 function Column({
   label,
   palace,
@@ -87,18 +93,21 @@ function Column({
   const branch = pillar ? describeBranch(pillar.branch) : null;
 
   return (
-    <div data-pillar={label.toLowerCase()} className="flex flex-1 flex-col items-center gap-3">
-      <div className="flex flex-col items-center">
+    <div
+      data-pillar={label.toLowerCase()}
+      className="grid grid-rows-subgrid row-span-6 justify-items-center gap-y-0"
+    >
+      <div className="flex flex-col items-center pb-3">
         <span className="text-[13px] font-medium text-ink">{label}</span>
         <span className="text-[11px] font-medium text-ink-soft">{palace}</span>
       </div>
 
       {pillar && stem && branch ? (
-        <div className="flex flex-col items-center gap-4">
-          <div className="flex flex-col items-center">
-            <Glyph char={pillar.stem} pinyin={stem.pinyin} gloss={stem.gloss} />
+        <>
+          <Glyph char={pillar.stem} pinyin={stem.pinyin} gloss={stem.gloss} />
+          <div className="pb-4 pt-1.5">
             {tenGod && (
-              <span className="mt-1.5 flex flex-col text-center text-[10px] leading-tight text-ink-soft">
+              <span className="flex flex-col text-center text-[10px] leading-tight text-ink-soft">
                 <span>
                   {showHanCharacters ? `${tenGod.english} ${tenGod.chinese}` : tenGod.english}
                 </span>
@@ -109,50 +118,53 @@ function Column({
             )}
           </div>
           <Glyph char={pillar.branch} pinyin={branch.pinyin} gloss={branch.gloss} />
-
-          {(lifeStages || naYin || (stars && stars.length > 0)) && (
-            <div className="flex flex-col items-center gap-1">
-              {lifeStages && (
-                <DetailCaption
-                  label={
-                    showHanCharacters
-                      ? `stage ${lifeStages.dayMaster.chinese} ${lifeStages.dayMaster.english}`
-                      : `stage ${lifeStages.dayMaster.english}`
-                  }
-                  title={LIFE_STAGE_GLOSSES[lifeStages.dayMaster.english]}
-                />
-              )}
-              {naYin && (
-                <DetailCaption
-                  label={
-                    showHanCharacters
-                      ? `sound ${naYin.chinese} ${naYin.english}`
-                      : `sound ${naYin.english}`
-                  }
-                />
-              )}
-              {stars?.map((star) => (
-                <DetailCaption
-                  key={star.key}
-                  label={showHanCharacters ? `${star.chinese} ${star.english}` : star.english}
-                  title={STAR_GLOSSES[star.key]}
-                />
-              ))}
-            </div>
-          )}
-        </div>
+          <div className="pt-4">
+            {(lifeStages || naYin || (stars && stars.length > 0)) && (
+              <div className="flex flex-col items-center gap-1">
+                {lifeStages && (
+                  <DetailCaption
+                    label={
+                      showHanCharacters
+                        ? `stage ${lifeStages.dayMaster.chinese} ${lifeStages.dayMaster.english}`
+                        : `stage ${lifeStages.dayMaster.english}`
+                    }
+                    title={LIFE_STAGE_GLOSSES[lifeStages.dayMaster.english]}
+                  />
+                )}
+                {naYin && (
+                  <DetailCaption
+                    label={
+                      showHanCharacters
+                        ? `sound ${naYin.chinese} ${naYin.english}`
+                        : `sound ${naYin.english}`
+                    }
+                  />
+                )}
+                {stars?.map((star) => (
+                  <DetailCaption
+                    key={star.key}
+                    label={showHanCharacters ? `${star.chinese} ${star.english}` : star.english}
+                    title={STAR_GLOSSES[star.key]}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        </>
       ) : (
-        <div className="flex min-h-[168px] w-full items-center justify-center rounded-lg border border-dashed border-hairline px-2 text-center text-[13px] text-ink-soft">
+        <div className="row-span-4 flex min-h-[168px] w-full items-center justify-center self-stretch rounded-lg border border-dashed border-hairline px-2 text-center text-[13px] text-ink-soft">
           {isHour ? "hour unknown" : ""}
         </div>
       )}
 
-      {isDay && (
-        <div className="flex flex-col items-center">
-          <span className="h-0.5 w-8 rounded-full bg-ink" aria-hidden />
-          <span className="mt-1 text-[11px] text-ink-soft">you</span>
-        </div>
-      )}
+      <div className="pt-3">
+        {isDay && (
+          <div className="flex flex-col items-center">
+            <span className="h-0.5 w-8 rounded-full bg-ink" aria-hidden />
+            <span className="mt-1 text-[11px] text-ink-soft">you</span>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -210,7 +222,9 @@ export function PillarColumns({ pillars, className, tenGods, lifeStages, naYin, 
   ];
 
   return (
-    <div className={`flex w-full items-start gap-2 ${className ?? ""}`.trim()}>
+    <div
+      className={`grid w-full grid-cols-4 grid-rows-[repeat(6,auto)] gap-x-2 ${className ?? ""}`.trim()}
+    >
       {columns.map((column) => (
         <Column key={column.label} {...column} />
       ))}
