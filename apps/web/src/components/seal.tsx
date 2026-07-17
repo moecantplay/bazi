@@ -1,18 +1,25 @@
 /**
- * The cinnabar seal — the app's one deterministic signature.
+ * The cinnabar mark — the app's one deterministic signature, redesigned as a
+ * personal logo (owner decision 2026-07-17): the day-master's element icon
+ * inside an orbit ring on the square cinnabar stamp. No characters.
  *
- * Given a chart's pillars, the seal is a pure function: identical pillars render
- * an identical SVG on every device. All variation is seeded from a single
- * FNV-1a hash of the concatenated stem+branch characters, expanded through a
- * mulberry32 PRNG (see lib/hash.ts). The hash chooses the inner-border weight
- * (1 of 3), a grid rotation jitter of +/-1.5 degrees, and which two or three
- * corners carry a hand-stamped notch.
+ * Still a pure function of the chart: identical pillars render an identical
+ * SVG on every device. All variation seeds from one FNV-1a hash of the
+ * concatenated stem+branch characters, expanded through mulberry32 (see
+ * lib/hash.ts). The hash picks the ring weight (1 of 3), the orbit node's
+ * position (1 of 8), a rotation jitter of +/-1.5 degrees, and which two or
+ * three corners carry a hand-stamped notch. The element mark itself follows
+ * the polarity rule: yang solid, yin outlined.
  *
- * Cinnabar appears here and nowhere else in the product.
+ * Cinnabar appears here and nowhere else in the product. The share card
+ * clones this SVG and resolves its CSS variables, so it must only use
+ * --cinnabar, --seal-paper, and --paper.
  */
 
 import type { Pillar } from "@daymaster/bazi-engine";
 import { createSeededRandom, fnv1a } from "@/lib/hash";
+import { describeStem } from "@/lib/display";
+import { ELEMENT_ICON_PATHS, type IconPrimitive } from "@/lib/glyph-icon-paths";
 
 type Corner = "tl" | "tr" | "br" | "bl";
 
@@ -22,14 +29,16 @@ interface Notch {
 }
 
 interface SealGeometry {
-  stems: string[];
-  borderWeight: number;
+  ringWeight: number;
+  nodeAngle: number;
   rotation: number;
   notches: Notch[];
 }
 
-const BORDER_WEIGHTS = [1.4, 2.2, 3];
+const RING_WEIGHTS = [3.5, 4.5, 5.5];
+const NODE_ANGLES = [-135, -90, -45, 0, 45, 90, 135, 180];
 const CORNERS: Corner[] = ["tl", "tr", "br", "bl"];
+const RING_RADIUS = 36;
 
 /** All pillars present, in chart order, dropping the hour when time is unknown. */
 function orderedPillars(pillars: (Pillar | null)[]): Pillar[] {
@@ -40,8 +49,8 @@ function computeGeometry(pillars: Pillar[]): SealGeometry {
   const signature = pillars.map((pillar) => pillar.stem + pillar.branch).join("");
   const random = createSeededRandom(fnv1a(signature));
 
-  const weightIndex = Math.floor(random() * BORDER_WEIGHTS.length);
-  const borderWeight = BORDER_WEIGHTS[weightIndex] ?? 2.2;
+  const ringWeight = RING_WEIGHTS[Math.floor(random() * RING_WEIGHTS.length)] ?? 4.5;
+  const nodeAngle = NODE_ANGLES[Math.floor(random() * NODE_ANGLES.length)] ?? -45;
   const rotation = (random() * 2 - 1) * 1.5;
   const notchCount = random() < 0.5 ? 2 : 3;
 
@@ -55,12 +64,7 @@ function computeGeometry(pillars: Pillar[]): SealGeometry {
     }
   }
 
-  return {
-    stems: pillars.map((pillar) => pillar.stem),
-    borderWeight,
-    rotation,
-    notches
-  };
+  return { ringWeight, nodeAngle, rotation, notches };
 }
 
 /** A paper-colored triangle that chips the given corner of the 100x100 square. */
@@ -75,31 +79,27 @@ function notchPoints(notch: Notch): string {
   return byCorner[corner];
 }
 
-interface StemPlacement {
-  char: string;
-  x: number;
-  y: number;
-}
-
-/** Character positions: a 2x2 grid for four stems, a vertical stack for three. */
-function placeStems(stems: string[]): { placements: StemPlacement[]; fontSize: number } {
-  if (stems.length === 3) {
-    const rows = [28, 50, 72];
-    return {
-      fontSize: 27,
-      placements: stems.map((char, index) => ({ char, x: 50, y: rows[index] ?? 50 }))
-    };
+/** One line primitive of the yin (outlined) element mark, in seal-paper. */
+function LinePrimitive({ prim }: { prim: IconPrimitive }) {
+  const stroke = {
+    fill: "none",
+    stroke: "var(--seal-paper)",
+    strokeWidth: 1.9,
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  } as const;
+  switch (prim.kind) {
+    case "path":
+      return <path {...stroke} d={prim.d} />;
+    case "circle":
+      return <circle {...stroke} cx={prim.cx} cy={prim.cy} r={prim.r} />;
+    case "ellipse":
+      return <ellipse {...stroke} cx={prim.cx} cy={prim.cy} rx={prim.rx} ry={prim.ry} />;
+    case "rect":
+      return <rect {...stroke} x={prim.x} y={prim.y} width={prim.width} height={prim.height} />;
+    case "dot":
+      return <circle fill="var(--seal-paper)" cx={prim.cx} cy={prim.cy} r={prim.r} />;
   }
-  const columns = [33, 67];
-  const rows = [34, 66];
-  return {
-    fontSize: 29,
-    placements: stems.map((char, index) => ({
-      char,
-      x: columns[index % 2] ?? 50,
-      y: rows[Math.floor(index / 2)] ?? 50
-    }))
-  };
 }
 
 interface Props {
@@ -112,7 +112,15 @@ interface Props {
 export function Seal({ pillars, size = 132, className }: Props) {
   const present = orderedPillars(pillars);
   const geometry = computeGeometry(present);
-  const { placements, fontSize } = placeStems(geometry.stems);
+
+  // The day pillar is third in chart order; with an unknown hour it is last.
+  const day = pillars[2] ?? present[present.length - 1];
+  const stem = day ? describeStem(day.stem) : null;
+  const mark = stem ? ELEMENT_ICON_PATHS[stem.element] : null;
+
+  const nodeRadians = (geometry.nodeAngle * Math.PI) / 180;
+  const nodeX = 50 + RING_RADIUS * Math.cos(nodeRadians);
+  const nodeY = 50 + RING_RADIUS * Math.sin(nodeRadians);
 
   return (
     <svg
@@ -120,33 +128,33 @@ export function Seal({ pillars, size = 132, className }: Props) {
       height={size}
       viewBox="0 0 100 100"
       role="img"
-      aria-label="Your chart's seal"
+      aria-label={stem ? `Your day-master mark: ${stem.polarity} ${stem.element}` : "Your mark"}
       className={className}
     >
-      <rect x="0" y="0" width="100" height="100" rx="8" fill="var(--cinnabar)" />
-      <rect
-        x="8"
-        y="8"
-        width="84"
-        height="84"
-        rx="5"
-        fill="none"
-        stroke="var(--seal-paper)"
-        strokeWidth={geometry.borderWeight}
-      />
-      <g
-        transform={`rotate(${geometry.rotation} 50 50)`}
-        fill="var(--seal-paper)"
-        fontSize={fontSize}
-        fontFamily='"Songti SC", "Noto Serif SC", serif'
-        textAnchor="middle"
-        dominantBaseline="central"
-      >
-        {placements.map((placement, index) => (
-          <text key={index} x={placement.x} y={placement.y}>
-            {placement.char}
-          </text>
-        ))}
+      <rect x="0" y="0" width="100" height="100" rx="14" fill="var(--cinnabar)" />
+      <g transform={`rotate(${geometry.rotation} 50 50)`}>
+        <circle
+          cx="50"
+          cy="50"
+          r={RING_RADIUS}
+          fill="none"
+          stroke="var(--seal-paper)"
+          strokeWidth={geometry.ringWeight}
+        />
+        <circle cx={nodeX} cy={nodeY} r="6" fill="var(--seal-paper)" />
+        {mark && stem && (
+          <g transform="translate(26.6 26.6) scale(1.95)">
+            {stem.polarity === "yang" ? (
+              <path
+                fill="var(--seal-paper)"
+                fillRule={mark.solidFillRule}
+                d={mark.solid}
+              />
+            ) : (
+              mark.line.map((prim, index) => <LinePrimitive key={index} prim={prim} />)
+            )}
+          </g>
+        )}
       </g>
       {geometry.notches.map((notch, index) => (
         <polygon key={index} points={notchPoints(notch)} fill="var(--paper)" />
