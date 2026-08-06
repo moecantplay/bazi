@@ -83,3 +83,56 @@ Milestone plan expanded from the project brief. Tasks get checked off in PROGRES
 - Audit all banks + chart-screen labels against the rule; rewrite lines that cite a mechanic without translating it
 - Chart screen: each fact tag (e.g. "Eating God", "Water trine") gets a one-line "what this means for you" description
 - Selection stays deterministic (same hash inputs); voice tests updated for the new rule
+
+## v2 arc (approved 2026-07-29): M18 design reset → M19 web rebuild → M20 backend/accounts → M21 subscriptions → M22 mobile
+Rationale and diagnosis in docs/discussion-2026-07-23-rewrite-and-roadmap.md. Governing principles for the whole arc:
+- Engine, content, and golden fixtures are KEPT — the rewrite is `apps/web` only.
+- Readings are computed on-device forever. The backend is identity, sync, and entitlements — never reading generation.
+- "Local-only" becomes "local-first": the app works fully offline and signed-out; an account adds sync and paid entitlements, it never gates the core.
+- One visual identity, chosen before any app code changes. No blending of directions.
+
+## M18 — Design reset (one identity, chosen on-device, locked in DESIGN.md v4)
+- Owner inputs (entry gate): 3–5 screenshots of apps whose look the owner loves (any category); decide mockups-only vs commissioning a designer
+- Three full-fidelity throwaway HTML mockups of the SAME Today screen, real Fixture A data, mobile-viewport: (A) editorial/stark — typography-led, near-monochrome, seal as the app's only color mass; (B) full Material Expressive — dynamic color from the day's element, seal simplified to logo; (C) modern almanac — ink/paper/cinnabar as the actual system; each adjusted by the owner's references
+- Review ON-DEVICE (installed or served to the phone, both themes), owner picks ONE direction — no blending; runner-up ideas may be grafted only if the winner's system absorbs them without compromise
+- DESIGN.md v4 rewritten from the winner: full token set (both themes, computed WCAG ratios like M9/M16), type ladder, radius/shape scale, motion spec, component inventory covering every existing screen, seal/cinnabar rule restated → reviewer critique loop (same bar as M4/M16)
+- Mockups preserved under docs/mockups-m18/; decision + rejected directions logged in CLAUDE.md
+- No app code changes in this milestone
+
+## M18.5 — Trail rollout (owner choice, 2026-08-05: reskin apps/web in place rather than fold into M19 — see CLAUDE.md)
+- Wave 1 — Foundations: Bricolage Grotesque + Space Mono fonts alongside Figtree; globals.css tokens replaced (terrain-ground × theme + data/signage hues + shape/shadow scale, generated from docs/design-system/src/tokens.mjs); `data-terrain` (day pillar's element) stamped pre-paint next to `data-theme`; shared primitives (button, field-input, segmented-control, segment-stack list, bottom sheet) restyled to DESIGN.md v4
+- Wave 2 — Today rebuilt: datebar, elevation-profile week strip, headline hook + legend tags, map hero (replaces DayOrbit — per-day waypoint placement, not procedural terrain), waypoint-rail reading (replaces ruled-prose area sections), trail signs (replaces Favors/Watch board — copy becomes "Clear trail"/"Take it slow"), signpost + streak (replaces agency card), nav restyle
+- Wave 3 — Chart/Cycles/Compare/Dates/Settings/Onboarding: component-level restyle only, same screen structure, no rail motif outside Today's reading
+- Wave 4 — Verify: full pnpm verify, E2E updates for renamed sections, both-theme × all-5-terrain screenshot review, reviewer critique (M15/M16 bar), PROGRESS.md closeout
+
+## M19 — Web rebuild (fresh `apps/web` against DESIGN.md v4; structural debt paid in the same pass)
+- New `apps/web` started clean; engine + content + golden fixtures imported day one; old app stays deployed until parity
+- New package `packages/presentation`: typed view-models (today screen model, pillar columns, board/gauge/finder rows, streak, share-card data) extracted from the old `apps/web/src/lib`, unit-tested — "no unit tests in web" becomes honest again
+- Content emits structured token runs (`{text}` | `{term, gloss, han}`) instead of prose containing Han: one presenter decides register; `stripHanCharacters` + branchToken convention retired; voice rules (term-always-glossed) become structural tests, not regexes
+- Single versioned store: ONE document (shape = backup envelope v2 = the future sync payload), one migration function ingesting every legacy `daymaster.*.v1` key; delete-my-data clears one thing
+- Screen parity checklist before cutover: onboarding (incl. unknown time, city picker, restore), Today (hero, at-a-glance, areas, board, week strip, streak, agency), Chart, Cycles + horizons, Compare + people, Dates finder, Settings, glossary/read-more sheets, share card + link
+- PWA re-established: manifest, generated SW precache pipeline, icon pipeline carried over
+- E2E suite rebuilt against the new DOM (same flows + store-migration spec); both-theme 390px screenshot review; clean-clone `pnpm verify` green; Vercel cutover last
+
+## M20 — Backend + accounts (local-first sync)
+- Entry decisions: auth provider (Auth.js / Clerk / Neon Auth), hosting shape (Next.js off static export or hybrid static shell + API), privacy posture written down (encrypted at rest, deletion = deletion, no data resale, minimal analytics) — posture is user-facing copy, VOICE.md applies
+- Infra: Neon Postgres; schema = users + store documents (versioned envelope) + entitlements; staging environment before production
+- Sync: the M19 store document syncs whole-envelope (updatedAt last-write-wins to start); signed-out remains fully functional; sign-in uploads the local envelope, sign-out leaves local data intact
+- Account lifecycle: sign-up/sign-in/sign-out, delete-account (server AND local, names everything it erases like M12), export stays (download-my-data now includes server copy)
+- Offline PWA unbroken: SW + app shell still work with zero network; sync is opportunistic
+- E2E: auth + sync round-trip (two "devices" via storage isolation), deletion, migration of a pre-M20 local profile
+
+## M21 — Subscriptions (web first)
+- Entry decision (product): free/paid split confirmed — proposal: daily reading + chart free forever; premium = date finder, year/month horizons, multiple compare people, read-more deep dives
+- Stripe: checkout + customer portal; webhook → entitlement record server-side (single entitlements table M22 will reuse); client caches entitlement for offline grace
+- Paywall UI in-voice: VOICE.md rules bind upsell copy (no fear, no "unlock your destiny" — plain words about what the features do); gated screens degrade gracefully, never dead-end
+- Free tier must remain a complete product (the habit loop), not a crippled demo
+- E2E: gate on/off rendering both ways; webhook-driven entitlement flip; existing-user grandfathering decision logged
+
+## M22 — Mobile (Expo/React Native → App Store + Play Store)
+- `apps/mobile` (Expo) in the monorepo sharing `bazi-engine` + `content` + `presentation` unchanged; only the component skin is RN-native, implementing DESIGN.md v4
+- RevenueCat mapped onto the M21 entitlements record (Apple/Google IAP for subscriptions; Stripe stays web-only)
+- Push notifications: daily-reading reminder via the M20 backend — supersedes the 2026-07-08 "push structurally out" decision; opt-in, quiet copy
+- Screen parity with web (same checklist as M19) + native affordances: haptics on selection, native share sheet, app icons/splash from the icon pipeline
+- Store readiness: App Store + Play listings, screenshots from the real app, privacy nutrition labels matching the M20 posture, review-guideline pass (entertainment framing + disclaimer surfaced — no medical/financial claims, consistent with VOICE.md)
+- E2E: Maestro or Detox smoke flows (onboarding → today → paywall), both platforms built in CI
