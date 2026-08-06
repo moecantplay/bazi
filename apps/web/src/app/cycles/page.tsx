@@ -1,10 +1,10 @@
 "use client";
 
+import { chartFor } from "@daymaster/presentation";
 import { AppShell } from "@/components/app-shell";
 import { HorizonOutlook } from "@/components/horizon-outlook";
 import { LuckTimeline } from "@/components/luck-timeline";
 import { ProfileGate } from "@/components/profile-gate";
-import { chartFor } from "@/lib/chart";
 
 export default function CyclesPage() {
   return (

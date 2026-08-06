@@ -1,6 +1,6 @@
 /** Onboarding step 1: birth date, validated to the engine's 1900-2100 range. */
 
-import { isYearInRange } from "@/lib/pillars";
+import { isYearInRange } from "@daymaster/presentation";
 import { PickerField } from "../picker-field";
 import { StepFrame } from "./step-frame";
 

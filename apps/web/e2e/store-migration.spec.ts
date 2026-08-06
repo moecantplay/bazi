@@ -2,7 +2,7 @@ import { expect, test, type BrowserContext } from "@playwright/test";
 import { FIXTURE_A, STORE_KEY } from "./helpers";
 
 /**
- * Proves apps/web-next's one-time legacy migration (store-migration.ts)
+ * Proves apps/web's one-time legacy migration (store-migration.ts)
  * actually fires when a real user loads the real app — the unit test in
  * store-migration.test.ts already proves the pure function's behavior in
  * isolation; this seeds apps/web's own six `daymaster.*.v1` keys straight

@@ -19,8 +19,15 @@
      indicators, selects, scrollbars) in the matching scheme — CSS variables
      alone cannot recolor them. Terrain never affects this, only theme. */
   color-scheme: light;
-  --cinnabar: #bf3a2b;
   --seal-paper: #f5f6f4;
+  /* The seal's one fixed hue, unchanged since 2026-07-07 and independent of
+     theme/terrain (like --seal-paper) — this custom property was referenced
+     by tailwind.config.ts's `cinnabar` color and seal.tsx/glossary-sheet.tsx
+     but never actually defined by the Trail token generator (tokens.mjs only
+     emits ground/data hues), so the seal silently rendered as unstyled black.
+     Found during Phase 8 verification; fixed here since apps/web-next is this
+     phase's scope — apps/web carries the same gap, flagged separately. */
+  --cinnabar: #bf3a2b;
 }
 
 :root[data-theme="dark"] {
@@ -65,7 +72,7 @@ body {
 @layer components {
   /* Section opener (DESIGN.md v4 §Type): Space Mono, uppercase, a 16×2px
      rule before the text — the wayfinding kicker that makes the screen read
-     as a map. Replaces M16's sentence-case Material subheader. */
+     as a map. */
   .kicker {
     @apply flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[.17em] text-ink-soft;
   }
@@ -202,7 +209,6 @@ body {
     color: var(--ink-soft);
     border-color: color-mix(in srgb, var(--hairline) 60%, transparent);
   }
-
 }
 
 /*
@@ -223,8 +229,8 @@ body {
     animation: fade-in 120ms ease-out both;
   }
 
-  /* Material-Expressive nod (DESIGN.md §Motion): sheets slide up, and
-     selections settle with a gentle overshoot. Transform/opacity only. */
+  /* Sheets slide up, and selections settle with a gentle overshoot.
+     Transform/opacity only. */
   .sheet-in {
     animation: sheet-in 240ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
   }

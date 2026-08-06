@@ -10,7 +10,7 @@ import { useState, type RefObject } from "react";
 import { Button } from "@/components/button";
 import { shareChartCard } from "@/lib/share-card";
 import { buildShareUrl } from "@/lib/share-link";
-import type { StoredBirth } from "@/lib/profile";
+import type { StoredBirth } from "@/lib/store-types";
 
 interface Props {
   sealContainerRef: RefObject<HTMLDivElement | null>;
@@ -60,7 +60,7 @@ export function ShareActions({ sealContainerRef, pillarLine, archetype, birth }:
 
   return (
     <section className="flex flex-col gap-3">
-      <h2 className="kicker">Share</h2>
+      <p className="kicker">Share</p>
       <div className="flex flex-wrap gap-3">
         <Button variant="quiet" onClick={() => void handleImage()}>
           Share as image

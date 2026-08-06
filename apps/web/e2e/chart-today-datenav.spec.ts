@@ -4,10 +4,9 @@ import { addDays, FIXTURE_A, longDate, pinClock, seedProfile } from "./helpers";
 const TODAY = "2026-07-07";
 
 /**
- * The datebar (DESIGN.md's Trail rebuild) shows a short mono date on the
- * page; the full long date lives in the "jump to a date" button's
- * accessible name instead (Datebar's aria-label, unchanged from the old
- * date-nav row). Assert against that rather than visible text so this stays
+ * The datebar shows a short mono date on the page; the full long date lives
+ * in the "jump to a date" button's accessible name instead (Datebar's
+ * aria-label). Assert against that rather than visible text so this stays
  * robust to the datebar's own visual format. The "jump to a date" suffix
  * also disambiguates from the elevation profile's own per-day buttons, whose
  * accessible names carry the same long date whenever that day falls in the
@@ -103,6 +102,8 @@ test("streak counts consecutive opens and the tomorrow note shows only on today"
   await seedProfile(context, FIXTURE_A);
   await pinClock(context, `${TODAY}T09:00:00Z`);
   // Yesterday's visit is already on record; today's open should extend it.
+  // daymaster.streak.v1 is a deliberate carve-out from the store.v2 document
+  // (M19 decision C) — seeded directly like apps/web did.
   await context.addInitScript(
     ([key, json]) => {
       window.localStorage.setItem(key, json);

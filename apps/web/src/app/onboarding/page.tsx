@@ -6,7 +6,8 @@
  *
  * Answers persist to sessionStorage as they're entered, so a refresh resumes
  * where the flow left off. The first step also offers "restore from a backup
- * file" for someone returning on a new device.
+ * file" for someone returning on a new device — this is the only restore entry
+ * point in this phase (Settings is still a placeholder screen).
  */
 
 "use client";
@@ -27,8 +28,9 @@ import { RevealStep } from "@/components/onboarding/reveal-step";
 import { SexStep } from "@/components/onboarding/sex-step";
 import { TimeStep } from "@/components/onboarding/time-step";
 import { importBackup, type ImportResult } from "@/lib/backup";
-import { loadProfile, type StoredBirth, type StoredCity } from "@/lib/profile";
 import { decodeShareParam, SHARE_PARAM, stashIncomingShare } from "@/lib/share-link";
+import { loadStore } from "@/lib/store";
+import type { StoredBirth, StoredCity } from "@/lib/store-types";
 
 const GATHERING_STEPS = 5;
 const REVEAL_STEP = GATHERING_STEPS; // index 5
@@ -63,7 +65,7 @@ export default function OnboardingPage() {
       return;
     }
     stashIncomingShare(birth);
-    if (loadProfile() !== null) {
+    if (loadStore().profile !== null) {
       router.replace("/compare");
       return;
     }

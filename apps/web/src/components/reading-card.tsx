@@ -4,17 +4,18 @@
  * itself — a borderless `--surface` fill, radius 24; parents stack these with
  * 8px gaps. The caption opens its glossary explainer when the line carries a
  * topic; when that topic also has a read-more deep dive, the card closes with
- * a "Read more" arrow link that opens it. Both texts render through
- * stripHanCharacters so inline branch tokens read as their animal names.
+ * a "Read more" arrow link that opens it. Text renders through TokenText
+ * (line.runs) rather than stripHanCharacters(line.text) — see M19 decision F.
  */
 
 "use client";
 
 import { useState } from "react";
 import type { ReadingLine } from "@daymaster/content";
-import { readMoreEntry, stripHanCharacters } from "@daymaster/content";
+import { readMoreEntry } from "@daymaster/content";
 import { FactTag } from "@/components/fact-tag";
 import { GlossarySheet } from "@/components/glossary-sheet";
+import { TokenText } from "@/components/token-text";
 
 interface Props {
   line: ReadingLine;
@@ -29,7 +30,6 @@ interface Props {
 
 export function ReadingCard({ line, flat = false, citation = "above" }: Props) {
   const [readMoreOpen, setReadMoreOpen] = useState(false);
-  const display = (text: string) => stripHanCharacters(text);
 
   const dive = line.topic ? readMoreEntry(line.topic) : undefined;
 
@@ -38,10 +38,10 @@ export function ReadingCard({ line, flat = false, citation = "above" }: Props) {
       {citation === "above" && <FactTag line={line} />}
       <p
         className={`text-[15px] leading-relaxed text-ink ${
-          citation === "above" && line.factTag ? "mt-1.5" : ""
+          citation === "above" && line.factTagRuns ? "mt-1.5" : ""
         }`}
       >
-        {display(line.text)}
+        <TokenText line={line.runs} />
       </p>
       {citation === "below" && <FactTag line={line} className="caption mt-1.5" />}
       {dive && (

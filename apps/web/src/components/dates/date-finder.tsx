@@ -10,14 +10,21 @@
 
 import { useMemo, useState } from "react";
 import type { ActivityKey } from "@daymaster/bazi-engine";
+import {
+  addDays,
+  dateFinderChartLabels,
+  dateFinderVerdictSeedBase,
+  findDatesFor,
+  MAX_DATE,
+  MIN_DATE,
+  todayLabel,
+  type DateSearch
+} from "@daymaster/presentation";
 import { Button } from "@/components/button";
 import { ActivityPicker } from "@/components/dates/activity-picker";
 import { DateResults } from "@/components/dates/date-results";
-import { findDatesFor, MAX_DATE, MIN_DATE, type DateSearch } from "@/lib/date-finder";
-import { addDays, todayLabel } from "@/lib/dates";
-import { loadActivePersonId, loadPeople } from "@/lib/people";
-import type { StoredProfile } from "@/lib/profile";
-import { natalSeedKey } from "@/lib/reading";
+import { loadActivePersonId, loadPeople } from "@/lib/store";
+import type { StoredProfile } from "@/lib/store-types";
 
 const DEFAULT_SPAN_DAYS = 60;
 /** "Just me" — the sentinel for searching the profile chart alone. */
@@ -67,10 +74,8 @@ export function DateFinder({ profile }: Props) {
     }
   }
 
-  const chartLabels = person ? ["You", person.name] : ["You"];
-  const verdictSeedBase = `${natalSeedKey(profile)}|verdict|${activity ?? ""}${
-    person ? `|${person.id}` : ""
-  }`;
+  const chartLabels = dateFinderChartLabels(person?.name ?? null);
+  const verdictSeedBase = dateFinderVerdictSeedBase(profile, activity, person?.id ?? null);
 
   return (
     <div className="flex flex-col gap-8">
@@ -82,12 +87,10 @@ export function DateFinder({ profile }: Props) {
       <ActivityPicker value={activity} onChange={setActivity} />
 
       <fieldset className="flex flex-col gap-3">
-        <legend className="kicker">
-          Between
-        </legend>
+        <legend className="kicker">Between</legend>
         <div className="flex items-end gap-3">
-          <label className="flex flex-1 flex-col gap-1 text-[12px] text-ink-soft">
-            From
+          <label className="flex flex-1 flex-col gap-1">
+            <span className="field-label">From</span>
             <input
               type="date"
               value={start}
@@ -97,8 +100,8 @@ export function DateFinder({ profile }: Props) {
               className={dateFieldClass}
             />
           </label>
-          <label className="flex flex-1 flex-col gap-1 text-[12px] text-ink-soft">
-            To
+          <label className="flex flex-1 flex-col gap-1">
+            <span className="field-label">To</span>
             <input
               type="date"
               value={end}
@@ -114,9 +117,7 @@ export function DateFinder({ profile }: Props) {
 
       {people.length > 0 && (
         <fieldset className="flex flex-col gap-2">
-          <legend className="kicker">
-            Reading for
-          </legend>
+          <legend className="kicker">Reading for</legend>
           <div className="flex flex-wrap gap-2">
             <PersonChoice
               label="Just me"
@@ -145,9 +146,7 @@ export function DateFinder({ profile }: Props) {
 
       {search && (
         <section className="flex flex-col gap-3">
-          <h2 className="kicker">
-            Best days
-          </h2>
+          <h2 className="kicker">Best days</h2>
           {search.clampedNote && <p className="text-[12px] text-ink-soft">{search.clampedNote}</p>}
           <DateResults
             candidates={search.candidates}

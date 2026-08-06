@@ -7,13 +7,13 @@
     "build": "next build && node scripts/generate-sw.mjs",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
-    "test": "echo \"web has no unit tests; engine/content cover logic, E2E via pnpm e2e\"",
-    "e2e": "playwright install chromium && pnpm run build && playwright test",
-    "e2e:screenshot": "node scripts/screenshot-chart.mjs"
+    "test": "vitest run",
+    "e2e": "playwright install chromium && pnpm run build && playwright test"
   },
   "dependencies": {
     "@daymaster/bazi-engine": "workspace:*",
     "@daymaster/content": "workspace:*",
+    "@daymaster/presentation": "workspace:*",
     "next": "^15.1.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
@@ -29,6 +29,7 @@
     "eslint-config-next": "^15.1.4",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.8"
   }
 }

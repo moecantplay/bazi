@@ -46,9 +46,7 @@ export function InstallHint() {
 
   return (
     <section>
-      <h2 className="kicker">
-        On your home screen
-      </h2>
+      <h2 className="kicker">On your home screen</h2>
       <p className="mt-3 text-[15px] leading-relaxed text-ink">
         Installed, Daymaster opens like an app, works offline, and your chart is safer from
         browser storage cleanups.

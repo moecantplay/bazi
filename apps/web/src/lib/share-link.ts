@@ -5,12 +5,16 @@
  * routes them to Compare (or keeps them for after onboarding on a fresh
  * device) — a shared chart is always someone to compare with, never a
  * replacement for your own.
+ *
+ * Ported from apps/web/src/lib/share-link.ts, adjusted to the v2 store's
+ * shapes; the stash key is store.ts's already-reserved `SHARE_INCOMING_KEY`
+ * rather than a second copy of the literal.
  */
 
-import { isStoredBirth, type StoredBirth } from "./profile";
+import { SHARE_INCOMING_KEY } from "./store";
+import { isStoredBirth, type StoredBirth } from "./store-types";
 
 export const SHARE_PARAM = "share";
-const INCOMING_KEY = "daymaster.share-incoming.v1";
 
 function toBase64Url(text: string): string {
   const bytes = new TextEncoder().encode(text);
@@ -54,7 +58,7 @@ export function decodeShareParam(value: string): StoredBirth | null {
 /** Hold a decoded share for the Compare screen (session-scoped). */
 export function stashIncomingShare(birth: StoredBirth): void {
   try {
-    window.sessionStorage.setItem(INCOMING_KEY, JSON.stringify(birth));
+    window.sessionStorage.setItem(SHARE_INCOMING_KEY, JSON.stringify(birth));
   } catch {
     // Storage denied: the link just won't prefill the form.
   }
@@ -66,11 +70,11 @@ export function takeIncomingShare(): StoredBirth | null {
     return null;
   }
   try {
-    const raw = window.sessionStorage.getItem(INCOMING_KEY);
+    const raw = window.sessionStorage.getItem(SHARE_INCOMING_KEY);
     if (raw === null) {
       return null;
     }
-    window.sessionStorage.removeItem(INCOMING_KEY);
+    window.sessionStorage.removeItem(SHARE_INCOMING_KEY);
     const parsed: unknown = JSON.parse(raw);
     return isStoredBirth(parsed) ? parsed : null;
   } catch {

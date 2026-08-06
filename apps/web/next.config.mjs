@@ -10,7 +10,7 @@ const nextConfig = {
   // Emit route directories (/today/index.html) so clean URLs resolve on bare
   // static hosts and the service worker can precache the route documents.
   trailingSlash: true,
-  transpilePackages: ["@daymaster/bazi-engine", "@daymaster/content"],
+  transpilePackages: ["@daymaster/bazi-engine", "@daymaster/content", "@daymaster/presentation"],
   webpack: (config, { webpack }) => {
     // The engine's TypeScript sources use NodeNext-style ".js" import
     // specifiers that resolve to ".ts" files. Teach webpack to follow them so

@@ -1,7 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { FIXTURE_A, seedProfile } from "./helpers";
-
-const LEGACY_COMPARE_KEY = "daymaster.compare.v1";
+import { FIXTURE_A, seedProfile, STORE_KEY } from "./helpers";
 
 test("compare flow: enter a second person, read the pair, change person", async ({
   page,
@@ -35,11 +33,8 @@ test("compare flow: enter a second person, read the pair, change person", async 
   await page.getByRole("button", { name: "Change person" }).click();
   await expect(page.getByRole("button", { name: "Read the pair" })).toBeVisible();
   await expect(page.getByText("Saved people")).toBeVisible();
-  const stored = await page.evaluate(
-    (key) => window.localStorage.getItem(key),
-    LEGACY_COMPARE_KEY
-  );
-  expect(stored).toBeNull();
+  const stored = await page.evaluate((key) => window.localStorage.getItem(key), STORE_KEY);
+  expect(JSON.parse(stored!).people).toHaveLength(1);
 });
 
 test("saved people: add two, switch without re-entry, remove one", async ({ page, context }) => {
@@ -79,13 +74,22 @@ test("saved people: add two, switch without re-entry, remove one", async ({ page
 });
 
 test("a legacy single companion migrates to a saved person", async ({ page, context }) => {
-  await seedProfile(context, FIXTURE_A);
+  // Seeds the pre-v2 shapes apps/web wrote (daymaster.profile.v1 plus the
+  // very old single-companion daymaster.compare.v1, predating even that
+  // app's own saved-people list) and lets the real migration path
+  // (store-migration.ts, invoked by the first loadStore() call at app boot)
+  // fold them into daymaster.store.v2. The migration mechanism itself has
+  // its own exhaustive coverage in store-migration.spec.ts; this proves the
+  // Compare screen renders correctly off the result.
   await context.addInitScript(
-    ([key, json]) => {
-      window.localStorage.setItem(key, json);
+    ([profileKey, profileJson, companionKey, companionJson]) => {
+      window.localStorage.setItem(profileKey, profileJson);
+      window.localStorage.setItem(companionKey, companionJson);
     },
     [
-      LEGACY_COMPARE_KEY,
+      "daymaster.profile.v1",
+      JSON.stringify(FIXTURE_A),
+      "daymaster.compare.v1",
       JSON.stringify({
         date: "1949-10-01",
         time: "12:00",

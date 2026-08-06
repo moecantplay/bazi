@@ -2,15 +2,18 @@
  * A reading line's citation caption. When the line carries a glossary topic,
  * the caption becomes a link that opens the explainer sheet — every system
  * term is one tap from its plain-language description. Lines without a topic
- * render the caption as before.
+ * render the caption as before. Renders factTagRuns through TokenText rather
+ * than stripHanCharacters(factTag) — see M19 decision F.
  */
 
 "use client";
 
 import { useState } from "react";
 import type { ReadingLine } from "@daymaster/content";
-import { glossaryEntry, stripHanCharacters } from "@daymaster/content";
+import { glossaryEntry } from "@daymaster/content";
 import { GlossarySheet } from "@/components/glossary-sheet";
+import { TokenText } from "@/components/token-text";
+import { plainText } from "@/lib/content-runs";
 
 interface Props {
   line: ReadingLine;
@@ -20,16 +23,16 @@ interface Props {
 export function FactTag({ line, className = "caption" }: Props) {
   const [open, setOpen] = useState(false);
 
-  if (!line.factTag) {
+  if (!line.factTagRuns) {
     return null;
   }
-  const display = (text: string) => stripHanCharacters(text);
+  const runs = line.factTagRuns;
   const entry = line.topic ? glossaryEntry(line.topic) : undefined;
 
   if (!entry) {
     return (
       <p data-fact-tag className={className}>
-        {display(line.factTag)}
+        <TokenText line={runs} />
       </p>
     );
   }
@@ -40,10 +43,10 @@ export function FactTag({ line, className = "caption" }: Props) {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          aria-label={`${display(line.factTag)} — what is this?`}
+          aria-label={`${plainText(runs)} — what is this?`}
           className="tap-target inline-flex items-baseline gap-1 text-left hover:text-ink"
         >
-          {display(line.factTag)}
+          <TokenText line={runs} />
           <span aria-hidden="true" className="text-[13px] leading-none">
             &rsaquo;
           </span>

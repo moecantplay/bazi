@@ -8,9 +8,8 @@
  */
 
 import { annualPillar, type Pillar } from "@daymaster/bazi-engine";
-import { describeBranch, describeStem } from "@/lib/display";
+import { describeBranch, describeStem, MAX_BIRTH_YEAR, MIN_BIRTH_YEAR } from "@daymaster/presentation";
 import { AnimalIcon } from "@/components/glyph-icon";
-import { MAX_BIRTH_YEAR, MIN_BIRTH_YEAR } from "@/lib/pillars";
 
 interface AnnualYear {
   year: number;

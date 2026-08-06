@@ -1,21 +1,20 @@
 "use client";
 
 import { useState } from "react";
+import { formatLong } from "@daymaster/presentation";
 import { AppShell } from "@/components/app-shell";
 import { Button } from "@/components/button";
 import { CompareForm } from "@/components/compare-form";
 import { CompareView } from "@/components/compare-view";
 import { ProfileGate } from "@/components/profile-gate";
-import { formatLong } from "@/lib/dates";
 import {
   addPerson,
   loadActivePersonId,
   loadPeople,
   removePerson,
-  setActivePersonId,
-  type StoredPerson
-} from "@/lib/people";
-import type { StoredBirth } from "@/lib/profile";
+  setActivePersonId
+} from "@/lib/store";
+import type { StoredBirth, StoredPerson } from "@/lib/store-types";
 import { takeIncomingShare } from "@/lib/share-link";
 
 export default function ComparePage() {
@@ -57,18 +56,12 @@ export default function ComparePage() {
       {(profile) => (
         <AppShell title="Compare">
           {active ? (
-            <CompareView
-              profile={profile}
-              person={active}
-              onChangePerson={handleChangePerson}
-            />
+            <CompareView profile={profile} person={active} onChangePerson={handleChangePerson} />
           ) : (
             <div className="flex flex-col gap-8">
               {people.length > 0 && (
                 <section className="flex flex-col gap-3">
-                  <h2 className="kicker">
-                    Saved people
-                  </h2>
+                  <h2 className="kicker">Saved people</h2>
                   <ul className="stack">
                     {people.map((person) => (
                       <li key={person.id} className="flex items-center gap-3 px-4 py-2">

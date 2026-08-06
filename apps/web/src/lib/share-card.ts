@@ -3,12 +3,17 @@
  * onto a 1080x1350 canvas in the current theme's colors, then handed to the
  * Web Share sheet — or downloaded where file sharing isn't supported. All
  * local; nothing leaves the device unless the user shares the result.
+ *
+ * Ported from apps/web/src/lib/share-card.ts as-is (confirmed in Phase 1 and
+ * Phase 5 not to be cleanly separable from browser Canvas APIs, so it stays
+ * in the app layer rather than presentation) — only the font custom
+ * properties changed, to Trail's Bricolage/Figtree pair.
  */
 
 interface ShareCardInput {
   /** The on-screen seal SVG; cloned, its CSS variables resolved, and redrawn. */
   sealSvg: SVGSVGElement;
-  /** e.g. "甲戌 · 丙子 · 戊辰 · 庚申" or the gloss line when characters are off. */
+  /** The gloss pillar line, e.g. "yang wood · horse · ...". */
   pillarLine: string;
   /** The day-master archetype sentence. */
   archetype: string;
@@ -85,8 +90,8 @@ async function drawCard({ sealSvg, pillarLine, archetype }: ShareCardInput): Pro
   const paper = cssVar("--paper") || "#f5f6f4";
   const ink = cssVar("--ink") || "#20242b";
   const inkSoft = cssVar("--ink-soft") || "#5c636e";
-  const displayFont = cssVar("--font-fraunces") || "serif";
-  const sansFont = cssVar("--font-inter") || "sans-serif";
+  const displayFont = cssVar("--font-bricolage") || "serif";
+  const sansFont = cssVar("--font-figtree") || "sans-serif";
 
   context.fillStyle = paper;
   context.fillRect(0, 0, WIDTH, HEIGHT);
@@ -107,7 +112,7 @@ async function drawCard({ sealSvg, pillarLine, archetype }: ShareCardInput): Pro
   let lines: string[] = [];
   let lineHeight = 0;
   for (; fontSize >= 38; fontSize -= 6) {
-    context.font = `600 ${fontSize}px ${displayFont}`;
+    context.font = `800 ${fontSize}px ${displayFont}`;
     lines = wrapText(context, archetype, maxTextWidth);
     lineHeight = Math.round(fontSize * 1.38);
     if (blockTop + lines.length * lineHeight <= blockBottom) {

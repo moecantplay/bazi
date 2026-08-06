@@ -7,13 +7,13 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { loadProfile } from "@/lib/profile";
+import { loadStore } from "@/lib/store";
 
 export default function HomePage() {
   const router = useRouter();
 
   useEffect(() => {
-    const profile = loadProfile();
+    const { profile } = loadStore();
     router.replace(profile ? "/today" : "/onboarding");
   }, [router]);
 

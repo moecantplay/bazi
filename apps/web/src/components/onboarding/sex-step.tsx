@@ -4,7 +4,7 @@
  */
 
 import { SegmentedControl } from "@/components/segmented-control";
-import type { Sex } from "@/lib/profile";
+import type { Sex } from "@/lib/store-types";
 import { StepFrame } from "./step-frame";
 
 interface Props {

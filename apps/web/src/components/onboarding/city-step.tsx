@@ -1,7 +1,7 @@
 /** Onboarding step 3: birth city. Timezone (not exact coordinates) is what matters. */
 
 import { CitySearch } from "@/components/city-search";
-import type { StoredCity } from "@/lib/profile";
+import type { StoredCity } from "@/lib/store-types";
 import { StepFrame } from "./step-frame";
 
 interface Props {

@@ -1,63 +1,33 @@
 /**
- * The Today screen, rebuilt to DESIGN.md's Trail direction: the day as a
+ * The Today screen, built to DESIGN.md's Trail direction: the day as a
  * route on a topographic map. Top to bottom — datebar, seven-day elevation
  * profile, headline hook with one line of grain prose, legend tags, the map
  * hero, the waypoint-rail reading, trail signs, the signpost (agency line),
- * and the streak line. All data plumbing (bundle/guidance/seedKey, the date
- * strip's prev/next/jump logic, the streak counter, the glossary "how this
- * reading works" entry) is unchanged from M17 — only what renders moves.
+ * and the streak line.
+ *
+ * Every piece of derived data (chart, pillars, reading, guidance, tone,
+ * waypoints, headline runs, grain line, branchByArea, the date range) comes
+ * from presentation's `todayScreenModel` — this component only holds the
+ * date-strip's offset/picker state and renders what the model computes.
  */
 
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { READING_TOPIC, glossaryEntry, stripHanCharacters } from "@daymaster/content";
+import { READING_TOPIC, glossaryEntry } from "@daymaster/content";
+import { addDays, clampOffsetToRange, daysBetween, streakLine, todayScreenModel } from "@daymaster/presentation";
 import { Datebar } from "@/components/datebar";
 import { ElevationProfile } from "@/components/elevation-profile";
 import { GlossarySheet } from "@/components/glossary-sheet";
 import { LegendTags } from "@/components/legend-tags";
 import { MapHero } from "@/components/map-hero";
+import { TokenText } from "@/components/token-text";
 import { TrailSigns } from "@/components/trail-signs";
 import { WaypointRail } from "@/components/waypoint-rail";
-import { chartFor } from "@/lib/chart";
-import { addDays, daysBetween } from "@/lib/dates";
-import { dayTone } from "@/lib/day-tone";
-import { describeBranch, describeStem } from "@/lib/display";
-import { dayGuidanceFor } from "@/lib/guidance";
-import { dailyBundleFor } from "@/lib/reading";
-import { routeWaypointsFor } from "@/lib/route-waypoints";
-import type { StoredProfile } from "@/lib/profile";
-import { recordTodayOpen, streakLine } from "@/lib/streak";
+import { recordTodayOpen } from "@/lib/streak";
+import type { StoredProfile } from "@/lib/store-types";
 import { useTodayLabel } from "@/lib/use-today-label";
-
-const RANGE = 30;
-
-interface HeadlineRun {
-  text: string;
-  emphasized: boolean;
-}
-
-/**
- * Splits a headline into a plain-weight frame and one serif-italic emphasis
- * run (DESIGN.md §Type: "one phrase per headline — the direction's one
- * flourish"). The middle of the sentence carries the emphasis; the opening
- * words and the final word stay plain. Headlines too short to split render
- * unemphasized.
- */
-function headlineRuns(text: string): HeadlineRun[] {
-  const words = text.split(" ");
-  if (words.length < 5) {
-    return [{ text, emphasized: false }];
-  }
-  const start = Math.max(1, Math.floor(words.length * 0.4));
-  const end = words.length - 1;
-  return [
-    { text: `${words.slice(0, start).join(" ")} `, emphasized: false },
-    { text: words.slice(start, end).join(" "), emphasized: true },
-    { text: ` ${words.slice(end).join(" ")}`, emphasized: false }
-  ];
-}
 
 interface Props {
   profile: StoredProfile;
@@ -76,39 +46,17 @@ export function TodayView({ profile }: Props) {
   }, [today]);
 
   const dateISO = addDays(today, offset);
-  const bundle = useMemo(() => dailyBundleFor(profile, dateISO), [profile, dateISO]);
-  const guidance = useMemo(() => dayGuidanceFor(profile, dateISO), [profile, dateISO]);
-  const chart = useMemo(() => chartFor(profile), [profile]);
-  const tone = useMemo(() => dayTone(profile, dateISO), [profile, dateISO]);
-  const waypoints = useMemo(
-    () => routeWaypointsFor(bundle.reading.lines, bundle.facts),
-    [bundle]
-  );
+  const model = useMemo(() => todayScreenModel(profile, dateISO, today), [profile, dateISO, today]);
+  const { pillars, stem, branch, reading, guidance, tone, waypoints, headline, grainLine, branchByArea, dateRange } =
+    model;
 
-  const stem = describeStem(bundle.dayPillar.stem);
-  const branch = describeBranch(bundle.dayPillar.branch);
-  const pillars = [chart.year, chart.month, chart.day, chart.hour];
-  const grainLine = bundle.reading.lines.find((line) => line.area === "overall") ?? bundle.reading.lines[0];
-
-  const branchByArea = {
-    year: chart.year.branch,
-    month: chart.month.branch,
-    day: chart.day.branch,
-    ...(chart.hour ? { hour: chart.hour.branch } : {}),
-    overall: bundle.dayPillar.branch
-  };
-
-  const step = (delta: number) =>
-    setOffset((current) => Math.min(RANGE, Math.max(-RANGE, current + delta)));
-
-  const atBoundary = Math.abs(offset) >= RANGE;
+  const step = (delta: number) => setOffset((current) => clampOffsetToRange(current + delta));
 
   function jumpTo(value: string) {
     if (value.length === 0) {
       return;
     }
-    const target = Math.min(RANGE, Math.max(-RANGE, daysBetween(today, value)));
-    setOffset(target);
+    setOffset(clampOffsetToRange(daysBetween(today, value)));
     setPickerOpen(false);
   }
 
@@ -121,13 +69,13 @@ export function TodayView({ profile }: Props) {
         onClosePicker={() => setPickerOpen(false)}
         onJump={jumpTo}
         onStep={step}
-        min={addDays(today, -RANGE)}
-        max={addDays(today, RANGE)}
-        atStart={offset <= -RANGE}
-        atEnd={offset >= RANGE}
+        min={dateRange.min}
+        max={dateRange.max}
+        atStart={dateRange.atStart}
+        atEnd={dateRange.atEnd}
         pillars={pillars}
       />
-      {atBoundary && (
+      {dateRange.atBoundary && (
         <p className="-mt-4 text-[12px] text-ink-soft">Readings reach 30 days out from today.</p>
       )}
       {offset !== 0 && (
@@ -145,7 +93,7 @@ export function TodayView({ profile }: Props) {
       <div className="flex flex-col gap-2">
         <p className="kicker">Today&rsquo;s terrain</p>
         <h2 data-headline className="font-display text-[35px] leading-[1.07] tracking-[-0.022em] text-ink [text-wrap:balance]">
-          {headlineRuns(bundle.reading.headline.text).map((run, index) =>
+          {headline.map((run, index) =>
             run.emphasized ? (
               <em
                 key={index}
@@ -159,7 +107,9 @@ export function TodayView({ profile }: Props) {
             )
           )}
         </h2>
-        <p className="text-[14px] leading-relaxed text-ink">{stripHanCharacters(grainLine?.text ?? "")}</p>
+        <p className="text-[14px] leading-relaxed text-ink">
+          {grainLine && <TokenText line={grainLine.runs} />}
+        </p>
       </div>
 
       <LegendTags
@@ -172,7 +122,7 @@ export function TodayView({ profile }: Props) {
       <MapHero pillars={pillars} dayBranchGloss={branch.gloss} tone={tone} waypoints={waypoints} />
 
       <div className="flex flex-col gap-2">
-        <WaypointRail lines={bundle.reading.lines} branchByArea={branchByArea} />
+        <WaypointRail lines={reading.lines} branchByArea={branchByArea} />
         {aboutEntry && (
           <button
             type="button"
@@ -191,8 +141,8 @@ export function TodayView({ profile }: Props) {
       <TrailSigns
         chips={guidance.chips}
         proseLines={guidance.lines}
-        dos={bundle.reading.dos}
-        donts={bundle.reading.donts}
+        dos={reading.dos}
+        donts={reading.donts}
       />
 
       <Link href="/dates/" className="tap-target -mt-2 text-[12px] text-ink-soft hover:text-ink">
@@ -208,7 +158,7 @@ export function TodayView({ profile }: Props) {
             One small thing before camp
           </p>
           <p className="mt-1.5 text-[16.5px] font-medium leading-snug">
-            {stripHanCharacters(bundle.reading.agency.text)}
+            <TokenText line={reading.agency.runs} />
           </p>
           <span
             aria-hidden

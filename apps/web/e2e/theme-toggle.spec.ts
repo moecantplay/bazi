@@ -1,7 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { FIXTURE_A, seedProfile } from "./helpers";
-
-const THEME_KEY = "daymaster.theme.v1";
+import { FIXTURE_A, seedProfile, STORE_KEY } from "./helpers";
 
 async function bodyBackground(page: import("@playwright/test").Page): Promise<string> {
   return page.evaluate(() => getComputedStyle(document.body).backgroundColor);
@@ -40,9 +38,9 @@ test("appearance choice pins the theme, survives reload, follows the OS on Syste
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await expect(page.getByRole("radio", { name: "Dark" })).toHaveAttribute("aria-checked", "true");
 
-  // Back to System: attribute cleared, storage cleared.
+  // Back to System: attribute cleared, the theme field on the store clears too.
   await page.getByRole("radio", { name: "System" }).click();
   await expect(page.locator("html")).not.toHaveAttribute("data-theme", /.+/);
-  const stored = await page.evaluate((key) => window.localStorage.getItem(key), THEME_KEY);
-  expect(stored).toBeNull();
+  const stored = await page.evaluate((key) => window.localStorage.getItem(key), STORE_KEY);
+  expect(JSON.parse(stored!).theme).toBe("system");
 });

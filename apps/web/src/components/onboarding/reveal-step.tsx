@@ -12,47 +12,33 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { DEFAULT_CONFIG } from "@daymaster/bazi-engine";
+import { chartPreviewFor, isYearInRange } from "@daymaster/presentation";
 import { Button } from "@/components/button";
 import { PillarColumns } from "@/components/pillar-columns";
 import { Seal } from "@/components/seal";
-import { computePillars, isYearInRange, type ChartPillars } from "@/lib/pillars";
-import { saveProfile, type StoredBirth, type StoredProfile } from "@/lib/profile";
+import { saveProfile } from "@/lib/store";
+import type { StoredBirth, StoredProfile } from "@/lib/store-types";
 import { clearDraft } from "./draft";
 
 interface Props {
   birth: StoredBirth;
 }
 
-interface ChartResult {
-  pillars: ChartPillars | null;
-  error: boolean;
-}
+const CONFIG = {
+  lateZiHour: DEFAULT_CONFIG.lateZiHour,
+  trueSolarTime: DEFAULT_CONFIG.trueSolarTime
+};
 
 export function RevealStep({ birth }: Props) {
   const router = useRouter();
   const [saveFailed, setSaveFailed] = useState(false);
 
-  const result = useMemo<ChartResult>(() => {
-    try {
-      return {
-        pillars: computePillars(birth, {
-          lateZiHour: DEFAULT_CONFIG.lateZiHour,
-          trueSolarTime: DEFAULT_CONFIG.trueSolarTime
-        }),
-        error: false
-      };
-    } catch {
-      return { pillars: null, error: true };
-    }
-  }, [birth]);
+  const result = useMemo(() => chartPreviewFor(birth, CONFIG), [birth]);
 
   function handleSave() {
     const profile: StoredProfile = {
       birth,
-      config: {
-        lateZiHour: DEFAULT_CONFIG.lateZiHour,
-        trueSolarTime: DEFAULT_CONFIG.trueSolarTime
-      },
+      config: CONFIG,
       createdAt: new Date().toISOString()
     };
     if (!saveProfile(profile)) {

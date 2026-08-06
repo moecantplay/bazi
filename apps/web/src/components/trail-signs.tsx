@@ -5,14 +5,19 @@
  * prohibition). Each tile is a word list of the day's almanac activities
  * followed by the fact-cited suggestions; the grouped guidance prose below
  * is unchanged from the old DayBoard, only the tile chrome and headings move.
+ *
+ * The favors/watch split and the fact-tag grouping are presentation's
+ * `guidanceBoardFor`/`groupGuidanceByFactTag` (Phase 5) — this component only
+ * renders them. Prose renders through TokenText(line.runs) directly —
+ * ReadingLine.runs is required as of M19 Phase 11's content cleanup.
  */
 
 "use client";
 
 import type { ReadingLine } from "@daymaster/content";
-import { stripHanCharacters } from "@daymaster/content";
+import { groupGuidanceByFactTag, guidanceBoardFor, type GuidanceChip } from "@daymaster/presentation";
 import { FactTag } from "@/components/fact-tag";
-import type { GuidanceChip } from "@/lib/guidance";
+import { TokenText } from "@/components/token-text";
 
 interface SignProps {
   title: string;
@@ -41,7 +46,6 @@ function CairnIcon() {
 }
 
 function TrailSign({ title, emphasis, chips, suggestions }: SignProps) {
-  const display = (text: string) => stripHanCharacters(text);
   const ringColor = emphasis === "wood" ? "var(--element-wood)" : "var(--signal-amber)";
   const textClass = emphasis === "wood" ? "text-element-wood" : "text-signal-amber";
 
@@ -66,7 +70,9 @@ function TrailSign({ title, emphasis, chips, suggestions }: SignProps) {
       <ul className="mt-3 flex flex-col gap-2.5 border-t border-hairline pt-3">
         {suggestions.map((line, index) => (
           <li key={index}>
-            <p className="text-[13px] leading-relaxed text-ink">{display(line.text)}</p>
+            <p className="text-[13px] leading-relaxed text-ink">
+              <TokenText line={line.runs} />
+            </p>
             <FactTag line={line} className="caption mt-0.5" />
           </li>
         ))}
@@ -83,31 +89,7 @@ interface Props {
   donts: ReadingLine[];
 }
 
-/**
- * Consecutive prose lines that cite the same fact render as one block —
- * caption once, sentences as paragraphs (DESIGN.md §Surfaces: guidance
- * grouping). Without this, an officer day stacks three sibling cards all
- * captioned e.g. "Success day".
- */
-function groupByFactTag(lines: ReadingLine[]): ReadingLine[][] {
-  const groups: ReadingLine[][] = [];
-  let current: ReadingLine[] | null = null;
-  let currentTag: ReadingLine["factTag"] = null;
-  for (const line of lines) {
-    if (current && currentTag === line.factTag) {
-      current.push(line);
-    } else {
-      current = [line];
-      currentTag = line.factTag;
-      groups.push(current);
-    }
-  }
-  return groups;
-}
-
 function GuidanceGroup({ lines }: { lines: ReadingLine[] }) {
-  const display = (text: string) => stripHanCharacters(text);
-
   const first = lines[0];
   if (!first) {
     return null;
@@ -119,7 +101,7 @@ function GuidanceGroup({ lines }: { lines: ReadingLine[] }) {
       <div className="mt-1.5 flex flex-col gap-2">
         {lines.map((line, index) => (
           <p key={index} className="text-[15px] leading-relaxed text-ink">
-            {display(line.text)}
+            <TokenText line={line.runs} />
           </p>
         ))}
       </div>
@@ -128,19 +110,18 @@ function GuidanceGroup({ lines }: { lines: ReadingLine[] }) {
 }
 
 export function TrailSigns({ chips, proseLines, dos, donts }: Props) {
-  const favors = chips.filter((chip) => chip.leaning === "favors");
-  const watch = chips.filter((chip) => chip.leaning === "friction");
+  const board = guidanceBoardFor(chips);
 
   return (
     <section data-guidance className="flex flex-col gap-4">
       <p className="kicker">Trail signs</p>
       <div data-dos-donts className="grid grid-cols-2 gap-2">
-        <TrailSign title="Clear trail" emphasis="wood" chips={favors} suggestions={dos} />
-        <TrailSign title="Take it slow" emphasis="amber" chips={watch} suggestions={donts} />
+        <TrailSign title="Clear trail" emphasis="wood" chips={board.favors} suggestions={dos} />
+        <TrailSign title="Take it slow" emphasis="amber" chips={board.watch} suggestions={donts} />
       </div>
       {proseLines.length > 0 && (
         <div className="flex flex-col gap-2">
-          {groupByFactTag(proseLines).map((group, index) => (
+          {groupGuidanceByFactTag(proseLines).map((group, index) => (
             <GuidanceGroup key={index} lines={group} />
           ))}
         </div>

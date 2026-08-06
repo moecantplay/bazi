@@ -1,9 +1,10 @@
 import { defineConfig, devices } from "@playwright/test";
 
 /**
- * E2E against the real static export (apps/web/out), served by a tiny static
- * file server — never `next dev`. Run via `pnpm --filter @daymaster/web e2e`,
- * which installs the browser, builds the export, then runs these specs.
+ * E2E against the real static export (apps/web/out), served by a tiny
+ * static file server — never `next dev`. Run via `pnpm --filter
+ * @daymaster/web e2e`, which installs the browser, builds the export,
+ * then runs these specs.
  *
  * CHROME_PATH, when set, points Playwright at an existing Chromium binary so a
  * machine that can't download the managed browser can still run the suite.

@@ -42,9 +42,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   // Wood terrain's ground (tokens.generated.css's default before a profile
-  // exists and data-terrain is stamped) — DESIGN.md v4, supersedes the old
-  // M16 paper/ink pair. Browser/PWA chrome (status bar, task-switcher card)
-  // should match the app's default background, not a retired palette.
+  // exists and data-terrain is stamped) — matches apps/web's layout.tsx.
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#F0EEE2" },
     { media: "(prefers-color-scheme: dark)", color: "#161911" }
@@ -54,10 +52,14 @@ export const viewport: Viewport = {
 };
 
 /**
- * Runs before first paint so a pinned theme never flashes. Mirrors
- * lib/theme.ts (applyThemePreference) — keep the two in sync.
+ * Runs before first paint so a pinned theme never flashes. Reads the v2
+ * store's `theme` field first; falls back to the legacy `daymaster.theme.v1`
+ * key for a device that hasn't opened the app since cutover yet (the
+ * migration itself runs later, client-side, the first time something calls
+ * `loadStore()` — see lib/store.ts). Mirrors store.ts/store-migration.ts;
+ * keep the two in sync.
  */
-const THEME_INIT_SCRIPT = `try{var t=localStorage.getItem("daymaster.theme.v1");if(t==="light"||t==="dark"){document.documentElement.dataset.theme=t}}catch(e){}`;
+const THEME_INIT_SCRIPT = `try{var t=null;var raw=localStorage.getItem("daymaster.store.v2");if(raw){try{var parsed=JSON.parse(raw);if(parsed&&(parsed.theme==="light"||parsed.theme==="dark")){t=parsed.theme}}catch(e){}}if(t===null){var legacy=localStorage.getItem("daymaster.theme.v1");if(legacy==="light"||legacy==="dark"){t=legacy}}if(t==="light"||t==="dark"){document.documentElement.dataset.theme=t}}catch(e){}`;
 
 interface Props {
   children: React.ReactNode;

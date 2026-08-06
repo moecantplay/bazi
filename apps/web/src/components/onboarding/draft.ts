@@ -3,9 +3,13 @@
  * plus their sessionStorage persistence, so an accidental refresh mid-flow
  * doesn't throw away everything already entered. Session-scoped on purpose:
  * closing the tab abandons the draft, only the saved profile is durable.
+ *
+ * This key (`daymaster.onboarding.v1`) is deliberately outside the single-
+ * store consolidation (store.ts) — it's transient, self-clearing draft
+ * state, not part of the versioned document.
  */
 
-import { isStoredCity, type Sex, type StoredCity } from "@/lib/profile";
+import { isStoredCity, type Sex, type StoredCity } from "@/lib/store-types";
 
 export interface OnboardingDraft {
   date: string; // YYYY-MM-DD, "" until entered

@@ -16,7 +16,7 @@ import { fileURLToPath } from "node:url";
 const here = dirname(fileURLToPath(import.meta.url));
 const OUT = resolve(here, "../out");
 const TARGET_DIR = resolve(here, "../public/screenshots");
-const PORT = 3398;
+const PORT = 3399;
 
 const MIME = {
   ".html": "text/html; charset=utf-8",
@@ -47,21 +47,29 @@ const server = http.createServer(async (req, res) => {
 await new Promise((r) => server.listen(PORT, r));
 
 const FIXTURE_A = JSON.stringify({
-  birth: {
-    date: "1994-12-08",
-    time: "16:30",
-    city: { name: "Jakarta", country: "Indonesia", lat: -6.2146, lng: 106.8451, tz: "Asia/Jakarta" },
-    sex: "male"
+  app: "daymaster",
+  version: 2,
+  updatedAt: "2026-01-01T00:00:00.000Z",
+  profile: {
+    birth: {
+      date: "1994-12-08",
+      time: "16:30",
+      city: { name: "Jakarta", country: "Indonesia", lat: -6.2146, lng: 106.8451, tz: "Asia/Jakarta" },
+      sex: "male"
+    },
+    config: { lateZiHour: "midnight", trueSolarTime: false },
+    createdAt: "2026-01-01T00:00:00.000Z"
   },
-  config: { lateZiHour: "midnight", trueSolarTime: false },
-  createdAt: "2026-01-01T00:00:00.000Z"
+  people: [],
+  activePersonId: null,
+  theme: "system"
 });
 
 await mkdir(TARGET_DIR, { recursive: true });
 const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH });
 const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
 await context.addInitScript((json) => {
-  window.localStorage.setItem("daymaster.profile.v1", json);
+  window.localStorage.setItem("daymaster.store.v2", json);
 }, FIXTURE_A);
 
 const page = await context.newPage();

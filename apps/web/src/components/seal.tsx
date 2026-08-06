@@ -1,15 +1,15 @@
 /**
  * The cinnabar mark — the app's one deterministic signature, redesigned as a
- * personal logo (owner decision 2026-07-17): the day-master's element icon
- * inside an orbit ring on the square cinnabar stamp. No characters.
+ * personal logo: the day-master's element icon inside an orbit ring on the
+ * square cinnabar stamp. No characters.
  *
  * Still a pure function of the chart: identical pillars render an identical
  * SVG on every device. All variation seeds from one FNV-1a hash of the
- * concatenated stem+branch characters, expanded through mulberry32 (see
- * lib/hash.ts). The hash picks the ring weight (1 of 3), the orbit node's
- * position (1 of 8), a rotation jitter of +/-1.5 degrees, and which two or
- * three corners carry a hand-stamped notch. The element mark itself follows
- * the polarity rule: yang solid, yin outlined.
+ * concatenated stem+branch characters, expanded through mulberry32. The hash
+ * picks the ring weight (1 of 3), the orbit node's position (1 of 8), a
+ * rotation jitter of +/-1.5 degrees, and which two or three corners carry a
+ * hand-stamped notch. The element mark itself follows the polarity rule:
+ * yang solid, yin outlined.
  *
  * Cinnabar appears here and nowhere else in the product. The share card
  * clones this SVG and resolves its CSS variables, so it must only use
@@ -17,9 +17,13 @@
  */
 
 import type { Pillar } from "@daymaster/bazi-engine";
-import { createSeededRandom, fnv1a } from "@/lib/hash";
-import { describeStem } from "@/lib/display";
-import { ELEMENT_ICON_PATHS, type IconPrimitive } from "@/lib/glyph-icon-paths";
+import {
+  createSeededRandom,
+  describeStem,
+  ELEMENT_ICON_PATHS,
+  fnv1a,
+  type IconPrimitive
+} from "@daymaster/presentation";
 
 type Corner = "tl" | "tr" | "br" | "bl";
 
@@ -155,11 +159,7 @@ export function Seal({ pillars, size = 132, className }: Props) {
         {mark && stem && (
           <g transform="translate(26.6 26.6) scale(1.95)">
             {stem.polarity === "yang" ? (
-              <path
-                fill="var(--seal-paper)"
-                fillRule={mark.solidFillRule}
-                d={mark.solid}
-              />
+              <path fill="var(--seal-paper)" fillRule={mark.solidFillRule} d={mark.solid} />
             ) : (
               mark.line.map((prim, index) => <LinePrimitive key={index} prim={prim} />)
             )}

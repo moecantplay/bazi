@@ -2,14 +2,15 @@
  * Edit birth details from Settings: the same four gathering steps as
  * onboarding, prefilled from the saved profile, ending in a confirm step that
  * shows the recomputed pillars before anything is written. Saving replaces
- * only the birth block — engine settings, appearance, characters, and the
- * comparison companion all stay put.
+ * only the birth block — engine settings, appearance, and the comparison
+ * companion all stay put.
  */
 
 "use client";
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { chartPreviewFor, isYearInRange } from "@daymaster/presentation";
 import { Button } from "@/components/button";
 import { CityStep } from "@/components/onboarding/city-step";
 import { DateStep } from "@/components/onboarding/date-step";
@@ -17,8 +18,8 @@ import { SexStep } from "@/components/onboarding/sex-step";
 import { TimeStep } from "@/components/onboarding/time-step";
 import { ProgressDots } from "@/components/onboarding/progress-dots";
 import { PillarColumns } from "@/components/pillar-columns";
-import { computePillars, isYearInRange, type ChartPillars } from "@/lib/pillars";
-import { saveProfile, type StoredBirth, type StoredProfile } from "@/lib/profile";
+import { saveProfile } from "@/lib/store";
+import type { StoredBirth, StoredProfile } from "@/lib/store-types";
 
 const GATHERING_STEPS = 4;
 const CONFIRM_STEP = GATHERING_STEPS; // index 4
@@ -36,15 +37,9 @@ function ConfirmStep({ profile, birth }: ConfirmProps) {
   const router = useRouter();
   const [saveFailed, setSaveFailed] = useState(false);
 
-  const pillars = useMemo<ChartPillars | null>(() => {
-    try {
-      return computePillars(birth, profile.config);
-    } catch {
-      return null;
-    }
-  }, [birth, profile.config]);
+  const result = useMemo(() => chartPreviewFor(birth, profile.config), [birth, profile.config]);
 
-  if (pillars === null) {
+  if (result.error || !result.pillars) {
     const outOfRange = !isYearInRange(birth.date);
     return (
       <div className="flex flex-1 flex-col justify-center gap-3 text-center">
@@ -76,7 +71,7 @@ function ConfirmStep({ profile, birth }: ConfirmProps) {
           Save it and every reading follows the new details. Your settings stay as they are.
         </p>
         <div className="mt-8">
-          <PillarColumns pillars={pillars} />
+          <PillarColumns pillars={result.pillars} />
         </div>
       </div>
       <div className="pt-8">

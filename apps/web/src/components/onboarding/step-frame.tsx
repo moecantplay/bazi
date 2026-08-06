@@ -1,9 +1,9 @@
 /**
- * Shared layout for a single onboarding step: a serif title, optional helper
+ * Shared layout for a single onboarding step: a display title, optional helper
  * line, the step's inputs, and the full-width primary action in flow directly
- * after them (DESIGN.md §Layout — no dead void between input and button).
- * The button label always says what it does. The title takes focus when the
- * step mounts so screen readers announce where the flow has moved.
+ * after them (no dead void between input and button). The button label always
+ * says what it does. The title takes focus when the step mounts so screen
+ * readers announce where the flow has moved.
  */
 
 "use client";

@@ -8,12 +8,12 @@
 "use client";
 
 import { useState } from "react";
+import { isYearInRange } from "@daymaster/presentation";
 import { Button } from "@/components/button";
 import { CitySearch } from "@/components/city-search";
 import { PickerField } from "@/components/picker-field";
 import { SegmentedControl } from "@/components/segmented-control";
-import { isYearInRange } from "@/lib/pillars";
-import type { Sex, StoredBirth, StoredCity } from "@/lib/profile";
+import type { Sex, StoredBirth, StoredCity } from "@/lib/store-types";
 
 interface Props {
   onSave: (name: string, birth: StoredBirth) => void;

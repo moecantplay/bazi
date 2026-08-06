@@ -1,19 +1,20 @@
 /**
- * The element and animal glyph icons (DESIGN.md §Glyph icons): the visual
- * anchors beside every stem's and branch's wording. Elements render solid
- * when yang, outline when yin — polarity you can see — and default to their
- * element hue; animals are filled silhouettes colored by their branch's
- * element. Every icon carries its name as an accessible label and a hover
- * tooltip; adjacent copy always names it in words too.
+ * The element and animal glyph icons (DESIGN.md §Icons): the visual anchors
+ * beside every stem's and branch's wording. Elements render solid when yang,
+ * outline when yin — polarity you can see — and default to their element
+ * hue; animals are filled silhouettes colored by their branch's element.
+ * Every icon carries its name as an accessible label and a hover tooltip;
+ * adjacent copy always names it in words too.
  *
  * ElementGlyphMark / AnimalGlyphMark are bare <g> versions for composing
- * inside another SVG (the Today orbit). The dragon swaps in a more detailed
- * path at 40px and up — its compact path is what stays readable small.
+ * inside another SVG (the seal, the map hero). The dragon swaps in a more
+ * detailed path at 40px and up — its compact path is what stays readable
+ * small. Path data comes from @daymaster/presentation (Phase 1 moved it out
+ * of apps/web) — this file is only the render path, unchanged in shape.
  */
 
 import type { Element } from "@daymaster/bazi-engine";
-import { ANIMAL_ICON_PATHS } from "@/lib/animal-icon-paths";
-import { ELEMENT_ICON_PATHS, type IconPrimitive } from "@/lib/glyph-icon-paths";
+import { ANIMAL_ICON_PATHS, ELEMENT_ICON_PATHS, type IconPrimitive } from "@daymaster/presentation";
 
 /** Renders at or above this size use an animal's richer path when it has one. */
 const DETAIL_SIZE = 40;

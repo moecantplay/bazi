@@ -4,34 +4,28 @@
  * gods (stage/sound/star captions behind a detail toggle), the five-element
  * balance, favorable elements, then the structural interactions and stars as
  * collapsed sections. Prose comes from the content package; the UI adds only
- * headings and the data visualizations.
+ * headings and the data visualizations. Text renders through TokenText
+ * (line.runs) — ReadingLine.runs is required as of M19 Phase 11.
  */
 
 "use client";
 
 import { useRef, useState, type ReactNode } from "react";
-import {
-  DAY_MASTER_GLOSS,
-  LIFE_STAGE_GLOSS,
-  NAYIN_GLOSS,
-  stripHanCharacters
-} from "@daymaster/content";
-import type { ReadingSection, ReadingSectionKey } from "@daymaster/content";
-import { describeBranch, describeStem } from "@/lib/display";
-import { PillarColumns } from "@/components/pillar-columns";
-import { Seal } from "@/components/seal";
+import { DAY_MASTER_GLOSS, LIFE_STAGE_GLOSS, NAYIN_GLOSS } from "@daymaster/content";
+import type { ReadingLine, ReadingSection, ReadingSectionKey } from "@daymaster/content";
+import { describeBranch, describeStem, natalReadingFor, chartFor } from "@daymaster/presentation";
 import { ElementBalance } from "@/components/element-balance";
 import { ElementChips } from "@/components/element-chips";
+import { PillarColumns } from "@/components/pillar-columns";
 import { ReadingCard } from "@/components/reading-card";
+import { Seal } from "@/components/seal";
 import { ShareActions } from "@/components/share-actions";
-import { chartFor } from "@/lib/chart";
-import { natalReadingFor } from "@/lib/reading";
-import type { StoredProfile } from "@/lib/profile";
+import { TokenText } from "@/components/token-text";
+import { plainText } from "@/lib/content-runs";
+import type { StoredProfile } from "@/lib/store-types";
 
 function Heading({ children }: { children: string }) {
-  return (
-    <h2 className="kicker">{children}</h2>
-  );
+  return <h2 className="kicker">{children}</h2>;
 }
 
 /** A collapsed-by-default section: the heading is the disclosure control. */
@@ -51,10 +45,10 @@ function CollapsibleSection({
           aria-hidden
           className="text-[11px] text-ink-soft transition-transform group-open:rotate-90"
         >
-          ▸
+          &#9656;
         </span>
         <h2 className="kicker">
-          {title} · {count}
+          {title} &middot; {count}
         </h2>
       </summary>
       <div className="mt-3 flex flex-col gap-2">{children}</div>
@@ -67,7 +61,7 @@ function Prose({ section }: { section: ReadingSection }) {
     <div className="flex flex-col gap-3">
       {section.lines.map((line, index) => (
         <p key={index} className="text-[15px] leading-relaxed text-ink">
-          {stripHanCharacters(line.text)}
+          <TokenText line={line.runs} />
         </p>
       ))}
     </div>
@@ -79,7 +73,6 @@ interface Props {
 }
 
 export function ChartView({ profile }: Props) {
-  const display = (text: string) => stripHanCharacters(text);
   const chart = chartFor(profile);
   const reading = natalReadingFor(profile);
   const sectionOf = (key: ReadingSectionKey): ReadingSection | undefined =>
@@ -94,18 +87,17 @@ export function ChartView({ profile }: Props) {
   const stars = sectionOf("stars");
 
   const [archetype, ...dayMasterRest] = dayMaster?.lines ?? [];
+  const archetypeRuns = archetype ? archetype.runs : null;
   const taiYuanStem = describeStem(chart.taiYuan.stem);
   const taiYuanBranch = describeBranch(chart.taiYuan.branch);
   const [pillarDetailOpen, setPillarDetailOpen] = useState(false);
   const sealContainerRef = useRef<HTMLDivElement>(null);
 
   const presentPillars = [chart.year, chart.month, chart.day, chart.hour].filter(
-    (pillar) => pillar !== null
+    (pillar): pillar is NonNullable<typeof pillar> => pillar !== null
   );
   const pillarLine = presentPillars
-    .map(
-      (pillar) => `${describeStem(pillar.stem).gloss} ${describeBranch(pillar.branch).gloss}`
-    )
+    .map((pillar) => `${describeStem(pillar.stem).gloss} ${describeBranch(pillar.branch).gloss}`)
     .join(" · ");
 
   return (
@@ -114,16 +106,18 @@ export function ChartView({ profile }: Props) {
         <Seal pillars={[chart.year, chart.month, chart.day, chart.hour]} />
       </div>
 
-      {dayMaster && archetype && (
+      {dayMaster && archetype && archetypeRuns && (
         <section className="flex flex-col gap-3">
           <div className="flex flex-col gap-0.5">
             <Heading>Your day-master</Heading>
             <p className="text-[12px] text-ink-soft">{DAY_MASTER_GLOSS}</p>
           </div>
-          <p className="font-display text-[21px] font-semibold leading-snug text-ink">{display(archetype.text)}</p>
-          {dayMasterRest.map((line, index) => (
+          <p className="font-display text-[21px] font-semibold leading-snug text-ink">
+            <TokenText line={archetypeRuns} />
+          </p>
+          {dayMasterRest.map((line: ReadingLine, index: number) => (
             <p key={index} className="text-[15px] leading-relaxed text-ink">
-              {display(line.text)}
+              <TokenText line={line.runs} />
             </p>
           ))}
         </section>
@@ -190,18 +184,18 @@ export function ChartView({ profile }: Props) {
         </section>
       )}
 
-      {archetype && (
+      {archetype && archetypeRuns && (
         <ShareActions
           sealContainerRef={sealContainerRef}
           pillarLine={pillarLine}
-          archetype={display(archetype.text)}
+          archetype={plainText(archetypeRuns)}
           birth={profile.birth}
         />
       )}
 
       <p className="text-[12px] leading-relaxed text-ink-soft">
         Conception pillar — the classical estimate of the month you were conceived:{" "}
-        {taiYuanStem.pinyin} {taiYuanStem.element} · {taiYuanBranch.pinyin}{" "}
+        {taiYuanStem.pinyin} {taiYuanStem.element} &middot; {taiYuanBranch.pinyin}{" "}
         {taiYuanBranch.element}.
       </p>
     </div>

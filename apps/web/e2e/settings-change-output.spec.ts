@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { FIXTURE_LATE_ZI, PROFILE_KEY, pinClock, seedProfile } from "./helpers";
+import { FIXTURE_LATE_ZI, pinClock, seedProfile, STORE_KEY } from "./helpers";
 
 // The Day column's stem and branch glosses ("yang wood", "rat", ...): a
 // late-Zi shift moves the day pillar, so this text changes with the rule.
@@ -37,6 +37,6 @@ test("late-Zi toggle changes the day pillar, and delete clears the profile", asy
   await page.getByRole("button", { name: "Delete my data" }).last().click();
 
   await expect(page.getByText("When were you born?")).toBeVisible();
-  const stored = await page.evaluate((key) => window.localStorage.getItem(key), PROFILE_KEY);
+  const stored = await page.evaluate((key) => window.localStorage.getItem(key), STORE_KEY);
   expect(stored).toBeNull();
 });

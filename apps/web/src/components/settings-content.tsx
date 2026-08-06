@@ -8,27 +8,21 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { DISCLAIMER } from "@daymaster/content";
+import { formatLong } from "@daymaster/presentation";
 import { Button } from "@/components/button";
 import { InstallHint } from "@/components/install-hint";
 import { SegmentedControl } from "@/components/segmented-control";
 import { Toggle } from "@/components/toggle";
 import { BACKUP_FILENAME, serializeBackup } from "@/lib/backup";
-import { DISCLAIMER } from "@/lib/copy";
-import { formatLong } from "@/lib/dates";
-import { clearPeople } from "@/lib/people";
-import { clearStreak } from "@/lib/streak";
 import {
-  clearProfile,
-  saveConfig,
-  type StoredConfig,
-  type StoredProfile
-} from "@/lib/profile";
-import {
-  clearThemePreference,
+  deleteAllData,
   loadThemePreference,
   saveThemePreference,
-  type ThemePreference
-} from "@/lib/theme";
+  saveStore,
+  loadStore
+} from "@/lib/store";
+import type { StoredConfig, StoredProfile, ThemePreference } from "@/lib/store-types";
 
 const APPEARANCE_OPTIONS: { value: ThemePreference; label: string }[] = [
   { value: "system", label: "System" },
@@ -60,7 +54,7 @@ export function SettingsContent({ profile }: Props) {
 
   function persist(next: StoredConfig) {
     setConfig(next);
-    saveConfig(next);
+    saveStore({ ...loadStore(), profile: { ...profile, config: next } });
   }
 
   const rows: Row[] = [
@@ -82,10 +76,10 @@ export function SettingsContent({ profile }: Props) {
   ];
 
   function handleDelete() {
-    clearProfile();
-    clearPeople();
-    clearThemePreference();
-    clearStreak();
+    // deleteAllData() already clears daymaster.streak.v1 (store.ts's own
+    // doc comment: "still clears it as one user action" per decision C) —
+    // it's the single source of truth for what a full delete removes.
+    deleteAllData();
     router.replace("/onboarding");
   }
 
@@ -123,9 +117,7 @@ export function SettingsContent({ profile }: Props) {
       </section>
 
       <section>
-        <h2 className="kicker">
-          Appearance
-        </h2>
+        <h2 className="kicker">Appearance</h2>
         <div className="mt-3">
           <SegmentedControl
             options={APPEARANCE_OPTIONS}
@@ -142,9 +134,7 @@ export function SettingsContent({ profile }: Props) {
       <InstallHint />
 
       <section>
-        <h2 className="kicker">
-          Your data
-        </h2>
+        <h2 className="kicker">Your data</h2>
         <p className="mt-3 text-[15px] text-ink">{birthSummary}</p>
         <p className="mt-1 text-[13px] leading-relaxed text-ink-soft">
           Your chart lives only on this device. Download a backup to keep it safe or move it
@@ -161,9 +151,7 @@ export function SettingsContent({ profile }: Props) {
       </section>
 
       <section>
-        <h2 className="kicker">
-          About your readings
-        </h2>
+        <h2 className="kicker">About your readings</h2>
         <p className="mt-3 text-[15px] leading-relaxed text-ink">{DISCLAIMER}</p>
       </section>
 

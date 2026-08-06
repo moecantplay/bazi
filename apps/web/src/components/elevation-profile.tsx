@@ -14,21 +14,19 @@
  * terrains × both themes, not just the design-system prototype's fixed
  * opacity examples. The label needs to stay legible at every distance; only
  * the glyph is decorative enough to recede.
+ *
+ * Cell layout (tone/animal/element/x/y) comes from presentation's
+ * `elevationWeek`/`elevationPath` (Phase 5) — this component only renders it.
  */
 
 "use client";
 
 import { useMemo, useState } from "react";
-import { dailyPillar } from "@daymaster/bazi-engine";
 import { WEEK_TOPIC, glossaryEntry } from "@daymaster/content";
+import { elevationPath, elevationWeek, formatLong, type DayTone } from "@daymaster/presentation";
 import { GlossarySheet } from "@/components/glossary-sheet";
 import { AnimalGlyphMark, AnimalIcon } from "@/components/glyph-icon";
-import { addDays, formatLong } from "@/lib/dates";
-import { describeBranch } from "@/lib/display";
-import { dayTone, type DayTone } from "@/lib/day-tone";
-import type { StoredProfile } from "@/lib/profile";
-
-const WEEK_LENGTH = 7;
+import type { StoredProfile } from "@/lib/store-types";
 
 const TONE_WORD: Record<DayTone, string> = {
   favoured: "leans favorable",
@@ -36,26 +34,10 @@ const TONE_WORD: Record<DayTone, string> = {
   even: "even day"
 };
 
-/** Elevation (percent from the top) for each tone — favoured is higher. */
-const TONE_Y: Record<DayTone, number> = {
-  favoured: 22,
-  even: 50,
-  friction: 78
-};
-
 function weekdayInitial(iso: string): string {
   return new Intl.DateTimeFormat(undefined, { timeZone: "UTC", weekday: "narrow" }).format(
     new Date(`${iso}T00:00:00Z`)
   );
-}
-
-interface Cell {
-  iso: string;
-  tone: DayTone;
-  animal: string;
-  element: ReturnType<typeof describeBranch>["element"];
-  x: number;
-  y: number;
 }
 
 interface Props {
@@ -68,27 +50,9 @@ interface Props {
 export function ElevationProfile({ profile, today, selectedISO, onSelect }: Props) {
   const [legendOpen, setLegendOpen] = useState(false);
   const legendEntry = glossaryEntry(WEEK_TOPIC);
-  const zone = profile.birth.city.tz;
 
-  const cells = useMemo<Cell[]>(
-    () =>
-      Array.from({ length: WEEK_LENGTH }, (_, index) => {
-        const iso = addDays(today, index);
-        const tone = dayTone(profile, iso);
-        const branch = describeBranch(dailyPillar(iso, zone).branch);
-        return {
-          iso,
-          tone,
-          animal: branch.gloss,
-          element: branch.element,
-          x: ((index + 0.5) / WEEK_LENGTH) * 100,
-          y: TONE_Y[tone]
-        };
-      }),
-    [profile, today, zone]
-  );
-
-  const pathD = cells.map((cell, index) => `${index === 0 ? "M" : "L"}${cell.x} ${cell.y}`).join(" ");
+  const cells = useMemo(() => elevationWeek(profile, today), [profile, today]);
+  const pathD = useMemo(() => elevationPath(cells), [cells]);
 
   return (
     <div className="flex flex-col gap-2">

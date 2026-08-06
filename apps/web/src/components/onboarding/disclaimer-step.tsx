@@ -7,7 +7,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { DISCLAIMER } from "@/lib/copy";
+import { DISCLAIMER } from "@daymaster/content";
 import { StepFrame } from "./step-frame";
 
 interface Props {

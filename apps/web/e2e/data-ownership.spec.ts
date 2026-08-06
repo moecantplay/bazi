@@ -50,7 +50,7 @@ test("backup downloads and restores the whole chart on a fresh start", async ({
   }
   const backup = JSON.parse(Buffer.concat(chunks).toString("utf8"));
   expect(backup.app).toBe("daymaster");
-  expect(backup.profile.birth.date).toBe("1994-12-08");
+  expect(backup.store.profile.birth.date).toBe("1994-12-08");
 
   // Wipe everything, then restore from the file on the onboarding screen.
   await page.getByRole("button", { name: "Delete my data" }).click();

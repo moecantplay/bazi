@@ -1,7 +1,18 @@
 /**
- * Shared E2E helpers: the fixture profiles, deterministic localStorage seeding,
- * and a pinned clock. Clock pinning and seeding both use addInitScript on the
- * context so they apply before any app script runs, on every page.
+ * Shared E2E helpers: the fixture profiles, deterministic localStorage seeding
+ * against the new `daymaster.store.v2` document, and a pinned clock. Clock
+ * pinning and seeding both use addInitScript on the context so they apply
+ * before any app script runs, on every page.
+ *
+ * Unlike apps/web's six separate `daymaster.*.v1` keys, the new app reads and
+ * writes one versioned document (store.ts's DaymasterStore). seedProfile and
+ * seedCompanion keep their old names for continuity, but each now does a
+ * read-modify-write against that single key so they stay composable — calling
+ * both in either order merges into one correct document, exactly like the old
+ * app's independent keys did. seedStore is the general escape hatch for tests
+ * that need finer control (multiple people, a pinned theme, etc). All three
+ * bypass store-migration.ts entirely — that path has its own dedicated spec,
+ * see store-migration.spec.ts.
  */
 
 import type { BrowserContext } from "@playwright/test";
@@ -28,31 +39,51 @@ export const FIXTURE_LATE_ZI = {
   createdAt: "2026-01-01T00:00:00.000Z"
 };
 
-export const PROFILE_KEY = "daymaster.profile.v1";
+export const STORE_KEY = "daymaster.store.v2";
 
-/** Seed the stored profile before the app loads. */
-export async function seedProfile(context: BrowserContext, profile: unknown): Promise<void> {
+/**
+ * Merge a partial DaymasterStore into whatever this context has already
+ * seeded (or start from an empty document). Runs in the page before any app
+ * script, so multiple seed* calls on the same context compose regardless of
+ * call order.
+ */
+export async function seedStore(context: BrowserContext, partial: Record<string, unknown>): Promise<void> {
   await context.addInitScript(
-    ([key, json]) => {
-      window.localStorage.setItem(key, json);
+    ([key, partialJson]) => {
+      const partialValue = JSON.parse(partialJson);
+      let store: Record<string, unknown> | null = null;
+      try {
+        const raw = window.localStorage.getItem(key);
+        store = raw ? JSON.parse(raw) : null;
+      } catch {
+        store = null;
+      }
+      if (!store || store.app !== "daymaster") {
+        store = {
+          app: "daymaster",
+          version: 2,
+          updatedAt: new Date().toISOString(),
+          profile: null,
+          people: [],
+          activePersonId: null,
+          theme: "system"
+        };
+      }
+      window.localStorage.setItem(key, JSON.stringify({ ...store, ...partialValue }));
     },
-    [PROFILE_KEY, JSON.stringify(profile)] as const
+    [STORE_KEY, JSON.stringify(partial)] as const
   );
 }
 
-export const PEOPLE_KEY = "daymaster.people.v1";
-export const PEOPLE_ACTIVE_KEY = "daymaster.people-active.v1";
+/** Seed the stored profile before the app loads. */
+export async function seedProfile(context: BrowserContext, profile: unknown): Promise<void> {
+  await seedStore(context, { profile });
+}
 
 /** Seed one saved comparison person, already selected, before the app loads. */
 export async function seedCompanion(context: BrowserContext, birth: unknown): Promise<void> {
   const person = { id: "seeded-person", name: "Them", birth };
-  await context.addInitScript(
-    ([peopleKey, activeKey, json, id]) => {
-      window.localStorage.setItem(peopleKey, json);
-      window.localStorage.setItem(activeKey, id);
-    },
-    [PEOPLE_KEY, PEOPLE_ACTIVE_KEY, JSON.stringify([person]), person.id] as const
-  );
+  await seedStore(context, { people: [person], activePersonId: person.id });
 }
 
 /** Pin `new Date()` / `Date.now()` to a fixed instant for date-dependent screens. */
@@ -78,7 +109,7 @@ export async function pinClock(context: BrowserContext, iso: string): Promise<vo
   }, iso);
 }
 
-/** The Today date-strip label for an ISO date (mirrors lib/dates.formatLong). */
+/** The Today date-strip label for an ISO date (mirrors presentation's formatLong). */
 export function longDate(iso: string): string {
   return new Intl.DateTimeFormat("en-GB", {
     timeZone: "UTC",

@@ -11,10 +11,9 @@
 
 import type { ActivityAssessment, DateCandidate } from "@daymaster/bazi-engine";
 import { dateVerdictLine, OFFICER_GLOSSES } from "@daymaster/content";
+import { LEANING_TINT, LEANING_WORD, formatLong } from "@daymaster/presentation";
 import { PillarGlyph } from "@/components/pillar-glyph";
 import { ReadingCard } from "@/components/reading-card";
-import { LEANING_TINT, LEANING_WORD } from "@/lib/date-finder";
-import { formatLong } from "@/lib/dates";
 
 function OfficerName({ officer }: { officer: DateCandidate["officer"] }) {
   return <span className="text-[13px] text-ink">{officer.english}</span>;
@@ -36,7 +35,10 @@ function LeaningCell({
       <span className="text-[12px] leading-none text-ink">
         {LEANING_WORD[assessment.leaning]}
       </span>
-      <span className="text-[10px] text-ink-soft">{label}</span>
+      {/* Full ink, not ink-soft: muted text on the tinted leaning fill fails
+          AA (measured 3.14-3.65:1 across terrains) — same fix as the
+          segmented-control/legend-tags tinted-background bugs. */}
+      <span className="text-[10px] text-ink">{label}</span>
     </div>
   );
 }

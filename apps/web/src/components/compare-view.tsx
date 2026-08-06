@@ -1,20 +1,18 @@
 /**
  * The Compare reading: both charts' pillars side by side (compact, no ten-god
  * captions), then the comparison lines as cited cards. "Change person" returns
- * to the saved-people picker; the reading itself comes from lib/compare.ts.
+ * to the saved-people picker; the reading itself comes from presentation's
+ * compareBundleFor.
  */
 
 "use client";
 
 import Link from "next/link";
+import { chartFor, compareBundleFor, formatLong } from "@daymaster/presentation";
 import { Button } from "@/components/button";
 import { PillarColumns } from "@/components/pillar-columns";
 import { ReadingCard } from "@/components/reading-card";
-import { compareBundleFor } from "@/lib/compare";
-import { chartFor } from "@/lib/chart";
-import { formatLong } from "@/lib/dates";
-import type { StoredPerson } from "@/lib/people";
-import type { StoredProfile } from "@/lib/profile";
+import type { StoredPerson, StoredProfile } from "@/lib/store-types";
 
 interface Props {
   profile: StoredProfile;
@@ -43,9 +41,7 @@ export function CompareView({ profile, person, onChangePerson }: Props) {
 
       <section className="flex flex-col gap-4">
         <div className="flex items-baseline justify-between">
-          <h2 className="kicker">
-            {person.name}
-          </h2>
+          <h2 className="kicker">{person.name}</h2>
           <span className="text-[12px] text-ink-soft">
             born {formatLong(companion.date)}
             {companion.time ? ` · ${companion.time}` : " · time unknown"} · {companion.city.name}
@@ -74,10 +70,7 @@ export function CompareView({ profile, person, onChangePerson }: Props) {
         <Button variant="quiet" onClick={onChangePerson}>
           Change person
         </Button>
-        <Link
-          href="/dates/"
-          className="tap-target text-[12px] text-ink-soft hover:text-ink"
-        >
+        <Link href="/dates/" className="tap-target text-[12px] text-ink-soft hover:text-ink">
           Find a day that suits you both &rarr;
         </Link>
       </div>

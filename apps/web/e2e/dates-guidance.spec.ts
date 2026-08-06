@@ -18,9 +18,8 @@ test("Today shows the guidance chips and a cited guidance line", async ({ page, 
 
   const guidance = page.locator("[data-guidance]");
   await expect(guidance).toBeVisible();
-  // Both trail-sign tiles (renamed from Favors/Watch — DESIGN.md's Trail
-  // rollout, still rule-12 postponement-not-prohibition) with a fact-tagged
-  // prose line beneath them.
+  // The two trail-sign tiles (Clear trail / Take it slow — rule-12
+  // postponement, never prohibition) with a fact-tagged prose line beneath.
   await expect(guidance.getByText(/^Clear trail$/)).toBeVisible();
   await expect(guidance.getByText(/^Take it slow$/)).toBeVisible();
   await expect(guidance.locator("[data-fact-tag]").first()).toBeVisible();
@@ -31,9 +30,9 @@ test("the elevation profile jumps the reading to the tapped day", async ({ page,
   await pinClock(context, `${TODAY}T09:00:00Z`);
 
   // The datebar's own date button carries "jump to a date" in its accessible
-  // name (Datebar's aria-label, unchanged); the elevation-profile's per-day
-  // points also carry the long date in theirs, so this disambiguates the two
-  // once both show the same date after the jump below.
+  // name (Datebar's aria-label); the elevation-profile's per-day points also
+  // carry the long date in theirs, so this disambiguates the two once both
+  // show the same date after the jump below.
   const dateButton = (iso: string) => page.getByRole("button", { name: new RegExp(`${longDate(iso)}.*jump to a date`) });
 
   await page.goto("/today/");

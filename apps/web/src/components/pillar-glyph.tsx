@@ -6,7 +6,7 @@
  */
 
 import type { Pillar } from "@daymaster/bazi-engine";
-import { describeBranch, describeStem } from "@/lib/display";
+import { describeBranch, describeStem } from "@daymaster/presentation";
 import { AnimalIcon, ElementIcon } from "@/components/glyph-icon";
 
 interface Props {
@@ -33,11 +33,11 @@ export function PillarGlyph({ pillar, size = "lg", showMeta = false }: Props) {
           element={branch.element}
           size={size === "lg" ? 22 : 17}
         />
-        {stem.gloss} · {branch.gloss}
+        {stem.gloss} &middot; {branch.gloss}
       </span>
       {showMeta && (
         <span className="mt-1.5 text-[12px] text-ink-soft">
-          {stem.pinyin} {stem.element} · {branch.pinyin} {branch.element}
+          {stem.pinyin} {stem.element} &middot; {branch.pinyin} {branch.element}
         </span>
       )}
     </span>

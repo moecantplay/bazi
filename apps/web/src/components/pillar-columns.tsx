@@ -7,7 +7,7 @@
  * When `tenGods` is supplied (the chart screen), each non-day stem gets a small
  * ten-god caption; the onboarding reveal omits it. `lifeStages`, `naYin`, and
  * `stars` likewise add chart-screen detail captions when provided — every
- * system term carries its plain-meaning gloss inline (VOICE.md §11).
+ * system term carries its plain-meaning gloss inline.
  *
  * Each stem and branch reads as its English gloss anchored by its element or
  * animal icon.
@@ -23,12 +23,11 @@ import type {
   PillarLifeStages,
   NaYin,
   ShenshaHit,
-  TenGod,
+  TenGod
 } from "@daymaster/bazi-engine";
 import { LIFE_STAGE_GLOSSES, STAR_GLOSSES, TEN_GOD_GLOSSES } from "@daymaster/content";
 import type { ReactNode } from "react";
-import type { ChartPillars } from "@/lib/pillars";
-import { describeBranch, describeStem } from "@/lib/display";
+import { describeBranch, describeStem, starsForPalace, type ChartPillars } from "@daymaster/presentation";
 import { AnimalIcon, ElementIcon } from "@/components/glyph-icon";
 
 interface ColumnSpec {
@@ -78,7 +77,7 @@ function Column({
   naYin,
   stars,
   isDay,
-  isHour,
+  isHour
 }: ColumnSpec) {
   const stem = pillar ? describeStem(pillar.stem) : null;
   const branch = pillar ? describeBranch(pillar.branch) : null;
@@ -163,7 +162,7 @@ interface Props {
 }
 
 export function PillarColumns({ pillars, className, tenGods, lifeStages, naYin, stars }: Props) {
-  const starsFor = (palace: string) => stars?.filter((hit) => hit.palace === palace);
+  const starsFor = (palace: string) => starsForPalace(stars, palace);
   const columns: ColumnSpec[] = [
     {
       label: "Year",
@@ -172,7 +171,7 @@ export function PillarColumns({ pillars, className, tenGods, lifeStages, naYin, 
       tenGod: tenGods?.year,
       lifeStages: lifeStages?.year,
       naYin: naYin?.year,
-      stars: starsFor("year"),
+      stars: starsFor("year")
     },
     {
       label: "Month",
@@ -181,7 +180,7 @@ export function PillarColumns({ pillars, className, tenGods, lifeStages, naYin, 
       tenGod: tenGods?.month,
       lifeStages: lifeStages?.month,
       naYin: naYin?.month,
-      stars: starsFor("month"),
+      stars: starsFor("month")
     },
     {
       label: "Day",
@@ -190,7 +189,7 @@ export function PillarColumns({ pillars, className, tenGods, lifeStages, naYin, 
       isDay: true,
       lifeStages: lifeStages?.day,
       naYin: naYin?.day,
-      stars: starsFor("day"),
+      stars: starsFor("day")
     },
     {
       label: "Hour",
@@ -200,8 +199,8 @@ export function PillarColumns({ pillars, className, tenGods, lifeStages, naYin, 
       isHour: true,
       lifeStages: lifeStages?.hour,
       naYin: naYin?.hour,
-      stars: starsFor("hour"),
-    },
+      stars: starsFor("hour")
+    }
   ];
 
   return (

@@ -2,10 +2,9 @@
  * The app's buttons (DESIGN.md v4 §Components). Primary is the anchor pair
  * (anchor fill, paper text) — Trail's one black anchor per screen; the
  * signpost is Today's only anchor and Today has no primary button, so the
- * two never compete (CLAUDE.md 2026-08-05). Secondary is a card fill with an
- * ink-tint border; ghost is transparent with a dashed border — the rail
- * motif's one appearance off the map. Cinnabar is never used here — it
- * belongs to the seal alone.
+ * two never compete. Secondary is a card fill with an ink-tint border; ghost
+ * is transparent with a dashed border — the rail motif's one appearance off
+ * the map. Cinnabar is never used here — it belongs to the seal alone.
  */
 
 import type { ButtonHTMLAttributes } from "react";

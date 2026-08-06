@@ -2,20 +2,26 @@
  * A bottom sheet that explains one entry — a glossary category explainer
  * behind a reading caption, the "how this reading works" overview, or a
  * read-more deep dive (which adds a "Working with it" advice section). Closes
- * on the backdrop, the close button, or Escape. Renders through
- * stripHanCharacters like all reading text.
+ * on the backdrop, the close button, or Escape. Renders title/body/advice
+ * through TokenText (the entry's `*Runs` fields) rather than
+ * stripHanCharacters — see M19 decision F.
  */
 
 "use client";
 
 import { useEffect } from "react";
-import { stripHanCharacters } from "@daymaster/content";
+import type { TokenLine } from "@daymaster/content";
+import { TokenText } from "@/components/token-text";
+import { plainText, runsOrText } from "@/lib/content-runs";
 
 /** Structurally fits both GlossaryEntry and ReadMoreEntry. */
 interface SheetEntry {
   title: string;
   body: readonly string[];
   advice?: readonly string[];
+  titleRuns?: TokenLine;
+  bodyRuns?: readonly TokenLine[];
+  adviceRuns?: readonly TokenLine[];
 }
 
 interface Props {
@@ -24,7 +30,9 @@ interface Props {
 }
 
 export function GlossarySheet({ entry, onClose }: Props) {
-  const display = (text: string) => stripHanCharacters(text);
+  const titleRuns = runsOrText(entry.titleRuns, entry.title);
+  const bodyRuns = entry.body.map((paragraph, index) => runsOrText(entry.bodyRuns?.[index], paragraph));
+  const adviceRuns = entry.advice?.map((paragraph, index) => runsOrText(entry.adviceRuns?.[index], paragraph));
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -41,7 +49,7 @@ export function GlossarySheet({ entry, onClose }: Props) {
       data-glossary-sheet
       role="dialog"
       aria-modal="true"
-      aria-label={display(entry.title)}
+      aria-label={plainText(titleRuns)}
       className="fixed inset-0 z-50 flex items-end justify-center sm:items-center sm:p-6"
     >
       <button
@@ -53,7 +61,9 @@ export function GlossarySheet({ entry, onClose }: Props) {
       <div className="sheet-in relative max-h-[80vh] w-full max-w-md overflow-y-auto rounded-t-sheet bg-surface p-6 pb-8 shadow-hero sm:rounded-sheet sm:pb-6">
         <div className="mx-auto mb-4 h-1 w-9 rounded-full bg-ink-tint" aria-hidden />
         <div className="flex items-start justify-between gap-4">
-          <h2 className="font-display text-lg leading-snug text-ink">{display(entry.title)}</h2>
+          <h2 className="font-display text-lg leading-snug text-ink">
+            <TokenText line={titleRuns} />
+          </h2>
           <button
             type="button"
             onClick={onClose}
@@ -64,21 +74,19 @@ export function GlossarySheet({ entry, onClose }: Props) {
           </button>
         </div>
         <div className="mt-3 flex flex-col gap-3">
-          {entry.body.map((paragraph, index) => (
+          {bodyRuns.map((paragraph, index) => (
             <p key={index} className="text-[14px] leading-relaxed text-ink">
-              {display(paragraph)}
+              <TokenText line={paragraph} />
             </p>
           ))}
         </div>
-        {entry.advice && (
+        {adviceRuns && (
           <div data-glossary-advice className="mt-4 border-t-[1.5px] border-dashed border-hairline pt-3">
-            <h3 className="kicker text-element-wood">
-              Working with it
-            </h3>
+            <h3 className="kicker text-element-wood">Working with it</h3>
             <div className="mt-2 flex flex-col gap-3">
-              {entry.advice.map((paragraph, index) => (
+              {adviceRuns.map((paragraph, index) => (
                 <p key={index} className="text-[14px] leading-relaxed text-ink">
-                  {display(paragraph)}
+                  <TokenText line={paragraph} />
                 </p>
               ))}
             </div>

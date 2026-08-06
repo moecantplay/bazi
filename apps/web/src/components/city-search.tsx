@@ -12,7 +12,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { KeyboardEvent } from "react";
-import type { StoredCity } from "@/lib/profile";
+import type { StoredCity } from "@/lib/store-types";
 
 interface CityDataset {
   attribution: string;

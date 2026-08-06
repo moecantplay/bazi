@@ -5,7 +5,7 @@
  */
 
 import type { Element } from "@daymaster/bazi-engine";
-import { ELEMENT_LABEL, ELEMENT_ORDER, ELEMENT_SWATCH_CLASS } from "@/lib/elements";
+import { ELEMENT_LABEL, ELEMENT_ORDER, ELEMENT_SWATCH_CLASS } from "@daymaster/presentation";
 
 interface Props {
   counts: Record<Element, number>;

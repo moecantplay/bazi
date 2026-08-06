@@ -11,9 +11,9 @@
 
 import type { Branch, Palace } from "@daymaster/bazi-engine";
 import type { ReadingLine } from "@daymaster/content";
+import { describeBranch } from "@daymaster/presentation";
 import { AnimalIcon } from "@/components/glyph-icon";
 import { ReadingCard } from "@/components/reading-card";
-import { describeBranch } from "@/lib/display";
 
 const AREA_TITLE: Record<string, string> = {
   year: "Roots",

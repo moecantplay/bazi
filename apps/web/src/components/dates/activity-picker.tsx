@@ -1,9 +1,8 @@
 /**
  * The date-finder's activity chooser: the ten modelled almanac activities as
- * one raised list, rows separated by hairline dividers (DESIGN.md §Forms —
- * hairline stays a divider, never a row border). Each row names the activity
- * in modern words with a literal gloss of its classical category. Selecting
- * one is a real radio underneath, so the group is keyboard- and
+ * one raised list, rows separated by hairline dividers. Each row names the
+ * activity in modern words with a literal gloss of its classical category.
+ * Selecting one is a real radio underneath, so the group is keyboard- and
  * screen-reader-navigable; a 2px inset ink ring marks the chosen row.
  */
 
@@ -20,9 +19,7 @@ interface Props {
 export function ActivityPicker({ value, onChange }: Props) {
   return (
     <fieldset className="flex flex-col gap-3">
-      <legend className="kicker">
-        What&rsquo;s the day for?
-      </legend>
+      <legend className="kicker">What&rsquo;s the day for?</legend>
       <div className="stack">
         {ACTIVITY_KEYS.map((key) => {
           const label = ACTIVITY_LABELS[key];

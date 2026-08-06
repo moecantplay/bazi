@@ -13,8 +13,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { ReactNode } from "react";
-import { loadProfile, type StoredProfile } from "@/lib/profile";
-import { dayTerrain } from "@/lib/terrain";
+import { dayTerrain, type StoredProfile } from "@daymaster/presentation";
+import { loadStore } from "@/lib/store";
 import { useTodayLabel } from "@/lib/use-today-label";
 
 type Status = "loading" | "present" | "absent";
@@ -30,7 +30,7 @@ export function ProfileGate({ children }: Props) {
   const today = useTodayLabel();
 
   useEffect(() => {
-    const stored = loadProfile();
+    const { profile: stored } = loadStore();
     if (stored === null) {
       setStatus("absent");
       router.replace("/onboarding");

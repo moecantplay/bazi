@@ -1,81 +1,47 @@
 /**
- * Backup and restore of everything the app stores on-device: the profile, the
- * comparison companion, and the appearance preference. This is the local-only
- * substitute for an account — a JSON file the user owns. The envelope is
- * versioned so a future schema can still read old files; retired preference
- * fields in old files are tolerated and ignored.
+ * Backup and restore of the whole app document. Version 2 of the envelope
+ * mirrors `daymaster.store.v2` directly (`BackupFile.store` is that same
+ * shape), so `serializeBackup`/`importBackup` are thin load/save wrappers —
+ * the local-only substitute for an account, still a JSON file the user owns.
  */
 
-import { loadPeople, savePeople, type StoredPerson } from "./people";
-import {
-  isStoredBirth,
-  isStoredProfile,
-  loadProfile,
-  saveProfile,
-  type StoredProfile
-} from "./profile";
-import { loadThemePreference, saveThemePreference } from "./theme";
+import { isDaymasterStore, loadStore, saveStore, type DaymasterStore } from "./store";
 
 export interface BackupFile {
   app: "daymaster";
-  version: 1;
+  version: 2;
   exportedAt: string; // ISO
-  profile: StoredProfile;
-  people: StoredPerson[];
-  theme: "system" | "light" | "dark";
+  store: DaymasterStore;
 }
 
 export const BACKUP_FILENAME = "daymaster-backup.json";
 
-/** Everything currently stored, as pretty-printed JSON — null without a profile. */
+/** Everything currently stored, as pretty-printed JSON — null when there is no profile to back up. */
 export function serializeBackup(): string | null {
-  const profile = loadProfile();
-  if (profile === null) {
+  const store = loadStore();
+  if (store.profile === null) {
     return null;
   }
   const backup: BackupFile = {
     app: "daymaster",
-    version: 1,
+    version: 2,
     exportedAt: new Date().toISOString(),
-    profile,
-    people: loadPeople(),
-    theme: loadThemePreference()
+    store
   };
   return JSON.stringify(backup, null, 2);
 }
 
 export type ImportResult = "ok" | "invalid" | "storage";
 
-function isPersonEntry(value: unknown): value is StoredPerson {
-  if (typeof value !== "object" || value === null) {
-    return false;
-  }
-  const person = value as Record<string, unknown>;
-  return (
-    typeof person.id === "string" &&
-    typeof person.name === "string" &&
-    isStoredBirth(person.birth)
-  );
-}
-
 function isBackup(value: unknown): value is BackupFile {
   if (typeof value !== "object" || value === null) {
     return false;
   }
   const backup = value as Record<string, unknown>;
-  const peopleOk = Array.isArray(backup.people) && backup.people.every(isPersonEntry);
-  const themeOk =
-    backup.theme === "system" || backup.theme === "light" || backup.theme === "dark";
-  return (
-    backup.app === "daymaster" &&
-    backup.version === 1 &&
-    isStoredProfile(backup.profile) &&
-    peopleOk &&
-    themeOk
-  );
+  return backup.app === "daymaster" && backup.version === 2 && isDaymasterStore(backup.store);
 }
 
-/** Validate a backup file's text and, when sound, restore every store. */
+/** Validate a backup file's text and, when sound, restore the whole document. */
 export function importBackup(raw: string): ImportResult {
   let parsed: unknown;
   try {
@@ -86,12 +52,5 @@ export function importBackup(raw: string): ImportResult {
   if (!isBackup(parsed)) {
     return "invalid";
   }
-  if (!saveProfile(parsed.profile)) {
-    return "storage";
-  }
-  if (parsed.people.length > 0) {
-    savePeople(parsed.people);
-  }
-  saveThemePreference(parsed.theme);
-  return "ok";
+  return saveStore(parsed.store) ? "ok" : "storage";
 }

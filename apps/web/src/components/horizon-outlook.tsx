@@ -3,30 +3,28 @@
  * carrying its transit pillar glyphs and the outlook lines the content layer
  * phrases from the horizon facts. Sits above the decade timeline as ruled
  * prose (DESIGN.md §Surfaces). Deterministic in the profile and the transit
- * pillars.
+ * pillars. Text renders through TokenText(line.runs) directly —
+ * ReadingLine.runs is required as of M19 Phase 11's content cleanup.
  */
 
 "use client";
 
 import { useMemo } from "react";
 import type { ReadingLine } from "@daymaster/content";
-import { stripHanCharacters } from "@daymaster/content";
+import { horizonBundleFor, todayLabel } from "@daymaster/presentation";
 import { FactTag } from "@/components/fact-tag";
 import { PillarGlyph } from "@/components/pillar-glyph";
-import { todayLabel } from "@/lib/dates";
-import { horizonBundleFor } from "@/lib/horizons";
-import type { StoredProfile } from "@/lib/profile";
+import { TokenText } from "@/components/token-text";
+import type { StoredProfile } from "@/lib/store-types";
 
 function HorizonLines({ lines }: { lines: ReadingLine[] }) {
-  const display = (text: string) => stripHanCharacters(text);
-
   return (
     <ul className="mt-3 flex flex-col gap-2">
       {lines.map((line, index) => (
         <li key={index} className="card p-5">
           <FactTag line={line} />
-          <p className={`text-[15px] leading-relaxed text-ink ${line.factTag ? "mt-1" : ""}`}>
-            {display(line.text)}
+          <p className={`text-[15px] leading-relaxed text-ink ${line.factTagRuns ? "mt-1" : ""}`}>
+            <TokenText line={line.runs} />
           </p>
         </li>
       ))}

@@ -1,8 +1,9 @@
 /**
  * Post-build service-worker finalizer. Runs after `next build` (static export):
  *
- *   1. Walks apps/web/out/ and lists every exported file as a precache URL —
- *      route documents, RSC .txt payloads, _next/static chunks, fonts, icons.
+ *   1. Walks apps/web/out/ and lists every exported file as a precache
+ *      URL — route documents, RSC .txt payloads, _next/static chunks, fonts,
+ *      icons.
  *   2. Hashes all listed content into the cache version, so every deploy that
  *      changes any byte ships a new cache name — no manual version bump.
  *   3. Rewrites out/sw.js, replacing the INJECT markers in the template

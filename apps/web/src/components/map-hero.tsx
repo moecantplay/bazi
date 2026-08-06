@@ -11,14 +11,15 @@
  * (docs/design-system/src/cards/trail.mjs) rather than a pixel-identical
  * copy: the two waypoint slots are literal vertices of the same reused
  * dashed-path string, so both data and decoration stay anchored to one path.
+ *
+ * The crossing count and aria-label are derived by presentation's
+ * `mapHeroSummary` (Phase 5) so this component only renders it.
  */
 
 import type { Pillar } from "@daymaster/bazi-engine";
+import { describeBranch, mapHeroSummary, type DayTone, type RouteWaypoint } from "@daymaster/presentation";
 import { AnimalGlyphMark } from "@/components/glyph-icon";
 import { CompassMark } from "@/components/compass-mark";
-import { describeBranch } from "@/lib/display";
-import type { DayTone } from "@/lib/day-tone";
-import type { RouteWaypoint } from "@/lib/route-waypoints";
 
 /** Six fixed contour paths, decorative and terrain-recolored only — never
  * regenerated per day (DESIGN.md: "the squiggled paths themselves never
@@ -77,12 +78,7 @@ function CrossingMark({ x, y, color }: { x: number; y: number; color: string }) 
 
 export function MapHero({ pillars, dayBranchGloss, tone, waypoints }: Props) {
   const toneColor = TONE_COLOR[tone];
-  const crossingCount = waypoints.filter((waypoint) => waypoint.crossing).length;
-  const toneWord =
-    tone === "favoured" ? "a clear stretch" : tone === "friction" ? "a slower stretch" : "an even stretch";
-  const ariaLabel = `Today's route: ${toneWord}${
-    crossingCount > 0 ? `, ${crossingCount} marked crossing${crossingCount > 1 ? "s" : ""}` : ""
-  }`;
+  const { ariaLabel } = mapHeroSummary(waypoints, tone);
 
   return (
     <div className="overflow-hidden rounded-hero bg-surface shadow-hero">

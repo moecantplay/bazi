@@ -9,8 +9,8 @@
 "use client";
 
 import type { Pillar } from "@daymaster/bazi-engine";
+import { formatLong } from "@daymaster/presentation";
 import { CompassMark } from "@/components/compass-mark";
-import { formatLong } from "@/lib/dates";
 
 interface Props {
   dateISO: string;

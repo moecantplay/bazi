@@ -9,9 +9,13 @@
 
 import type { Chart, Element, LuckPillar } from "@daymaster/bazi-engine";
 import { LUCK_PILLAR_GLOSS } from "@daymaster/content";
-import { describeBranch, describeStem } from "@/lib/display";
+import {
+  describeBranch,
+  describeStem,
+  ELEMENT_LABEL,
+  ELEMENT_SWATCH_CLASS
+} from "@daymaster/presentation";
 import { AnimalIcon, ElementIcon } from "@/components/glyph-icon";
-import { ELEMENT_LABEL, ELEMENT_SWATCH_CLASS } from "@/lib/elements";
 import { AnnualRow } from "./annual-row";
 
 function metaLine(luck: LuckPillar): string {
@@ -125,8 +129,7 @@ export function LuckTimeline({ chart, now = new Date() }: Props) {
       <p className="text-[13px] leading-relaxed text-ink-soft">
         Each node is one luck pillar — {LUCK_PILLAR_GLOSS}. Yours begin{" "}
         {chart.luckStart.years} years, {chart.luckStart.months} months, and {chart.luckStart.days}{" "}
-        days after birth, from the classical count of days to the
-        nearest seasonal marker.
+        days after birth, from the classical count of days to the nearest seasonal marker.
       </p>
       {beforeFirst && first && (
         <p className="text-[15px] leading-relaxed text-ink-soft">

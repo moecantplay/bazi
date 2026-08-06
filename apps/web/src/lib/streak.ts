@@ -1,32 +1,14 @@
 /**
  * The single gateway to the reading streak (`daymaster.streak.v1`): how many
- * consecutive civil days the Today screen has been opened. Purely local, never
- * part of a backup — it describes a habit on this device, not the chart.
+ * consecutive civil days the Today screen has been opened. Purely local,
+ * never part of the store document — it describes a habit on this device,
+ * not the chart (M19 decision C). The wording choice (`streakLine`) is pure
+ * and lives in presentation; this file is only the localStorage I/O.
  */
 
-import { addDays } from "./dates";
-import { fnv1a } from "./hash";
+import { addDays } from "@daymaster/presentation";
 
 const STREAK_KEY = "daymaster.streak.v1";
-
-/**
- * Ways of saying "you've shown up N days in a row". One is picked per calendar
- * day — variety keeps the line playful, but it never changes mid-day and never
- * randomizes at render time.
- */
-const STREAK_WORDINGS: ReadonlyArray<(count: number) => string> = [
-  (count) => `${count} days running`,
-  (count) => `${count}-day streak`,
-  (count) => `${count} days in a row`,
-  (count) => `${count} days and counting`,
-  (count) => `${count} visits, back to back`,
-];
-
-/** The streak line for the Today screen, deterministic in the calendar day. */
-export function streakLine(count: number, todayIso: string): string {
-  const wording = STREAK_WORDINGS[fnv1a(`streak:${todayIso}`) % STREAK_WORDINGS.length];
-  return wording === undefined ? `${count} days running` : wording(count);
-}
 
 interface StoredStreak {
   count: number;

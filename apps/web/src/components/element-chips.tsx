@@ -4,7 +4,7 @@
  */
 
 import type { Element } from "@daymaster/bazi-engine";
-import { ELEMENT_LABEL, ELEMENT_SWATCH_CLASS } from "@/lib/elements";
+import { ELEMENT_LABEL, ELEMENT_SWATCH_CLASS } from "@daymaster/presentation";
 
 interface Props {
   elements: Element[];
@@ -17,10 +17,7 @@ export function ElementChips({ elements }: Props) {
   return (
     <ul className="flex flex-wrap gap-2">
       {elements.map((element) => (
-        <li
-          key={element}
-          className="chip py-1.5 text-[13px] text-ink"
-        >
+        <li key={element} className="chip py-1.5 text-[13px] text-ink">
           <span className={`h-3 w-3 rounded-sm ${ELEMENT_SWATCH_CLASS[element]}`} aria-hidden />
           {ELEMENT_LABEL[element]}
         </li>

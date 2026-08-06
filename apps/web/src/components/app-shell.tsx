@@ -5,7 +5,7 @@
  */
 
 import type { ReactNode } from "react";
-import { BottomNav } from "./bottom-nav";
+import { BottomNav } from "@/components/bottom-nav";
 
 interface Props {
   title: string;
