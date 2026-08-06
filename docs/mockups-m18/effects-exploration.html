@@ -1,0 +1,750 @@
+<title>Daymaster — effects exploration</title>
+<style>
+  /* ===== shell (reused from today-three-treatments.html) ===== */
+  @font-face {
+    font-family: "Figtree";
+    src: url(data:font/woff2;base64,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) format("woff2");
+    font-weight: 300 900;
+    font-display: swap;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Figtree", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #101113;
+    -webkit-font-smoothing: antialiased;
+  }
+  .stage { max-width: 420px; margin: 0 auto; min-height: 100vh; position: relative; }
+  @media (min-width: 480px) { .stage { border-left: 1px solid #26282c; border-right: 1px solid #26282c; } }
+
+  .chrome {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(16,17,19,.92); backdrop-filter: blur(10px);
+    padding: 10px 14px 8px;
+  }
+  .switcher { display: flex; gap: 4px; }
+  .switcher button {
+    flex: 1; border: 0; border-radius: 999px; padding: 8px 0;
+    font: 600 11px/1.1 inherit; font-family: inherit; letter-spacing: .01em; white-space: nowrap;
+    background: #26282c; color: #b9bcc2; cursor: pointer;
+  }
+  .switcher button[aria-pressed="true"] { background: #e8e9eb; color: #17181a; }
+  .chrome button:focus-visible { outline: 2px solid #7fa8ff; outline-offset: 2px; }
+
+  .themebar { display: flex; align-items: center; gap: 4px; margin-top: 8px; }
+  .themebar .tl { font: 700 8.5px/1 ui-monospace, monospace; letter-spacing: .14em; color: #6f7379; margin-right: auto; text-transform: uppercase; }
+  .themebar button {
+    border: 0; border-radius: 999px; padding: 7px 13px; min-height: 30px;
+    font: 600 10.5px/1.1 inherit; font-family: inherit;
+    background: #1c1e21; color: #9a9ea5; cursor: pointer;
+  }
+  .themebar button[aria-pressed="true"] { background: #3a3d43; color: #f0f1f3; }
+
+  .v { display: none; padding-bottom: 90px; min-height: 92vh; }
+  .v.on { display: block; }
+  @media (prefers-reduced-motion: no-preference) {
+    .v.on { animation: rise .28s ease-out; }
+    @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  }
+
+  .ai { display: inline-block; vertical-align: middle; }
+  .note { padding: 14px 18px 40px; color: #83868d; font-size: 12px; line-height: 1.6; max-width: 420px; margin: 0 auto; }
+  .note b { color: #b9bcc2; font-weight: 600; }
+  .note h3 { color: #d8dadd; font-size: 12.5px; margin: 20px 0 6px; }
+
+  /* ======================================================================
+     SHARED LAYOUT — one skeleton (Daybreak's, from today-three-treatments.html)
+     reused verbatim by all five tabs. Only the modifier class on <section>
+     (tab-baseline / tab-glass / tab-gradient / tab-neu / tab-overdone)
+     changes which surfaces get an effect. Do not add per-tab markup —
+     any visual difference must come from CSS scoped to the modifier class.
+     ====================================================================== */
+  .day {
+    --bg: #FBFAF6; --ink: #26241D; --mut: #767165; --hair: #E4E1D6; --card: #FFFFFF;
+    --wood: #587A4F; --earth: #896D41;
+    /* five-element tokens for the week strip's per-day tint — same audited
+       values as the Forecast (v5) treatment in the source file, reused here
+       rather than inventing a new palette */
+    --el-wood: #4A6B3D; --el-wood-f: #D8E4C9;
+    --el-fire: #924B26; --el-fire-f: #F8D5BE;
+    --el-earth: #785D1F; --el-earth-f: #EFDFB0;
+    --el-metal: #68655E; --el-metal-f: #E9E5DC;
+    --el-water: #3F5B70; --el-water-f: #CFDCE4;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--wood) 14%, var(--bg)) 0%, var(--bg) 220px);
+    color: var(--ink);
+  }
+  @media (prefers-color-scheme: dark) {
+    .day { --bg:#17160F; --ink:#ECEAE0; --mut:#98937F; --hair:#33301F; --card:#211F17; --wood:#93B183; --earth:#CBA771;
+      --el-wood:#AECB99; --el-wood-f:#2B3A22; --el-fire:#F0A87E; --el-fire-f:#42281A; --el-earth:#DDC178; --el-earth-f:#3B3118;
+      --el-metal:#B9B5AA; --el-metal-f:#2C2A24; --el-water:#A3C0D6; --el-water-f:#20303C; }
+  }
+  :root[data-theme="dark"] .day { --bg:#17160F; --ink:#ECEAE0; --mut:#98937F; --hair:#33301F; --card:#211F17; --wood:#93B183; --earth:#CBA771;
+    --el-wood:#AECB99; --el-wood-f:#2B3A22; --el-fire:#F0A87E; --el-fire-f:#42281A; --el-earth:#DDC178; --el-earth-f:#3B3118;
+    --el-metal:#B9B5AA; --el-metal-f:#2C2A24; --el-water:#A3C0D6; --el-water-f:#20303C; }
+  :root[data-theme="light"] .day { --bg:#FBFAF6; --ink:#26241D; --mut:#767165; --hair:#E4E1D6; --card:#FFFFFF; --wood:#587A4F; --earth:#896D41;
+    --el-wood:#4A6B3D; --el-wood-f:#D8E4C9; --el-fire:#924B26; --el-fire-f:#F8D5BE; --el-earth:#785D1F; --el-earth-f:#EFDFB0;
+    --el-metal:#68655E; --el-metal-f:#E9E5DC; --el-water:#3F5B70; --el-water-f:#CFDCE4; }
+
+  .day .pad { padding: 0 26px; }
+  .day .datebar { display: flex; align-items: center; justify-content: space-between; padding-top: 26px; }
+  .day .datebar .d { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+
+  /* orbit badge — the datebar logo wrapped in a circle so effects have a
+     defined "hero orbit-ring badge" to attach to, per the research docs'
+     DayOrbit recommendation. Identical markup on every tab. */
+  .day .orbit-badge { width: 40px; height: 40px; border-radius: 999px; display: grid; place-items: center; color: var(--ink); }
+  .day .orbit-badge svg { width: 22px; height: 22px; }
+
+  .day .week { display: flex; justify-content: space-between; margin-top: 20px; padding-bottom: 4px; }
+  .day .week .cell { display: grid; gap: 6px; justify-items: center; font-size: 10.5px; color: var(--mut); letter-spacing: .08em; }
+  .day .week .cell .lbl { }
+  .day .week .cell.today .lbl { color: var(--ink); font-weight: 700; }
+  /* .ic is the small chip the icon sits inside — baseline gives it no
+     surface at all (bare icon on page bg), matching the source Daybreak
+     treatment exactly. Glass/gradient tabs give .ic a background below. */
+  .day .week .cell .ic { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 10px; }
+  .day .week .cell .ic svg { width: 18px; height: 18px; color: var(--ink); }
+  .day .week .cell.today .ic svg { outline: 1.5px solid var(--ink); outline-offset: 3px; border-radius: 999px; }
+
+  .day .hero { position: relative; margin-top: 30px; }
+  .day .hero .wm { position: absolute; right: -8px; top: -14px; width: 140px; height: 140px; color: var(--wood); opacity: .16; pointer-events: none; }
+  .day h1 {
+    font-family: ui-serif, "New York", Georgia, serif;
+    font-size: 34px; line-height: 1.22; font-weight: 500; letter-spacing: -.01em;
+    margin: 0; text-wrap: balance; position: relative;
+  }
+  .day .pillarline { margin-top: 26px; display: flex; align-items: center; gap: 9px; font-size: 14.5px; }
+  .day .pillarline .aw { width: 19px; height: 19px; }
+  .day .pillarline .w { color: var(--wood); }
+  .day .pillarline .e { color: var(--earth); }
+  .day .pillarline .gl { color: var(--mut); font-size: 12.5px; }
+  .day .grain { margin: 10px 0 0; color: var(--mut); font-size: 13.5px; line-height: 1.55; }
+  .day .officer { margin: 6px 0 0; font-size: 13.5px; color: var(--mut); line-height: 1.55; }
+  .day .officer b { color: var(--ink); font-weight: 600; }
+
+  .day .kick { margin: 48px 0 0; font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--mut); display: flex; align-items: center; gap: 8px; }
+  .day .kick .aw { width: 17px; height: 17px; color: var(--ink); }
+  .day p.line { margin: 14px 0 0; font-size: 16.5px; line-height: 1.68; }
+  .day .cite { margin: 10px 0 0; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--mut); }
+
+  .day .board { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 16px; }
+  .day .board h3 { margin: 0; font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+  .day .board .fav h3 { color: var(--wood); }
+  .day .board .wat h3 { color: var(--earth); }
+  .day .board ul { margin: 12px 0 0; padding: 0; list-style: none; }
+  .day .board li { font-size: 13.5px; line-height: 1.55; margin-top: 10px; }
+  .day .chips { margin-top: 14px; font-size: 12.5px; color: var(--mut); line-height: 1.8; }
+
+  .day .agency { margin: 56px 26px 0; text-align: center; font-family: ui-serif, "New York", Georgia, serif; font-size: 20px; line-height: 1.5; }
+  .day .streak { margin: 16px 0 40px; text-align: center; font-size: 12px; color: var(--mut); }
+
+  /* bottom nav — added to this shared skeleton (Daybreak/v1 in the source
+     file has none) because tab 2 needs a real piece of "transient chrome"
+     to demo restrained glass on, per the research doc's verdict. Style
+     matches the app's established anchor convention: var(--ink) as the one
+     high-contrast mass, which already flips paper/ink correctly between
+     themes (see the 2026-07-30 "anchor inverts" rule) with no extra tokens. */
+  .day .nav {
+    position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%);
+    width: min(388px, calc(100% - 24px)); border-radius: 999px; display: flex;
+    padding: 10px 8px; z-index: 40; background: var(--ink); box-shadow: 0 8px 24px rgba(0,0,0,.22);
+  }
+  .day .nav span { flex: 1; text-align: center; font-size: 10.5px; font-weight: 700; color: color-mix(in srgb, var(--bg) 55%, var(--ink)); }
+  .day .nav span.on { color: var(--bg); }
+
+  /* ======================================================================
+     TAB 2 · GLASS ACCENTS — backdrop-filter glass on bottom nav + week-strip
+     icon chips ONLY, per the glass/neumorphism research doc's restrained
+     verdict (small transient chrome over a background the app controls;
+     never the hero, never reading prose). Nav/week text stays off the glass
+     itself — only the solid --ink/--bg pairing (already the app's own
+     verified anchor contrast) or a bare icon sits on the blurred layer.
+     ====================================================================== */
+  .tab-glass .nav {
+    background: color-mix(in srgb, var(--ink) 78%, transparent);
+    backdrop-filter: blur(18px) saturate(150%);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+    border: 1px solid color-mix(in srgb, var(--bg) 22%, transparent);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--bg) 18%, transparent), 0 8px 22px rgba(0,0,0,.22);
+  }
+  .tab-glass .week .cell .ic {
+    background: color-mix(in srgb, var(--ink) 14%, transparent);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+  }
+  @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+    .tab-glass .nav, .tab-glass .week .cell .ic { backdrop-filter: none; -webkit-backdrop-filter: none; background: var(--card); border-color: var(--hair); }
+  }
+
+  /* ======================================================================
+     TAB 3 · GRADIENT EXTENDED — the hero's existing data-driven gradient
+     logic (.hero-card in apps/web globals.css) propagated to the week-strip
+     cells, keyed off the same day → element mapping used elsewhere in this
+     mockup file (Compass's week strip); plus a one-time settle-in morph on
+     the orbit badge when this tab is shown.
+     ====================================================================== */
+  .tab-gradient .week .cell .ic {
+    background:
+      radial-gradient(130% 100% at 25% 10%, color-mix(in srgb, var(--cell-hue) 34%, var(--card)) 0%, transparent 68%),
+      radial-gradient(95% 75% at 88% 92%, color-mix(in srgb, var(--cell-hue) 18%, var(--card)) 0%, transparent 62%),
+      var(--card);
+  }
+  .tab-gradient .week .cell .ic svg { color: var(--ink); }
+  @media (prefers-reduced-motion: no-preference) {
+    .tab-gradient.on .orbit-badge { animation: badge-settle 340ms cubic-bezier(.22,1,.36,1) both; }
+    @keyframes badge-settle {
+      0%   { transform: scale(.9) rotate(-6deg); }
+      70%  { transform: scale(1.03) rotate(1deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+  }
+
+  /* ======================================================================
+     TAB 4 · NEUMORPHIC ACCENT — the orbit badge only, using the "2.0"
+     hybrid from the research doc: soft dual-shadow texture riding ON TOP OF
+     a real hairline border, which is what actually carries the 3:1
+     affordance the pure two-shadow style structurally can't.
+     ====================================================================== */
+  .tab-neu .orbit-badge {
+    background: var(--card);
+    box-shadow: 6px 6px 14px rgba(0,0,0,.10), -6px -6px 14px rgba(255,255,255,.7);
+    outline: 1px solid var(--hair);
+  }
+  @media (prefers-color-scheme: dark) {
+    .tab-neu .orbit-badge { box-shadow: 6px 6px 14px rgba(0,0,0,.55), -6px -6px 14px rgba(255,255,255,.04); }
+  }
+  :root[data-theme="dark"] .tab-neu .orbit-badge { box-shadow: 6px 6px 14px rgba(0,0,0,.55), -6px -6px 14px rgba(255,255,255,.04); }
+  :root[data-theme="light"] .tab-neu .orbit-badge { box-shadow: 6px 6px 14px rgba(0,0,0,.10), -6px -6px 14px rgba(255,255,255,.7); }
+
+  /* ======================================================================
+     TAB 5 · OVERDONE (WHY NOT) — deliberately wrong: full-screen frosted
+     glass on every surface, neumorphism on the favors/watch board with the
+     affordance-fixing border removed on purpose, and contrast left
+     uncorrected. Pedagogical only — flagged in the UI itself, not just here.
+     ====================================================================== */
+  .tab-overdone .flag {
+    display: flex; gap: 10px; align-items: flex-start; margin: 22px 0 0;
+    padding: 12px 14px; border-radius: 14px; border: 1.5px dashed color-mix(in srgb, var(--el-earth) 60%, transparent);
+    background: color-mix(in srgb, var(--el-earth-f) 55%, var(--bg));
+  }
+  .tab-overdone .flag svg { width: 18px; height: 18px; color: var(--el-earth); flex: none; margin-top: 1px; }
+  .tab-overdone .flag b { display: block; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--el-earth); }
+  .tab-overdone .flag p { margin: 3px 0 0; font-size: 12.5px; line-height: 1.5; color: var(--ink); }
+
+  .tab-overdone .hero {
+    margin-top: 18px; padding: 18px 18px 20px; border-radius: 22px;
+    background: color-mix(in srgb, var(--bg) 12%, transparent);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  }
+  /* deliberately NOT raising text opacity or adding a scrim here — this is
+     the counter-example of glass directly under body copy the research doc
+     calls out as the failure mode; contrast is intentionally left to
+     whatever the wash behind it happens to be. */
+  .tab-overdone h1 { opacity: .82; }
+
+  .tab-overdone .nav, .tab-overdone .week .cell .ic {
+    background: color-mix(in srgb, var(--ink) 30%, transparent);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border: 1px solid color-mix(in srgb, var(--bg) 10%, transparent);
+  }
+  .tab-overdone .nav span, .tab-overdone .nav span.on { color: color-mix(in srgb, var(--bg) 60%, var(--ink)); }
+
+  .tab-overdone .board > div {
+    padding: 14px; border-radius: 18px; background: var(--bg);
+    box-shadow: 5px 5px 11px rgba(0,0,0,.09), -5px -5px 11px rgba(255,255,255,.55);
+    /* no outline/border: the exact ambiguous-affordance failure the
+       research doc says killed neumorphism industry-wide, reproduced on
+       purpose on an interactive-looking board */
+  }
+  @media (prefers-color-scheme: dark) {
+    .tab-overdone .board > div { box-shadow: 5px 5px 11px rgba(0,0,0,.5), -5px -5px 11px rgba(255,255,255,.03); }
+  }
+  :root[data-theme="dark"] .tab-overdone .board > div { box-shadow: 5px 5px 11px rgba(0,0,0,.5), -5px -5px 11px rgba(255,255,255,.03); }
+  :root[data-theme="light"] .tab-overdone .board > div { box-shadow: 5px 5px 11px rgba(0,0,0,.09), -5px -5px 11px rgba(255,255,255,.55); }
+  .tab-overdone .board h3 { opacity: .5; }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <path id="el-wood" d="M12 3.5 C7 6 4.5 12 7 19 C13.5 17.5 17.5 11.5 16.5 4.5 C15 4 13.5 3.6 12 3.5 Z"/>
+  <path id="el-earth" d="M3.5 18.5 L9.5 8 L13 13.2 L15.2 10 L20.5 18.5 Z"/>
+  <g id="orbit-mark">
+    <circle cx="12" cy="12" r="8.4" fill="none" stroke="currentColor" stroke-width="1.4"/>
+    <circle cx="12" cy="5.4" r="2.1" fill="currentColor"/>
+    <circle cx="12" cy="12" r="1.4" fill="currentColor"/>
+  </g>
+  <path id="an-rabbit" d="M9.29 1.44c0.49 2.98-0.62 2.99-1.87 5.92-0.05 0.11 0.28 0.03 0.37-0.06 1.33-1.37 2.23-3.21 3.83-4.27 0.48-0.32 1.76 0.11 1.58 0.66-0.58 1.84-2.29 3.11-3.3 4.74-0.35 0.56-1.21 1.34-0.77 1.83 0.73 0.81 2.23 0.29 3.17 0.85 2.64 1.56 5.03 3.52 7.45 5.41 0.86 0.67 2.19 1.58 1.94 2.63-0.22 0.91-1.45 1.18-2.23 1.71-2.07 1.4-3.13 1.75-5.89 1.47-1.12-0.12-2.59 0.14-3.3-0.73-0.82-1 3.06-0.82 3.21-0.91 0.16-0.09-0.32-0.26-0.33-0.44-0.08-1.5 0.1-3.01 0.05-4.51-0.04-1.3-0.9 2.45-1.12 3.72-0.04 0.27 0.39 0.72 0.13 0.8-0.89 0.28-1.93-0.84-2.77-0.43-0.58 0.28-2.83 4.37-4.01 1.98-0.16-0.32 2.23-1.82 1.85-2.77-0.14-0.35-0.61-0.49-0.79-0.81-1-1.83-1.02-2.98-2.22-4.46-0.6-0.73-1.61-1.17-1.94-2.05-0.54-1.46 3.3-2.75 3.57-3.26 0.78-1.41 0.28-3.3 1.06-4.71 0.53-0.96 1.55-1.54 2.33-2.31"/>
+  <path id="an-dragon" d="M14.19 3.28c0.11 0.26 0.82 1.71 0.73 2.15-0.27 1.34-0.87 2.6-1.2 3.93-0.04 0.17 0.2 0.38 0.09 0.53-0.08 0.1-0.24-0.13-0.33-0.23-0.5-0.52-0.87-1.16-1.44-1.6-0.54-0.43-2.38-0.66-2.95-0.19-0.81 0.66-1.93 1.27-2.15 2.29-0.27 1.25 0.83 2.47 0.84 3.75 0.01 0.67-0.12 1.97-0.78 1.85-0.7-0.12-0.37-1.38-0.53-2.08-0.08-0.36-0.42-2.99-0.95-3.65-0.52-0.65-1.19-1.17-1.85-1.68-0.39-0.3-0.78-0.8-1.27-0.75-0.45 0.05-1.08 0.56-0.94 1 0.38 1.22 1.42 2.13 2.22 3.12 0.34 0.43 1.05 0.61 1.18 1.14 0.3 1.27-0.15 4.56-0.24 6.08-0.04 0.85-0.11 1.18 0.92 1.47 0.48 0.13 1.12 0.42 1.49 0.08 0.3-0.28-0.32-0.8-0.27-1.21 0.04-0.32 0.39-0.52 0.55-0.8 0.98-1.83 2.14-3.59 2.85-5.54 0.24-0.65-0.75-1.94-0.07-2.08 0.81-0.16 1.27 1.07 1.74 1.75 0.21 0.31 2.16 3.92 2.58 5.09 0.1 0.28 0.27 1.47 0.26 1.76-0.01 0.25-0.29 0.56-0.13 0.76 0.16 0.19 0.51-0.05 0.77 0 0.15 0.03 2.16 0.96 2.34 0.21 0.14-0.59-0.51-1.09-0.81-1.62-0.17-0.31-0.92-0.71-0.6-0.87 1.62-0.84 3.74-0.46 5.29-1.44 0.43-0.27 1.54-1.34 0.76-2.04-0.32-0.29-0.84 0.34-1.26 0.25-0.36-0.08-0.67-0.38-0.86-0.69-0.74-1.16-1.16-2.5-1.9-3.66-0.36-0.56-1.83-0.95-1.38-1.44 0.56-0.6 1.62 0.38 2.44 0.31 0.5-0.05 0.95-0.36 1.35-0.65 0.74-0.54 0.61-1.59 0.03-2.26-0.62-0.72-1.56-1.09-2.34-1.64-0.38-0.27-0.76-0.54-1.13-0.81-0.18-0.14-0.31-0.39-0.54-0.44-0.24-0.05-0.47 0.18-0.71 0.18-0.61 0-1.2-0.24-1.8-0.33M14.38 11.13c0 1.16 1.38 3.15 2.12 3.06 0.96-0.11 0.76-0.96-0.45-1.88-0.57-0.44-1.1-0.92-1.16-1.08-0.12-0.31-0.51-0.38-0.51-0.1"/>
+  <path id="an-snake" d="M9.65 1.44c0.9 1.12 2.52 1.93 2.71 3.36 0.06 0.5-0.87 0.2-1.28 0.49-0.9 0.63-2.65 1.31-2.36 2.37 0.32 1.16 2.42 0.72 3.6 0.94 1.38 0.26 2.94 0.06 4.15 0.77 0.98 0.58 2.05 1.63 2.02 2.77-0.03 1.2-1.29 2.11-2.31 2.74-2.2 1.37-5.05 1.32-7.55 2.04-1.35 0.39-3.85 0.64-3.85 2.05 0 1.42 2.51 1.9 3.9 2.19 2.6 0.55 5.31-0.24 7.97-0.32 0.68-0.02 1.83-0.42 2.03 0.23 0.29 0.94-1.42 1.46-2.36 1.75-2.31 0.7-4.83 0.02-7.24 0.14-1.17 0.06-2.5 0.93-3.5 0.32-1.61-0.98-3.09-2.81-2.99-4.7 0.09-1.71 2.02-2.79 3.44-3.74 1.94-1.31 4.42-1.57 6.6-2.42 0.86-0.34 2.4-0.4 2.4-1.32 0-0.83-1.42-0.77-2.2-1.06-1.72-0.63-4.32-0.15-5.31-1.69-0.72-1.12 0.04-2.92 0.93-3.91 0.53-0.59 2.09 0.05 2.28-0.72 0.21-0.83-1.29-1.02-1.62-1.81-0.14-0.34 0.11-0.79 0.36-1.06 0.13-0.14 0.51 0.02 0.62-0.14 0.16-0.24-0.16-0.94 0.12-0.85 0.79 0.24 1.13 1.24 1.86 1.63 0.28 0.15 1-0.31 0.94 0-0.11 0.6-1.03 0.72-1.3 1.27-0.14 0.3-0.11 0.87 0.22 0.86 0.79-0.02 1.3-0.9 1.94-1.36"/>
+  <path id="an-horse" d="M3.92 2.39c1.68 1.62 3.15 2.65 5.09 4.51 0.4 0.38 0.99 0.61 1.24 1.1 0.4 0.79-0.71 2.11 0 2.64 0.73 0.55 1.94-0.35 2.84-0.17 1.83 0.36 3.44 1.5 5.24 2.02 0.84 0.24 2.71-0.35 2.59 0.51-0.14 1.05-2.06 0.66-3.09 0.92-0.94 0.24-1.94 0.29-2.83 0.68-2.09 0.92-3.99 2.25-5.98 3.38 1.06 0.6 3.13 0.65 3.19 1.86 0.06 1.3-2.31 0.51-3.28 1.38-0.5 0.44-0.75 1.95-1.24 1.5-0.68-0.61 0.7-1.88 0.38-2.74-0.28-0.75-1.75-0.6-2.11-1.32-0.53-1.06 1.03-1.33 2.15-2.28 1.32-1.13 3.28-2.11 3.28-2.95 0-0.62-1.53 0.34-2.3 0.51-0.85 0.19-1.79 0.87-2.57 0.47-1.14-0.59-1.34-2.2-2.15-3.2-0.4-0.5-1.53-0.72-1.29-1.32 0.24-0.61 1.32 0.28 1.94 0.06 0.85-0.31 1.31-1.28 2.02-1.84 0.42-0.34 1.63-0.5 1.34-0.95-1.87-2.91-3.72-3.85-4.46-4.77"/>
+  <path id="an-goat" d="M11.17 1.55c2.57 1.07-3.77 0.32-2.57 0.94 3.24 1.66 7.14 2.29 10.11 4.41 0.85 0.61 1.99 1.66 1.62 2.64-0.44 1.15-2.4 0.79-3.6 1.06-1.06 0.24-2.15 0.32-3.21 0.55-0.36 0.08-1.03-0.02-1.05 0.35-0.11 1.98 0.87 3.92 0.79 5.9-0.04 0.99 0.4 2.42-0.47 2.89-0.87 0.47-0.61-1.87-1.47-2.36-0.83-0.47-2.4-0.87-3.03-0.16-0.83 0.93 1.03 3.7-0.19 3.94-1.17 0.23-1.08-2.05-1.85-2.96-0.5-0.6-1.85-0.7-1.86-1.48-0.01-0.83 1.42-0.72 2.12-1.16 0.45-0.28 0.68-1.08 1.2-0.99 0.71 0.13 0.42 2.43 1.13 2.28 1.36-0.29 0.79-4.94 0.72-5.42-0.06-0.4-0.11-1.01-0.51-1.02-1.51-0.06-2.66 1.44-4.11 1.86-0.56 0.16-1.72 0.5-1.75-0.08-0.05-0.83 1.53-0.63 2.16-1.17 0.55-0.47 0.55-1.42 1.13-1.86 0.85-0.63 2.24-0.36 3.09-0.99 0.6-0.44 1.37-1.66 0.87-2.2-0.68-0.75-2.04 0.51-3.06 0.55-0.7 0.03-1.94 0.42-2.04-0.28-0.09-0.63 1.18-0.55 1.75-0.83 0.7-0.35 1.5-0.53 2.08-1.06 0.5-0.45 0.16-0.65 0.72-1.5 0.31-0.46 1.03-1.99 1.28-1.85"/>
+  <path id="an-monkey" d="M7.51 1.44c-1.74 4.46-5.37 8.58-5.23 13.37 0.03 1.05 1.65 0.26 2.44-0.43 0.29-0.25-0.32-0.86-0.06-1.14 1.72-1.85 4.07-3.09 5.68-5.04 0.41-0.5 0.13-2.02 0.77-1.87 0.79 0.19 0.54 1.52 0.61 2.34 0.05 0.62-0.5 1.75 0.11 1.87 1.55 0.29 3.24-0.71 4.75-0.24 1.03 0.32 1.98 1.16 2.51 2.11 0.44 0.78 0.72 1.94 0.24 2.69-0.35 0.55-1.94-0.06-1.98 0.59-0.06 0.83 1.59 0.68 2.16 1.28 0.55 0.57 1.53 1.41 1.13 2.09-0.44 0.75-1.75 0.42-2.62 0.32-1.61-0.18-3.02-1.2-4.6-1.55-0.72-0.16-1.72-0.61-2.2-0.05-0.6 0.7 0.62 1.85 0.36 2.73-0.11 0.36-0.71 0.74-1.02 0.53-1.13-0.77-0.75-3.75-2.11-3.63-2.5 0.23-4.75 4.31-6.85 2.94-1.27-0.83-0.15-3.42 0.83-4.58 1.02-1.2 3.28-0.65 4.83-1.02 0.75-0.18 2.24 0.09 2.2-0.68-0.05-0.88-1.71-0.4-2.55-0.68-0.36-0.12-0.99-0.18-0.99-0.55 0-1.29 1.28-2.55 1.24-3.98"/>
+  <path id="an-rooster" d="M6.36 1.58c-0.05 0.34-0.38 1.06-0.04 1.05 1.51-0.02 2.87-1.02 4.38-1.03 0.5-0.01 1.53-0.35 1.46 0.14-0.11 0.78-1.53 0.5-2.22 0.88-0.5 0.28-1.36 0.51-1.32 1.08 0.05 0.74 1.31 0.7 1.89 1.16 0.87 0.68 1.98 1.24 2.4 2.26 0.4 0.98-0.44 2.31 0.15 3.19 1.13 1.66 3.4 2.24 4.68 3.79 0.99 1.2 2.51 2.72 1.98 4.19-0.53 1.46-2.62 1.49-4.12 1.89-2.13 0.57-4.37 0.66-6.57 0.75-1.6 0.07-3.65 0.72-4.78-0.42-1.16-1.17-1.31-3.42-0.63-4.92 0.53-1.16 2.25-1.28 3.45-1.71 0.79-0.28 2.44-0.5 2.42-0.4-0.03 0.16-3.66 1.45-4.4 2.61-0.35 0.55-0.42 1.53 0.11 1.91 1.63 1.17 4.09 0.68 6.09 0.5 1.35-0.12 2.72-0.48 3.92-1.11 0.6-0.31 1.55-0.72 1.51-1.39-0.04-0.72-1.09-0.94-1.71-1.31-1.44-0.87-3.24-1.12-4.53-2.19-0.84-0.7-1.94-1.61-1.85-2.7 0.06-0.75 1.71-0.79 1.68-1.54-0.02-0.71-1.17-0.79-1.78-1.13-0.75-0.42-1.51-0.83-2.31-1.13-0.61-0.23-1.99 0.09-1.94-0.56 0.06-0.83 1.66-0.36 2.42-0.7 0.42-0.19 1.02-0.42 1.08-0.88 0.08-0.62-0.83-0.97-0.98-1.58-0.09-0.36 0.06-1.13 0.36-0.92 0.68 0.5 0.79 1.79 1.62 1.94 0.61 0.11 1.05-0.85 1.66-0.94 0.31-0.05 0.94 0.06 0.85 0.36-0.19 0.61-1.13 0.61-1.62 1.02-0.31 0.27-0.9 0.62-0.72 0.99 0.25 0.5 1.13 0.19 1.69 0.31"/>
+  <path id="an-dog" d="M6.94 2.82c1.39 1.69 2.16 4.09 4.07 5.15 1.85 1.02 4.16 0.55 6.23 0.94 1.28 0.24 2.68 0.29 3.79 0.99 0.83 0.53 1.94 1.31 1.85 2.28-0.11 1.13-1.68 1.48-2.65 2.06-0.71 0.42-1.44 0.86-2.24 1.06-1.9 0.47-3.94 0.16-5.86 0.55-0.85 0.17-2.42 0.24-2.36 1.11 0.06 0.94 1.75 0.56 2.62 0.92 0.42 0.17 1.13 0.29 1.13 0.75 0 0.51-0.87 0.51-1.32 0.75-0.53 0.29-0.99 0.72-1.55 0.92-1.06 0.38-2.24 1.03-3.28 0.61-1.24-0.5-2.48-1.77-2.48-3.11 0-1.13 1.66-1.53 2.42-2.36 0.55-0.6 1.53-1.06 1.55-1.87 0.02-0.86-0.9-1.44-1.44-2.11-0.61-0.76-1.13-1.61-1.89-2.22-0.53-0.42-1.85-0.28-1.7-0.94 0.17-0.75 1.51-0.24 2.26-0.42 0.63-0.15 1.5 0.06 1.87-0.47 0.44-0.63 0.42-1.65 0.13-2.44-0.31-0.83-1.98-0.9-1.85-1.77 0.11-0.72 1.31 1.19 1.98 0.9 0.68-0.29-0.13-2.72 0.61-2.72 0.44 0 0.35 1.94 0.79 1.94 0.34 0 0.55-1.42 0.79-1.16"/>
+</defs></svg>
+
+<div class="stage">
+  <div class="chrome">
+    <div class="switcher" role="tablist" aria-label="Effects exploration tabs">
+      <button role="tab" data-v="1" aria-pressed="true">Baseline</button>
+      <button role="tab" data-v="2" aria-pressed="false">Glass accents</button>
+      <button role="tab" data-v="3" aria-pressed="false">Gradient extended</button>
+      <button role="tab" data-v="4" aria-pressed="false">Neumorphic accent</button>
+      <button role="tab" data-v="5" aria-pressed="false">Overdone (why not)</button>
+    </div>
+    <div class="themebar" role="radiogroup" aria-label="Appearance">
+      <span class="tl">Appearance</span>
+      <button data-theme-choice="light" aria-pressed="false">Light</button>
+      <button data-theme-choice="dark" aria-pressed="false">Dark</button>
+      <button data-theme-choice="system" aria-pressed="true">System</button>
+    </div>
+  </div>
+
+  <!-- ============ TAB 1: BASELINE ============ -->
+  <section class="v day tab-baseline on" id="t1">
+    <div class="pad">
+      <div class="datebar">
+        <span class="d">Wed &middot; 29 July</span>
+        <span class="orbit-badge"><svg width="22" height="22" viewBox="0 0 24 24" role="img" aria-label="Daymaster"><use href="#orbit-mark"/></svg></span>
+      </div>
+
+      <div class="week" aria-label="This week's days">
+        <span class="cell"><span class="lbl">TU</span><span class="ic" style="--cell-hue:var(--el-water)"><svg viewBox="0 0 24 24" style="opacity:.76"><use href="#an-rabbit"/></svg></span></span>
+        <span class="cell today"><span class="lbl">WE</span><span class="ic" style="--cell-hue:var(--el-wood)"><svg viewBox="0 0 24 24"><use href="#an-dragon"/></svg></span></span>
+        <span class="cell"><span class="lbl">TH</span><span class="ic" style="--cell-hue:var(--el-wood)"><svg viewBox="0 0 24 24" style="opacity:.56"><use href="#an-snake"/></svg></span></span>
+        <span class="cell"><span class="lbl">FR</span><span class="ic" style="--cell-hue:var(--el-fire)"><svg viewBox="0 0 24 24" style="opacity:.38"><use href="#an-horse"/></svg></span></span>
+        <span class="cell"><span class="lbl">SA</span><span class="ic" style="--cell-hue:var(--el-fire)"><svg viewBox="0 0 24 24" style="opacity:.83"><use href="#an-goat"/></svg></span></span>
+        <span class="cell"><span class="lbl">SU</span><span class="ic" style="--cell-hue:var(--el-earth)"><svg viewBox="0 0 24 24" style="opacity:.83"><use href="#an-monkey"/></svg></span></span>
+        <span class="cell"><span class="lbl">MO</span><span class="ic" style="--cell-hue:var(--el-earth)"><svg viewBox="0 0 24 24"><use href="#an-rooster"/></svg></span></span>
+      </div>
+
+      <div class="hero">
+        <svg class="wm" viewBox="0 0 24 24" aria-hidden="true"><use href="#an-dragon" fill="currentColor"/></svg>
+        <h1>The day runs crosswise. Movement, not misfortune.</h1>
+      </div>
+      <div class="pillarline">
+        <svg class="ai aw w" viewBox="0 0 24 24" fill="currentColor" role="img" aria-label="Wood, yang"><use href="#el-wood"/></svg>
+        <strong>Wood over Earth</strong>
+        <span class="gl">the dragon &middot; ji&#462; ch&eacute;n</span>
+        <svg class="ai aw e" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" role="img" aria-label="Earth, yin"><use href="#el-earth"/></svg>
+      </div>
+      <p class="grain">Today's Wood presses on your Earth &mdash; a day that runs a little against your grain, worth pacing rather than forcing.</p>
+      <p class="officer"><b>A Receive day</b> &mdash; a gathering-in day, taking in what's owed and offered.</p>
+
+      <h2 class="kick">The day's grain</h2>
+      <div class="board">
+        <div class="fav">
+          <h3>Favors</h3>
+          <ul>
+            <li>Make the overdue decision &mdash; clash days are for moving stuck furniture.</li>
+            <li>Hand one task to the people who row with you.</li>
+          </ul>
+          <p class="chips">Deals &amp; paperwork &middot; Learning &middot; The big ask</p>
+        </div>
+        <div class="wat">
+          <h3>Watch</h3>
+          <ul>
+            <li>Don't swing the big decision at full speed &mdash; aim first, then cut once.</li>
+            <li>Hold new launches for a smoother day; tend what's planted.</li>
+          </ul>
+          <p class="chips">Moving &middot; Travel</p>
+        </div>
+      </div>
+
+
+      <h2 class="kick"><svg class="ai aw" viewBox="0 0 24 24" fill="currentColor"><use href="#an-dog"/></svg>Your roots</h2>
+      <p class="line">A trine this year: the year's sign, the horse, joins the dog already in your chart's roots &mdash; three friends planning one surprise without a group chat. Support gathers in that room.</p>
+      <p class="cite">Horse&ndash;dog trine &middot; this year</p>
+      <p class="line">A clash today: the day's sign, the dragon, pulls opposite the dog in your chart's roots &mdash; a door and a draft. Good weather for cutting a knot you've been avoiding.</p>
+      <p class="cite">Dragon&ndash;dog clash &middot; today</p>
+
+      <h2 class="kick"><svg class="ai aw" viewBox="0 0 24 24" fill="currentColor"><use href="#an-dragon"/></svg>The day itself</h2>
+      <p class="line">A Wood day, which runs a little against your grain. Beginnings may feel effortful &mdash; pace them rather than force them.</p>
+      <p class="cite">Wood day</p>
+      <p class="line">The old calendars call today a Seven Killings day &mdash; in everyday terms, pressure that trains you, the coach who makes you run the hill again. Met squarely, it forges rather than breaks.</p>
+      <p class="cite">Seven Killings &middot; today</p>
+      <p class="line">The day sits at your Coming of Age stage &mdash; putting on the graduation robe, ready to be taken seriously. Show the work; the day is willing to take you seriously.</p>
+      <p class="cite">Coming of Age &middot; today</p>
+
+      <h2 class="kick"><svg class="ai aw" viewBox="0 0 24 24" fill="currentColor"><use href="#an-horse"/></svg>The year's weather</h2>
+      <p class="line">This year lights your Calamity Star &mdash; a pothole sign on the road. Not a verdict &mdash; just a stretch worth taking slower and double-checking.</p>
+      <p class="cite">Calamity Star &middot; this year</p>
+    </div>
+    <p class="agency">Call a family member you've been meaning to reach.</p>
+    <p class="streak">47 days running &mdash; see you tomorrow.</p>
+    <nav class="nav" aria-hidden="true">
+      <span class="on">Today</span><span>Chart</span><span>Cycles</span><span>People</span><span>Dates</span>
+    </nav>
+  </section>
+
+
+  <!-- ============ TAB 2: GLASS ACCENTS ============ -->
+  <section class="v day tab-glass" id="t2">
+    <div class="pad">
+      <div class="datebar">
+        <span class="d">Wed &middot; 29 July</span>
+        <span class="orbit-badge"><svg width="22" height="22" viewBox="0 0 24 24" role="img" aria-label="Daymaster"><use href="#orbit-mark"/></svg></span>
+      </div>
+
+      <div class="week" aria-label="This week's days">
+        <span class="cell"><span class="lbl">TU</span><span class="ic" style="--cell-hue:var(--el-water)"><svg viewBox="0 0 24 24" style="opacity:.76"><use href="#an-rabbit"/></svg></span></span>
+        <span class="cell today"><span class="lbl">WE</span><span class="ic" style="--cell-hue:var(--el-wood)"><svg viewBox="0 0 24 24"><use href="#an-dragon"/></svg></span></span>
+        <span class="cell"><span class="lbl">TH</span><span class="ic" style="--cell-hue:var(--el-wood)"><svg viewBox="0 0 24 24" style="opacity:.56"><use href="#an-snake"/></svg></span></span>
+        <span class="cell"><span class="lbl">FR</span><span class="ic" style="--cell-hue:var(--el-fire)"><svg viewBox="0 0 24 24" style="opacity:.38"><use href="#an-horse"/></svg></span></span>
+        <span class="cell"><span class="lbl">SA</span><span class="ic" style="--cell-hue:var(--el-fire)"><svg viewBox="0 0 24 24" style="opacity:.83"><use href="#an-goat"/></svg></span></span>
+        <span class="cell"><span class="lbl">SU</span><span class="ic" style="--cell-hue:var(--el-earth)"><svg viewBox="0 0 24 24" style="opacity:.83"><use href="#an-monkey"/></svg></span></span>
+        <span class="cell"><span class="lbl">MO</span><span class="ic" style="--cell-hue:var(--el-earth)"><svg viewBox="0 0 24 24"><use href="#an-rooster"/></svg></span></span>
+      </div>
+
+      <div class="hero">
+        <svg class="wm" viewBox="0 0 24 24" aria-hidden="true"><use href="#an-dragon" fill="currentColor"/></svg>
+        <h1>The day runs crosswise. Movement, not misfortune.</h1>
+      </div>
+      <div class="pillarline">
+        <svg class="ai aw w" viewBox="0 0 24 24" fill="currentColor" role="img" aria-label="Wood, yang"><use href="#el-wood"/></svg>
+        <strong>Wood over Earth</strong>
+        <span class="gl">the dragon &middot; ji&#462; ch&eacute;n</span>
+        <svg class="ai aw e" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" role="img" aria-label="Earth, yin"><use href="#el-earth"/></svg>
+      </div>
+      <p class="grain">Today's Wood presses on your Earth &mdash; a day that runs a little against your grain, worth pacing rather than forcing.</p>
+      <p class="officer"><b>A Receive day</b> &mdash; a gathering-in day, taking in what's owed and offered.</p>
+
+      <h2 class="kick">The day's grain</h2>
+      <div class="board">
+        <div class="fav">
+          <h3>Favors</h3>
+          <ul>
+            <li>Make the overdue decision &mdash; clash days are for moving stuck furniture.</li>
+            <li>Hand one task to the people who row with you.</li>
+          </ul>
+          <p class="chips">Deals &amp; paperwork &middot; Learning &middot; The big ask</p>
+        </div>
+        <div class="wat">
+          <h3>Watch</h3>
+          <ul>
+            <li>Don't swing the big decision at full speed &mdash; aim first, then cut once.</li>
+            <li>Hold new launches for a smoother day; tend what's planted.</li>
+          </ul>
+          <p class="chips">Moving &middot; Travel</p>
+        </div>
+      </div>
+
+
+      <h2 class="kick"><svg class="ai aw" viewBox="0 0 24 24" fill="currentColor"><use href="#an-dog"/></svg>Your roots</h2>
+      <p class="line">A trine this year: the year's sign, the horse, joins the dog already in your chart's roots &mdash; three friends planning one surprise without a group chat. Support gathers in that room.</p>
+      <p class="cite">Horse&ndash;dog trine &middot; this year</p>
+      <p class="line">A clash today: the day's sign, the dragon, pulls opposite the dog in your chart's roots &mdash; a door and a draft. Good weather for cutting a knot you've been avoiding.</p>
+      <p class="cite">Dragon&ndash;dog clash &middot; today</p>
+
+      <h2 class="kick"><svg class="ai aw" viewBox="0 0 24 24" fill="currentColor"><use href="#an-dragon"/></svg>The day itself</h2>
+      <p class="line">A Wood day, which runs a little against your grain. Beginnings may feel effortful &mdash; pace them rather than force them.</p>
+      <p class="cite">Wood day</p>
+      <p class="line">The old calendars call today a Seven Killings day &mdash; in everyday terms, pressure that trains you, the coach who makes you run the hill again. Met squarely, it forges rather than breaks.</p>
+      <p class="cite">Seven Killings &middot; today</p>
+      <p class="line">The day sits at your Coming of Age stage &mdash; putting on the graduation robe, ready to be taken seriously. Show the work; the day is willing to take you seriously.</p>
+      <p class="cite">Coming of Age &middot; today</p>
+
+      <h2 class="kick"><svg class="ai aw" viewBox="0 0 24 24" fill="currentColor"><use href="#an-horse"/></svg>The year's weather</h2>
+      <p class="line">This year lights your Calamity Star &mdash; a pothole sign on the road. Not a verdict &mdash; just a stretch worth taking slower and double-checking.</p>
+      <p class="cite">Calamity Star &middot; this year</p>
+    </div>
+    <p class="agency">Call a family member you've been meaning to reach.</p>
+    <p class="streak">47 days running &mdash; see you tomorrow.</p>
+    <nav class="nav" aria-hidden="true">
+      <span class="on">Today</span><span>Chart</span><span>Cycles</span><span>People</span><span>Dates</span>
+    </nav>
+  </section>
+
+
+  <!-- ============ TAB 3: GRADIENT EXTENDED ============ -->
+  <section class="v day tab-gradient" id="t3">
+    <div class="pad">
+      <div class="datebar">
+        <span class="d">Wed &middot; 29 July</span>
+        <span class="orbit-badge"><svg width="22" height="22" viewBox="0 0 24 24" role="img" aria-label="Daymaster"><use href="#orbit-mark"/></svg></span>
+      </div>
+
+      <div class="week" aria-label="This week's days">
+        <span class="cell"><span class="lbl">TU</span><span class="ic" style="--cell-hue:var(--el-water)"><svg viewBox="0 0 24 24" style="opacity:.76"><use href="#an-rabbit"/></svg></span></span>
+        <span class="cell today"><span class="lbl">WE</span><span class="ic" style="--cell-hue:var(--el-wood)"><svg viewBox="0 0 24 24"><use href="#an-dragon"/></svg></span></span>
+        <span class="cell"><span class="lbl">TH</span><span class="ic" style="--cell-hue:var(--el-wood)"><svg viewBox="0 0 24 24" style="opacity:.56"><use href="#an-snake"/></svg></span></span>
+        <span class="cell"><span class="lbl">FR</span><span class="ic" style="--cell-hue:var(--el-fire)"><svg viewBox="0 0 24 24" style="opacity:.38"><use href="#an-horse"/></svg></span></span>
+        <span class="cell"><span class="lbl">SA</span><span class="ic" style="--cell-hue:var(--el-fire)"><svg viewBox="0 0 24 24" style="opacity:.83"><use href="#an-goat"/></svg></span></span>
+        <span class="cell"><span class="lbl">SU</span><span class="ic" style="--cell-hue:var(--el-earth)"><svg viewBox="0 0 24 24" style="opacity:.83"><use href="#an-monkey"/></svg></span></span>
+        <span class="cell"><span class="lbl">MO</span><span class="ic" style="--cell-hue:var(--el-earth)"><svg viewBox="0 0 24 24"><use href="#an-rooster"/></svg></span></span>
+      </div>
+
+      <div class="hero">
+        <svg class="wm" viewBox="0 0 24 24" aria-hidden="true"><use href="#an-dragon" fill="currentColor"/></svg>
+        <h1>The day runs crosswise. Movement, not misfortune.</h1>
+      </div>
+      <div class="pillarline">
+        <svg class="ai aw w" viewBox="0 0 24 24" fill="currentColor" role="img" aria-label="Wood, yang"><use href="#el-wood"/></svg>
+        <strong>Wood over Earth</strong>
+        <span class="gl">the dragon &middot; ji&#462; ch&eacute;n</span>
+        <svg class="ai aw e" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" role="img" aria-label="Earth, yin"><use href="#el-earth"/></svg>
+      </div>
+      <p class="grain">Today's Wood presses on your Earth &mdash; a day that runs a little against your grain, worth pacing rather than forcing.</p>
+      <p class="officer"><b>A Receive day</b> &mdash; a gathering-in day, taking in what's owed and offered.</p>
+
+      <h2 class="kick">The day's grain</h2>
+      <div class="board">
+        <div class="fav">
+          <h3>Favors</h3>
+          <ul>
+            <li>Make the overdue decision &mdash; clash days are for moving stuck furniture.</li>
+            <li>Hand one task to the people who row with you.</li>
+          </ul>
+          <p class="chips">Deals &amp; paperwork &middot; Learning &middot; The big ask</p>
+        </div>
+        <div class="wat">
+          <h3>Watch</h3>
+          <ul>
+            <li>Don't swing the big decision at full speed &mdash; aim first, then cut once.</li>
+            <li>Hold new launches for a smoother day; tend what's planted.</li>
+          </ul>
+          <p class="chips">Moving &middot; Travel</p>
+        </div>
+      </div>
+
+
+      <h2 class="kick"><svg class="ai aw" viewBox="0 0 24 24" fill="currentColor"><use href="#an-dog"/></svg>Your roots</h2>
+      <p class="line">A trine this year: the year's sign, the horse, joins the dog already in your chart's roots &mdash; three friends planning one surprise without a group chat. Support gathers in that room.</p>
+      <p class="cite">Horse&ndash;dog trine &middot; this year</p>
+      <p class="line">A clash today: the day's sign, the dragon, pulls opposite the dog in your chart's roots &mdash; a door and a draft. Good weather for cutting a knot you've been avoiding.</p>
+      <p class="cite">Dragon&ndash;dog clash &middot; today</p>
+
+      <h2 class="kick"><svg class="ai aw" viewBox="0 0 24 24" fill="currentColor"><use href="#an-dragon"/></svg>The day itself</h2>
+      <p class="line">A Wood day, which runs a little against your grain. Beginnings may feel effortful &mdash; pace them rather than force them.</p>
+      <p class="cite">Wood day</p>
+      <p class="line">The old calendars call today a Seven Killings day &mdash; in everyday terms, pressure that trains you, the coach who makes you run the hill again. Met squarely, it forges rather than breaks.</p>
+      <p class="cite">Seven Killings &middot; today</p>
+      <p class="line">The day sits at your Coming of Age stage &mdash; putting on the graduation robe, ready to be taken seriously. Show the work; the day is willing to take you seriously.</p>
+      <p class="cite">Coming of Age &middot; today</p>
+
+      <h2 class="kick"><svg class="ai aw" viewBox="0 0 24 24" fill="currentColor"><use href="#an-horse"/></svg>The year's weather</h2>
+      <p class="line">This year lights your Calamity Star &mdash; a pothole sign on the road. Not a verdict &mdash; just a stretch worth taking slower and double-checking.</p>
+      <p class="cite">Calamity Star &middot; this year</p>
+    </div>
+    <p class="agency">Call a family member you've been meaning to reach.</p>
+    <p class="streak">47 days running &mdash; see you tomorrow.</p>
+    <nav class="nav" aria-hidden="true">
+      <span class="on">Today</span><span>Chart</span><span>Cycles</span><span>People</span><span>Dates</span>
+    </nav>
+  </section>
+
+
+  <!-- ============ TAB 4: NEUMORPHIC ACCENT ============ -->
+  <section class="v day tab-neu" id="t4">
+    <div class="pad">
+      <div class="datebar">
+        <span class="d">Wed &middot; 29 July</span>
+        <span class="orbit-badge"><svg width="22" height="22" viewBox="0 0 24 24" role="img" aria-label="Daymaster"><use href="#orbit-mark"/></svg></span>
+      </div>
+
+      <div class="week" aria-label="This week's days">
+        <span class="cell"><span class="lbl">TU</span><span class="ic" style="--cell-hue:var(--el-water)"><svg viewBox="0 0 24 24" style="opacity:.76"><use href="#an-rabbit"/></svg></span></span>
+        <span class="cell today"><span class="lbl">WE</span><span class="ic" style="--cell-hue:var(--el-wood)"><svg viewBox="0 0 24 24"><use href="#an-dragon"/></svg></span></span>
+        <span class="cell"><span class="lbl">TH</span><span class="ic" style="--cell-hue:var(--el-wood)"><svg viewBox="0 0 24 24" style="opacity:.56"><use href="#an-snake"/></svg></span></span>
+        <span class="cell"><span class="lbl">FR</span><span class="ic" style="--cell-hue:var(--el-fire)"><svg viewBox="0 0 24 24" style="opacity:.38"><use href="#an-horse"/></svg></span></span>
+        <span class="cell"><span class="lbl">SA</span><span class="ic" style="--cell-hue:var(--el-fire)"><svg viewBox="0 0 24 24" style="opacity:.83"><use href="#an-goat"/></svg></span></span>
+        <span class="cell"><span class="lbl">SU</span><span class="ic" style="--cell-hue:var(--el-earth)"><svg viewBox="0 0 24 24" style="opacity:.83"><use href="#an-monkey"/></svg></span></span>
+        <span class="cell"><span class="lbl">MO</span><span class="ic" style="--cell-hue:var(--el-earth)"><svg viewBox="0 0 24 24"><use href="#an-rooster"/></svg></span></span>
+      </div>
+
+      <div class="hero">
+        <svg class="wm" viewBox="0 0 24 24" aria-hidden="true"><use href="#an-dragon" fill="currentColor"/></svg>
+        <h1>The day runs crosswise. Movement, not misfortune.</h1>
+      </div>
+      <div class="pillarline">
+        <svg class="ai aw w" viewBox="0 0 24 24" fill="currentColor" role="img" aria-label="Wood, yang"><use href="#el-wood"/></svg>
+        <strong>Wood over Earth</strong>
+        <span class="gl">the dragon &middot; ji&#462; ch&eacute;n</span>
+        <svg class="ai aw e" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" role="img" aria-label="Earth, yin"><use href="#el-earth"/></svg>
+      </div>
+      <p class="grain">Today's Wood presses on your Earth &mdash; a day that runs a little against your grain, worth pacing rather than forcing.</p>
+      <p class="officer"><b>A Receive day</b> &mdash; a gathering-in day, taking in what's owed and offered.</p>
+
+      <h2 class="kick">The day's grain</h2>
+      <div class="board">
+        <div class="fav">
+          <h3>Favors</h3>
+          <ul>
+            <li>Make the overdue decision &mdash; clash days are for moving stuck furniture.</li>
+            <li>Hand one task to the people who row with you.</li>
+          </ul>
+          <p class="chips">Deals &amp; paperwork &middot; Learning &middot; The big ask</p>
+        </div>
+        <div class="wat">
+          <h3>Watch</h3>
+          <ul>
+            <li>Don't swing the big decision at full speed &mdash; aim first, then cut once.</li>
+            <li>Hold new launches for a smoother day; tend what's planted.</li>
+          </ul>
+          <p class="chips">Moving &middot; Travel</p>
+        </div>
+      </div>
+
+
+      <h2 class="kick"><svg class="ai aw" viewBox="0 0 24 24" fill="currentColor"><use href="#an-dog"/></svg>Your roots</h2>
+      <p class="line">A trine this year: the year's sign, the horse, joins the dog already in your chart's roots &mdash; three friends planning one surprise without a group chat. Support gathers in that room.</p>
+      <p class="cite">Horse&ndash;dog trine &middot; this year</p>
+      <p class="line">A clash today: the day's sign, the dragon, pulls opposite the dog in your chart's roots &mdash; a door and a draft. Good weather for cutting a knot you've been avoiding.</p>
+      <p class="cite">Dragon&ndash;dog clash &middot; today</p>
+
+      <h2 class="kick"><svg class="ai aw" viewBox="0 0 24 24" fill="currentColor"><use href="#an-dragon"/></svg>The day itself</h2>
+      <p class="line">A Wood day, which runs a little against your grain. Beginnings may feel effortful &mdash; pace them rather than force them.</p>
+      <p class="cite">Wood day</p>
+      <p class="line">The old calendars call today a Seven Killings day &mdash; in everyday terms, pressure that trains you, the coach who makes you run the hill again. Met squarely, it forges rather than breaks.</p>
+      <p class="cite">Seven Killings &middot; today</p>
+      <p class="line">The day sits at your Coming of Age stage &mdash; putting on the graduation robe, ready to be taken seriously. Show the work; the day is willing to take you seriously.</p>
+      <p class="cite">Coming of Age &middot; today</p>
+
+      <h2 class="kick"><svg class="ai aw" viewBox="0 0 24 24" fill="currentColor"><use href="#an-horse"/></svg>The year's weather</h2>
+      <p class="line">This year lights your Calamity Star &mdash; a pothole sign on the road. Not a verdict &mdash; just a stretch worth taking slower and double-checking.</p>
+      <p class="cite">Calamity Star &middot; this year</p>
+    </div>
+    <p class="agency">Call a family member you've been meaning to reach.</p>
+    <p class="streak">47 days running &mdash; see you tomorrow.</p>
+    <nav class="nav" aria-hidden="true">
+      <span class="on">Today</span><span>Chart</span><span>Cycles</span><span>People</span><span>Dates</span>
+    </nav>
+  </section>
+
+
+  <!-- ============ TAB 5: OVERDONE (WHY NOT) ============ -->
+  <section class="v day tab-overdone" id="t5">
+    <div class="pad">
+      <div class="datebar">
+        <span class="d">Wed &middot; 29 July</span>
+        <span class="orbit-badge"><svg width="22" height="22" viewBox="0 0 24 24" role="img" aria-label="Daymaster"><use href="#orbit-mark"/></svg></span>
+      </div>
+
+      <div class="week" aria-label="This week's days">
+        <span class="cell"><span class="lbl">TU</span><span class="ic" style="--cell-hue:var(--el-water)"><svg viewBox="0 0 24 24" style="opacity:.76"><use href="#an-rabbit"/></svg></span></span>
+        <span class="cell today"><span class="lbl">WE</span><span class="ic" style="--cell-hue:var(--el-wood)"><svg viewBox="0 0 24 24"><use href="#an-dragon"/></svg></span></span>
+        <span class="cell"><span class="lbl">TH</span><span class="ic" style="--cell-hue:var(--el-wood)"><svg viewBox="0 0 24 24" style="opacity:.56"><use href="#an-snake"/></svg></span></span>
+        <span class="cell"><span class="lbl">FR</span><span class="ic" style="--cell-hue:var(--el-fire)"><svg viewBox="0 0 24 24" style="opacity:.38"><use href="#an-horse"/></svg></span></span>
+        <span class="cell"><span class="lbl">SA</span><span class="ic" style="--cell-hue:var(--el-fire)"><svg viewBox="0 0 24 24" style="opacity:.83"><use href="#an-goat"/></svg></span></span>
+        <span class="cell"><span class="lbl">SU</span><span class="ic" style="--cell-hue:var(--el-earth)"><svg viewBox="0 0 24 24" style="opacity:.83"><use href="#an-monkey"/></svg></span></span>
+        <span class="cell"><span class="lbl">MO</span><span class="ic" style="--cell-hue:var(--el-earth)"><svg viewBox="0 0 24 24"><use href="#an-rooster"/></svg></span></span>
+      </div>
+
+      <div class="hero">
+        <svg class="wm" viewBox="0 0 24 24" aria-hidden="true"><use href="#an-dragon" fill="currentColor"/></svg>
+        <h1>The day runs crosswise. Movement, not misfortune.</h1>
+      </div>
+      <div class="pillarline">
+        <svg class="ai aw w" viewBox="0 0 24 24" fill="currentColor" role="img" aria-label="Wood, yang"><use href="#el-wood"/></svg>
+        <strong>Wood over Earth</strong>
+        <span class="gl">the dragon &middot; ji&#462; ch&eacute;n</span>
+        <svg class="ai aw e" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" role="img" aria-label="Earth, yin"><use href="#el-earth"/></svg>
+      </div>
+      <p class="grain">Today's Wood presses on your Earth &mdash; a day that runs a little against your grain, worth pacing rather than forcing.</p>
+      <p class="officer"><b>A Receive day</b> &mdash; a gathering-in day, taking in what's owed and offered.</p>
+
+      <h2 class="kick">The day's grain</h2>
+      <div class="board">
+        <div class="fav">
+          <h3>Favors</h3>
+          <ul>
+            <li>Make the overdue decision &mdash; clash days are for moving stuck furniture.</li>
+            <li>Hand one task to the people who row with you.</li>
+          </ul>
+          <p class="chips">Deals &amp; paperwork &middot; Learning &middot; The big ask</p>
+        </div>
+        <div class="wat">
+          <h3>Watch</h3>
+          <ul>
+            <li>Don't swing the big decision at full speed &mdash; aim first, then cut once.</li>
+            <li>Hold new launches for a smoother day; tend what's planted.</li>
+          </ul>
+          <p class="chips">Moving &middot; Travel</p>
+        </div>
+      </div>
+
+      <div class="flag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3.5 21 19.5H3Z" stroke-linejoin="round"/><path d="M12 9.5v5" stroke-linecap="round"/><circle cx="12" cy="17" r=".9" fill="currentColor" stroke="none"/></svg>
+        <div>
+          <b>What over-application looks like — not a real proposal</b>
+          <p>Every surface here is frosted glass, the favors/watch board has had its affordance border stripped, and the contrast failures below are left uncorrected on purpose. See the write-up.</p>
+        </div>
+      </div>
+
+      <h2 class="kick"><svg class="ai aw" viewBox="0 0 24 24" fill="currentColor"><use href="#an-dog"/></svg>Your roots</h2>
+      <p class="line">A trine this year: the year's sign, the horse, joins the dog already in your chart's roots &mdash; three friends planning one surprise without a group chat. Support gathers in that room.</p>
+      <p class="cite">Horse&ndash;dog trine &middot; this year</p>
+      <p class="line">A clash today: the day's sign, the dragon, pulls opposite the dog in your chart's roots &mdash; a door and a draft. Good weather for cutting a knot you've been avoiding.</p>
+      <p class="cite">Dragon&ndash;dog clash &middot; today</p>
+
+      <h2 class="kick"><svg class="ai aw" viewBox="0 0 24 24" fill="currentColor"><use href="#an-dragon"/></svg>The day itself</h2>
+      <p class="line">A Wood day, which runs a little against your grain. Beginnings may feel effortful &mdash; pace them rather than force them.</p>
+      <p class="cite">Wood day</p>
+      <p class="line">The old calendars call today a Seven Killings day &mdash; in everyday terms, pressure that trains you, the coach who makes you run the hill again. Met squarely, it forges rather than breaks.</p>
+      <p class="cite">Seven Killings &middot; today</p>
+      <p class="line">The day sits at your Coming of Age stage &mdash; putting on the graduation robe, ready to be taken seriously. Show the work; the day is willing to take you seriously.</p>
+      <p class="cite">Coming of Age &middot; today</p>
+
+      <h2 class="kick"><svg class="ai aw" viewBox="0 0 24 24" fill="currentColor"><use href="#an-horse"/></svg>The year's weather</h2>
+      <p class="line">This year lights your Calamity Star &mdash; a pothole sign on the road. Not a verdict &mdash; just a stretch worth taking slower and double-checking.</p>
+      <p class="cite">Calamity Star &middot; this year</p>
+    </div>
+    <p class="agency">Call a family member you've been meaning to reach.</p>
+    <p class="streak">47 days running &mdash; see you tomorrow.</p>
+    <nav class="nav" aria-hidden="true">
+      <span class="on">Today</span><span>Chart</span><span>Cycles</span><span>People</span><span>Dates</span>
+    </nav>
+  </section>
+
+
+  <div class="note">
+    <b>Effects exploration &mdash; one layout, five surface treatments.</b> This file isolates a single variable: material/surface effects. All five tabs share one layout skeleton (Daybreak's, from <i>today-three-treatments.html</i>) and the exact Fixture A copy (headline, pillar, favors/watch, roots/day/year reading, agency line, 47-day streak) &mdash; nothing here re-litigates layout. Findings are from <i>docs/research-2026-07-30-effects-glass-neumorphism.md</i> and <i>docs/research-2026-07-30-effects-gradient-other.md</i>; read those first for the full argument.<br><br>
+    <b>Baseline</b> is the control: Daybreak's layout exactly as it exists in the source file, zero new effects, plus two additions needed so the other four tabs have something to act on &mdash; a bottom nav (Daybreak alone among the six treatments had none, and tab 2 needed real chrome to demo restrained glass on) and an "orbit badge" wrapping the existing datebar logo in a circle (so "the hero orbit-ring badge" the research docs discuss has a concrete target). Both additions use the app's own already-verified tokens (var(--ink)/var(--bg) for the nav's anchor contrast, which already flips paper/ink correctly between themes per the 2026-07-30 rule) rather than introducing new ones.<br><br>
+    <b>Glass accents</b> applies backdrop-filter glass to exactly two places, per the research doc's restrained verdict: the bottom nav and the week-strip's icon chips. Both sit over a background the page itself controls (not a photo, not another glass layer), and no body text touches the glass &mdash; nav labels sit on a solid color-mix(var(--ink)) base strong enough that its worst-case blend against the app's own background range still clears AA (verified below), and week-cell icons are graphical, not text. A `prefers-reduced-transparency`/`prefers-contrast` fallback swaps both to solid `var(--card)`. Hero and reading prose are untouched, per the doc's explicit "never on reading sections" rule.<br><br>
+    <b>Gradient extended</b> propagates the app's existing data-driven hero gradient (`.hero-card` in apps/web's globals.css &mdash; radial pools keyed to the day's element, already shipped) to the week strip: each cell's icon chip gets its own two-point mesh wash keyed to that day's branch element (reusing the same water/wood/wood/fire/fire/earth/earth assignment the Compass treatment already established in the source file for this fixture week, so today's Wood reading and today's cell agree). The orbit badge also gets the one-time settle-in morph the gradient research doc recommends, playing whenever this tab is shown (gated behind `prefers-reduced-motion`).<br><br>
+    <b>Neumorphic accent</b> touches only the orbit badge, using the "2.0" hybrid the neumorphism research calls the only defensible use: a soft dual-shadow riding on top of a real `var(--hair)` outline, so the affordance is still carried by an actual border rather than by the shadow alone. It never reaches the favors/watch board or the nav &mdash; those keep their normal solid surfaces, exactly per the doc's warning that ambiguous affordance is worst on dense, multi-control screens like this one.<br><br>
+    <b>Overdone (why not)</b> is the counter-example the brief asked for, flagged in-UI (not just here): frosted glass stacked on every surface including the hero itself (directly under the headline, with no scrim, opacity deliberately left low), the favors/watch board given neumorphic dual shadows with its outline removed so tappable columns become indistinguishable from decoration, and the nav/week glass pushed to a heavier blur with a weaker base tint. None of this is corrected. It exists to make the failure modes legible on-device rather than only on paper.<br><br>
+    <b>Contrast verified (computed, not eyeballed), both themes:</b> ink/bg 14.9:1 (L) &middot; 15.0:1 (D); mut/bg 4.65:1 (L) &middot; 5.88:1 (D); wood-text/bg 4.66:1 (L) &middot; 7.65:1 (D); earth-text/bg 4.65:1 (L) &middot; 8.03:1 (D) &mdash; all inherited unchanged from the source file's own round-5c audit. New pairs introduced here: nav label (var(--bg)) against the glass tab's 78%-opacity color-mix(var(--ink)) base, tested against the brightest realistic backdrop (the page's own light --bg, and the hero's wood wash) &mdash; 7.4&ndash;7.9:1 light, 9.4:1 dark; week-cell icon (var(--ink)) against the glass tab's 14%-opacity chip fill &mdash; 11.3:1 light, 10.4:1 dark. These bound the worst case for the solid parts of the glass recipe; the blurred region itself is, by the research doc's own finding, not something a static check can fully guarantee frame-to-frame &mdash; which is exactly why no body text sits directly on it anywhere except the deliberately-uncorrected Overdone tab.<br><br>
+    <b>Fonts:</b> inlines the same Figtree variable woff2 the source file uses, so this stays self-contained with no external requests.<br><br>
+    <b>Recommendation:</b> carry <b>Gradient extended</b> into a real mockup round &mdash; it is pure extension of a mechanism already shipped and reviewed, costs nothing in contrast risk, and the research doc rates it the highest-value item in the whole space. <b>Neumorphic accent</b> is a reasonable one-line addition to whichever hero treatment wins, but it's a detail, not a decision worth its own round. <b>Glass accents</b> is defensible but not a strong recommendation on its own merits &mdash; it doesn't fail, but the two places it's allowed to touch here are minor enough that shipping it is a coin flip the owner should make deliberately, not a default.
+  </div>
+</div>
+
+<script>
+  const tabs = document.querySelectorAll(".switcher button");
+  const views = { 1: document.getElementById("t1"), 2: document.getElementById("t2"), 3: document.getElementById("t3"), 4: document.getElementById("t4"), 5: document.getElementById("t5") };
+  function show(n) {
+    if (!views[n]) return;
+    tabs.forEach((t) => t.setAttribute("aria-pressed", String(t.dataset.v === String(n))));
+    Object.entries(views).forEach(([k, el]) => el.classList.toggle("on", k === String(n)));
+    history.replaceState(null, "", `#${n}`);
+    window.scrollTo({ top: 0 });
+  }
+  tabs.forEach((t) => t.addEventListener("click", () => show(t.dataset.v)));
+  addEventListener("keydown", (e) => {
+    const order = [1, 2, 3, 4, 5];
+    const cur = Number(location.hash.slice(1) || 1);
+    const i = order.indexOf(cur);
+    if (e.key === "ArrowRight") show(order[Math.min(order.length - 1, i + 1)]);
+    if (e.key === "ArrowLeft") show(order[Math.max(0, i - 1)]);
+  });
+  const initial = Number(location.hash.slice(1));
+  if (initial >= 1 && initial <= 5) show(initial);
+
+  // appearance: every tab defines both themes; System follows prefers-color-scheme
+  const themeButtons = document.querySelectorAll(".themebar button");
+  function applyTheme(choice) {
+    if (choice === "system") delete document.documentElement.dataset.theme;
+    else document.documentElement.dataset.theme = choice;
+    themeButtons.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.themeChoice === choice)));
+    try { localStorage.setItem("mockup.theme", choice); } catch { /* private mode: session-only */ }
+  }
+  themeButtons.forEach((b) => b.addEventListener("click", () => applyTheme(b.dataset.themeChoice)));
+  let storedTheme = "system";
+  try { storedTheme = localStorage.getItem("mockup.theme") || "system"; } catch { /* ignore */ }
+  applyTheme(storedTheme);
+</script>
