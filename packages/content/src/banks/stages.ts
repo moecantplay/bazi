@@ -6,7 +6,8 @@
  */
 
 import type { LifeStage } from "@daymaster/bazi-engine";
-import type { ReadingLine } from "../types.js";
+import type { DraftLine } from "../types.js";
+import type { TokenLine } from "../tokens.js";
 import { LIFE_STAGE_GLOSSES } from "../vocab.js";
 
 /** The working mood of each stage, keyed by the engine's english label. */
@@ -34,12 +35,26 @@ export const STAGE_TEMPLATES: readonly string[] = [
 ];
 
 /** "The day sits at your 'Peak' stage (帝旺) — noon sun… Spend the height…". */
-export function stageDayLine(stage: LifeStage): ReadingLine {
+export function stageDayLine(stage: LifeStage): DraftLine {
   const known = LIFE_STAGE_GLOSSES[stage.english] !== undefined;
   const gloss = LIFE_STAGE_GLOSSES[stage.english] ?? "one season of a twelve-season cycle";
   const mood = STAGE_DAY_MOODS[stage.english] ?? GENERIC_MOOD;
   const text = `The day sits at your '${stage.english}' stage (${stage.chinese}) — ${gloss}. ${mood}`;
-  const line: ReadingLine = { text, factTag: `${stage.chinese} ${stage.english} · today` };
+  const runs: TokenLine = [
+    { kind: "text", text: "The day sits at your '" },
+    { kind: "term", term: stage.english, gloss, han: stage.chinese },
+    { kind: "text", text: `' stage — ${gloss}. ${mood}` },
+  ];
+  const factTagRuns: TokenLine = [
+    { kind: "term", term: stage.english, gloss, han: stage.chinese },
+    { kind: "text", text: " · today" },
+  ];
+  const line: DraftLine = {
+    text,
+    factTag: `${stage.chinese} ${stage.english} · today`,
+    factTagRuns,
+    runs,
+  };
   if (known) {
     line.topic = `stage:${stage.english}`;
   }

@@ -7,27 +7,28 @@ import { describe, expect, it } from "vitest";
 import type { CompareFact } from "@daymaster/bazi-engine";
 import { compareReading } from "../src/index.js";
 import { compareFactSet } from "./collect.js";
+import { lineFactTag, lineText } from "./token-utils.js";
 
 const SEED = "compare-seed";
 
 describe("compareReading", () => {
   it("leads with three day-master lines: relation, then both ten-god directions", () => {
     const reading = compareReading(compareFactSet(), SEED);
-    expect(reading.lines[0]?.factTag).toBe("戊 × 甲 · day-masters");
-    expect(reading.lines[1]?.text).toContain("they read as Seven Killings");
-    expect(reading.lines[1]?.text).toContain("pressure that trains you");
-    expect(reading.lines[2]?.text).toContain("you read as Indirect Wealth");
+    expect(lineFactTag(reading.lines[0]!)).toBe("yang-earth × yang-wood · day-masters");
+    expect(lineText(reading.lines[1]!)).toContain("they read as Seven Killings");
+    expect(lineText(reading.lines[1]!)).toContain("pressure that trains you");
+    expect(lineText(reading.lines[2]!)).toContain("you read as Indirect Wealth");
   });
 
   it("caps interaction lines and keeps support lines last", () => {
     const reading = compareReading(compareFactSet(), SEED);
-    const interactionLines = reading.lines.filter((line) => line.factTag?.includes("×"));
+    const interactionLines = reading.lines.filter((line) => lineFactTag(line)?.includes("×"));
     // day-masters tag also contains ×; interactions carry "your ... × their ..."
-    const crossLines = reading.lines.filter((line) => line.factTag?.includes("your "));
+    const crossLines = reading.lines.filter((line) => lineFactTag(line)?.includes("your "));
     expect(crossLines.length).toBe(3);
     expect(interactionLines.length).toBeGreaterThanOrEqual(3);
     const last = reading.lines[reading.lines.length - 1];
-    expect(last?.factTag).toContain("support");
+    expect(lineFactTag(last!)).toContain("support");
   });
 
   it("tags cross interactions with both people's palaces", () => {
@@ -41,8 +42,8 @@ describe("compareReading", () => {
       },
     ];
     const reading = compareReading(facts, SEED);
-    expect(reading.lines[0]?.factTag).toBe("子午 clash · your career palace × their horizon");
-    expect(reading.lines[0]?.text).not.toMatch(/\{a|\{b|\{element/);
+    expect(lineFactTag(reading.lines[0]!)).toBe("rat–horse clash · your career palace × their horizon");
+    expect(lineText(reading.lines[0]!)).not.toMatch(/\{a|\{b|\{element/);
   });
 
   it("gives the mirror punishment its own phrasing", () => {
@@ -57,14 +58,14 @@ describe("compareReading", () => {
       },
     ];
     const reading = compareReading(facts, SEED);
-    expect(reading.lines[0]?.text).toMatch(/mirror|both carry/);
+    expect(lineText(reading.lines[0]!)).toMatch(/mirror|both carry/);
   });
 
   it("renders every template placeholder (no braces leak)", () => {
     for (const seed of ["s1", "s2", "s3"]) {
       for (const line of compareReading(compareFactSet(), seed).lines) {
-        expect(line.text).not.toMatch(/[{}]/);
-        expect(line.text.length).toBeGreaterThan(0);
+        expect(lineText(line)).not.toMatch(/[{}]/);
+        expect(lineText(line).length).toBeGreaterThan(0);
       }
     }
   });

@@ -1,0 +1,316 @@
+@import "./tokens.generated.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Design tokens (DESIGN.md v4, Trail). Cinnabar is reserved for the seal
+ * only; it is intentionally never applied to buttons, links, or accents
+ * anywhere else. --seal-paper is the seal's carved interior: paper-white in
+ * BOTH themes AND all five terrains, because the seal is stamped paper, not
+ * themed UI. The rest of the palette (--paper, --ink, --ink-soft, --surface,
+ * --paper-raised, --hairline, the --element-* hues, --anchor, --signal-amber,
+ * the --shadow-* set) is generated — see tokens.generated.css and
+ * scripts/generate-tokens.mjs.
+ */
+:root {
+  /* Tells the browser to render native controls (date/time picker
+     indicators, selects, scrollbars) in the matching scheme — CSS variables
+     alone cannot recolor them. Terrain never affects this, only theme. */
+  color-scheme: light;
+  --seal-paper: #f5f6f4;
+  /* The seal's one fixed hue, unchanged since 2026-07-07 and independent of
+     theme/terrain (like --seal-paper) — this custom property was referenced
+     by tailwind.config.ts's `cinnabar` color and seal.tsx/glossary-sheet.tsx
+     but never actually defined by the Trail token generator (tokens.mjs only
+     emits ground/data hues), so the seal silently rendered as unstyled black.
+     Found during Phase 8 verification; fixed here since apps/web-next is this
+     phase's scope — apps/web carries the same gap, flagged separately. */
+  --cinnabar: #bf3a2b;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+  }
+}
+
+html {
+  background-color: var(--paper);
+}
+
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Visible keyboard focus everywhere (DESIGN.md floor). */
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* Headings focused programmatically (step changes, for screen readers) are
+   not interactive — no ring. Interactive elements keep the floor above. */
+[tabindex="-1"]:focus-visible {
+  outline: none;
+}
+
+/*
+ * Type-ladder and surface primitives (DESIGN.md §Type ladder, §Surfaces).
+ * Components compose these instead of restating the raw utilities so the
+ * ladder stays a ladder — every text node is one of the four registers.
+ */
+@layer components {
+  /* Section opener (DESIGN.md v4 §Type): Space Mono, uppercase, a 16×2px
+     rule before the text — the wayfinding kicker that makes the screen read
+     as a map. */
+  .kicker {
+    @apply flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[.17em] text-ink-soft;
+  }
+  .kicker::before {
+    content: "";
+    display: block;
+    width: 16px;
+    height: 2px;
+    flex: none;
+    background: var(--ink-soft);
+  }
+
+  /* Display register: Bricolage Grotesque 800, carried by font-display.
+     Explicit font-weight utilities on the same element still win. */
+  .font-display {
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  /* Caption register: fact tags, pinyin, meta rows, citations. Space Mono —
+     citations read as map annotations, not body text. */
+  .caption {
+    @apply font-mono text-[11px] font-bold uppercase leading-snug tracking-wide text-ink-soft;
+  }
+
+  /* Form field label (DESIGN.md v4 §Components: "Space Mono uppercase label
+     above"). Sits directly above a .field-input inside a gap-spaced label. */
+  .field-label {
+    @apply block font-mono text-[10px] font-bold uppercase tracking-[.15em] text-ink-soft;
+  }
+
+  /* Quiet tap targets (caption rows, arrow links): the visual row stays
+     small, the target grows to ≥44px via padding pulled back by margin
+     (WCAG 2.5.8). Pressed state stands in for hover on touch. */
+  .tap-target {
+    @apply relative;
+    padding-block: 14px;
+    margin-block: -14px;
+  }
+  .tap-target:active {
+    color: var(--ink);
+  }
+
+  /* A 30-34% ink tint as a border color — theme-proof, since --ink is a raw
+     hex custom property (no <alpha-value> plumbing for Tailwind's /34).
+     Shared by buttons, fields, and the segmented control. */
+  .border-ink-tint {
+    border: 1.5px solid color-mix(in srgb, var(--ink) 32%, transparent);
+  }
+
+  /* Form fields share one spec (DESIGN.md v4 §Components). appearance-none
+     matters on iOS Safari: with the native appearance, date/time fields size
+     to the built-in control (ignoring width/height) and center their value. */
+  .field-input {
+    @apply border-ink-tint w-full appearance-none rounded-field bg-surface px-4 py-3 text-base text-ink;
+    min-height: 52px;
+  }
+  .field-input:focus {
+    outline: 2px solid var(--ink);
+    outline-offset: 1px;
+  }
+  .field-input::-webkit-date-and-time-value {
+    text-align: left;
+    line-height: 1.5rem;
+    margin: 0;
+  }
+
+  /* iOS Safari renders an EMPTY date/time field as a fully blank box (every
+     other browser shows a dd/mm/yyyy-style template), so PickerField overlays
+     this hint. Only iOS gets it — -webkit-touch-callout exists only there —
+     because elsewhere the hint would double up with the template text. */
+  .picker-field-hint {
+    display: none;
+  }
+  @supports (-webkit-touch-callout: none) {
+    .picker-field-hint {
+      @apply absolute inset-y-0 left-4 flex items-center text-base text-ink-soft;
+      pointer-events: none;
+    }
+  }
+
+  /* Standalone content cards (DESIGN.md v4 §Shape): fill + a soft shadow,
+     borderless in both themes — dark elevates by a deeper shadow and the
+     fill, still no borders. */
+  .card {
+    @apply rounded-card bg-surface shadow-card;
+  }
+
+  /* Segment stacks (settings rows, saved people, activity picker): flat,
+     borderless, 2px gaps — Trail is quieter here than on Today (round 5's
+     own audit: the rail motif doesn't belong on a settings list). */
+  .stack {
+    @apply flex flex-col gap-0.5;
+  }
+  .stack > * {
+    @apply rounded-lg bg-surface;
+  }
+  .stack > *:first-child {
+    @apply rounded-t-card;
+  }
+  .stack > *:last-child {
+    @apply rounded-b-card;
+  }
+
+  /* A 10% ink tint over whatever sits beneath — theme-proof fill for chips
+     and empty meter cells. */
+  .bg-ink-tint {
+    background-color: color-mix(in srgb, var(--ink) 10%, transparent);
+  }
+
+  /* A 12% ink-soft tint — used wherever an ink-soft LABEL sits on top of the
+     tint (segmented-control track). Deliberately ink-soft, not ink: an ink
+     tint strong enough to read as a track darkens the ground enough to pull
+     an ink-soft label below 4.5:1 (measured 3.06:1 in the design-system
+     prototype at 18%). Lighter track, inkier label — see DESIGN.md v4
+     §Components "Segmented control". */
+  .bg-mut-tint {
+    background-color: color-mix(in srgb, var(--ink-soft) 12%, transparent);
+  }
+
+  /* Label chips: the ink tint as a pill, no border. */
+  .chip {
+    @apply bg-ink-tint inline-flex items-baseline gap-1.5 rounded-full px-3 py-1;
+  }
+
+  /* Disabled primary buttons recede via a card/paper fill mix, muted text —
+     "unpressable, not broken" (DESIGN.md v4 §Components). Deliberately not an
+     ink tint: an ink-tinted fill pulls the ink-soft label's contrast down
+     with it the same way the segmented-control track does above. Here rather
+     than a Tailwind variant because color-mix has no /alpha utility to hang
+     disabled: on. */
+  .btn-primary-disabled:disabled {
+    background-color: color-mix(in srgb, var(--surface) 55%, var(--paper));
+    color: var(--ink-soft);
+    border-color: color-mix(in srgb, var(--hairline) 60%, transparent);
+  }
+}
+
+/*
+ * Chart-reveal motion. The seal stamps in, then pillar columns fade up in a
+ * 60ms stagger. Everything is gated behind prefers-reduced-motion so that
+ * reduced-motion users get an instant, static render.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .seal-stamp {
+    animation: seal-stamp 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .pillar-rise {
+    animation: pillar-rise 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .fade-in {
+    animation: fade-in 120ms ease-out both;
+  }
+
+  /* Sheets slide up, and selections settle with a gentle overshoot.
+     Transform/opacity only. */
+  .sheet-in {
+    animation: sheet-in 240ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+
+  .spring-in {
+    animation: spring-in 200ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+
+  /* Pillar columns fade up in a 60ms stagger once the seal has stamped in. */
+  .reveal-columns > * {
+    animation: pillar-rise 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .reveal-columns > *:nth-child(1) {
+    animation-delay: 300ms;
+  }
+  .reveal-columns > *:nth-child(2) {
+    animation-delay: 360ms;
+  }
+  .reveal-columns > *:nth-child(3) {
+    animation-delay: 420ms;
+  }
+  .reveal-columns > *:nth-child(4) {
+    animation-delay: 480ms;
+  }
+}
+
+@keyframes seal-stamp {
+  0% {
+    opacity: 0;
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 0 rgba(24, 28, 34, 0));
+  }
+  70% {
+    filter: drop-shadow(0 4px 8px rgba(24, 28, 34, 0.18));
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: drop-shadow(0 0 0 rgba(24, 28, 34, 0));
+  }
+}
+
+@keyframes pillar-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes sheet-in {
+  0% {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spring-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

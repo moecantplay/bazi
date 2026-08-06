@@ -9,6 +9,7 @@ import { describe, expect, it } from "vitest";
 import type { ReadingFact } from "@daymaster/bazi-engine";
 import { dailyReading } from "../src/index.js";
 import { dailyFactSet } from "./collect.js";
+import { lineText } from "./token-utils.js";
 
 describe("daily line areas", () => {
   it("files transit lines under the first natal palace they touch", () => {
@@ -34,7 +35,7 @@ describe("daily line areas", () => {
     const facts = dailyFactSet("six-combine", "year", "daily");
     const reading = dailyReading(facts, "area-seed");
     for (const line of reading.lines) {
-      expect(line.area, `line has an area: "${line.text}"`).toBeDefined();
+      expect(line.area, `line has an area: "${lineText(line)}"`).toBeDefined();
     }
   });
 });

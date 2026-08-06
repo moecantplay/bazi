@@ -8,6 +8,7 @@
  */
 
 import type { InteractionType } from "@daymaster/bazi-engine";
+import type { TokenLine } from "./tokens.js";
 
 /** One deep dive: the essay paragraphs, then "Working with it" advice. */
 export interface ReadMoreEntry {
@@ -15,6 +16,15 @@ export interface ReadMoreEntry {
   body: readonly string[];
   /** Soft directives for small unregulated acts only (VOICE.md rule 12). */
   advice: readonly string[];
+  /**
+   * Structured equivalents of `title`/`body`/`advice`, additive and optional
+   * like `ReadingLine.runs`. No dive currently embeds a real system term
+   * (confirmed Han-clean), so every entry gets the mechanical single-text-run
+   * fallback — carried for structural uniformity with the other entry types.
+   */
+  titleRuns?: TokenLine;
+  bodyRuns?: readonly TokenLine[];
+  adviceRuns?: readonly TokenLine[];
 }
 
 const INTERACTION_DIVES: Record<InteractionType, ReadMoreEntry> = {
@@ -75,9 +85,21 @@ const INTERACTION_DIVES: Record<InteractionType, ReadMoreEntry> = {
   },
 };
 
-/** Every deep dive, keyed by the same topics reading lines carry. */
+function textRuns(text: string): TokenLine {
+  return [{ kind: "text", text }];
+}
+
+/** Every deep dive, keyed by the same topics reading lines carry, runs-complete. */
 export const READ_MORE: Record<string, ReadMoreEntry> = Object.fromEntries(
-  Object.entries(INTERACTION_DIVES).map(([key, entry]) => [`interaction:${key}`, entry]),
+  Object.entries(INTERACTION_DIVES).map(([key, entry]) => [
+    `interaction:${key}`,
+    {
+      ...entry,
+      titleRuns: textRuns(entry.title),
+      bodyRuns: entry.body.map(textRuns),
+      adviceRuns: entry.advice.map(textRuns),
+    },
+  ]),
 );
 
 /** The deep dive behind a topic, or undefined when none exists. */

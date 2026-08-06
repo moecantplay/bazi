@@ -7,12 +7,26 @@
  */
 
 import type { Palace } from "@daymaster/bazi-engine";
+import { textRun, type TokenLine } from "./tokens.js";
 
-/** One rendered line plus its citation. */
+/**
+ * One rendered line plus its citation, as a run sequence: a system term and
+ * its gloss are typed data (`{kind:"term", term, gloss, han?}`), never a
+ * substring embedded in prose for a UI presenter to regex-strip. A line with
+ * no embedded terms (most dos/donts suggestions, generic fallbacks) is a
+ * single `{kind:"text"}` run — that's not a migration shim, it's the correct
+ * shape for prose that has nothing to gloss.
+ *
+ * M19: this used to carry parallel `text: string`/`factTag: string | null`
+ * fields (the pre-token-run representation, kept alongside `runs` while the
+ * still-deployed old apps/web read them via `stripHanCharacters`). Retired
+ * once that app was retired at cutover — `runs`/`factTagRuns` are now the
+ * only representation.
+ */
 export interface ReadingLine {
-  text: string;
-  /** Short human-readable citation, e.g. "子午 clash · career palace". */
-  factTag: string | null;
+  runs: TokenLine;
+  /** Structured citation, e.g. term runs for "子午" + " clash · career palace". Null for pure-voice lines that cite nothing. */
+  factTagRuns: TokenLine | null;
   /**
    * Glossary key for the concept the citation names (e.g. "interaction:trine",
    * "ten-god:Friend"), when one exists — the UI turns the caption into a link
@@ -26,6 +40,40 @@ export interface ReadingLine {
    * area-grouped reading.
    */
   area?: Palace | "overall";
+}
+
+/**
+ * A line mid-authoring, before it's finalized into a public `ReadingLine`.
+ * Bank/assembler functions build this shape internally — `text`/`factTag` are
+ * always plain-English authoring fields; `runs`/`factTagRuns` are populated
+ * directly by banks that have real terms to structure (most banks do, for
+ * their fact tag at least), and left absent otherwise. `finalizeLine` is the
+ * one place a `DraftLine` becomes the public shape, wrapping bare text as a
+ * single text run wherever a bank didn't author real runs.
+ */
+export interface DraftLine {
+  /** Required only when `runs` isn't provided directly — see finalizeLine. */
+  text?: string;
+  factTag?: string | null;
+  runs?: TokenLine;
+  factTagRuns?: TokenLine;
+  topic?: string;
+  area?: Palace | "overall";
+}
+
+/** The one place a DraftLine becomes the public ReadingLine shape. */
+export function finalizeLine(draft: DraftLine): ReadingLine {
+  const line: ReadingLine = {
+    runs: draft.runs ?? textRun(draft.text ?? ""),
+    factTagRuns: draft.factTagRuns ?? (draft.factTag ? textRun(draft.factTag) : null),
+  };
+  if (draft.topic) {
+    line.topic = draft.topic;
+  }
+  if (draft.area) {
+    line.area = draft.area;
+  }
+  return line;
 }
 
 /** Stable machine identifiers for natal sections; display titles may change. */

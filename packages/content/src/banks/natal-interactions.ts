@@ -8,8 +8,10 @@
  */
 
 import type { Element, InteractionType, Palace } from "@daymaster/bazi-engine";
-import type { ReadingLine } from "../types.js";
-import { elementWord, interactionTag, palacePhrase } from "../vocab.js";
+import type { DraftLine } from "../types.js";
+import type { TokenLine } from "../tokens.js";
+import { fillRuns } from "../tokens.js";
+import { elementWord, interactionTagRuns, joinBranchRuns, palacePhrase } from "../vocab.js";
 import { pick } from "../hash.js";
 
 /** Everything the builder needs, already extracted from a natal-interaction fact. */
@@ -94,18 +96,19 @@ function templatesFor(input: NatalInteractionInput): readonly string[] {
 export function natalInteractionLine(
   input: NatalInteractionInput,
   seedKey: string,
-): ReadingLine {
+): DraftLine {
   const salt = `nat:${input.interaction}:${input.branches.join("")}:${input.palaces.join("")}`;
   const template = pick(templatesFor(input), seedKey, salt);
   const element = input.element ? elementWord(input.element) : "";
-  const text = template
-    .replaceAll("{branches}", input.branches.join(""))
-    .replaceAll("{palaces}", palacePhrase(input.palaces))
-    .replaceAll("{element}", element);
+  const runs: TokenLine = fillRuns(template, {
+    branches: joinBranchRuns(input.branches),
+    palaces: [{ kind: "text", text: palacePhrase(input.palaces) }],
+    element: [{ kind: "text", text: element }],
+  });
   const roomPalace = input.palaces[0] ?? "day";
   return {
-    text,
-    factTag: interactionTag(input.branches, input.interaction, roomPalace),
+    runs,
+    factTagRuns: interactionTagRuns(input.branches, input.interaction, roomPalace),
     topic: `interaction:${input.interaction}`,
   };
 }

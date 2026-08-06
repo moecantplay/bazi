@@ -17,11 +17,21 @@ import {
   type ActivityKey,
   type ActivityReason,
   type DateCandidate,
+  type DayOfficerDefinition,
   type DayQuality,
 } from "@daymaster/bazi-engine";
-import type { ReadingLine } from "./types.js";
+import type { DraftLine, ReadingLine } from "./types.js";
+import { finalizeLine } from "./types.js";
+import type { ContentRun, TokenLine } from "./tokens.js";
+import { fillRuns } from "./tokens.js";
 import { pick } from "./hash.js";
-import { ACTIVITY_LABELS, OFFICER_GLOSSES, elementWord, interactionTag, palaceWord } from "./vocab.js";
+import {
+  ACTIVITY_LABELS,
+  OFFICER_GLOSSES,
+  elementWord,
+  interactionTagRuns,
+  palaceWord,
+} from "./vocab.js";
 import {
   DATE_VERDICT_FRAMES,
   DATE_WHY_CLAUSES,
@@ -63,6 +73,35 @@ function fill(template: string, subs: Record<string, string>): string {
   return out;
 }
 
+/** The officer's name as a term run, glossed the same way its prose is. */
+function officerTermRun(officer: DayOfficerDefinition): Extract<ContentRun, { kind: "term" }> {
+  return {
+    kind: "term",
+    term: officer.english,
+    gloss: OFFICER_GLOSSES[officer.key] ?? "the day's own grain",
+    han: officer.chinese,
+  };
+}
+
+/** Structured equivalent of the `"${officer.chinese} ${officer.english} day"` factTag. */
+function officerTagRuns(officer: DayOfficerDefinition): TokenLine {
+  return [officerTermRun(officer), { kind: "text", text: " day" }];
+}
+
+/**
+ * Structured equivalent of an OFFICER_LINE_FRAMES template: the adjacent
+ * `{officerCn} {officerEn}` pair collapses into one term run (every frame
+ * carries them contiguous, space-joined), `{officerGloss}` becomes plain
+ * text — the same short gloss the term run itself carries as metadata.
+ */
+function officerFrameRuns(template: string, officer: DayOfficerDefinition): TokenLine {
+  const normalized = template.replace("{officerCn} {officerEn}", "{officerTerm}");
+  return fillRuns(normalized, {
+    officerTerm: [officerTermRun(officer)],
+    officerGloss: [{ kind: "text", text: OFFICER_GLOSSES[officer.key] ?? "the day's own grain" }],
+  });
+}
+
 /** Strongest first (|score|), ties broken by the engine's activity order. */
 function byStrength(a: ActivityAssessment, b: ActivityAssessment): number {
   const delta = Math.abs(b.score) - Math.abs(a.score);
@@ -100,14 +139,15 @@ function reasonOf<S extends ActivityReason["source"]>(
   return reasons.find((reason): reason is Extract<ActivityReason, { source: S }> => reason.source === source);
 }
 
-/** The translated reason a line leans on, resolved to copy and a factTag. */
+/** The translated reason a line leans on, resolved to copy and a fact tag. */
 interface ResolvedReason {
   kind: "combine" | "element" | "officerFavor" | "clash" | "officerAvoid";
   /** Palace word for the {palace} slot (empty when the line names none). */
   palace: string;
   /** Element word for the {element} slot (empty when the line names none). */
   element: string;
-  factTag: string;
+  /** Structured fact-tag citation. */
+  factTagRuns: TokenLine;
   /** Glossary key for the concept behind the tag. */
   topic: string;
 }
@@ -119,16 +159,16 @@ function resolveReason(
   leaning: "favors" | "friction",
 ): ResolvedReason | null {
   const reasons = assessment.reasons;
-  const officerTag = `${officer.chinese} ${officer.english} day`;
 
   if (leaning === "favors") {
     const combine = reasonOf(reasons, "day-combine");
     if (combine) {
+      const branches = [combine.transitBranch, combine.natalBranch];
       return {
         kind: "combine",
         palace: palaceWord("day"),
         element: "",
-        factTag: interactionTag([combine.transitBranch, combine.natalBranch], "six-combine", "day"),
+        factTagRuns: interactionTagRuns(branches, "six-combine", "day"),
         topic: "interaction:six-combine",
       };
     }
@@ -138,7 +178,7 @@ function resolveReason(
         kind: "element",
         palace: "",
         element: elementWord(element.element),
-        factTag: `${elementWord(element.element)} day · suits you`,
+        factTagRuns: [{ kind: "text", text: `${elementWord(element.element)} day · suits you` }],
         topic: "elements",
       };
     }
@@ -148,7 +188,7 @@ function resolveReason(
         kind: "officerFavor",
         palace: "",
         element: "",
-        factTag: officerTag,
+        factTagRuns: officerTagRuns(officer),
         topic: `officer:${officer.key}`,
       };
     }
@@ -157,25 +197,23 @@ function resolveReason(
 
   const breaker = reasonOf(reasons, "day-breaker");
   if (breaker) {
+    const branches = [breaker.transitBranch, breaker.natalBranch];
     return {
       kind: "clash",
       palace: palaceWord("day"),
       element: "",
-      factTag: interactionTag([breaker.transitBranch, breaker.natalBranch], "six-clash", "day"),
+      factTagRuns: interactionTagRuns(branches, "six-clash", "day"),
       topic: "interaction:six-clash",
     };
   }
   const palaceClash = reasonOf(reasons, "palace-clash");
   if (palaceClash) {
+    const branches = [palaceClash.transitBranch, palaceClash.natalBranch];
     return {
       kind: "clash",
       palace: palaceWord(palaceClash.palace),
       element: "",
-      factTag: interactionTag(
-        [palaceClash.transitBranch, palaceClash.natalBranch],
-        "six-clash",
-        palaceClash.palace,
-      ),
+      factTagRuns: interactionTagRuns(branches, "six-clash", palaceClash.palace),
       topic: "interaction:six-clash",
     };
   }
@@ -185,7 +223,7 @@ function resolveReason(
       kind: "officerAvoid",
       palace: "",
       element: "",
-      factTag: officerTag,
+      factTagRuns: officerTagRuns(officer),
       topic: `officer:${officer.key}`,
     };
   }
@@ -200,7 +238,7 @@ const FRAME_BY_KIND: Record<ResolvedReason["kind"], readonly string[]> = {
   officerAvoid: FRICTION_FRAMES.officer,
 };
 
-function officerLine(officer: DayQuality["officer"], seedKey: string): ReadingLine {
+function officerLine(officer: DayQuality["officer"], seedKey: string): DraftLine {
   const template = pick(OFFICER_LINE_FRAMES, seedKey, `guid:officer:${officer.key}`);
   const text = fill(template, {
     officerCn: officer.chinese,
@@ -209,16 +247,17 @@ function officerLine(officer: DayQuality["officer"], seedKey: string): ReadingLi
   });
   return {
     text,
-    factTag: `${officer.chinese} ${officer.english} day`,
+    factTagRuns: officerTagRuns(officer),
     topic: `officer:${officer.key}`,
+    runs: officerFrameRuns(template, officer),
   };
 }
 
-function evenDayLine(officer: DayQuality["officer"], seedKey: string): ReadingLine {
+function evenDayLine(officer: DayQuality["officer"], seedKey: string): DraftLine {
   const text = pick(EVEN_DAY_FRAMES, seedKey, `guid:even:${officer.key}`);
   return {
     text,
-    factTag: `${officer.chinese} ${officer.english} day`,
+    factTagRuns: officerTagRuns(officer),
     topic: `officer:${officer.key}`,
   };
 }
@@ -229,19 +268,25 @@ function explainLine(
   assessment: ActivityAssessment,
   leaning: "favors" | "friction",
   seedKey: string,
-): ReadingLine | null {
+): DraftLine | null {
   const resolved = resolveReason(officer, assessment, leaning);
   if (resolved === null) {
     return null;
   }
   const frames = FRAME_BY_KIND[resolved.kind];
   const template = pick(frames, seedKey, `guid:expl:${assessment.activity}:${resolved.kind}`);
-  const text = fill(template, {
+  const subs = {
     actLower: ACTIVITY_LABELS[assessment.activity].label.toLowerCase(),
     palace: resolved.palace,
     element: resolved.element,
+  };
+  const text = fill(template, subs);
+  const runs = fillRuns(template, {
+    actLower: [{ kind: "text", text: subs.actLower }],
+    palace: [{ kind: "text", text: subs.palace }],
+    element: [{ kind: "text", text: subs.element }],
   });
-  return { text, factTag: resolved.factTag, topic: resolved.topic };
+  return { text, factTagRuns: resolved.factTagRuns, topic: resolved.topic, runs };
 }
 
 /** Build the day's chips and the prose that explains them. */
@@ -249,7 +294,7 @@ export function dayGuidance(quality: DayQuality, seedKey: string): DayGuidance {
   const chips = buildChips(quality.assessments);
   const officer = quality.officer;
   const byActivity = new Map(quality.assessments.map((a) => [a.activity, a]));
-  const lines: ReadingLine[] = [officerLine(officer, seedKey)];
+  const lines: DraftLine[] = [officerLine(officer, seedKey)];
 
   const topFavors = chips.find((chip) => chip.leaning === "favors");
   if (topFavors) {
@@ -268,7 +313,7 @@ export function dayGuidance(quality: DayQuality, seedKey: string): DayGuidance {
   if (lines.length === 1) {
     lines.push(evenDayLine(officer, seedKey));
   }
-  return { chips, lines };
+  return { chips, lines: lines.map(finalizeLine) };
 }
 
 /**
@@ -286,15 +331,17 @@ export function activityAreaLine(
   if (assessment && assessment.leaning !== "neutral") {
     const line = explainLine(officer, assessment, assessment.leaning, seedKey);
     if (line) {
-      return line;
+      return finalizeLine(line);
     }
   }
   const template = pick(NEUTRAL_AREA_FRAMES, seedKey, `guid:area:${activity}`);
-  return {
-    text: fill(template, { actLower: ACTIVITY_LABELS[activity].label.toLowerCase() }),
-    factTag: `${officer.chinese} ${officer.english} day`,
+  const actLower = ACTIVITY_LABELS[activity].label.toLowerCase();
+  return finalizeLine({
+    text: fill(template, { actLower }),
+    factTagRuns: officerTagRuns(officer),
     topic: `officer:${officer.key}`,
-  };
+    runs: fillRuns(template, { actLower: [{ kind: "text", text: actLower }] }),
+  });
 }
 
 /** The assessment driving a candidate's combined score for a leaning. */
@@ -344,9 +391,15 @@ export function dateVerdictLine(candidate: DateCandidate, seedKey: string): Read
     `date:verdict:${activity}:${leaning}:${candidate.date}`,
   );
   const verdict = fill(verdictTemplate, { actLower, why });
-  return {
+  const introRuns = officerFrameRuns(introTemplate, officer);
+  const verdictRuns = fillRuns(verdictTemplate, {
+    actLower: [{ kind: "text", text: actLower }],
+    why: [{ kind: "text", text: why }],
+  });
+  return finalizeLine({
     text: `${intro} ${verdict}`,
-    factTag: `${officer.chinese} ${officer.english} day`,
+    factTagRuns: officerTagRuns(officer),
     topic: `officer:${officer.key}`,
-  };
+    runs: [...introRuns, { kind: "text", text: " " }, ...verdictRuns],
+  });
 }

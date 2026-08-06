@@ -10,6 +10,7 @@ export const CONTENT_VERSION = "0.1.0";
 
 export {
   ACTIVITY_LABELS,
+  BRANCH_ANIMALS,
   DISCLAIMER,
   DAY_MASTER_GLOSS,
   INTERACTION_GLOSSES,
@@ -19,8 +20,14 @@ export {
   NAYIN_GLOSS,
   OFFICER_GLOSSES,
   STAR_GLOSSES,
+  STEM_GLOSSES,
   STRENGTH_CHECK_GLOSSES,
+  STRENGTH_CHECK_GLOSS_RUNS,
   TEN_GOD_GLOSSES,
+  branchTokenRuns,
+  interactionTagRuns,
+  joinBranchRuns,
+  stemTokenRuns,
 } from "./vocab.js";
 export type { ActivityLabel } from "./vocab.js";
 export type {
@@ -31,7 +38,8 @@ export type {
   DailyReading,
   CompareReading,
 } from "./types.js";
-export { BRANCH_ANIMALS, stripHanCharacters } from "./strip-han.js";
+export type { ContentRun, TokenLine } from "./tokens.js";
+export { fillRuns, plainGloss, textRun } from "./tokens.js";
 export { natalReading } from "./natal-reading.js";
 export { dailyReading } from "./daily-reading.js";
 export { luckTransitionLines } from "./luck-reading.js";

@@ -4,6 +4,7 @@
  */
 
 import type { ReadingLine } from "./types.js";
+import { finalizeLine } from "./types.js";
 import { pickDistinct, pickInt } from "./hash.js";
 import { LUCK_TEMPLATES } from "./banks/luck.js";
 
@@ -19,11 +20,13 @@ export function luckTransitionLines(
 ): ReadingLine[] {
   const count = pickInt(1, 2, seedKey, "luckn");
   const templates = pickDistinct(LUCK_TEMPLATES, count, seedKey, "luck");
-  return templates.map((template) => ({
-    text: template
-      .replaceAll("{from}", String(params.fromAge))
-      .replaceAll("{to}", String(params.toAge)),
-    factTag: null,
-    topic: "luck-pillar",
-  }));
+  return templates
+    .map((template) => ({
+      text: template
+        .replaceAll("{from}", String(params.fromAge))
+        .replaceAll("{to}", String(params.toAge)),
+      factTag: null,
+      topic: "luck-pillar",
+    }))
+    .map(finalizeLine);
 }

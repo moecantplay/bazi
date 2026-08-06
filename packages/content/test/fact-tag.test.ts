@@ -7,6 +7,7 @@ import { describe, expect, it } from "vitest";
 import type { Palace, ReadingFact } from "@daymaster/bazi-engine";
 import { dailyReading, luckTransitionLines, natalReading } from "../src/index.js";
 import { INTERACTIONS, NATAL_PALACES, dailyFactSet } from "./collect.js";
+import { lineFactTag, lineText } from "./token-utils.js";
 
 const PALACE_WORD: Record<string, string> = {
   year: "roots",
@@ -20,10 +21,10 @@ describe("factTag correctness", () => {
     for (const interaction of INTERACTIONS) {
       for (const palace of NATAL_PALACES) {
         const reading = dailyReading(dailyFactSet(interaction, palace, "daily"), "tag-seed");
-        const transitLine = reading.lines.find((line) => line.factTag?.includes("·"));
+        const transitLine = reading.lines.find((line) => lineFactTag(line)?.includes("·"));
         expect(transitLine, `${interaction}/${palace}`).toBeDefined();
-        const tag = transitLine!.factTag as string;
-        expect(tag, "contains branch pair").toContain("子午");
+        const tag = lineFactTag(transitLine!) as string;
+        expect(tag, "contains branch pair").toContain("rat–horse");
         expect(tag, "contains palace word").toContain(PALACE_WORD[palace as Palace] as string);
       }
     }
@@ -41,12 +42,12 @@ describe("factTag correctness", () => {
       },
     ];
     const reading = dailyReading(facts, "seed");
-    expect(reading.lines[0]?.factTag).toBe("子午 clash · career palace");
+    expect(lineFactTag(reading.lines[0]!)).toBe("rat–horse clash · career palace");
   });
 
   it("agency lines carry a null factTag", () => {
     const reading = dailyReading(dailyFactSet("six-clash", "month", "daily"), "seed");
-    expect(reading.agency.factTag).toBeNull();
+    expect(lineFactTag(reading.agency)).toBeNull();
   });
 
   it("luck lines carry a null factTag and substitute the ages", () => {
@@ -54,9 +55,9 @@ describe("factTag correctness", () => {
     expect(lines.length).toBeGreaterThanOrEqual(1);
     expect(lines.length).toBeLessThanOrEqual(2);
     for (const line of lines) {
-      expect(line.factTag).toBeNull();
-      expect(line.text).not.toMatch(/\{from\}|\{to\}/);
-      expect(line.text).toMatch(/33|43/);
+      expect(lineFactTag(line)).toBeNull();
+      expect(lineText(line)).not.toMatch(/\{from\}|\{to\}/);
+      expect(lineText(line)).toMatch(/33|43/);
     }
   });
 
@@ -73,7 +74,7 @@ describe("factTag correctness", () => {
       "seed",
     );
     const line = reading.sections.flatMap((section) => section.lines)[0];
-    expect(line?.factTag).toContain("子午");
-    expect(line?.factTag).toContain("clash");
+    expect(line && lineFactTag(line)).toContain("rat–horse");
+    expect(line && lineFactTag(line)).toContain("clash");
   });
 });

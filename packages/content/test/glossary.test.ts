@@ -14,7 +14,6 @@ import {
   horizonReading,
   luckTransitionLines,
   natalReading,
-  stripHanCharacters,
 } from "../src/index.js";
 import type { ReadingLine } from "../src/index.js";
 import {
@@ -25,6 +24,7 @@ import {
   dailyFactSet,
   natalWithInteractions,
 } from "./collect.js";
+import { assertGlossed, lineText } from "./token-utils.js";
 
 /** The same outright bans voice.test.ts applies to reading lines. */
 const BANNED_PATTERNS: readonly RegExp[] = [
@@ -94,12 +94,14 @@ describe("glossary entries", () => {
     }
   });
 
-  it("every entry survives the Han strip with text intact", () => {
+  it("every entry is runs-complete, with every term run glossed", () => {
     for (const [topic, entry] of Object.entries(GLOSSARY)) {
-      for (const text of [entry.title, ...entry.body]) {
-        const stripped = stripHanCharacters(text);
-        expect(stripped.length, `${topic}: "${text}"`).toBeGreaterThan(0);
-        expect(stripped, topic).not.toMatch(/[㐀-鿿]/);
+      expect(entry.titleRuns, topic).toBeDefined();
+      assertGlossed(entry.titleRuns!);
+      expect(entry.bodyRuns, topic).toBeDefined();
+      expect(entry.bodyRuns!.length, topic).toBe(entry.body.length);
+      for (const paragraphRuns of entry.bodyRuns!) {
+        assertGlossed(paragraphRuns);
       }
     }
   });
@@ -124,7 +126,7 @@ describe("glossary entries", () => {
         continue;
       }
       topicsSeen += 1;
-      expect(glossaryEntry(line.topic), `${line.topic} <- "${line.text}"`).toBeDefined();
+      expect(glossaryEntry(line.topic), `${line.topic} <- "${lineText(line)}"`).toBeDefined();
     }
     expect(topicsSeen).toBeGreaterThan(50);
   });
@@ -133,7 +135,7 @@ describe("glossary entries", () => {
     // Every body line on the Today screen cites a concept the glossary covers.
     const reading = dailyReading(dailyFactSet("trine", "month", "daily"), "seed");
     for (const line of reading.lines) {
-      expect(line.topic, line.text).toBeDefined();
+      expect(line.topic, lineText(line)).toBeDefined();
     }
     expect(reading.lines[0]!.topic).toBe("interaction:trine");
   });

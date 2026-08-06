@@ -31,6 +31,7 @@ import {
   natalFactSets,
   natalWithInteractions,
 } from "./collect.js";
+import { lineText } from "./token-utils.js";
 
 /** Words VOICE.md bans outright, plus regulated-domain directives. */
 const BANNED_PATTERNS: readonly RegExp[] = [
@@ -109,7 +110,7 @@ describe("voice compliance", () => {
 
   it("every line the public API emits obeys VOICE.md", () => {
     for (const line of allEmittedLines()) {
-      assertVoiceCompliant(line.text);
+      assertVoiceCompliant(lineText(line));
     }
   });
 
@@ -184,7 +185,7 @@ describe("voice compliance", () => {
     // Three-pillar facts: no palace is ever "hour".
     const facts = natalFactSets()[0]!;
     const reading = natalReading(facts, "seed-x");
-    const text = reading.sections.flatMap((section) => section.lines).map((line) => line.text).join(" ");
+    const text = reading.sections.flatMap((section) => section.lines).map((line) => lineText(line)).join(" ");
     expect(text).not.toMatch(/horizon/i);
     expect(text).not.toMatch(/hour palace/i);
     expect(text).not.toMatch(/four pillars/i);

@@ -8,19 +8,20 @@ import type { ReadingFact } from "@daymaster/bazi-engine";
 import { dailyReading } from "../src/index.js";
 import { AGENCY_POOLS, agencyTagForPalace } from "../src/banks/agency.js";
 import { dailyFactSet } from "./collect.js";
+import { lineFactTag, lineText } from "./token-utils.js";
 
 describe("agency", () => {
   it("is always present, even with no facts", () => {
     const reading = dailyReading([], "seed");
-    expect(reading.agency.text.length).toBeGreaterThan(0);
-    expect(reading.agency.factTag).toBeNull();
+    expect(lineText(reading.agency).length).toBeGreaterThan(0);
+    expect(lineFactTag(reading.agency)).toBeNull();
   });
 
   it("draws from the pool that echoes the transit's natal palace", () => {
     // A career-palace (month) transit should draw a career-shaped action.
     const facts = dailyFactSet("six-clash", "month", "daily");
     const reading = dailyReading(facts, "career-echo");
-    expect(AGENCY_POOLS.career).toContain(reading.agency.text);
+    expect(AGENCY_POOLS.career).toContain(lineText(reading.agency));
   });
 
   it("falls back to the general pool when no transit is present", () => {
@@ -29,7 +30,7 @@ describe("agency", () => {
       { kind: "ten-god-day", god: "比肩", english: "Friend" },
     ];
     const reading = dailyReading(facts, "general-echo");
-    expect(AGENCY_POOLS.general).toContain(reading.agency.text);
+    expect(AGENCY_POOLS.general).toContain(lineText(reading.agency));
   });
 
   it("maps each natal palace to its expected pool", () => {

@@ -49,7 +49,7 @@ export const TEN_GOD_PERIOD_THEMES: Record<string, string> = {
 /** Theme frames for a known ten-god period: the classic named first, translated in full. */
 export const THEME_FRAMES: readonly string[] = [
   "The old calendars name this {periodNoun} {tgEn} ({tgCn}). In everyday terms, {tgTheme}.",
-  "{periodCap} carries the {tgEn} note ({tgCn}) of the old calendars. Read it as {tgTheme}.",
+  "{periodCap} carries the {tgEn} ({tgCn}) note of the old calendars. Read it as {tgTheme}.",
   "{tgEn} ({tgCn}) is the old name for this {periodNoun}'s grain. In modern terms, {tgTheme}.",
 ];
 

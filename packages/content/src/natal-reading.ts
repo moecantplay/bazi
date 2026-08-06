@@ -7,9 +7,11 @@
  */
 
 import type { Element, ReadingFact } from "@daymaster/bazi-engine";
-import type { NatalReading, ReadingLine, ReadingSection } from "./types.js";
+import type { DraftLine, NatalReading, ReadingSection } from "./types.js";
+import { finalizeLine } from "./types.js";
+import type { TokenLine } from "./tokens.js";
 import { pick, pickDistinct } from "./hash.js";
-import { STRENGTH_CHECK_GLOSSES, elementWord } from "./vocab.js";
+import { STRENGTH_CHECK_GLOSSES, STRENGTH_CHECK_GLOSS_RUNS, elementWord } from "./vocab.js";
 import { DAY_MASTER_LINES } from "./banks/day-master.js";
 import { natalStarLine } from "./banks/stars.js";
 import {
@@ -41,16 +43,16 @@ function dayMasterSection(facts: readonly ReadingFact[], seedKey: string): Readi
   const factTag = `${fact.stem} · day-master`;
   const opener = block[0] as string;
   const rest = pickDistinct(block.slice(1), 2, seedKey, `dm:${fact.stem}`);
-  const lines: ReadingLine[] = [opener, ...rest].map((text) => ({
+  const lines: DraftLine[] = [opener, ...rest].map((text) => ({
     text,
     factTag,
     topic: "day-master",
   }));
-  return { key: "day-master", title: "Your day-master", lines };
+  return { key: "day-master", title: "Your day-master", lines: lines.map(finalizeLine) };
 }
 
 function elementsSection(facts: readonly ReadingFact[], seedKey: string): ReadingSection | null {
-  const lines: ReadingLine[] = [];
+  const lines: DraftLine[] = [];
 
   const balance = firstFact(facts, "element-balance");
   if (balance) {
@@ -91,14 +93,14 @@ function elementsSection(facts: readonly ReadingFact[], seedKey: string): Readin
   if (lines.length === 0) {
     return null;
   }
-  return { key: "elements", title: "Your elements", lines };
+  return { key: "elements", title: "Your elements", lines: lines.map(finalizeLine) };
 }
 
 /**
  * Explain the strong/weak verdict via its three checks (令 season, 地 ground,
  * 勢 numbers), each glossed in ordinary terms so the reader sees the why.
  */
-function strengthWhyLine(strength: FactOf<"strength">): ReadingLine {
+function strengthWhyLine(strength: FactOf<"strength">): DraftLine {
   const checks = [
     STRENGTH_CHECK_GLOSSES.seasonal[strength.seasonal ? "yes" : "no"],
     STRENGTH_CHECK_GLOSSES.rooted[strength.rooted ? "yes" : "no"],
@@ -110,7 +112,16 @@ function strengthWhyLine(strength: FactOf<"strength">): ReadingLine {
       ? `${passes} of the three run in your favor, so the chart reads strong.`
       : `Only ${passes} of the three run${passes === 1 ? "s" : ""} in your favor, so the chart reads weak — light, not lacking.`;
   const text = `Three checks sit behind that reading: you ${checks[0]}; you ${checks[1]}; and you ${checks[2]}. ${tally}`;
-  return { text, factTag: "strength · three checks", topic: "strength" };
+  const runs: TokenLine = [
+    { kind: "text", text: "Three checks sit behind that reading: you " },
+    ...STRENGTH_CHECK_GLOSS_RUNS.seasonal[strength.seasonal ? "yes" : "no"],
+    { kind: "text", text: "; you " },
+    ...STRENGTH_CHECK_GLOSS_RUNS.rooted[strength.rooted ? "yes" : "no"],
+    { kind: "text", text: "; and you " },
+    ...STRENGTH_CHECK_GLOSS_RUNS.backed[strength.backed ? "yes" : "no"],
+    { kind: "text", text: `. ${tally}` },
+  ];
+  return { text, factTag: "strength · three checks", topic: "strength", runs };
 }
 
 function starsSection(facts: readonly ReadingFact[], seedKey: string): ReadingSection | null {
@@ -129,7 +140,7 @@ function starsSection(facts: readonly ReadingFact[], seedKey: string): ReadingSe
   const lines = shown.map((star) =>
     natalStarLine({ star: star.star, chinese: star.chinese, english: star.english }, star.palace),
   );
-  return { key: "stars", title: "Your stars", lines };
+  return { key: "stars", title: "Your stars", lines: lines.map(finalizeLine) };
 }
 
 function suitsSection(facts: readonly ReadingFact[], seedKey: string): ReadingSection | null {
@@ -139,7 +150,7 @@ function suitsSection(facts: readonly ReadingFact[], seedKey: string): ReadingSe
   }
 
   const shown = pickDistinct(favorable.elements, 2, seedKey, `fav:${favorable.elements.join("")}`);
-  const lines: ReadingLine[] = shown.map((element: Element) => ({
+  const lines: DraftLine[] = shown.map((element: Element) => ({
     text: FAVORABLE_LINES[element],
     factTag: `${elementWord(element)} · suits you`,
     topic: "favorable",
@@ -152,7 +163,7 @@ function suitsSection(facts: readonly ReadingFact[], seedKey: string): ReadingSe
     topic: "favorable",
   });
 
-  return { key: "favorable", title: "What tends to suit you", lines };
+  return { key: "favorable", title: "What tends to suit you", lines: lines.map(finalizeLine) };
 }
 
 function structureSection(facts: readonly ReadingFact[], seedKey: string): ReadingSection | null {
@@ -175,7 +186,7 @@ function structureSection(facts: readonly ReadingFact[], seedKey: string): Readi
       seedKey,
     ),
   );
-  return { key: "structure", title: "Your chart's structure", lines };
+  return { key: "structure", title: "Your chart's structure", lines: lines.map(finalizeLine) };
 }
 
 /** Build the full natal reading. Sections with no lines are omitted. */

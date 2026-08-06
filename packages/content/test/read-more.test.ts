@@ -5,8 +5,9 @@
  */
 
 import { describe, expect, it } from "vitest";
-import { GLOSSARY, READ_MORE, readMoreEntry, stripHanCharacters } from "../src/index.js";
+import { GLOSSARY, READ_MORE, readMoreEntry } from "../src/index.js";
 import { INTERACTIONS } from "./collect.js";
+import { assertGlossed } from "./token-utils.js";
 
 /** The same outright bans voice.test.ts applies to reading lines. */
 const BANNED_PATTERNS: readonly RegExp[] = [
@@ -47,12 +48,16 @@ describe("read-more deep dives", () => {
     }
   });
 
-  it("every dive survives the Han strip with text intact", () => {
+  it("every dive is runs-complete, with every term run glossed", () => {
     for (const [topic, entry] of Object.entries(READ_MORE)) {
-      for (const text of [entry.title, ...entry.body, ...entry.advice]) {
-        const stripped = stripHanCharacters(text);
-        expect(stripped.length, `${topic}: "${text}"`).toBeGreaterThan(0);
-        expect(stripped, topic).not.toMatch(/[㐀-鿿]/);
+      expect(entry.titleRuns, topic).toBeDefined();
+      assertGlossed(entry.titleRuns!);
+      expect(entry.bodyRuns, topic).toBeDefined();
+      expect(entry.bodyRuns!.length, topic).toBe(entry.body.length);
+      expect(entry.adviceRuns, topic).toBeDefined();
+      expect(entry.adviceRuns!.length, topic).toBe(entry.advice.length);
+      for (const runs of [...entry.bodyRuns!, ...entry.adviceRuns!]) {
+        assertGlossed(runs);
       }
     }
   });

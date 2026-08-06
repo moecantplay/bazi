@@ -16,8 +16,10 @@
  */
 
 import type { InteractionType, Palace } from "@daymaster/bazi-engine";
-import type { ReadingLine } from "../types.js";
-import { branchToken, interactionTag, palaceWord, transitWhen } from "../vocab.js";
+import type { DraftLine } from "../types.js";
+import type { TokenLine } from "../tokens.js";
+import { fillRuns } from "../tokens.js";
+import { branchTokenRuns, interactionTagRuns, palaceWord, transitWhen } from "../vocab.js";
 import { pick } from "../hash.js";
 
 /** Everything the builder needs, already extracted from a transit-interaction fact. */
@@ -67,42 +69,48 @@ function templatesFor(interaction: InteractionType): readonly string[] {
   return TEMPLATES[interaction] ?? GENERIC;
 }
 
-/** The natal branch(es) of the pattern, i.e. everything the transit didn't bring. */
-function natalBranchPhrase(input: TransitInteractionInput): string {
-  const others = input.branches
-    .filter((branch) => branch !== input.transitBranch)
-    .map(branchToken);
+/** The natal branch(es) of the pattern (term runs), i.e. everything the transit didn't bring. */
+function natalBranchPhraseRuns(input: TransitInteractionInput): TokenLine {
+  const others = input.branches.filter((branch) => branch !== input.transitBranch);
   if (others.length === 0) {
     // Self-punishment: the transit meets its own branch in the chart.
-    return branchToken(input.transitBranch);
+    return branchTokenRuns(input.transitBranch);
   }
   if (others.length === 1) {
-    return others[0] as string;
+    return branchTokenRuns(others[0] as string);
   }
-  return `${others.slice(0, -1).join(", ")} and ${others[others.length - 1] as string}`;
+  const runs: TokenLine = [];
+  others.forEach((branch, index) => {
+    if (index > 0) {
+      runs.push({ kind: "text", text: index === others.length - 1 ? " and " : ", " });
+    }
+    runs.push(...branchTokenRuns(branch));
+  });
+  return runs;
 }
 
 /** Build one transit-interaction line, seeded and voice-compliant. */
 export function transitInteractionLine(
   input: TransitInteractionInput,
   seedKey: string,
-): ReadingLine {
+): DraftLine {
   const roomPalace = input.natalPalaces[0] ?? "day";
   const when = transitWhen(input.transitPalace);
   const period = when === "today" ? "day" : "year";
   const periodPossCap = when === "today" ? "Today's" : "This year's";
   const salt = `tr:${input.interaction}:${input.natalPalaces.join("")}:${input.transitPalace}:${input.branches.join("")}`;
   const template = pick(templatesFor(input.interaction), seedKey, salt);
-  const text = template
-    .replaceAll("{period}", period)
-    .replaceAll("{periodPossCap}", periodPossCap)
-    .replaceAll("{transit}", branchToken(input.transitBranch))
-    .replaceAll("{natal}", natalBranchPhrase(input))
-    .replaceAll("{palace}", palaceWord(roomPalace))
-    .replaceAll("{when}", when);
-  const line: ReadingLine = {
-    text,
-    factTag: interactionTag(input.branches, input.interaction, roomPalace),
+  const runs = fillRuns(template, {
+    period: [{ kind: "text", text: period }],
+    periodPossCap: [{ kind: "text", text: periodPossCap }],
+    transit: branchTokenRuns(input.transitBranch),
+    natal: natalBranchPhraseRuns(input),
+    palace: [{ kind: "text", text: palaceWord(roomPalace) }],
+    when: [{ kind: "text", text: when }],
+  });
+  const line: DraftLine = {
+    factTagRuns: interactionTagRuns(input.branches, input.interaction, roomPalace),
+    runs,
   };
   if (TEMPLATES[input.interaction]) {
     line.topic = `interaction:${input.interaction}`;

@@ -6,12 +6,15 @@
  */
 
 import type { Element, InteractionType } from "@daymaster/bazi-engine";
-import type { ReadingLine } from "../types.js";
+import type { DraftLine } from "../types.js";
+import type { TokenLine } from "../tokens.js";
 
 /** One candidate suggestion plus the fact tag that justifies it. */
 export interface DoDontCandidate {
+  /** The suggestion sentence — always plain English, nothing to gloss. */
   text: string;
-  factTag: string;
+  /** Structured citation — see ReadingLine.factTagRuns. */
+  factTagRuns: TokenLine;
   /** Glossary key for the concept behind the tag, when one exists. */
   topic?: string;
 }
@@ -94,9 +97,9 @@ export const DO_DONT_TEMPLATES: readonly string[] = [
   ...GENERIC_DONTS,
 ];
 
-/** Wrap a candidate as a reading line. */
-export function doDontLine(candidate: DoDontCandidate): ReadingLine {
-  const line: ReadingLine = { text: candidate.text, factTag: candidate.factTag };
+/** Wrap a candidate as a draft line, finalized alongside the rest of the reading. */
+export function doDontLine(candidate: DoDontCandidate): DraftLine {
+  const line: DraftLine = { text: candidate.text, factTag: null, factTagRuns: candidate.factTagRuns };
   if (candidate.topic) {
     line.topic = candidate.topic;
   }

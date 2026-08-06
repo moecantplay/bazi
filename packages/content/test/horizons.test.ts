@@ -7,9 +7,10 @@
 
 import { describe, expect, it } from "vitest";
 import type { Element, HorizonFacts, ReadingFact } from "@daymaster/bazi-engine";
-import { horizonReading, stripHanCharacters } from "../src/index.js";
+import { horizonReading } from "../src/index.js";
 import { TEN_GOD_PERIOD_THEMES } from "../src/banks/horizons.js";
 import { ELEMENTS, TEN_GODS } from "./collect.js";
+import { assertGlossed, lineFactTag, lineText } from "./token-utils.js";
 
 function horizon(annual: ReadingFact[], monthly: ReadingFact[]): HorizonFacts {
   return {
@@ -66,14 +67,14 @@ describe("horizonReading structure", () => {
   it("gives every line a non-null factTag", () => {
     const reading = horizonReading(FULL, "seed");
     for (const line of [...reading.annual, ...reading.monthly]) {
-      expect(line.factTag, line.text).not.toBeNull();
+      expect(lineFactTag(line), lineText(line)).not.toBeNull();
     }
   });
 
   it("speaks each period in its own tense", () => {
     const reading = horizonReading(FULL, "seed");
-    expect(reading.annual[0]!.text).toMatch(/year/);
-    expect(reading.monthly[0]!.text).toMatch(/month/);
+    expect(lineText(reading.annual[0]!)).toMatch(/year/);
+    expect(lineText(reading.monthly[0]!)).toMatch(/month/);
   });
 });
 
@@ -84,29 +85,34 @@ describe("horizonReading coverage", () => {
         horizon([themeFact("annual", english)], []),
         "seed",
       );
-      const text = reading.annual[0]!.text;
-      expect(text, english).toContain(english);
-      expect(text, english).toContain(TEN_GOD_PERIOD_THEMES[english]!);
-      expect(text).not.toMatch(/distinct ten-god note/);
-      // Classic first, modern understanding after: the term precedes the theme.
-      expect(text.indexOf(english), `classic must lead: "${text}"`).toBeLessThan(
-        text.indexOf(TEN_GOD_PERIOD_THEMES[english]!),
+      const line = reading.annual[0]!;
+      const runs = line.runs;
+      // The classical name is a term run (gloss-rendered, never its literal
+      // english label) — structurally assert it exists and precedes the theme.
+      const termIndex = runs.findIndex((run) => run.kind === "term" && run.term === english);
+      expect(termIndex, `${english} term run`).toBeGreaterThanOrEqual(0);
+      const themeIndex = runs.findIndex(
+        (run) => run.kind === "text" && run.text.includes(TEN_GOD_PERIOD_THEMES[english]!),
       );
+      expect(themeIndex, `${english} theme text`).toBeGreaterThanOrEqual(0);
+      expect(lineText(line)).not.toMatch(/distinct ten-god note/);
+      // Classic first, modern understanding after: the term run precedes the theme run.
+      expect(termIndex, `classic must lead: "${lineText(line)}"`).toBeLessThan(themeIndex);
     }
   });
 
   it("an unknown ten-god english falls back to a safe generic theme", () => {
     const reading = horizonReading(horizon([themeFact("annual", "Nonsense God")], []), "seed");
-    expect(reading.annual[0]!.text).toMatch(/distinct ten-god note/);
-    expect(reading.annual[0]!.factTag).toBe("ten-god note · this year");
+    expect(lineText(reading.annual[0]!)).toMatch(/distinct ten-god note/);
+    expect(lineFactTag(reading.annual[0]!)).toBe("ten-god note · this year");
   });
 
   it("every element yields a favourable and an unfavourable line", () => {
     for (const element of ELEMENTS) {
       for (const favorable of [true, false]) {
         const reading = horizonReading(horizon([elementFact("annual", element, favorable)], []), "seed");
-        expect(reading.annual[0]!.text.length, `${element}/${favorable}`).toBeGreaterThan(0);
-        expect(reading.annual[0]!.factTag).toContain("year");
+        expect(lineText(reading.annual[0]!).length, `${element}/${favorable}`).toBeGreaterThan(0);
+        expect(lineFactTag(reading.annual[0]!)).toContain("year");
       }
     }
   });
@@ -117,10 +123,13 @@ describe("horizonReading determinism", () => {
     expect(horizonReading(FULL, "same")).toEqual(horizonReading(FULL, "same"));
   });
 
-  it("stays free of Han characters once the toggle strips them", () => {
+  it("is runs-complete, with every term run glossed", () => {
     const reading = horizonReading(FULL, "seed");
     for (const line of [...reading.annual, ...reading.monthly]) {
-      expect(stripHanCharacters(line.text)).not.toMatch(/[㐀-鿿]/);
+      expect(line.runs, lineText(line)).toBeDefined();
+      assertGlossed(line.runs!);
+      expect(line.factTagRuns, lineText(line)).toBeDefined();
+      assertGlossed(line.factTagRuns!);
     }
   });
 });

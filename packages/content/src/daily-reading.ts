@@ -8,7 +8,9 @@
  */
 
 import type { Palace, ReadingFact } from "@daymaster/bazi-engine";
-import type { DailyReading, ReadingLine } from "./types.js";
+import type { DailyReading, DraftLine } from "./types.js";
+import { finalizeLine } from "./types.js";
+import { textRun, type TokenLine } from "./tokens.js";
 import { pick, pickDistinct } from "./hash.js";
 import { transitInteractionLine } from "./banks/transit-interactions.js";
 import { elementDayLine, tenGodDayLine } from "./banks/transit-days.js";
@@ -32,7 +34,7 @@ import {
   GENERIC_HEADLINES,
   INTERACTION_HEADLINES,
 } from "./banks/headlines.js";
-import { elementWord, interactionWord, transitWhen } from "./vocab.js";
+import { STAR_GLOSSES, elementWord, interactionWord, joinBranchRuns, transitWhen } from "./vocab.js";
 
 type FactOf<K extends ReadingFact["kind"]> = Extract<ReadingFact, { kind: K }>;
 
@@ -59,7 +61,7 @@ function chooseTransits(
 function transitLines(
   chosen: readonly FactOf<"transit-interaction">[],
   seedKey: string,
-): ReadingLine[] {
+): DraftLine[] {
   return chosen.map((fact) => ({
     ...transitInteractionLine(
       {
@@ -86,15 +88,18 @@ function suggestionCandidates(
   const donts: DoDontCandidate[] = [];
 
   for (const transit of chosenTransits) {
-    const tag = `${transit.branches.join("")} ${interactionWord(transit.interaction)} · ${transitWhen(transit.transitPalace)}`;
+    const tagRuns: TokenLine = [
+      ...joinBranchRuns(transit.branches),
+      { kind: "text", text: ` ${interactionWord(transit.interaction)} · ${transitWhen(transit.transitPalace)}` },
+    ];
     const topic = `interaction:${transit.interaction}`;
     const doText = INTERACTION_DOS[transit.interaction];
     if (doText) {
-      dos.push({ text: doText, factTag: tag, topic });
+      dos.push({ text: doText, factTagRuns: tagRuns, topic });
     }
     const dontText = INTERACTION_DONTS[transit.interaction];
     if (dontText) {
-      donts.push({ text: dontText, factTag: tag, topic });
+      donts.push({ text: dontText, factTagRuns: tagRuns, topic });
     }
   }
 
@@ -105,28 +110,31 @@ function suggestionCandidates(
     if (elementDay.favorable) {
       dos.push({
         text: ELEMENT_DOS[elementDay.element],
-        factTag: `${elementWord(elementDay.element)} day · suits you`,
+        factTagRuns: textRun(`${elementWord(elementDay.element)} day · suits you`),
         topic: "elements",
       });
     } else {
       donts.push({
         text: ELEMENT_DONTS[elementDay.element],
-        factTag: `${elementWord(elementDay.element)} day · against your grain`,
+        factTagRuns: textRun(`${elementWord(elementDay.element)} day · against your grain`),
         topic: "elements",
       });
     }
   }
 
   for (const star of factsOf(facts, "star-day")) {
-    const tag = `${star.chinese} ${star.english} · ${transitWhen(star.transitPalace)}`;
+    const tagRuns: TokenLine = [
+      { kind: "term", term: star.english, gloss: STAR_GLOSSES[star.star] ?? star.english, han: star.chinese },
+      { kind: "text", text: ` · ${transitWhen(star.transitPalace)}` },
+    ];
     const topic = `star:${star.star}`;
     const doText = STAR_DOS[star.star];
     if (doText) {
-      dos.push({ text: doText, factTag: tag, topic });
+      dos.push({ text: doText, factTagRuns: tagRuns, topic });
     }
     const dontText = STAR_DONTS[star.star];
     if (dontText) {
-      donts.push({ text: dontText, factTag: tag, topic });
+      donts.push({ text: dontText, factTagRuns: tagRuns, topic });
     }
   }
 
@@ -139,7 +147,7 @@ function chooseSuggestions(
   fallback: readonly string[],
   seedKey: string,
   salt: string,
-): ReadingLine[] {
+): DraftLine[] {
   if (candidates.length === 0) {
     return [{ text: pick(fallback, seedKey, salt), factTag: null }];
   }
@@ -155,7 +163,7 @@ function headlineLine(
   chosen: readonly FactOf<"transit-interaction">[],
   elementDay: FactOf<"element-day"> | undefined,
   seedKey: string,
-): ReadingLine {
+): DraftLine {
   const first = chosen.find((fact) => fact.transitPalace === "daily") ?? chosen[0];
   // An unknown interaction kind (future engine enum) falls through to element.
   const pool = first ? INTERACTION_HEADLINES[first.interaction] : undefined;
@@ -173,7 +181,7 @@ function headlineLine(
 function agencyLine(
   chosen: readonly FactOf<"transit-interaction">[],
   seedKey: string,
-): ReadingLine {
+): DraftLine {
   let tag: AgencyTag = "general";
   const first = chosen[0];
   if (first) {
@@ -190,7 +198,7 @@ function agencyLine(
 export function dailyReading(facts: ReadingFact[], seedKey: string): DailyReading {
   const transits = factsOf(facts, "transit-interaction");
   const chosen = chooseTransits(transits, seedKey);
-  const lines: ReadingLine[] = [...transitLines(chosen, seedKey)];
+  const lines: DraftLine[] = [...transitLines(chosen, seedKey)];
 
   // Day-level lines (element, ten god, star, stage) file under "overall" —
   // the UI's "The day itself" section.
@@ -219,10 +227,10 @@ export function dailyReading(facts: ReadingFact[], seedKey: string): DailyReadin
 
   const candidates = suggestionCandidates(facts, chosen);
   return {
-    headline: headlineLine(chosen, elementDay, seedKey),
-    lines,
-    dos: chooseSuggestions(candidates.dos, GENERIC_DOS, seedKey, "dos"),
-    donts: chooseSuggestions(candidates.donts, GENERIC_DONTS, seedKey, "donts"),
-    agency: agencyLine(chosen, seedKey),
+    headline: finalizeLine(headlineLine(chosen, elementDay, seedKey)),
+    lines: lines.map(finalizeLine),
+    dos: chooseSuggestions(candidates.dos, GENERIC_DOS, seedKey, "dos").map(finalizeLine),
+    donts: chooseSuggestions(candidates.donts, GENERIC_DONTS, seedKey, "donts").map(finalizeLine),
+    agency: finalizeLine(agencyLine(chosen, seedKey)),
   };
 }

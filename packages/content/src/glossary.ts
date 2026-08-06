@@ -10,6 +10,7 @@
  */
 
 import type { InteractionType } from "@daymaster/bazi-engine";
+import type { TokenLine } from "./tokens.js";
 import { TEN_GOD_PERIOD_THEMES } from "./banks/horizons.js";
 import {
   LIFE_STAGE_GLOSSES,
@@ -22,6 +23,14 @@ import {
 export interface GlossaryEntry {
   title: string;
   body: readonly string[];
+  /**
+   * Structured equivalent of `title`, additive and optional like
+   * `ReadingLine.runs` — every entry gets one, either authored (where a real
+   * system term is embedded, e.g. "ten gods") or a mechanical single text run.
+   */
+  titleRuns?: TokenLine;
+  /** Structured equivalent of `body`, one TokenLine per paragraph. */
+  bodyRuns?: readonly TokenLine[];
 }
 
 /** The overview entry every "read more" link opens. */
@@ -76,6 +85,37 @@ const INTERACTION_TITLES: Record<InteractionType, string> = {
 
 const TEN_GOD_LEAD =
   "The ten gods (十神) are the old calendars' names for the ten ways a passing stem can meet yours — the same cast of ten relations, rotating with the days, months, and years.";
+
+/**
+ * Structured equivalent of {@link TEN_GOD_LEAD}: "ten gods" as a term run
+ * glossed with its plain meaning and its classical characters. Reused
+ * wherever the lead paragraph itself is reused (the "ten-gods" summary entry
+ * and every `ten-god:<english>` entry's opening paragraph).
+ */
+const TEN_GOD_LEAD_RUNS: TokenLine = [
+  { kind: "text", text: "The " },
+  {
+    kind: "term",
+    term: "ten gods",
+    gloss: "the ten ways a passing stem can meet yours",
+    han: "十神",
+  },
+  {
+    kind: "text",
+    text:
+      " are the old calendars' names for the ten ways a passing stem can meet yours — the same cast of ten relations, rotating with the days, months, and years.",
+  },
+];
+
+const TEN_GODS_TITLE_RUNS: TokenLine = [
+  { kind: "text", text: "The " },
+  {
+    kind: "term",
+    term: "ten gods",
+    gloss: "the ten ways a passing stem can meet yours",
+    han: "十神",
+  },
+];
 
 const TEN_GOD_CLOSE =
   "A god names the flavor of a period, not an instruction — texture to work with.";
@@ -159,8 +199,8 @@ function officerEntries(): Record<string, GlossaryEntry> {
   return entries;
 }
 
-/** Every glossary entry, keyed by topic. */
-export const GLOSSARY: Record<string, GlossaryEntry> = {
+/** Every glossary entry, keyed by topic, before runs are attached. */
+const RAW_GLOSSARY: Record<string, GlossaryEntry> = {
   [READING_TOPIC]: READING_ENTRY,
   [WEEK_TOPIC]: WEEK_ENTRY,
   ...interactionEntries(),
@@ -212,6 +252,27 @@ export const GLOSSARY: Record<string, GlossaryEntry> = {
     ],
   },
 };
+
+/**
+ * A paragraph's structured equivalent: the authored run when one exists (the
+ * shared ten-god lead), else a single mechanical text run — the same
+ * fallback shape `withRunsFallback` gives an unmigrated `ReadingLine`.
+ */
+function paragraphRuns(paragraph: string): TokenLine {
+  return paragraph === TEN_GOD_LEAD ? TEN_GOD_LEAD_RUNS : [{ kind: "text", text: paragraph }];
+}
+
+/** Every glossary entry, keyed by topic, runs-complete. */
+export const GLOSSARY: Record<string, GlossaryEntry> = Object.fromEntries(
+  Object.entries(RAW_GLOSSARY).map(([topic, entry]) => [
+    topic,
+    {
+      ...entry,
+      titleRuns: topic === "ten-gods" ? TEN_GODS_TITLE_RUNS : [{ kind: "text", text: entry.title }],
+      bodyRuns: entry.body.map(paragraphRuns),
+    },
+  ]),
+);
 
 /** The entry behind a topic, or undefined when none exists. */
 export function glossaryEntry(topic: string): GlossaryEntry | undefined {

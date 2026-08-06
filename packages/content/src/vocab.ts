@@ -3,12 +3,48 @@
  * interactions, plus the verbatim disclaimer. Formatting only — no chart math.
  */
 
-import { ACTIVITIES, type ActivityKey, type Branch, type Element, type InteractionType, type Palace } from "@daymaster/bazi-engine";
-import { BRANCH_ANIMALS } from "./strip-han.js";
+import { ACTIVITIES, type ActivityKey, type Branch, type Element, type InteractionType, type Palace, type Stem } from "@daymaster/bazi-engine";
+import type { TokenLine } from "./tokens.js";
 
 /** Verbatim from VOICE.md — do not edit without editing VOICE.md. */
 export const DISCLAIMER =
   "Daymaster is for reflection and entertainment, not advice. BaZi is a living tradition with many schools; this app implements one reading of it, with its assumptions documented. Nothing here predicts your future or diagnoses anything about you. You remain the author.";
+
+/** The zodiac animal each branch names — its immediate, familiar translation. */
+export const BRANCH_ANIMALS: Record<Branch, string> = {
+  子: "rat",
+  丑: "ox",
+  寅: "tiger",
+  卯: "rabbit",
+  辰: "dragon",
+  巳: "snake",
+  午: "horse",
+  未: "goat",
+  申: "monkey",
+  酉: "rooster",
+  戌: "dog",
+  亥: "pig",
+};
+
+/** Each stem's element and polarity in plain words — its everyday translation. */
+export const STEM_GLOSSES: Record<Stem, string> = {
+  甲: "yang-wood",
+  乙: "yin-wood",
+  丙: "yang-fire",
+  丁: "yin-fire",
+  戊: "yang-earth",
+  己: "yin-earth",
+  庚: "yang-metal",
+  辛: "yin-metal",
+  壬: "yang-water",
+  癸: "yin-water",
+};
+
+/** A single stem as a glossed term run, e.g. "戊" -> {term:"戊", gloss:"yang-earth", han:"戊"}. */
+export function stemTokenRuns(stem: string): TokenLine {
+  const gloss = STEM_GLOSSES[stem as Stem];
+  return gloss === undefined ? [{ kind: "text", text: stem }] : [{ kind: "term", term: stem, gloss, han: stem }];
+}
 
 /**
  * Palace names as the voice speaks them (VOICE.md §Palace vocabulary):
@@ -49,13 +85,16 @@ export function elementWord(element: Element): string {
 }
 
 /**
- * A branch glyph with its animal right there — "子 (rat)" (VOICE.md §10).
- * The only strip-safe way to put a lone branch inside prose: stripping keeps
- * just the animal, so the sentence never loses its subject.
+ * A branch glyph as a term run, glossed with its animal name (VOICE.md §10,
+ * "子 (rat)" in the pre-M19 string convention). The glyph doubles as its own
+ * `han` — a bare branch character has no separate English name to lead with.
  */
-export function branchToken(branch: string): string {
+export function branchTokenRuns(branch: string): TokenLine {
   const animal = BRANCH_ANIMALS[branch as Branch];
-  return animal === undefined ? branch : `${branch} (${animal})`;
+  if (animal === undefined) {
+    return [{ kind: "text", text: branch }];
+  }
+  return [{ kind: "term", term: branch, gloss: animal, han: branch }];
 }
 
 /** The voice word for an interaction type ("six-clash" -> "clash"). */
@@ -76,13 +115,35 @@ export function transitWhen(transitPalace: Palace): string {
   return transitPalace === "annual" ? "this year" : "today";
 }
 
-/** Build a transit/interaction fact tag: "子午 clash · career palace". */
-export function interactionTag(
+/**
+ * Term runs for several branches, en-dash joined — turns a bare glyph run
+ * like "子午" into term runs that render "rat–horse". Without the separator,
+ * two adjacent term runs rendered gloss-only (TokenText's only render mode)
+ * fuse into one word ("rathorse") — caught in M19 Phase 11 review, no test
+ * had covered a multi-branch runs-render before.
+ */
+export function joinBranchRuns(branches: readonly string[]): TokenLine {
+  return branches.flatMap((branch, index): TokenLine => [
+    ...(index > 0 ? [{ kind: "text", text: "–" } as const] : []),
+    ...branchTokenRuns(branch),
+  ]);
+}
+
+/**
+ * A fact-tag citation as term runs: one glossed term per branch (its animal
+ * name), en-dash joined, followed by the interaction word and palace phrase
+ * as plain text — the structured form of the pre-M19 "子午 clash · career
+ * palace" string convention.
+ */
+export function interactionTagRuns(
   branches: readonly string[],
   interaction: InteractionType,
   roomPalace: Palace,
-): string {
-  return `${branches.join("")} ${interactionWord(interaction)} · ${palaceWord(roomPalace)}`;
+): TokenLine {
+  return [
+    ...joinBranchRuns(branches),
+    { kind: "text", text: ` ${interactionWord(interaction)} · ${palaceWord(roomPalace)}` },
+  ];
 }
 
 /**
@@ -266,3 +327,48 @@ export const STRENGTH_CHECK_GLOSSES = {
     no: "field a small team — few of the visible stems are on your side (失勢 — outnumbered)",
   },
 } as const;
+
+/**
+ * Structured equivalent of {@link STRENGTH_CHECK_GLOSSES}: the classical code
+ * (得令/失令/得地/失地/得勢/失勢) is the term run — there's no separate English
+ * name for it beyond its own gloss — preceded by the leading English clause as
+ * a plain text run.
+ */
+export const STRENGTH_CHECK_GLOSS_RUNS: Record<
+  keyof typeof STRENGTH_CHECK_GLOSSES,
+  Record<"yes" | "no", TokenLine>
+> = {
+  seasonal: {
+    yes: [
+      { kind: "text", text: "were born in a season that feeds your element " },
+      { kind: "term", term: "得令", gloss: "in season", han: "得令" },
+    ],
+    no: [
+      { kind: "text", text: "were born in a season that doesn't feed your element " },
+      { kind: "term", term: "失令", gloss: "out of season", han: "失令" },
+    ],
+  },
+  rooted: {
+    yes: [
+      { kind: "text", text: "have ground under you — your own element hides inside your branches " },
+      { kind: "term", term: "得地", gloss: "rooted", han: "得地" },
+    ],
+    no: [
+      {
+        kind: "text",
+        text: "stand on borrowed ground — no root of your element hides in your branches ",
+      },
+      { kind: "term", term: "失地", gloss: "unrooted", han: "失地" },
+    ],
+  },
+  backed: {
+    yes: [
+      { kind: "text", text: "have allies — most of the visible stems are on your side " },
+      { kind: "term", term: "得勢", gloss: "backed", han: "得勢" },
+    ],
+    no: [
+      { kind: "text", text: "field a small team — few of the visible stems are on your side " },
+      { kind: "term", term: "失勢", gloss: "outnumbered", han: "失勢" },
+    ],
+  },
+};

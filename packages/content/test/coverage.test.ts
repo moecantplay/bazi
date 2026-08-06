@@ -6,7 +6,7 @@
 
 import { describe, expect, it } from "vitest";
 import type { InteractionType, Palace, ReadingFact } from "@daymaster/bazi-engine";
-import { dailyReading, natalReading, stripHanCharacters } from "../src/index.js";
+import { dailyReading, natalReading } from "../src/index.js";
 import {
   ELEMENTS,
   INTERACTIONS,
@@ -18,19 +18,20 @@ import {
   dailyFactSet,
   natalWithInteractions,
 } from "./collect.js";
+import { assertGlossed, lineFactTag, lineText, plainGloss } from "./token-utils.js";
 
 const SEED = "coverage-seed";
 
 function natalText(facts: ReadingFact[]): string {
   return natalReading(facts, SEED)
     .sections.flatMap((section) => section.lines)
-    .map((line) => line.text)
+    .map((line) => lineText(line))
     .join(" || ");
 }
 
 function dailyText(facts: ReadingFact[]): string {
   const reading = dailyReading(facts, SEED);
-  return [...reading.lines, reading.agency].map((line) => line.text).join(" || ");
+  return [...reading.lines, reading.agency].map((line) => lineText(line)).join(" || ");
 }
 
 describe("coverage: natal", () => {
@@ -44,7 +45,7 @@ describe("coverage: natal", () => {
       expect(section, `stem ${stem}`).toBeDefined();
       expect(section?.lines).toHaveLength(3);
       for (const line of section!.lines) {
-        expect(line.text.length).toBeGreaterThan(0);
+        expect(lineText(line).length).toBeGreaterThan(0);
       }
     }
   });
@@ -145,7 +146,7 @@ describe("coverage: daily", () => {
           const reading = dailyReading(dailyFactSet(interaction, palace, transitPalace), SEED);
           expect(reading.lines.length, `${interaction}/${palace}/${transitPalace}`).toBeGreaterThanOrEqual(2);
           expect(reading.lines.length).toBeLessThanOrEqual(6);
-          expect(reading.agency.text.length).toBeGreaterThan(0);
+          expect(lineText(reading.agency).length).toBeGreaterThan(0);
           expect(reading.dos.length, "dos always present").toBeGreaterThanOrEqual(1);
           expect(reading.dos.length).toBeLessThanOrEqual(2);
           expect(reading.donts.length, "donts always present").toBeGreaterThanOrEqual(1);
@@ -155,16 +156,44 @@ describe("coverage: daily", () => {
     }
   });
 
-  it("inline branches carry their animal gloss and survive the Han strip", () => {
-    // dailyFactSet's transit is 子午 with 午 brought by the day: the line must
-    // gloss both glyphs (VOICE.md §10) so stripping keeps the sentence whole.
+  it("every ten-god day line carries a glossed term run for the classical name", () => {
+    // The structural version of the old "carries its animal gloss and
+    // survives the Han strip" check: instead of rendering and regex-testing
+    // a string, assert the run shape directly (VOICE.md §11).
+    for (const english of TEN_GODS) {
+      const reading = dailyReading(
+        dailyFactSet("six-clash", "month", "daily", { god: "測試", english }),
+        SEED,
+      );
+      const tenGodLine = reading.lines.find((line) => line.topic === `ten-god:${english}`);
+      expect(tenGodLine, english).toBeDefined();
+      const runs = tenGodLine!.runs;
+      expect(runs, english).toBeDefined();
+      assertGlossed(runs!);
+      const termRun = runs!.find((run) => run.kind === "term" && run.term === english);
+      expect(termRun, `${english} term run`).toBeDefined();
+    }
+  });
+
+  it("every dos/donts fact tag with a real citation carries real (not mechanically-wrapped) runs, no raw Han when rendered gloss-only", () => {
+    // M19 Phase 11 cleanup: suggestionCandidates() used to build its factTag
+    // from raw fact data (branch glyphs, star chinese names) and never
+    // authored factTagRuns, so it fell through to the mechanical
+    // {kind:"text"} wrap — which does not strip Han, unlike a presenter's
+    // defensive stripHanCharacters call. Assert every dos/donts line whose
+    // factTag actually cites something (not the null-factTag generic
+    // fallback) has real term runs, correctly glossed, with no raw CJK
+    // surviving a gloss-only render.
     for (const interaction of INTERACTIONS) {
       const reading = dailyReading(dailyFactSet(interaction, "month", "daily"), SEED);
-      const transitLine = reading.lines[0]!.text;
-      expect(transitLine, interaction).toContain("午 (horse)");
-      const stripped = stripHanCharacters(transitLine);
-      expect(stripped, interaction).toContain("horse");
-      expect(stripped, interaction).not.toMatch(/[㐀-鿿]/);
+      for (const line of [...reading.dos, ...reading.donts]) {
+        const factTag = lineFactTag(line);
+        if (factTag === null) continue;
+        expect(line.factTagRuns, factTag).toBeDefined();
+        assertGlossed(line.factTagRuns!);
+        const rendered = plainGloss(line.factTagRuns!);
+        expect(rendered, factTag).not.toMatch(/[㐀-鿿]/);
+      }
     }
   });
 
@@ -180,7 +209,7 @@ describe("coverage: daily", () => {
       },
     ];
     const reading = dailyReading(facts, SEED);
-    expect(reading.lines[0]?.text).toMatch(/passing weather/);
+    expect(lineText(reading.lines[0]!)).toMatch(/passing weather/);
   });
 
   it("every element-day (element x favorable) yields a line", () => {
@@ -215,8 +244,8 @@ describe("coverage: daily", () => {
       SEED,
     );
     expect(reading.lines.length).toBe(2);
-    expect(reading.agency.text.length).toBeGreaterThan(0);
-    expect(reading.agency.factTag).toBeNull();
+    expect(lineText(reading.agency).length).toBeGreaterThan(0);
+    expect(lineFactTag(reading.agency)).toBeNull();
   });
 
   it("a minimal reading still offers one do and one don't (generic fallback)", () => {
@@ -226,25 +255,36 @@ describe("coverage: daily", () => {
     );
     expect(reading.dos.length).toBe(1);
     expect(reading.donts.length).toBe(1);
-    expect(reading.dos[0]?.factTag).toBeNull();
-    expect(reading.donts[0]?.factTag).toBeNull();
+    expect(lineFactTag(reading.dos[0]!)).toBeNull();
+    expect(lineFactTag(reading.donts[0]!)).toBeNull();
   });
 
   it("every star key yields a star-day line naming the star", () => {
     for (const star of STAR_KEYS) {
-      const text = dailyText([
-        { kind: "star-day", star, chinese: "星", english: `Star ${star}`, transitPalace: "daily" },
-      ]);
-      expect(text, star).toContain(`Star ${star}`);
+      const english = `Star ${star}`;
+      const reading = dailyReading(
+        [{ kind: "star-day", star, chinese: "星", english, transitPalace: "daily" }],
+        SEED,
+      );
+      // The star's name is a term run (gloss-rendered, never its literal
+      // english label) — assert it structurally rather than in rendered text.
+      const starLine = reading.lines.find((line) =>
+        line.runs.some((run) => run.kind === "term" && run.term === english),
+      );
+      expect(starLine, star).toBeDefined();
     }
   });
 
   it("every life-stage label yields a stage-day line naming the stage", () => {
     for (const label of STAGE_LABELS) {
-      const text = dailyText([
-        { kind: "stage-day", stage: { chinese: "段", english: label } },
-      ]);
-      expect(text, label).toContain(`'${label}' stage`);
+      const reading = dailyReading(
+        [{ kind: "stage-day", stage: { chinese: "段", english: label } }],
+        SEED,
+      );
+      const stageLine = reading.lines.find((line) =>
+        line.runs.some((run) => run.kind === "term" && run.term === label),
+      );
+      expect(stageLine, label).toBeDefined();
     }
   });
 });
@@ -261,9 +301,9 @@ describe("coverage: natal stars and strength why", () => {
   it("the strength verdict is followed by its three-check explanation", () => {
     const reading = natalReading(natalWithInteractions(), SEED);
     const elements = reading.sections.find((section) => section.key === "elements");
-    const why = elements?.lines.find((line) => line.factTag === "strength · three checks");
+    const why = elements?.lines.find((line) => lineFactTag(line) === "strength · three checks");
     expect(why).toBeDefined();
-    expect(why!.text).toContain("Three checks");
-    expect(why!.text).toContain("得令");
+    expect(lineText(why!)).toContain("Three checks");
+    expect(lineText(why!)).toContain("in season");
   });
 });

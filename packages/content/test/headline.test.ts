@@ -13,6 +13,7 @@ import {
   INTERACTION_HEADLINES,
 } from "../src/banks/headlines.js";
 import { INTERACTIONS, dailyFactSet } from "./collect.js";
+import { lineFactTag, lineText } from "./token-utils.js";
 
 function elementOnlyFacts(favorable: boolean): ReadingFact[] {
   return [{ kind: "element-day", element: "wood", favorable }];
@@ -25,7 +26,7 @@ describe("daily reading headline", () => {
       expect(
         INTERACTION_HEADLINES[interaction],
         `headline pool for ${interaction}`,
-      ).toContain(reading.headline.text);
+      ).toContain(lineText(reading.headline));
     }
   });
 
@@ -47,24 +48,24 @@ describe("daily reading headline", () => {
       transitBranch: "丑",
     };
     const reading = dailyReading([annualClash, dailyCombine], "seed");
-    expect(INTERACTION_HEADLINES["six-combine"]).toContain(reading.headline.text);
+    expect(INTERACTION_HEADLINES["six-combine"]).toContain(lineText(reading.headline));
   });
 
   it("falls back to the element day when no transit interaction lands", () => {
     const favorable = dailyReading(elementOnlyFacts(true), "seed");
-    expect(ELEMENT_HEADLINES.favorable).toContain(favorable.headline.text);
+    expect(ELEMENT_HEADLINES.favorable).toContain(lineText(favorable.headline));
     const unfavorable = dailyReading(elementOnlyFacts(false), "seed");
-    expect(ELEMENT_HEADLINES.unfavorable).toContain(unfavorable.headline.text);
+    expect(ELEMENT_HEADLINES.unfavorable).toContain(lineText(unfavorable.headline));
   });
 
   it("falls back to a generic hook when nothing in the chart raises its voice", () => {
     const reading = dailyReading([], "seed");
-    expect(GENERIC_HEADLINES).toContain(reading.headline.text);
+    expect(GENERIC_HEADLINES).toContain(lineText(reading.headline));
   });
 
   it("cites nothing — headlines are pure voice", () => {
     const reading = dailyReading(dailyFactSet("six-clash", "day", "daily"), "seed");
-    expect(reading.headline.factTag).toBeNull();
+    expect(lineFactTag(reading.headline)).toBeNull();
     expect(reading.headline.topic).toBeUndefined();
   });
 
@@ -84,7 +85,7 @@ describe("daily reading headline", () => {
     expect(dailyReading(facts, "same").headline).toEqual(dailyReading(facts, "same").headline);
     const seen = new Set<string>();
     for (let index = 0; index < 20; index += 1) {
-      seen.add(dailyReading(facts, `seed-${index}`).headline.text);
+      seen.add(lineText(dailyReading(facts, `seed-${index}`).headline));
     }
     expect(seen.size).toBeGreaterThan(1);
   });
