@@ -61,7 +61,7 @@ export function CompareForm({ onSave, hasSavedPeople = false, initialBirth }: Pr
       </p>
 
       <label className="flex flex-col gap-2">
-        <span className="text-sm text-ink">Their name</span>
+        <span className="field-label">Their name</span>
         <input
           type="text"
           value={name}
@@ -72,7 +72,7 @@ export function CompareForm({ onSave, hasSavedPeople = false, initialBirth }: Pr
       </label>
 
       <label className="flex flex-col gap-2">
-        <span className="text-sm text-ink">Their birth date</span>
+        <span className="field-label">Their birth date</span>
         <PickerField
           type="date"
           hint="Tap to pick a date"
@@ -90,7 +90,7 @@ export function CompareForm({ onSave, hasSavedPeople = false, initialBirth }: Pr
 
       <div className="flex flex-col gap-2">
         <label className="flex flex-col gap-2">
-          <span className="text-sm text-ink">Their birth time</span>
+          <span className="field-label">Their birth time</span>
           <PickerField
             type="time"
             hint="Tap to pick a time"
@@ -112,12 +112,12 @@ export function CompareForm({ onSave, hasSavedPeople = false, initialBirth }: Pr
       </div>
 
       <div className="flex flex-col gap-2">
-        <span className="text-sm text-ink">Their birth city</span>
+        <span className="field-label">Their birth city</span>
         <CitySearch selected={city} onSelect={setCity} />
       </div>
 
       <div className="flex flex-col gap-2">
-        <span className="text-sm text-ink">Their sex at birth</span>
+        <span className="field-label">Their sex at birth</span>
         <SegmentedControl
           options={SEX_OPTIONS}
           value={sex}

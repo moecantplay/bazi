@@ -28,7 +28,7 @@ interface Notch {
   size: number;
 }
 
-interface SealGeometry {
+export interface SealGeometry {
   ringWeight: number;
   nodeAngle: number;
   rotation: number;
@@ -38,14 +38,24 @@ interface SealGeometry {
 const RING_WEIGHTS = [3.5, 4.5, 5.5];
 const NODE_ANGLES = [-135, -90, -45, 0, 45, 90, 135, 180];
 const CORNERS: Corner[] = ["tl", "tr", "br", "bl"];
-const RING_RADIUS = 36;
+
+/** The ring's radius and the orbit node's radius, in the shared 100x100 box —
+ * also used by CompassMark, which reuses this geometry without the cinnabar
+ * square, notches, or element mark. */
+export const SEAL_RING_RADIUS = 36;
+export const SEAL_NODE_RADIUS = 6;
 
 /** All pillars present, in chart order, dropping the hour when time is unknown. */
 function orderedPillars(pillars: (Pillar | null)[]): Pillar[] {
   return pillars.filter((pillar): pillar is Pillar => pillar !== null);
 }
 
-function computeGeometry(pillars: Pillar[]): SealGeometry {
+/**
+ * The seal's deterministic geometry, seeded from the chart's stem+branch
+ * signature. Exported so CompassMark can reuse the exact same ring/node/
+ * rotation math as the map hero's compass rose, instead of duplicating it.
+ */
+export function computeSealGeometry(pillars: Pillar[]): SealGeometry {
   const signature = pillars.map((pillar) => pillar.stem + pillar.branch).join("");
   const random = createSeededRandom(fnv1a(signature));
 
@@ -111,7 +121,7 @@ interface Props {
 
 export function Seal({ pillars, size = 132, className }: Props) {
   const present = orderedPillars(pillars);
-  const geometry = computeGeometry(present);
+  const geometry = computeSealGeometry(present);
 
   // The day pillar is third in chart order; with an unknown hour it is last.
   const day = pillars[2] ?? present[present.length - 1];
@@ -119,8 +129,8 @@ export function Seal({ pillars, size = 132, className }: Props) {
   const mark = stem ? ELEMENT_ICON_PATHS[stem.element] : null;
 
   const nodeRadians = (geometry.nodeAngle * Math.PI) / 180;
-  const nodeX = 50 + RING_RADIUS * Math.cos(nodeRadians);
-  const nodeY = 50 + RING_RADIUS * Math.sin(nodeRadians);
+  const nodeX = 50 + SEAL_RING_RADIUS * Math.cos(nodeRadians);
+  const nodeY = 50 + SEAL_RING_RADIUS * Math.sin(nodeRadians);
 
   return (
     <svg
@@ -136,12 +146,12 @@ export function Seal({ pillars, size = 132, className }: Props) {
         <circle
           cx="50"
           cy="50"
-          r={RING_RADIUS}
+          r={SEAL_RING_RADIUS}
           fill="none"
           stroke="var(--seal-paper)"
           strokeWidth={geometry.ringWeight}
         />
-        <circle cx={nodeX} cy={nodeY} r="6" fill="var(--seal-paper)" />
+        <circle cx={nodeX} cy={nodeY} r={SEAL_NODE_RADIUS} fill="var(--seal-paper)" />
         {mark && stem && (
           <g transform="translate(26.6 26.6) scale(1.95)">
             {stem.polarity === "yang" ? (

@@ -50,7 +50,8 @@ export function GlossarySheet({ entry, onClose }: Props) {
         onClick={onClose}
         className="absolute inset-0 bg-black/40"
       />
-      <div className="sheet-in relative max-h-[80vh] w-full max-w-md overflow-y-auto rounded-t-[28px] bg-surface p-6 pb-8 sm:rounded-[28px] sm:pb-6">
+      <div className="sheet-in relative max-h-[80vh] w-full max-w-md overflow-y-auto rounded-t-sheet bg-surface p-6 pb-8 shadow-hero sm:rounded-sheet sm:pb-6">
+        <div className="mx-auto mb-4 h-1 w-9 rounded-full bg-ink-tint" aria-hidden />
         <div className="flex items-start justify-between gap-4">
           <h2 className="font-display text-lg leading-snug text-ink">{display(entry.title)}</h2>
           <button
@@ -70,8 +71,8 @@ export function GlossarySheet({ entry, onClose }: Props) {
           ))}
         </div>
         {entry.advice && (
-          <div data-glossary-advice className="mt-4 border-t border-hairline pt-3">
-            <h3 className="kicker">
+          <div data-glossary-advice className="mt-4 border-t-[1.5px] border-dashed border-hairline pt-3">
+            <h3 className="kicker text-element-wood">
               Working with it
             </h3>
             <div className="mt-2 flex flex-col gap-3">

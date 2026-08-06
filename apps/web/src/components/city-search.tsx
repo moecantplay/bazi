@@ -146,7 +146,7 @@ export function CitySearch({ selected, onSelect }: Props) {
           ref={listRef}
           role="listbox"
           aria-label="Matching cities"
-          className="max-h-64 overflow-y-auto rounded-2xl border-[1.5px] border-ink-soft bg-paper-raised"
+          className="max-h-64 overflow-y-auto rounded-field border-[1.5px] border-ink-soft bg-paper-raised"
         >
           {results.map((city, index) => {
             const active = index === activeIndex;

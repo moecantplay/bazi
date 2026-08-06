@@ -1,7 +1,17 @@
 /**
- * A two-to-three-way choice as one bordered container (DESIGN.md §Forms): the
- * selected segment is an ink fill with paper text, the rest raised paper.
- * A real radiogroup underneath — arrow keys move the roving tab stop.
+ * A two-to-three-way choice as one pill track (DESIGN.md v4 §Components): a
+ * 12%-ink-soft-tint track (not ink — an ink-tinted track pulled the
+ * unselected label below AA, see globals.css .bg-mut-tint), Space Mono
+ * uppercase labels, the selected segment lifting to a card fill + shadow. A
+ * real radiogroup underneath — arrow keys move the roving tab stop.
+ *
+ * Unselected labels render full `--ink`, not `--ink-soft`: even after the
+ * track itself moved off an ink tint, ink-soft-on-tinted-track measured
+ * ~4.0:1 at 11px against a required 4.5:1 (both terrain-shifted background
+ * and foreground share the same ink-soft hue, compressing the gap further
+ * than either alone would suggest) — measured live against the built app
+ * across all 5 terrains × both themes, not just the design-system prototype.
+ * The selected/unselected distinction still reads via the card lift + shadow.
  */
 
 "use client";
@@ -49,7 +59,7 @@ export function SegmentedControl<T extends string>({
       role="radiogroup"
       aria-label={ariaLabel}
       onKeyDown={onKeyDown}
-      className="grid auto-cols-fr grid-flow-col overflow-hidden rounded-full border-[1.5px] border-ink-soft bg-paper-raised"
+      className="bg-mut-tint grid auto-cols-fr grid-flow-col gap-[3px] rounded-full p-[3px]"
     >
       {options.map((option, index) => {
         const selected = value === option.value;
@@ -61,9 +71,9 @@ export function SegmentedControl<T extends string>({
             aria-checked={selected}
             tabIndex={selected || (selectedIndex < 0 && index === 0) ? 0 : -1}
             onClick={() => onChange(option.value)}
-            className={`min-h-[45px] px-4 py-2.5 text-base ${
-              selected ? "bg-ink text-paper" : "text-ink hover:bg-paper"
-            } ${index > 0 ? "border-l border-hairline" : ""}`}
+            className={`min-h-10 rounded-full px-4 font-mono text-[11px] font-bold uppercase tracking-wide ${
+              selected ? "bg-surface text-ink shadow-card" : "text-ink"
+            }`}
           >
             {option.label}
           </button>

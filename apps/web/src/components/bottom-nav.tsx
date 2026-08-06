@@ -1,7 +1,12 @@
 /**
  * The five-tab bottom navigation (Chart - Today - Cycles - Compare - Settings),
  * safe-area padded and shown on every main screen. Hidden during onboarding,
- * which owns the full viewport. The active tab is ink; the rest are ink-soft.
+ * which owns the full viewport. Restyled as an anchor-fill pill (DESIGN.md
+ * §Surfaces "Signpost + nav"): one of Trail's two fixed anchor objects, along
+ * with the Today signpost. The active tab reads full paper; inactive tabs
+ * mix toward ink-soft (color-mix, since --paper is a raw hex custom
+ * property with no Tailwind alpha-channel plumbing — see globals.css's
+ * .border-ink-tint for the same constraint).
  */
 
 "use client";
@@ -85,33 +90,36 @@ const TABS: Tab[] = [
   }
 ];
 
+const INACTIVE_STYLE = { color: "color-mix(in srgb, var(--paper) 40%, var(--ink-soft))" };
+
 export function BottomNav() {
   const pathname = usePathname();
 
   return (
     <nav
       aria-label="Primary"
-      className="fixed inset-x-0 bottom-0 z-10 bg-surface pb-[env(safe-area-inset-bottom)]"
+      className="fixed inset-x-0 bottom-0 z-10 pb-[env(safe-area-inset-bottom)]"
     >
-      <ul className="mx-auto flex max-w-app items-stretch">
-        {TABS.map((tab) => {
-          const active = pathname === tab.href;
-          return (
-            <li key={tab.href} className="flex-1">
-              <Link
-                href={tab.href}
-                aria-current={active ? "page" : undefined}
-                className={`flex flex-col items-center gap-1 py-2.5 text-[11px] ${
-                  active ? "text-ink" : "text-ink-soft"
-                }`}
-              >
-                {tab.icon}
-                <span>{tab.label}</span>
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
+      <div className="mx-auto max-w-app px-5 pb-3">
+        <ul className="flex items-stretch rounded-full bg-anchor px-2 py-1.5 shadow-nav">
+          {TABS.map((tab) => {
+            const active = pathname === tab.href;
+            return (
+              <li key={tab.href} className="flex-1">
+                <Link
+                  href={tab.href}
+                  aria-current={active ? "page" : undefined}
+                  className="flex flex-col items-center gap-1 rounded-full py-2 text-[10.5px] font-bold text-paper"
+                  style={active ? undefined : INACTIVE_STYLE}
+                >
+                  {tab.icon}
+                  <span>{tab.label}</span>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </nav>
   );
 }

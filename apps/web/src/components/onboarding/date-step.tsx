@@ -24,7 +24,7 @@ export function DateStep({ value, onChange, onNext }: Props) {
       primaryDisabled={!inRange}
     >
       <label className="flex flex-col gap-2">
-        <span className="text-sm text-ink">Birth date</span>
+        <span className="field-label">Birth date</span>
         <PickerField
           type="date"
           hint="Tap to pick a date"

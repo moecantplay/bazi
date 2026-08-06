@@ -1,7 +1,21 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 import { addDays, FIXTURE_A, longDate, pinClock, seedProfile } from "./helpers";
 
 const TODAY = "2026-07-07";
+
+/**
+ * The datebar (DESIGN.md's Trail rebuild) shows a short mono date on the
+ * page; the full long date lives in the "jump to a date" button's
+ * accessible name instead (Datebar's aria-label, unchanged from the old
+ * date-nav row). Assert against that rather than visible text so this stays
+ * robust to the datebar's own visual format. The "jump to a date" suffix
+ * also disambiguates from the elevation profile's own per-day buttons, whose
+ * accessible names carry the same long date whenever that day falls in the
+ * visible 7-day window.
+ */
+function dateButton(page: Page, iso: string) {
+  return page.getByRole("button", { name: new RegExp(`${longDate(iso)}.*jump to a date`) });
+}
 
 test("seeded chart renders and Today's date nav works and clamps", async ({ page, context }) => {
   await seedProfile(context, FIXTURE_A);
@@ -21,7 +35,7 @@ test("seeded chart renders and Today's date nav works and clamps", async ({ page
   // Three consecutive dates each cite a fact and read differently.
   const readings: string[] = [];
   for (let day = 0; day < 3; day += 1) {
-    await expect(page.getByText(longDate(addDays(TODAY, day)))).toBeVisible();
+    await expect(dateButton(page, addDays(TODAY, day))).toBeVisible();
     await expect(body.locator("[data-fact-tag]").first()).toBeVisible();
     readings.push(await body.innerText());
     if (day < 2) {
@@ -32,7 +46,7 @@ test("seeded chart renders and Today's date nav works and clamps", async ({ page
 
   // Jump back to today, then confirm the ±30-day clamp in both directions.
   await page.getByRole("button", { name: "Back to today" }).click();
-  await expect(page.getByText(longDate(TODAY))).toBeVisible();
+  await expect(dateButton(page, TODAY)).toBeVisible();
 
   const prev = page.getByRole("button", { name: "Previous day" });
   const next = page.getByRole("button", { name: "Next day" });
@@ -41,24 +55,24 @@ test("seeded chart renders and Today's date nav works and clamps", async ({ page
     await prev.click();
   }
   await expect(prev).toBeDisabled();
-  await expect(page.getByText(longDate(addDays(TODAY, -30)))).toBeVisible();
+  await expect(dateButton(page, addDays(TODAY, -30))).toBeVisible();
 
   for (let i = 0; i < 60; i += 1) {
     await next.click();
   }
   await expect(next).toBeDisabled();
-  await expect(page.getByText(longDate(addDays(TODAY, 30)))).toBeVisible();
+  await expect(dateButton(page, addDays(TODAY, 30))).toBeVisible();
   await expect(page.getByText("Readings reach 30 days out from today.")).toBeVisible();
 
   // Tapping the date opens a picker that jumps anywhere in the window.
   await page.getByRole("button", { name: /jump to a date/i }).click();
   await page.getByLabel("Jump to a date").fill(addDays(TODAY, 5));
-  await expect(page.getByText(longDate(addDays(TODAY, 5)))).toBeVisible();
+  await expect(dateButton(page, addDays(TODAY, 5))).toBeVisible();
 
   // Past midnight, regaining visibility re-anchors the strip to the new day —
   // a PWA reopened the next morning must not keep showing yesterday.
   await page.getByRole("button", { name: "Back to today" }).click();
-  await expect(page.getByText(longDate(TODAY))).toBeVisible();
+  await expect(dateButton(page, TODAY)).toBeVisible();
   await page.evaluate((iso) => {
     const fixed = new Date(iso).getTime();
     const RealDate = Date;
@@ -79,7 +93,7 @@ test("seeded chart renders and Today's date nav works and clamps", async ({ page
     window.Date = FakeDate;
     document.dispatchEvent(new Event("visibilitychange"));
   }, `${addDays(TODAY, 1)}T09:00:00Z`);
-  await expect(page.getByText(longDate(addDays(TODAY, 1)))).toBeVisible();
+  await expect(dateButton(page, addDays(TODAY, 1))).toBeVisible();
 });
 
 test("streak counts consecutive opens and the tomorrow note shows only on today", async ({

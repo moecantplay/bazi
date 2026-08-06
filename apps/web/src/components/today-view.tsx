@@ -1,35 +1,35 @@
 /**
- * The Today screen, restructured to Co-Star's content architecture (research
- * 2026-07-16): a ±30-day date strip around the device's real today (tap the
- * date to jump within the window), then the week strip, then the hero —
- * headline hook in display type over the day pillar — then "At a glance"
- * (the activity axis-dot rows, orientation before prose), the reading grouped
- * into life-area sections with citations under the prose, the Favors/Watch
- * board as stark word lists with its grouped guidance prose, and the agency
- * line last, set apart in display type. A quiet streak line and a
- * come-back-tomorrow note are screen chrome, not reading copy.
- *
- * All reading text comes from the content package and is deterministic in the
- * daily seedKey, so revisiting a date always shows the same words.
+ * The Today screen, rebuilt to DESIGN.md's Trail direction: the day as a
+ * route on a topographic map. Top to bottom — datebar, seven-day elevation
+ * profile, headline hook with one line of grain prose, legend tags, the map
+ * hero, the waypoint-rail reading, trail signs, the signpost (agency line),
+ * and the streak line. All data plumbing (bundle/guidance/seedKey, the date
+ * strip's prev/next/jump logic, the streak counter, the glossary "how this
+ * reading works" entry) is unchanged from M17 — only what renders moves.
  */
 
 "use client";
 
-import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { READING_TOPIC, glossaryEntry } from "@daymaster/content";
-import { AreaGauges } from "@/components/area-gauges";
-import { DayBoard } from "@/components/day-board";
-import { DayOrbit } from "@/components/day-orbit";
+import { READING_TOPIC, glossaryEntry, stripHanCharacters } from "@daymaster/content";
+import { Datebar } from "@/components/datebar";
+import { ElevationProfile } from "@/components/elevation-profile";
 import { GlossarySheet } from "@/components/glossary-sheet";
-import { ReadingAreaSections } from "@/components/reading-area-sections";
-import { WeekStrip } from "@/components/week-strip";
-import { addDays, daysBetween, formatLong, todayLabel } from "@/lib/dates";
+import { LegendTags } from "@/components/legend-tags";
+import { MapHero } from "@/components/map-hero";
+import { TrailSigns } from "@/components/trail-signs";
+import { WaypointRail } from "@/components/waypoint-rail";
+import { chartFor } from "@/lib/chart";
+import { addDays, daysBetween } from "@/lib/dates";
+import { dayTone } from "@/lib/day-tone";
 import { describeBranch, describeStem } from "@/lib/display";
 import { dayGuidanceFor } from "@/lib/guidance";
-import { dailyBundleFor, dailySeedKey } from "@/lib/reading";
+import { dailyBundleFor } from "@/lib/reading";
+import { routeWaypointsFor } from "@/lib/route-waypoints";
 import type { StoredProfile } from "@/lib/profile";
 import { recordTodayOpen, streakLine } from "@/lib/streak";
+import { useTodayLabel } from "@/lib/use-today-label";
 
 const RANGE = 30;
 
@@ -39,10 +39,11 @@ interface HeadlineRun {
 }
 
 /**
- * Splits a headline into regular/extrabold runs for the hero's mixed-weight
- * setting: the middle of the sentence carries the weight, the opening words
- * and the final word stay regular. Purely presentational and deterministic
- * in the text; headlines too short to split render unemphasized.
+ * Splits a headline into a plain-weight frame and one serif-italic emphasis
+ * run (DESIGN.md §Type: "one phrase per headline — the direction's one
+ * flourish"). The middle of the sentence carries the emphasis; the opening
+ * words and the final word stay plain. Headlines too short to split render
+ * unemphasized.
  */
 function headlineRuns(text: string): HeadlineRun[] {
   const words = text.split(" ");
@@ -62,33 +63,6 @@ interface Props {
   profile: StoredProfile;
 }
 
-/**
- * The device's current date, re-checked whenever the app regains focus or
- * visibility — a PWA reopened after midnight must show the new day, not the
- * day it was backgrounded on.
- */
-function useTodayLabel(): string {
-  const [today, setToday] = useState(() => todayLabel());
-
-  useEffect(() => {
-    function refresh() {
-      if (document.visibilityState === "hidden") {
-        return;
-      }
-      const fresh = todayLabel();
-      setToday((current) => (current === fresh ? current : fresh));
-    }
-    window.addEventListener("focus", refresh);
-    document.addEventListener("visibilitychange", refresh);
-    return () => {
-      window.removeEventListener("focus", refresh);
-      document.removeEventListener("visibilitychange", refresh);
-    };
-  }, []);
-
-  return today;
-}
-
 export function TodayView({ profile }: Props) {
   const today = useTodayLabel();
   const [offset, setOffset] = useState(0);
@@ -104,9 +78,25 @@ export function TodayView({ profile }: Props) {
   const dateISO = addDays(today, offset);
   const bundle = useMemo(() => dailyBundleFor(profile, dateISO), [profile, dateISO]);
   const guidance = useMemo(() => dayGuidanceFor(profile, dateISO), [profile, dateISO]);
+  const chart = useMemo(() => chartFor(profile), [profile]);
+  const tone = useMemo(() => dayTone(profile, dateISO), [profile, dateISO]);
+  const waypoints = useMemo(
+    () => routeWaypointsFor(bundle.reading.lines, bundle.facts),
+    [bundle]
+  );
 
   const stem = describeStem(bundle.dayPillar.stem);
   const branch = describeBranch(bundle.dayPillar.branch);
+  const pillars = [chart.year, chart.month, chart.day, chart.hour];
+  const grainLine = bundle.reading.lines.find((line) => line.area === "overall") ?? bundle.reading.lines[0];
+
+  const branchByArea = {
+    year: chart.year.branch,
+    month: chart.month.branch,
+    day: chart.day.branch,
+    ...(chart.hour ? { hour: chart.hour.branch } : {}),
+    overall: bundle.dayPillar.branch
+  };
 
   const step = (delta: number) =>
     setOffset((current) => Math.min(RANGE, Math.max(-RANGE, current + delta)));
@@ -123,119 +113,66 @@ export function TodayView({ profile }: Props) {
   }
 
   return (
-    <div className="flex flex-col gap-8">
-      <div className="flex flex-col items-center gap-1">
-        <div className="flex w-full items-center justify-between gap-2">
-          <button
-            type="button"
-            aria-label="Previous day"
-            onClick={() => step(-1)}
-            disabled={offset <= -RANGE}
-            className="px-3 py-2 text-2xl leading-none text-ink disabled:opacity-30"
-          >
-            &lsaquo;
-          </button>
-          <div className="flex flex-col items-center" aria-live="polite">
-            {pickerOpen ? (
-              <input
-                type="date"
-                autoFocus
-                aria-label="Jump to a date"
-                defaultValue={dateISO}
-                min={addDays(today, -RANGE)}
-                max={addDays(today, RANGE)}
-                onChange={(event) => jumpTo(event.target.value)}
-                onBlur={() => setPickerOpen(false)}
-                className="field-input w-auto"
-              />
-            ) : (
-              <button
-                type="button"
-                onClick={() => setPickerOpen(true)}
-                aria-label={`${formatLong(dateISO)} — jump to a date`}
-                className="font-display text-lg font-semibold text-ink"
-              >
-                {formatLong(dateISO)}
-              </button>
-            )}
-            {offset !== 0 && !pickerOpen && (
-              <button
-                type="button"
-                onClick={() => setOffset(0)}
-                className="mt-1 px-3 py-1.5 text-[12px] text-ink-soft hover:text-ink"
-              >
-                Back to today
-              </button>
-            )}
-            {offset === 0 && !pickerOpen && streak >= 2 && (
-              <p data-streak className="mt-1 text-[12px] text-ink-soft">{streakLine(streak, today)}</p>
-            )}
-          </div>
-          <button
-            type="button"
-            aria-label="Next day"
-            onClick={() => step(1)}
-            disabled={offset >= RANGE}
-            className="px-3 py-2 text-2xl leading-none text-ink disabled:opacity-30"
-          >
-            &rsaquo;
-          </button>
-        </div>
-        {atBoundary && (
-          <p className="text-[12px] text-ink-soft">Readings reach 30 days out from today.</p>
-        )}
-      </div>
-
-      <WeekStrip profile={profile} today={today} selectedISO={dateISO} onSelect={jumpTo} />
-
-      {/* The hero is the screen's one color mass: the day's two elements
-          wash the card (stem pools top-left, branch warms bottom-right) and
-          the orbit line art replaces the bare pillar glyphs. Everything
-          inside is full ink — ink-soft can't hold contrast on the wash, and
-          the headline is the only text in its strongest zone because only
-          large text clears AA there (see globals.css). */}
-      <section
-        className="hero-card relative overflow-hidden rounded-3xl px-6 pb-8 pt-9"
-        style={
-          {
-            "--hero-stem": `var(--element-${stem.element})`,
-            "--hero-branch": `var(--element-${branch.element})`
-          } as CSSProperties
-        }
-      >
-        <h2
-          data-headline
-          className="text-[38px] font-normal leading-[1.12] tracking-[-0.02em] text-ink"
+    <div className="flex flex-col gap-7">
+      <Datebar
+        dateISO={dateISO}
+        pickerOpen={pickerOpen}
+        onOpenPicker={() => setPickerOpen(true)}
+        onClosePicker={() => setPickerOpen(false)}
+        onJump={jumpTo}
+        onStep={step}
+        min={addDays(today, -RANGE)}
+        max={addDays(today, RANGE)}
+        atStart={offset <= -RANGE}
+        atEnd={offset >= RANGE}
+        pillars={pillars}
+      />
+      {atBoundary && (
+        <p className="-mt-4 text-[12px] text-ink-soft">Readings reach 30 days out from today.</p>
+      )}
+      {offset !== 0 && (
+        <button
+          type="button"
+          onClick={() => setOffset(0)}
+          className="tap-target -mt-4 self-start text-[12px] text-ink-soft hover:text-ink"
         >
+          Back to today
+        </button>
+      )}
+
+      <ElevationProfile profile={profile} today={today} selectedISO={dateISO} onSelect={jumpTo} />
+
+      <div className="flex flex-col gap-2">
+        <p className="kicker">Today&rsquo;s terrain</p>
+        <h2 data-headline className="font-display text-[35px] leading-[1.07] tracking-[-0.022em] text-ink [text-wrap:balance]">
           {headlineRuns(bundle.reading.headline.text).map((run, index) =>
             run.emphasized ? (
-              <b key={index} className="font-extrabold">
+              <em
+                key={index}
+                className="font-medium italic"
+                style={{ fontFamily: 'ui-serif, "New York", Georgia, serif' }}
+              >
                 {run.text}
-              </b>
+              </em>
             ) : (
               run.text
             )
           )}
         </h2>
+        <p className="text-[14px] leading-relaxed text-ink">{stripHanCharacters(grainLine?.text ?? "")}</p>
+      </div>
 
-        <div className="mt-7 flex flex-col items-center gap-2">
-          <DayOrbit
-            stemGloss={stem.gloss}
-            branchGloss={branch.gloss}
-            stemElement={stem.element}
-            stemPolarity={stem.polarity}
-            branchElement={branch.element}
-          />
-          <span className="caption text-ink">
-            {stem.pinyin} {stem.element} · {branch.pinyin} {branch.element}
-          </span>
-        </div>
-      </section>
+      <LegendTags
+        stemElement={stem.element}
+        stemPolarity={stem.polarity}
+        branchGloss={branch.gloss}
+        branchElement={branch.element}
+      />
 
-      <AreaGauges quality={guidance.quality} seedKey={dailySeedKey(profile, dateISO)} />
+      <MapHero pillars={pillars} dayBranchGloss={branch.gloss} tone={tone} waypoints={waypoints} />
 
       <div className="flex flex-col gap-2">
-        <ReadingAreaSections lines={bundle.reading.lines} />
+        <WaypointRail lines={bundle.reading.lines} branchByArea={branchByArea} />
         {aboutEntry && (
           <button
             type="button"
@@ -251,7 +188,7 @@ export function TodayView({ profile }: Props) {
         )}
       </div>
 
-      <DayBoard
+      <TrailSigns
         chips={guidance.chips}
         proseLines={guidance.lines}
         dos={bundle.reading.dos}
@@ -262,10 +199,31 @@ export function TodayView({ profile }: Props) {
         Find a day for something &rarr;
       </Link>
 
-      <div className="card border-t-2 border-ink p-5">
-        <p className="font-display text-[21px] font-semibold leading-snug text-ink">{bundle.reading.agency.text}</p>
+      <div className="flex">
+        <div className="relative mr-5 rounded-l-[18px] bg-anchor py-4 pl-5 pr-4 text-paper">
+          <p
+            className="font-mono text-[9px] font-bold uppercase tracking-[.2em]"
+            style={{ color: "color-mix(in srgb, var(--paper) 55%, var(--ink-soft))" }}
+          >
+            One small thing before camp
+          </p>
+          <p className="mt-1.5 text-[16.5px] font-medium leading-snug">
+            {stripHanCharacters(bundle.reading.agency.text)}
+          </p>
+          <span
+            aria-hidden
+            className="absolute left-full top-0 h-full w-5 bg-anchor"
+            style={{ clipPath: "polygon(0 0, 100% 50%, 0 100%)" }}
+          />
+        </div>
       </div>
+      <span aria-hidden className="-mt-6 ml-10 h-6 w-0.5 bg-hairline" />
 
+      {offset === 0 && streak >= 2 && (
+        <p data-streak className="-mt-4 text-center text-[12px] text-ink-soft">
+          {streakLine(streak, today)}
+        </p>
+      )}
       {offset === 0 && (
         <p className="-mt-4 text-center text-[12px] text-ink-soft">
           Tomorrow reads differently. It&rsquo;ll be here in the morning.

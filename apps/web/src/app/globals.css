@@ -1,74 +1,35 @@
+@import "./tokens.generated.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /*
- * Design tokens (DESIGN.md). Cinnabar is reserved for the seal only; it is
- * intentionally never applied to buttons, links, or accents anywhere else.
- * --seal-paper is the seal's carved interior: paper-white in BOTH themes,
- * because the seal is stamped paper, not themed UI.
+ * Design tokens (DESIGN.md v4, Trail). Cinnabar is reserved for the seal
+ * only; it is intentionally never applied to buttons, links, or accents
+ * anywhere else. --seal-paper is the seal's carved interior: paper-white in
+ * BOTH themes AND all five terrains, because the seal is stamped paper, not
+ * themed UI. The rest of the palette (--paper, --ink, --ink-soft, --surface,
+ * --paper-raised, --hairline, the --element-* hues, --anchor, --signal-amber,
+ * the --shadow-* set) is generated — see tokens.generated.css and
+ * scripts/generate-tokens.mjs.
  */
 :root {
   /* Tells the browser to render native controls (date/time picker
      indicators, selects, scrollbars) in the matching scheme — CSS variables
-     alone cannot recolor them. Must track the theme blocks below. */
+     alone cannot recolor them. Terrain never affects this, only theme. */
   color-scheme: light;
-
-  --paper: #f5f6f4;
-  --ink: #181c22;
-  --ink-soft: #565d68;
   --cinnabar: #bf3a2b;
-  --paper-raised: #ffffff;
-  --surface: #eaede9;
-  --hairline: #d8dbd6;
   --seal-paper: #f5f6f4;
-
-  --element-wood: #3a7d44;
-  --element-fire: #d0662a;
-  --element-earth: #9c7a3c;
-  --element-metal: #7a8494;
-  --element-water: #2e5e8c;
 }
 
-/*
- * Dark theme (DESIGN.md §Dark). The same block appears twice on purpose:
- * the media query covers "system preference, no explicit choice", the
- * data-theme attribute covers an explicit choice from Settings. Keep the
- * two lists byte-identical when editing.
- */
 :root[data-theme="dark"] {
   color-scheme: dark;
-
-  --paper: #14171c;
-  --ink: #e8e6e1;
-  --ink-soft: #a6acb6;
-  --paper-raised: #1d222b;
-  --surface: #20252f;
-  --hairline: #2c323c;
-
-  --element-wood: #63a871;
-  --element-fire: #e0764a;
-  --element-earth: #c09b55;
-  --element-metal: #96a1b2;
-  --element-water: #6fa0d0;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-
-    --paper: #14171c;
-    --ink: #e8e6e1;
-    --ink-soft: #a6acb6;
-    --paper-raised: #1d222b;
-    --surface: #20252f;
-    --hairline: #2c323c;
-
-    --element-wood: #63a871;
-    --element-fire: #e0764a;
-    --element-earth: #c09b55;
-    --element-metal: #96a1b2;
-    --element-water: #6fa0d0;
   }
 }
 
@@ -102,22 +63,38 @@ body {
  * ladder stays a ladder — every text node is one of the four registers.
  */
 @layer components {
-  /* Section opener (DESIGN.md §Type): Material-subheader style — sentence
-     case, no rule. The class keeps its M15 name; only the look changed. */
+  /* Section opener (DESIGN.md v4 §Type): Space Mono, uppercase, a 16×2px
+     rule before the text — the wayfinding kicker that makes the screen read
+     as a map. Replaces M16's sentence-case Material subheader. */
   .kicker {
-    @apply text-[13px] font-semibold text-ink-soft;
+    @apply flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[.17em] text-ink-soft;
+  }
+  .kicker::before {
+    content: "";
+    display: block;
+    width: 16px;
+    height: 2px;
+    flex: none;
+    background: var(--ink-soft);
   }
 
-  /* Display register rides the one Figtree family with weight, not a second
-     face. Explicit font-weight utilities on the same element still win. */
+  /* Display register: Bricolage Grotesque 800, carried by font-display.
+     Explicit font-weight utilities on the same element still win. */
   .font-display {
-    font-weight: 700;
+    font-weight: 800;
     letter-spacing: -0.01em;
   }
 
-  /* Caption register: fact tags, pinyin, meta rows. */
+  /* Caption register: fact tags, pinyin, meta rows, citations. Space Mono —
+     citations read as map annotations, not body text. */
   .caption {
-    @apply text-[12px] leading-snug text-ink-soft;
+    @apply font-mono text-[11px] font-bold uppercase leading-snug tracking-wide text-ink-soft;
+  }
+
+  /* Form field label (DESIGN.md v4 §Components: "Space Mono uppercase label
+     above"). Sits directly above a .field-input inside a gap-spaced label. */
+  .field-label {
+    @apply block font-mono text-[10px] font-bold uppercase tracking-[.15em] text-ink-soft;
   }
 
   /* Quiet tap targets (caption rows, arrow links): the visual row stays
@@ -132,13 +109,23 @@ body {
     color: var(--ink);
   }
 
-  /* Form fields share one spec (DESIGN.md §Forms). appearance-none matters
-     on iOS Safari: with the native appearance, date/time fields size to the
-     built-in control (ignoring width/height) and center their value. */
+  /* A 30-34% ink tint as a border color — theme-proof, since --ink is a raw
+     hex custom property (no <alpha-value> plumbing for Tailwind's /34).
+     Shared by buttons, fields, and the segmented control. */
+  .border-ink-tint {
+    border: 1.5px solid color-mix(in srgb, var(--ink) 32%, transparent);
+  }
+
+  /* Form fields share one spec (DESIGN.md v4 §Components). appearance-none
+     matters on iOS Safari: with the native appearance, date/time fields size
+     to the built-in control (ignoring width/height) and center their value. */
   .field-input {
-    @apply w-full appearance-none rounded-2xl bg-paper-raised px-4 py-3 text-base text-ink;
-    border: 1.5px solid var(--ink-soft);
-    min-height: 48px;
+    @apply border-ink-tint w-full appearance-none rounded-field bg-surface px-4 py-3 text-base text-ink;
+    min-height: 52px;
+  }
+  .field-input:focus {
+    outline: 2px solid var(--ink);
+    outline-offset: 1px;
   }
   .field-input::-webkit-date-and-time-value {
     text-align: left;
@@ -160,13 +147,16 @@ body {
     }
   }
 
-  /* Tonal containers (DESIGN.md §Surfaces): fill is the edge, no border,
-     in both themes. Content cards are the standalone shape; segment stacks
-     are the Google-settings list idiom — 2px gaps, soft inner corners, the
-     stack's outer corners rounded like a card. */
+  /* Standalone content cards (DESIGN.md v4 §Shape): fill + a soft shadow,
+     borderless in both themes — dark elevates by a deeper shadow and the
+     fill, still no borders. */
   .card {
-    @apply rounded-3xl bg-surface;
+    @apply rounded-card bg-surface shadow-card;
   }
+
+  /* Segment stacks (settings rows, saved people, activity picker): flat,
+     borderless, 2px gaps — Trail is quieter here than on Today (round 5's
+     own audit: the rail motif doesn't belong on a settings list). */
   .stack {
     @apply flex flex-col gap-0.5;
   }
@@ -174,17 +164,26 @@ body {
     @apply rounded-lg bg-surface;
   }
   .stack > *:first-child {
-    @apply rounded-t-3xl;
+    @apply rounded-t-card;
   }
   .stack > *:last-child {
-    @apply rounded-b-3xl;
+    @apply rounded-b-card;
   }
 
   /* A 10% ink tint over whatever sits beneath — theme-proof fill for chips
-     and empty meter cells. color-mix because the ink token is a raw hex
-     custom property (no <alpha-value> plumbing for Tailwind's /10). */
+     and empty meter cells. */
   .bg-ink-tint {
     background-color: color-mix(in srgb, var(--ink) 10%, transparent);
+  }
+
+  /* A 12% ink-soft tint — used wherever an ink-soft LABEL sits on top of the
+     tint (segmented-control track). Deliberately ink-soft, not ink: an ink
+     tint strong enough to read as a track darkens the ground enough to pull
+     an ink-soft label below 4.5:1 (measured 3.06:1 in the design-system
+     prototype at 18%). Lighter track, inkier label — see DESIGN.md v4
+     §Components "Segmented control". */
+  .bg-mut-tint {
+    background-color: color-mix(in srgb, var(--ink-soft) 12%, transparent);
   }
 
   /* Label chips: the ink tint as a pill, no border. */
@@ -192,49 +191,18 @@ body {
     @apply bg-ink-tint inline-flex items-baseline gap-1.5 rounded-full px-3 py-1;
   }
 
-  /* Disabled primary buttons take the same ink tint (DESIGN.md §Forms) —
-     here rather than a Tailwind variant because color-mix has no /alpha
-     utility to hang disabled: on. */
-  .btn-primary:disabled {
-    background-color: color-mix(in srgb, var(--ink) 10%, transparent);
+  /* Disabled primary buttons recede via a card/paper fill mix, muted text —
+     "unpressable, not broken" (DESIGN.md v4 §Components). Deliberately not an
+     ink tint: an ink-tinted fill pulls the ink-soft label's contrast down
+     with it the same way the segmented-control track does above. Here rather
+     than a Tailwind variant because color-mix has no /alpha utility to hang
+     disabled: on. */
+  .btn-primary-disabled:disabled {
+    background-color: color-mix(in srgb, var(--surface) 55%, var(--paper));
+    color: var(--ink-soft);
+    border-color: color-mix(in srgb, var(--hairline) 60%, transparent);
   }
 
-  /* The Today hero: the one saturated color mass per screen (DESIGN.md
-     §Today hero). An ink-wash of the day's two elements — the stem pools
-     from the top-left corner and feathers into the surface tone, the branch
-     warms the bottom-right. --hero-stem/--hero-branch are set inline per
-     day, so the wash re-resolves per theme. Text inside must be full --ink,
-     and only LARGE text may sit in the stem's strongest zone: ink is 4.06:1
-     there worst-case (dark earth/metal) — clears 3:1 for the 38px headline,
-     not 4.5:1 for body sizes. The caption zone stays ≤34% tint (ink ≥6.6:1). */
-  .hero-card {
-    background:
-      radial-gradient(
-        150% 110% at 8% 0%,
-        color-mix(in srgb, var(--hero-stem) 60%, var(--surface)) 0%,
-        color-mix(in srgb, var(--hero-stem) 38%, var(--surface)) 38%,
-        color-mix(in srgb, var(--hero-stem) 14%, var(--surface)) 62%,
-        transparent 78%
-      ),
-      radial-gradient(
-        70% 55% at 100% 104%,
-        color-mix(in srgb, var(--hero-branch) 34%, var(--surface)) 0%,
-        transparent 62%
-      ),
-      var(--surface);
-  }
-
-  /* Film-grain over the wash — an inline SVG turbulence tile, so no asset
-     and no network. Effective opacity ~8%; sits above the content like
-     print grain, pointer-events off. */
-  .hero-card::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.5;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.16'/%3E%3C/svg%3E");
-  }
 }
 
 /*

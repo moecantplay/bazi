@@ -1,11 +1,28 @@
 import type { Metadata, Viewport } from "next";
-import { Figtree } from "next/font/google";
+import { Figtree, Bricolage_Grotesque, Space_Mono } from "next/font/google";
 import { ServiceWorker } from "@/components/service-worker";
 import "./globals.css";
 
 const figtree = Figtree({
   subsets: ["latin"],
   variable: "--font-figtree",
+  display: "swap"
+});
+
+/** Display register (DESIGN.md §Type): headline hook, section titles. */
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  weight: ["800"],
+  variable: "--font-bricolage",
+  display: "swap"
+});
+
+/** Label register: kickers, citations, form labels, map/elevation annotations —
+    the face that makes the screen read as a map (DESIGN.md §Type). */
+const spaceMono = Space_Mono({
+  subsets: ["latin"],
+  weight: ["700"],
+  variable: "--font-space-mono",
   display: "swap"
 });
 
@@ -24,9 +41,13 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
+  // Wood terrain's ground (tokens.generated.css's default before a profile
+  // exists and data-terrain is stamped) — DESIGN.md v4, supersedes the old
+  // M16 paper/ink pair. Browser/PWA chrome (status bar, task-switcher card)
+  // should match the app's default background, not a retired palette.
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f5f6f4" },
-    { media: "(prefers-color-scheme: dark)", color: "#14171c" }
+    { media: "(prefers-color-scheme: light)", color: "#F0EEE2" },
+    { media: "(prefers-color-scheme: dark)", color: "#161911" }
   ],
   width: "device-width",
   initialScale: 1
@@ -47,7 +68,11 @@ export default function RootLayout({ children }: Props) {
     // suppressHydrationWarning: THEME_INIT_SCRIPT stamps data-theme on <html>
     // before hydration, so this one element's attributes legitimately differ
     // from the server HTML. Suppression is attribute-only and one level deep.
-    <html lang="en" suppressHydrationWarning className={figtree.variable}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${figtree.variable} ${bricolage.variable} ${spaceMono.variable}`}
+    >
       <body className="font-sans">
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         {children}

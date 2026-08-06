@@ -26,7 +26,7 @@ export function TimeStep({ time, unknown, onTimeChange, onUnknownChange, onNext 
       primaryDisabled={!canAdvance}
     >
       <label className="flex flex-col gap-2">
-        <span className="text-sm text-ink">Birth time</span>
+        <span className="field-label">Birth time</span>
         <PickerField
           type="time"
           hint="Tap to pick a time"
