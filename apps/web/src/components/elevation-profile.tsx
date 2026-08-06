@@ -62,7 +62,7 @@ export function ElevationProfile({ profile, today, selectedISO, onSelect }: Prop
           viewBox="0 0 100 100"
           preserveAspectRatio="none"
           aria-hidden="true"
-          className="absolute inset-0"
+          className="absolute inset-0 h-full w-full"
         >
           <path
             d={pathD}
