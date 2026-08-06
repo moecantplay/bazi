@@ -5,7 +5,11 @@
  *
  * Also the single choke point every gated screen passes through, so it's
  * where the day's terrain (DESIGN.md v4 §Tokens) gets stamped on <html> —
- * every screen shares one day's ground, not just Today.
+ * every screen defaults to real today's ground. TodayView re-stamps it to
+ * the currently viewed day whenever its date nav moves off today (DESIGN.md:
+ * ground is keyed to "the active profile's day-stem element ... [and] date"),
+ * then this effect's own re-run (profile/today don't change mid-session)
+ * never fights it back.
  */
 
 "use client";

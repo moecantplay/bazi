@@ -50,6 +50,10 @@ export function TodayView({ profile }: Props) {
   const { pillars, stem, branch, reading, guidance, tone, waypoints, headline, grainLine, branchByArea, dateRange } =
     model;
 
+  useEffect(() => {
+    document.documentElement.dataset.terrain = stem.element;
+  }, [stem.element]);
+
   const step = (delta: number) => setOffset((current) => clampOffsetToRange(current + delta));
 
   function jumpTo(value: string) {
