@@ -57,6 +57,18 @@ const WEEK_ENTRY: GlossaryEntry = {
   ],
 };
 
+/** The entry behind the map hero's "what the marks mean" link. */
+export const ROUTE_TOPIC = "route";
+
+const ROUTE_ENTRY: GlossaryEntry = {
+  title: "Today's route",
+  body: [
+    "The dashed line is the day drawn as a route — morning to evening, a fixed shape that doesn't measure anything on its own. The colored stretch in the middle is the one part that does: it's today's overall lean, the same read as the elevation strip above.",
+    "A circled X marks an hour where today's sign clashes, punishes, or harms one in your chart — friction worth noticing. A plain dot marks the opposite: an hour that combines or trines with your chart, pulling together instead of apart.",
+    "Read each mark as weather at a glance — the full story for each one is written out below, under Waypoints.",
+  ],
+};
+
 const INTERACTION_SIGNS_LEAD =
   "Every day, month, and year carries one of the twelve animal signs, and your chart holds signs of its own — one in each pillar.";
 
@@ -203,6 +215,7 @@ function officerEntries(): Record<string, GlossaryEntry> {
 const RAW_GLOSSARY: Record<string, GlossaryEntry> = {
   [READING_TOPIC]: READING_ENTRY,
   [WEEK_TOPIC]: WEEK_ENTRY,
+  [ROUTE_TOPIC]: ROUTE_ENTRY,
   ...interactionEntries(),
   ...tenGodEntries(),
   ...starEntries(),

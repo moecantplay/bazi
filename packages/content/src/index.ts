@@ -48,7 +48,7 @@ export { activityAreaLine, dayGuidance, dateVerdictLine } from "./day-guidance.j
 export type { GuidanceChip, DayGuidance } from "./day-guidance.js";
 export { horizonReading } from "./horizon-reading.js";
 export type { HorizonReading } from "./horizon-reading.js";
-export { GLOSSARY, READING_TOPIC, WEEK_TOPIC, glossaryEntry } from "./glossary.js";
+export { GLOSSARY, READING_TOPIC, ROUTE_TOPIC, WEEK_TOPIC, glossaryEntry } from "./glossary.js";
 export type { GlossaryEntry } from "./glossary.js";
 export { READ_MORE, readMoreEntry } from "./read-more.js";
 export type { ReadMoreEntry } from "./read-more.js";
