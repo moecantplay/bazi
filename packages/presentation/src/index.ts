@@ -72,6 +72,8 @@ export {
 export type { TodayScreenModel, TodayDateRange, HeadlineRun } from "./today-screen.js";
 export { elevationWeek, elevationPath, ELEVATION_WEEK_LENGTH } from "./elevation.js";
 export type { ElevationCell } from "./elevation.js";
+export { activityTerrain } from "./activity-terrain.js";
+export type { ActivityTerrainCell } from "./activity-terrain.js";
 export { chartPreviewFor } from "./chart-preview.js";
 export type { ChartPreviewResult } from "./chart-preview.js";
 export { starsForPalace } from "./pillar-stars.js";

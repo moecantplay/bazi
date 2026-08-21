@@ -17,6 +17,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { READING_TOPIC, glossaryEntry } from "@daymaster/content";
 import { addDays, clampOffsetToRange, daysBetween, streakLine, todayScreenModel } from "@daymaster/presentation";
+import { ActivityTerrain } from "@/components/activity-terrain";
 import { Datebar } from "@/components/datebar";
 import { ElevationProfile } from "@/components/elevation-profile";
 import { GlossarySheet } from "@/components/glossary-sheet";
@@ -141,6 +142,8 @@ export function TodayView({ profile }: Props) {
           <GlossarySheet entry={aboutEntry} onClose={() => setAboutOpen(false)} />
         )}
       </div>
+
+      <ActivityTerrain assessments={guidance.quality.assessments} />
 
       <TrailSigns
         chips={guidance.chips}

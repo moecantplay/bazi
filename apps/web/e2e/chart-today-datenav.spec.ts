@@ -95,6 +95,30 @@ test("seeded chart renders and Today's date nav works and clamps", async ({ page
   await expect(dateButton(page, addDays(TODAY, 1))).toBeVisible();
 });
 
+test("today's terrain shows all 10 activities and its disclosure toggles the manifest", async ({
+  page,
+  context
+}) => {
+  await seedProfile(context, FIXTURE_A);
+  await pinClock(context, `${TODAY}T09:00:00Z`);
+  await page.goto("/today/");
+
+  const terrain = page.locator("[data-activity-terrain]");
+  await expect(terrain).toBeVisible();
+  await expect(terrain.locator('[role="img"]')).toHaveAttribute("aria-label", /Today across 10 activities/);
+  await expect(terrain.locator("[data-activity-manifest]")).toHaveCount(0);
+
+  await terrain.getByRole("button", { name: "Show all 10 in detail" }).click();
+  const manifest = terrain.locator("[data-activity-manifest]");
+  await expect(manifest).toBeVisible();
+  await expect(manifest.locator("li")).toHaveCount(10);
+  await expect(manifest).toContainText("Gatherings");
+  await expect(manifest).toContainText("meeting friends and kin");
+
+  await terrain.getByRole("button", { name: "Hide details" }).click();
+  await expect(terrain.locator("[data-activity-manifest]")).toHaveCount(0);
+});
+
 test("streak counts consecutive opens and the tomorrow note shows only on today", async ({
   page,
   context

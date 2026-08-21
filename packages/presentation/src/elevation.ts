@@ -46,7 +46,7 @@ export function elevationWeek(profile: StoredProfile, todayISO: string): Elevati
   });
 }
 
-/** The dashed-line "M...L...L..." path joining a week's cells, in plot order. */
-export function elevationPath(cells: readonly ElevationCell[]): string {
+/** The dashed-line "M...L...L..." path joining plotted cells, in plot order. */
+export function elevationPath(cells: readonly { x: number; y: number }[]): string {
   return cells.map((cell, index) => `${index === 0 ? "M" : "L"}${cell.x} ${cell.y}`).join(" ");
 }
