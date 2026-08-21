@@ -1,17 +1,17 @@
 /**
  * Reading facts: structured, deterministic observations derived from a chart.
  *
- * `natalFacts` describes the static chart; `dailyFacts` compares a transit date
- * (its day pillar and governing annual pillar) against the natal branches. Same
- * chart + same date always yields identical facts.
+ * `natalFacts` describes the static chart; `dailyFacts` compares a transit date's
+ * day pillar against the natal branches — day-only, by design: month/year
+ * transit facts are `horizonFacts`' job (Cycles), not Today's. Same chart +
+ * same date always yields identical facts.
  */
 
-import { DateTime } from "luxon";
 import { ELEMENT_PRODUCTION_ORDER } from "../data/tables.js";
 import { elementOfStem, polarityOfStem } from "./attributes.js";
 import { interactions, natalPalacedBranches } from "./interactions.js";
 import { lifeStage } from "./life-stages.js";
-import { dailyPillar, yearPillar } from "./pillars.js";
+import { dailyPillar } from "./pillars.js";
 import { shensha } from "./shensha.js";
 import { tenGods } from "./ten-gods.js";
 import type {
@@ -197,16 +197,14 @@ export function transitInteractionFacts(
     }));
 }
 
-/** Facts for a transit date compared against the natal chart. */
+/** Facts for a transit date compared against the natal chart. Day-only — see file header. */
 export function dailyFacts(chart: Chart, dateISO: string, zone: string): ReadingFact[] {
   const dayTransit = dailyPillar(dateISO, zone);
-  const noon = DateTime.fromISO(dateISO, { zone }).set({ hour: 12 }).toJSDate();
-  const annualTransit = yearPillar(noon, zone);
 
   const dayElement = elementOfStem(dayTransit.stem);
   const tenGod = tenGods(chart.dayMaster, dayTransit.stem);
 
-  // Stars the transit pillars light up, read from the natal reference points.
+  // Stars the day transit lights up, read from the natal reference points.
   const starHits = shensha(
     {
       dayStem: chart.dayMaster,
@@ -214,15 +212,11 @@ export function dailyFacts(chart: Chart, dateISO: string, zone: string): Reading
       yearBranch: chart.year.branch,
       monthBranch: chart.month.branch,
     },
-    [
-      { palace: "daily", pillar: dayTransit },
-      { palace: "annual", pillar: annualTransit },
-    ],
+    [{ palace: "daily", pillar: dayTransit }],
   );
 
   return [
     ...transitInteractionFacts(chart, dayTransit.branch, "daily"),
-    ...transitInteractionFacts(chart, annualTransit.branch, "annual"),
     {
       kind: "element-day",
       element: dayElement,

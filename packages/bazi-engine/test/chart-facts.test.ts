@@ -92,17 +92,29 @@ describe("natalFacts — Fixture A", () => {
 describe("dailyFacts — Fixture A on a 2026 date", () => {
   const facts = dailyFacts(fixtureA(), "2026-06-15", "Asia/Jakarta");
 
-  it("reports the annual 子午 clash touching the month palace", () => {
-    // annualPillar(2026) = 丙午; 午 clashes the natal month branch 子.
-    const clash = facts.find(
+  it("never reports an annual transit-interaction — Today is day-only, the year lives on Cycles", () => {
+    // annualPillar(2026) = 丙午; 午 clashes the natal month branch 子, but that
+    // belongs to the year's own reading (horizonReading), not Today's.
+    const annualInteraction = facts.find(
       (f): f is Extract<ReadingFact, { kind: "transit-interaction" }> =>
-        f.kind === "transit-interaction" &&
-        f.interaction === "six-clash" &&
-        f.transitPalace === "annual",
+        f.kind === "transit-interaction" && f.transitPalace === "annual",
     );
-    expect(clash).toBeDefined();
-    expect([...(clash?.branches ?? [])].sort()).toEqual(["午", "子"].sort());
-    expect(clash?.natalPalaces).toContain("month");
+    expect(annualInteraction).toBeUndefined();
+  });
+
+  it("still reports the daily transit-interaction facts (day pillar only)", () => {
+    const dailyInteractions = facts.filter(
+      (f): f is Extract<ReadingFact, { kind: "transit-interaction" }> =>
+        f.kind === "transit-interaction",
+    );
+    expect(dailyInteractions.every((f) => f.transitPalace === "daily")).toBe(true);
+  });
+
+  it("never reports a star hit triggered by the annual pillar — 2026's 將星/羊刃/災煞 stay off Today", () => {
+    // Confirmed present with transitPalace "annual" before this fix (將星
+    // General Star, 羊刃 Goat Blade, 災煞 Calamity Star, all lit by 丙午).
+    const starDays = facts.filter((f): f is Extract<ReadingFact, { kind: "star-day" }> => f.kind === "star-day");
+    expect(starDays.every((f) => f.transitPalace === "daily")).toBe(true);
   });
 
   it("is deterministic: same chart + date yields identical facts", () => {
