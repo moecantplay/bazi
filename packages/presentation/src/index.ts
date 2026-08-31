@@ -18,7 +18,7 @@ export type {
 } from "./types.js";
 
 export { fnv1a, createSeededRandom } from "./hash.js";
-export { todayLabel, addDays, daysBetween, formatLong } from "./dates.js";
+export { todayLabel, addDays, daysBetween, formatLong, dayProgress } from "./dates.js";
 export { zonedTimeToUtc } from "./zoned-time.js";
 export { ELEMENT_SWATCH_CLASS, ELEMENT_LABEL, ELEMENT_ORDER } from "./elements.js";
 export { describeStem, describeBranch, palaceWord } from "./display.js";

@@ -35,6 +35,22 @@ export function daysBetween(from: string, to: string): number {
   return Math.round((labelToUtc(to) - labelToUtc(from)) / 86_400_000);
 }
 
+/** The map hero's route reads left-to-right as this waking window. */
+const ROUTE_DAY_START_HOUR = 6;
+const ROUTE_DAY_END_HOUR = 22;
+
+/**
+ * How far through the day the device's clock currently sits, as a 0–1
+ * fraction of the map hero's route (6am "MORNING" to 10pm "EVENING").
+ * Clamped at both ends so the small hours still resolve to a real position
+ * on the route rather than wrapping or going negative.
+ */
+export function dayProgress(now: Date = new Date()): number {
+  const hours = now.getHours() + now.getMinutes() / 60;
+  const span = ROUTE_DAY_END_HOUR - ROUTE_DAY_START_HOUR;
+  return Math.min(1, Math.max(0, (hours - ROUTE_DAY_START_HOUR) / span));
+}
+
 /**
  * A human date like "Tue, 7 Jul 2026", formatted in UTC to match the label.
  * The locale is the device's own so day/month order matches what the user

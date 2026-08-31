@@ -28,6 +28,7 @@ import { TrailSigns } from "@/components/trail-signs";
 import { WaypointRail } from "@/components/waypoint-rail";
 import { recordTodayOpen } from "@/lib/streak";
 import type { StoredProfile } from "@/lib/store-types";
+import { useDayProgress } from "@/lib/use-day-progress";
 import { useTodayLabel } from "@/lib/use-today-label";
 
 interface Props {
@@ -36,6 +37,7 @@ interface Props {
 
 export function TodayView({ profile }: Props) {
   const today = useTodayLabel();
+  const dayProgress = useDayProgress();
   const [offset, setOffset] = useState(0);
   const [pickerOpen, setPickerOpen] = useState(false);
   const [streak, setStreak] = useState(0);
@@ -124,7 +126,13 @@ export function TodayView({ profile }: Props) {
         branchElement={branch.element}
       />
 
-      <MapHero pillars={pillars} dayBranchGloss={branch.gloss} tone={tone} waypoints={waypoints} />
+      <MapHero
+        pillars={pillars}
+        dayBranchGloss={branch.gloss}
+        tone={tone}
+        waypoints={waypoints}
+        progress={offset === 0 ? dayProgress : null}
+      />
 
       <div className="flex flex-col gap-2">
         <WaypointRail lines={reading.lines} branchByArea={branchByArea} />

@@ -17,11 +17,19 @@
  *
  * The "what the marks mean" link below it mirrors ElevationProfile's own
  * legend button — same pattern, its own ROUTE_TOPIC glossary entry.
+ *
+ * The "YOU ARE HERE" marker (dot + pill) is a live position along the
+ * dashed route, driven by `progress` (0 = MORNING, 1 = EVENING; null when
+ * viewing a day other than today, where it just sits at the route's start).
+ * It's measured off the actual rendered path via getPointAtLength rather
+ * than re-deriving the bezier math, so it can never drift from what's
+ * drawn. Today's own animal glyph and the MORNING/EVENING labels stay put
+ * at the trailhead/summit — only the dot + pill travel.
  */
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Pillar } from "@daymaster/bazi-engine";
 import { ROUTE_TOPIC, glossaryEntry } from "@daymaster/content";
 import { describeBranch, mapHeroSummary, type DayTone, type RouteWaypoint } from "@daymaster/presentation";
@@ -48,6 +56,10 @@ const ROUTE_D =
 /** The middle stretch of the same route — the highlight segment, colored by dayTone. */
 const HIGHLIGHT_D = "M94 154 C114 136 146 148 170 132";
 
+const VIEWBOX_WIDTH = 330;
+const PILL_WIDTH = 84;
+const PILL_MARGIN = 6;
+
 const START = { x: 20, y: 204 };
 const WAYPOINT_SLOTS = [
   { x: 94, y: 154 },
@@ -68,6 +80,9 @@ interface Props {
   dayBranchGloss: string;
   tone: DayTone;
   waypoints: RouteWaypoint[];
+  /** 0 (MORNING) to 1 (EVENING) position for the live marker; null parks it
+   * at the route's start, for days other than today. */
+  progress: number | null;
 }
 
 function CrossingMark({ x, y, color }: { x: number; y: number; color: string }) {
@@ -84,11 +99,31 @@ function CrossingMark({ x, y, color }: { x: number; y: number; color: string }) 
   );
 }
 
-export function MapHero({ pillars, dayBranchGloss, tone, waypoints }: Props) {
+export function MapHero({ pillars, dayBranchGloss, tone, waypoints, progress }: Props) {
   const toneColor = TONE_COLOR[tone];
   const { ariaLabel } = mapHeroSummary(waypoints, tone);
   const [legendOpen, setLegendOpen] = useState(false);
   const legendEntry = glossaryEntry(ROUTE_TOPIC);
+
+  const routePathRef = useRef<SVGPathElement>(null);
+  const [marker, setMarker] = useState(START);
+
+  useEffect(() => {
+    const path = routePathRef.current;
+    if (progress === null || !path) {
+      setMarker(START);
+      return;
+    }
+    const length = path.getTotalLength();
+    const point = path.getPointAtLength(length * progress);
+    setMarker({ x: point.x, y: point.y });
+  }, [progress]);
+
+  /** Early in the day the live dot sits almost on top of the fixed MORNING
+   * tick — the pill already says "you are here" right there, so the static
+   * label just steps aside rather than fighting the dot for the same spot. */
+  const markerNearStart = progress !== null && Math.hypot(marker.x - START.x, marker.y - START.y) < 40;
+  const markerNearEnd = progress !== null && Math.hypot(marker.x - END.x, marker.y - END.y) < 40;
 
   return (
     <div className="flex flex-col gap-2">
@@ -108,8 +143,10 @@ export function MapHero({ pillars, dayBranchGloss, tone, waypoints }: Props) {
             y={12}
           />
 
-          {/* The dashed route, start to end. */}
+          {/* The dashed route, start to end. Also the measuring line the
+              live marker below is positioned along. */}
           <path
+            ref={routePathRef}
             d={ROUTE_D}
             fill="none"
             stroke="var(--ink)"
@@ -157,29 +194,79 @@ export function MapHero({ pillars, dayBranchGloss, tone, waypoints }: Props) {
             );
           })}
 
-          {/* YOU ARE HERE: today's own animal, over the start of the route. */}
+          {/* MORNING: the fixed bookend tick at the route's start, with
+              today's own animal above it — flavor for the trailhead, not
+              tied to the live marker below. Text gets an ink-colored halo
+              (paint-order stroke) so the contour lines underneath never cut
+              through the letters. */}
           <g style={{ color: "var(--ink)" }} aria-hidden="true">
             <AnimalGlyphMark
               animal={dayBranchGloss}
               transform={`translate(${START.x - 10}, ${START.y - 42}) scale(0.85)`}
             />
           </g>
-          <circle cx={START.x} cy={START.y} r="4" fill="var(--ink)" aria-hidden="true" />
-          <text x={START.x + 8} y={START.y - 6} fontSize="7" fill="var(--ink-soft)" aria-hidden="true">
-            MORNING
-          </text>
+          {!markerNearStart && (
+            <>
+              <circle cx={START.x} cy={START.y} r="3" fill="var(--ink-soft)" aria-hidden="true" />
+              <text
+                x={START.x + 8}
+                y={START.y - 6}
+                fontSize="7"
+                fill="var(--ink-soft)"
+                stroke="var(--surface)"
+                strokeWidth="3"
+                strokeLinejoin="round"
+                style={{ paintOrder: "stroke" }}
+                aria-hidden="true"
+              >
+                MORNING
+              </text>
+            </>
+          )}
+
+          {/* EVENING: the fixed bookend arrow at the route's end. Same
+              step-aside as MORNING once the live dot reaches it. */}
+          <path d={`M${END.x} ${END.y} L${END.x} ${END.y - 18}`} stroke="var(--ink)" strokeWidth="1.8" aria-hidden="true" />
+          <path
+            d={`M${END.x} ${END.y - 18} L${END.x + 15} ${END.y - 13.5} L${END.x} ${END.y - 9} Z`}
+            fill={toneColor}
+            aria-hidden="true"
+          />
+          {!markerNearEnd && (
+            <text
+              x={END.x + 14}
+              y={END.y + 14}
+              textAnchor="end"
+              fontSize="7"
+              fill="var(--ink-soft)"
+              stroke="var(--surface)"
+              strokeWidth="3"
+              strokeLinejoin="round"
+              style={{ paintOrder: "stroke" }}
+              aria-hidden="true"
+            >
+              EVENING
+            </text>
+          )}
+
+          {/* YOU ARE HERE: the live position along the route (or the start,
+              on days other than today). */}
+          <circle cx={marker.x} cy={marker.y} r="4" fill="var(--ink)" aria-hidden="true" />
+          {/* The pill stays left-anchored to the dot, same as the original
+              start-only layout, but never runs past the card's right edge
+              once the marker can sit anywhere along the route. */}
           <rect
-            x={START.x}
-            y={START.y + 4}
-            width="84"
+            x={Math.min(marker.x, VIEWBOX_WIDTH - PILL_WIDTH - PILL_MARGIN)}
+            y={marker.y + 4}
+            width={PILL_WIDTH}
             height="16"
             rx="8"
             fill="var(--anchor)"
             aria-hidden="true"
           />
           <text
-            x={START.x + 42}
-            y={START.y + 15}
+            x={Math.min(marker.x, VIEWBOX_WIDTH - PILL_WIDTH - PILL_MARGIN) + PILL_WIDTH / 2}
+            y={marker.y + 15}
             textAnchor="middle"
             fontSize="7"
             fontWeight={700}
@@ -187,24 +274,6 @@ export function MapHero({ pillars, dayBranchGloss, tone, waypoints }: Props) {
             aria-hidden="true"
           >
             YOU ARE HERE
-          </text>
-
-          {/* EVENING: the fixed bookend arrow at the route's end. */}
-          <path d={`M${END.x} ${END.y} L${END.x} ${END.y - 18}`} stroke="var(--ink)" strokeWidth="1.8" aria-hidden="true" />
-          <path
-            d={`M${END.x} ${END.y - 18} L${END.x + 15} ${END.y - 13.5} L${END.x} ${END.y - 9} Z`}
-            fill={toneColor}
-            aria-hidden="true"
-          />
-          <text
-            x={END.x + 14}
-            y={END.y + 14}
-            textAnchor="end"
-            fontSize="7"
-            fill="var(--ink-soft)"
-            aria-hidden="true"
-          >
-            EVENING
           </text>
         </svg>
       </div>
