@@ -2,8 +2,8 @@
  * Reading facts: structured, deterministic observations derived from a chart.
  *
  * `natalFacts` describes the static chart; `dailyFacts` compares a transit date's
- * day pillar against the natal branches — day-only, by design: month/year
- * transit facts are `horizonFacts`' job (Cycles), not Today's. Same chart +
+ * day pillar against the natal branches — day-only, by design: month/year/decade
+ * transit facts are horizons.ts's job (Cycles), not Today's. Same chart +
  * same date always yields identical facts.
  */
 
@@ -65,15 +65,15 @@ export type ReadingFact =
   | { kind: "ten-god-day"; god: string; english: string }
   | {
       kind: "element-period";
-      period: "annual" | "monthly";
+      period: "annual" | "monthly" | "luck";
       element: Element;
       favorable: boolean;
     }
-  | { kind: "ten-god-period"; period: "annual" | "monthly"; god: string; english: string }
+  | { kind: "ten-god-period"; period: "annual" | "monthly" | "luck"; god: string; english: string }
   | { kind: "star-day"; star: string; chinese: string; english: string; transitPalace: Palace }
   | { kind: "stage-day"; stage: LifeStage };
 
-const TRANSIT_PALACES: readonly Palace[] = ["daily", "monthly", "annual"];
+const TRANSIT_PALACES: readonly Palace[] = ["daily", "monthly", "annual", "luck"];
 
 function dominantElement(counts: Record<Element, number>): Element {
   return ELEMENT_PRODUCTION_ORDER.reduce((best, element) =>

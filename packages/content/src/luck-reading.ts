@@ -1,12 +1,18 @@
 /**
- * Decade luck-pillar handover lines. The caller supplies the ages; this layer
- * does no pillar math and no date arithmetic. Returns 1–2 seeded lines.
+ * Decade luck-pillar content: `luckTransitionLines` phrases the handover
+ * between two ages (the caller supplies them; no pillar math, no date
+ * arithmetic). `luckPillarReading` is the decade's own reading — ten-god
+ * theme, element weather, one transit line — delegating to horizon-reading's
+ * `periodLines`, the same builder annual/monthly already share, keyed to the
+ * "luck" period so it reads "This decade..." instead of "This year...".
  */
 
+import type { ReadingFact } from "@daymaster/bazi-engine";
 import type { ReadingLine } from "./types.js";
 import { finalizeLine } from "./types.js";
 import { pickDistinct, pickInt } from "./hash.js";
 import { LUCK_TEMPLATES } from "./banks/luck.js";
+import { periodLines } from "./horizon-reading.js";
 
 interface LuckTransitionParams {
   fromAge: number;
@@ -29,4 +35,9 @@ export function luckTransitionLines(
       topic: "luck-pillar",
     }))
     .map(finalizeLine);
+}
+
+/** The decade's own reading: ten-god theme, element weather, one transit line. */
+export function luckPillarReading(facts: readonly ReadingFact[], seedKey: string): ReadingLine[] {
+  return periodLines(facts, "luck", seedKey).map(finalizeLine);
 }

@@ -1,13 +1,14 @@
 /**
- * Assemble the year (流年) and month (流月) outlook from the engine's horizon
- * facts. Each period reads in up to three lines — a ten-god theme, the element
- * weather, and one transit note when a period pillar touches a natal palace.
+ * Assemble the year (流年), month (流月), or decade (大运) outlook from the
+ * engine's period facts. Each period reads in up to three lines — a ten-god
+ * theme, the element weather, and one transit note when the period's pillar
+ * touches a natal palace.
  *
- * Deterministic in (horizons, seedKey). Zero chart math: the facts carry the
- * pillar, its element, its ten-god relation, and any interactions already.
+ * Deterministic in (facts, seedKey). Zero chart math: the facts carry the
+ * pillar's element, its ten-god relation, and any interactions already.
  */
 
-import type { HorizonFacts, ReadingFact } from "@daymaster/bazi-engine";
+import type { ReadingFact } from "@daymaster/bazi-engine";
 import type { DraftLine, ReadingLine } from "./types.js";
 import { finalizeLine } from "./types.js";
 import type { TokenLine } from "./tokens.js";
@@ -24,21 +25,19 @@ import {
   TRANSIT_PERIOD_GENERIC,
 } from "./banks/horizons.js";
 
-type Period = "annual" | "monthly";
+export type Period = "annual" | "monthly" | "luck";
 type FactOf<K extends ReadingFact["kind"]> = Extract<ReadingFact, { kind: K }>;
 
-/** The year and month outlooks, each an ordered set of lines. */
-export interface HorizonReading {
-  annual: ReadingLine[];
-  monthly: ReadingLine[];
-}
-
 function periodCap(period: Period): string {
-  return period === "annual" ? "This year" : "This month";
+  if (period === "annual") return "This year";
+  if (period === "monthly") return "This month";
+  return "This decade";
 }
 
 function periodNoun(period: Period): string {
-  return period === "annual" ? "year" : "month";
+  if (period === "annual") return "year";
+  if (period === "monthly") return "month";
+  return "decade";
 }
 
 function fill(template: string, subs: Record<string, string>): string {
@@ -117,7 +116,7 @@ function transitLine(
   return line;
 }
 
-function periodLines(facts: readonly ReadingFact[], period: Period, seedKey: string): DraftLine[] {
+export function periodLines(facts: readonly ReadingFact[], period: Period, seedKey: string): DraftLine[] {
   const lines: DraftLine[] = [];
 
   const tenGod = facts.find((fact): fact is FactOf<"ten-god-period"> => fact.kind === "ten-god-period");
@@ -142,10 +141,12 @@ function periodLines(facts: readonly ReadingFact[], period: Period, seedKey: str
   return lines;
 }
 
-/** Build the year and month outlooks from one date's horizon facts. */
-export function horizonReading(horizons: HorizonFacts, seedKey: string): HorizonReading {
-  return {
-    annual: periodLines(horizons.annual, "annual", seedKey).map(finalizeLine),
-    monthly: periodLines(horizons.monthly, "monthly", seedKey).map(finalizeLine),
-  };
+/** The annual (流年) reading alone, for an arbitrarily selected year. */
+export function annualReading(facts: readonly ReadingFact[], seedKey: string): ReadingLine[] {
+  return periodLines(facts, "annual", seedKey).map(finalizeLine);
+}
+
+/** The monthly (流月) reading alone, for an arbitrarily selected calendar month. */
+export function monthlyReading(facts: readonly ReadingFact[], seedKey: string): ReadingLine[] {
+  return periodLines(facts, "monthly", seedKey).map(finalizeLine);
 }

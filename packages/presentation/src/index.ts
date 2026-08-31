@@ -57,8 +57,6 @@ export type { ElementIconPaths, IconPrimitive } from "./glyph-icon-paths.js";
 
 export { dailySeedKey, natalReadingFor, dailyBundleFor } from "./reading.js";
 export type { DailyBundle } from "./reading.js";
-export { horizonBundleFor } from "./horizons.js";
-export type { HorizonBundle } from "./horizons.js";
 export { dayGuidanceFor } from "./guidance.js";
 export type { DayGuidance, GuidanceChip, GuidanceBundle } from "./guidance.js";
 export { routeWaypointsFor } from "./route-waypoints.js";
@@ -74,6 +72,10 @@ export { elevationWeek, elevationPath, ELEVATION_WEEK_LENGTH } from "./elevation
 export type { ElevationCell } from "./elevation.js";
 export { activityTerrain } from "./activity-terrain.js";
 export type { ActivityTerrainCell } from "./activity-terrain.js";
+export { luckPillarReadingsFor } from "./luck-reading.js";
+export type { LuckPillarReading } from "./luck-reading.js";
+export { annualReadingFor, monthlyReadingFor } from "./cycle-reading.js";
+export type { AnnualCycleReading, MonthlyCycleReading } from "./cycle-reading.js";
 export { chartPreviewFor } from "./chart-preview.js";
 export type { ChartPreviewResult } from "./chart-preview.js";
 export { starsForPalace } from "./pillar-stars.js";

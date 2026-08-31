@@ -142,7 +142,12 @@ export {
   type ActivityReason,
   type DayQuality,
 } from "./day-quality.js";
-export { horizonFacts, type HorizonFacts } from "./horizons.js";
+export {
+  luckPillarFacts,
+  annualPillarFacts,
+  monthlyPillarFactsForCalendarMonth,
+  type PillarFacts,
+} from "./horizons.js";
 export { findDates, type DateCandidate } from "./date-finder.js";
 export {
   compareFacts,

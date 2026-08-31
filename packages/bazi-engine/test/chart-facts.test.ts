@@ -94,7 +94,7 @@ describe("dailyFacts — Fixture A on a 2026 date", () => {
 
   it("never reports an annual transit-interaction — Today is day-only, the year lives on Cycles", () => {
     // annualPillar(2026) = 丙午; 午 clashes the natal month branch 子, but that
-    // belongs to the year's own reading (horizonReading), not Today's.
+    // belongs to the year's own reading (Cycles' annualReading), not Today's.
     const annualInteraction = facts.find(
       (f): f is Extract<ReadingFact, { kind: "transit-interaction" }> =>
         f.kind === "transit-interaction" && f.transitPalace === "annual",

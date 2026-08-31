@@ -8,11 +8,12 @@ import {
   GLOSSARY,
   READING_TOPIC,
   WEEK_TOPIC,
+  annualReading,
   compareReading,
   dailyReading,
   glossaryEntry,
-  horizonReading,
   luckTransitionLines,
+  monthlyReading,
   natalReading,
 } from "../src/index.js";
 import type { ReadingLine } from "../src/index.js";
@@ -57,16 +58,13 @@ function emittedLines(): ReadingLine[] {
     }
   }
   for (const english of TEN_GODS) {
-    const reading = horizonReading(
-      {
-        annualPillar: { stem: "丙", branch: "午" },
-        monthlyPillar: { stem: "乙", branch: "卯" },
-        annual: [{ kind: "ten-god-period", period: "annual", god: "測試", english }],
-        monthly: [{ kind: "element-period", period: "monthly", element: "wood", favorable: false }],
-      },
-      seed,
+    lines.push(
+      ...annualReading([{ kind: "ten-god-period", period: "annual", god: "測試", english }], seed),
+      ...monthlyReading(
+        [{ kind: "element-period", period: "monthly", element: "wood", favorable: false }],
+        seed,
+      ),
     );
-    lines.push(...reading.annual, ...reading.monthly);
   }
   for (const section of natalReading(natalWithInteractions(), seed).sections) {
     lines.push(...section.lines);

@@ -209,6 +209,36 @@ body {
     color: var(--ink-soft);
     border-color: color-mix(in srgb, var(--hairline) 60%, transparent);
   }
+
+  /* ScrollCarousel (Cycles' decade/year/month pickers): a snap-scroll strip
+     whose edges fade to transparent instead of hard-clipping, so a partial
+     neighbor card reads as "more to scroll" rather than broken. The x/y
+     split only changes scroll axis and mask direction; item selection/dim
+     styling is shared in .scroll-carousel-item. */
+  .scroll-carousel-x {
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%);
+  }
+  .scroll-carousel-y {
+    scroll-snap-type: y proximity;
+    scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 22px, #000 calc(100% - 22px), transparent 100%);
+    mask-image: linear-gradient(180deg, transparent 0, #000 22px, #000 calc(100% - 22px), transparent 100%);
+  }
+  .scroll-carousel-x::-webkit-scrollbar,
+  .scroll-carousel-y::-webkit-scrollbar {
+    display: none;
+  }
+  .scroll-carousel-item {
+    scroll-snap-align: center;
+    transition: opacity 180ms ease;
+  }
+  .scroll-carousel-item.is-active {
+    outline: 2px solid var(--ink);
+    outline-offset: -2px;
+  }
 }
 
 /*

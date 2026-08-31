@@ -45,14 +45,73 @@ test("the elevation profile jumps the reading to the tapped day", async ({ page,
   await expect(page.getByRole("button", { name: "Back to today" })).toBeVisible();
 });
 
-test("Cycles shows this year's 丙午 outlook for the pinned clock", async ({ page, context }) => {
+test("Cycles opens on the current decade, with this year's 丙午 outlook already showing", async ({
+  page,
+  context
+}) => {
   await seedProfile(context, FIXTURE_A);
   await pinClock(context, `${TODAY}T09:00:00Z`);
 
   await page.goto("/cycles/");
+  await expect(page.locator("[data-luck-current]")).toBeVisible();
   const year = page.locator('[data-horizon="year"]');
-  await expect(year.getByRole("heading", { name: "This year" })).toBeVisible();
+  await expect(year.getByRole("heading", { name: "2026", exact: true })).toBeVisible();
   await expect(year.getByText("yang fire · horse")).toBeVisible();
+});
+
+test("the luck timeline opens on the current decade/year/month, and every pillar is browsable via swipe or tap", async ({
+  page,
+  context
+}) => {
+  await seedProfile(context, FIXTURE_A);
+  await pinClock(context, `${TODAY}T09:00:00Z`);
+
+  await page.goto("/cycles/");
+  const currentCard = page.locator("[data-luck-current]");
+  await expect(currentCard).toBeVisible();
+
+  // Fixture A's current decade (己卯, age 29-38) is already active on load,
+  // its own theme/element/transit lines showing without any tap — as is the
+  // real current year (2026) and month (July) beneath it.
+  const reading = page.locator("[data-luck-reading]");
+  await expect(reading).toBeVisible();
+  await expect(reading).toContainText("An Earth decade, and Earth tends to suit you");
+  await expect(reading).toContainText("friendly rivalry");
+  await expect(reading).toContainText("This decade rubs at your career palace");
+  await expect(
+    page.locator('[data-horizon="year"]').getByRole("heading", { name: "2026", exact: true })
+  ).toBeVisible();
+  await expect(
+    page.locator('[data-horizon="month"]').getByRole("heading", { name: "July 2026" })
+  ).toBeVisible();
+
+  // Every decade is reachable, not just the current one — there's no
+  // expand/collapse left, just re-selection: tapping another decade card
+  // makes it the active one and its reading replaces the current decade's.
+  const decadeCards = page.locator("[data-luck-decade-card]");
+  await expect(decadeCards).toHaveCount(8);
+  const fourth = decadeCards.nth(3);
+  await fourth.click();
+  await expect(fourth).toHaveAttribute("data-carousel-active", "");
+  await expect(reading).toContainText("A Metal decade");
+
+  // Fourth decade (庚辰, age 39-48, 2034-2043) isn't the real current one, so
+  // its year/month default to the decade's own start rather than "now" —
+  // picking a year within it reads that year, and a month within that reads
+  // that month.
+  await expect(
+    page.locator('[data-horizon="year"]').getByRole("heading", { name: "2034", exact: true })
+  ).toBeVisible();
+
+  await page.getByText("2036", { exact: true }).click();
+  await expect(
+    page.locator('[data-horizon="year"]').getByRole("heading", { name: "2036", exact: true })
+  ).toBeVisible();
+
+  await page.locator("[data-month-picker]").getByText("Mar", { exact: true }).click();
+  await expect(
+    page.locator('[data-horizon="month"]').getByRole("heading", { name: "March 2036" })
+  ).toBeVisible();
 });
 
 test("the date finder ranks days and names the top officer", async ({ page, context }) => {
