@@ -54,4 +54,19 @@ describe("activityTerrain", () => {
     const assessments = allAssessments();
     expect(activityTerrain(assessments)).toEqual(activityTerrain(assessments));
   });
+
+  it("alternates the label tier only along runs of the same non-neutral leaning", () => {
+    const cells = activityTerrain([
+      assessment("commit", "friction", -2),
+      assessment("launch", "favors", 3),
+      assessment("sign", "favors", 2),
+      assessment("move", "favors", 1),
+      assessment("travel", "neutral", 0),
+      assessment("study", "neutral", 0),
+      assessment("clear", "friction", -1),
+      assessment("rest", "friction", -1),
+      assessment("ask", "favors", 1)
+    ]);
+    expect(cells.map((cell) => cell.labelTier)).toEqual([0, 0, 1, 0, 0, 0, 0, 1, 0]);
+  });
 });
