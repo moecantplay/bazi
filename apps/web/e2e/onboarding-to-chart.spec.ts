@@ -71,3 +71,24 @@ test("full onboarding for fixture A saves a chart that reads correctly", async (
   await page.getByText(/Your chart's structure/).click();
   await expect(page.locator("body")).toContainText(/trine/i);
 });
+
+test("refreshing mid-onboarding restores the step without a hydration error", async ({ page }) => {
+  const pageErrors: string[] = [];
+  page.on("pageerror", (error) => pageErrors.push(error.message));
+
+  await page.goto("/onboarding/");
+  await page.fill('input[type="date"]', "1994-12-08");
+  await page.getByRole("button", { name: "Next", exact: true }).click();
+  await page.fill('input[type="time"]', "16:30");
+  await page.getByRole("button", { name: "Next", exact: true }).click();
+  await expect(page.getByText("Where were you born?")).toBeVisible();
+
+  // The draft lives in session storage; a reload must land on the same
+  // step, and the server-rendered HTML must hydrate cleanly first.
+  await page.reload();
+  await expect(page.getByText("Where were you born?")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Back" })).toBeVisible();
+  await page.getByPlaceholder("Search for your birth city").fill("Jakarta");
+  await expect(page.getByRole("button", { name: /Jakarta/ }).first()).toBeVisible();
+  expect(pageErrors, pageErrors.join("\n")).toEqual([]);
+});

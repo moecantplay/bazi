@@ -18,6 +18,7 @@ import { CityStep } from "@/components/onboarding/city-step";
 import { DateStep } from "@/components/onboarding/date-step";
 import { DisclaimerStep } from "@/components/onboarding/disclaimer-step";
 import {
+  EMPTY_DRAFT,
   clearDraft,
   loadDraftEnvelope,
   saveDraftEnvelope,
@@ -43,14 +44,27 @@ const RESTORE_ERRORS: Record<Exclude<ImportResult, "ok">, string> = {
 
 export default function OnboardingPage() {
   const router = useRouter();
-  const [{ step, draft }, setFlow] = useState(() => loadDraftEnvelope());
+  // Always start from the fresh envelope so the first client render matches
+  // the server's HTML; the saved draft (session storage) is restored after
+  // mount. Reading storage in the initializer hydrated a mid-flow refresh
+  // onto step-0 markup and threw a hydration error.
+  const [{ step, draft }, setFlow] = useState(() => ({ step: 0, draft: EMPTY_DRAFT }));
+  const [draftRestored, setDraftRestored] = useState(false);
   const [restoreError, setRestoreError] = useState<string | null>(null);
   const [sharedChartWaiting, setSharedChartWaiting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    setFlow(loadDraftEnvelope());
+    setDraftRestored(true);
+  }, []);
+
+  useEffect(() => {
+    if (!draftRestored) {
+      return;
+    }
     saveDraftEnvelope({ step, draft });
-  }, [step, draft]);
+  }, [draftRestored, step, draft]);
 
   // A ?share= link carries someone's chart for comparison. With a profile it
   // goes straight to Compare; on a fresh device it waits until onboarding is
