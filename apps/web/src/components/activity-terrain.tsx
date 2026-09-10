@@ -10,16 +10,14 @@
  * that stretched space instead turns them into ellipses, since the viewBox
  * scales x and y non-uniformly to fill a wide, short container.
  *
- * Only activities that lean get a name — favours above their dot, friction
- * (watch) below it — and steady dots stay quiet: the route itself says
- * "nothing much here". That is what keeps every word clear of the line: above
- * a high point and below a low point are the two places the route can never
- * be. Two earlier cuts named all ten and both collided — labels angled off
- * each dot ran across the route into the next node, and a staggered axis lane
- * underneath read as a detached table under a dead gap. Same-leaning
- * neighbours alternate onto a second tier (presentation's `labelTier`) so
- * they never sit on one row ~29px apart. The manifest below still lists all
- * ten.
+ * Names hang below a baseline under the plot, one per activity, angled 45°
+ * downhill the way a crowded chart axis is labelled, with a hairline stake
+ * from each dot down to the base so dot and name read as one object. Below
+ * the base is the one place the route can never be, so no word crosses it;
+ * the 45° hang keeps ten six-letter names clear of each other at the ~29px
+ * slot a phone gives them. Two earlier cuts collided or detached: names
+ * angled *up* off each dot ran across the climbing route into the next
+ * node, and a horizontal staggered lane read as a table under a dead gap.
  *
  * Cell layout (leaning/label/classical/x/y) comes from presentation's
  * `activityTerrain` — this component only renders it.
@@ -61,15 +59,6 @@ function trackX(leaning: ActivityTerrainCell["leaning"]): number {
   return 50;
 }
 
-/** Favours name upward from the dot, friction downward; tier 1 is one row further out. */
-function labelTop(cell: ActivityTerrainCell): string {
-  const offset = 13 * cell.labelTier;
-  if (cell.leaning === "favors") {
-    return `calc(${cell.y}% - ${17 + offset}px)`;
-  }
-  return `calc(${cell.y}% + ${10 + offset}px)`;
-}
-
 function summarize(cells: ActivityTerrainCell[]): string {
   const favors = cells.filter((cell) => cell.leaning === "favors").length;
   const friction = cells.filter((cell) => cell.leaning === "friction").length;
@@ -102,8 +91,8 @@ export function ActivityTerrain({ assessments }: Props) {
     <div data-activity-terrain className="flex flex-col gap-2">
       <p className="kicker">Today&rsquo;s terrain &middot; by activity</p>
       <div className="rounded-card bg-surface p-4 shadow-card">
-        <div className="relative h-[142px]" role="img" aria-label={summarize(cells)}>
-          <div className="absolute inset-x-0 top-0 h-32">
+        <div className="relative h-[150px]" role="img" aria-label={summarize(cells)}>
+          <div className="absolute inset-x-0 top-0 h-[104px]">
             <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" className="absolute inset-0 h-full w-full">
               <path
                 d={pathD}
@@ -117,32 +106,32 @@ export function ActivityTerrain({ assessments }: Props) {
             </svg>
             <ul className="relative h-full list-none" aria-hidden="true">
               {cells.map((cell) => (
-                <li
-                  key={cell.key}
-                  className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-full ${
-                    cell.leaning === "neutral" ? "h-[7px] w-[7px]" : "h-[9px] w-[9px]"
-                  } ${dotClassName(cell.leaning)}`}
-                  style={{ left: `${cell.x}%`, top: `${cell.y}%` }}
-                />
+                <li key={cell.key} className="absolute h-full" style={{ left: `${cell.x}%` }}>
+                  <span
+                    className="absolute w-px -translate-x-1/2 bg-hairline"
+                    style={{ top: `calc(${cell.y}% + 5px)`, bottom: 0 }}
+                  />
+                  <span
+                    className={`absolute h-[9px] w-[9px] -translate-x-1/2 -translate-y-1/2 rounded-full ${dotClassName(cell.leaning)}`}
+                    style={{ top: `${cell.y}%` }}
+                  />
+                </li>
               ))}
             </ul>
-            <ul className="absolute inset-0 list-none" aria-hidden="true">
-              {cells
-                .filter((cell) => cell.leaning !== "neutral")
-                .map((cell) => (
-                  <li
-                    key={cell.key}
-                    data-terrain-label
-                    className={`absolute -translate-x-1/2 whitespace-nowrap font-mono text-[9px] font-bold uppercase leading-none tracking-wide ${
-                      cell.leaning === "favors" ? "text-ink" : "text-signal-amber"
-                    }`}
-                    style={{ left: `${cell.x}%`, top: labelTop(cell) }}
-                  >
-                    {cell.key}
-                  </li>
-                ))}
-            </ul>
           </div>
+          <div className="absolute inset-x-0 top-[104px] h-px bg-hairline" aria-hidden="true" />
+          <ul className="absolute inset-x-0 top-[111px] list-none" aria-hidden="true">
+            {cells.map((cell) => (
+              <li
+                key={cell.key}
+                data-terrain-label
+                className="absolute origin-top-left rotate-45 whitespace-nowrap font-mono text-[8px] font-bold uppercase leading-none tracking-wide text-ink-soft"
+                style={{ left: `${cell.x}%` }}
+              >
+                {cell.key}
+              </li>
+            ))}
+          </ul>
         </div>
 
         <div className="mt-4 flex flex-wrap gap-3.5">
@@ -152,7 +141,7 @@ export function ActivityTerrain({ assessments }: Props) {
           </span>
           <span className="flex items-center gap-1.5 caption">
             <span className="h-2 w-2 rounded-full border-[1.5px] border-ink-soft bg-surface" />
-            Steady &middot; unnamed
+            Steady
           </span>
           <span className="flex items-center gap-1.5 caption">
             <span className="h-2 w-2 rounded-full bg-signal-amber" />

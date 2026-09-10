@@ -133,10 +133,7 @@ test("today's terrain shows all 10 activities and its disclosure toggles the man
   await expect(terrain).toBeVisible();
   const plot = terrain.locator('[role="img"]');
   await expect(plot).toHaveAttribute("aria-label", /Today across 10 activities/);
-  // Only leaning activities are named on the plot; steady ones stay unnamed.
-  const summary = (await plot.getAttribute("aria-label")) ?? "";
-  const [, favors, , watch] = summary.match(/(\d+) favors, (\d+) steady, (\d+) watch/) ?? [];
-  await expect(plot.locator("[data-terrain-label]")).toHaveCount(Number(favors) + Number(watch));
+  await expect(plot.locator("[data-terrain-label]")).toHaveCount(10);
   await expect(terrain.locator("[data-activity-manifest]")).toHaveCount(0);
 
   await terrain.getByRole("button", { name: "Show all 10 in detail" }).click();
