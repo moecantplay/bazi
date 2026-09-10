@@ -129,6 +129,7 @@ test("today's terrain shows all 10 activities and its disclosure toggles the man
   await pinClock(context, `${TODAY}T09:00:00Z`);
   await page.goto("/today/");
 
+  await page.locator("[data-go-deeper]").click();
   const terrain = page.locator("[data-activity-terrain]");
   await expect(terrain).toBeVisible();
   const plot = terrain.locator('[role="img"]');
@@ -174,4 +175,40 @@ test("streak counts consecutive opens and the tomorrow note shows only on today"
   await page.getByRole("button", { name: "Next day" }).click();
   await expect(page.locator("[data-streak]")).toHaveCount(0);
   await expect(page.getByText("Tomorrow reads differently. It’ll be here in the morning.")).toHaveCount(0);
+});
+
+test("the day journal marks today, keeps the mark across reload, and stays off future days", async ({
+  page,
+  context
+}) => {
+  await seedProfile(context, FIXTURE_A);
+  await pinClock(context, `${TODAY}T09:00:00Z`);
+  await page.goto("/today/");
+
+  const journal = page.locator("[data-day-journal]");
+  await expect(journal).toContainText("How is it landing?");
+  const rangTrue = journal.getByRole("button", { name: "Rang true" });
+  await expect(rangTrue).toHaveAttribute("aria-pressed", "false");
+  await rangTrue.click();
+  await expect(rangTrue).toHaveAttribute("aria-pressed", "true");
+  const note = journal.getByPlaceholder("What actually happened");
+  await note.fill("Signed the small thing.");
+
+  await page.reload();
+  await expect(journal.getByRole("button", { name: "Rang true" })).toHaveAttribute("aria-pressed", "true");
+  await expect(journal.getByPlaceholder("What actually happened")).toHaveValue("Signed the small thing.");
+
+  // Yesterday asks in the past tense; tomorrow hasn't happened, so no journal.
+  await page.getByRole("button", { name: "Previous day" }).click();
+  await expect(journal).toContainText("How did it land?");
+  await expect(journal.getByRole("button", { name: "Rang true" })).toHaveAttribute("aria-pressed", "false");
+  await page.getByRole("button", { name: "Back to today" }).click();
+  await page.getByRole("button", { name: "Next day" }).click();
+  await expect(page.locator("[data-day-journal]")).toHaveCount(0);
+
+  // Tapping the chosen mark again clears it, note and all.
+  await page.getByRole("button", { name: "Back to today" }).click();
+  await journal.getByRole("button", { name: "Rang true" }).click();
+  await expect(journal.getByRole("button", { name: "Rang true" })).toHaveAttribute("aria-pressed", "false");
+  await expect(journal.getByPlaceholder("What actually happened")).toHaveCount(0);
 });

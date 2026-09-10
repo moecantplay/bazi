@@ -9,6 +9,12 @@
  * waypoints, headline runs, grain line, branchByArea, the date range) comes
  * from presentation's `todayScreenModel` — this component only holds the
  * date-strip's offset/picker state and renders what the model computes.
+ *
+ * The screen folds after the reading: trail signs and the date-finder link
+ * sit behind a "Go deeper" disclosure so a daily check-in ends at the
+ * signpost, and the reader who wants the full activity detail opens it. The
+ * signpost (agency line) and the day journal stay outside the fold — the
+ * agency line ends every reading, and the journal is the reader's reply.
  */
 
 "use client";
@@ -17,8 +23,8 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { READING_TOPIC, glossaryEntry } from "@daymaster/content";
 import { addDays, clampOffsetToRange, daysBetween, streakLine, todayScreenModel } from "@daymaster/presentation";
-import { ActivityTerrain } from "@/components/activity-terrain";
 import { Datebar } from "@/components/datebar";
+import { DayJournal } from "@/components/day-journal";
 import { ElevationProfile } from "@/components/elevation-profile";
 import { GlossarySheet } from "@/components/glossary-sheet";
 import { LegendTags } from "@/components/legend-tags";
@@ -42,6 +48,7 @@ export function TodayView({ profile }: Props) {
   const [pickerOpen, setPickerOpen] = useState(false);
   const [streak, setStreak] = useState(0);
   const [aboutOpen, setAboutOpen] = useState(false);
+  const [deeperOpen, setDeeperOpen] = useState(false);
   const aboutEntry = glossaryEntry(READING_TOPIC);
 
   useEffect(() => {
@@ -151,18 +158,34 @@ export function TodayView({ profile }: Props) {
         )}
       </div>
 
-      <ActivityTerrain assessments={guidance.quality.assessments} />
+      <button
+        type="button"
+        data-go-deeper
+        aria-expanded={deeperOpen}
+        onClick={() => setDeeperOpen((open) => !open)}
+        className="tap-target -mt-2 flex w-full items-center justify-between border-t border-hairline pt-4 text-[12px] font-bold uppercase tracking-wide text-ink"
+      >
+        {deeperOpen ? "Show less" : "Go deeper · what the day suits"}
+        <span aria-hidden className={`inline-block transition-transform ${deeperOpen ? "-rotate-90" : "rotate-90"}`}>
+          &rsaquo;
+        </span>
+      </button>
 
-      <TrailSigns
-        chips={guidance.chips}
-        proseLines={guidance.lines}
-        dos={reading.dos}
-        donts={reading.donts}
-      />
+      {deeperOpen && (
+        <div className="flex flex-col gap-7">
+          <TrailSigns
+            assessments={guidance.quality.assessments}
+            chips={guidance.chips}
+            proseLines={guidance.lines}
+            dos={reading.dos}
+            donts={reading.donts}
+          />
 
-      <Link href="/dates/" className="tap-target -mt-2 text-[12px] text-ink-soft hover:text-ink">
-        Find a day for something &rarr;
-      </Link>
+          <Link href="/dates/" className="tap-target -mt-2 text-[12px] text-ink-soft hover:text-ink">
+            Find a day for something &rarr;
+          </Link>
+        </div>
+      )}
 
       <div className="flex">
         <div className="relative mr-5 rounded-l-[18px] bg-anchor py-4 pl-5 pr-4 text-paper">
@@ -183,6 +206,8 @@ export function TodayView({ profile }: Props) {
         </div>
       </div>
       <span aria-hidden className="-mt-6 ml-10 h-6 w-0.5 bg-hairline" />
+
+      {offset <= 0 && <DayJournal dateISO={dateISO} isToday={offset === 0} />}
 
       {offset === 0 && streak >= 2 && (
         <p data-streak className="-mt-4 text-center text-[12px] text-ink-soft">

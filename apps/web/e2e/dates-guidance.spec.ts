@@ -24,10 +24,14 @@ test("Today shows the guidance chips and a cited guidance line", async ({ page, 
   await expect(page.locator("[data-headline]")).toBeVisible();
   await expect(page.locator("[data-headline]")).not.toBeEmpty();
 
+  // Trail signs sit behind the "Go deeper" fold so a daily check-in ends at
+  // the signpost; the fold opens the merged terrain-and-signs card.
+  await expect(page.locator("[data-guidance]")).toHaveCount(0);
+  await page.locator("[data-go-deeper]").click();
   const guidance = page.locator("[data-guidance]");
   await expect(guidance).toBeVisible();
-  // The two trail-sign tiles (Clear trail / Take it slow — rule-12
-  // postponement, never prohibition) with a fact-tagged prose line beneath.
+  // The two sign rows (Clear trail / Take it slow — rule-12 postponement,
+  // never prohibition) with a fact-tagged prose line beneath.
   await expect(guidance.getByText(/^Clear trail$/)).toBeVisible();
   await expect(guidance.getByText(/^Take it slow$/)).toBeVisible();
   await expect(guidance.locator("[data-fact-tag]").first()).toBeVisible();
@@ -127,6 +131,8 @@ test("the date finder ranks days and names the top officer", async ({ page, cont
   await pinClock(context, `${TODAY}T09:00:00Z`);
 
   await page.goto("/today/");
+  // The finder link lives inside Today's "Go deeper" fold.
+  await page.locator("[data-go-deeper]").click();
   await page.getByRole("link", { name: /Find a day for something/ }).click();
   await expect(page).toHaveURL(/\/dates\//);
   // The finder sits outside the bottom nav, so it carries its own back link.

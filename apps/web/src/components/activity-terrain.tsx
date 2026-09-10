@@ -1,8 +1,8 @@
 /**
- * Today's terrain across all 10 almanac activities: the shipped 7-day
- * ElevationProfile's exact dashed-line/tone-height grammar, replotted across
- * activities instead of days. A "Show all 10 in detail" disclosure (matching
- * chart-view.tsx's existing pattern) opens the full manifest below.
+ * The skyline plot across all 10 almanac activities and its full manifest —
+ * the two halves of Today's trail-signs card (trail-signs.tsx composes them
+ * with the sign rows in between). The shipped 7-day ElevationProfile's exact
+ * dashed-line/tone-height grammar, replotted across activities instead of days.
  *
  * Only the dashed line lives inside the SVG's stretched (preserveAspectRatio
  * "none") coordinate space — dots are ordinary HTML elements positioned by
@@ -15,17 +15,17 @@
  * from each dot down to the base so dot and name read as one object. Below
  * the base is the one place the route can never be, so no word crosses it;
  * the 45° hang keeps ten six-letter names clear of each other at the ~29px
- * slot a phone gives them. Two earlier cuts collided or detached: names
- * angled *up* off each dot ran across the climbing route into the next
- * node, and a horizontal staggered lane read as a table under a dead gap.
+ * slot a phone gives them. The activities the sign rows call out (the day's
+ * strongest leanings) are set in full ink; the rest stay soft, so the eye
+ * lands on the same three or four names the rows name.
  *
  * Cell layout (leaning/label/classical/x/y) comes from presentation's
- * `activityTerrain` — this component only renders it.
+ * `activityTerrain` — these components only render it.
  */
 
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import type { ActivityAssessment } from "@daymaster/bazi-engine";
 import { activityTerrain, elevationPath, type ActivityTerrainCell } from "@daymaster/presentation";
 
@@ -66,128 +66,100 @@ function summarize(cells: ActivityTerrainCell[]): string {
   return `Today across ${cells.length} activities: ${favors} favors, ${steady} steady, ${friction} watch.`;
 }
 
-function ChevronIcon({ open }: { open: boolean }) {
-  return (
-    <svg
-      viewBox="0 0 12 12"
-      aria-hidden="true"
-      className={`h-2.5 w-2.5 flex-none transition-transform ${open ? "-rotate-90" : "rotate-90"}`}
-    >
-      <path d="M4 1.5L9 6L4 10.5" fill="none" stroke="var(--ink)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
+/** The plotted cells for a day's assessments, memoized for the plot and the manifest. */
+export function useActivityTerrain(assessments: ActivityAssessment[]): ActivityTerrainCell[] {
+  return useMemo(() => activityTerrain(assessments), [assessments]);
 }
 
-interface Props {
-  assessments: ActivityAssessment[];
+interface PlotProps {
+  cells: ActivityTerrainCell[];
+  /** Activities the sign rows call out; their names render in full ink. */
+  calledOut: ReadonlySet<string>;
 }
 
-export function ActivityTerrain({ assessments }: Props) {
-  const [detailOpen, setDetailOpen] = useState(false);
-  const cells = useMemo(() => activityTerrain(assessments), [assessments]);
+export function ActivityTerrainPlot({ cells, calledOut }: PlotProps) {
   const pathD = useMemo(() => elevationPath(cells), [cells]);
 
   return (
-    <div data-activity-terrain className="flex flex-col gap-2">
-      <p className="kicker">Today&rsquo;s terrain &middot; by activity</p>
-      <div className="rounded-card bg-surface p-4 shadow-card">
-        <div className="relative h-[150px]" role="img" aria-label={summarize(cells)}>
-          <div className="absolute inset-x-0 top-0 h-[104px]">
-            <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" className="absolute inset-0 h-full w-full">
-              <path
-                d={pathD}
-                fill="none"
-                stroke="var(--ink)"
-                strokeWidth="1.6"
-                strokeDasharray="3 3.4"
-                strokeLinecap="round"
-                vectorEffect="non-scaling-stroke"
+    <div className="relative h-[150px]" role="img" aria-label={summarize(cells)}>
+      <div className="absolute inset-x-0 top-0 h-[104px]">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" className="absolute inset-0 h-full w-full">
+          <path
+            d={pathD}
+            fill="none"
+            stroke="var(--ink)"
+            strokeWidth="1.6"
+            strokeDasharray="3 3.4"
+            strokeLinecap="round"
+            vectorEffect="non-scaling-stroke"
+          />
+        </svg>
+        <ul className="relative h-full list-none" aria-hidden="true">
+          {cells.map((cell) => (
+            <li key={cell.key} className="absolute h-full" style={{ left: `${cell.x}%` }}>
+              <span
+                className="absolute w-px -translate-x-1/2 bg-hairline"
+                style={{ top: `calc(${cell.y}% + 5px)`, bottom: 0 }}
               />
-            </svg>
-            <ul className="relative h-full list-none" aria-hidden="true">
-              {cells.map((cell) => (
-                <li key={cell.key} className="absolute h-full" style={{ left: `${cell.x}%` }}>
-                  <span
-                    className="absolute w-px -translate-x-1/2 bg-hairline"
-                    style={{ top: `calc(${cell.y}% + 5px)`, bottom: 0 }}
-                  />
-                  <span
-                    className={`absolute h-[9px] w-[9px] -translate-x-1/2 -translate-y-1/2 rounded-full ${dotClassName(cell.leaning)}`}
-                    style={{ top: `${cell.y}%` }}
-                  />
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="absolute inset-x-0 top-[104px] h-px bg-hairline" aria-hidden="true" />
-          <ul className="absolute inset-x-0 top-[111px] list-none" aria-hidden="true">
-            {cells.map((cell) => (
-              <li
-                key={cell.key}
-                data-terrain-label
-                className="absolute origin-top-left rotate-45 whitespace-nowrap font-mono text-[8px] font-bold uppercase leading-none tracking-wide text-ink-soft"
-                style={{ left: `${cell.x}%` }}
-              >
-                {cell.key}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="mt-4 flex flex-wrap gap-3.5">
-          <span className="flex items-center gap-1.5 caption">
-            <span className="h-2 w-2 rounded-full bg-ink" />
-            Favors
-          </span>
-          <span className="flex items-center gap-1.5 caption">
-            <span className="h-2 w-2 rounded-full border-[1.5px] border-ink-soft bg-surface" />
-            Steady
-          </span>
-          <span className="flex items-center gap-1.5 caption">
-            <span className="h-2 w-2 rounded-full bg-signal-amber" />
-            Watch
-          </span>
-        </div>
-
-        <button
-          type="button"
-          aria-expanded={detailOpen}
-          onClick={() => setDetailOpen((open) => !open)}
-          className="tap-target mt-3 flex w-full items-center justify-between border-t border-hairline pt-3 text-[12px] font-bold uppercase tracking-wide text-ink"
-        >
-          {detailOpen ? "Hide details" : "Show all 10 in detail"}
-          <ChevronIcon open={detailOpen} />
-        </button>
-
-        {detailOpen && (
-          <ul data-activity-manifest className="mt-3 flex flex-col gap-0.5" aria-label="All 10 activities in detail">
-            {cells.map((cell, index) => (
-              <li
-                key={cell.key}
-                className={`flex items-center gap-3 bg-paper px-3 py-2.5 ${
-                  index === 0 ? "rounded-t-[14px]" : ""
-                } ${index === cells.length - 1 ? "rounded-b-[14px]" : ""}`}
-              >
-                <svg viewBox="0 0 100 30" aria-hidden="true" className="h-4 w-12 flex-none">
-                  <line x1="6" x2="94" y1="15" y2="15" stroke="var(--ink-soft)" strokeWidth="1.6" strokeDasharray="2.6 3.2" opacity="0.55" />
-                  <circle
-                    cx={trackX(cell.leaning)}
-                    cy="15"
-                    r="5.4"
-                    fill={trackDotFill(cell.leaning)}
-                    stroke={cell.leaning === "neutral" ? "var(--ink-soft)" : "none"}
-                    strokeWidth="1.8"
-                  />
-                </svg>
-                <div className="flex flex-col">
-                  <span className="text-[13.5px] font-semibold text-ink">{cell.label}</span>
-                  <span className="text-[11.5px] text-ink-soft">{cell.classical}</span>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
+              <span
+                className={`absolute h-[9px] w-[9px] -translate-x-1/2 -translate-y-1/2 rounded-full ${dotClassName(cell.leaning)}`}
+                style={{ top: `${cell.y}%` }}
+              />
+            </li>
+          ))}
+        </ul>
       </div>
+      <div className="absolute inset-x-0 top-[104px] h-px bg-hairline" aria-hidden="true" />
+      <ul className="absolute inset-x-0 top-[111px] list-none" aria-hidden="true">
+        {cells.map((cell) => (
+          <li
+            key={cell.key}
+            data-terrain-label
+            className={`absolute origin-top-left rotate-45 whitespace-nowrap font-mono text-[8px] font-bold uppercase leading-none tracking-wide ${
+              calledOut.has(cell.key) ? "text-ink" : "text-ink-soft"
+            }`}
+            style={{ left: `${cell.x}%` }}
+          >
+            {cell.key}
+          </li>
+        ))}
+      </ul>
     </div>
+  );
+}
+
+interface ManifestProps {
+  cells: ActivityTerrainCell[];
+}
+
+/** Every activity with its leaning on a short track, modern name over classical category. */
+export function ActivityManifest({ cells }: ManifestProps) {
+  return (
+    <ul data-activity-manifest className="mt-3 flex flex-col gap-0.5" aria-label="All 10 activities in detail">
+      {cells.map((cell, index) => (
+        <li
+          key={cell.key}
+          className={`flex items-center gap-3 bg-paper px-3 py-2.5 ${
+            index === 0 ? "rounded-t-[14px]" : ""
+          } ${index === cells.length - 1 ? "rounded-b-[14px]" : ""}`}
+        >
+          <svg viewBox="0 0 100 30" aria-hidden="true" className="h-4 w-12 flex-none">
+            <line x1="6" x2="94" y1="15" y2="15" stroke="var(--ink-soft)" strokeWidth="1.6" strokeDasharray="2.6 3.2" opacity="0.55" />
+            <circle
+              cx={trackX(cell.leaning)}
+              cy="15"
+              r="5.4"
+              fill={trackDotFill(cell.leaning)}
+              stroke={cell.leaning === "neutral" ? "var(--ink-soft)" : "none"}
+              strokeWidth="1.8"
+            />
+          </svg>
+          <div className="flex flex-col">
+            <span className="text-[13.5px] font-semibold text-ink">{cell.label}</span>
+            <span className="text-[11.5px] text-ink-soft">{cell.classical}</span>
+          </div>
+        </li>
+      ))}
+    </ul>
   );
 }
