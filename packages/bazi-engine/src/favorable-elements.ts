@@ -1,10 +1,13 @@
 /**
- * Favorable elements (喜用神): a climate-first, interpretive heuristic.
+ * Favorable elements (喜用神): a strength-first, interpretive heuristic.
  *
  * Like {@link strength}, this is one simplified school's approach, not a
- * canonical table. It seeds the seasonal climate corrector first, then adds
- * elements that support a weak day master or drain a strong one, de-duplicated
- * and capped to keep the guidance focused.
+ * canonical table. The strength verdict decides the set — support a weak day
+ * master (self + resource), drain a strong one (output, wealth, officer). The
+ * seasonal climate corrector (winter wants Fire, summer wants Water) then
+ * leads the list only when it agrees with that verdict: a weak Water day
+ * master born in winter is not told Fire suits it, because Fire is what
+ * drains it. De-duplicated and capped to keep the guidance focused.
  */
 
 import { elementOfStem } from "./attributes.js";
@@ -22,27 +25,26 @@ export interface FavorableInput {
   strength: "strong" | "weak";
 }
 
+function climateElement(monthBranch: Branch): Element | null {
+  if (WINTER_BRANCHES.includes(monthBranch)) {
+    return "fire";
+  }
+  if (SUMMER_BRANCHES.includes(monthBranch)) {
+    return "water";
+  }
+  return null;
+}
+
 export function favorableElements(input: FavorableInput): Element[] {
   const dayMasterElement = elementOfStem(input.dayMaster);
-  const ordered: Element[] = [];
 
-  if (WINTER_BRANCHES.includes(input.monthBranch)) {
-    ordered.push("fire");
-  } else if (SUMMER_BRANCHES.includes(input.monthBranch)) {
-    ordered.push("water");
-  }
+  const byStrength: Element[] =
+    input.strength === "weak"
+      ? [dayMasterElement, producedBy(dayMasterElement)]
+      : [produces(dayMasterElement), controls(dayMasterElement), controlledBy(dayMasterElement)];
 
-  if (input.strength === "weak") {
-    // Support the weak: the day master's own element and its resource.
-    ordered.push(dayMasterElement, producedBy(dayMasterElement));
-  } else {
-    // Drain the strong: output, wealth, and officer elements.
-    ordered.push(
-      produces(dayMasterElement),
-      controls(dayMasterElement),
-      controlledBy(dayMasterElement),
-    );
-  }
+  const climate = climateElement(input.monthBranch);
+  const ordered = climate !== null && byStrength.includes(climate) ? [climate, ...byStrength] : byStrength;
 
   return [...new Set(ordered)].slice(0, MAX_ELEMENTS);
 }

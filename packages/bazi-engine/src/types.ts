@@ -142,6 +142,10 @@ export interface StrengthResult {
   supporterScore: number;
   /** Weighted count of elements that drain the day master. */
   drainerScore: number;
+  /** supporterScore − drainerScore: positive leans strong, zero or negative weak. */
+  margin: number;
+  /** The verdict turned on one weighted point or fewer — a close call, not a clear one. */
+  narrow: boolean;
   /** 得令 — whether the month branch's element supports the day master. */
   seasonalSupport: boolean;
   /** 得地 — whether the day master has a same-element root in any branch's hidden stems. */

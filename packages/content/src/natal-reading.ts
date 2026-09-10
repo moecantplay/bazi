@@ -107,10 +107,13 @@ function strengthWhyLine(strength: FactOf<"strength">): DraftLine {
     STRENGTH_CHECK_GLOSSES.backed[strength.backed ? "yes" : "no"],
   ];
   const passes = [strength.seasonal, strength.rooted, strength.backed].filter(Boolean).length;
+  // A narrow verdict (decided by one weighted point or less) says so: a close
+  // call is not a clear one, and the reader deserves to know which they got.
+  const closeness = strength.narrow ? ", though by a narrow margin — a close call, not a clear one" : "";
   const tally =
     strength.value === "strong"
-      ? `${passes} of the three run in your favor, so the chart reads strong.`
-      : `Only ${passes} of the three run${passes === 1 ? "s" : ""} in your favor, so the chart reads weak — light, not lacking.`;
+      ? `${passes} of the three run in your favor, so the chart reads strong${closeness}.`
+      : `Only ${passes} of the three run${passes === 1 ? "s" : ""} in your favor, so the chart reads weak${closeness} — light, not lacking.`;
   const text = `Three checks sit behind that reading: you ${checks[0]}; you ${checks[1]}; and you ${checks[2]}. ${tally}`;
   const runs: TokenLine = [
     { kind: "text", text: "Three checks sit behind that reading: you " },

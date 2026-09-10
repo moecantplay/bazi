@@ -16,6 +16,8 @@ import type { Element, Pillar, StrengthResult, Stem } from "./types.js";
 /** Interpretive weights: the seasonal (month) branch counts double. */
 const MONTH_BRANCH_WEIGHT = 2;
 const OTHER_WEIGHT = 1;
+/** A verdict decided by one weighted point or fewer is a narrow call. */
+const NARROW_MARGIN = 1;
 
 export interface StrengthInput {
   dayMaster: Stem;
@@ -69,5 +71,15 @@ export function strength(input: StrengthInput): StrengthResult {
 
   // Tie goes to weak: a day master needs a clear majority to count as strong.
   const value = supporterScore > drainerScore ? "strong" : "weak";
-  return { value, supporterScore, drainerScore, seasonalSupport, rooted, backed };
+  const margin = supporterScore - drainerScore;
+  return {
+    value,
+    supporterScore,
+    drainerScore,
+    margin,
+    narrow: Math.abs(margin) <= NARROW_MARGIN,
+    seasonalSupport,
+    rooted,
+    backed,
+  };
 }

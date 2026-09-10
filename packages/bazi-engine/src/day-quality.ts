@@ -5,7 +5,9 @@
  * Scoring — interpretive, one school, kept deliberately small and explainable
  * (same doctrine as `strength`/`favorableElements`):
  *   - officer 宜 (favors) +2 / 忌 (avoids) −2 — the Tong Shu base layer;
- *   - transit day stem's element in the chart's favourable elements: +1 to all;
+ *   - transit day stem's element in the chart's favourable elements: +1 — but
+ *     only to activities the officer does not avoid. A suiting element breaks
+ *     ties upward; it never softens the almanac's own 忌 into "neutral";
  *   - transit day branch clashing the natal day branch — the personal breaker
  *     day (日破) — dents major undertakings (see DAY_BREAKER_MODIFIER);
  *   - transit day branch six-combining the natal day branch eases the home
@@ -168,7 +170,8 @@ export function dayQuality(chart: Chart, date: string, zone: string): DayQuality
       });
     }
 
-    if (elementFavorable) {
+    const officerAvoids = officer.avoids.includes(activity.key);
+    if (elementFavorable && !officerAvoids) {
       score += 1;
       reasons.push({ source: "element-day", element: dayElement });
     }

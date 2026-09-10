@@ -93,7 +93,7 @@ describe("coverage: natal", () => {
   it("both strength values yield a line", () => {
     for (const value of ["strong", "weak"] as const) {
       const text = natalText([
-        { kind: "strength", value, seasonal: value === "strong", rooted: true, backed: false },
+        { kind: "strength", value, narrow: false, seasonal: value === "strong", rooted: true, backed: false },
       ]);
       expect(text.length, `strength ${value}`).toBeGreaterThan(0);
     }

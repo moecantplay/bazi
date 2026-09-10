@@ -35,6 +35,8 @@ export type ReadingFact =
   | {
       kind: "strength";
       value: "strong" | "weak";
+      /** The verdict was decided by a single weighted point or less. */
+      narrow: boolean;
       /** 得令/得地/得勢 — the three checks behind the verdict. */
       seasonal: boolean;
       rooted: boolean;
@@ -131,6 +133,7 @@ export function natalFacts(chart: Chart): ReadingFact[] {
     {
       kind: "strength",
       value: chart.strength.value,
+      narrow: chart.strength.narrow,
       seasonal: chart.strength.seasonalSupport,
       rooted: chart.strength.rooted,
       backed: chart.strength.backed,

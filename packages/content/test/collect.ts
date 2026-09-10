@@ -219,6 +219,7 @@ export function natalFactSets(): ReadingFact[][] {
         {
           kind: "strength",
           value: dominant === "wood" ? "strong" : "weak",
+          narrow: dominant === "earth",
           seasonal: dominant === "wood",
           rooted: true,
           backed: dominant === "fire",
@@ -240,7 +241,7 @@ export function natalWithInteractions(): ReadingFact[] {
       dominant: "earth",
       missing: [],
     },
-    { kind: "strength", value: "strong", seasonal: true, rooted: true, backed: false },
+    { kind: "strength", value: "strong", narrow: false, seasonal: true, rooted: true, backed: false },
     { kind: "favorable", elements: ["water", "metal"] },
     { kind: "star", star: "wenchang-scholar", chinese: "文昌", english: "Scholar Star", palace: "hour" },
     { kind: "star", star: "taohua-peach-blossom", chinese: "咸池", english: "Peach Blossom", palace: "day" },

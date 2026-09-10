@@ -42,10 +42,10 @@ describe("dayQuality — Fixture A", () => {
     );
   });
 
-  it("2026-06-21: clear is officer-avoided (成忌) but element softens it to neutral", () => {
+  it("2026-06-21: clear is officer-avoided (成忌) and the favourable element does not soften it", () => {
     const quality = dayQuality(chart, "2026-06-21", ZONE);
     const clear = quality.assessments.find((a) => a.activity === "clear");
-    expect(clear).toMatchObject({ leaning: "neutral", score: -1 });
+    expect(clear).toMatchObject({ leaning: "friction", score: -2 });
   });
 
   it("2026-06-29 (甲戌, 定 day) is the personal breaker: 戌 clashes natal 辰", () => {

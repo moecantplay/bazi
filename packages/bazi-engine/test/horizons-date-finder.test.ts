@@ -182,11 +182,14 @@ describe("findDates — Fixture A, commit, 2026-06-15..30", () => {
     expect(`${top.pillar.stem}${top.pillar.branch}`).toBe("丙寅");
   });
 
-  it("ranks the 破 day (2026-06-19) last at −2", () => {
-    const bottom = candidates[candidates.length - 1] as (typeof candidates)[number];
-    expect(bottom.date).toBe("2026-06-19");
-    expect(bottom.combined).toBe(-2);
-    expect(bottom.officer.chinese).toBe("破");
+  it("ranks the officer-avoided days (破 2026-06-19, 閉 2026-06-24) at the bottom at −2", () => {
+    // 閉 on 己巳 used to be softened to −1 by 己 earth suiting the chart; the
+    // favourable element no longer lifts an officer avoid, so both tie at −2
+    // and the tie breaks to the earlier date.
+    const bottomTwo = candidates.slice(-2);
+    expect(bottomTwo.map((candidate) => candidate.date)).toEqual(["2026-06-19", "2026-06-24"]);
+    expect(bottomTwo.map((candidate) => candidate.combined)).toEqual([-2, -2]);
+    expect(bottomTwo.map((candidate) => candidate.officer.chinese)).toEqual(["破", "閉"]);
   });
 });
 
