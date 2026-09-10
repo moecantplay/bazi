@@ -49,14 +49,45 @@ function factsOf<K extends ReadingFact["kind"]>(
   return facts.filter((fact): fact is FactOf<K> => fact.kind === kind);
 }
 
-/** Up to MAX_TRANSIT_LINES transit facts, seed-chosen when there are more. */
+/**
+ * How loudly each interaction speaks, strongest first. The headline and the
+ * agency line both follow the first chosen transit, so the strongest pattern
+ * must lead rather than whichever one the hash happened to land on.
+ */
+const INTERACTION_SEVERITY: Record<FactOf<"transit-interaction">["interaction"], number> = {
+  "six-clash": 0,
+  punishment: 1,
+  harm: 2,
+  "six-combine": 3,
+  trine: 4,
+};
+
+/**
+ * Up to MAX_TRANSIT_LINES transit facts, strongest first. The seed only
+ * breaks ties: when several facts of equal severity compete for the last
+ * slot, the hash picks among them, never across severities.
+ */
 function chooseTransits(
   transits: readonly FactOf<"transit-interaction">[],
   seedKey: string,
 ): FactOf<"transit-interaction">[] {
-  return transits.length <= MAX_TRANSIT_LINES
-    ? [...transits]
-    : pickDistinct(transits, MAX_TRANSIT_LINES, seedKey, "trsel");
+  const bySeverity = [...transits].sort(
+    (a, b) => INTERACTION_SEVERITY[a.interaction] - INTERACTION_SEVERITY[b.interaction],
+  );
+  if (bySeverity.length <= MAX_TRANSIT_LINES) {
+    return bySeverity;
+  }
+
+  const chosen: FactOf<"transit-interaction">[] = [];
+  let index = 0;
+  while (chosen.length < MAX_TRANSIT_LINES && index < bySeverity.length) {
+    const severity = INTERACTION_SEVERITY[(bySeverity[index] as FactOf<"transit-interaction">).interaction];
+    const tier = bySeverity.filter((fact) => INTERACTION_SEVERITY[fact.interaction] === severity);
+    const room = MAX_TRANSIT_LINES - chosen.length;
+    chosen.push(...(tier.length <= room ? tier : pickDistinct(tier, room, seedKey, "trsel")));
+    index += tier.length;
+  }
+  return chosen;
 }
 
 function transitLines(

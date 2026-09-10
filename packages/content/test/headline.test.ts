@@ -90,3 +90,43 @@ describe("daily reading headline", () => {
     expect(seen.size).toBeGreaterThan(1);
   });
 });
+
+describe("transit selection order", () => {
+  function transit(
+    interaction: Extract<ReadingFact, { kind: "transit-interaction" }>["interaction"],
+    transitBranch: "午" | "丑" | "卯" | "寅",
+  ): ReadingFact {
+    return {
+      kind: "transit-interaction",
+      interaction,
+      branches: ["子", transitBranch],
+      natalPalaces: ["day"],
+      transitPalace: "daily",
+      transitBranch,
+    };
+  }
+
+  it("the strongest pattern leads regardless of fact order or seed", () => {
+    const facts = [transit("trine", "寅"), transit("six-combine", "丑"), transit("six-clash", "午")];
+    for (const seed of ["a", "b", "c", "d"]) {
+      const reading = dailyReading(facts, seed);
+      expect(INTERACTION_HEADLINES["six-clash"]).toContain(lineText(reading.headline));
+      // Two lines: the clash, then the combine — the trine never displaces them.
+      const tags = reading.lines.slice(0, 2).map((line) => lineFactTag(line));
+      expect(tags[0]).toMatch(/clash/);
+      expect(tags[1]).toMatch(/combine/);
+    }
+  });
+
+  it("the seed only breaks ties within one severity tier", () => {
+    const facts = [transit("six-combine", "丑"), transit("six-combine", "卯"), transit("six-clash", "午")];
+    const picks = new Set(
+      ["a", "b", "c", "d", "e", "f"].map((seed) => lineFactTag(dailyReading(facts, seed).lines[1]!)),
+    );
+    // The clash always holds slot one; slot two varies between the two combines.
+    for (const seed of ["a", "b", "c"]) {
+      expect(lineFactTag(dailyReading(facts, seed).lines[0]!)).toMatch(/clash/);
+    }
+    expect(picks.size).toBeGreaterThan(1);
+  });
+});
