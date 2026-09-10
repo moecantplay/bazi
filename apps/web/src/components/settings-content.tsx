@@ -167,8 +167,8 @@ export function SettingsContent({ profile }: Props) {
         {confirmingDelete ? (
           <div className="flex flex-col gap-3">
             <p className="text-[15px] text-ink">
-              This erases your chart, your comparison companion, and every preference from
-              this device. It can&rsquo;t be undone.
+              This erases your chart, your saved people, your day notes, and every preference
+              from this device. It can&rsquo;t be undone.
             </p>
             <div className="flex gap-3">
               <Button variant="destructive" onClick={handleDelete}>

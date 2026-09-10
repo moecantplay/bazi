@@ -26,6 +26,19 @@ const ONBOARDING_DRAFT_KEY = "daymaster.onboarding.v1";
 /** Session-scoped stash for a birth that arrived via a `?share=` link — see share-link.ts. */
 export const SHARE_INCOMING_KEY = "daymaster.share-incoming.v1";
 
+/** How a day's reading landed, in the reader's own judgement. */
+export type JournalMark = "rang-true" | "did-not-fit";
+
+/** One day's journal: the mark and an optional short note. */
+export interface JournalEntry {
+  mark: JournalMark;
+  note: string;
+  updatedAt: string; // ISO
+}
+
+/** Longest note kept — a line, not a diary page. */
+export const JOURNAL_NOTE_MAX = 140;
+
 export interface DaymasterStore {
   app: "daymaster";
   version: 2;
@@ -34,6 +47,12 @@ export interface DaymasterStore {
   people: StoredPerson[];
   activePersonId: string | null;
   theme: ThemePreference;
+  /**
+   * Per-day marks keyed by ISO date. Added 2026-09-10 as an additive field on
+   * the v2 document (older documents simply lack it and read as empty), so no
+   * version bump or migration step was needed.
+   */
+  journal: Record<string, JournalEntry>;
 }
 
 export function emptyStore(): DaymasterStore {
@@ -44,8 +63,34 @@ export function emptyStore(): DaymasterStore {
     profile: null,
     people: [],
     activePersonId: null,
-    theme: "system"
+    theme: "system",
+    journal: {}
   };
+}
+
+function isJournalEntry(value: unknown): value is JournalEntry {
+  if (!isObject(value)) {
+    return false;
+  }
+  return (
+    (value.mark === "rang-true" || value.mark === "did-not-fit") &&
+    typeof value.note === "string" &&
+    typeof value.updatedAt === "string"
+  );
+}
+
+/** Keeps only well-formed entries under ISO-date keys; anything else is dropped, never thrown on. */
+function sanitizeJournal(value: unknown): Record<string, JournalEntry> {
+  if (!isObject(value)) {
+    return {};
+  }
+  const clean: Record<string, JournalEntry> = {};
+  for (const [date, entry] of Object.entries(value)) {
+    if (/^\d{4}-\d{2}-\d{2}$/.test(date) && isJournalEntry(entry)) {
+      clean[date] = { mark: entry.mark, note: entry.note.slice(0, JOURNAL_NOTE_MAX), updatedAt: entry.updatedAt };
+    }
+  }
+  return clean;
 }
 
 function isObject(value: unknown): value is Record<string, unknown> {
@@ -70,7 +115,9 @@ export function loadStore(): DaymasterStore {
     if (raw !== null) {
       const parsed: unknown = JSON.parse(raw);
       if (isDaymasterStore(parsed)) {
-        return parsed;
+        // Fields added after v2 shipped are filled in here so every reader
+        // sees the complete shape, whatever vintage of document is on disk.
+        return { ...parsed, journal: sanitizeJournal((parsed as { journal?: unknown }).journal) };
       }
     }
   } catch {
@@ -140,6 +187,26 @@ export function loadActivePersonId(): string | null {
 
 export function setActivePersonId(id: string | null): void {
   saveStore({ ...loadStore(), activePersonId: id });
+}
+
+/** The journal entry for one ISO date, or null when the day is unmarked. */
+export function loadJournalEntry(dateISO: string): JournalEntry | null {
+  return loadStore().journal[dateISO] ?? null;
+}
+
+/** Marks a day (replacing any earlier mark), trimming the note to JOURNAL_NOTE_MAX. */
+export function saveJournalEntry(dateISO: string, mark: JournalMark, note: string): boolean {
+  const store = loadStore();
+  const entry: JournalEntry = { mark, note: note.slice(0, JOURNAL_NOTE_MAX), updatedAt: new Date().toISOString() };
+  return saveStore({ ...store, journal: { ...store.journal, [dateISO]: entry } });
+}
+
+/** Clears a day's mark and note. */
+export function removeJournalEntry(dateISO: string): boolean {
+  const store = loadStore();
+  const journal = { ...store.journal };
+  delete journal[dateISO];
+  return saveStore({ ...store, journal });
 }
 
 /** The user's Appearance choice (Settings). Defaults to "system". */
