@@ -6,11 +6,12 @@
 
 import { dailyPillar, type Element } from "@daymaster/bazi-engine";
 import { describeStem } from "./display.js";
+import { readingZoneOf } from "./reading-zone.js";
 import type { StoredProfile } from "./types.js";
 
 /** Today's terrain element for `profile` on `todayIso`. */
 export function dayTerrain(profile: StoredProfile, todayIso: string): Element {
-  const zone = profile.birth.city.tz;
+  const zone = readingZoneOf(profile);
   const pillar = dailyPillar(todayIso, zone);
   return describeStem(pillar.stem).element;
 }

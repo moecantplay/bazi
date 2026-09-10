@@ -17,6 +17,7 @@
  */
 
 import { migrateLegacyStore } from "./store-migration";
+import { toStoredProfile } from "./store-types";
 import type { StoredBirth, StoredPerson, StoredProfile, ThemePreference } from "./store-types";
 
 export const STORE_KEY = "daymaster.store.v2";
@@ -84,7 +85,13 @@ export function saveStore(store: DaymasterStore): boolean {
     return false;
   }
   try {
-    window.localStorage.setItem(STORE_KEY, JSON.stringify({ ...store, updatedAt: new Date().toISOString() }));
+    // Profiles reach here decorated with the transient readingZone (ProfileGate);
+    // toStoredProfile rebuilds only the persisted fields so it never lands on disk.
+    const profile = store.profile === null ? null : toStoredProfile(store.profile);
+    window.localStorage.setItem(
+      STORE_KEY,
+      JSON.stringify({ ...store, profile, updatedAt: new Date().toISOString() })
+    );
     return true;
   } catch {
     return false;

@@ -16,6 +16,7 @@ import { chartFor, chartForBirth } from "./chart.js";
 import { addDays, daysBetween } from "./dates.js";
 import { natalSeedKey } from "./seed-key.js";
 import type { StoredPerson, StoredProfile } from "./types.js";
+import { readingZoneOf } from "./reading-zone.js";
 
 /** Inclusive bounds of the engine's solar-term tables; also the input min/max. */
 export const MIN_DATE = "1900-01-01";
@@ -74,7 +75,7 @@ export function findDatesFor(
     charts.push(chartForBirth(person.birth, profile.config));
   }
 
-  const zone = profile.birth.city.tz;
+  const zone = readingZoneOf(profile);
   const ranked = findDates(charts, activity, from, to, zone);
   return {
     candidates: ranked.slice(0, TOP_RESULTS),

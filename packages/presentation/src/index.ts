@@ -37,6 +37,7 @@ export { dayTone } from "./day-tone.js";
 export type { DayTone } from "./day-tone.js";
 export { dayTerrain } from "./terrain.js";
 export { natalSeedKey } from "./seed-key.js";
+export { readingZoneOf } from "./reading-zone.js";
 export { compareBundleFor } from "./compare.js";
 export type { CompareBundle } from "./compare.js";
 export {

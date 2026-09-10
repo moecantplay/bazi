@@ -24,6 +24,7 @@ import {
 } from "@daymaster/content";
 import { chartFor } from "./chart.js";
 import { natalSeedKey } from "./seed-key.js";
+import { readingZoneOf } from "./reading-zone.js";
 import type { StoredProfile } from "./types.js";
 
 export function dailySeedKey(profile: StoredProfile, dateISO: string): string {
@@ -43,7 +44,7 @@ export interface DailyBundle {
 }
 
 export function dailyBundleFor(profile: StoredProfile, dateISO: string): DailyBundle {
-  const zone = profile.birth.city.tz;
+  const zone = readingZoneOf(profile);
   const chart = chartFor(profile);
   const facts = dailyFacts(chart, dateISO, zone);
   return {

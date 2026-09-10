@@ -9,7 +9,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { DISCLAIMER } from "@daymaster/content";
-import { formatLong } from "@daymaster/presentation";
+import { formatLong, readingZoneOf } from "@daymaster/presentation";
 import { Button } from "@/components/button";
 import { InstallHint } from "@/components/install-hint";
 import { SegmentedControl } from "@/components/segmented-control";
@@ -101,6 +101,11 @@ export function SettingsContent({ profile }: Props) {
   const birthSummary = `${formatLong(birth.date)} · ${
     birth.time ?? "hour unknown"
   } · ${birth.city.name}`;
+  const readingZone = readingZoneOf(profile);
+  const readingZoneNote =
+    readingZone === birth.city.tz
+      ? `Days are read in ${readingZone}, your device's clock.`
+      : `Days are read in ${readingZone}, your device's clock. Your chart stays fixed to ${birth.city.tz}, where you were born.`;
 
   return (
     <div className="flex flex-col gap-8">
@@ -139,6 +144,9 @@ export function SettingsContent({ profile }: Props) {
         <p className="mt-1 text-[13px] leading-relaxed text-ink-soft">
           Your chart lives only on this device. Download a backup to keep it safe or move it
           somewhere new.
+        </p>
+        <p data-reading-zone className="mt-1 text-[13px] leading-relaxed text-ink-soft">
+          {readingZoneNote}
         </p>
         <div className="mt-3 flex flex-wrap gap-3">
           <Button variant="quiet" onClick={() => router.push("/settings/edit")}>

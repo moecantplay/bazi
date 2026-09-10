@@ -9,6 +9,7 @@ import { dayQuality, type DayQuality } from "@daymaster/bazi-engine";
 import { dayGuidance } from "@daymaster/content";
 import { chartFor } from "./chart.js";
 import { dailySeedKey } from "./reading.js";
+import { readingZoneOf } from "./reading-zone.js";
 import type { StoredProfile } from "./types.js";
 
 /** The content layer's guidance result shape, sourced from its own contract. */
@@ -24,7 +25,7 @@ export interface GuidanceBundle {
 }
 
 export function dayGuidanceFor(profile: StoredProfile, dateISO: string): GuidanceBundle {
-  const zone = profile.birth.city.tz;
+  const zone = readingZoneOf(profile);
   const quality = dayQuality(chartFor(profile), dateISO, zone);
   const guidance = dayGuidance(quality, dailySeedKey(profile, dateISO));
   return { quality, chips: guidance.chips, lines: guidance.lines };

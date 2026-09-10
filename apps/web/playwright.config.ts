@@ -24,6 +24,10 @@ export default defineConfig({
     // Date labels format in the device locale; pin it so e2e/helpers.longDate
     // (en-GB) keeps matching what the app renders.
     locale: "en-GB",
+    // Days are read in the device zone (presentation's readingZoneOf); pin it
+    // to the fixtures' birth zone so pillar assertions don't depend on the
+    // machine running the suite.
+    timezoneId: "Asia/Jakarta",
     trace: "retain-on-failure",
     ...(chromePath ? { launchOptions: { executablePath: chromePath } } : {})
   },

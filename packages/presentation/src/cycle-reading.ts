@@ -14,6 +14,7 @@ import { annualReading, monthlyReading, type ReadingLine } from "@daymaster/cont
 import { chartFor } from "./chart.js";
 import { natalSeedKey } from "./seed-key.js";
 import type { StoredProfile } from "./types.js";
+import { readingZoneOf } from "./reading-zone.js";
 
 export interface AnnualCycleReading {
   year: number;
@@ -43,7 +44,7 @@ export function monthlyReadingFor(
   month: number,
 ): MonthlyCycleReading {
   const chart = chartFor(profile);
-  const zone = profile.birth.city.tz;
+  const zone = readingZoneOf(profile);
   const { pillar, facts } = monthlyPillarFactsForCalendarMonth(chart, year, month, zone);
   const seedKey = `${natalSeedKey(profile)}|monthly|${pillar.stem}${pillar.branch}`;
   return { year, month, pillar, lines: monthlyReading(facts, seedKey) };

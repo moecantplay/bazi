@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { ReactNode } from "react";
 import { dayTerrain, type StoredProfile } from "@daymaster/presentation";
+import { deviceZone } from "@/lib/device-zone";
 import { loadStore } from "@/lib/store";
 import { useTodayLabel } from "@/lib/use-today-label";
 
@@ -40,7 +41,10 @@ export function ProfileGate({ children }: Props) {
       router.replace("/onboarding");
       return;
     }
-    setProfile(stored);
+    // Days are read where the reader is now; the chart stays fixed to the
+    // birth zone. Attached here, at the one place a profile enters the UI,
+    // and stripped again by saveStore so it never persists.
+    setProfile({ ...stored, readingZone: deviceZone(stored.birth.city.tz) });
     setStatus("present");
   }, [router]);
 

@@ -8,6 +8,7 @@ import { dailyPillar, type Element } from "@daymaster/bazi-engine";
 import { addDays } from "./dates.js";
 import { dayTone, type DayTone } from "./day-tone.js";
 import { describeBranch } from "./display.js";
+import { readingZoneOf } from "./reading-zone.js";
 import type { StoredProfile } from "./types.js";
 
 export const ELEVATION_WEEK_LENGTH = 7;
@@ -30,7 +31,7 @@ export interface ElevationCell {
 
 /** The next `ELEVATION_WEEK_LENGTH` days (today first), plotted for the profile. */
 export function elevationWeek(profile: StoredProfile, todayISO: string): ElevationCell[] {
-  const zone = profile.birth.city.tz;
+  const zone = readingZoneOf(profile);
   return Array.from({ length: ELEVATION_WEEK_LENGTH }, (_, index) => {
     const iso = addDays(todayISO, index);
     const tone = dayTone(profile, iso);

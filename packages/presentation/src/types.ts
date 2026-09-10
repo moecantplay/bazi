@@ -32,6 +32,13 @@ export interface StoredProfile {
   birth: StoredBirth;
   config: StoredConfig;
   createdAt: string; // ISO
+  /**
+   * IANA zone the day is read in — where the reader is now, not where they
+   * were born. Transient: the app attaches the device's zone when it loads the
+   * profile and strips it again on save, so it is never persisted or synced.
+   * Absent (older callers, tests) falls back to the birth zone.
+   */
+  readingZone?: string;
 }
 
 export interface StoredPerson {
