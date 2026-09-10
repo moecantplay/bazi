@@ -5,11 +5,18 @@
  * chart-view.tsx's existing pattern) opens the full manifest below.
  *
  * Only the dashed line lives inside the SVG's stretched (preserveAspectRatio
- * "none") coordinate space — dots and labels are ordinary HTML elements
- * positioned by percentage on top, same split ElevationProfile uses. Putting
- * circles/rotated text inside that stretched space instead turns circles
- * into ellipses and shears rotated text, since the viewBox scales x and y
- * non-uniformly to fill a wide, short container.
+ * "none") coordinate space — dots are ordinary HTML elements positioned by
+ * percentage on top, same split ElevationProfile uses. Putting circles inside
+ * that stretched space instead turns them into ellipses, since the viewBox
+ * scales x and y non-uniformly to fill a wide, short container.
+ *
+ * Labels live in their own axis lane under the plot, horizontal, staggered
+ * onto two rows (odd activities drop a row). An earlier cut hung each label
+ * off its own dot at an upward angle; whenever the route climbed to the next
+ * node the label ran straight across the line and into that node — the same
+ * collision the map hero hit, fixed the same way: text stacks below, in the
+ * one direction the route never occupies. Ten labels at 360px are ~29px
+ * apart, narrower than a six-letter word, hence the stagger.
  *
  * Cell layout (leaning/label/classical/x/y) comes from presentation's
  * `activityTerrain` — this component only renders it.
@@ -83,32 +90,37 @@ export function ActivityTerrain({ assessments }: Props) {
     <div data-activity-terrain className="flex flex-col gap-2">
       <p className="kicker">Today&rsquo;s terrain &middot; by activity</p>
       <div className="rounded-card bg-surface p-4 shadow-card">
-        <div className="relative h-32" role="img" aria-label={summarize(cells)}>
-          <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" className="absolute inset-0 h-full w-full">
-            <path
-              d={pathD}
-              fill="none"
-              stroke="var(--ink)"
-              strokeWidth="1.6"
-              strokeDasharray="3 3.4"
-              strokeLinecap="round"
-              vectorEffect="non-scaling-stroke"
-            />
-          </svg>
-          <ul className="relative h-full list-none" aria-hidden="true">
-            {cells.map((cell) => (
+        <div className="flex h-32 flex-col" role="img" aria-label={summarize(cells)}>
+          <div className="relative flex-1">
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" className="absolute inset-0 h-full w-full">
+              <path
+                d={pathD}
+                fill="none"
+                stroke="var(--ink)"
+                strokeWidth="1.6"
+                strokeDasharray="3 3.4"
+                strokeLinecap="round"
+                vectorEffect="non-scaling-stroke"
+              />
+            </svg>
+            <ul className="relative h-full list-none" aria-hidden="true">
+              {cells.map((cell) => (
+                <li
+                  key={cell.key}
+                  className={`absolute h-[9px] w-[9px] -translate-x-1/2 -translate-y-1/2 rounded-full ${dotClassName(cell.leaning)}`}
+                  style={{ left: `${cell.x}%`, top: `${cell.y}%` }}
+                />
+              ))}
+            </ul>
+          </div>
+          <ul className="relative mt-2 h-6 list-none" aria-hidden="true">
+            {cells.map((cell, index) => (
               <li
                 key={cell.key}
-                className="absolute -translate-x-1/2 -translate-y-1/2"
-                style={{ left: `${cell.x}%`, top: `${cell.y}%` }}
+                className="absolute -translate-x-1/2 whitespace-nowrap font-mono text-[7.5px] font-bold uppercase tracking-wide text-ink-soft"
+                style={{ left: `${cell.x}%`, top: index % 2 === 0 ? 0 : "12px" }}
               >
-                <span className={`block h-[9px] w-[9px] rounded-full ${dotClassName(cell.leaning)}`} />
-                <span
-                  className="absolute left-1/2 top-full origin-top-left whitespace-nowrap font-mono text-[7.5px] font-bold uppercase tracking-wide text-ink-soft"
-                  style={{ transform: "translate(0, 8px) rotate(-38deg)" }}
-                >
-                  {cell.key}
-                </span>
+                {cell.key}
               </li>
             ))}
           </ul>
