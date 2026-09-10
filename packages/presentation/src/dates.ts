@@ -52,6 +52,27 @@ export function dayProgress(now: Date = new Date()): number {
 }
 
 /**
+ * Keep timed marks clear of the MORNING tick and today's glyph at the start,
+ * and the EVENING arrow at the end, whatever hour they resolve to.
+ */
+const TIMED_PROGRESS_MIN = 0.2;
+const TIMED_PROGRESS_MAX = 0.86;
+
+/**
+ * Where a two-hour block's centre falls along the route, on the same 0–1
+ * scale as `dayProgress`. Blocks outside the 6am–10pm window (the small
+ * hours) clamp to the nearest end; a block that wraps midnight (子, 23–1)
+ * is treated as late night, so it sits at the EVENING end.
+ */
+export function hourWindowProgress(startHour: number, endHour: number): number {
+  const wrapsMidnight = endHour < startHour;
+  const centre = wrapsMidnight ? startHour + 1 : (startHour + endHour) / 2;
+  const span = ROUTE_DAY_END_HOUR - ROUTE_DAY_START_HOUR;
+  const raw = (centre - ROUTE_DAY_START_HOUR) / span;
+  return Math.min(TIMED_PROGRESS_MAX, Math.max(TIMED_PROGRESS_MIN, raw));
+}
+
+/**
  * A human date like "Tue, 7 Jul 2026", formatted in UTC to match the label.
  * The locale is the device's own so day/month order matches what the user
  * expects everywhere else on their phone.

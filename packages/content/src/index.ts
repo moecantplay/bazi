@@ -25,7 +25,9 @@ export {
   STRENGTH_CHECK_GLOSS_RUNS,
   TEN_GOD_GLOSSES,
   branchTokenRuns,
+  hourWindowLabel,
   interactionTagRuns,
+  interactionWord,
   joinBranchRuns,
   stemTokenRuns,
 } from "./vocab.js";
@@ -47,7 +49,7 @@ export { compareReading } from "./compare-reading.js";
 export { activityAreaLine, dayGuidance, dateVerdictLine } from "./day-guidance.js";
 export type { GuidanceChip, DayGuidance } from "./day-guidance.js";
 export { annualReading, monthlyReading } from "./horizon-reading.js";
-export { GLOSSARY, READING_TOPIC, ROUTE_TOPIC, WEEK_TOPIC, glossaryEntry } from "./glossary.js";
+export { GLOSSARY, HOURS_TOPIC, READING_TOPIC, ROUTE_TOPIC, WEEK_TOPIC, glossaryEntry } from "./glossary.js";
 export type { GlossaryEntry } from "./glossary.js";
 export { READ_MORE, readMoreEntry } from "./read-more.js";
 export type { ReadMoreEntry } from "./read-more.js";

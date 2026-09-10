@@ -13,6 +13,7 @@ import { finalizeLine } from "./types.js";
 import { textRun, type TokenLine } from "./tokens.js";
 import { pick, pickDistinct } from "./hash.js";
 import { transitInteractionLine } from "./banks/transit-interactions.js";
+import { hourInteractionLine } from "./banks/hour-interactions.js";
 import { elementDayLine, tenGodDayLine } from "./banks/transit-days.js";
 import { starDayLine } from "./banks/stars.js";
 import { stageDayLine } from "./banks/stages.js";
@@ -77,6 +78,17 @@ function transitLines(
     // first natal palace it touches; the UI titles the section by palace.
     area: fact.natalPalaces[0] ?? ("overall" as const),
   }));
+}
+
+/** The day's hours line, when the facts carry both the clash and combine hour. */
+function hoursLine(facts: readonly ReadingFact[], seedKey: string): DraftLine | null {
+  const hours = factsOf(facts, "hour-interaction");
+  const clash = hours.find((fact) => fact.interaction === "six-clash");
+  const combine = hours.find((fact) => fact.interaction === "six-combine");
+  if (!clash || !combine) {
+    return null;
+  }
+  return { ...hourInteractionLine({ dayBranch: clash.dayBranch, clash, combine }, seedKey), area: "overall" };
 }
 
 /** Collect every justified do/don't candidate, in stable fact order. */
@@ -223,6 +235,13 @@ export function dailyReading(facts: ReadingFact[], seedKey: string): DailyReadin
   const stageDay = facts.find((fact): fact is FactOf<"stage-day"> => fact.kind === "stage-day");
   if (stageDay) {
     lines.push({ ...stageDayLine(stageDay.stage), area: "overall" });
+  }
+
+  // The day's own timed line closes "The day itself" — the one line that
+  // names hours, so it sits after everything that holds all day.
+  const hours = hoursLine(facts, seedKey);
+  if (hours) {
+    lines.push(hours);
   }
 
   const candidates = suggestionCandidates(facts, chosen);

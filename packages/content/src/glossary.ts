@@ -64,8 +64,20 @@ const ROUTE_ENTRY: GlossaryEntry = {
   title: "Today's route",
   body: [
     "The dashed line is the day drawn as a route — morning to evening, a fixed shape that doesn't measure anything on its own. The colored stretch in the middle is the one part that does: it's today's overall lean, the same read as the elevation strip above.",
-    "A circled X marks an hour where today's sign clashes, punishes, or harms one in your chart — friction worth noticing. A plain dot marks the opposite: an hour that combines or trines with your chart, pulling together instead of apart.",
+    "Marks on the route are timed, each labeled with its clock time. A circled X sits on the two-hour block whose sign clashes with today's — the day's rough hour; a plain dot sits on the block that combines with it — the easy hour.",
+    "Both hours belong to the day itself and move as the day's sign changes. Marks in the top row are different: they're day-long, today's sign meeting one in your chart from midnight to midnight, so they sit above the route rather than at one point on it.",
     "Read each mark as weather at a glance — the full story for each one is written out below, under Waypoints.",
+  ],
+};
+
+export const HOURS_TOPIC = "hours";
+
+const HOURS_ENTRY: GlossaryEntry = {
+  title: "The day's hours",
+  body: [
+    "The old calendars split the day into twelve two-hour blocks, and each block carries one of the twelve animal signs — the rat from 11 pm, the ox from 1 am, and so on around the clock.",
+    "Two of those blocks stand out on any day. The one whose sign clashes with the day's own sign is the rough hour, where plans tend to jostle; the one whose sign combines with it is the easy hour, a quieter window for anything that needs agreeing.",
+    "These hours belong to the day, not to your chart: everyone shares them, the way everyone shares the same weather. The map hero plots both at their clock time so you can see where they fall on your route.",
   ],
 };
 
@@ -216,6 +228,7 @@ const RAW_GLOSSARY: Record<string, GlossaryEntry> = {
   [READING_TOPIC]: READING_ENTRY,
   [WEEK_TOPIC]: WEEK_ENTRY,
   [ROUTE_TOPIC]: ROUTE_ENTRY,
+  [HOURS_TOPIC]: HOURS_ENTRY,
   ...interactionEntries(),
   ...tenGodEntries(),
   ...starEntries(),

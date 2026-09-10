@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { addDays, dayProgress, daysBetween, formatLong, todayLabel } from "../src/dates.js";
+import { addDays, dayProgress, daysBetween, formatLong, hourWindowProgress, todayLabel } from "../src/dates.js";
 
 describe("todayLabel", () => {
   it("formats a given Date as YYYY-MM-DD in local time", () => {
@@ -69,5 +69,23 @@ describe("dayProgress", () => {
 
   it("clamps to 1 after 10pm", () => {
     expect(dayProgress(new Date(2026, 6, 7, 23, 30))).toBe(1);
+  });
+});
+
+describe("hourWindowProgress", () => {
+  it("places a block at its centre on the same scale as dayProgress", () => {
+    // 13–15 centres on 2pm, dayProgress's midpoint.
+    expect(hourWindowProgress(13, 15)).toBe(0.5);
+    expect(hourWindowProgress(9, 11)).toBe(0.25);
+  });
+
+  it("clamps the small hours to the MORNING end, clear of the start tick", () => {
+    expect(hourWindowProgress(3, 5)).toBe(0.2);
+    expect(hourWindowProgress(5, 7)).toBe(0.2);
+  });
+
+  it("treats the midnight-wrapping 子 block as late night, at the EVENING end", () => {
+    expect(hourWindowProgress(23, 1)).toBe(0.86);
+    expect(hourWindowProgress(21, 23)).toBe(0.86);
   });
 });

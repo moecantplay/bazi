@@ -125,7 +125,7 @@ export { luckPillars, luckStart, type LuckPillarInput } from "./luck-pillars.js"
 export { strength, type StrengthInput } from "./strength.js";
 export { favorableElements, type FavorableInput } from "./favorable-elements.js";
 export { computeChart } from "./chart.js";
-export { natalFacts, dailyFacts, type ReadingFact } from "./facts.js";
+export { natalFacts, dailyFacts, hourInteractionFacts, hourBlockWindow, type ReadingFact } from "./facts.js";
 export {
   ACTIVITIES,
   ACTIVITY_KEYS,

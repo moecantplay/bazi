@@ -17,6 +17,7 @@ import {
 } from "../src/banks/elements.js";
 import { NATAL_INTERACTION_TEMPLATES } from "../src/banks/natal-interactions.js";
 import { TRANSIT_INTERACTION_TEMPLATES } from "../src/banks/transit-interactions.js";
+import { HOUR_TEMPLATES } from "../src/banks/hour-interactions.js";
 import { ELEMENT_DAY_TEMPLATES, TEN_GOD_TEMPLATES } from "../src/banks/transit-days.js";
 import { AGENCY_POOLS } from "../src/banks/agency.js";
 import { COMPARE_TEMPLATES } from "../src/banks/compare.js";
@@ -78,6 +79,11 @@ function render(template: string): string {
     .replaceAll("{palaces}", "career palace")
     .replaceAll("{palace}", "career palace")
     .replaceAll("{when}", "today")
+    .replaceAll("{day}", "horse")
+    .replaceAll("{clashHour}", "rat")
+    .replaceAll("{clashWindow}", "11 pm–1 am")
+    .replaceAll("{combineHour}", "goat")
+    .replaceAll("{combineWindow}", "1–3 pm")
     .replaceAll("{element}", "Water")
     .replaceAll("{from}", "33")
     .replaceAll("{to}", "43")
@@ -115,6 +121,7 @@ export function allBankLines(): string[] {
     ...Object.values(CAREER_LINES),
     ...NATAL_INTERACTION_TEMPLATES,
     ...TRANSIT_INTERACTION_TEMPLATES,
+    ...HOUR_TEMPLATES,
     ...ELEMENT_DAY_TEMPLATES,
     ...TEN_GOD_TEMPLATES,
     ...Object.values(AGENCY_POOLS).flat(),
@@ -323,6 +330,8 @@ export function dailyFactSet(
       transitPalace,
     },
     { kind: "stage-day", stage: { chinese: "帝旺", english: "Peak" } },
+    { kind: "hour-interaction", interaction: "six-clash", hourBranch: "子", dayBranch: "午", startHour: 23, endHour: 1 },
+    { kind: "hour-interaction", interaction: "six-combine", hourBranch: "未", dayBranch: "午", startHour: 13, endHour: 15 },
   ];
 }
 

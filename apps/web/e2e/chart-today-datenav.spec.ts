@@ -95,6 +95,32 @@ test("seeded chart renders and Today's date nav works and clamps", async ({ page
   await expect(dateButton(page, addDays(TODAY, 1))).toBeVisible();
 });
 
+test("the map hero times its marks: the day's hours ride the route, chart relations sit in the ALL DAY row", async ({
+  page,
+  context
+}) => {
+  await seedProfile(context, FIXTURE_A);
+  await pinClock(context, `${TODAY}T09:00:00Z`);
+  await page.goto("/today/");
+
+  // The route's summary names both hours by clock window, never as a fixed slot.
+  const hero = page.locator('svg[aria-label^="Today\'s route"]');
+  await expect(hero).toHaveAttribute("aria-label", /rough hour \d{1,2}(?: [ap]m)?–\d{1,2} [ap]m/);
+  await expect(hero).toHaveAttribute("aria-label", /easy hour \d{1,2}(?: [ap]m)?–\d{1,2} [ap]m/);
+  await expect(hero.locator('[data-waypoint="hours"]')).toHaveCount(2);
+
+  // Every relation mark is labelled as day-long; there is no untimed mark on the route.
+  const allDay = hero.locator('[data-waypoint="all-day"]');
+  for (const mark of await allDay.all()) {
+    await expect(mark).toContainText("ALL DAY");
+  }
+
+  // The reading carries the same two hours, cited with their windows.
+  const body = page.locator("[data-reading-body]");
+  await expect(body).toContainText(/hour clash · \d{1,2}(?: [ap]m)?–\d{1,2} [ap]m/);
+  await expect(body).toContainText(/hour combine · \d{1,2}(?: [ap]m)?–\d{1,2} [ap]m/);
+});
+
 test("today's terrain shows all 10 activities and its disclosure toggles the manifest", async ({
   page,
   context

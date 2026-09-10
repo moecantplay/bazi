@@ -1,16 +1,23 @@
 /**
  * The Today hero, rebuilt as a map (DESIGN.md §Surfaces "Map hero"): a fixed
  * decorative contour background, the compass/orbit mark top-left, and a
- * dashed route from "YOU ARE HERE" through up to two waypoints to an
- * "EVENING" arrow. Per-day data drives only what DESIGN.md calls out: the
- * waypoints (the same relation facts feeding the waypoint rail), whether
- * each gets a crossing mark, the route's highlight color/label (dayTone),
- * and the two animal glyphs (today's own, and each waypoint's).
+ * dashed route from "MORNING" to an "EVENING" arrow. Per-day data drives
+ * only what DESIGN.md calls out: the waypoints, whether each gets a crossing
+ * mark, the route's highlight color/label (dayTone), and the animal glyphs
+ * (today's own, and each waypoint's).
+ *
+ * Waypoints are placed by how long they hold, so a mark's position is never
+ * a time it doesn't have:
+ * - Day-long relation marks (today's sign meeting one in the chart, in force
+ *   midnight to midnight) sit in an "ALL DAY" row above the route, next to
+ *   the compass — off the timeline, because they never come and go in it.
+ * - Timed marks (the day's rough hour and easy hour, each a two-hour block)
+ *   sit ON the route at their clock position, measured off the rendered
+ *   path the same way the live marker is, and carry their window as a label.
  *
  * The route geometry is a reasonable-effort port of the reference mockup
  * (docs/design-system/src/cards/trail.mjs) rather than a pixel-identical
- * copy: the two waypoint slots are literal vertices of the same reused
- * dashed-path string, so both data and decoration stay anchored to one path.
+ * copy.
  *
  * The crossing count and aria-label are derived by presentation's
  * `mapHeroSummary` (Phase 5) so this component only renders it.
@@ -31,7 +38,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { Pillar } from "@daymaster/bazi-engine";
-import { ROUTE_TOPIC, glossaryEntry } from "@daymaster/content";
+import { ROUTE_TOPIC, glossaryEntry, interactionWord } from "@daymaster/content";
 import { describeBranch, mapHeroSummary, type DayTone, type RouteWaypoint } from "@daymaster/presentation";
 import { AnimalGlyphMark } from "@/components/glyph-icon";
 import { CompassMark } from "@/components/compass-mark";
@@ -61,11 +68,18 @@ const PILL_WIDTH = 84;
 const PILL_MARGIN = 6;
 
 const START = { x: 20, y: 204 };
-const WAYPOINT_SLOTS = [
-  { x: 94, y: 154 },
-  { x: 170, y: 132 }
-];
 const END = { x: 292, y: 46 };
+
+/** The ALL DAY row: right of the compass mark, one line per day-long waypoint. */
+const ALL_DAY_ROW = { x: 62, firstY: 26, rowGap: 20 };
+
+/** Timed labels flip to end-anchored past this x so they never leave the card. */
+const LABEL_FLIP_X = 220;
+
+interface Point {
+  x: number;
+  y: number;
+}
 
 const TONE_COLOR: Record<DayTone, string> = {
   favoured: "var(--element-wood)",
@@ -85,6 +99,41 @@ interface Props {
   progress: number | null;
 }
 
+/** A waypoint's mark: crossing (circle + X) or plain node, in its branch's hue. */
+function WaypointMark({ x, y, color, crossing }: { x: number; y: number; color: string; crossing: boolean }) {
+  if (!crossing) {
+    return <circle cx={x} cy={y} r="4.6" fill={color} aria-hidden="true" />;
+  }
+  return <CrossingMark x={x} y={y} color={color} />;
+}
+
+/** Small-caps map annotation with a surface halo so contour lines never cut the letters. */
+function MapLabel({ x, y, anchor = "start", color = "var(--ink-soft)", children }: {
+  x: number;
+  y: number;
+  anchor?: "start" | "end";
+  color?: string;
+  children: string;
+}) {
+  return (
+    <text
+      x={x}
+      y={y}
+      textAnchor={anchor}
+      fontSize="7"
+      fontWeight={700}
+      fill={color}
+      stroke="var(--surface)"
+      strokeWidth="3"
+      strokeLinejoin="round"
+      style={{ paintOrder: "stroke" }}
+      aria-hidden="true"
+    >
+      {children}
+    </text>
+  );
+}
+
 function CrossingMark({ x, y, color }: { x: number; y: number; color: string }) {
   return (
     <g aria-hidden="true">
@@ -99,6 +148,11 @@ function CrossingMark({ x, y, color }: { x: number; y: number; color: string }) 
   );
 }
 
+function pointAlong(path: SVGPathElement, progress: number): Point {
+  const point = path.getPointAtLength(path.getTotalLength() * progress);
+  return { x: point.x, y: point.y };
+}
+
 export function MapHero({ pillars, dayBranchGloss, tone, waypoints, progress }: Props) {
   const toneColor = TONE_COLOR[tone];
   const { ariaLabel } = mapHeroSummary(waypoints, tone);
@@ -106,7 +160,7 @@ export function MapHero({ pillars, dayBranchGloss, tone, waypoints, progress }: 
   const legendEntry = glossaryEntry(ROUTE_TOPIC);
 
   const routePathRef = useRef<SVGPathElement>(null);
-  const [marker, setMarker] = useState(START);
+  const [marker, setMarker] = useState<Point>(START);
 
   useEffect(() => {
     const path = routePathRef.current;
@@ -114,10 +168,22 @@ export function MapHero({ pillars, dayBranchGloss, tone, waypoints, progress }: 
       setMarker(START);
       return;
     }
-    const length = path.getTotalLength();
-    const point = path.getPointAtLength(length * progress);
-    setMarker({ x: point.x, y: point.y });
+    setMarker(pointAlong(path, progress));
   }, [progress]);
+
+  const dayLong = waypoints.filter((waypoint) => waypoint.timing.kind === "all-day");
+  const timed = waypoints.filter((waypoint) => waypoint.timing.kind === "hours");
+  const timedProgress = timed.map((waypoint) => (waypoint.timing.kind === "hours" ? waypoint.timing.progress : 0));
+  const timedKey = timedProgress.join(",");
+  const [timedPoints, setTimedPoints] = useState<Point[]>([]);
+
+  useEffect(() => {
+    const path = routePathRef.current;
+    if (!path) {
+      return;
+    }
+    setTimedPoints(timedKey === "" ? [] : timedKey.split(",").map((value) => pointAlong(path, Number(value))));
+  }, [timedKey]);
 
   /** Early in the day the live dot sits almost on top of the fixed MORNING
    * tick — the pill already says "you are here" right there, so the static
@@ -170,26 +236,54 @@ export function MapHero({ pillars, dayBranchGloss, tone, waypoints, progress }: 
             </text>
           )}
 
-          {waypoints.map((waypoint, index) => {
-            const slot = WAYPOINT_SLOTS[index];
-            if (!slot) {
+          {/* ALL DAY: day-long relation marks, off the route. */}
+          {dayLong.map((waypoint, index) => {
+            const y = ALL_DAY_ROW.firstY + index * ALL_DAY_ROW.rowGap;
+            const branch = describeBranch(waypoint.transitBranch);
+            const hue = `var(--element-${branch.element})`;
+            return (
+              <g key={`all-day-${index}`} data-waypoint="all-day">
+                <WaypointMark x={ALL_DAY_ROW.x} y={y} color={hue} crossing={waypoint.crossing} />
+                <g style={{ color: hue }} aria-hidden="true">
+                  <AnimalGlyphMark
+                    animal={branch.gloss}
+                    transform={`translate(${ALL_DAY_ROW.x + 14}, ${y - 10}) scale(0.85)`}
+                  />
+                </g>
+                <MapLabel x={ALL_DAY_ROW.x + 40} y={y + 2.5}>
+                  {`${interactionWord(waypoint.interaction).toUpperCase()} · ALL DAY`}
+                </MapLabel>
+              </g>
+            );
+          })}
+
+          {/* Timed marks: the rough hour and easy hour, at their clock
+              position on the route, once the path has been measured. */}
+          {timed.map((waypoint, index) => {
+            const point = timedPoints[index];
+            if (!point || waypoint.timing.kind !== "hours") {
               return null;
             }
             const branch = describeBranch(waypoint.transitBranch);
             const hue = `var(--element-${branch.element})`;
+            const flip = point.x > LABEL_FLIP_X;
+            // The animal sits beside the mark on the downhill side (right of
+            // it, or left once the label flips near EVENING) rather than
+            // above it, so it never lands on the CLEAR label or the evening
+            // flag, both of which live above the route.
+            const glyphX = flip ? point.x - 32 : point.x + 12;
             return (
-              <g key={index}>
+              <g key={`timed-${index}`} data-waypoint="hours">
                 <g style={{ color: hue }} aria-hidden="true">
                   <AnimalGlyphMark
                     animal={branch.gloss}
-                    transform={`translate(${slot.x - 10}, ${slot.y - 38}) scale(0.85)`}
+                    transform={`translate(${glyphX}, ${point.y - 10}) scale(0.85)`}
                   />
                 </g>
-                {waypoint.crossing ? (
-                  <CrossingMark x={slot.x} y={slot.y} color={hue} />
-                ) : (
-                  <circle cx={slot.x} cy={slot.y} r="4.6" fill={hue} aria-hidden="true" />
-                )}
+                <WaypointMark x={point.x} y={point.y} color={hue} crossing={waypoint.crossing} />
+                <MapLabel x={flip ? point.x - 10 : point.x + 10} y={point.y + 22} anchor={flip ? "end" : "start"} color="var(--ink)">
+                  {`${waypoint.crossing ? "ROUGH" : "EASY"} · ${waypoint.timing.label.toUpperCase()}`}
+                </MapLabel>
               </g>
             );
           })}

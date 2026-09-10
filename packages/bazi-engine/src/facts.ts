@@ -7,11 +7,13 @@
  * same date always yields identical facts.
  */
 
+import { SIX_CLASHES, SIX_COMBINES } from "../data/interactions-tables.js";
 import { ELEMENT_PRODUCTION_ORDER } from "../data/tables.js";
 import { elementOfStem, polarityOfStem } from "./attributes.js";
 import { interactions, natalPalacedBranches } from "./interactions.js";
 import { lifeStage } from "./life-stages.js";
 import { dailyPillar } from "./pillars.js";
+import { branchIndex } from "./sexagenary.js";
 import { shensha } from "./shensha.js";
 import { tenGods } from "./ten-gods.js";
 import type {
@@ -60,6 +62,22 @@ export type ReadingFact =
       transitPalace: Palace;
       /** The branch the transit itself brought (the rest are natal). */
       transitBranch: Branch;
+    }
+  | {
+      /**
+       * The two-hour block (時辰) whose branch clashes or combines with the
+       * day's own branch — the day's rough hour and easy hour, the almanac's
+       * 時辰吉凶 read. Unlike transit-interaction facts (in force all day),
+       * these hold only within their block, in wall-clock hours of the zone.
+       */
+      kind: "hour-interaction";
+      interaction: "six-clash" | "six-combine";
+      hourBranch: Branch;
+      dayBranch: Branch;
+      /** Block start, 0–23 (子 starts at 23 and wraps past midnight). */
+      startHour: number;
+      /** Block end, exclusive, 0–23. */
+      endHour: number;
     }
   | { kind: "element-day"; element: Element; favorable: boolean }
   | { kind: "ten-god-day"; god: string; english: string }
@@ -197,6 +215,40 @@ export function transitInteractionFacts(
     }));
 }
 
+/** The wall-clock window of a branch's two-hour block: 子 23–1, 丑 1–3, … 亥 21–23. */
+export function hourBlockWindow(branch: Branch): { startHour: number; endHour: number } {
+  const startHour = (branchIndex(branch) * 2 + 23) % 24;
+  return { startHour, endHour: (startHour + 2) % 24 };
+}
+
+function partnerOf(
+  pairs: readonly (readonly [Branch, Branch])[],
+  branch: Branch,
+): Branch | undefined {
+  const pair = pairs.find(([a, b]) => a === branch || b === branch);
+  if (!pair) {
+    return undefined;
+  }
+  return pair[0] === branch ? pair[1] : pair[0];
+}
+
+/**
+ * The day's rough hour (its branch's clash partner) and easy hour (its combine
+ * partner), always one each — every branch has exactly one of both.
+ */
+export function hourInteractionFacts(dayBranch: Branch): ReadingFact[] {
+  const facts: ReadingFact[] = [];
+  const clashHour = partnerOf(SIX_CLASHES, dayBranch);
+  if (clashHour) {
+    facts.push({ kind: "hour-interaction", interaction: "six-clash", hourBranch: clashHour, dayBranch, ...hourBlockWindow(clashHour) });
+  }
+  const combineHour = partnerOf(SIX_COMBINES, dayBranch);
+  if (combineHour) {
+    facts.push({ kind: "hour-interaction", interaction: "six-combine", hourBranch: combineHour, dayBranch, ...hourBlockWindow(combineHour) });
+  }
+  return facts;
+}
+
 /** Facts for a transit date compared against the natal chart. Day-only — see file header. */
 export function dailyFacts(chart: Chart, dateISO: string, zone: string): ReadingFact[] {
   const dayTransit = dailyPillar(dateISO, zone);
@@ -217,6 +269,7 @@ export function dailyFacts(chart: Chart, dateISO: string, zone: string): Reading
 
   return [
     ...transitInteractionFacts(chart, dayTransit.branch, "daily"),
+    ...hourInteractionFacts(dayTransit.branch),
     {
       kind: "element-day",
       element: dayElement,

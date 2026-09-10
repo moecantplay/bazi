@@ -116,6 +116,24 @@ export function transitWhen(transitPalace: Palace): string {
 }
 
 /**
+ * A two-hour block's wall-clock window as people say it: "9–11 am",
+ * "11 am–1 pm", "11 pm–1 am". Hours are 0–23; the end is exclusive. Meridiem
+ * is repeated only when the block crosses noon or midnight.
+ */
+export function hourWindowLabel(startHour: number, endHour: number): string {
+  const clock = (hour: number): { hour: number; meridiem: "am" | "pm" } => ({
+    hour: hour % 12 === 0 ? 12 : hour % 12,
+    meridiem: hour < 12 ? "am" : "pm",
+  });
+  const start = clock(startHour);
+  const end = clock(endHour);
+  if (start.meridiem === end.meridiem) {
+    return `${start.hour}–${end.hour} ${start.meridiem}`;
+  }
+  return `${start.hour} ${start.meridiem}–${end.hour} ${end.meridiem}`;
+}
+
+/**
  * Term runs for several branches, en-dash joined — turns a bare glyph run
  * like "子午" into term runs that render "rat–horse". Without the separator,
  * two adjacent term runs rendered gloss-only (TokenText's only render mode)

@@ -126,6 +126,33 @@ describe("dailyFacts — Fixture A on a 2026 date", () => {
     expect(facts.some((f) => f.kind === "element-day")).toBe(true);
     expect(facts.some((f) => f.kind === "ten-god-day")).toBe(true);
   });
+
+  it("marks the two-hour blocks whose sign clashes and combines with the day's own — 申 day: 寅 3–5am, 巳 9–11am", () => {
+    const hours = facts.filter((f): f is Extract<ReadingFact, { kind: "hour-interaction" }> => f.kind === "hour-interaction");
+    expect(hours).toEqual([
+      { kind: "hour-interaction", interaction: "six-clash", hourBranch: "寅", dayBranch: "申", startHour: 3, endHour: 5 },
+      { kind: "hour-interaction", interaction: "six-combine", hourBranch: "巳", dayBranch: "申", startHour: 9, endHour: 11 },
+    ]);
+  });
+
+  it("moves the marked hours with the day branch — 酉 day: 卯 5–7am clash, 辰 7–9am combine", () => {
+    const next = dailyFacts(fixtureA(), "2026-06-16", "Asia/Jakarta");
+    const hours = next.filter((f): f is Extract<ReadingFact, { kind: "hour-interaction" }> => f.kind === "hour-interaction");
+    expect(hours.map((f) => `${f.interaction}:${f.hourBranch}:${f.startHour}-${f.endHour}`)).toEqual([
+      "six-clash:卯:5-7",
+      "six-combine:辰:7-9",
+    ]);
+  });
+
+  it("wraps the 子 hour across midnight — 午 day clashes 子, 11pm–1am", () => {
+    // 2026-06-25 is a 庚午 day (dailyPillar confirmed).
+    const wuDay = dailyFacts(fixtureA(), "2026-06-25", "Asia/Jakarta");
+    const clash = wuDay.find(
+      (f): f is Extract<ReadingFact, { kind: "hour-interaction" }> =>
+        f.kind === "hour-interaction" && f.interaction === "six-clash",
+    );
+    expect(clash).toMatchObject({ dayBranch: "午", hourBranch: "子", startHour: 23, endHour: 1 });
+  });
 });
 
 describe("unknown-time chart — nothing hour-derived appears", () => {
