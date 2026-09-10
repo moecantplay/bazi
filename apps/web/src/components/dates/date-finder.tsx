@@ -116,7 +116,7 @@ export function DateFinder({ profile }: Props) {
       </fieldset>
 
       {people.length > 0 && (
-        <fieldset className="flex flex-col gap-2">
+        <fieldset className="flex flex-col gap-3">
           <legend className="kicker">Reading for</legend>
           <div className="flex flex-wrap gap-2">
             <PersonChoice

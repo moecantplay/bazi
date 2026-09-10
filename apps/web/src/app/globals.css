@@ -161,7 +161,7 @@ body {
     @apply rounded-card bg-surface shadow-card;
   }
 
-  /* Segment stacks (settings rows, saved people, activity picker): flat,
+  /* Segment stacks (settings rows, saved people): flat,
      borderless, 2px gaps — Trail is quieter here than on Today (round 5's
      own audit: the rail motif doesn't belong on a settings list). */
   .stack {

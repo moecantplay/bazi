@@ -1,5 +1,13 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 import { addDays, FIXTURE_A, longDate, pinClock, seedCompanion, seedProfile } from "./helpers";
+
+/** Opens the activity dropdown and picks one option by its engine key. */
+async function pickActivity(page: Page, key: string): Promise<void> {
+  const select = page.locator("[data-activity-select]");
+  await select.getByRole("combobox").click();
+  await select.locator(`[data-option="${key}"]`).click();
+  await expect(select.getByRole("combobox")).toHaveAttribute("data-activity", key);
+}
 
 const TODAY = "2026-07-07";
 
@@ -118,9 +126,16 @@ test("the date finder ranks days and names the top officer", async ({ page, cont
   await seedProfile(context, FIXTURE_A);
   await pinClock(context, `${TODAY}T09:00:00Z`);
 
+  await page.goto("/today/");
+  await page.getByRole("link", { name: /Find a day for something/ }).click();
+  await expect(page).toHaveURL(/\/dates\//);
+  // The finder sits outside the bottom nav, so it carries its own back link.
+  await page.getByRole("button", { name: /Back/ }).click();
+  await expect(page).toHaveURL(/\/today\//);
+
   await page.goto("/dates/");
-  // Pick "marriage and betrothal" (commit) by its radio, then run the default range.
-  await page.locator('label:has(input[value="commit"])').click();
+  // Pick "marriage and betrothal" (commit) from the activity dropdown, then run the default range.
+  await pickActivity(page, "commit");
   await page.getByRole("button", { name: "Find days" }).click();
 
   const rows = page.locator("[data-date-results] > li");
@@ -136,7 +151,7 @@ test("the date finder shows a swatch per chart with a saved person", async ({ pa
   await pinClock(context, `${TODAY}T09:00:00Z`);
 
   await page.goto("/dates/");
-  await page.locator('label:has(input[value="commit"])').click();
+  await pickActivity(page, "commit");
   await page.getByRole("button", { name: "Find days" }).click();
 
   const rows = page.locator("[data-date-results] > li");

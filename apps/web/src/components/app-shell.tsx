@@ -5,17 +5,21 @@
  */
 
 import type { ReactNode } from "react";
+import { BackLink } from "@/components/back-link";
 import { BottomNav } from "@/components/bottom-nav";
 
 interface Props {
   title: string;
   children: ReactNode;
+  /** Show a "back" link above the title, for screens outside the bottom nav. */
+  back?: boolean;
 }
 
-export function AppShell({ title, children }: Props) {
+export function AppShell({ title, children, back = false }: Props) {
   return (
     <div className="min-h-screen bg-paper">
       <div className="mx-auto flex min-h-screen w-full max-w-app flex-col px-5 pb-28 pt-8">
+        {back && <BackLink />}
         <h1 className="font-display text-3xl text-ink">{title}</h1>
         <main className="mt-6 flex-1">{children}</main>
       </div>
