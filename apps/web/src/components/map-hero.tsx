@@ -73,8 +73,8 @@ const END = { x: 292, y: 46 };
 /** The ALL DAY row: right of the compass mark, one line per day-long waypoint. */
 const ALL_DAY_ROW = { x: 62, firstY: 26, rowGap: 20 };
 
-/** Timed labels flip to end-anchored past this x so they never leave the card. */
-const LABEL_FLIP_X = 220;
+/** The live pill moves above its dot when the dot sits this close to a timed mark's stack. */
+const PILL_AVOID_RADIUS = 34;
 
 interface Point {
   x: number;
@@ -111,7 +111,7 @@ function WaypointMark({ x, y, color, crossing }: { x: number; y: number; color: 
 function MapLabel({ x, y, anchor = "start", color = "var(--ink-soft)", children }: {
   x: number;
   y: number;
-  anchor?: "start" | "end";
+  anchor?: "start" | "middle" | "end";
   color?: string;
   children: string;
 }) {
@@ -190,6 +190,10 @@ export function MapHero({ pillars, dayBranchGloss, tone, waypoints, progress }: 
    * label just steps aside rather than fighting the dot for the same spot. */
   const markerNearStart = progress !== null && Math.hypot(marker.x - START.x, marker.y - START.y) < 40;
   const markerNearEnd = progress !== null && Math.hypot(marker.x - END.x, marker.y - END.y) < 40;
+  const markerNearTimed = timedPoints.some(
+    (point) => Math.hypot(marker.x - point.x, marker.y - point.y) < PILL_AVOID_RADIUS
+  );
+  const pillY = markerNearTimed ? marker.y - 24 : marker.y + 4;
 
   return (
     <div className="flex flex-col gap-2">
@@ -236,11 +240,13 @@ export function MapHero({ pillars, dayBranchGloss, tone, waypoints, progress }: 
             </text>
           )}
 
-          {/* ALL DAY: day-long relation marks, off the route. */}
+          {/* ALL DAY: day-long relation marks, off the route, numbered to
+              match the waypoint that tells their story below. */}
           {dayLong.map((waypoint, index) => {
             const y = ALL_DAY_ROW.firstY + index * ALL_DAY_ROW.rowGap;
             const branch = describeBranch(waypoint.transitBranch);
             const hue = `var(--element-${branch.element})`;
+            const number = waypoint.waypointNumber === undefined ? "" : `${String(waypoint.waypointNumber).padStart(2, "0")} · `;
             return (
               <g key={`all-day-${index}`} data-waypoint="all-day">
                 <WaypointMark x={ALL_DAY_ROW.x} y={y} color={hue} crossing={waypoint.crossing} />
@@ -251,14 +257,18 @@ export function MapHero({ pillars, dayBranchGloss, tone, waypoints, progress }: 
                   />
                 </g>
                 <MapLabel x={ALL_DAY_ROW.x + 40} y={y + 2.5}>
-                  {`${interactionWord(waypoint.interaction).toUpperCase()} · ALL DAY`}
+                  {`${number}${interactionWord(waypoint.interaction).toUpperCase()} · ALL DAY`}
                 </MapLabel>
               </g>
             );
           })}
 
           {/* Timed marks: the rough hour and easy hour, at their clock
-              position on the route, once the path has been measured. */}
+              position on the route, once the path has been measured. The
+              animal and label hang directly below the mark as one centred
+              stack — the route always climbs away to the upper right and
+              CLEAR/the evening flag live above it, so straight down is the
+              one direction that stays clear. */}
           {timed.map((waypoint, index) => {
             const point = timedPoints[index];
             if (!point || waypoint.timing.kind !== "hours") {
@@ -266,22 +276,16 @@ export function MapHero({ pillars, dayBranchGloss, tone, waypoints, progress }: 
             }
             const branch = describeBranch(waypoint.transitBranch);
             const hue = `var(--element-${branch.element})`;
-            const flip = point.x > LABEL_FLIP_X;
-            // The animal sits beside the mark on the downhill side (right of
-            // it, or left once the label flips near EVENING) rather than
-            // above it, so it never lands on the CLEAR label or the evening
-            // flag, both of which live above the route.
-            const glyphX = flip ? point.x - 32 : point.x + 12;
             return (
               <g key={`timed-${index}`} data-waypoint="hours">
+                <WaypointMark x={point.x} y={point.y} color={hue} crossing={waypoint.crossing} />
                 <g style={{ color: hue }} aria-hidden="true">
                   <AnimalGlyphMark
                     animal={branch.gloss}
-                    transform={`translate(${glyphX}, ${point.y - 10}) scale(0.85)`}
+                    transform={`translate(${point.x - 8.5}, ${point.y + 12}) scale(0.7)`}
                   />
                 </g>
-                <WaypointMark x={point.x} y={point.y} color={hue} crossing={waypoint.crossing} />
-                <MapLabel x={flip ? point.x - 10 : point.x + 10} y={point.y + 22} anchor={flip ? "end" : "start"} color="var(--ink)">
+                <MapLabel x={point.x} y={point.y + 38} anchor="middle" color="var(--ink)">
                   {`${waypoint.crossing ? "ROUGH" : "EASY"} · ${waypoint.timing.label.toUpperCase()}`}
                 </MapLabel>
               </g>
@@ -348,10 +352,12 @@ export function MapHero({ pillars, dayBranchGloss, tone, waypoints, progress }: 
           <circle cx={marker.x} cy={marker.y} r="4" fill="var(--ink)" aria-hidden="true" />
           {/* The pill stays left-anchored to the dot, same as the original
               start-only layout, but never runs past the card's right edge
-              once the marker can sit anywhere along the route. */}
+              once the marker can sit anywhere along the route — and lifts
+              above the dot while the dot is passing a timed mark, so it never
+              covers that mark's animal and label. */}
           <rect
             x={Math.min(marker.x, VIEWBOX_WIDTH - PILL_WIDTH - PILL_MARGIN)}
-            y={marker.y + 4}
+            y={pillY}
             width={PILL_WIDTH}
             height="16"
             rx="8"
@@ -360,7 +366,7 @@ export function MapHero({ pillars, dayBranchGloss, tone, waypoints, progress }: 
           />
           <text
             x={Math.min(marker.x, VIEWBOX_WIDTH - PILL_WIDTH - PILL_MARGIN) + PILL_WIDTH / 2}
-            y={marker.y + 15}
+            y={pillY + 11}
             textAnchor="middle"
             fontSize="7"
             fontWeight={700}

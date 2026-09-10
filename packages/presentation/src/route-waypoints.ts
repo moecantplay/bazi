@@ -21,7 +21,13 @@
  */
 
 import type { Branch, InteractionType, ReadingFact } from "@daymaster/bazi-engine";
-import { hourWindowLabel, interactionTagRuns, type ReadingLine, type TokenLine } from "@daymaster/content";
+import {
+  hourWindowLabel,
+  interactionTagRuns,
+  type ReadingArea,
+  type ReadingLine,
+  type TokenLine
+} from "@daymaster/content";
 import { hourWindowProgress } from "./dates.js";
 
 /** Structural equality for two TokenLines — both are plain serializable data. */
@@ -55,6 +61,27 @@ export interface RouteWaypoint {
   /** Clash/punishment/harm get a crossing mark; combine/trine get a plain node. */
   crossing: boolean;
   timing: WaypointTiming;
+  /** The reading section that tells this mark's story ("hours" for timed marks). */
+  area: ReadingArea;
+  /**
+   * That section's 1-based number in the waypoint rail — the rail numbers
+   * sections by first appearance of each area in the reading, and so does
+   * this. Absent when the reading has no such section.
+   */
+  waypointNumber?: number;
+}
+
+/** 1-based position of `area` among the reading's distinct areas, in line order. */
+export function waypointNumberOf(lines: readonly ReadingLine[], area: ReadingArea): number | undefined {
+  const areas: ReadingArea[] = [];
+  for (const line of lines) {
+    const lineArea = line.area ?? "overall";
+    if (!areas.includes(lineArea)) {
+      areas.push(lineArea);
+    }
+  }
+  const index = areas.indexOf(area);
+  return index === -1 ? undefined : index + 1;
 }
 
 function tagRunsFor(fact: TransitInteractionFact): TokenLine {
@@ -96,11 +123,13 @@ function setProgress(waypoint: RouteWaypoint, progress: number): void {
   }
 }
 
-function timedWaypoint(fact: HourInteractionFact): RouteWaypoint {
+function timedWaypoint(fact: HourInteractionFact, waypointNumber: number | undefined): RouteWaypoint {
   return {
     interaction: fact.interaction,
     transitBranch: fact.hourBranch,
     crossing: CROSSING_TYPES.has(fact.interaction),
+    area: "hours",
+    ...(waypointNumber === undefined ? {} : { waypointNumber }),
     timing: {
       kind: "hours",
       startHour: fact.startHour,
@@ -119,10 +148,11 @@ export function routeWaypointsFor(
   lines: readonly ReadingLine[],
   facts: readonly ReadingFact[]
 ): RouteWaypoint[] {
+  const hoursNumber = waypointNumberOf(lines, "hours");
   const timed = spreadTimed(
     facts
       .filter((fact): fact is HourInteractionFact => fact.kind === "hour-interaction")
-      .map(timedWaypoint)
+      .map((fact) => timedWaypoint(fact, hoursNumber))
   );
   return [...dayLongWaypointsFor(lines, facts), ...timed];
 }
@@ -149,11 +179,15 @@ function dayLongWaypointsFor(
     if (!matched) {
       return [];
     }
+    const area = line.area ?? "overall";
+    const waypointNumber = waypointNumberOf(lines, area);
     return [
       {
         interaction: matched.interaction,
         transitBranch: matched.transitBranch,
         crossing: CROSSING_TYPES.has(matched.interaction),
+        area,
+        ...(waypointNumber === undefined ? {} : { waypointNumber }),
         timing: { kind: "all-day" }
       }
     ];

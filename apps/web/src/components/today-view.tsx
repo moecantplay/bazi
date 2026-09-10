@@ -135,7 +135,7 @@ export function TodayView({ profile }: Props) {
       />
 
       <div className="flex flex-col gap-2">
-        <WaypointRail lines={reading.lines} branchByArea={branchByArea} />
+        <WaypointRail lines={reading.lines} branchByArea={branchByArea} waypoints={waypoints} />
         {aboutEntry && (
           <button
             type="button"

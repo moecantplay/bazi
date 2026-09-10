@@ -66,7 +66,7 @@ const ROUTE_ENTRY: GlossaryEntry = {
     "The dashed line is the day drawn as a route — morning to evening, a fixed shape that doesn't measure anything on its own. The colored stretch in the middle is the one part that does: it's today's overall lean, the same read as the elevation strip above.",
     "Marks on the route are timed, each labeled with its clock time. A circled X sits on the two-hour block whose sign clashes with today's — the day's rough hour; a plain dot sits on the block that combines with it — the easy hour.",
     "Both hours belong to the day itself and move as the day's sign changes. Marks in the top row are different: they're day-long, today's sign meeting one in your chart from midnight to midnight, so they sit above the route rather than at one point on it.",
-    "Read each mark as weather at a glance — the full story for each one is written out below, under Waypoints.",
+    "Every mark has its story written out below, under Waypoints. A top-row mark carries the number of the waypoint that explains it; the two timed marks are told together in the last waypoint, the hours.",
   ],
 };
 

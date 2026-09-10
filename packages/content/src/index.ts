@@ -39,6 +39,7 @@ export type {
   NatalReading,
   DailyReading,
   CompareReading,
+  ReadingArea,
 } from "./types.js";
 export type { ContentRun, TokenLine } from "./tokens.js";
 export { fillRuns, plainGloss, textRun } from "./tokens.js";

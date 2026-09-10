@@ -8,8 +8,8 @@
  * `clampOffsetToRange` so the same rule governs every way of moving the date.
  */
 
-import type { Branch, Chart, Palace, Pillar } from "@daymaster/bazi-engine";
-import { plainGloss, type DailyReading, type ReadingLine } from "@daymaster/content";
+import type { Branch, Chart, Pillar } from "@daymaster/bazi-engine";
+import { plainGloss, type DailyReading, type ReadingArea, type ReadingLine } from "@daymaster/content";
 import { chartFor } from "./chart.js";
 import { addDays, daysBetween } from "./dates.js";
 import { dayTone, type DayTone } from "./day-tone.js";
@@ -71,7 +71,7 @@ export interface TodayScreenModel {
   waypoints: RouteWaypoint[];
   headline: HeadlineRun[];
   grainLine: ReadingLine | undefined;
-  branchByArea: Partial<Record<Palace | "overall", Branch>>;
+  branchByArea: Partial<Record<ReadingArea, Branch>>;
   dateRange: TodayDateRange;
 }
 
@@ -97,12 +97,18 @@ export function todayScreenModel(
   ];
   const grainLine = bundle.reading.lines.find((line) => line.area === "overall") ?? bundle.reading.lines[0];
 
-  const branchByArea: Partial<Record<Palace | "overall", Branch>> = {
+  // The hours section's node shows the rough hour's animal — the mark the
+  // reader is most likely looking for on the route.
+  const roughHour = bundle.facts.find(
+    (fact) => fact.kind === "hour-interaction" && fact.interaction === "six-clash"
+  );
+  const branchByArea: Partial<Record<ReadingArea, Branch>> = {
     year: chart.year.branch,
     month: chart.month.branch,
     day: chart.day.branch,
     ...(chart.hour ? { hour: chart.hour.branch } : {}),
-    overall: bundle.dayPillar.branch
+    overall: bundle.dayPillar.branch,
+    ...(roughHour && roughHour.kind === "hour-interaction" ? { hours: roughHour.hourBranch } : {})
   };
 
   const offset = daysBetween(todayISO, dateISO);

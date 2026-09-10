@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { textRun } from "@daymaster/content";
 import { dailyBundleFor } from "../src/reading.js";
-import { routeWaypointsFor } from "../src/route-waypoints.js";
+import { routeWaypointsFor, waypointNumberOf } from "../src/route-waypoints.js";
 import { FIXTURE_A } from "./fixtures.js";
 
 describe("routeWaypointsFor", () => {
@@ -22,6 +22,32 @@ describe("routeWaypointsFor", () => {
       ["寅", true, { kind: "hours", startHour: 3, endHour: 5, label: "3–5 am", progress: 0.2 }],
       ["巳", false, { kind: "hours", startHour: 9, endHour: 11, label: "9–11 am", progress: 0.34 }]
     ]);
+  });
+
+  it("numbers each mark by the reading section that tells its story, the way the rail numbers them", () => {
+    const bundle = dailyBundleFor(FIXTURE_A, "2026-06-16");
+    const waypoints = routeWaypointsFor(bundle.reading.lines, bundle.facts);
+    for (const waypoint of waypoints) {
+      expect(waypoint.waypointNumber).toBe(waypointNumberOf(bundle.reading.lines, waypoint.area));
+    }
+    const timed = waypoints.filter((waypoint) => waypoint.timing.kind === "hours");
+    expect(timed.every((waypoint) => waypoint.area === "hours")).toBe(true);
+    // The hours line is always last, so its section is the rail's last waypoint.
+    const areaCount = new Set(bundle.reading.lines.map((line) => line.area ?? "overall")).size;
+    expect(timed[0]?.waypointNumber).toBe(areaCount);
+  });
+
+  it("waypointNumberOf follows first appearance, and is undefined for an absent area", () => {
+    const lines = [
+      { runs: textRun("a"), factTagRuns: null, area: "month" as const },
+      { runs: textRun("b"), factTagRuns: null, area: "overall" as const },
+      { runs: textRun("c"), factTagRuns: null, area: "month" as const },
+      { runs: textRun("d"), factTagRuns: null, area: "hours" as const }
+    ];
+    expect(waypointNumberOf(lines, "month")).toBe(1);
+    expect(waypointNumberOf(lines, "overall")).toBe(2);
+    expect(waypointNumberOf(lines, "hours")).toBe(3);
+    expect(waypointNumberOf(lines, "year")).toBeUndefined();
   });
 
   it("nudges two timed marks apart when their blocks land on the same stretch", () => {

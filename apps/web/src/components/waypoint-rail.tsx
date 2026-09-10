@@ -9,9 +9,9 @@
 
 "use client";
 
-import type { Branch, Palace } from "@daymaster/bazi-engine";
-import type { ReadingLine } from "@daymaster/content";
-import { describeBranch } from "@daymaster/presentation";
+import type { Branch } from "@daymaster/bazi-engine";
+import type { ReadingArea, ReadingLine } from "@daymaster/content";
+import { describeBranch, type RouteWaypoint } from "@daymaster/presentation";
 import { AnimalIcon } from "@/components/glyph-icon";
 import { ReadingCard } from "@/components/reading-card";
 
@@ -20,20 +20,34 @@ const AREA_TITLE: Record<string, string> = {
   month: "Career",
   day: "Home",
   hour: "Horizon",
-  overall: "The day itself"
+  overall: "The day itself",
+  hours: "The hours"
 };
 
 interface Section {
-  area: string;
+  area: ReadingArea;
   title: string;
   lines: ReadingLine[];
 }
 
+/**
+ * How a section shows up on the map above, for its caption: a day-long
+ * mark in the ALL DAY row, or the timed marks on the route. Sections with
+ * no mark (a plain "The day itself") get no note.
+ */
+function mapNoteFor(area: ReadingArea, waypoints: readonly RouteWaypoint[]): string | null {
+  if (area === "hours") {
+    return "timed marks on the map";
+  }
+  const mark = waypoints.find((waypoint) => waypoint.timing.kind === "all-day" && waypoint.area === area);
+  return mark ? "all day on the map" : null;
+}
+
 /** Group lines by area into titled sections, ordered by first appearance. */
 function sectionsOf(lines: ReadingLine[]): Section[] {
-  const byArea = new Map<string, Section>();
+  const byArea = new Map<ReadingArea, Section>();
   for (const line of lines) {
-    const area = line.area ?? "overall";
+    const area: ReadingArea = line.area ?? "overall";
     const existing = byArea.get(area);
     if (existing) {
       existing.lines.push(line);
@@ -52,10 +66,12 @@ interface Props {
    * "overall" ("The day itself"). Sections with no matching branch (e.g. an
    * unknown birth hour) fall back to a plain node.
    */
-  branchByArea: Partial<Record<Palace | "overall", Branch>>;
+  branchByArea: Partial<Record<ReadingArea, Branch>>;
+  /** The map hero's marks, so each section's caption can say where it appears on the map. */
+  waypoints: readonly RouteWaypoint[];
 }
 
-export function WaypointRail({ lines, branchByArea }: Props) {
+export function WaypointRail({ lines, branchByArea, waypoints }: Props) {
   const sections = sectionsOf(lines);
 
   return (
@@ -66,8 +82,9 @@ export function WaypointRail({ lines, branchByArea }: Props) {
     >
       <p className="kicker -ml-7 mb-1">Waypoints · the full route</p>
       {sections.map((section, index) => {
-        const branch = branchByArea[section.area as Palace | "overall"];
+        const branch = branchByArea[section.area];
         const icon = branch ? describeBranch(branch) : null;
+        const mapNote = mapNoteFor(section.area, waypoints);
         return (
           <section key={section.area} className="relative py-3.5">
             <span
@@ -80,7 +97,10 @@ export function WaypointRail({ lines, branchByArea }: Props) {
                 <span className="h-2 w-2 rounded-full bg-ink-tint" aria-hidden />
               )}
             </span>
-            <p className="caption">Waypoint {String(index + 1).padStart(2, "0")}</p>
+            <p className="caption">
+              Waypoint {String(index + 1).padStart(2, "0")}
+              {mapNote && ` · ${mapNote}`}
+            </p>
             <h3 className="mt-1 font-display text-[19px] text-ink">{section.title}</h3>
             <div className="mt-2 flex flex-col gap-4">
               {section.lines.map((line, lineIndex) => (

@@ -28,10 +28,10 @@ describe("the day's hours line", () => {
   const reading = dailyReading(facts, "seed");
   const hours = reading.lines.find((line) => line.topic === HOURS_TOPIC);
 
-  it("closes the day-itself section with both windows named", () => {
+  it("closes the reading as its own hours section, both windows named", () => {
     expect(hours).toBeDefined();
     expect(reading.lines[reading.lines.length - 1]).toBe(hours);
-    expect(hours!.area).toBe("overall");
+    expect(hours!.area).toBe("hours");
     const text = lineText(hours!);
     expect(text).toContain("11 pm–1 am");
     expect(text).toContain("1–3 pm");

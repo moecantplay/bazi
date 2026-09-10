@@ -3,18 +3,20 @@ import { mapHeroSummary } from "../src/map-hero.js";
 import type { RouteWaypoint } from "../src/route-waypoints.js";
 
 const ALL_DAY = { kind: "all-day" } as const;
-const CROSSING: RouteWaypoint = { interaction: "six-clash", transitBranch: "子", crossing: true, timing: ALL_DAY };
-const PLAIN: RouteWaypoint = { interaction: "six-combine", transitBranch: "丑", crossing: false, timing: ALL_DAY };
+const CROSSING: RouteWaypoint = { interaction: "six-clash", transitBranch: "子", crossing: true, timing: ALL_DAY, area: "month" };
+const PLAIN: RouteWaypoint = { interaction: "six-combine", transitBranch: "丑", crossing: false, timing: ALL_DAY, area: "day" };
 const ROUGH_HOUR: RouteWaypoint = {
   interaction: "six-clash",
   transitBranch: "寅",
   crossing: true,
+  area: "hours",
   timing: { kind: "hours", startHour: 3, endHour: 5, label: "3–5 am", progress: 0.2 }
 };
 const EASY_HOUR: RouteWaypoint = {
   interaction: "six-combine",
   transitBranch: "巳",
   crossing: false,
+  area: "hours",
   timing: { kind: "hours", startHour: 9, endHour: 11, label: "9–11 am", progress: 0.25 }
 };
 

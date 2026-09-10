@@ -88,7 +88,7 @@ function hoursLine(facts: readonly ReadingFact[], seedKey: string): DraftLine | 
   if (!clash || !combine) {
     return null;
   }
-  return { ...hourInteractionLine({ dayBranch: clash.dayBranch, clash, combine }, seedKey), area: "overall" };
+  return { ...hourInteractionLine({ dayBranch: clash.dayBranch, clash, combine }, seedKey), area: "hours" };
 }
 
 /** Collect every justified do/don't candidate, in stable fact order. */
@@ -237,8 +237,8 @@ export function dailyReading(facts: ReadingFact[], seedKey: string): DailyReadin
     lines.push({ ...stageDayLine(stageDay.stage), area: "overall" });
   }
 
-  // The day's own timed line closes "The day itself" — the one line that
-  // names hours, so it sits after everything that holds all day.
+  // The day's own timed line is its own last section ("hours") — the one
+  // line that names clock times, mirrored by the marks on the map's route.
   const hours = hoursLine(facts, seedKey);
   if (hours) {
     lines.push(hours);

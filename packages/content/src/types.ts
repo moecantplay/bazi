@@ -35,12 +35,15 @@ export interface ReadingLine {
   topic?: string;
   /**
    * The life area the line belongs to, for Co-Star-style area grouping: the
-   * natal palace a transit touches, or "overall" for day-level lines
-   * (element, ten god, star, stage). Absent on lines that never joined an
-   * area-grouped reading.
+   * natal palace a transit touches, "overall" for day-level lines (element,
+   * ten god, star, stage), or "hours" for the day's timed line. Absent on
+   * lines that never joined an area-grouped reading.
    */
-  area?: Palace | "overall";
+  area?: ReadingArea;
 }
+
+/** The sections a daily reading groups into, in the UI's waypoint rail. */
+export type ReadingArea = Palace | "overall" | "hours";
 
 /**
  * A line mid-authoring, before it's finalized into a public `ReadingLine`.
@@ -58,7 +61,7 @@ export interface DraftLine {
   runs?: TokenLine;
   factTagRuns?: TokenLine;
   topic?: string;
-  area?: Palace | "overall";
+  area?: ReadingArea;
 }
 
 /** The one place a DraftLine becomes the public ReadingLine shape. */
