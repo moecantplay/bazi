@@ -29,6 +29,7 @@ import { ElevationProfile } from "@/components/elevation-profile";
 import { GlossarySheet } from "@/components/glossary-sheet";
 import { LegendTags } from "@/components/legend-tags";
 import { MapHero } from "@/components/map-hero";
+import { Signpost } from "@/components/signpost";
 import { TokenText } from "@/components/token-text";
 import { TrailSigns } from "@/components/trail-signs";
 import { WaypointRail } from "@/components/waypoint-rail";
@@ -187,25 +188,7 @@ export function TodayView({ profile }: Props) {
         </div>
       )}
 
-      <div className="flex">
-        <div className="relative mr-5 rounded-l-[18px] bg-anchor py-4 pl-5 pr-4 text-paper">
-          <p
-            className="font-mono text-[9px] font-bold uppercase tracking-[.2em]"
-            style={{ color: "color-mix(in srgb, var(--paper) 55%, var(--ink-soft))" }}
-          >
-            One small thing before camp
-          </p>
-          <p className="mt-1.5 text-[16.5px] font-medium leading-snug">
-            <TokenText line={reading.agency.runs} />
-          </p>
-          <span
-            aria-hidden
-            className="absolute left-full top-0 h-full w-5 bg-anchor"
-            style={{ clipPath: "polygon(0 0, 100% 50%, 0 100%)" }}
-          />
-        </div>
-      </div>
-      <span aria-hidden className="-mt-6 ml-10 h-6 w-0.5 bg-hairline" />
+      <Signpost line={reading.agency.runs} />
 
       {offset <= 0 && <DayJournal dateISO={dateISO} isToday={offset === 0} />}
 

@@ -7,6 +7,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { DISCLAIMER } from "@daymaster/content";
 import { formatLong, readingZoneOf } from "@daymaster/presentation";
@@ -156,6 +157,17 @@ export function SettingsContent({ profile }: Props) {
             Download my data
           </Button>
         </div>
+      </section>
+
+      <section>
+        <h2 className="kicker">Try a different rhythm</h2>
+        <p className="mt-3 text-[13px] leading-relaxed text-ink-soft">
+          The same daily reading arranged like a weather app: conditions first, then the hours, then
+          ten days ahead. Today itself is unchanged.
+        </p>
+        <Link href="/conditions/" className="tap-target mt-2 inline-block text-[15px] text-ink">
+          Open Conditions &rarr;
+        </Link>
       </section>
 
       <section>
