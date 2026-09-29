@@ -16,7 +16,7 @@ import { InstallHint } from "@/components/install-hint";
 import { SegmentedControl } from "@/components/segmented-control";
 import { SettingsLookSection } from "@/components/settings-look-section";
 import { Toggle } from "@/components/toggle";
-import { BACKUP_FILENAME, serializeBackup } from "@/lib/backup";
+import { downloadBackup } from "@/lib/backup";
 import {
   deleteAllData,
   loadThemePreference,
@@ -85,20 +85,6 @@ export function SettingsContent({ profile }: Props) {
     router.replace("/onboarding");
   }
 
-  function handleDownload() {
-    const json = serializeBackup();
-    if (json === null) {
-      return;
-    }
-    const blob = new Blob([json], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const anchor = document.createElement("a");
-    anchor.href = url;
-    anchor.download = BACKUP_FILENAME;
-    anchor.click();
-    URL.revokeObjectURL(url);
-  }
-
   const { birth } = profile;
   const birthSummary = `${formatLong(birth.date)} · ${
     birth.time ?? "hour unknown"
@@ -156,7 +142,7 @@ export function SettingsContent({ profile }: Props) {
           <Button variant="quiet" onClick={() => router.push("/settings/edit")}>
             Edit birth details
           </Button>
-          <Button variant="quiet" onClick={handleDownload}>
+          <Button variant="quiet" onClick={downloadBackup}>
             Download my data
           </Button>
         </div>

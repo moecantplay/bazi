@@ -1,6 +1,6 @@
 # Recover from a broken screen
 
-Status: approved · Milestone: M19.8 · Ticket: 01
+Status: done · Milestone: M19.8 · Ticket: 01
 
 ## Problem
 

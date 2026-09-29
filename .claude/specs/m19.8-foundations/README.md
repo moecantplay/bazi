@@ -27,7 +27,7 @@ Owner, 2026-09-29: "feel free to adjust the spec/ folder and execute" — covers
 
 | # | Ticket | Status | Depends on |
 | --- | --- | --- | --- |
-| 01 | [Recover from a broken screen](01-error-recovery/requirements.md) | approved | — |
+| 01 | [Recover from a broken screen](01-error-recovery/requirements.md) | done | — |
 | 02 | [Ask the browser to keep our data](02-durable-storage/requirements.md) | approved | — |
 | 03 | [Share links keep birth details off the server](03-share-link-fragment/requirements.md) | approved | — |
 | 04 | [CI on every push](04-ci/requirements.md) | approved | — |

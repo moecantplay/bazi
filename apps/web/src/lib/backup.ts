@@ -54,3 +54,22 @@ export function importBackup(raw: string): ImportResult {
   }
   return saveStore(parsed.store) ? "ok" : "storage";
 }
+
+/**
+ * Save the backup file through the browser's download flow. Returns false
+ * when there is nothing to back up. Shared by Settings and the recovery screen.
+ */
+export function downloadBackup(): boolean {
+  const json = serializeBackup();
+  if (json === null) {
+    return false;
+  }
+  const blob = new Blob([json], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = BACKUP_FILENAME;
+  anchor.click();
+  URL.revokeObjectURL(url);
+  return true;
+}
