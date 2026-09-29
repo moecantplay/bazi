@@ -1,17 +1,17 @@
 /**
  * Runtime access to the embedded solar-term table.
  *
- * This module reads ONLY `data/solar-terms.json` (generated offline). It never
- * performs astronomy computation, so month/year boundaries are deterministic
- * and dependency-free at runtime.
+ * This module reads ONLY the embedded table (generated offline into
+ * `data/solar-terms.json`, shipped packed as `data/solar-terms.packed.ts`). It
+ * never performs astronomy computation, so month/year boundaries are
+ * deterministic and dependency-free at runtime.
  */
 
-import rawSolarTerms from "../data/solar-terms.json" with { type: "json" };
+import { decodeSolarTerms } from "./solar-terms-packed.js";
 import type { SolarTermEntry } from "./types.js";
 
 /** All embedded jié, in strictly increasing instant order. */
-export const SOLAR_TERMS: readonly SolarTermEntry[] =
-  rawSolarTerms as SolarTermEntry[];
+export const SOLAR_TERMS: readonly SolarTermEntry[] = decodeSolarTerms();
 
 /** Epoch-millis of each entry, index-aligned with {@link SOLAR_TERMS}. */
 const EPOCHS: readonly number[] = SOLAR_TERMS.map((term) => Date.parse(term.iso));

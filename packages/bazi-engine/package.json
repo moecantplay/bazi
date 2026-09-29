@@ -14,7 +14,7 @@
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "build": "tsc --noEmit",
-    "generate:solar-terms": "tsx scripts/generate-solar-terms.ts"
+    "generate:solar-terms": "tsx scripts/generate-solar-terms.ts && tsx scripts/pack-solar-terms.ts"
   },
   "dependencies": {
     "astronomy-engine": "^2.1.19",
