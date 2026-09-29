@@ -4,7 +4,7 @@
  * pinning and seeding both use addInitScript on the context so they apply
  * before any app script runs, on every page.
  *
- * Unlike apps/web's six separate `daymaster.*.v1` keys, the new app reads and
+ * Unlike the pre-M19 app's six separate `daymaster.*.v1` keys, the app reads and
  * writes one versioned document (store.ts's DaymasterStore). seedProfile and
  * seedCompanion keep their old names for continuity, but each now does a
  * read-modify-write against that single key so they stay composable — calling

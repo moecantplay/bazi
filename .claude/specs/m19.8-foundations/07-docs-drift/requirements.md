@@ -1,6 +1,6 @@
 # Docs match the code
 
-Status: approved · Milestone: M19.8 · Ticket: 07
+Status: done · Milestone: M19.8 · Ticket: 07
 
 ## Problem
 

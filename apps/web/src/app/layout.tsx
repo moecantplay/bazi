@@ -44,7 +44,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   // Wood terrain's ground (tokens.generated.css's default before a profile
-  // exists and data-terrain is stamped) — matches apps/web's layout.tsx.
+  // exists and data-terrain is stamped).
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#F0EEE2" },
     { media: "(prefers-color-scheme: dark)", color: "#161911" }

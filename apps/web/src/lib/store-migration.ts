@@ -1,12 +1,12 @@
 /**
- * One-time migration from apps/web's six `daymaster.*.v1` keys into the
+ * One-time migration from the pre-M19 app's six `daymaster.*.v1` keys into the
  * single `daymaster.store.v2` document. Called by `loadStore` (store.ts)
  * whenever no v2 document exists yet; safe to call more than once — if a v2
  * document is already present, it's returned unchanged and no legacy key is
  * touched again.
  *
- * Ingestion order (oldest legacy shape first), matching apps/web's own
- * layering (people.ts's `migrateLegacyCompanion`, backup.ts):
+ * Ingestion order (oldest legacy shape first), matching the pre-M19 app's
+ * own layering (its people.ts `migrateLegacyCompanion`, backup.ts):
  *   1. `daymaster.compare.v1` — a raw StoredBirth predating saved people at
  *      all; becomes a person named "Them" and the active selection.
  *   2. `daymaster.people.v1` / `daymaster.people-active.v1`

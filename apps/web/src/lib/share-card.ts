@@ -4,10 +4,9 @@
  * Web Share sheet — or downloaded where file sharing isn't supported. All
  * local; nothing leaves the device unless the user shares the result.
  *
- * Ported from apps/web/src/lib/share-card.ts as-is (confirmed in Phase 1 and
- * Phase 5 not to be cleanly separable from browser Canvas APIs, so it stays
- * in the app layer rather than presentation) — only the font custom
- * properties changed, to Trail's Bricolage/Figtree pair.
+ * Stays in the app layer rather than presentation because it can't be
+ * cleanly separated from browser Canvas APIs (M19 rebuild, phases 1 and 5).
+ * Draws with Trail's Bricolage/Figtree pair.
  */
 
 interface ShareCardInput {

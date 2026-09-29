@@ -22,3 +22,7 @@ None.
 ## Verification
 
 Grep in R2; README commands run; `pnpm verify`.
+
+## As built
+
+The README's M07-era Chart screenshot was two design systems out of date; it's replaced by Today in each look, stored in this ticket's `screens/`. Node requirement raised to 20.12+ (`util.parseEnv` in `write-deploy-config.mjs`).

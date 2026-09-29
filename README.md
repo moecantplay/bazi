@@ -14,47 +14,68 @@ A build can optionally send **anonymous usage counts** to an Umami-compatible tr
 
 ## Quickstart
 
-Requirements: Node 20+, pnpm 9.
+Requirements: Node 20.12+, pnpm 9.
 
 ```sh
 pnpm install
-pnpm verify          # typecheck + lint + unit tests + build, all packages
-pnpm --filter @daymaster/web dev    # dev server at localhost:3000
+pnpm verify                          # typecheck + lint + unit tests + build, all packages
+pnpm --filter @daymaster/web dev     # dev server at localhost:3000
 ```
 
-The production build is a static export:
+The production build is a static export, plus the files a deploy needs:
 
 ```sh
-pnpm --filter @daymaster/web build  # emits apps/web/out/
-npx serve apps/web/out              # any static file server works
+pnpm --filter @daymaster/web build   # emits apps/web/out/: pages, sw.js, vercel.json
+npx serve apps/web/out               # any static file server works (without the headers)
 ```
 
-End-to-end smoke flows (Playwright):
+End-to-end flows (Playwright) run against that export, served with production's headers, and with a local stand-in for the usage-counts tracker:
 
 ```sh
-pnpm --filter @daymaster/web e2e
+pnpm --filter @daymaster/web e2e          # default look
+pnpm --filter @daymaster/web e2e:looks    # once per look: Explorer, Editorial, Instrument
 ```
+
+CI (`.github/workflows/verify.yml`) runs `pnpm verify` and the E2E suite in every look on each push to `main` and each pull request.
+
+### Deploying
+
+Production is https://daymaster-nu.vercel.app, deployed by hand from the built export (no deploy on push). Link inside `out/` first — `out/` is rebuilt every time, and deploying without a link there creates a stray Vercel project:
+
+```sh
+pnpm --filter @daymaster/web build
+cd apps/web/out && npx vercel link --yes --project daymaster && npx vercel deploy --prod --yes
+```
+
+`out/vercel.json` (written by `scripts/write-deploy-config.mjs`) carries the security headers, including the CSP, and immutable caching for hashed assets.
 
 ## Architecture
 
 ```
-apps/web              Next.js 15 (App Router, static export) + Tailwind. UI only:
-                      no chart math, no reading prose. State = localStorage
-                      (daymaster.profile.v1), read through one gateway module.
-packages/bazi-engine  Pure TypeScript BaZi engine. Deps: luxon (IANA timezones)
-                      + astronomy-engine (solar longitude). Every exported
-                      function is pure and deterministic. Emits typed
-                      ReadingFacts; owns ALL calendrical and chart math.
-packages/content      Zero-dep line bank + deterministic seeded selection.
-                      Turns ReadingFacts into voice-governed English. Does no
-                      chart math — it phrases what the engine computed.
+apps/web                Next.js 15 (App Router, static export) + Tailwind. UI only:
+                        no chart math, no reading prose. State = one versioned
+                        localStorage document (daymaster.store.v2), read and written
+                        through lib/store.ts. Three looks (Explorer, Editorial,
+                        Instrument) on the same data. Optional, dormant-by-default
+                        usage counts through lib/analytics.ts.
+packages/bazi-engine    Pure TypeScript BaZi engine. Deps: luxon (IANA timezones)
+                        + astronomy-engine (true solar time; the solar-term table is
+                        precomputed). Every exported function is pure and
+                        deterministic. Emits typed ReadingFacts; owns ALL
+                        calendrical and chart math.
+packages/content        Zero-dep line bank + deterministic seeded selection.
+                        Turns ReadingFacts into voice-governed English. Does no
+                        chart math — it phrases what the engine computed.
+packages/presentation   View-models between engine/content and the screens: what
+                        each screen shows, in what order, with what labels. Pure;
+                        no React, no DOM.
 ```
 
-The engine computes facts; content phrases them; the web app renders both. Readings are seeded by `hash(birth data + ISO date)`, so the same person on the same day always sees the same reading.
+The engine computes facts; content phrases them; presentation shapes them for a screen; the web app renders them. Readings are seeded by `hash(birth data + ISO date)`, so the same person on the same day always sees the same reading.
 
-- `.claude/specs/foundation/DESIGN.md` — the Trail design system (tokens, type, components, the seal).
+- `.claude/specs/foundation/DESIGN.md` — the design system: shared base plus the three looks.
 - `.claude/specs/foundation/VOICE.md` — the copy contract every line obeys.
-- `.claude/specs/` — how work is planned now: milestones → tickets, each with requirements, design and tasks.
+- `.claude/specs/` — how work is planned: milestones → tickets, each with requirements, design and tasks.
 - `.claude/specs/decisions.md` — every decision, linked to the ticket that records it.
 
 ## Engine doctrine
@@ -71,9 +92,15 @@ Reference tables (stems, branches, hidden stems, ten gods, combines/clashes/trin
 
 City data comes from [GeoNames](https://www.geonames.org) (cities15000, CC BY 4.0), bundled offline — top 2,000 cities by population.
 
-## Screenshot
+## Screenshots
 
-![Chart screen](.claude/specs/m07-e2e-readme-dod/02-readme-and-clean-clone/screenshot-chart.png)
+Today in the three looks — Explorer, Editorial, Instrument (Fixture A, 2026-09-29, light theme):
+
+<p>
+  <img src=".claude/specs/m19.8-foundations/07-docs-drift/screens/today-trail.png" alt="Today in the Explorer look" width="260">
+  <img src=".claude/specs/m19.8-foundations/07-docs-drift/screens/today-almanac.png" alt="Today in the Editorial look" width="260">
+  <img src=".claude/specs/m19.8-foundations/07-docs-drift/screens/today-dial.png" alt="Today in the Instrument look" width="260">
+</p>
 
 ## Disclaimer
 
