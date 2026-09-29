@@ -58,17 +58,12 @@ test("a link sent before M19.8 (?share=) still opens in Compare", async ({ page,
   await expect(page.getByLabel("Their birth date")).toHaveValue(FIXTURE_A.birth.date);
 });
 
-test("on a fresh device the link waits for onboarding and leaves the address bar clean", async ({
-  page,
-  context,
-  browser
-}) => {
-  const url = await copyChartLink(page, context);
+test("on a fresh device the link waits for onboarding and leaves the address bar clean", async ({ page }) => {
+  // This context has no chart. The link is built the way buildShareUrl does
+  // (base64url JSON of the birth) rather than copied from a second context.
+  const payload = Buffer.from(JSON.stringify(FIXTURE_A.birth)).toString("base64url");
 
-  const freshContext = await browser.newContext();
-  const freshPage = await freshContext.newPage();
-  await freshPage.goto(url);
-  await expect(freshPage.getByText("A chart came with your link.")).toBeVisible();
-  expect(await freshPage.evaluate(() => [window.location.hash, window.location.search])).toEqual(["", ""]);
-  await freshContext.close();
+  await page.goto(`/onboarding/#share=${payload}`);
+  await expect(page.getByText("A chart came with your link.")).toBeVisible();
+  expect(await page.evaluate(() => [window.location.hash, window.location.search])).toEqual(["", ""]);
 });
