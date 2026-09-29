@@ -1,6 +1,6 @@
 # DESIGN.md: shared base and three looks
 
-Status: in-progress · Milestone: M19.9 · Ticket: 02
+Status: done · Milestone: M19.9 · Ticket: 02
 
 ## Problem
 
