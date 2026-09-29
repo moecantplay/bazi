@@ -10,6 +10,13 @@ One shared picker, used in three places, over the look plumbing from 03/05 (`sav
 - **Settings** (R2): a **Look** section under Appearance with `LookPicker size="small"`; a tap saves and applies at once (Today follows via `useLook`, no reload).
 - **Existing users** (R5): a new additive store field `lookPromptSeen` (like `journal` and `look`: absent reads as `false`). Today shows `LookIntroSheet` when a profile exists and `lookPromptSeen` is false: a bottom sheet in the house sheet pattern (40% scrim, grab handle, Escape and scrim close = "keep"), kicker "New", title "Your day, three ways", the small picker, primary "Keep Explorer" / "Use {look}", and "Not now, keep Explorer" once another look is picked. Any answer or dismissal sets `lookPromptSeen: true`. Onboarding sets it too, so new users never see it.
 
+### As built
+
+- The note's scrim is labelled "Close, keep Explorer"; E2E matches the buttons by exact name.
+- A restored or pre-set pick scrolls into view once when the onboarding carousel mounts.
+- The onboarding engine defaults moved to `draft.ts` (`ONBOARDING_CONFIG`), shared by the look step's preview and the reveal.
+- Previews render inside `main` (Settings, the note over Today), so E2E scopes look-composition locators to `main` and `.first()`.
+
 ## Changes
 
 | Area | Change |

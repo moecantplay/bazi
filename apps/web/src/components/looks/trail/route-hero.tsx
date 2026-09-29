@@ -7,6 +7,7 @@
 
 "use client";
 
+import { useId } from "react";
 import { describeBranch, mapHeroSummary, type RouteWaypoint } from "@daymaster/presentation";
 import { AnimalGlyphMark } from "@/components/glyph-icon";
 import { Headline, dayMeta } from "@/components/today/headline";
@@ -50,6 +51,8 @@ function clockLabel(date: Date): string {
 
 export function RouteHero({ screen }: Props) {
   const { model, progress, now } = screen;
+  /** Unique per instance: a look preview can put a second route on the page. */
+  const maskId = useId();
   const { ariaLabel } = mapHeroSummary(model.waypoints, model.tone);
   const timed = model.waypoints.filter(isTimed);
   const markXs = spreadMarks(timed.map((waypoint) => routeX(waypoint.timing.progress)));
@@ -72,11 +75,11 @@ export function RouteHero({ screen }: Props) {
       <Headline runs={model.headline} className="arrive-rise relative px-5 pt-3 text-[38px]" />
       <svg className="route-hero-route" viewBox={`0 0 ${ROUTE_WIDTH} ${ROUTE_HEIGHT}`} role="img" aria-label={ariaLabel}>
         <defs>
-          <mask id="route-reveal">
+          <mask id={maskId}>
             <path className="arrive-draw" d={routePath()} fill="none" stroke="#fff" strokeWidth={10} pathLength={1} strokeDasharray={1} />
           </mask>
         </defs>
-        <g mask="url(#route-reveal)">
+        <g mask={`url(#${maskId})`}>
           <path d={routePath()} fill="none" stroke="var(--ink)" strokeWidth={2.2} strokeDasharray="6 6" />
           {nowX !== null && nowX > 24 && (
             <path d={routePath(24, nowX)} fill="none" stroke="var(--ink)" strokeWidth={4} strokeLinecap="round" />

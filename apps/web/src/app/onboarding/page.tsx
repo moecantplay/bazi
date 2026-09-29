@@ -1,7 +1,7 @@
 /**
  * Onboarding orchestrator: one step per screen, gathering the birth details and
- * ending in the seal-stamp chart reveal. Progress dots track the five gathering
- * steps; Back is available on every step after the first. The bottom tab nav is
+ * ending in the seal-stamp chart reveal. Progress dots track the six gathering
+ * steps (the last is choosing a look, M19.9-04); Back is available on every step after the first. The bottom tab nav is
  * intentionally absent here — onboarding owns the viewport until a chart exists.
  *
  * Answers persist to sessionStorage as they're entered, so a refresh resumes
@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { CityStep } from "@/components/onboarding/city-step";
 import { DateStep } from "@/components/onboarding/date-step";
 import { DisclaimerStep } from "@/components/onboarding/disclaimer-step";
+import { LookStep } from "@/components/onboarding/look-step";
 import {
   EMPTY_DRAFT,
   clearDraft,
@@ -33,8 +34,8 @@ import { decodeShareParam, SHARE_PARAM, stashIncomingShare } from "@/lib/share-l
 import { loadStore } from "@/lib/store";
 import type { StoredBirth, StoredCity } from "@/lib/store-types";
 
-const GATHERING_STEPS = 5;
-const REVEAL_STEP = GATHERING_STEPS; // index 5
+const GATHERING_STEPS = 6;
+const REVEAL_STEP = GATHERING_STEPS; // index 6
 
 const RESTORE_ERRORS: Record<Exclude<ImportResult, "ok">, string> = {
   invalid: "That file doesn’t look like a Daymaster backup.",
@@ -164,8 +165,16 @@ export default function OnboardingPage() {
             <SexStep value={draft.sex} onChange={(sex) => update({ sex })} onNext={goNext} />
           )}
           {step === 4 && <DisclaimerStep onNext={goNext} />}
+          {step === 5 && draft.city && draft.sex && (
+            <LookStep
+              birth={assembleBirth(draft.city, draft.sex)}
+              value={draft.look}
+              onChange={(look) => update({ look })}
+              onNext={goNext}
+            />
+          )}
           {onReveal && draft.city && draft.sex && (
-            <RevealStep birth={assembleBirth(draft.city, draft.sex)} />
+            <RevealStep birth={assembleBirth(draft.city, draft.sex)} look={draft.look} />
           )}
         </main>
 

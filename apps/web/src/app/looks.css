@@ -70,3 +70,25 @@
 @keyframes look-pop { from { opacity: 0; transform: scale(.4); } }
 @keyframes look-sweep { from { transform: rotate(-150deg); } }
 @keyframes look-drift { from { opacity: 0; transform: translateX(40px) scaleX(-1); } }
+
+/* ---- Look picker (onboarding, Settings, the one-time note) ---- */
+.look-preview { position: absolute; inset: 0; overflow: hidden; background: var(--paper); pointer-events: none; }
+.look-preview-canvas { width: 390px; transform-origin: top left; }
+.look-carousel { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 -20px; padding: 8px 20px 16px; scrollbar-width: none; }
+.look-carousel::-webkit-scrollbar { display: none; }
+.look-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.look-option { display: flex; flex-direction: column; gap: 10px; text-align: left; color: var(--ink); }
+.look-option-large { flex: 0 0 214px; scroll-snap-align: center; }
+.look-option-small { align-items: center; gap: 8px; }
+.look-option-thumb { position: relative; display: block; width: 100%; overflow: hidden; border-radius: 24px; background: var(--paper); box-shadow: var(--shadow-card), 0 10px 26px rgba(40, 25, 10, .12); transition: transform .2s cubic-bezier(.34, 1.56, .64, 1), box-shadow .2s; }
+.look-option-large .look-option-thumb { height: 380px; }
+.look-option-small .look-option-thumb { height: 180px; border-radius: 16px; }
+.look-option[aria-checked="true"] .look-option-thumb { box-shadow: 0 0 0 3px var(--paper), 0 0 0 5.5px var(--ink); transform: translateY(-3px); }
+.look-option:focus-visible { outline: none; }
+.look-option:focus-visible .look-option-thumb { outline: 2px solid var(--ink); outline-offset: 7px; }
+.look-option-check { position: absolute; right: 12px; bottom: 12px; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; background: var(--anchor); color: var(--paper); font-weight: 700; opacity: 0; transform: scale(.6); transition: opacity .2s, transform .2s cubic-bezier(.34, 1.56, .64, 1); }
+.look-option-small .look-option-check { right: 8px; bottom: 8px; width: 24px; height: 24px; font-size: 12px; }
+.look-option[aria-checked="true"] .look-option-check { opacity: 1; transform: none; }
+.look-option-name { font-family: var(--font-bricolage), sans-serif; font-weight: 800; font-size: 19px; line-height: 1.2; letter-spacing: -.012em; }
+.look-option-small .look-option-name { font-size: 15px; }
+.look-option-description { font-size: 13.5px; line-height: 1.45; color: var(--ink-soft); }

@@ -14,6 +14,7 @@ import { formatLong, readingZoneOf } from "@daymaster/presentation";
 import { Button } from "@/components/button";
 import { InstallHint } from "@/components/install-hint";
 import { SegmentedControl } from "@/components/segmented-control";
+import { SettingsLookSection } from "@/components/settings-look-section";
 import { Toggle } from "@/components/toggle";
 import { BACKUP_FILENAME, serializeBackup } from "@/lib/backup";
 import {
@@ -136,6 +137,8 @@ export function SettingsContent({ profile }: Props) {
           System follows your device. Light and dark stay put.
         </p>
       </section>
+
+      <SettingsLookSection profile={profile} />
 
       <InstallHint />
 

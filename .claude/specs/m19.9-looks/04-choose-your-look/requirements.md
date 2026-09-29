@@ -1,6 +1,6 @@
 # Choose your look: onboarding step and Settings option
 
-Status: draft · Milestone: M19.9 · Ticket: 04
+Status: done · Milestone: M19.9 · Ticket: 04
 
 ## Problem
 
@@ -33,4 +33,4 @@ The looks themselves (05–10).
 - [x] What does onboarding look like before a look is chosen? **Onboarding as it is today; the look step itself previews how each look would look** (owner, 2026-09-29).
 - [x] Names shown to users? **Explorer · Editorial · Instrument** (decided in 02).
 - [x] One-time prompt for existing users? **Yes, tell them they can choose a look** (owner, 2026-09-29) → R5.
-- [ ] Mockup sign-off: onboarding step, Settings control, existing-user note (`research/look-picker.html`).
+- [x] Mockup sign-off: onboarding step, Settings control, existing-user note (`research/look-picker.html`). **Approved** (owner, 2026-09-29).

@@ -2,7 +2,7 @@
  * The onboarding finale: compute the pillars and reveal them under the seal.
  *
  * On first paint the seal stamps in and the pillar columns fade up in a stagger
- * (CSS-gated behind prefers-reduced-motion). "Save chart" persists the profile
+ * (CSS-gated behind prefers-reduced-motion). "Save chart" persists the profile and the look chosen on the step before
  * with default engine settings and moves to Today. If the engine rejects the
  * inputs, we surface the range error rather than a stack trace.
  */
@@ -11,37 +11,33 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { DEFAULT_CONFIG } from "@daymaster/bazi-engine";
 import { chartPreviewFor, isYearInRange } from "@daymaster/presentation";
 import { Button } from "@/components/button";
 import { PillarColumns } from "@/components/pillar-columns";
 import { Seal } from "@/components/seal";
-import { saveProfile } from "@/lib/store";
-import type { StoredBirth, StoredProfile } from "@/lib/store-types";
-import { clearDraft } from "./draft";
+import { saveOnboardingResult } from "@/lib/store";
+import type { LookPreference, StoredBirth, StoredProfile } from "@/lib/store-types";
+import { ONBOARDING_CONFIG, clearDraft } from "./draft";
 
 interface Props {
   birth: StoredBirth;
+  /** Chosen on the look step; saved with the profile. */
+  look: LookPreference;
 }
 
-const CONFIG = {
-  lateZiHour: DEFAULT_CONFIG.lateZiHour,
-  trueSolarTime: DEFAULT_CONFIG.trueSolarTime
-};
-
-export function RevealStep({ birth }: Props) {
+export function RevealStep({ birth, look }: Props) {
   const router = useRouter();
   const [saveFailed, setSaveFailed] = useState(false);
 
-  const result = useMemo(() => chartPreviewFor(birth, CONFIG), [birth]);
+  const result = useMemo(() => chartPreviewFor(birth, ONBOARDING_CONFIG), [birth]);
 
   function handleSave() {
     const profile: StoredProfile = {
       birth,
-      config: CONFIG,
+      config: ONBOARDING_CONFIG,
       createdAt: new Date().toISOString()
     };
-    if (!saveProfile(profile)) {
+    if (!saveOnboardingResult(profile, look)) {
       setSaveFailed(true);
       return;
     }

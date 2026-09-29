@@ -74,7 +74,9 @@ export async function seedStore(context: BrowserContext, partial: Record<string,
           people: [],
           activePersonId: null,
           theme: "system",
-          look
+          look,
+          // Seeded readers have already been told about looks; look-picker.spec.ts seeds without it.
+          lookPromptSeen: true
         };
       }
       window.localStorage.setItem(key, JSON.stringify({ ...store, ...partialValue }));
@@ -93,6 +95,39 @@ export async function openReading(page: Page): Promise<void> {
   while ((await closed.count()) > 0) {
     await closed.first().click();
   }
+}
+
+/**
+ * Walk onboarding for Fixture A (1994-12-08 16:30 Jakarta, male) up to and
+ * including "Save chart", choosing `lookName` on the look step.
+ */
+export async function completeOnboarding(page: Page, lookName = "Explorer"): Promise<void> {
+  await page.goto("/onboarding/");
+  await page.fill('input[type="date"]', "1994-12-08");
+  await page.getByRole("button", { name: "Next" }).click();
+  await page.fill('input[type="time"]', "16:30");
+  await page.getByRole("button", { name: "Next" }).click();
+  await page.getByPlaceholder("Search for your birth city").fill("Jakarta");
+  await page.getByRole("button", { name: /Jakarta/ }).first().click();
+  await page.getByRole("button", { name: "Next" }).click();
+  await page.getByRole("radio", { name: "Male", exact: true }).click();
+  await page.getByRole("button", { name: "Next" }).click();
+  await page
+    .locator(".overflow-y-auto")
+    .first()
+    .evaluate((element) => {
+      element.scrollTop = element.scrollHeight;
+    });
+  await page.getByRole("checkbox").check();
+  await page.getByRole("button", { name: "Show my chart" }).click();
+
+  // The look step: the reader's own day previewed three ways.
+  await page.getByRole("heading", { name: "Choose your look" }).waitFor();
+  await page.getByRole("radio", { name: new RegExp(`^${lookName}`) }).click();
+  await page.getByRole("button", { name: `Continue with ${lookName}` }).click();
+
+  await page.getByText("Here is your chart.").waitFor();
+  await page.getByRole("button", { name: "Save chart" }).click();
 }
 
 /** Seed the stored profile before the app loads. */
