@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Figtree, Bricolage_Grotesque, Space_Mono } from "next/font/google";
 import { ServiceWorker } from "@/components/service-worker";
+import { DEFAULT_LOOK } from "@/lib/store";
 import "./globals.css";
 
 const figtree = Figtree({
@@ -52,14 +53,16 @@ export const viewport: Viewport = {
 };
 
 /**
- * Runs before first paint so a pinned theme never flashes. Reads the v2
- * store's `theme` field first; falls back to the legacy `daymaster.theme.v1`
+ * Runs before first paint so a pinned theme or a chosen look never flashes.
+ * The look is stamped only when the store names a valid non-default one; the
+ * server HTML already carries `data-look={DEFAULT_LOOK}`. For the theme, reads
+ * the v2 store's `theme` field first; falls back to the legacy `daymaster.theme.v1`
  * key for a device that hasn't opened the app since cutover yet (the
  * migration itself runs later, client-side, the first time something calls
  * `loadStore()` — see lib/store.ts). Mirrors store.ts/store-migration.ts;
  * keep the two in sync.
  */
-const THEME_INIT_SCRIPT = `try{var t=null;var raw=localStorage.getItem("daymaster.store.v2");if(raw){try{var parsed=JSON.parse(raw);if(parsed&&(parsed.theme==="light"||parsed.theme==="dark")){t=parsed.theme}}catch(e){}}if(t===null){var legacy=localStorage.getItem("daymaster.theme.v1");if(legacy==="light"||legacy==="dark"){t=legacy}}if(t==="light"||t==="dark"){document.documentElement.dataset.theme=t}}catch(e){}`;
+const PREFERENCES_INIT_SCRIPT = `try{var t=null;var raw=localStorage.getItem("daymaster.store.v2");if(raw){try{var parsed=JSON.parse(raw);if(parsed&&(parsed.theme==="light"||parsed.theme==="dark")){t=parsed.theme}if(parsed&&(parsed.look==="almanac"||parsed.look==="dial")){document.documentElement.dataset.look=parsed.look}}catch(e){}}if(t===null){var legacy=localStorage.getItem("daymaster.theme.v1");if(legacy==="light"||legacy==="dark"){t=legacy}}if(t==="light"||t==="dark"){document.documentElement.dataset.theme=t}}catch(e){}`;
 
 interface Props {
   children: React.ReactNode;
@@ -67,16 +70,17 @@ interface Props {
 
 export default function RootLayout({ children }: Props) {
   return (
-    // suppressHydrationWarning: THEME_INIT_SCRIPT stamps data-theme on <html>
+    // suppressHydrationWarning: PREFERENCES_INIT_SCRIPT stamps data-theme and data-look on <html>
     // before hydration, so this one element's attributes legitimately differ
     // from the server HTML. Suppression is attribute-only and one level deep.
     <html
       lang="en"
+      data-look={DEFAULT_LOOK}
       suppressHydrationWarning
       className={`${figtree.variable} ${bricolage.variable} ${spaceMono.variable}`}
     >
       <body className="font-sans">
-        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        <script dangerouslySetInnerHTML={{ __html: PREFERENCES_INIT_SCRIPT }} />
         {children}
         <ServiceWorker />
       </body>

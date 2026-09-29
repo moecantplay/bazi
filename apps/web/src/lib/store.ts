@@ -1,7 +1,7 @@
 /**
  * The single gateway to the persisted app document (`daymaster.store.v2`):
- * profile, saved people, the active comparison person, and the theme
- * preference, all in one versioned JSON blob — the shape M20's sync payload
+ * profile, saved people, the active comparison person, and the theme and
+ * look preferences, all in one versioned JSON blob — the shape M20's sync payload
  * will eventually mirror. Replaces the six separate `daymaster.*.v1` keys
  * apps/web used (profile.ts, people.ts, theme.ts).
  *
@@ -17,8 +17,8 @@
  */
 
 import { migrateLegacyStore } from "./store-migration";
-import { toStoredProfile } from "./store-types";
-import type { StoredBirth, StoredPerson, StoredProfile, ThemePreference } from "./store-types";
+import { parseLookPreference, toStoredProfile } from "./store-types";
+import type { LookPreference, StoredBirth, StoredPerson, StoredProfile, ThemePreference } from "./store-types";
 
 export const STORE_KEY = "daymaster.store.v2";
 const STREAK_KEY = "daymaster.streak.v1";
@@ -39,6 +39,9 @@ export interface JournalEntry {
 /** Longest note kept — a line, not a diary page. */
 export const JOURNAL_NOTE_MAX = 140;
 
+/** The look for anyone who hasn't chosen one, including every store written before looks existed. */
+export const DEFAULT_LOOK: LookPreference = "trail";
+
 export interface DaymasterStore {
   app: "daymaster";
   version: 2;
@@ -53,6 +56,8 @@ export interface DaymasterStore {
    * version bump or migration step was needed.
    */
   journal: Record<string, JournalEntry>;
+  /** Additive v2 field like `journal` (2026-09-29): older documents read as DEFAULT_LOOK. */
+  look: LookPreference;
 }
 
 export function emptyStore(): DaymasterStore {
@@ -64,7 +69,8 @@ export function emptyStore(): DaymasterStore {
     people: [],
     activePersonId: null,
     theme: "system",
-    journal: {}
+    journal: {},
+    look: DEFAULT_LOOK
   };
 }
 
@@ -117,7 +123,12 @@ export function loadStore(): DaymasterStore {
       if (isDaymasterStore(parsed)) {
         // Fields added after v2 shipped are filled in here so every reader
         // sees the complete shape, whatever vintage of document is on disk.
-        return { ...parsed, journal: sanitizeJournal((parsed as { journal?: unknown }).journal) };
+        const fields = parsed as { journal?: unknown; look?: unknown };
+        return {
+          ...parsed,
+          journal: sanitizeJournal(fields.journal),
+          look: parseLookPreference(fields.look) ?? DEFAULT_LOOK
+        };
       }
     }
   } catch {
@@ -230,6 +241,25 @@ export function applyThemePreference(theme: ThemePreference): void {
 export function saveThemePreference(theme: ThemePreference): void {
   saveStore({ ...loadStore(), theme });
   applyThemePreference(theme);
+}
+
+/** The user's chosen look. Defaults to DEFAULT_LOOK. */
+export function loadLookPreference(): LookPreference {
+  return loadStore().look;
+}
+
+/** Stamp data-look on <html> so look-keyed CSS and useLook() switch immediately. */
+export function applyLookPreference(look: LookPreference): void {
+  if (typeof document === "undefined") {
+    return;
+  }
+  document.documentElement.dataset.look = look;
+}
+
+/** Persist the look and apply it immediately, matching the pre-paint init script's read shape. */
+export function saveLookPreference(look: LookPreference): void {
+  saveStore({ ...loadStore(), look });
+  applyLookPreference(look);
 }
 
 /** Clears the store, the streak, and this-device transient onboarding/share-link state. Leaves nothing else behind. */

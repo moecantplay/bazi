@@ -21,6 +21,19 @@ import type {
 export type { Sex, StoredCity, StoredBirth, StoredConfig, StoredProfile, StoredPerson };
 export type ThemePreference = "system" | "light" | "dark";
 
+/**
+ * The user's chosen look (M19.9): Trail distilled, Almanac page or Day dial.
+ * Stored as a stable id; the names users see are presentation's business.
+ */
+export type LookPreference = "trail" | "almanac" | "dial";
+
+const LOOKS: readonly LookPreference[] = ["trail", "almanac", "dial"];
+
+/** The look a raw stored value names, or null when it names none. */
+export function parseLookPreference(value: unknown): LookPreference | null {
+  return LOOKS.find((look) => look === value) ?? null;
+}
+
 function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
 }
