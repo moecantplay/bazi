@@ -1,6 +1,6 @@
 # M20 — Clarity
 
-Opened 2026-09-29. Runs before the rest of the roadmap (backend, subscriptions, mobile are now M21–M23).
+Opened 2026-09-29. Runs after [M19.9 Looks](../m19.9-looks/README.md) and before the rest of the roadmap (backend, subscriptions, mobile are now M21–M23). Tickets that reshape screens (04, 10, 11, 14) must now hold in all three looks.
 
 ## Goal
 

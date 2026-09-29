@@ -65,3 +65,4 @@ Every decision that outlives a ticket, newest last. Each links the ticket whose 
 | 2026-09-15 | Conditions trial on its own route | [m19.5-post-launch/12-conditions-trial](m19.5-post-launch/12-conditions-trial/design.md) | keep/drop pending: M20-04 |
 | 2026-09-29 | Spec-driven workflow under .claude/specs; roadmap reordered | [m20-clarity/03-convert-docs-to-specs](m20-clarity/03-convert-docs-to-specs/design.md) | in force |
 | 2026-09-29 | Past milestones as full triplets; DESIGN.md/VOICE.md as foundation specs | [m20-clarity/03-convert-docs-to-specs](m20-clarity/03-convert-docs-to-specs/design.md) | in force |
+| 2026-09-29 | Three user-selectable looks (A Trail distilled, B Almanac page, C Day dial), every screen, chosen in onboarding; current Trail composition retires; M19.9 runs before M20 | [m19.9-looks/01-three-directions](m19.9-looks/01-three-directions/design.md) | in force; DESIGN.md v5 pending M19.9-02 |

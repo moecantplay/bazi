@@ -2,6 +2,8 @@
 
 Status: draft · Milestone: M20 · Ticket: 04
 
+> 2026-09-29: M19.9 now runs first, so this decision is needed earlier; [M19.9-10](../../m19.9-looks/10-conditions-look/requirements.md) depends on it.
+
 ## Problem
 
 `/conditions/` (shipped 2026-09-15) is a trial of Today with a weather app's rhythm, reachable only from Settings. The decision "keep as a second route, promote to Today, or drop" is still open, and tickets 05, 06 and 10 all change code it touches.
