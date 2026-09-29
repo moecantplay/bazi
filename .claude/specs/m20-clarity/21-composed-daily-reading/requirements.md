@@ -56,5 +56,5 @@ Each day reads as a short piece built around one idea: the day's strongest fact,
 
 - [x] **Run it now or after M19.9?** **Now** (owner, 2026-09-29). Today's three looks are done (M19.9-05) and the remaining M19.9 screens don't render the daily reading, so this doesn't collide with them.
 - [x] **Retire the dos/don'ts lists?** **Yes** (owner, 2026-09-29). The agency line carries the "do", and the Watch chips with their reasons carry the "don't". Keeping them brings back the restating this ticket removes.
-- [ ] **First-screen budget:** proposal ≤ 70 words. Answered by task 1 (mockup), before any code task.
+- [ ] **First-screen budget:** proposal ≤ 70 words. Answered by task 1 (mockup), before any code task. Mockup: `research/composed-week.html` (https://claude.ai/artifact/3CMt1mepeFPMG1B2dUV7Lw).
 - [ ] **Details layout per look** (label list, idea cards, dial annotations). Answered by task 1 (mockup), before any code task.
