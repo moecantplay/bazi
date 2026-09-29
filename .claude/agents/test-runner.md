@@ -15,3 +15,4 @@ Rules:
   - STATUS: GREEN or RED
   - If RED: for each failure — package, command, test/file name, and the minimal error excerpt (≤10 lines each). No full logs, no passing-test noise.
   - Totals: N passed / N failed per package.
+  - EVIDENCE: one line suitable for a ticket's `tasks.md` (e.g. "pnpm verify green — 169 engine / 124 content / 161 presentation tests; E2E 34/34").

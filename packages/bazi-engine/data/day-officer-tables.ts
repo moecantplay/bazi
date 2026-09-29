@@ -19,7 +19,7 @@
  *
  * Per-officer 宜/忌 lists vary by almanac publisher. This table keeps a
  * conservative common core — only leanings the sources above agree on — and is
- * flagged as interpretive in PROGRESS.md. Activity keys are the classical
+ * flagged as interpretive in .claude/specs/flags.md. Activity keys are the classical
  * almanac categories this app models; publisher categories outside daily-app
  * scope (burial, worship, stove set-up, fishing, hunting) are deliberately
  * unmodelled.

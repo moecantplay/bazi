@@ -48,7 +48,8 @@ The engine computes facts; content phrases them; the web app renders both. Readi
 
 - `DESIGN.md` — the ink & cinnabar design system (tokens, type, the seal).
 - `packages/content/VOICE.md` — the copy contract every line obeys.
-- `PLAN.md` / `PROGRESS.md` — build plan and evidence log.
+- `.claude/specs/` — how work is planned now: milestones → tickets, each with requirements, design and tasks.
+- `PLAN.md` / `PROGRESS.md` — the plan and evidence log up to 2026-09-29, kept as history.
 
 ## Engine doctrine
 

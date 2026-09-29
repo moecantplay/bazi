@@ -9,7 +9,7 @@
  * 喪門→子, 空亡→戌亥).
  *
  * Stars whose school the reference app uses could not be determined (學堂,
- * 詞館, 血刃) are deliberately absent — see PROGRESS.md flags.
+ * 詞館, 血刃) are deliberately absent — see .claude/specs/flags.md.
  */
 
 import type { Branch, Stem } from "../src/types.js";

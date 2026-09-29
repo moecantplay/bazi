@@ -1,5 +1,7 @@
 # Daymaster — PLAN
 
+> **Frozen 2026-09-29.** Planning moved to `.claude/specs/` (see `.claude/specs/README.md`). M20–M22 below became M21–M23 there.
+
 Milestone plan expanded from the project brief. Tasks get checked off in PROGRESS.md.
 
 ## M0 — Scaffold + tooling + state files
