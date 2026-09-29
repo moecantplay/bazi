@@ -1,0 +1,205 @@
+<title>Daymaster Look Picker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Figtree:wght@400;600;700&family=Space+Mono:wght@700&display=swap">
+<style>
+:root { --c-bg: #EFE4D4; --c-ink: #2C2118; --c-mut: #6E5D4D; --c-card: #FBF4E8; --c-ring: rgba(44, 33, 24, .14); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { color-scheme: dark; --c-bg: #110C09; --c-ink: #F0E5DA; --c-mut: #A89283; --c-card: #1F1813; --c-ring: rgba(240, 229, 218, .12); }
+}
+:root[data-theme="dark"] { color-scheme: dark; --c-bg: #110C09; --c-ink: #F0E5DA; --c-mut: #A89283; --c-card: #1F1813; --c-ring: rgba(240, 229, 218, .12); }
+* { box-sizing: border-box; }
+body { background: var(--c-bg); color: var(--c-ink); font: 15px/1.55 Figtree, system-ui, sans-serif; }
+.chrome { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--c-bg); padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; justify-content: center; }
+.chrome h1 { margin: 0 auto 0 0; font: 800 17px/1.2 "Bricolage Grotesque", system-ui, sans-serif; }
+.seg { display: flex; gap: 2px; padding: 3px; border-radius: 999px; background: var(--c-ring); }
+.seg button { font: 700 10.5px "Space Mono", ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--c-ink); padding: 9px 12px; border-radius: 999px; cursor: pointer; min-height: 36px; border: 0; background: transparent; }
+.seg button[aria-pressed="true"] { background: var(--c-card); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+.seg button:focus-visible { outline: 2px solid var(--c-ink); outline-offset: 2px; }
+.stage { display: flex; gap: 40px; justify-content: center; align-items: flex-start; padding: 20px 16px 48px; flex-wrap: wrap; }
+.notes { max-width: 360px; display: flex; flex-direction: column; gap: 14px; font-size: 14.5px; }
+.notes h2 { margin: 0; font: 800 26px/1.1 "Bricolage Grotesque", system-ui, sans-serif; letter-spacing: -.02em; }
+.notes p { margin: 0; }
+.notes .box { background: var(--c-card); border-radius: 20px; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px; }
+.notes .k { font: 700 10.5px "Space Mono", ui-monospace, monospace; letter-spacing: .12em; text-transform: uppercase; color: var(--c-mut); }
+
+/* Phone: app tokens, Fire terrain */
+.phone { --paper: #F6EBDC; --ink: #2C2118; --anchor: #1D140C; --ink-soft: #786655; --surface: #FDF6EA; --hairline: rgba(104, 74, 48, .30);
+  width: 390px; max-width: 100%; height: 844px; border-radius: 46px; overflow: hidden; position: relative; background: var(--paper); color: var(--ink);
+  box-shadow: 0 0 0 10px #0E0A07, 0 30px 80px rgba(0, 0, 0, .28); flex: none; }
+.phone[data-mode="dark"] { --paper: #1B1410; --ink: #F0E5DA; --anchor: #F0E5DA; --ink-soft: #A89283; --surface: #271F18; --hairline: rgba(230, 206, 186, .22); }
+.screen { position: absolute; inset: 0; overflow-y: auto; padding: 0 20px 40px; scrollbar-width: none; }
+.screen::-webkit-scrollbar { display: none; }
+.screen[hidden] { display: none; }
+.statusbar { height: 50px; display: flex; justify-content: space-between; align-items: flex-end; padding: 0 10px 6px; font: 600 15px Figtree, system-ui, sans-serif; }
+.dots { display: flex; gap: 6px; padding: 18px 0 26px; }
+.dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--hairline); }
+.dots i.done { background: var(--ink-soft); }
+.dots i.now { width: 22px; border-radius: 99px; background: var(--ink); }
+.title { margin: 0; font: 800 30px/1.1 "Bricolage Grotesque", system-ui, sans-serif; letter-spacing: -.02em; }
+.sub { margin: 8px 0 0; font-size: 14px; color: var(--ink-soft); line-height: 1.5; }
+.caption { font: 700 10px "Space Mono", ui-monospace, monospace; letter-spacing: .17em; text-transform: uppercase; color: var(--ink-soft); display: flex; align-items: center; gap: 10px; margin: 0; }
+.caption::before { content: ""; width: 16px; height: 2px; background: currentColor; }
+.primary { width: 100%; min-height: 52px; border: 0; border-radius: 999px; background: var(--anchor); color: var(--paper); font: 700 13px Figtree, sans-serif; cursor: pointer; transition: transform .18s cubic-bezier(.34, 1.56, .64, 1); }
+.primary:active { transform: scale(.975); }
+.ghost { width: 100%; min-height: 48px; border: 1.5px dashed var(--hairline); border-radius: 999px; background: transparent; color: var(--ink); font: 700 13px Figtree, sans-serif; cursor: pointer; }
+.primary:focus-visible, .ghost:focus-visible, .pick:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+/* Onboarding carousel */
+.carousel { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 26px -20px 0; padding: 6px 20px 16px; scrollbar-width: none; }
+.carousel::-webkit-scrollbar { display: none; }
+.pick { all: unset; box-sizing: border-box; cursor: pointer; flex: 0 0 214px; scroll-snap-align: center; display: flex; flex-direction: column; gap: 12px; }
+.thumb { position: relative; height: 380px; border-radius: 24px; overflow: hidden; background: var(--surface); box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 10px 26px rgba(40, 25, 10, .14); transition: transform .2s cubic-bezier(.34, 1.56, .64, 1); }
+.thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.pick[aria-checked="true"] .thumb { box-shadow: 0 0 0 3px var(--paper), 0 0 0 5.5px var(--ink), 0 10px 26px rgba(40, 25, 10, .14); transform: translateY(-3px); }
+.check { position: absolute; right: 12px; bottom: 12px; width: 30px; height: 30px; border-radius: 50%; background: var(--anchor); color: var(--paper); display: grid; place-items: center; font: 700 15px Figtree, sans-serif; opacity: 0; transform: scale(.6); transition: opacity .2s, transform .2s cubic-bezier(.34, 1.56, .64, 1); }
+.pick[aria-checked="true"] .check { opacity: 1; transform: none; }
+.pick b { font: 800 19px/1.2 "Bricolage Grotesque", sans-serif; letter-spacing: -.012em; }
+.pick span.desc { font-size: 13.5px; line-height: 1.45; color: var(--ink-soft); }
+.bottom { margin-top: 18px; display: flex; flex-direction: column; gap: 10px; }
+
+/* Settings tiles */
+.tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.tiles .pick { flex: none; gap: 8px; align-items: center; }
+.tiles .thumb { height: 180px; width: 100%; border-radius: 16px; }
+.tiles .check { width: 24px; height: 24px; font-size: 12px; right: 8px; bottom: 8px; }
+.tiles .pick b { font-size: 15px; }
+.segctl { display: flex; gap: 2px; padding: 3px; border-radius: 999px; background: color-mix(in srgb, var(--ink-soft) 12%, transparent); }
+.segctl span { flex: 1; text-align: center; padding: 10px 0; border-radius: 999px; font: 700 10.5px "Space Mono", monospace; letter-spacing: .1em; text-transform: uppercase; }
+.segctl span.on { background: var(--surface); box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+.rows { display: flex; flex-direction: column; gap: 2px; }
+.rows div { background: var(--surface); padding: 16px 18px; font-weight: 600; }
+.rows div:first-child { border-radius: 18px 18px 6px 6px; }
+.rows div:last-child { border-radius: 6px 6px 18px 18px; }
+.set { display: flex; flex-direction: column; gap: 12px; margin-top: 26px; }
+
+/* Existing-user sheet */
+.today-bg { position: absolute; inset: 0; background-size: cover; background-position: top; }
+.scrim { position: absolute; inset: 0; background: rgba(0, 0, 0, .4); }
+.sheet { position: absolute; left: 0; right: 0; bottom: 0; background: var(--surface); border-radius: 28px 28px 0 0; padding: 12px 20px 30px; display: flex; flex-direction: column; gap: 14px; }
+.grab { width: 40px; height: 5px; border-radius: 99px; background: var(--hairline); align-self: center; margin-bottom: 6px; }
+.sheet .tiles .thumb { height: 170px; }
+.sheet .tiles .thumb { background: var(--paper); }
+
+@media (max-width: 520px) {
+  .stage { padding: 0 0 32px; gap: 28px; }
+  .phone { width: 100%; height: calc(100dvh - 118px); min-height: 640px; border-radius: 0; box-shadow: none; }
+  .notes { padding: 0 16px; }
+}
+</style>
+
+<header class="chrome">
+  <h1>Choose your look</h1>
+  <div class="seg" role="group" aria-label="Screen">
+    <button data-screen="onboarding" aria-pressed="true">Onboarding</button>
+    <button data-screen="settings" aria-pressed="false">Settings</button>
+    <button data-screen="existing" aria-pressed="false">Existing users</button>
+  </div>
+  <div class="seg" role="group" aria-label="Theme">
+    <button data-mode="light" aria-pressed="true">Light</button>
+    <button data-mode="dark" aria-pressed="false">Dark</button>
+  </div>
+</header>
+
+<main class="stage">
+  <div class="phone" id="phone" data-mode="light">
+    <!-- Onboarding step -->
+    <section class="screen" data-screen="onboarding">
+      <div class="statusbar"><span>10:40</span><span>●●● ▮</span></div>
+      <div class="dots" aria-label="Step 6 of 6"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="now"></i></div>
+      <h2 class="title">Choose your look</h2>
+      <p class="sub">Same reading, three ways to see your day. This is your Tuesday. You can change it any time in Settings.</p>
+      <div class="carousel" role="radiogroup" aria-label="Look" data-picks="big"></div>
+      <div class="bottom"><button class="primary" type="button" data-continue>Continue with Explorer</button></div>
+    </section>
+
+    <!-- Settings -->
+    <section class="screen" data-screen="settings" hidden>
+      <div class="statusbar"><span>10:40</span><span>●●● ▮</span></div>
+      <h2 class="title" style="margin-top:22px">Settings</h2>
+      <div class="set"><p class="caption">Appearance</p><div class="segctl"><span class="on">System</span><span>Light</span><span>Dark</span></div></div>
+      <div class="set"><p class="caption">Look</p><div class="tiles" role="radiogroup" aria-label="Look" data-picks="small"></div><p class="sub" style="margin:0">Changes how Today looks. The reading stays the same.</p></div>
+      <div class="set"><p class="caption">Your birth details</p><div class="rows"><div>Tue 8 Dec 1994 · 4:30 pm</div><div>Jakarta, Indonesia</div></div></div>
+    </section>
+
+    <!-- Existing users: one-time note on Today -->
+    <section class="screen" data-screen="existing" hidden style="padding:0">
+      <div class="today-bg" data-today-bg></div>
+      <div class="scrim"></div>
+      <div class="sheet" role="dialog" aria-label="Choose your look">
+        <span class="grab"></span>
+        <p class="caption">New</p>
+        <h2 class="title" style="font-size:26px">Your day, three ways</h2>
+        <p class="sub" style="margin:0">Daymaster now comes in three looks. Your reading stays the same; pick the one you'd like to open every morning.</p>
+        <div class="tiles" role="radiogroup" aria-label="Look" data-picks="small"></div>
+        <button class="primary" type="button" data-continue>Keep Explorer</button>
+        <button class="ghost" type="button" data-later hidden>Not now, keep Explorer</button>
+      </div>
+    </section>
+  </div>
+
+  <aside class="notes">
+    <h2>Picking a look</h2>
+    <div class="box">
+      <p class="k">Onboarding</p>
+      <p>The last step before your chart is revealed. Swipe through three previews of <b>your own</b> day and tap one. The button says what it will do. The reveal and everything after it open in the look you picked.</p>
+    </div>
+    <div class="box">
+      <p class="k">Settings</p>
+      <p>A <b>Look</b> section under Appearance with the same three previews as small tiles. Tapping one switches Today straight away, no reload.</p>
+    </div>
+    <div class="box">
+      <p class="k">Existing users</p>
+      <p>Shown once, over Today, the next time they open the app. <b>Keep Explorer</b> or pick another; either answer means it never shows again. People who chose in onboarding never see it.</p>
+    </div>
+    <div class="box">
+      <p class="k">In the build</p>
+      <p>These previews are screenshots. The real ones are live, scaled-down renders of the person's day, so they follow their terrain and theme.</p>
+    </div>
+  </aside>
+</main>
+
+<script>
+const LOOKS = [
+  { id: "trail", name: "Explorer", desc: "Your day as a route, with the easy and rough hours on the way." },
+  { id: "almanac", name: "Editorial", desc: "Your day as a printed page: big, quiet, one idea." },
+  { id: "dial", name: "Instrument", desc: "Your day as a 24-hour dial you can read at a glance." },
+];
+const state = { screen: "onboarding", mode: "light", look: "trail" };
+try { state.mode = document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); } catch (error) { state.mode = "light"; }
+const hash = location.hash.slice(1).split("-");
+if (["onboarding", "settings", "existing"].includes(hash[0])) state.screen = hash[0];
+if (["light", "dark"].includes(hash[1])) state.mode = hash[1];
+if (["trail", "almanac", "dial"].includes(hash[2])) state.look = hash[2];
+
+const img = (id) => `img/app-${id}-${state.mode}.png`;
+function renderPicks() {
+  document.querySelectorAll("[data-picks]").forEach((group) => {
+    const big = group.dataset.picks === "big";
+    group.innerHTML = LOOKS.map((look) => `
+      <button class="pick" type="button" role="radio" aria-checked="${look.id === state.look}" data-look="${look.id}">
+        <span class="thumb"><img src="${img(look.id)}" alt="Preview of today in ${look.name}"><span class="check" aria-hidden="true">✓</span></span>
+        <b>${look.name}</b>${big ? `<span class="desc">${look.desc}</span>` : ""}
+      </button>`).join("");
+  });
+  const name = LOOKS.find((look) => look.id === state.look).name;
+  document.querySelector('[data-screen="onboarding"] [data-continue]').textContent = `Continue with ${name}`;
+  const sheetPrimary = document.querySelector('[data-screen="existing"] [data-continue]');
+  sheetPrimary.textContent = state.look === "trail" ? "Keep Explorer" : `Use ${name}`;
+  document.querySelector("[data-later]").hidden = state.look === "trail";
+  document.querySelector("[data-today-bg]").style.backgroundImage = `url(${img("trail")})`;
+}
+function render() {
+  document.getElementById("phone").dataset.mode = state.mode;
+  document.querySelectorAll("section.screen").forEach((node) => { node.hidden = node.dataset.screen !== state.screen; });
+  for (const key of ["screen", "mode"]) document.querySelectorAll(`.chrome button[data-${key}]`).forEach((b) => b.setAttribute("aria-pressed", String(b.dataset[key] === state[key])));
+  renderPicks();
+}
+document.addEventListener("click", (event) => {
+  const pick = event.target.closest(".pick");
+  if (pick) { state.look = pick.dataset.look; renderPicks(); return; }
+  const chromeButton = event.target.closest(".chrome button");
+  if (chromeButton) { const key = chromeButton.dataset.screen ? "screen" : "mode"; state[key] = chromeButton.dataset[key]; render(); }
+});
+render();
+</script>
