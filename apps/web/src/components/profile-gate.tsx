@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import type { ReactNode } from "react";
 import { dayTerrain, type StoredProfile } from "@daymaster/presentation";
 import { deviceZone } from "@/lib/device-zone";
+import { requestPersistentStorage } from "@/lib/persist-storage";
 import { loadStore } from "@/lib/store";
 import { useTodayLabel } from "@/lib/use-today-label";
 
@@ -46,6 +47,8 @@ export function ProfileGate({ children }: Props) {
     // and stripped again by saveStore so it never persists.
     setProfile({ ...stored, readingZone: deviceZone(stored.birth.city.tz) });
     setStatus("present");
+    // A chart now exists worth protecting from eviction (M19.8-02). Fire and forget.
+    void requestPersistentStorage();
   }, [router]);
 
   useEffect(() => {

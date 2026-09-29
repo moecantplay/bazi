@@ -1,6 +1,6 @@
 # Ask the browser to keep our data
 
-Status: approved · Milestone: M19.8 · Ticket: 02
+Status: done · Milestone: M19.8 · Ticket: 02
 
 ## Problem
 
