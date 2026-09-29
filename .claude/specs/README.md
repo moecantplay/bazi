@@ -7,6 +7,7 @@ All work — past and planned — is written here. Milestones M0–M19.5 were re
 | Milestone | Status |
 | --- | --- |
 | M0–M19.5 — [m00-scaffold](m00-scaffold/README.md) … [m19.5-post-launch](m19.5-post-launch/README.md) (23 milestones, reconstructed) | done |
+| [M19.8 — Foundations](m19.8-foundations/README.md) | in progress — alongside M19.9 |
 | [M19.9 — Looks](m19.9-looks/README.md) | drafting — current |
 | [M20 — Clarity](m20-clarity/README.md) | drafting — after M19.9 |
 | [M21 — Backend + accounts](m21-backend-accounts/README.md) | not started |

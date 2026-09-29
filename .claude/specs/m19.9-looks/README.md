@@ -8,6 +8,8 @@ Every user chooses one of three looks, **A · Trail distilled**, **B · Almanac 
 
 Owner, 2026-09-29: "make the app look and feel like an award winning app", then "put the direction as an option on the settings, that way users can try out how each direction feel". Answers: everyone, permanent; every screen; A, B and C only; before M20; chosen during onboarding.
 
+**Updated later on 2026-09-29: the three looks are a trial, not a permanent choice.** Owner: "i'd still like every screen in three designs because down the line i would pick one for the permanent design." Every screen still ships in all three looks. Once they're live and [M19.8-06](../m19.8-foundations/06-usage-counts/requirements.md) has counted which look readers pick and keep, the owner chooses one ([12](12-pick-the-permanent-look/requirements.md)) and the other two retire.
+
 ## Cost the owner accepted
 
 - About 18 screens × 3 looks × 2 themes to mock and approve before code.
@@ -29,6 +31,7 @@ Owner, 2026-09-29: "make the app look and feel like an award winning app", then 
 | 09 | [Settings and onboarding in three looks](09-settings-onboarding/requirements.md) | draft | 02, 03, 04 |
 | 10 | [Conditions in three looks (or dropped)](10-conditions-look/requirements.md) | draft | 02, 03 |
 | 11 | [Retire the old Trail composition and ship](11-retire-trail-and-ship/requirements.md) | draft | 05–10 |
+| 12 | [Pick the permanent look](12-pick-the-permanent-look/requirements.md) | draft | 11, M19.8-06 |
 
 ## Exit criteria
 

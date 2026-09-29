@@ -36,6 +36,10 @@ A 60-day audit of Today for Fixture A (2026-09-01 → 2026-10-30):
 | 14 | [Copy rewrite](14-copy-rewrite/requirements.md) | draft | 10, 12, 13 |
 | 15 | [Expo spike](15-expo-spike/requirements.md) | draft | 06 |
 | 16 | [Flaky migration idempotence test](16-flaky-migration-idempotence/requirements.md) | draft | — |
+| 17 | [Chart says one thing about balance](17-chart-balance-contradiction/requirements.md) | draft | — |
+| 18 | [First run shows a reading before asking](18-first-run-shows-a-reading/requirements.md) | draft | — |
+| 19 | [Settings: everyday choices first](19-settings-order/requirements.md) | draft | — |
+| 20 | [Cycles: romanized names carry their meaning](20-cycles-romanized-names/requirements.md) | draft | — |
 
 ## Exit criteria
 
