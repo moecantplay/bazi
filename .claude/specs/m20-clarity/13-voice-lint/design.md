@@ -10,7 +10,7 @@
 
 | Area | Change |
 | --- | --- |
-| `packages/content/VOICE.md` | Plain-writing section |
+| `.claude/specs/foundation/VOICE.md` | Plain-writing section |
 | `packages/content/test/plain-writing.test.ts` | New |
 
 ## Alternatives considered

@@ -22,7 +22,7 @@ A 60-day audit of Today for Fixture A (2026-09-01 → 2026-10-30):
 | --- | --- | --- | --- |
 | 01 | [Fix duplicated glosses](01-fix-duplicated-glosses/requirements.md) | draft | — |
 | 02 | [Copy audit baseline](02-copy-audit-baseline/requirements.md) | draft | — |
-| 03 | [Docs cleanup](03-docs-cleanup/requirements.md) | draft | — |
+| 03 | [Convert all docs to specs](03-convert-docs-to-specs/requirements.md) | done | — |
 | 04 | [Conditions: keep or drop](04-conditions-decision/requirements.md) | draft | — |
 | 05 | [Restructure apps/web](05-restructure-web/requirements.md) | draft | 04 |
 | 06 | [Restructure presentation](06-restructure-presentation/requirements.md) | draft | 04 |

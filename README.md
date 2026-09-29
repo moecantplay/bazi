@@ -46,10 +46,10 @@ packages/content      Zero-dep line bank + deterministic seeded selection.
 
 The engine computes facts; content phrases them; the web app renders both. Readings are seeded by `hash(birth data + ISO date)`, so the same person on the same day always sees the same reading.
 
-- `DESIGN.md` — the ink & cinnabar design system (tokens, type, the seal).
-- `packages/content/VOICE.md` — the copy contract every line obeys.
+- `.claude/specs/foundation/DESIGN.md` — the Trail design system (tokens, type, components, the seal).
+- `.claude/specs/foundation/VOICE.md` — the copy contract every line obeys.
 - `.claude/specs/` — how work is planned now: milestones → tickets, each with requirements, design and tasks.
-- `PLAN.md` / `PROGRESS.md` — the plan and evidence log up to 2026-09-29, kept as history.
+- `.claude/specs/decisions.md` — every decision, linked to the ticket that records it.
 
 ## Engine doctrine
 
@@ -67,7 +67,7 @@ City data comes from [GeoNames](https://www.geonames.org) (cities15000, CC BY 4.
 
 ## Screenshot
 
-![Chart screen](docs/screenshot-chart.png)
+![Chart screen](.claude/specs/m07-e2e-readme-dod/02-readme-and-clean-clone/screenshot-chart.png)
 
 ## Disclaimer
 

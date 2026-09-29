@@ -16,7 +16,7 @@
  *   path the same way the live marker is, and carry their window as a label.
  *
  * The route geometry is a reasonable-effort port of the reference mockup
- * (docs/design-system/src/cards/trail.mjs) rather than a pixel-identical
+ * (.claude/specs/foundation/design-system/src/cards/trail.mjs) rather than a pixel-identical
  * copy.
  *
  * The crossing count and aria-label are derived by presentation's

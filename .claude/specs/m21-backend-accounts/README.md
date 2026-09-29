@@ -8,7 +8,7 @@ Accounts and cross-device sync without breaking the offline, signed-out app. Rea
 
 ## Source
 
-Converted 2026-09-29 from `PLAN.md` (where this was M20, approved 2026-07-29 as part of the v2 arc) and `docs/discussion-2026-07-23-rewrite-and-roadmap.md`. Renumbered because M20 Clarity runs first.
+Converted 2026-09-29 from the old plan (`_sources/plan.md`) (where this was M20, approved 2026-07-29 as part of the v2 arc) and [the roadmap discussion](../m18-design-reset/research/discussion-rewrite-and-roadmap.md). Renumbered because M20 Clarity runs first.
 
 ## Tickets
 

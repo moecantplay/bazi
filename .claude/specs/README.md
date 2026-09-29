@@ -1,24 +1,27 @@
 # Specs
 
-All planned work is written here before it is built. `PLAN.md` / `PROGRESS.md` are
-the pre-2026-09-29 history and are no longer updated.
+All work — past and planned — is written here. Milestones M0–M19.5 were reconstructed on 2026-09-29 from the old PLAN.md, PROGRESS.md and decisions log, which are kept verbatim in `_sources/`.
 
 ## Milestones
 
 | Milestone | Status |
 | --- | --- |
+| M0–M19.5 — [m00-scaffold](m00-scaffold/README.md) … [m19.5-post-launch](m19.5-post-launch/README.md) (23 milestones, reconstructed) | done |
 | [M20 — Clarity](m20-clarity/README.md) | drafting — current |
 | [M21 — Backend + accounts](m21-backend-accounts/README.md) | not started |
 | [M22 — Subscriptions](m22-subscriptions/README.md) | not started |
 | [M23 — Mobile](m23-mobile/README.md) | not started |
 
-M21–M23 were M20–M22 in `PLAN.md`; renumbered on 2026-09-29 when M20 Clarity was put first.
+M21–M23 were M20–M22 in the old plan (`_sources/plan.md`); renumbered on 2026-09-29 when M20 Clarity was put first.
 
 ## Layout
 
 ```
 .claude/specs/
+  foundation/                 standing rules: DESIGN.md, VOICE.md, design-system/
+  decisions.md                every decision → the ticket that records it
   flags.md                    live list of unverifiable engine values (CLAUDE.md non-negotiable)
+  _sources/                   old plan, progress and decisions log, verbatim
   _templates/                 copy these to start a ticket
   m20-clarity/                one folder per milestone, numbered in execution order
     README.md                 goal, ticket order, status table
@@ -48,7 +51,7 @@ Rules:
 
 1. Requirements and design are approved by the owner before any task is executed.
 2. Open questions live in `requirements.md` under **Open questions** until answered; answers are written back in place.
-3. A task is checked only with a one-line evidence note (test run, commit, screenshot), same bar as the old PROGRESS.md.
+3. A task is checked only with a one-line evidence note (test run, commit, screenshot), same bar as the old progress log.
 4. If implementation diverges from the design, update `design.md` in the same commit — the spec describes what shipped.
 5. Commit only on a green `pnpm verify`; UI tickets also need E2E green and a live-app check.
 6. Decisions that outlive a ticket still go to the decisions log.

@@ -2,7 +2,7 @@
 
 Engine values that could not be verified against a source, or were chosen between competing schools. CLAUDE.md's non-negotiables require every such value to be listed here. When a flag is resolved, move it to **Resolved** with the evidence; when work is needed to resolve one, open a ticket and link it.
 
-Moved from PROGRESS.md on 2026-09-29.
+Moved from the old PROGRESS.md (`_sources/progress.md`) on 2026-09-29.
 
 ## Open
 

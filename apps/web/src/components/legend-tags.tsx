@@ -1,7 +1,7 @@
 /**
  * The map-legend chips under the headline (DESIGN.md §Layout "legend tags"):
  * element·polarity and zodiac·day-type. The reference mockup
- * (docs/design-system/src/cards/trail.mjs) also shows a third dashed
+ * (.claude/specs/foundation/design-system/src/cards/trail.mjs) also shows a third dashed
  * "notice" tag naming the day officer (e.g. "RECEIVE — GATHERING-IN"), but
  * OFFICER_GLOSSES (packages/content/src/vocab.ts) only holds full
  * descriptive sentences, not a short chip-length pair — inventing a punchy
