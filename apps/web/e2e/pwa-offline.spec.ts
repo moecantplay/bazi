@@ -8,8 +8,13 @@ import { FIXTURE_A, pinClock, seedProfile } from "./helpers";
  */
 test("offline: never-visited routes render fully from the precache", async ({
   page,
-  context
+  context,
+  browserName
 }) => {
+  test.skip(
+    browserName === "webkit",
+    "Playwright's WebKit can't serve an offline navigation from a service worker ('internal error'); check offline on a real iPhone"
+  );
   await seedProfile(context, FIXTURE_A);
   await pinClock(context, "2026-07-08T12:00:00+07:00");
 

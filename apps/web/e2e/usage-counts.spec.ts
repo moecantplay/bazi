@@ -1,5 +1,14 @@
 import { expect, test, type Page } from "@playwright/test";
-import { E2E_LOOK, FIXTURE_A, STORE_KEY, completeOnboarding, pinClock, seedProfile, seedStore } from "./helpers";
+import {
+  E2E_LOOK,
+  FIXTURE_A,
+  STORE_KEY,
+  completeOnboarding,
+  pinClock,
+  seedProfile,
+  seedStore,
+  stubShareAndClipboard
+} from "./helpers";
 
 /**
  * Anonymous usage counts (M19.8-06), against the E2E build's stub tracker
@@ -46,7 +55,7 @@ test("page views carry the route only", async ({ page, context }) => {
 });
 
 test("no birth detail, note or identifier ever leaves in a payload", async ({ page, context }) => {
-  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await stubShareAndClipboard(context);
   await seedProfile(context, FIXTURE_A);
 
   await page.goto("/today/");

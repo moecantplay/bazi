@@ -183,3 +183,31 @@ export function addDays(iso: string, days: number): string {
   const dd = `${date.getUTCDate()}`.padStart(2, "0");
   return `${date.getUTCFullYear()}-${mm}-${dd}`;
 }
+
+/**
+ * Take the share sheet away and record clipboard writes instead of using the
+ * real clipboard, so share flows run the same in every browser project:
+ * WebKit has no clipboard permission to grant, and an emulated iPhone
+ * exposes navigator.share, which would open a sheet no test can dismiss
+ * (M19.8-09). Read what was copied with `copiedText`.
+ */
+export async function stubShareAndClipboard(context: BrowserContext): Promise<void> {
+  await context.addInitScript(() => {
+    for (const name of ["share", "canShare"]) {
+      Object.defineProperty(Navigator.prototype, name, { value: undefined, configurable: true });
+    }
+    Object.defineProperty(navigator, "clipboard", {
+      configurable: true,
+      value: {
+        writeText: async (text: string) => {
+          (window as unknown as { __copied?: string }).__copied = text;
+        }
+      }
+    });
+  });
+}
+
+/** The last text the app wrote to the (stubbed) clipboard. */
+export async function copiedText(page: Page): Promise<string> {
+  return page.evaluate(() => (window as unknown as { __copied?: string }).__copied ?? "");
+}

@@ -37,5 +37,11 @@ export default defineConfig({
     reuseExistingServer: !process.env.CI,
     timeout: 60_000
   },
-  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }]
+  // Desktop Chrome plus the two phones readers actually use: Android Chromium
+  // and iOS WebKit, which every iOS browser runs on (M19.8-09).
+  projects: [
+    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+    { name: "mobile-chromium", use: { ...devices["Pixel 7"] } },
+    { name: "mobile-webkit", use: { ...devices["iPhone 14"] } }
+  ]
 });

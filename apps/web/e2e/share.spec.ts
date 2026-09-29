@@ -1,11 +1,12 @@
 import { expect, test, type BrowserContext, type Page } from "@playwright/test";
-import { FIXTURE_A, seedProfile } from "./helpers";
+import { FIXTURE_A, copiedText, seedProfile, stubShareAndClipboard } from "./helpers";
 
 test("the chart card falls back to a PNG download without a share sheet", async ({
   page,
   context
 }) => {
   await seedProfile(context, FIXTURE_A);
+  await stubShareAndClipboard(context);
   await page.goto("/chart/");
 
   const downloadPromise = page.waitForEvent("download");
@@ -17,12 +18,12 @@ test("the chart card falls back to a PNG download without a share sheet", async 
 
 test("a chart link round-trips into Compare's add-person form", async ({ page, context }) => {
   await seedProfile(context, FIXTURE_A);
-  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await stubShareAndClipboard(context);
 
   await page.goto("/chart/");
   await page.getByRole("button", { name: "Copy chart link" }).click();
   await expect(page.getByText(/Link copied/)).toBeVisible();
-  const url = await page.evaluate(() => navigator.clipboard.readText());
+  const url = await copiedText(page);
   // The birth details ride in the fragment, which never reaches the server (M19.8-03).
   expect(url).toContain("/onboarding/#share=");
   expect(url).not.toContain("?share=");
@@ -43,11 +44,11 @@ test("a chart link round-trips into Compare's add-person form", async ({ page, c
 /** Copy Fixture A's chart link from the Chart screen. */
 async function copyChartLink(page: Page, context: BrowserContext): Promise<string> {
   await seedProfile(context, FIXTURE_A);
-  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await stubShareAndClipboard(context);
   await page.goto("/chart/");
   await page.getByRole("button", { name: "Copy chart link" }).click();
   await expect(page.getByText(/Link copied/)).toBeVisible();
-  return page.evaluate(() => navigator.clipboard.readText());
+  return copiedText(page);
 }
 
 test("a link sent before M19.8 (?share=) still opens in Compare", async ({ page, context }) => {

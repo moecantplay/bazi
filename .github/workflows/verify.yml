@@ -1,6 +1,7 @@
 # Every push to main and every pull request: typecheck, lint, unit tests and
 # build (pnpm verify), then the E2E suite once per look against the static
-# export, under production's headers (M19.8-04). Deploys stay manual.
+# export, under production's headers (M19.8-04), on desktop Chrome, an
+# Android phone and an iPhone (M19.8-09). Deploys stay manual.
 name: verify
 
 on:
@@ -15,7 +16,7 @@ concurrency:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
 
@@ -31,8 +32,8 @@ jobs:
 
       - run: pnpm verify
 
-      - name: Install Chromium for Playwright
-        run: pnpm --filter @daymaster/web exec playwright install --with-deps chromium
+      - name: Install Chromium and WebKit for Playwright
+        run: pnpm --filter @daymaster/web exec playwright install --with-deps chromium webkit
 
       - name: E2E in every look
         run: pnpm --filter @daymaster/web e2e:ci
