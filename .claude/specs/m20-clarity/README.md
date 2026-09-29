@@ -1,6 +1,6 @@
 # M20 — Clarity
 
-Opened 2026-09-29. Runs after [M19.9 Looks](../m19.9-looks/README.md) and before the rest of the roadmap (backend, subscriptions, mobile are now M21–M23). Tickets that reshape screens (04, 10, 11, 14) must now hold in all three looks.
+Opened 2026-09-29. Runs after [M19.9 Looks](../m19.9-looks/README.md) and before the rest of the roadmap (backend, subscriptions, mobile are now M21–M23). Tickets that reshape screens (04, 11, 14, 21) must now hold in all three looks.
 
 ## Goal
 
@@ -29,20 +29,21 @@ A 60-day audit of Today for Fixture A (2026-09-01 → 2026-10-30):
 | 07 | [Restructure content](07-restructure-content/requirements.md) | draft | 01 |
 | 08 | [Facts carry their time scope](08-fact-scope-types/requirements.md) | draft | — |
 | 09 | [Quality gates](09-quality-gates/requirements.md) | draft | — |
-| 10 | [Today says each thing once](10-today-one-idea/requirements.md) | draft | 02, 05, 06 |
-| 11 | [Today for a first-time reader](11-today-first-run/requirements.md) | draft | 10 |
-| 12 | [No repeats day to day](12-no-repeat-selection/requirements.md) | draft | 02, 07 |
+| 10 | [Today says each thing once](10-today-one-idea/requirements.md) | dropped — folded into 21 | — |
+| 11 | [Today for a first-time reader](11-today-first-run/requirements.md) | draft | 21 |
+| 12 | [No repeats day to day](12-no-repeat-selection/requirements.md) | draft | 02, 07, 21 |
 | 13 | [Voice rules the linter enforces](13-voice-lint/requirements.md) | draft | 02 |
-| 14 | [Copy rewrite](14-copy-rewrite/requirements.md) | draft | 10, 12, 13 |
+| 14 | [Copy rewrite](14-copy-rewrite/requirements.md) | draft | 12, 13, 21 |
 | 15 | [Expo spike](15-expo-spike/requirements.md) | draft | 06 |
 | 16 | [Flaky migration idempotence test](16-flaky-migration-idempotence/requirements.md) | draft | — |
 | 17 | [Chart says one thing about balance](17-chart-balance-contradiction/requirements.md) | done | — |
 | 18 | [First run shows a reading before asking](18-first-run-shows-a-reading/requirements.md) | approved | — |
 | 19 | [Settings: everyday choices first](19-settings-order/requirements.md) | dropped — folded into M19.9-09 | — |
 | 20 | [Cycles: romanized names carry their meaning](20-cycles-romanized-names/requirements.md) | approved | — |
+| 21 | [Today reads as one written piece](21-composed-daily-reading/requirements.md) | approved — running now | 01, 02 |
 
 ## Exit criteria
 
 - Every ticket `done` or `dropped` with a reason.
-- Copy audit (02) shows the targets agreed in 10, 12 and 13 met.
+- Copy audit (02) shows the targets agreed in 12, 13 and 21 met.
 - `pnpm verify`, full E2E and a live-app check green; production deployed.

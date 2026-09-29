@@ -12,7 +12,7 @@ A first-time reader understands what they are looking at on day one, and meets t
 
 ## Requirements
 
-- **R1.** Day one shows only the ticket-10 default view plus a one-line "how to read this" note that can be dismissed.
+- **R1.** Day one shows only the ticket-21 first screen plus a one-line "how to read this" note that can be dismissed.
 - **R2.** Deeper elements (map, fact tags, activity terrain) are introduced over the first few days, one at a time, each with a one-sentence explanation the first time it appears.
   - Acceptance: a stored first-seen date drives it; an E2E test walks days 1–5.
 - **R3.** Returning users (existing profiles) skip the introduction.

@@ -4,7 +4,7 @@ Status: draft · Milestone: M20 · Ticket: 14
 
 ## Problem
 
-After tickets 10, 12 and 13 the structure is right, but the words are still the current banks: too few entries for the repeat window, and failing the plain-writing rules.
+After tickets 12, 13 and 21 the structure is right, but the words are still the current banks: too few entries for the repeat window, and failing the plain-writing rules.
 
 ## Goal
 

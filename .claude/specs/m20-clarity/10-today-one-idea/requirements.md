@@ -1,6 +1,8 @@
 # Today says each thing once
 
-Status: draft · Milestone: M20 · Ticket: 10
+Status: dropped · Milestone: M20 · Ticket: 10
+
+Dropped 2026-09-29: folded into [21 — Today reads as one written piece](../21-composed-daily-reading/requirements.md). A budget and fact ownership over the one-line-per-fact skeleton still leaves the six fixed shapes; 21 replaces the skeleton (owner approved the direction).
 
 ## Problem
 

@@ -18,6 +18,8 @@ The same sentence doesn't come back within a set window, while staying determini
 - **R3.** The repeat window N is agreed (proposal: 21 days) and each bank's minimum size follows from it; banks below it are listed for ticket 14.
 - **R4.** Copy-audit unique-sentence ratio improves against the ticket 02 baseline.
 
+Since 2026-09-29 the daily banks this applies to are ticket 21's cell pools (headline, body, agency by lead × area × modifier), not the per-fact lines.
+
 ## Out of scope
 
 Writing the new bank entries (ticket 14).
