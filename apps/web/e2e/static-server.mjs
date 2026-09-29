@@ -5,6 +5,11 @@
  * `next dev`. With `trailingSlash: true` every route is a directory
  * (out/chart/index.html), so clean URLs like /chart and /chart/ both resolve to
  * that document — exactly as a bare static host would serve them.
+ *
+ * It also applies the response headers from out/vercel.json (written by
+ * scripts/write-deploy-config.mjs), so the suite runs under production's CSP
+ * (M19.8-05). Only the source patterns that script writes are understood;
+ * anything else throws, so the two can't drift apart silently.
  */
 
 import http from "node:http";
@@ -46,8 +51,35 @@ function resolveFile(pathname) {
   return null;
 }
 
+/** A Vercel `source` we write ("/sw.js", "/_next/static/(.*)", "/(.*)") as a RegExp. */
+function sourceToRegExp(source) {
+  if (!/^[\w/.-]*(\(\.\*\))?$/.test(source)) {
+    throw new Error(`static-server: unsupported vercel.json source ${source}`);
+  }
+  const wildcard = source.endsWith("(.*)");
+  const prefix = wildcard ? source.slice(0, -"(.*)".length) : source;
+  const escaped = prefix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(`^${escaped}${wildcard ? ".*" : ""}$`);
+}
+
+/** Headers out/vercel.json assigns to a path; read per request so a rebuild needs no restart. */
+async function deployHeaders(pathname) {
+  let config;
+  try {
+    config = JSON.parse(await readFile(join(ROOT, "vercel.json"), "utf8"));
+  } catch {
+    return [];
+  }
+  return (config.headers ?? [])
+    .filter((rule) => sourceToRegExp(rule.source).test(pathname))
+    .flatMap((rule) => rule.headers);
+}
+
 const server = http.createServer(async (req, res) => {
   const pathname = decodeURIComponent((req.url ?? "/").split("?")[0]);
+  for (const { key, value } of await deployHeaders(pathname)) {
+    res.setHeader(key, value);
+  }
   const file = resolveFile(pathname);
   if (!file) {
     res.statusCode = 404;

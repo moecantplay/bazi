@@ -31,3 +31,7 @@
 ## Verification
 
 Full E2E under headers in all three looks; `pnpm verify`; `curl -I` on the live site after the owner-approved deploy.
+
+## As built
+
+The caching test reads a chunk path out of `/onboarding/`'s HTML and checks it with the request fixture rather than a browser page: opening a page right after the offline spec reliably hit the local Chromium crash on context close.

@@ -1,6 +1,6 @@
 # Security and caching headers
 
-Status: approved · Milestone: M19.8 · Ticket: 05
+Status: done · Milestone: M19.8 · Ticket: 05
 
 ## Problem
 
