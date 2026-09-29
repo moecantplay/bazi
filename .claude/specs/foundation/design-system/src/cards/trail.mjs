@@ -11,7 +11,8 @@
 /** Shared Trail typography — every card in this group needs it. */
 const BASE = `
   .pad { padding: 0 20px; }
-  svg text { font-family: "SpaceMono", ui-monospace, monospace; font-weight: 700; fill: var(--mut); letter-spacing: .12em; }
+  svg text { font-family: "SpaceMono", ui-monospace, monospace; font-weight: 700; letter-spacing: .12em; }
+  svg text:not([fill]) { fill: var(--mut); }
   .kick { margin: 0 0 10px; font-family: "SpaceMono", ui-monospace, monospace; font-size: 10px; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; color: var(--mut); display: flex; align-items: center; gap: 9px; }
   .kick::before { content: ""; width: 16px; height: 2px; background: var(--mut); flex: none; }
 `;

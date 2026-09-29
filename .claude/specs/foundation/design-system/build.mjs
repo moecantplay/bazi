@@ -1,6 +1,7 @@
 /**
- * Builds the Trail design-system bundle into dist/ as self-contained preview
- * cards, one HTML file per component.
+ * Builds the design-system bundle into dist/ as self-contained preview cards,
+ * one HTML file per component: the shared base, the three looks (Explorer,
+ * Editorial, Instrument) and the legacy Trail composition until it retires.
  *
  * Self-contained is a constraint, not a preference: the cards render inside the
  * Claude Design pane, so nothing may depend on a sibling file or an external
@@ -19,6 +20,9 @@ import { HARNESS_CSS, HARNESS_JS, harnessMarkup } from './src/harness.mjs';
 import { FOUNDATION_CARDS } from './src/cards/foundations.mjs';
 import { TRAIL_CARDS } from './src/cards/trail.mjs';
 import { APP_CARDS } from './src/cards/app.mjs';
+import { EXPLORER_CARDS } from './src/cards/look-explorer.mjs';
+import { EDITORIAL_CARDS } from './src/cards/look-editorial.mjs';
+import { INSTRUMENT_CARDS } from './src/cards/look-instrument.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const DIST = join(HERE, 'dist');
@@ -27,6 +31,22 @@ const GROUP_DIRS = {
   Foundations: 'foundations',
   Trail: 'trail',
   Components: 'components',
+  Explorer: 'explorer',
+  Editorial: 'editorial',
+  Instrument: 'instrument',
+};
+
+/**
+ * Which look a card belongs to (DESIGN.md v5). `shared` cards hold for every
+ * look; `legacy` is the pre-M19.9 Trail composition, kept until M19.9-11.
+ */
+const LOOK_OF_GROUP = {
+  Foundations: 'shared',
+  Components: 'shared',
+  Trail: 'legacy',
+  Explorer: 'trail',
+  Editorial: 'almanac',
+  Instrument: 'dial',
 };
 
 async function loadFonts() {
@@ -88,7 +108,7 @@ async function main() {
 
   await rm(DIST, { recursive: true, force: true });
 
-  const cards = [...FOUNDATION_CARDS, ...TRAIL_CARDS, ...APP_CARDS];
+  const cards = [...FOUNDATION_CARDS, ...TRAIL_CARDS, ...APP_CARDS, ...EXPLORER_CARDS, ...EDITORIAL_CARDS, ...INSTRUMENT_CARDS];
   const manifest = [];
 
   for (const card of cards) {
@@ -104,7 +124,7 @@ async function main() {
     if (bytes > 250 * 1024) {
       throw new Error(`${path} is ${(bytes / 1024).toFixed(0)} KB — over the 256 KB per-file cap`);
     }
-    manifest.push({ path, group: card.group, name: card.name, kb: +(bytes / 1024).toFixed(0) });
+    manifest.push({ path, group: card.group, look: LOOK_OF_GROUP[card.group], name: card.name, kb: +(bytes / 1024).toFixed(0) });
   }
 
   await writeFile(join(DIST, 'index.json'), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');

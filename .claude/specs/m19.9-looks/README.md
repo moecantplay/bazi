@@ -19,7 +19,7 @@ Owner, 2026-09-29: "make the app look and feel like an award winning app", then 
 | # | Ticket | Status | Depends on |
 | --- | --- | --- | --- |
 | 01 | [Three directions](01-three-directions/requirements.md) | done | — |
-| 02 | [DESIGN.md: shared base and three looks](02-design-md-looks/requirements.md) | draft | 01 |
+| 02 | [DESIGN.md: shared base and three looks](02-design-md-looks/requirements.md) | in-progress | 01 |
 | 03 | [Look preference: store, pre-paint and component switch](03-look-architecture/requirements.md) | done | — |
 | 04 | [Choose your look: onboarding step and Settings option](04-choose-your-look/requirements.md) | draft | 03, 05 |
 | 05 | [Today in three looks](05-today/requirements.md) | draft | 01, 02, 03 |

@@ -270,4 +270,38 @@ const sheet = {
   </div>`,
 };
 
-export const APP_CARDS = [buttons, fields, segmented, lists, sheet];
+/**
+ * The content anchor and the chrome anchor as all three looks draw them
+ * (M19.9-01 mockups). Supersedes the Trail group's "Signpost, streak & nav",
+ * which stays until the old composition retires (M19.9-11).
+ */
+const signpostBoard = {
+  slug: 'signpost-board-and-nav',
+  name: 'Signpost board & nav',
+  group: 'Components',
+  subtitle: 'The one thing to do, and the nav pill: the two anchors every look shares',
+  fonts: ['figtree', 'bricolage', 'spacemono'],
+  height: 360,
+  note:
+    'Same in Explorer, Editorial and Instrument. The board is the screen’s content anchor; the nav is chrome. ' +
+    'Both invert to a pale mass in dark. Press: springy scale to .975.',
+  css: `
+  .pad { padding: 0 20px; display: flex; flex-direction: column; gap: 28px; }
+  .board { background: var(--blk); color: var(--pale); padding: 18px 44px 20px 20px; border-radius: 20px 6px 6px 20px; clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 50%, calc(100% - 24px) 100%, 0 100%); display: flex; flex-direction: column; gap: 8px; }
+  .board .k { font-family: "SpaceMono", ui-monospace, monospace; font-size: 10px; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; color: color-mix(in srgb, var(--pale) 78%, var(--blk)); }
+  .board p { margin: 0; font-family: "Bricolage", "Figtree", sans-serif; font-size: 20px; line-height: 1.22; font-weight: 800; letter-spacing: -.012em; text-wrap: balance; }
+  .board p em { font-family: ui-serif, "New York", Georgia, serif; font-style: italic; font-weight: 500; }
+  .nav { height: 60px; background: var(--blk); color: var(--pale); border-radius: var(--radius-pill); display: grid; grid-template-columns: repeat(5, 1fr); align-items: center; box-shadow: var(--sh-nav); }
+  .nav span { display: flex; flex-direction: column; align-items: center; gap: 5px; font-family: "SpaceMono", ui-monospace, monospace; font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--pale) 62%, var(--blk)); }
+  .nav span::before { content: ""; width: 5px; height: 5px; border-radius: 50%; }
+  .nav span.on { color: var(--pale); }
+  .nav span.on::before { background: var(--pale); }
+  `,
+  markup: `
+  <div class="pad">
+    <div class="board"><span class="k">One small thing</span><p>Tell a colleague the thing you've been meaning to say <em>plainly.</em></p></div>
+    <nav class="nav" aria-hidden="true"><span>Chart</span><span class="on">Today</span><span>Cycles</span><span>Compare</span><span>Settings</span></nav>
+  </div>`,
+};
+
+export const APP_CARDS = [buttons, fields, segmented, lists, sheet, signpostBoard];

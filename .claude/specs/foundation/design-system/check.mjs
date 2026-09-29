@@ -1,11 +1,14 @@
 /**
- * Gate for the Trail bundle. Two checks, both of which exist because round 5c
- * found real bugs that eyeballing had missed:
+ * Gate for the design-system bundle. Two checks, both of which exist because
+ * round 5c found real bugs that eyeballing had missed:
  *
  *   1. CONTRAST on *rendered* text — every visible text node, measured against
  *      the background actually painted behind it, across both themes and all
- *      five terrains. Token-pair maths is not enough; light mode has been the
- *      failing side every single time.
+ *      five terrains, reported per look (DESIGN.md v5). SVG labels are measured
+ *      by their `fill` against the shape drawn directly under them (a pill
+ *      rect or node circle as the previous sibling), else the page behind the
+ *      SVG. Token-pair maths is not enough; light mode has been the failing
+ *      side every single time.
  *   2. THEME PARITY — a forced [data-theme] must resolve identically to the
  *      matching OS scheme, or the app's own appearance toggle is lying.
  *
@@ -77,6 +80,19 @@ const MEASURE = () => {
     return base;
   };
 
+  /** The surface an SVG label sits on: the shape drawn just before it when that shape contains it, else the page behind the SVG. */
+  const contains = (outer, inner) =>
+    outer.left <= inner.left + 0.5 && outer.right >= inner.right - 0.5 && outer.top <= inner.top + 0.5 && outer.bottom >= inner.bottom - 0.5;
+  const svgBackdrop = (text) => {
+    const under = text.previousElementSibling;
+    const isShape = under && (under.tagName === 'rect' || under.tagName === 'circle');
+    if (isShape && contains(under.getBoundingClientRect(), text.getBoundingClientRect())) {
+      const fill = parse(getComputedStyle(under).fill);
+      if (fill && fill.a > 0) return over(fill, backdrop(text.ownerSVGElement));
+    }
+    return backdrop(text.ownerSVGElement);
+  };
+
   const results = [];
   document.querySelectorAll('body *').forEach((el) => {
     if (el.closest('.ds-bar, .ds-note, .ds-variant')) return; // harness chrome, not the design
@@ -91,8 +107,9 @@ const MEASURE = () => {
     const box = el.getBoundingClientRect();
     if (box.width < 1 || box.height < 1) return;
 
-    const fg = parse(style.color);
-    const bg = backdrop(el);
+    const isSvgText = el.tagName.toLowerCase() === 'text' && el.ownerSVGElement;
+    const fg = parse(isSvgText ? style.fill : style.color);
+    const bg = isSvgText ? svgBackdrop(el) : backdrop(el);
     if (!fg) return;
     const flat = over(fg, bg);
     const [hi, lo] = [lum(flat), lum(bg)].sort((a, b) => b - a);
@@ -130,14 +147,10 @@ async function main() {
   const parityBreaks = [];
   let measured = 0;
 
-  const groups = await readdir(DIST, { withFileTypes: true });
-  const files = [];
-  for (const g of groups) {
-    if (!g.isDirectory()) continue;
-    for (const f of await readdir(join(DIST, g.name))) {
-      if (f.endsWith('.html')) files.push(join(g.name, f));
-    }
-  }
+  const manifest = JSON.parse(await readFile(join(DIST, 'index.json'), 'utf8'));
+  const files = manifest.map((entry) => entry.path);
+  const lookOf = Object.fromEntries(manifest.map((entry) => [entry.path, entry.look]));
+  const measuredByLook = {};
 
   for (const rel of files) {
     const url = pathToFileURL(join(DIST, rel)).href;
@@ -166,9 +179,10 @@ async function main() {
 
         const rows = await page.evaluate(MEASURE);
         measured += rows.length;
+        measuredByLook[lookOf[rel]] = (measuredByLook[lookOf[rel]] ?? 0) + rows.length;
         for (const row of rows) {
           if (row.ratio < row.required) {
-            failures.push({ card: rel, scheme, terrain, ...row });
+            failures.push({ card: rel, look: lookOf[rel], scheme, terrain, ...row });
           }
         }
 
@@ -185,6 +199,9 @@ async function main() {
   await browser.close();
 
   console.log(`Measured ${measured} rendered text runs across ${files.length} cards × 2 themes × 5 terrains.`);
+  console.log(
+    `  per look: ${Object.entries(measuredByLook).map(([look, count]) => `${look} ${count}`).join(' · ')}`,
+  );
 
   if (parityBreaks.length) {
     console.log(`\nTHEME PARITY BREAKS (${parityBreaks.length}) — a forced theme differs from the OS scheme:`);
@@ -203,7 +220,7 @@ async function main() {
   for (const f of worst) {
     console.log(
       `  ${f.ratio.toFixed(2)} (need ${f.required})  ${f.scheme}/${f.terrain}  ` +
-        `${f.size}px/${f.weight}  ${f.card}  "${f.text}"`,
+        `${f.size}px/${f.weight}  [${f.look}] ${f.card}  "${f.text}"`,
     );
   }
   process.exitCode = 1;

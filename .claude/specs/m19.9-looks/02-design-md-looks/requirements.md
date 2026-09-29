@@ -1,6 +1,6 @@
 # DESIGN.md: shared base and three looks
 
-Status: draft · Milestone: M19.9 · Ticket: 02
+Status: in-progress · Milestone: M19.9 · Ticket: 02
 
 ## Problem
 
@@ -29,5 +29,5 @@ Per-screen compositions (06–10 fill in their look sections as they land).
 
 ## Open questions
 
-- [ ] Does the Trail name stay for Look A, and what are B and C called in the app (e.g. Trail, Almanac, Dial)?
-- [ ] Is terrain-per-day (ground keyed to the day element) shared by all three looks, or does B's tinted field replace it?
+- [x] What are the looks called in the app? **Explorer · Editorial · Instrument** (owner, 2026-09-29). Stored ids stay `trail` / `almanac` / `dial`.
+- [x] Is terrain-per-day shared by all three looks? **Yes, all three keep it** (owner, 2026-09-29).
