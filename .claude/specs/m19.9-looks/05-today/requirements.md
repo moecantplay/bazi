@@ -29,4 +29,5 @@ Copy changes (M20-14). Engine changes.
 
 ## Open questions
 
-- [ ] Refinements from 01 carried over?
+- [x] Refinements from 01 carried over? None (owner, 2026-09-29).
+- [ ] Where does the one-thing-to-do board sit: last (keeps the non-negotiable "agency line ends every daily reading") or on the first screen (amends it)? Owner asked to see both: `research/today-full.html` (https://claude.ai/artifact/PVkaWKhDP6coSShmebyqj8), `research/*-{end,top}-*.png`.

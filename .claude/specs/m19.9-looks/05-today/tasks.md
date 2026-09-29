@@ -2,7 +2,7 @@
 
 Check a task only with a one-line evidence note.
 
-- [ ] 1. Mock Today in A, B, C, both themes (R1)
+- [x] 1. Mock Today in A, B, C, both themes (R1) — first screens from 01; full-length round with all content + board placement toggle: `research/today-full.html`, 18 screenshots
 - [ ] 2. Owner review; record answers (R1)
 - [ ] 3. Add preview cards to design-system and pass check.mjs (R2)
 - [ ] 4. Build per-look compositions on the shared model (R2, R3)
