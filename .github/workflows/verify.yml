@@ -1,0 +1,46 @@
+# Every push to main and every pull request: typecheck, lint, unit tests and
+# build (pnpm verify), then the E2E suite once per look against the static
+# export, under production's headers (M19.8-04). Deploys stay manual.
+name: verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      # Version comes from the root package.json's packageManager field.
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm verify
+
+      - name: Install Chromium for Playwright
+        run: pnpm --filter @daymaster/web exec playwright install --with-deps chromium
+
+      - name: E2E in every look
+        run: pnpm --filter @daymaster/web e2e:ci
+
+      - name: Keep traces of failed E2E runs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-traces
+          path: apps/web/test-results
+          retention-days: 7

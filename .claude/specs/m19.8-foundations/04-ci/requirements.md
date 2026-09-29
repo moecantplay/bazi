@@ -1,6 +1,6 @@
 # CI on every push
 
-Status: approved · Milestone: M19.8 · Ticket: 04
+Status: in-progress · Milestone: M19.8 · Ticket: 04
 
 ## Problem
 

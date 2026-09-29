@@ -10,7 +10,8 @@
     "test": "vitest run",
     "e2e": "playwright install chromium && pnpm run build:e2e && playwright test",
     "e2e:looks": "playwright install chromium && pnpm run build:e2e && E2E_LOOK=trail playwright test && E2E_LOOK=almanac playwright test && E2E_LOOK=dial playwright test",
-    "build:e2e": "NEXT_PUBLIC_ANALYTICS_SCRIPT_URL=/__e2e/analytics.js NEXT_PUBLIC_ANALYTICS_SITE_ID=e2e pnpm run build"
+    "build:e2e": "NEXT_PUBLIC_ANALYTICS_SCRIPT_URL=/__e2e/analytics.js NEXT_PUBLIC_ANALYTICS_SITE_ID=e2e pnpm run build",
+    "e2e:ci": "pnpm run build:e2e && E2E_LOOK=trail playwright test && E2E_LOOK=almanac playwright test && E2E_LOOK=dial playwright test"
   },
   "dependencies": {
     "@daymaster/bazi-engine": "workspace:*",
