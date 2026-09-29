@@ -58,6 +58,12 @@ export interface DaymasterStore {
   journal: Record<string, JournalEntry>;
   /** Additive v2 field like `journal` (2026-09-29): older documents read as DEFAULT_LOOK. */
   look: LookPreference;
+  /**
+   * Whether the reader has been told they can choose a look (M19.9-04): set by
+   * onboarding's look step or by answering the one-time note on Today.
+   * Additive; older documents read as false, so existing readers see the note once.
+   */
+  lookPromptSeen: boolean;
 }
 
 export function emptyStore(): DaymasterStore {
@@ -70,7 +76,8 @@ export function emptyStore(): DaymasterStore {
     activePersonId: null,
     theme: "system",
     journal: {},
-    look: DEFAULT_LOOK
+    look: DEFAULT_LOOK,
+    lookPromptSeen: false
   };
 }
 
@@ -123,11 +130,12 @@ export function loadStore(): DaymasterStore {
       if (isDaymasterStore(parsed)) {
         // Fields added after v2 shipped are filled in here so every reader
         // sees the complete shape, whatever vintage of document is on disk.
-        const fields = parsed as { journal?: unknown; look?: unknown };
+        const fields = parsed as { journal?: unknown; look?: unknown; lookPromptSeen?: unknown };
         return {
           ...parsed,
           journal: sanitizeJournal(fields.journal),
-          look: parseLookPreference(fields.look) ?? DEFAULT_LOOK
+          look: parseLookPreference(fields.look) ?? DEFAULT_LOOK,
+          lookPromptSeen: fields.lookPromptSeen === true
         };
       }
     }
@@ -259,6 +267,27 @@ export function applyLookPreference(look: LookPreference): void {
 /** Persist the look and apply it immediately, matching the pre-paint init script's read shape. */
 export function saveLookPreference(look: LookPreference): void {
   saveStore({ ...loadStore(), look });
+  applyLookPreference(look);
+}
+
+/** Onboarding's save: the new profile and the look chosen just before the reveal, together. */
+export function saveOnboardingResult(profile: StoredProfile, look: LookPreference): boolean {
+  const saved = saveStore({ ...loadStore(), profile, look, lookPromptSeen: true });
+  if (saved) {
+    applyLookPreference(look);
+  }
+  return saved;
+}
+
+/** True for a reader with a profile who has never been told they can choose a look. */
+export function shouldShowLookIntro(): boolean {
+  const store = loadStore();
+  return store.profile !== null && !store.lookPromptSeen;
+}
+
+/** The one-time note's answer (keeping the current look counts): save it, apply it, never ask again. */
+export function answerLookIntro(look: LookPreference): void {
+  saveStore({ ...loadStore(), look, lookPromptSeen: true });
   applyLookPreference(look);
 }
 
