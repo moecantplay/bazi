@@ -2,7 +2,16 @@
 
 ## Approach
 
-Mock first (research/), then build. Shared logic stays in `packages/presentation` and the existing hooks; per-look composition lives in `components/looks/<look>/today/` with a thin switch on `useLook()` at the route (today/). Shared components (buttons, fields, sheets, segment stacks) restyle via `[data-look]` CSS, not forks. Today reuses the 01 mockups directly, so no new mockup round is needed unless the owner refines them. The old Trail Today composition (map hero, waypoint rail) is removed once all three looks ship (11).
+One screen model, one state hook, three compositions. Nothing about *what* Today says changes; each look only arranges it.
+
+- **State** moves out of `today-view.tsx` into `components/today/use-today-screen.ts`: date offset, picker, streak, the About sheet, the terrain stamp, and `todayScreenModel`. `TodayView` becomes the hook plus a `LookSwitch`.
+- **Look plumbing** (moved here from 03): `lib/use-look.ts` reads `data-look` with `useSyncExternalStore` and a `MutationObserver` (server snapshot `DEFAULT_LOOK`, so no hydration mismatch); `components/look-switch.tsx` renders the matching child.
+- **Shared Today parts** (`components/today/`): `date-stepper.tsx` (‹ date ›, picker, back to today, 30-day note; reuses Datebar's behaviour), `pull-quote-board.tsx` (the new agency board), `reading-chapters.tsx` (accordion segment stack incl. "What the day suits" wrapping the existing `TrailSigns`), `today-footer.tsx` (journal, streak, tomorrow line).
+- **Pure logic in `packages/presentation`**, tests first: `readingSections(lines, grainLine)` — reading lines grouped by area in rail order, **dropping the line already used as the one idea** (said once); `dayOfYear(iso)` for Editorial's number.
+- **Per look** (`components/looks/<id>/`): Explorer `today-explorer.tsx`, `route-hero.tsx`, `idea-cards.tsx`; Editorial `today-editorial.tsx`, `poster-field.tsx`, `week-calendar.tsx`; Instrument `today-instrument.tsx`, `day-dial.tsx`, `week-rings.tsx`. Hour marks come from the timed `RouteWaypoint`s (`startHour`/`endHour`/`label`), week tones from `elevationWeek`, now from `useDayProgress`.
+- **Motion**: the DESIGN.md §Motion classes in `globals.css`, gated on `prefers-reduced-motion: no-preference`; the arrival keys on `dateISO`, so it replays on a new day or date change, not on tab return.
+- **First-screen fit** (DESIGN.md §Concept, board on the first screen): Editorial's field and Instrument's dial are sized so the whole board clears the nav at 390×844; measured in E2E, not eyeballed.
+- The legacy components (`map-hero`, `waypoint-rail`, `signpost`, `legend-tags`, `elevation-profile`) **stay**: Conditions still uses them until M19.9-10 decides its fate; ElevationProfile is reused by Explorer.
 
 ### Where every piece of Today goes (mocked in `research/today-full.html`)
 
@@ -17,7 +26,7 @@ Mock first (research/), then build. Shared logic stays in `packages/presentation
 | Grain line repeated in "The day itself" | dropped from the section (said once) | same | same |
 | How this reading works | link after the cards | link after chapters | link after chapters |
 | Go deeper: trail signs, Find a day | fold | "What the day suits" chapter | same chapter |
-| Signpost board | last, or first screen (open question) | same | same |
+| Signpost board | **pull quote, on the first screen** (owner, 2026-09-29) | same | same |
 | Journal, streak, tomorrow line | after the board | same | same |
 
 Titles use data the model already has (area names, citations); no new copy.
@@ -26,14 +35,19 @@ Titles use data the model already has (area names, citations); no new copy.
 
 | Area | Change |
 | --- | --- |
-| `apps/web/src/app/today/` | route renders the look switch |
-| `apps/web/src/components/looks/{trail,almanac,dial}/today/` | per-look compositions |
-| `foundation/design-system/` | preview cards for this screen × 3 looks |
-| `apps/web/e2e/` | look matrix for this screen's specs |
+| `packages/presentation/src/reading-sections.ts`, `day-of-year.ts` (+ tests) | new pure helpers |
+| `apps/web/src/lib/use-look.ts`, `components/look-switch.tsx` | new (from 03) |
+| `apps/web/src/components/today/` | `use-today-screen.ts`, `date-stepper.tsx`, `pull-quote-board.tsx`, `reading-chapters.tsx`, `today-footer.tsx` |
+| `apps/web/src/components/looks/{trail,almanac,dial}/` | the three compositions and their heroes |
+| `apps/web/src/components/today-view.tsx` | hook + `LookSwitch` only |
+| `apps/web/src/app/globals.css` | motion classes, board, look-specific rules |
+| `apps/web/e2e/` | Today specs run once per look; first-screen fit spec; switch-without-reload spec |
+| `foundation/DESIGN.md` | board = pull quote; field/dial sizes as built |
+| `foundation/VOICE.md`, `CLAUDE.md` | "agency line ends every daily reading" → "closes the first screen" |
 
 ## Alternatives considered
 
-Pure CSS restyle of one DOM: can't reach B's poster or C's dial, which are different structures. Three full route copies: triples logic and invites drift.
+Pure CSS restyle of one DOM: can't reach Editorial's poster or Instrument's dial, which are different structures. Three route copies (`/today/` per look): triples state logic and invites drift. Per-look boards: owner picked the pull quote everywhere.
 
 ## Risks
 

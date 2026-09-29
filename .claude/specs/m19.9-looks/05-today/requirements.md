@@ -12,7 +12,7 @@ Today has an A, B and C composition, each mocked, approved and built, rendering 
 
 ## Requirements
 
-- **R1.** Mockups of Today in A, B and C, both themes, 390×844, real Fixture A content; owner approves before code.
+- **R1.** Mockups of Today in Explorer, Editorial and Instrument, both themes, 390×844, real Fixture A content; owner approves before code.
   - Acceptance: screenshots in this ticket's `research/`, owner sign-off noted in Open questions.
 - **R2.** Each look follows its DESIGN.md look section (02); shared base rules hold (seal, English only, VOICE, anchor, AA).
   - Acceptance: `check.mjs` 0 failures for this screen's cards × 3 looks × 5 terrains × 2 themes.
@@ -31,4 +31,4 @@ Copy changes (M20-14). Engine changes.
 
 - [x] Refinements from 01 carried over? None (owner, 2026-09-29).
 - [x] Where does the one-thing-to-do board sit? **On the first screen** (owner, 2026-09-29, after comparing both). This amends the CLAUDE.md non-negotiable and VOICE.md "agency line ends every daily reading" to "closes the first screen"; the amendment lands with this ticket.
-- [ ] Board style: Current, Refined, Day pass, Pull quote, or Per look (Explorer day pass, Editorial pull quote, Instrument refined)? Owner: "the board could look better". Same artifact, v2. Owner asked to see both: `research/today-full.html` (https://claude.ai/artifact/PVkaWKhDP6coSShmebyqj8), `research/*-{end,top}-*.png`.
+- [x] Board style? **Pull quote, in every look** (owner, 2026-09-29). Owner asked to see both: `research/today-full.html` (https://claude.ai/artifact/PVkaWKhDP6coSShmebyqj8), `research/*-{end,top}-*.png`.
