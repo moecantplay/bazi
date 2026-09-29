@@ -23,7 +23,7 @@ import type { LookPreference, StoredBirth, StoredPerson, StoredProfile, ThemePre
 export const STORE_KEY = "daymaster.store.v2";
 const STREAK_KEY = "daymaster.streak.v1";
 const ONBOARDING_DRAFT_KEY = "daymaster.onboarding.v1";
-/** Session-scoped stash for a birth that arrived via a `?share=` link — see share-link.ts. */
+/** Session-scoped stash for a birth that arrived via a share link — see share-link.ts. */
 export const SHARE_INCOMING_KEY = "daymaster.share-incoming.v1";
 
 /** How a day's reading landed, in the reader's own judgement. */

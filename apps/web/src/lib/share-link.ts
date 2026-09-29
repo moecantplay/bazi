@@ -1,14 +1,14 @@
 /**
  * Chart share links: the birth details encoded into a URL, no server anywhere.
  * The engine is deterministic, so the recipient's device recomputes the exact
- * same chart from the payload. Links land on /onboarding/?share=…, which
+ * same chart from the payload. Links land on /onboarding/#share=…, which
  * routes them to Compare (or keeps them for after onboarding on a fresh
  * device) — a shared chart is always someone to compare with, never a
  * replacement for your own.
  *
- * Ported from apps/web/src/lib/share-link.ts, adjusted to the v2 store's
- * shapes; the stash key is store.ts's already-reserved `SHARE_INCOMING_KEY`
- * rather than a second copy of the literal.
+ * The payload rides in the fragment, which browsers never send to a server,
+ * so birth details stay out of host logs (M19.8-03). Links made before that
+ * used the query (`?share=`); they are still read.
  */
 
 import { SHARE_INCOMING_KEY } from "./store";
@@ -38,7 +38,13 @@ function fromBase64Url(encoded: string): string | null {
 /** The absolute share URL for a birth, anchored at this deployment's origin. */
 export function buildShareUrl(birth: StoredBirth): string {
   const payload = toBase64Url(JSON.stringify(birth));
-  return `${window.location.origin}/onboarding/?${SHARE_PARAM}=${payload}`;
+  return `${window.location.origin}/onboarding/#${SHARE_PARAM}=${payload}`;
+}
+
+/** The raw share payload in a URL: the fragment first, then the pre-M19.8 query form. */
+export function readSharePayload(location: Pick<Location, "hash" | "search">): string | null {
+  const fromFragment = new URLSearchParams(location.hash.slice(1)).get(SHARE_PARAM);
+  return fromFragment ?? new URLSearchParams(location.search).get(SHARE_PARAM);
 }
 
 /** Decode and validate a share parameter; anything malformed reads as null. */

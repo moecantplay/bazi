@@ -1,6 +1,6 @@
 # Share links keep birth details off the server
 
-Status: approved · Milestone: M19.8 · Ticket: 03
+Status: done · Milestone: M19.8 · Ticket: 03
 
 ## Problem
 

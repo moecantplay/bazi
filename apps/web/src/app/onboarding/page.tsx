@@ -30,7 +30,7 @@ import { RevealStep } from "@/components/onboarding/reveal-step";
 import { SexStep } from "@/components/onboarding/sex-step";
 import { TimeStep } from "@/components/onboarding/time-step";
 import { importBackup, type ImportResult } from "@/lib/backup";
-import { decodeShareParam, SHARE_PARAM, stashIncomingShare } from "@/lib/share-link";
+import { decodeShareParam, readSharePayload, stashIncomingShare } from "@/lib/share-link";
 import { loadStore } from "@/lib/store";
 import type { StoredBirth, StoredCity } from "@/lib/store-types";
 
@@ -67,11 +67,12 @@ export default function OnboardingPage() {
     saveDraftEnvelope({ step, draft });
   }, [draftRestored, step, draft]);
 
-  // A ?share= link carries someone's chart for comparison. With a profile it
+  // A share link carries someone's chart for comparison. With a profile it
   // goes straight to Compare; on a fresh device it waits until onboarding is
-  // done, and a notice on the first step says so.
+  // done, and a notice on the first step says so. Either way the payload
+  // leaves the address bar.
   useEffect(() => {
-    const value = new URLSearchParams(window.location.search).get(SHARE_PARAM);
+    const value = readSharePayload(window.location);
     if (value === null) {
       return;
     }

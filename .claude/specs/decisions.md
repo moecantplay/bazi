@@ -24,7 +24,7 @@ Every decision that outlives a ticket, newest last. Each links the ticket whose 
 | 2026-07-08 | Backup JSON is the local-only account substitute | [m12-hardening-sweep/04-data-ownership](m12-hardening-sweep/04-data-ownership/design.md) | in force |
 | 2026-07-08 | Push notifications structurally out | [m12-hardening-sweep/06-today-nav-and-streak](m12-hardening-sweep/06-today-nav-and-streak/design.md) | to be superseded once M21 adds a backend |
 | 2026-07-08 | Compare people list + legacy migration | [m12-hardening-sweep/07-compare-saved-people](m12-hardening-sweep/07-compare-saved-people/design.md) | in force |
-| 2026-07-08 | Share links encode birth details in the URL | [m12-hardening-sweep/09-share](m12-hardening-sweep/09-share/design.md) | in force |
+| 2026-07-08 | Share links encode birth details in the URL | [m12-hardening-sweep/09-share](m12-hardening-sweep/09-share/design.md) | in force; moved to the fragment 2026-09-29 ([M19.8-03](m19.8-foundations/03-share-link-fragment/design.md)) |
 | 2026-07-08 | Icon pipeline from public/icon.svg | [m12-hardening-sweep/10-pwa-polish](m12-hardening-sweep/10-pwa-polish/design.md) | in force |
 | 2026-07-08 | iOS splash images skipped | [m12-hardening-sweep/10-pwa-polish](m12-hardening-sweep/10-pwa-polish/design.md) | in force |
 | 2026-07-08 | Almanac direction: four features, layered guidance, hybrid activities | [m13-almanac-horizons/03-layered-guidance-content](m13-almanac-horizons/03-layered-guidance-content/design.md) | in force |
