@@ -30,7 +30,7 @@ export function ShareActions({ sealContainerRef, pillarLine, archetype, birth }:
       return;
     }
     const result = await shareChartCard({ sealSvg, pillarLine, archetype });
-    if (result !== "failed") {
+    if (result === "shared" || result === "downloaded") {
       track({ name: "chart-shared", data: { kind: "image" } });
     }
     if (result === "downloaded") {

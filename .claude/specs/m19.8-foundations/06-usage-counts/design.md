@@ -66,3 +66,4 @@ Unit tests (buckets, allowed()); `usage-counts.spec.ts` (events, keys, PII guard
 - The E2E "no identifiers" check asserts every local/session storage key starts with `daymaster.` (the streak key is written by Today itself, not by counting).
 - The three copies of the unit tests' `FakeStorage` became `src/lib/testing/fake-storage.ts` before a fourth was added.
 - `apps/web/CLAUDE.md` no longer says "no runtime network calls" without the exception.
+- An image share dismissed at the share sheet now returns `"dismissed"` from `shareChartCard` and is not counted; before, it returned `"shared"`, which would have overcounted `chart-shared` (the link path already skipped dismissals). The reader sees no difference.

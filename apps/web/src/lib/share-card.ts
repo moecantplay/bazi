@@ -18,7 +18,7 @@ interface ShareCardInput {
   archetype: string;
 }
 
-export type ShareCardResult = "shared" | "downloaded" | "failed";
+export type ShareCardResult = "shared" | "dismissed" | "downloaded" | "failed";
 
 const WIDTH = 1080;
 const HEIGHT = 1350;
@@ -153,8 +153,8 @@ export async function shareChartCard(input: ShareCardInput): Promise<ShareCardRe
       return "shared";
     } catch (error) {
       if (error instanceof Error && error.name === "AbortError") {
-        // The user dismissed the sheet — that's a completed interaction.
-        return "shared";
+        // The user dismissed the sheet — a completed interaction, not a share.
+        return "dismissed";
       }
       // share() unavailable in practice (headless, desktop quirks): download.
     }
