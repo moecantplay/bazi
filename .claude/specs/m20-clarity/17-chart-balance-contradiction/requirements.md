@@ -1,6 +1,6 @@
 # Chart says one thing about balance
 
-Status: approved · Milestone: M20 · Ticket: 17
+Status: done · Milestone: M20 · Ticket: 17
 
 ## Problem
 

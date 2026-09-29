@@ -6,6 +6,7 @@
 
 import { describe, expect, it } from "vitest";
 import type { InteractionType, Palace, ReadingFact } from "@daymaster/bazi-engine";
+import { DOMINANT_LINES } from "../src/banks/elements.js";
 import { dailyReading, natalReading } from "../src/index.js";
 import {
   ELEMENTS,
@@ -50,17 +51,15 @@ describe("coverage: natal", () => {
     }
   });
 
-  it("every dominant element yields a line", () => {
+  it("every dominant element yields its own line", () => {
     for (const dominant of ELEMENTS) {
-      const text = natalText([
-        {
-          kind: "element-balance",
-          counts: { wood: 1, fire: 1, earth: 1, metal: 1, water: 1 },
-          dominant,
-          missing: [],
-        },
-      ]);
-      expect(text.length, `dominant ${dominant}`).toBeGreaterThan(0);
+      // A lead of 2 is what makes an element dominant (M20-17).
+      const counts = { wood: 1, fire: 1, earth: 1, metal: 1, water: 1, [dominant]: 3 };
+      const text = natalText([{ kind: "element-balance", counts, dominant, missing: [] }]);
+      expect(
+        DOMINANT_LINES[dominant].some((line) => text.includes(line)),
+        `dominant ${dominant}`,
+      ).toBe(true);
     }
   });
 

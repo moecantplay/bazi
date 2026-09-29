@@ -21,3 +21,7 @@ None.
 ## Verification
 
 R1 sweep; `pnpm verify`.
+
+## As built
+
+Sweep is exhaustive over count vectors rather than seeded charts: it covers every chart the rule can see. Note for the owner: the element bars scale to the largest count, so Fixture A's Earth bar still reads full next to "sit close to even" — a presentation question, not part of this ticket.

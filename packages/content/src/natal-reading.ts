@@ -51,17 +51,32 @@ function dayMasterSection(facts: readonly ReadingFact[], seedKey: string): Readi
   return { key: "day-master", title: "Your day-master", lines: lines.map(finalizeLine) };
 }
 
+/**
+ * How far the most common element leads the next. A chart is balanced when
+ * the lead is at most 1 and dominated only from 2 up, so the paragraph never
+ * says both (M20-17; owner, 2026-09-29).
+ */
+function elementLead(counts: Record<Element, number>): number {
+  const [top = 0, second = 0] = Object.values(counts).sort((a, b) => b - a);
+  return top - second;
+}
+
+const DOMINANT_LEAD = 2;
+
 function elementsSection(facts: readonly ReadingFact[], seedKey: string): ReadingSection | null {
   const lines: DraftLine[] = [];
 
   const balance = firstFact(facts, "element-balance");
   if (balance) {
-    const dominant = balance.dominant;
-    lines.push({
-      text: pick(DOMINANT_LINES[dominant], seedKey, `edom:${dominant}`),
-      factTag: `${elementWord(dominant)} dominant`,
-      topic: "elements",
-    });
+    const clearLeader = elementLead(balance.counts) >= DOMINANT_LEAD;
+    if (clearLeader) {
+      const dominant = balance.dominant;
+      lines.push({
+        text: pick(DOMINANT_LINES[dominant], seedKey, `edom:${dominant}`),
+        factTag: `${elementWord(dominant)} dominant`,
+        topic: "elements",
+      });
+    }
 
     if (balance.missing.length > 0) {
       const missing = pick(balance.missing, seedKey, `emisspick:${balance.missing.join("")}`);
@@ -70,7 +85,7 @@ function elementsSection(facts: readonly ReadingFact[], seedKey: string): Readin
         factTag: `${elementWord(missing)} absent`,
         topic: "elements",
       });
-    } else {
+    } else if (!clearLeader) {
       lines.push({
         text: pick(BALANCED_LINES, seedKey, "ebalanced"),
         factTag: "balanced elements",
