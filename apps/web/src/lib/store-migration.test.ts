@@ -2,28 +2,13 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { STORE_KEY } from "./store";
 import { migrateLegacyStore } from "./store-migration";
 import type { StoredBirth, StoredProfile } from "./store-types";
+import { FakeStorage } from "./testing/fake-storage";
 
 /**
  * A minimal in-memory Storage so this test can run under plain Node (no
  * jsdom dependency) — store.ts and store-migration.ts only ever touch
  * `window.localStorage`/`window.sessionStorage`'s getItem/setItem/removeItem.
  */
-class FakeStorage {
-  private data = new Map<string, string>();
-
-  getItem(key: string): string | null {
-    return this.data.has(key) ? this.data.get(key)! : null;
-  }
-
-  setItem(key: string, value: string): void {
-    this.data.set(key, value);
-  }
-
-  removeItem(key: string): void {
-    this.data.delete(key);
-  }
-}
-
 let localStorage: FakeStorage;
 let sessionStorage: FakeStorage;
 

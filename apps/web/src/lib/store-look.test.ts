@@ -13,23 +13,7 @@ import {
 } from "./store";
 import type { StoredProfile } from "./store-types";
 import { parseLookPreference } from "./store-types";
-
-/** Same minimal in-memory Storage store-migration.test.ts uses. */
-class FakeStorage {
-  private data = new Map<string, string>();
-
-  getItem(key: string): string | null {
-    return this.data.has(key) ? this.data.get(key)! : null;
-  }
-
-  setItem(key: string, value: string): void {
-    this.data.set(key, value);
-  }
-
-  removeItem(key: string): void {
-    this.data.delete(key);
-  }
-}
+import { FakeStorage } from "./testing/fake-storage";
 
 let localStorage: FakeStorage;
 
