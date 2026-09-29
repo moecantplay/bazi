@@ -30,6 +30,11 @@ export function addDays(iso: string, days: number): string {
   return utcToLabel(labelToUtc(iso) + days * 86_400_000);
 }
 
+/** 1-based day of the year for a "YYYY-MM-DD" label (1 January = 1). */
+export function dayOfYear(iso: string): number {
+  return daysBetween(`${iso.slice(0, 4)}-01-01`, iso) + 1;
+}
+
 /** Whole days from `from` to `to` (positive when `to` is later). */
 export function daysBetween(from: string, to: string): number {
   return Math.round((labelToUtc(to) - labelToUtc(from)) / 86_400_000);

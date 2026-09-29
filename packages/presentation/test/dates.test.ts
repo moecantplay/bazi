@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { addDays, dayProgress, daysBetween, formatLong, hourWindowProgress, todayLabel } from "../src/dates.js";
+import { addDays, dayOfYear, dayProgress, daysBetween, formatLong, hourWindowProgress, todayLabel } from "../src/dates.js";
 
 describe("todayLabel", () => {
   it("formats a given Date as YYYY-MM-DD in local time", () => {
@@ -87,5 +87,20 @@ describe("hourWindowProgress", () => {
   it("treats the midnight-wrapping 子 block as late night, at the EVENING end", () => {
     expect(hourWindowProgress(23, 1)).toBe(0.86);
     expect(hourWindowProgress(21, 23)).toBe(0.86);
+  });
+});
+
+describe("dayOfYear", () => {
+  it("counts 1 January as day 1", () => {
+    expect(dayOfYear("2026-01-01")).toBe(1);
+  });
+
+  it("counts 29 September 2026 as day 272", () => {
+    expect(dayOfYear("2026-09-29")).toBe(272);
+  });
+
+  it("includes 29 February in a leap year", () => {
+    expect(dayOfYear("2024-03-01")).toBe(61);
+    expect(dayOfYear("2024-12-31")).toBe(366);
   });
 });

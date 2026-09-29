@@ -18,7 +18,7 @@ export type {
 } from "./types.js";
 
 export { fnv1a, createSeededRandom } from "./hash.js";
-export { todayLabel, addDays, daysBetween, formatLong, dayProgress, hourWindowProgress } from "./dates.js";
+export { todayLabel, addDays, daysBetween, dayOfYear, formatLong, dayProgress, hourWindowProgress } from "./dates.js";
 export { zonedTimeToUtc } from "./zoned-time.js";
 export { ELEMENT_SWATCH_CLASS, ELEMENT_LABEL, ELEMENT_ORDER } from "./elements.js";
 export { describeStem, describeBranch, palaceWord } from "./display.js";
@@ -61,6 +61,7 @@ export type { DailyBundle } from "./reading.js";
 export { dayGuidanceFor } from "./guidance.js";
 export type { DayGuidance, GuidanceChip, GuidanceBundle } from "./guidance.js";
 export { routeWaypointsFor, waypointNumberOf } from "./route-waypoints.js";
+export { readingSections, type ReadingSection } from "./reading-sections.js";
 export type { RouteWaypoint, WaypointTiming } from "./route-waypoints.js";
 export {
   todayScreenModel,
