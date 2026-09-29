@@ -35,6 +35,7 @@ A 60-day audit of Today for Fixture A (2026-09-01 → 2026-10-30):
 | 13 | [Voice rules the linter enforces](13-voice-lint/requirements.md) | draft | 02 |
 | 14 | [Copy rewrite](14-copy-rewrite/requirements.md) | draft | 10, 12, 13 |
 | 15 | [Expo spike](15-expo-spike/requirements.md) | draft | 06 |
+| 16 | [Flaky migration idempotence test](16-flaky-migration-idempotence/requirements.md) | draft | — |
 
 ## Exit criteria
 
