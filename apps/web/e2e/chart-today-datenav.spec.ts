@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { addDays, FIXTURE_A, longDate, pinClock, seedProfile } from "./helpers";
+import { addDays, E2E_LOOK, FIXTURE_A, longDate, pinClock, seedProfile } from "./helpers";
 
 const TODAY = "2026-07-07";
 
@@ -28,15 +28,17 @@ test("seeded chart renders and Today's date nav works and clamps", async ({ page
   // Move to Today; the reading cites at least one fact.
   await page.getByRole("link", { name: "Today" }).click();
   await expect(page.getByRole("heading", { name: "Today", exact: true })).toBeVisible();
+  // Chapters may be collapsed (Editorial, Instrument), so the reading is read
+  // from the DOM rather than what is on screen.
   const body = page.locator("[data-reading-body]");
-  await expect(body.locator("[data-fact-tag]").first()).toBeVisible();
+  await expect(body.locator("[data-fact-tag]").first()).toBeAttached();
 
   // Three consecutive dates each cite a fact and read differently.
   const readings: string[] = [];
   for (let day = 0; day < 3; day += 1) {
     await expect(dateButton(page, addDays(TODAY, day))).toBeVisible();
-    await expect(body.locator("[data-fact-tag]").first()).toBeVisible();
-    readings.push(await body.innerText());
+    await expect(body.locator("[data-fact-tag]").first()).toBeAttached();
+    readings.push((await body.textContent()) ?? "");
     if (day < 2) {
       await page.getByRole("button", { name: "Next day" }).click();
     }
@@ -103,16 +105,15 @@ test("the map hero times its marks: the day's hours ride the route, chart relati
   await pinClock(context, `${TODAY}T09:00:00Z`);
   await page.goto("/today/");
 
-  // The route's summary names both hours by clock window, never as a fixed slot.
-  const hero = page.locator('svg[aria-label^="Today\'s route"]');
-  await expect(hero).toHaveAttribute("aria-label", /rough hour \d{1,2}(?: [ap]m)?–\d{1,2} [ap]m/);
-  await expect(hero).toHaveAttribute("aria-label", /easy hour \d{1,2}(?: [ap]m)?–\d{1,2} [ap]m/);
-  await expect(hero.locator('[data-waypoint="hours"]')).toHaveCount(2);
-
-  // Every relation mark is labelled as day-long; there is no untimed mark on the route.
-  const allDay = hero.locator('[data-waypoint="all-day"]');
-  for (const mark of await allDay.all()) {
-    await expect(mark).toContainText("ALL DAY");
+  // Explorer's route (the other looks' hour graphics: today-looks.spec.ts).
+  if (E2E_LOOK === "trail") {
+    // The route's summary names both hours by clock window, never as a fixed slot.
+    const hero = page.locator('svg[aria-label^="Today\'s route"]');
+    await expect(hero).toHaveAttribute("aria-label", /rough hour \d{1,2}(?: [ap]m)?–\d{1,2} [ap]m/);
+    await expect(hero).toHaveAttribute("aria-label", /easy hour \d{1,2}(?: [ap]m)?–\d{1,2} [ap]m/);
+    await expect(hero.locator('[data-waypoint="hours"]')).toHaveCount(2);
+    // Day-long relations are told in the reading, never placed on the route (DESIGN.md v5 §Explorer).
+    await expect(hero.locator('[data-waypoint="all-day"]')).toHaveCount(0);
   }
 
   // The reading carries the same two hours, cited with their windows.

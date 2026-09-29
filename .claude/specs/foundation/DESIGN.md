@@ -15,7 +15,7 @@ How the parts relate:
 
 ## Concept
 
-The day, read once. Every look's first screen (390×844, nav visible) carries exactly: the **hero** (the look's signature object), the **headline**, **one idea** (≤ 40 words), and **one thing to do** (the signpost board). Everything else is one tap or swipe away — moved, not deleted. Each fact is said once per screen.
+The day, read once. Every look's first screen (390×844, nav visible) carries: the **hero** (the look's signature object), the **headline**, **one idea** (the grain line), and the start of **one thing to do** — the pull-quote board begins above the nav in every look (measured in `e2e/today-looks.spec.ts`; owner chose this placement over ending the screen, 2026-09-29, VOICE.md rule 6 amended). Everything else is one tap or swipe away — moved, not deleted. Each fact is said once per screen: the grain line is dropped from its reading section (`readingSections` in presentation).
 
 The anchor pair carries two jobs that don't compete: the **bottom nav is fixed chrome** — identical, anchor-filled furniture on every screen and in every look, outside the content budget — while within a screen's own content, **one anchor** (the signpost board on Today; elsewhere, that screen's primary button) is the single boldest object, never fading into the ground in dark mode. The seal is the only cinnabar mass, always, in every look.
 
@@ -88,7 +88,7 @@ One motion language for all looks (M19.9-01 mockups):
 
 | Moment | Spec |
 | --- | --- |
-| Arrival | Plays when Today opens on a new day or the date changes, not on every tab return. Elements rise 14px + fade, 420ms `cubic-bezier(.2,.8,.2,1)`, staggered 70ms in reading order; whole sequence ≤ 1.2s. |
+| Arrival | Plays when Today mounts or the displayed date changes (the composition is keyed on it), not on in-place updates. Elements rise 14px + fade, 420ms `cubic-bezier(.2,.8,.2,1)`, staggered 70ms in reading order; whole sequence ≤ 1.2s. |
 | Hero draw | The look's signature object draws once per arrival: Explorer's route (stroke-dashoffset, 1.1s), Instrument's arcs (1.1s) and hand sweep, Editorial's animal drift (translate 40px + fade, 1.2s). |
 | Marks | Pop in with the spring below, after the hero starts. |
 | Press | Tappable surfaces scale to .975 (rows .985), 180ms `cubic-bezier(.34,1.56,.64,1)`. Selections and sheets keep the M16 spring (≤ 240ms). |
@@ -114,7 +114,8 @@ The legend line changes wording to match the map metaphor: **"element icon solid
 - **Segment stacks** (settings rows, saved people): unchanged from M16 — flat `--card` fill rows, 2px gaps, first/last corners rounded, 2px inset ink ring for selection. No rail, no shadow.
 - **Content cards** elsewhere (Cycles outlooks, Compare "how your charts meet", Dates results): `--card` fill, `--radius-card`, `--sh-card`.
 - **Sheets** (glossary, read-more): `--card` fill, `--radius-sheet` top corners, mandatory 40% black scrim (both themes), grab handle, Space Mono kicker, Bricolage title, Figtree body. The dashed rule before a sheet's "Working with it" advice section is the one place the rail motif transfers outside Today — it reads as a further stage of the same route.
-- **Signpost board + nav** (the anchor pair, every look — design-system card `components/signpost-board-and-nav`): the agency line on a `blk` board with `pale` text, rounded left, a pointed signpost right edge (clip-path), a Space Mono kicker at 78% pale, and the line in Bricolage 20px/1.22 with the serif-italic emphasis run. The nav is a 60px `blk` pill, five Space Mono uppercase labels, the current tab marked by a 5px `pale` dot above it. On every screen other than Today, that screen's primary button is its content anchor, using the same pair.
+- **Pull-quote board** (Today's content anchor, every look — `components/today/pull-quote-board.tsx`, design-system card `components/signpost-board-and-nav`): the agency line on an anchor-pair slab (`--anchor` fill, `--paper` text), radius 28px, set in serif italic 26px/1.18 under a faint 110px opening quote mark (paper at 22% over the anchor), signed "— One small thing · today" in Space Mono at 72% paper. Press: springy scale to .975. Chosen over the v4 signpost, a refined slab and a day-pass ticket (owner, 2026-09-29, `m19.9-looks/05-today/research/today-full.html`). On every screen other than Today, that screen's primary button is its content anchor, using the same pair.
+- **Bottom nav**: unchanged in the app until [M19.9-09](../m19.9-looks/09-settings-onboarding/requirements.md); the design-system card shows the target (60px anchor pill, five Space Mono labels, a 5px dot over the current tab).
 
 ## Components
 - **Buttons**: primary = `blk` fill/`pale` text, pill; secondary = `card` fill/`ink` text, 1.5px ink-tint border; ghost = transparent, 1.5px dashed border (the dashed rail's one non-map appearance); disabled = a `card`/`bg` fill mix — deliberately **not** an ink tint, which pulls the label's contrast down with it — muted text, and a *solid*, `line`-tinted border (dashed is the ghost button's affordance — a disabled button borrowing it read as indistinguishable from ghost). Never fade the disabled label alone (measured 2.84:1 in testing) — recede the surface, not the text.
@@ -145,15 +146,17 @@ Look names shown to users: **Explorer**, **Editorial**, **Instrument** (owner, 2
 
 Changes from v4's map card: day-long relation facts (the "ALL DAY" row, 2026-09-10) leave the map; they are told once, in the reading below. No "What the marks mean" link: every mark labels itself.
 
-Below the hero: the one idea, the signpost board, then **Further along** (card `explorer/further-along`) — the rest of the reading as horizontally snapping 272px cards (`--card`, `--radius-card`, `--sh-card`), each one idea: kicker with its animal, a Bricolage 19px title, two sentences, a citation. The seven-day elevation strip (v4) sits below the fold.
+When NOW falls inside a timed hour, the NOW disc takes that hour's ring colour and the hour's own disc steps aside (its label stays) — "you are in the easy hour" reads directly. A mark whose up-left label would run off the left edge (an early hour) puts it down and to the right, the route's other empty side. The hero is 518px, full-bleed (`AppShell bleed`).
+
+Below the hero: the one idea, the pull-quote board, then **Along the way** (card `explorer/further-along`) — the rest of the reading as horizontally snapping 290px cards (`--surface`, `--radius-card`, `--shadow-card`), **one card per reading line** (a three-line section becomes three cards, so the row isn't as tall as its longest section): kicker with the area's animal, the line, its citation. Then "How this reading works", the **Go deeper · what the day suits** fold, the journal, and the seven-day elevation strip (v4) with its "What the marks mean" link.
 
 Forbids: more than two marks on the route; anything other than the NOW pill in the anchor pair on the map.
 
 ## Editorial (`almanac`) — Almanac page
 
-**Signature object: the poster field** (card `editorial/poster-field`). Each day is a printed page: a 380px field in the **day element's fill hue** (`wd-f`/`fr-f`/`er-f`/`mt-f`/`wt-f`; never a strong hue, never cinnabar), radius 34px, carrying film grain as texture only (no text depends on it: multiply at 22% in light, overlay at 35% in dark). The day-of-year number in Bricolage 64px top-left, the long date in Space Mono top-right, the day's animal in ink at 360px, mirrored to run into the page and cropped off the right edge, and two Space Mono lines at the foot ("Day 272 of the year", "yang fire · horse day").
+**Signature object: the poster field** (card `editorial/poster-field`). Each day is a printed page: a 330px full-bleed field in the **day element's fill hue** (`--element-<stem element>-fill`) (`wd-f`/`fr-f`/`er-f`/`mt-f`/`wt-f`; never a strong hue, never cinnabar), radius 34px, carrying film grain as texture only (no text depends on it: multiply at 22% in light, overlay at 35% in dark). The day-of-year number in Bricolage 64px top-left, the long date in Space Mono top-right, the day's animal in ink at 320px, mirrored to run into the page and cropped off the right edge, and two Space Mono lines at the foot ("Day 272 of the year", "yang fire · horse day").
 
-Below it (card `editorial/page-and-chapters`): the headline at **42px/1.02**, one sentence, the signpost board, a dashed rule labelled "The rest of the day" (the look's one divider), then the rest of the day as **chapters** — a flat segment stack (§Shared surfaces), each row a Space Mono area label over a Bricolage 17px summary with a chevron. A citation line gives the current double-hour.
+Below it (card `editorial/page-and-chapters`): the headline at **42px/1.02**, the one idea, the pull-quote board, a dashed rule labelled "The rest of the day" (the look's divider), then the rest of the day as **chapters** — a flat segment stack that opens in place, each row a Space Mono area label over a Bricolage 17px title (the section's first citation in words, e.g. "Rat–horse clash"; no new copy) with a chevron; the last chapter is "What the day suits". Then "How this reading works", the journal, and **The week**: a seven-cell calendar strip (weekday, date, tone dot; the displayed day in the anchor pair; tap to open) with the "What the marks mean" link.
 
 Forbids: the map, the rail and content cards on Today; any second decorative object competing with the animal.
 
@@ -161,9 +164,7 @@ Forbids: the map, the rail and content cards on Today; any second decorative obj
 
 **Signature object: the day dial** (card `instrument/day-dial`). A 24-hour ring, **noon at the top, 6am left, 6pm right, midnight at the bottom** (the same left-to-right day as Explorer's route). A 16px track at `--line` 50%, with the daylight half (6am–6pm) at full `--line`; 24 ticks inside, the four cardinals labelled NOON / 6 PM / MIDNIGHT / 6 AM in Space Mono. The easy hour is a `wd` arc and the rough hour an `am` arc, both round-capped on the track. The twelve two-hour **animals** sit round the rim at their block centres (rat at midnight), at 42% opacity, except three lit ones in a 30px halo: the rough hour (`am-f`/`am`), the easy hour (`wd-f`/`wd`) and the hour you are in (`card`/`ink`). The **hand** is the anchor pair (`blk` line and dot) pointing at now. At the centre, a `card` disc with the day's animal at 50px and the time.
 
-Around it (card `instrument/week-rings-and-hours`): the week as seven 38px **tone rings** above the dial (solid `wd` = leans your way, dashed `am` = take it slow, plain `line` = even; today is a filled anchor-pair disc), and under the reading an **hour legend**, a two-row segment stack (colour swatch, Space Mono hour label, Bricolage 17px plain-words meaning).
-
-Open (for M19.9-05): at 390×844 the signpost board falls just below the fold in the 01 mockup; the dial shrinks (≤ 300px) or the week rings move to meet §Concept's first-screen budget.
+Around it (card `instrument/week-rings-and-hours`): the week as seven 38px **tone rings** above the dial (solid wood = leans your way, dashed amber = take it slow, plain hairline = even; the displayed day is a filled anchor-pair disc; tap to open) with the "What the marks mean" link, and under the dial a one-line **key** ("Easy 1–3 pm · Rough 11 pm–1 am" with swatches). The dial is at most 280px wide so the board starts on the first screen. Then the headline (31px), the one idea, the pull-quote board, the reading as chapters (as Editorial), "How this reading works" and the journal. With no NOW (any other day) there is no hand and the centre reads "<animal> day".
 
 Forbids: minute-level precision (the dial reads in two-hour blocks, like the almanac); more than three lit animals.
 

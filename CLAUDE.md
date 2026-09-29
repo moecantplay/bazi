@@ -22,7 +22,7 @@ Every change starts as a ticket under `.claude/specs/` (use `/spec new`). The ow
 
 - Never invent calendrical/astronomical constants: every table is embedded in `packages/bazi-engine/data/` with a source comment, computed via astronomy-engine, or copied from the brief §11. Unverifiable → flag in `.claude/specs/flags.md`.
 - Golden fixtures (brief §5) are authoritative; write tests first for engine work.
-- `VOICE.md` binds all user-facing copy: no fatalism, no medical/financial/legal directives, agency line ends every daily reading.
+- `VOICE.md` binds all user-facing copy: no fatalism, no medical/financial/legal directives, an agency line closes the first screen of every daily reading.
 - Deterministic reading selection: hash(birth data + ISO date). No render-time randomness.
 - Readings are computed on-device, always. A backend is for identity, sync and entitlements only — never reading generation, and never a gate on the core app.
 

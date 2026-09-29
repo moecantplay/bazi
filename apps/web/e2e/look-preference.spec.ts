@@ -1,5 +1,5 @@
 import { expect, test, type BrowserContext, type Page } from "@playwright/test";
-import { FIXTURE_A, seedProfile, seedStore } from "./helpers";
+import { FIXTURE_A, STORE_KEY, seedStore } from "./helpers";
 
 /**
  * The look is stamped on <html> by the pre-paint script, like the theme.
@@ -31,7 +31,14 @@ test("a chosen look is on <html> before the app hydrates and survives reload", a
 });
 
 test("a store written before looks existed opens in the default look", async ({ page, context }) => {
-  await seedProfile(context, FIXTURE_A);
+  // Written directly, not via seedStore, which adds the suite's E2E_LOOK.
+  await context.addInitScript(
+    ([key, profile]) => {
+      const store = { app: "daymaster", version: 2, updatedAt: new Date().toISOString(), profile, people: [], activePersonId: null, theme: "system" };
+      window.localStorage.setItem(key, JSON.stringify(store));
+    },
+    [STORE_KEY, FIXTURE_A] as const
+  );
   await recordLookAtParse(context);
 
   await page.goto("/today/");

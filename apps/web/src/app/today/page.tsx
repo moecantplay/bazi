@@ -8,7 +8,7 @@ export default function TodayPage() {
   return (
     <ProfileGate>
       {(profile) => (
-        <AppShell title="Today">
+        <AppShell title="Today" bleed>
           <TodayView profile={profile} />
         </AppShell>
       )}

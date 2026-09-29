@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { FIXTURE_A, pinClock, seedProfile } from "./helpers";
+import { FIXTURE_A, openReading, pinClock, seedProfile } from "./helpers";
 
 const TODAY = "2026-07-07";
 
@@ -7,6 +7,7 @@ test("fact-tag captions open their glossary explainer", async ({ page, context }
   await seedProfile(context, FIXTURE_A);
   await pinClock(context, `${TODAY}T09:00:00Z`);
   await page.goto("/today/");
+  await openReading(page);
 
   // Every daily body caption is a link; tapping one opens the sheet.
   const body = page.locator("[data-reading-body]");
@@ -33,6 +34,7 @@ test("a card's Read more opens the deep dive, not the category explainer", async
   await seedProfile(context, FIXTURE_A);
   await pinClock(context, `${TODAY}T09:00:00Z`);
   await page.goto("/today/");
+  await openReading(page);
 
   // The first daily body card is an interaction line; interactions have dives.
   await page.locator("[data-reading-body] [data-read-more]").first().click();

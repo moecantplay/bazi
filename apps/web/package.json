@@ -8,7 +8,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run",
-    "e2e": "playwright install chromium && pnpm run build && playwright test"
+    "e2e": "playwright install chromium && pnpm run build && playwright test",
+    "e2e:looks": "playwright install chromium && pnpm run build && E2E_LOOK=trail playwright test && E2E_LOOK=almanac playwright test && E2E_LOOK=dial playwright test"
   },
   "dependencies": {
     "@daymaster/bazi-engine": "workspace:*",

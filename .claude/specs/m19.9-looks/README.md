@@ -22,7 +22,7 @@ Owner, 2026-09-29: "make the app look and feel like an award winning app", then 
 | 02 | [DESIGN.md: shared base and three looks](02-design-md-looks/requirements.md) | done | 01 |
 | 03 | [Look preference: store, pre-paint and component switch](03-look-architecture/requirements.md) | done | — |
 | 04 | [Choose your look: onboarding step and Settings option](04-choose-your-look/requirements.md) | draft | 03, 05 |
-| 05 | [Today in three looks](05-today/requirements.md) | draft | 01, 02, 03 |
+| 05 | [Today in three looks](05-today/requirements.md) | done | 01, 02, 03 |
 | 06 | [Chart in three looks](06-chart/requirements.md) | draft | 02, 03 |
 | 07 | [Cycles in three looks](07-cycles/requirements.md) | draft | 02, 03 |
 | 08 | [Compare and Find a day in three looks](08-compare-dates/requirements.md) | draft | 02, 03 |

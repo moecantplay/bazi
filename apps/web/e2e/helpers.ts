@@ -15,7 +15,7 @@
  * see store-migration.spec.ts.
  */
 
-import type { BrowserContext } from "@playwright/test";
+import type { BrowserContext, Page } from "@playwright/test";
 
 const JAKARTA = {
   name: "Jakarta",
@@ -42,6 +42,13 @@ export const FIXTURE_LATE_ZI = {
 export const STORE_KEY = "daymaster.store.v2";
 
 /**
+ * The look every seeded store opens in. The whole suite runs once per look
+ * (`E2E_LOOK=almanac|dial`, default trail), so every Today contract holds in
+ * all three; specs that need a specific look seed `look` themselves.
+ */
+export const E2E_LOOK = process.env.E2E_LOOK ?? "trail";
+
+/**
  * Merge a partial DaymasterStore into whatever this context has already
  * seeded (or start from an empty document). Runs in the page before any app
  * script, so multiple seed* calls on the same context compose regardless of
@@ -49,7 +56,7 @@ export const STORE_KEY = "daymaster.store.v2";
  */
 export async function seedStore(context: BrowserContext, partial: Record<string, unknown>): Promise<void> {
   await context.addInitScript(
-    ([key, partialJson]) => {
+    ([key, partialJson, look]) => {
       const partialValue = JSON.parse(partialJson);
       let store: Record<string, unknown> | null = null;
       try {
@@ -66,13 +73,26 @@ export async function seedStore(context: BrowserContext, partial: Record<string,
           profile: null,
           people: [],
           activePersonId: null,
-          theme: "system"
+          theme: "system",
+          look
         };
       }
       window.localStorage.setItem(key, JSON.stringify({ ...store, ...partialValue }));
     },
-    [STORE_KEY, JSON.stringify(partial)] as const
+    [STORE_KEY, JSON.stringify(partial), E2E_LOOK] as const
   );
+}
+
+/**
+ * Open every collapsed reading chapter (Editorial and Instrument start with
+ * them closed; Explorer's cards are always open), leaving "What the day
+ * suits" alone so specs that open that fold still control it.
+ */
+export async function openReading(page: Page): Promise<void> {
+  const closed = page.locator('[data-reading-body] button[aria-expanded="false"]:not([data-go-deeper])');
+  while ((await closed.count()) > 0) {
+    await closed.first().click();
+  }
 }
 
 /** Seed the stored profile before the app loads. */

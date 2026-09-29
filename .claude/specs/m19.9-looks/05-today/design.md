@@ -10,7 +10,7 @@ One screen model, one state hook, three compositions. Nothing about *what* Today
 - **Pure logic in `packages/presentation`**, tests first: `readingSections(lines, grainLine)` — reading lines grouped by area in rail order, **dropping the line already used as the one idea** (said once); `dayOfYear(iso)` for Editorial's number.
 - **Per look** (`components/looks/<id>/`): Explorer `today-explorer.tsx`, `route-hero.tsx`, `idea-cards.tsx`; Editorial `today-editorial.tsx`, `poster-field.tsx`, `week-calendar.tsx`; Instrument `today-instrument.tsx`, `day-dial.tsx`, `week-rings.tsx`. Hour marks come from the timed `RouteWaypoint`s (`startHour`/`endHour`/`label`), week tones from `elevationWeek`, now from `useDayProgress`.
 - **Motion**: the DESIGN.md §Motion classes in `globals.css`, gated on `prefers-reduced-motion: no-preference`; the arrival keys on `dateISO`, so it replays on a new day or date change, not on tab return.
-- **First-screen fit** (DESIGN.md §Concept, board on the first screen): Editorial's field and Instrument's dial are sized so the whole board clears the nav at 390×844; measured in E2E, not eyeballed.
+- **First-screen fit** (DESIGN.md §Concept, board on the first screen): the board **begins** above the nav at 390×844 in every look (Editorial field 330px, Instrument dial ≤ 280px), measured in `today-looks.spec.ts`. The whole board fitting would need the headline or hero shrunk further; the owner approved the mockup where it starts on the first screen.
 - The legacy components (`map-hero`, `waypoint-rail`, `signpost`, `legend-tags`, `elevation-profile`) **stay**: Conditions still uses them until M19.9-10 decides its fate; ElevationProfile is reused by Explorer.
 
 ### Where every piece of Today goes (mocked in `research/today-full.html`)
@@ -44,6 +44,16 @@ Titles use data the model already has (area names, citations); no new copy.
 | `apps/web/e2e/` | Today specs run once per look; first-screen fit spec; switch-without-reload spec |
 | `foundation/DESIGN.md` | board = pull quote; field/dial sizes as built |
 | `foundation/VOICE.md`, `CLAUDE.md` | "agency line ends every daily reading" → "closes the first screen" |
+
+### As built (differences from the plan above)
+
+- **`useNow`** replaces the per-hook timers: Explorer's NOW label, the dial's hand and `useDayProgress` all read one refreshed clock (three consumers, so extracted rather than copied).
+- **`DateStepper`** extracted from `Datebar` (which now composes it with the compass mark), so Today's looks and Conditions share one date control.
+- **`WeekLegendLink`** extracted from `ElevationProfile`: every look's week keeps the "What the marks mean" explainer and the same accessible day names (`formatLong` + tone word) — found by E2E, since Editorial and Instrument had first shipped without it (a look may not drop content).
+- **`AppShell bleed`**: the "Today" heading stays for screen readers and E2E but is visually hidden, and the hero runs edge to edge.
+- **"What the day suits" chapter renders lazily**; reading chapters stay in the DOM while collapsed (the whole reading stays one `data-reading-body`).
+- **Explorer**: when NOW is inside a timed hour, NOW takes that hour's ring and the mark's disc steps aside; an early hour's label flips down-right instead of running off the left edge.
+- **E2E**: `E2E_LOOK` seeds every store in a look and `pnpm e2e:looks` runs the suite three times; `openReading` opens collapsed chapters; the Explorer-only route spec now also asserts no day-long marks on the route.
 
 ## Alternatives considered
 

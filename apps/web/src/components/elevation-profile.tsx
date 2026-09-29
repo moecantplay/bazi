@@ -21,18 +21,11 @@
 
 "use client";
 
-import { useMemo, useState } from "react";
-import { WEEK_TOPIC, glossaryEntry } from "@daymaster/content";
-import { elevationPath, elevationWeek, formatLong, type DayTone } from "@daymaster/presentation";
-import { GlossarySheet } from "@/components/glossary-sheet";
+import { useMemo } from "react";
+import { elevationPath, elevationWeek, formatLong } from "@daymaster/presentation";
 import { AnimalGlyphMark, AnimalIcon } from "@/components/glyph-icon";
+import { WEEK_TONE_WORD, WeekLegendLink } from "@/components/week-legend-link";
 import type { StoredProfile } from "@/lib/store-types";
-
-const TONE_WORD: Record<DayTone, string> = {
-  favoured: "leans favorable",
-  friction: "leans toward friction",
-  even: "even day"
-};
 
 function weekdayInitial(iso: string): string {
   return new Intl.DateTimeFormat(undefined, { timeZone: "UTC", weekday: "narrow" }).format(
@@ -48,8 +41,6 @@ interface Props {
 }
 
 export function ElevationProfile({ profile, today, selectedISO, onSelect }: Props) {
-  const [legendOpen, setLegendOpen] = useState(false);
-  const legendEntry = glossaryEntry(WEEK_TOPIC);
 
   const cells = useMemo(() => elevationWeek(profile, today), [profile, today]);
   const pathD = useMemo(() => elevationPath(cells), [cells]);
@@ -90,8 +81,8 @@ export function ElevationProfile({ profile, today, selectedISO, onSelect }: Prop
                   type="button"
                   onClick={() => onSelect(cell.iso)}
                   aria-pressed={isSelected}
-                  title={TONE_WORD[cell.tone]}
-                  aria-label={`${formatLong(cell.iso)}${suffix} — ${TONE_WORD[cell.tone]}`}
+                  title={WEEK_TONE_WORD[cell.tone]}
+                  aria-label={`${formatLong(cell.iso)}${suffix} — ${WEEK_TONE_WORD[cell.tone]}`}
                   className={`flex h-11 w-11 flex-col items-center justify-center gap-0.5 rounded-full ${
                     isSelected && !isToday ? "shadow-[inset_0_0_0_2px_var(--ink)]" : ""
                   }`}
@@ -116,19 +107,7 @@ export function ElevationProfile({ profile, today, selectedISO, onSelect }: Prop
           })}
         </ul>
       </div>
-      {legendEntry && (
-        <>
-          <button
-            type="button"
-            data-week-legend
-            onClick={() => setLegendOpen(true)}
-            className="tap-target mx-auto block px-3 py-2 text-[12px] text-ink-soft hover:text-ink active:text-ink"
-          >
-            What the marks mean &rsaquo;
-          </button>
-          {legendOpen && <GlossarySheet entry={legendEntry} onClose={() => setLegendOpen(false)} />}
-        </>
-      )}
+      <WeekLegendLink />
     </div>
   );
 }

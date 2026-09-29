@@ -271,26 +271,28 @@ const sheet = {
 };
 
 /**
- * The content anchor and the chrome anchor as all three looks draw them
- * (M19.9-01 mockups). Supersedes the Trail group's "Signpost, streak & nav",
- * which stays until the old composition retires (M19.9-11).
+ * The content anchor and the chrome anchor every look shares: the pull-quote
+ * board (owner's pick, M19.9-05) and the target nav pill. Supersedes the
+ * Trail group's "Signpost, streak & nav", which stays until the old
+ * composition retires (M19.9-11).
  */
 const signpostBoard = {
   slug: 'signpost-board-and-nav',
-  name: 'Signpost board & nav',
+  name: 'Pull-quote board & nav',
   group: 'Components',
   subtitle: 'The one thing to do, and the nav pill: the two anchors every look shares',
-  fonts: ['figtree', 'bricolage', 'spacemono'],
-  height: 360,
+  fonts: ['figtree', 'spacemono'],
+  height: 380,
   note:
-    'Same in Explorer, Editorial and Instrument. The board is the screen’s content anchor; the nav is chrome. ' +
-    'Both invert to a pale mass in dark. Press: springy scale to .975.',
+    'Same in Explorer, Editorial and Instrument. The board is the screen’s content anchor and begins on the ' +
+    'first screen; the nav is chrome. Both invert to a pale mass in dark. Press: springy scale to .975.',
   css: `
   .pad { padding: 0 20px; display: flex; flex-direction: column; gap: 28px; }
-  .board { background: var(--blk); color: var(--pale); padding: 18px 44px 20px 20px; border-radius: 20px 6px 6px 20px; clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 50%, calc(100% - 24px) 100%, 0 100%); display: flex; flex-direction: column; gap: 8px; }
-  .board .k { font-family: "SpaceMono", ui-monospace, monospace; font-size: 10px; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; color: color-mix(in srgb, var(--pale) 78%, var(--blk)); }
-  .board p { margin: 0; font-family: "Bricolage", "Figtree", sans-serif; font-size: 20px; line-height: 1.22; font-weight: 800; letter-spacing: -.012em; text-wrap: balance; }
-  .board p em { font-family: ui-serif, "New York", Georgia, serif; font-style: italic; font-weight: 500; }
+  .quote { position: relative; margin: 0; overflow: hidden; display: flex; flex-direction: column; gap: 14px; padding: 30px 24px 20px; border-radius: 28px; background: var(--blk); color: var(--pale); }
+  .quote::before { content: "\\201C"; position: absolute; left: 14px; top: -18px; font: italic 500 110px/1 ui-serif, "New York", Georgia, serif; color: color-mix(in srgb, var(--pale) 22%, var(--blk)); }
+  .quote blockquote { position: relative; margin: 0; font: italic 500 26px/1.18 ui-serif, "New York", Georgia, serif; letter-spacing: -.01em; text-wrap: balance; }
+  .quote figcaption { display: flex; align-items: center; gap: 10px; font-family: "SpaceMono", ui-monospace, monospace; font-size: 10px; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; color: color-mix(in srgb, var(--pale) 72%, var(--blk)); }
+  .quote figcaption::before { content: ""; width: 16px; height: 2px; background: currentColor; }
   .nav { height: 60px; background: var(--blk); color: var(--pale); border-radius: var(--radius-pill); display: grid; grid-template-columns: repeat(5, 1fr); align-items: center; box-shadow: var(--sh-nav); }
   .nav span { display: flex; flex-direction: column; align-items: center; gap: 5px; font-family: "SpaceMono", ui-monospace, monospace; font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--pale) 62%, var(--blk)); }
   .nav span::before { content: ""; width: 5px; height: 5px; border-radius: 50%; }
@@ -299,7 +301,7 @@ const signpostBoard = {
   `,
   markup: `
   <div class="pad">
-    <div class="board"><span class="k">One small thing</span><p>Tell a colleague the thing you've been meaning to say <em>plainly.</em></p></div>
+    <figure class="quote"><blockquote>Tell a colleague the thing you've been meaning to say plainly.</blockquote><figcaption>One small thing · today</figcaption></figure>
     <nav class="nav" aria-hidden="true"><span>Chart</span><span class="on">Today</span><span>Cycles</span><span>Compare</span><span>Settings</span></nav>
   </div>`,
 };
