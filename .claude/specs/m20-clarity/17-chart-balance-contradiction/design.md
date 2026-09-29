@@ -2,13 +2,13 @@
 
 ## Approach
 
-Selection in `natal-reading.ts`: pick a dominant-element line or a balanced line, not both, keyed on the margin from R1. Add a small `ALL_PRESENT_LINES` bank ("nothing missing") for R2, written by content-writer under VOICE.md.
+`elementsSection` in `packages/content/src/natal-reading.ts` computes the lead (top count minus second count, from the fact's `counts`) and chooses: lead ≥ 2 → dominant line; then a missing-element line if any is missing, else — only when lead ≤ 1 — the balanced line. No new bank: the "all present but led" case is carried by the dominant line alone. The engine fact is unchanged (`dominant` still names the top element for other consumers).
 
 ## Changes
 
 | Area | Change |
 | --- | --- |
-| `packages/content/src/banks/elements.ts`, `natal-reading.ts`, tests | Selection rule, new lines |
+| `packages/content/src/natal-reading.ts`, tests | Selection rule |
 
 ## Alternatives considered
 

@@ -21,7 +21,7 @@ Measured 2026-09-29 against the static export and https://daymaster-nu.vercel.ap
 
 ## Approval
 
-Owner, 2026-09-29: "feel free to adjust the spec/ folder and execute" — covers tickets 01–07. Analytics: "let's try cookieless analytics", then "i dont think we're ready for a subscription based analytic service" → ticket 06 ships dormant, targeting a free tier or self-hosting; no paid service. 08 and 09 are drafts awaiting approval.
+Owner, 2026-09-29: "feel free to adjust the spec/ folder and execute" — covers tickets 01–07. Analytics: "let's try cookieless analytics", then "i dont think we're ready for a subscription based analytic service" → ticket 06 ships dormant, targeting a free tier or self-hosting; no paid service. 08 and 09 approved by the owner the same day ("drafts are approved").
 
 ## Tickets
 
@@ -34,8 +34,8 @@ Owner, 2026-09-29: "feel free to adjust the spec/ folder and execute" — covers
 | 05 | [Security and caching headers](05-security-headers/requirements.md) | done | — |
 | 06 | [Anonymous usage counts (dormant until configured)](06-usage-counts/requirements.md) | done | 01, 05 |
 | 07 | [Docs match the code](07-docs-drift/requirements.md) | done | 01–06 |
-| 08 | [Smaller first load](08-bundle-diet/requirements.md) | draft | — |
-| 09 | [E2E on phones, including WebKit](09-mobile-webkit-e2e/requirements.md) | draft | 04 |
+| 08 | [Smaller first load](08-bundle-diet/requirements.md) | approved | — |
+| 09 | [E2E on phones, including WebKit](09-mobile-webkit-e2e/requirements.md) | approved | 04 |
 
 ## Exit criteria
 

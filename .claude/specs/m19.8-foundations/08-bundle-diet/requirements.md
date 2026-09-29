@@ -1,6 +1,6 @@
 # Smaller first load
 
-Status: draft · Milestone: M19.8 · Ticket: 08
+Status: approved · Milestone: M19.8 · Ticket: 08
 
 ## Problem
 
@@ -30,4 +30,4 @@ Replacing Next.js.
 
 ## Open questions
 
-- [ ] R2 makes the engine's `pillars()` async on the true-solar path, or needs a preload step before first render. Which is acceptable? Engine API change → owner decision.
+- [x] R2 makes the engine's `pillars()` async on the true-solar path, or needs a preload step before first render. Which is acceptable? **Preload step: `pillars()` stays synchronous; the app calls `ensureTrueSolarReady()` before rendering a true-solar chart, and the engine throws a clear error if it's skipped** (owner, 2026-09-29).

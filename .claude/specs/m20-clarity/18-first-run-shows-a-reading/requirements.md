@@ -1,6 +1,6 @@
 # First run shows a reading before asking
 
-Status: draft · Milestone: M20 · Ticket: 18
+Status: approved · Milestone: M20 · Ticket: 18
 
 ## Problem
 
@@ -23,4 +23,4 @@ Changing the onboarding steps themselves.
 
 ## Open questions
 
-- [ ] Sample chart: an anonymous demo chart, or a well-known public figure's (risk: implies endorsement)?
+- [x] Sample chart: an anonymous demo chart, or a well-known public figure's (risk: implies endorsement)? **Neither: today's own reading, with no person** (owner, 2026-09-29). The sample describes the day itself — its pillar, officer, easy and rough hours, what it suits — without natal interactions. The design must say which engine facts are chart-free, and whether content has lines for them without "you" as a chart holder (VOICE.md rule 1 still applies: the reader is "you").

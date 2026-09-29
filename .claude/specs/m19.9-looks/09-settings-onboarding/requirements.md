@@ -20,6 +20,8 @@ Settings and onboarding has an A, B and C composition, each mocked, approved and
   - Acceptance: E2E runs this screen's specs under `data-look` trail, almanac and dial, green.
 - **R4.** Switching look updates the screen immediately without reload.
   - Acceptance: E2E: change look in Settings, return, new composition present.
+- **R5.** Settings leads with everyday choices: Look, Appearance, Your data, Install, About, then "How your chart is calculated" (the late-night and true-solar toggles), then Delete. Folded in from [M20-19](../../m20-clarity/19-settings-order/requirements.md) (owner, 2026-09-29).
+  - Acceptance: section order identical in all three looks; mockups show it.
 
 ## Out of scope
 

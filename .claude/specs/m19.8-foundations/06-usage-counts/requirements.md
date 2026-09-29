@@ -37,7 +37,7 @@ The app can send a small, fixed set of anonymous counts to a cookieless analytic
 
 ## Out of scope
 
-- Choosing or paying for a plan. The owner creates a free Umami Cloud site, or M21 self-hosts, then sets two env vars at build.
+- Choosing or paying for a plan. The owner creates a free Umami Cloud site, or M21 self-hosts, then sets two env vars at build. **Decided 2026-09-29: wait for M21** (owner: "let's just wait for M21"); stays dormant until [M21-01 R4](../../m21-backend-accounts/01-entry-decisions/requirements.md).
 - Dashboards and funnels: they live in Umami.
 - Error messages or stack traces.
 

@@ -1,6 +1,6 @@
 # E2E on phones, including WebKit
 
-Status: draft · Milestone: M19.8 · Ticket: 09
+Status: approved · Milestone: M19.8 · Ticket: 09
 
 ## Problem
 
@@ -25,4 +25,4 @@ Real-device testing.
 
 ## Open questions
 
-- [ ] Run all three looks × three projects (9 passes) in CI, or phones in the default look only?
+- [x] Run all three looks × three projects (9 passes) in CI, or phones in the default look only? **All nine**: looks are what differs most on a phone; CI goes from ~3 to ~8 minutes (decided under the owner's approval, 2026-09-29).

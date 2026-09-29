@@ -19,6 +19,9 @@ All three decided and logged.
 - **R3.** Privacy posture written as user-facing copy (encrypted at rest, deletion is deletion, no data resale, minimal analytics), passing VOICE.md.
   - Acceptance: copy in `content/reference/`, owner-approved.
 
+- **R4.** Usage counts get a home: self-hosted Umami on the M21 infrastructure, and the build is configured for it (`NEXT_PUBLIC_ANALYTICS_*`, see [M19.8-06](../../m19.8-foundations/06-usage-counts/design.md)). Owner, 2026-09-29: no paid analytics service; "let's just wait for M21".
+  - Acceptance: tracker reachable; production build configured; events visible for one real day; CSP carries the tracker's origin.
+
 ## Out of scope
 
 Implementation.

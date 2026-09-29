@@ -1,6 +1,6 @@
 # Cycles: romanized names carry their meaning
 
-Status: draft · Milestone: M20 · Ticket: 20
+Status: approved · Milestone: M20 · Ticket: 20
 
 ## Problem
 
@@ -21,4 +21,4 @@ Chart's pillar columns (already glossed).
 
 ## Open questions
 
-- [ ] Keep pinyin as a secondary line, or drop it on Cycles?
+- [x] Keep pinyin as a secondary line, or drop it on Cycles? **Drop it**: the standing English-only rule allows romanized names only where no translation exists, and the stem/branch glosses exist (decided under the owner's approval, 2026-09-29).

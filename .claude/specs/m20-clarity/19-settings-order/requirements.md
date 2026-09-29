@@ -1,6 +1,8 @@
 # Settings: everyday choices first
 
-Status: draft · Milestone: M20 · Ticket: 19
+Status: dropped · Milestone: M20 · Ticket: 19
+
+Dropped 2026-09-29: folded into [M19.9-09](../../m19.9-looks/09-settings-onboarding/requirements.md), which rebuilds Settings in all three looks — the order below is its requirement now (owner).
 
 ## Problem
 
@@ -21,4 +23,4 @@ Rewording the toggles.
 
 ## Open questions
 
-- [ ] Fold this into M19.9-09 (Settings in three looks) instead of a separate ticket?
+- [x] Fold this into M19.9-09 (Settings in three looks) instead of a separate ticket? **Yes** (owner, 2026-09-29).
