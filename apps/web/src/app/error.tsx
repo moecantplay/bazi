@@ -9,6 +9,6 @@ interface Props {
   reset: () => void;
 }
 
-export default function ScreenError({ reset }: Props) {
-  return <RecoveryScreen onRetry={reset} />;
+export default function ScreenError({ error, reset }: Props) {
+  return <RecoveryScreen onRetry={reset} errorName={error.name} />;
 }

@@ -5,6 +5,7 @@
  * the local-only substitute for an account, still a JSON file the user owns.
  */
 
+import { track } from "./analytics";
 import { isDaymasterStore, loadStore, saveStore, type DaymasterStore } from "./store";
 
 export interface BackupFile {
@@ -71,5 +72,6 @@ export function downloadBackup(): boolean {
   anchor.download = BACKUP_FILENAME;
   anchor.click();
   URL.revokeObjectURL(url);
+  track({ name: "backup-downloaded" });
   return true;
 }

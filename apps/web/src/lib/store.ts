@@ -64,6 +64,12 @@ export interface DaymasterStore {
    * Additive; older documents read as false, so existing readers see the note once.
    */
   lookPromptSeen: boolean;
+  /**
+   * Whether this reader allows anonymous usage counts (M19.8-06). Additive
+   * like `look`; older documents read as true. Counting also needs a build
+   * configured for it and no Global Privacy Control / Do Not Track signal.
+   */
+  usageCounts: boolean;
 }
 
 export function emptyStore(): DaymasterStore {
@@ -77,7 +83,8 @@ export function emptyStore(): DaymasterStore {
     theme: "system",
     journal: {},
     look: DEFAULT_LOOK,
-    lookPromptSeen: false
+    lookPromptSeen: false,
+    usageCounts: true
   };
 }
 
@@ -118,31 +125,52 @@ export function isDaymasterStore(value: unknown): value is DaymasterStore {
   return value.app === "daymaster" && value.version === 2 && typeof value.updatedAt === "string";
 }
 
+/**
+ * The stored document as it is, or null when there is none — never runs the
+ * legacy migration and never writes. For readers that must not create a store
+ * as a side effect: usage counts run on every screen, including the one right
+ * after "Delete my data" (M19.8-06).
+ */
+export function peekStore(): DaymasterStore | null {
+  if (typeof window === "undefined") {
+    return null;
+  }
+  try {
+    const raw = window.localStorage.getItem(STORE_KEY);
+    if (raw === null) {
+      return null;
+    }
+    const parsed: unknown = JSON.parse(raw);
+    if (!isDaymasterStore(parsed)) {
+      return null;
+    }
+    // Fields added after v2 shipped are filled in here so every reader
+    // sees the complete shape, whatever vintage of document is on disk.
+    const fields = parsed as {
+      journal?: unknown;
+      look?: unknown;
+      lookPromptSeen?: unknown;
+      usageCounts?: unknown;
+    };
+    return {
+      ...parsed,
+      journal: sanitizeJournal(fields.journal),
+      look: parseLookPreference(fields.look) ?? DEFAULT_LOOK,
+      lookPromptSeen: fields.lookPromptSeen === true,
+      usageCounts: fields.usageCounts !== false
+    };
+  } catch {
+    // Malformed JSON or storage access denied: nothing readable.
+    return null;
+  }
+}
+
 /** The stored document, migrating legacy keys into it on first read. Never null — an absent store reads as `emptyStore()`. */
 export function loadStore(): DaymasterStore {
   if (typeof window === "undefined") {
     return emptyStore();
   }
-  try {
-    const raw = window.localStorage.getItem(STORE_KEY);
-    if (raw !== null) {
-      const parsed: unknown = JSON.parse(raw);
-      if (isDaymasterStore(parsed)) {
-        // Fields added after v2 shipped are filled in here so every reader
-        // sees the complete shape, whatever vintage of document is on disk.
-        const fields = parsed as { journal?: unknown; look?: unknown; lookPromptSeen?: unknown };
-        return {
-          ...parsed,
-          journal: sanitizeJournal(fields.journal),
-          look: parseLookPreference(fields.look) ?? DEFAULT_LOOK,
-          lookPromptSeen: fields.lookPromptSeen === true
-        };
-      }
-    }
-  } catch {
-    // Malformed JSON or storage access denied: fall through to migration/empty.
-  }
-  return migrateLegacyStore();
+  return peekStore() ?? migrateLegacyStore();
 }
 
 /** Persist the whole document, replacing any existing one. Returns false when storage refuses the write. */
@@ -268,6 +296,15 @@ export function applyLookPreference(look: LookPreference): void {
 export function saveLookPreference(look: LookPreference): void {
   saveStore({ ...loadStore(), look });
   applyLookPreference(look);
+}
+
+/** Whether this reader allows anonymous usage counts (M19.8-06). */
+export function loadUsageCountsPreference(): boolean {
+  return loadStore().usageCounts;
+}
+
+export function saveUsageCountsPreference(allowed: boolean): void {
+  saveStore({ ...loadStore(), usageCounts: allowed });
 }
 
 /** Onboarding's save: the new profile and the look chosen just before the reveal, together. */

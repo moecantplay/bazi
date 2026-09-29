@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/button";
 import { LookPicker, lookName } from "@/components/look-picker";
 import { usePreviewScreen } from "@/components/today/use-preview-screen";
+import { track } from "@/lib/analytics";
 import { answerLookIntro } from "@/lib/store";
 import type { LookPreference, StoredProfile } from "@/lib/store-types";
 import { useLook } from "@/lib/use-look";
@@ -27,6 +28,7 @@ export function LookIntroSheet({ profile, onDone }: Props) {
 
   function answer(look: LookPreference) {
     answerLookIntro(look);
+    track({ name: "look-chosen", data: { look, where: "note" } });
     onDone();
   }
 
@@ -34,6 +36,7 @@ export function LookIntroSheet({ profile, onDone }: Props) {
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
         answerLookIntro(current);
+        track({ name: "look-chosen", data: { look: current, where: "note" } });
         onDone();
       }
     }

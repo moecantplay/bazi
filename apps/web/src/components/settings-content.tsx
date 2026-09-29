@@ -15,7 +15,9 @@ import { Button } from "@/components/button";
 import { InstallHint } from "@/components/install-hint";
 import { SegmentedControl } from "@/components/segmented-control";
 import { SettingsLookSection } from "@/components/settings-look-section";
+import { SettingsUsageCounts } from "@/components/settings-usage-counts";
 import { Toggle } from "@/components/toggle";
+import { track } from "@/lib/analytics";
 import { downloadBackup } from "@/lib/backup";
 import {
   deleteAllData,
@@ -81,6 +83,8 @@ export function SettingsContent({ profile }: Props) {
     // deleteAllData() already clears daymaster.streak.v1 (store.ts's own
     // doc comment: "still clears it as one user action" per decision C) —
     // it's the single source of truth for what a full delete removes.
+    // Counted before the store (and with it the reader's preference) is gone.
+    track({ name: "data-deleted" });
     deleteAllData();
     router.replace("/onboarding");
   }
@@ -146,6 +150,7 @@ export function SettingsContent({ profile }: Props) {
             Download my data
           </Button>
         </div>
+        <SettingsUsageCounts />
       </section>
 
       <section>

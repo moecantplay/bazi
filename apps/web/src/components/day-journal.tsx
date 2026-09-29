@@ -13,6 +13,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { track } from "@/lib/analytics";
 import { JOURNAL_NOTE_MAX, loadJournalEntry, removeJournalEntry, saveJournalEntry, type JournalMark } from "@/lib/store";
 
 interface Props {
@@ -46,6 +47,7 @@ export function DayJournal({ dateISO, isToday }: Props) {
     }
     setMark(next);
     saveJournalEntry(dateISO, next, note);
+    track({ name: "reading-marked", data: { mark: next } });
   }
 
   function changeNote(value: string) {

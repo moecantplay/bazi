@@ -18,7 +18,8 @@ import { existsSync, statSync } from "node:fs";
 import { dirname, extname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../out");
+const E2E_DIR = dirname(fileURLToPath(import.meta.url));
+const ROOT = resolve(E2E_DIR, "../out");
 const PORT = Number(process.env.E2E_PORT ?? 3210);
 
 const MIME = {
@@ -80,7 +81,8 @@ const server = http.createServer(async (req, res) => {
   for (const { key, value } of await deployHeaders(pathname)) {
     res.setHeader(key, value);
   }
-  const file = resolveFile(pathname);
+  // The E2E build's stand-in analytics tracker (M19.8-06); never part of out/.
+  const file = pathname === "/__e2e/analytics.js" ? join(E2E_DIR, "fake-analytics.js") : resolveFile(pathname);
   if (!file) {
     res.statusCode = 404;
     res.end("not found");

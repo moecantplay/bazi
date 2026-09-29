@@ -29,6 +29,7 @@ import { ProgressDots } from "@/components/onboarding/progress-dots";
 import { RevealStep } from "@/components/onboarding/reveal-step";
 import { SexStep } from "@/components/onboarding/sex-step";
 import { TimeStep } from "@/components/onboarding/time-step";
+import { track, type OnboardingStepName } from "@/lib/analytics";
 import { importBackup, type ImportResult } from "@/lib/backup";
 import { decodeShareParam, readSharePayload, stashIncomingShare } from "@/lib/share-link";
 import { loadStore } from "@/lib/store";
@@ -36,6 +37,8 @@ import type { StoredBirth, StoredCity } from "@/lib/store-types";
 
 const GATHERING_STEPS = 6;
 const REVEAL_STEP = GATHERING_STEPS; // index 6
+/** Step names for usage counts, by index (M19.8-06). */
+const STEP_NAMES: OnboardingStepName[] = ["date", "time", "city", "sex", "disclaimer", "look", "reveal"];
 
 const RESTORE_ERRORS: Record<Exclude<ImportResult, "ok">, string> = {
   invalid: "That file doesn’t look like a Daymaster backup.",
@@ -66,6 +69,15 @@ export default function OnboardingPage() {
     }
     saveDraftEnvelope({ step, draft });
   }, [draftRestored, step, draft]);
+
+  // Where onboarding loses people: one count per step reached.
+  useEffect(() => {
+    const name = STEP_NAMES[step];
+    if (!draftRestored || name === undefined) {
+      return;
+    }
+    track({ name: "onboarding-step", data: { step: name } });
+  }, [draftRestored, step]);
 
   // A share link carries someone's chart for comparison. With a profile it
   // goes straight to Compare; on a fresh device it waits until onboarding is

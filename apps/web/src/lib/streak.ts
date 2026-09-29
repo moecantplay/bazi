@@ -38,6 +38,11 @@ function loadStreak(): StoredStreak | null {
   }
 }
 
+/** Whether Today has already been opened on `todayIso` on this device. */
+export function hasOpenedToday(todayIso: string): boolean {
+  return loadStreak()?.lastOpen === todayIso;
+}
+
 /**
  * Record that Today was opened on `todayIso` and return the current streak:
  * unchanged for a repeat visit, +1 the day after the last one, else back to 1.

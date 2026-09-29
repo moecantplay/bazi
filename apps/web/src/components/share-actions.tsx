@@ -8,6 +8,7 @@
 
 import { useState, type RefObject } from "react";
 import { Button } from "@/components/button";
+import { track } from "@/lib/analytics";
 import { shareChartCard } from "@/lib/share-card";
 import { buildShareUrl } from "@/lib/share-link";
 import type { StoredBirth } from "@/lib/store-types";
@@ -29,6 +30,9 @@ export function ShareActions({ sealContainerRef, pillarLine, archetype, birth }:
       return;
     }
     const result = await shareChartCard({ sealSvg, pillarLine, archetype });
+    if (result !== "failed") {
+      track({ name: "chart-shared", data: { kind: "image" } });
+    }
     if (result === "downloaded") {
       setStatus("Card saved to your downloads.");
     } else if (result === "failed") {
@@ -43,6 +47,7 @@ export function ShareActions({ sealContainerRef, pillarLine, archetype, birth }:
     if (typeof navigator.share === "function") {
       try {
         await navigator.share({ url });
+        track({ name: "chart-shared", data: { kind: "link" } });
         setStatus(null);
         return;
       } catch {
@@ -52,6 +57,7 @@ export function ShareActions({ sealContainerRef, pillarLine, archetype, birth }:
     }
     try {
       await navigator.clipboard.writeText(url);
+      track({ name: "chart-shared", data: { kind: "link" } });
       setStatus("Link copied. Anyone who opens it can compare charts with you.");
     } catch {
       setStatus("Couldn’t reach the clipboard — you can share from a mobile browser instead.");

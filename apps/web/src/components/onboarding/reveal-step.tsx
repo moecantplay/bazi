@@ -15,6 +15,7 @@ import { chartPreviewFor, isYearInRange } from "@daymaster/presentation";
 import { Button } from "@/components/button";
 import { PillarColumns } from "@/components/pillar-columns";
 import { Seal } from "@/components/seal";
+import { track } from "@/lib/analytics";
 import { saveOnboardingResult } from "@/lib/store";
 import type { LookPreference, StoredBirth, StoredProfile } from "@/lib/store-types";
 import { ONBOARDING_CONFIG, clearDraft } from "./draft";
@@ -41,6 +42,8 @@ export function RevealStep({ birth, look }: Props) {
       setSaveFailed(true);
       return;
     }
+    track({ name: "look-chosen", data: { look, where: "onboarding" } });
+    track({ name: "onboarding-finished", data: { look } });
     clearDraft();
     router.replace("/today");
   }

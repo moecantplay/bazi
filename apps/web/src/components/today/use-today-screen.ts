@@ -9,7 +9,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { addDays, clampOffsetToRange, dayProgress, daysBetween, todayScreenModel, type TodayScreenModel } from "@daymaster/presentation";
-import { recordTodayOpen } from "@/lib/streak";
+import { trackReadingOpened } from "@/lib/analytics";
+import { hasOpenedToday, recordTodayOpen } from "@/lib/streak";
 import type { StoredProfile } from "@/lib/store-types";
 import { useNow } from "@/lib/use-now";
 import { useTodayLabel } from "@/lib/use-today-label";
@@ -42,8 +43,13 @@ export function useTodayScreen(profile: StoredProfile): TodayScreen {
   const [streak, setStreak] = useState(0);
 
   useEffect(() => {
-    setStreak(recordTodayOpen(today));
-  }, [today]);
+    const firstOpenToday = !hasOpenedToday(today);
+    const count = recordTodayOpen(today);
+    setStreak(count);
+    if (firstOpenToday) {
+      trackReadingOpened(profile, count, today);
+    }
+  }, [profile, today]);
 
   const dateISO = addDays(today, offset);
   const model = useMemo(() => todayScreenModel(profile, dateISO, today), [profile, dateISO, today]);

@@ -9,13 +9,17 @@
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/button";
+import { track } from "@/lib/analytics";
 import { downloadBackup, serializeBackup } from "@/lib/backup";
 import { deleteAllData } from "@/lib/store";
 
 interface Props {
   onRetry: () => void;
+  /** The thrown error's name, for usage counts — never its message. */
+  errorName: string;
 }
 
 /** Whether a backup can be produced; a store too damaged to serialize hides the button. */
@@ -27,11 +31,17 @@ function backupAvailable(): boolean {
   }
 }
 
-export function RecoveryScreen({ onRetry }: Props) {
+export function RecoveryScreen({ onRetry, errorName }: Props) {
+  const pathname = usePathname();
   const [canDownload] = useState(backupAvailable);
   const [confirmingStartOver, setConfirmingStartOver] = useState(false);
 
+  useEffect(() => {
+    track({ name: "screen-error", data: { route: pathname, kind: errorName } });
+  }, [pathname, errorName]);
+
   function startOver() {
+    track({ name: "data-deleted" });
     deleteAllData();
     // A full load, not a client transition: nothing from the failed render survives.
     window.location.assign("/onboarding/");

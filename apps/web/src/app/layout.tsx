@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Figtree, Bricolage_Grotesque, Space_Mono } from "next/font/google";
 import { ServiceWorker } from "@/components/service-worker";
+import { UsageCounts } from "@/components/usage-counts";
 import { DEFAULT_LOOK } from "@/lib/store";
 import "./globals.css";
 
@@ -83,6 +84,7 @@ export default function RootLayout({ children }: Props) {
         <script dangerouslySetInnerHTML={{ __html: PREFERENCES_INIT_SCRIPT }} />
         {children}
         <ServiceWorker />
+        <UsageCounts />
       </body>
     </html>
   );

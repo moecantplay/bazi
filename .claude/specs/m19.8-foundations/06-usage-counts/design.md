@@ -57,3 +57,12 @@
 ## Verification
 
 Unit tests (buckets, allowed()); `usage-counts.spec.ts` (events, keys, PII guard, cookies, opt-out, GPC); full E2E with the stub in all looks; default build contains no analytics reference; `pnpm verify`.
+
+## As built
+
+- **`peekStore()`** (store.ts) — found by the full E2E run: `loadStore()` runs the legacy migration when no store exists, and that migration *saves* an empty document. Page views run on every screen, including right after "Delete my data", so counting recreated the store the reader had just erased (both delete E2E flows failed in every look). `peekStore()` reads without migrating or writing; `loadStore()` is now `peekStore() ?? migrateLegacyStore()`, and the analytics gateway reads only `peekStore()`. Unit test "never creates a store just by checking".
+- The Settings switch lives in its own `components/settings-usage-counts.tsx` (Settings was already past ~200 lines), like `settings-look-section.tsx`.
+- `look-chosen` from Settings fires only when the look actually changes.
+- The E2E "no identifiers" check asserts every local/session storage key starts with `daymaster.` (the streak key is written by Today itself, not by counting).
+- The three copies of the unit tests' `FakeStorage` became `src/lib/testing/fake-storage.ts` before a fourth was added.
+- `apps/web/CLAUDE.md` no longer says "no runtime network calls" without the exception.

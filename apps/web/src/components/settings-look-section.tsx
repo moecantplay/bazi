@@ -5,6 +5,7 @@
 import { useState } from "react";
 import { LookPicker } from "@/components/look-picker";
 import { usePreviewScreen } from "@/components/today/use-preview-screen";
+import { track } from "@/lib/analytics";
 import { loadLookPreference, saveLookPreference } from "@/lib/store";
 import type { LookPreference, StoredProfile } from "@/lib/store-types";
 
@@ -17,6 +18,9 @@ export function SettingsLookSection({ profile }: Props) {
   const screen = usePreviewScreen(profile);
 
   function choose(next: LookPreference) {
+    if (next !== look) {
+      track({ name: "look-chosen", data: { look: next, where: "settings" } });
+    }
     setLook(next);
     saveLookPreference(next);
   }

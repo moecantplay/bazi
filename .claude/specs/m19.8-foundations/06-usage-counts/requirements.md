@@ -1,6 +1,6 @@
 # Anonymous usage counts (dormant until configured)
 
-Status: approved · Milestone: M19.8 · Ticket: 06
+Status: done · Milestone: M19.8 · Ticket: 06
 
 ## Problem
 

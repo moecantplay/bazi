@@ -2,9 +2,15 @@
 
 A daily-reading app in the shape of Co-Star, with a different engine under the hood: **BaZi** (Chinese Four Pillars, 八字). Enter your birth date, time (or "I don't know"), city, and sex, and Daymaster computes your Four Pillars chart and gives you a natal reading, a daily reading driven by *real* computed interactions between today's pillar and your chart, your 10-year luck-cycle timeline, and a Compare screen that reads how a second person's chart meets yours.
 
-Everything runs on your device. No accounts, no server, no network calls — an installable PWA whose charts live in localStorage. Light and dark themes follow your device, or pin either in Settings.
+Everything runs on your device. No accounts and no server — an installable PWA whose charts live in localStorage. Light and dark themes follow your device, or pin either in Settings.
 
 Because there is no account, your data stays yours in the plainest way: Settings can edit your birth details in place, download a JSON backup (restorable from onboarding on a new device), and delete everything. Compare keeps a named list of saved people. Charts share two ways, both serverless: a card image drawn on-device, and a link that encodes the birth details so the recipient's device recomputes the identical chart. The service worker precaches the whole export — every screen works offline — and new deploys wait for a user-accepted refresh.
+
+## What leaves your device
+
+By default, nothing. Readings are computed on the device, and charts, people and notes stay in its storage.
+
+A build can optionally send **anonymous usage counts** to an Umami-compatible tracker (cookieless, no identifiers): which screens and looks get used, and a fixed list of events whose fields are coarse buckets. Birth details, notes and error messages are never sent. It's off unless the build sets `NEXT_PUBLIC_ANALYTICS_SCRIPT_URL` and `NEXT_PUBLIC_ANALYTICS_SITE_ID` (plus `NEXT_PUBLIC_ANALYTICS_HOST_URL` if events go to a different origin) — for example in `apps/web/.env.production.local`. Readers can switch it off in Settings, and a browser sending Global Privacy Control or Do Not Track is never counted. The full event list is `UsageEvent` in `apps/web/src/lib/analytics.ts`; the design is [M19.8-06](.claude/specs/m19.8-foundations/06-usage-counts/design.md).
 
 ## Quickstart
 
