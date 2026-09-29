@@ -81,6 +81,30 @@ body { background: var(--c-bg); color: var(--c-ink); font: 15px/1.55 Figtree, sy
 .phone[data-board="top"] .slot-end { display: none; }
 .phone[data-board="end"] .slot-top { display: none; }
 
+/* board variants (all keep the blk/pale anchor pair) */
+.bd { background: var(--blk); color: var(--pale); transition: transform .18s var(--spring); }
+.bd:active { transform: scale(.975); }
+.bd .mono { color: color-mix(in srgb, var(--pale) 72%, var(--blk)); }
+.bd p { margin: 0; }
+.bd-refined { border-radius: 24px; padding: 20px 18px 20px 22px; display: grid; grid-template-columns: 1fr 48px; gap: 10px 14px; align-items: center; }
+.bd-refined .mono { grid-column: 1 / -1; }
+.bd-refined p { font: 800 21px/1.2 "Bricolage Grotesque", system-ui, sans-serif; letter-spacing: -.014em; text-wrap: balance; }
+.bd-refined p em, .bd-ticket p em { font: italic 500 1.05em ui-serif, "New York", Georgia, serif; }
+.bd-refined .seal { width: 48px; height: 48px; border-radius: 50%; border: 1.5px solid color-mix(in srgb, var(--pale) 45%, var(--blk)); display: grid; place-items: center; }
+.bd-refined .seal svg { width: 26px; height: 26px; fill: var(--pale); }
+.bd-ticket { display: grid; grid-template-columns: 1fr 58px; border-radius: 18px;
+  -webkit-mask: radial-gradient(circle 10px at calc(100% - 58px) 0, #0000 97%, #000) top / 100% 51% no-repeat, radial-gradient(circle 10px at calc(100% - 58px) 100%, #0000 97%, #000) bottom / 100% 51% no-repeat;
+  mask: radial-gradient(circle 10px at calc(100% - 58px) 0, #0000 97%, #000) top / 100% 51% no-repeat, radial-gradient(circle 10px at calc(100% - 58px) 100%, #0000 97%, #000) bottom / 100% 51% no-repeat; }
+.bd-ticket .main { padding: 20px 18px 20px 22px; display: flex; flex-direction: column; gap: 10px; }
+.bd-ticket p { font: 800 21px/1.2 "Bricolage Grotesque", system-ui, sans-serif; letter-spacing: -.014em; text-wrap: balance; }
+.bd-ticket .stub { border-left: 2px dashed color-mix(in srgb, var(--pale) 35%, var(--blk)); display: grid; place-items: center; margin: 12px 0; }
+.bd-ticket .stub span { writing-mode: vertical-rl; transform: rotate(180deg); font: 700 9.5px "Space Mono", monospace; letter-spacing: .2em; text-transform: uppercase; color: color-mix(in srgb, var(--pale) 72%, var(--blk)); }
+.bd-quote { position: relative; border-radius: 28px; padding: 30px 24px 20px; display: flex; flex-direction: column; gap: 14px; overflow: hidden; }
+.bd-quote::before { content: "\201C"; position: absolute; left: 14px; top: -18px; font: italic 500 110px/1 ui-serif, "New York", Georgia, serif; color: color-mix(in srgb, var(--pale) 22%, var(--blk)); }
+.bd-quote p { position: relative; font: italic 500 26px/1.18 ui-serif, "New York", Georgia, serif; letter-spacing: -.01em; text-wrap: balance; }
+.bd-quote .mono { display: flex; align-items: center; gap: 10px; }
+.bd-quote .mono::before { content: ""; width: 16px; height: 2px; background: currentColor; }
+
 /* journal */
 .journal { display: flex; flex-direction: column; gap: 12px; }
 .journal .pills { display: flex; gap: 8px; }
@@ -203,9 +227,12 @@ body { background: var(--c-bg); color: var(--c-ink); font: 15px/1.55 Figtree, sy
     <button data-dir="b" aria-pressed="false">Editorial</button>
     <button data-dir="c" aria-pressed="false">Instrument</button>
   </div>
-  <div class="seg" role="group" aria-label="Where the one-thing-to-do board sits">
-    <button data-board="end" aria-pressed="true">Board last</button>
-    <button data-board="top" aria-pressed="false">Board on first screen</button>
+  <div class="seg" role="group" aria-label="Board style">
+    <button data-style="current" aria-pressed="false">Current</button>
+    <button data-style="refined" aria-pressed="false">Refined</button>
+    <button data-style="ticket" aria-pressed="false">Day pass</button>
+    <button data-style="quote" aria-pressed="false">Pull quote</button>
+    <button data-style="perlook" aria-pressed="true">Per look</button>
   </div>
   <div class="seg" role="group" aria-label="Theme">
     <button data-mode="light" aria-pressed="true">Light</button>
@@ -215,7 +242,7 @@ body { background: var(--c-bg); color: var(--c-ink); font: 15px/1.55 Figtree, sy
 </header>
 
 <main class="stage">
-  <div class="phone" id="phone" data-mode="light" data-board="end">
+  <div class="phone" id="phone" data-mode="light" data-board="top">
     <div class="screen play" id="screen">
       <div class="statusbar"><span>10:40</span><span>●●● ▮</span></div>
       <div class="fold-line"><span>END OF FIRST SCREEN</span></div>
@@ -290,7 +317,7 @@ body { background: var(--c-bg); color: var(--c-ink); font: 15px/1.55 Figtree, sy
     <h2>Every piece of today, in each look</h2>
     <div class="box">
       <p class="k">What to compare</p>
-      <p>The <b>Board</b> toggle moves the one-thing-to-do board. <b>Board last</b> keeps the rule that the agency line ends every reading. <b>Board on first screen</b> is the placement from the first mockups.</p>
+      <p>The board now sits on the first screen (your pick). <b>Board style</b> compares five treatments; all keep the black-and-pale anchor pair so the board stays the boldest thing on screen. <b>Per look</b> gives Explorer the day pass, Editorial the pull quote and Instrument the refined slab.</p>
       <p>Tap the reading sections to open them. Each fact appears once: the one idea under the headline isn't repeated in the sections.</p>
     </div>
     <div class="box">
@@ -347,7 +374,20 @@ const linesHTML = (lines) => lines.map(([p, c]) => `<p class="prose">${p}</p><sp
 
 document.querySelectorAll("[data-headline]").forEach((n) => { n.innerHTML = HEADLINE; });
 document.querySelectorAll("[data-lead]").forEach((n) => { n.textContent = LEAD; });
-document.querySelectorAll("[data-board-slot]").forEach((n) => { n.innerHTML = BOARD; });
+const LINE = "Tell a colleague the thing you've been meaning to say <em>plainly.</em>";
+const BOARDS = {
+  current: () => BOARD,
+  refined: () => `<div class="bd bd-refined"><span class="mono">One small thing</span><p>${LINE}</p><span class="seal">${svgIcon("horse")}</span></div>`,
+  ticket: () => `<div class="bd bd-ticket"><div class="main"><span class="mono">One small thing</span><p>${LINE}</p></div><div class="stub"><span>29 Sep</span></div></div>`,
+  quote: () => `<div class="bd bd-quote"><p>Tell a colleague the thing you've been meaning to say plainly.</p><span class="mono">One small thing · today</span></div>`,
+};
+const PER_LOOK = { a: "ticket", b: "quote", c: "refined" };
+function renderBoards(style) {
+  document.querySelectorAll("[data-board-slot]").forEach((n) => {
+    const look = n.closest(".dir").dataset.dir;
+    n.innerHTML = BOARDS[style === "perlook" ? PER_LOOK[look] : style]();
+  });
+}
 document.querySelectorAll("[data-journal]").forEach((n) => { n.innerHTML = JOURNAL; });
 document.querySelectorAll("[data-nav]").forEach((n) => { n.innerHTML = `<i>‹</i><b>Tue 29 Sep</b><i>›</i>`; });
 document.querySelectorAll("[data-nav-stack]").forEach((n) => { n.innerHTML = `<span class="row"><i>‹</i><b>Tuesday</b><i>›</i></span><b style="padding-right:36px">29 September</b>`; });
@@ -463,25 +503,26 @@ text("NOW 10:40", { x: C, y: C + 32, "text-anchor": "middle", "font-size": 8.5, 
 /* ---------- controls ---------- */
 const phone = document.getElementById("phone");
 const screen = document.getElementById("screen");
-const state = { dir: "a", mode: "light", board: "end", full: false };
+const state = { dir: "a", mode: "light", board: "top", style: "perlook", full: false };
 try { state.mode = document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); } catch (error) { state.mode = "light"; }
 const hash = location.hash.slice(1).split("-");
 if (["a", "b", "c"].includes(hash[0])) state.dir = hash[0];
 if (["light", "dark"].includes(hash[1])) state.mode = hash[1];
-if (["end", "top"].includes(hash[2])) state.board = hash[2];
+if (["current", "refined", "ticket", "quote", "perlook"].includes(hash[2])) state.style = hash[2];
 state.full = hash[3] === "full";
 if (hash[4] === "open") document.querySelectorAll(".dir [aria-controls]").forEach((b) => b.click());
 
 function replay() { screen.classList.remove("play"); void screen.offsetWidth; screen.classList.add("play"); }
 function render(animate) {
   document.querySelectorAll(".dir").forEach((n) => n.classList.toggle("show", n.dataset.dir === state.dir));
-  for (const key of ["dir", "mode", "board"]) document.querySelectorAll(`button[data-${key}]`).forEach((b) => b.setAttribute("aria-pressed", String(b.dataset[key] === state[key])));
+  for (const key of ["dir", "mode", "style"]) document.querySelectorAll(`button[data-${key}]`).forEach((b) => b.setAttribute("aria-pressed", String(b.dataset[key] === state[key])));
+  renderBoards(state.style);
   phone.dataset.mode = state.mode;
   phone.dataset.board = state.board;
   phone.classList.toggle("full", state.full);
   if (animate) { screen.scrollTop = 0; replay(); }
 }
-for (const key of ["dir", "mode", "board"]) document.querySelectorAll(`button[data-${key}]`).forEach((b) => b.addEventListener("click", () => { state[key] = b.dataset[key]; render(key === "dir"); }));
+for (const key of ["dir", "mode", "style"]) document.querySelectorAll(`button[data-${key}]`).forEach((b) => b.addEventListener("click", () => { state[key] = b.dataset[key]; render(key === "dir"); }));
 document.getElementById("replay").addEventListener("click", () => { screen.scrollTop = 0; replay(); });
 render(false);
 </script>
