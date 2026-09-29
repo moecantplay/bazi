@@ -92,10 +92,9 @@ export {
 
 export { findGoverningTerm, findNextTerm, findSolarYear, SOLAR_TERMS } from "./solar-terms.js";
 
-export {
-  equationOfTimeMinutes,
-  applyTrueSolarTime,
-} from "./true-solar-time.js";
+// True solar time loads on demand (M19.8-08) so astronomy-engine stays out
+// of the default bundle; its internals are imported from true-solar-time.js.
+export { ensureTrueSolarReady } from "./true-solar-loader.js";
 
 export { elementOfStem, polarityOfStem, elementOfBranch } from "./attributes.js";
 export {

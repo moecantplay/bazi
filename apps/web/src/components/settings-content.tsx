@@ -9,6 +9,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { ensureTrueSolarReady } from "@daymaster/bazi-engine";
 import { DISCLAIMER } from "@daymaster/content";
 import { formatLong, readingZoneOf } from "@daymaster/presentation";
 import { Button } from "@/components/button";
@@ -57,6 +58,10 @@ export function SettingsContent({ profile }: Props) {
   }
 
   function persist(next: StoredConfig) {
+    if (next.trueSolarTime) {
+      // Load it now so the next screen opens without waiting (M19.8-08).
+      void ensureTrueSolarReady();
+    }
     setConfig(next);
     saveStore({ ...loadStore(), profile: { ...profile, config: next } });
   }

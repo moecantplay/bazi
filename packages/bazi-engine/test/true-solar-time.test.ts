@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { applyTrueSolarTime, equationOfTimeMinutes } from "../src/index.js";
+import { applyTrueSolarTime, equationOfTimeMinutes } from "../src/true-solar-time.js";
 
 function utc(iso: string): Date {
   return new Date(iso);

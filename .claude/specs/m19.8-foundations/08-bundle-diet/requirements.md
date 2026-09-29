@@ -1,6 +1,6 @@
 # Smaller first load
 
-Status: approved · Milestone: M19.8 · Ticket: 08
+Status: done · Milestone: M19.8 · Ticket: 08
 
 ## Problem
 

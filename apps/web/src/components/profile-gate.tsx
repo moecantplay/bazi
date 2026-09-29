@@ -17,6 +17,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { ReactNode } from "react";
+import { ensureTrueSolarReady } from "@daymaster/bazi-engine";
 import { dayTerrain, type StoredProfile } from "@daymaster/presentation";
 import { deviceZone } from "@/lib/device-zone";
 import { requestPersistentStorage } from "@/lib/persist-storage";
@@ -42,13 +43,22 @@ export function ProfileGate({ children }: Props) {
       router.replace("/onboarding");
       return;
     }
-    // Days are read where the reader is now; the chart stays fixed to the
-    // birth zone. Attached here, at the one place a profile enters the UI,
-    // and stripped again by saveStore so it never persists.
-    setProfile({ ...stored, readingZone: deviceZone(stored.birth.city.tz) });
-    setStatus("present");
-    // A chart now exists worth protecting from eviction (M19.8-02). Fire and forget.
-    void requestPersistentStorage();
+    function show(present: StoredProfile) {
+      // Days are read where the reader is now; the chart stays fixed to the
+      // birth zone. Attached here, at the one place a profile enters the UI,
+      // and stripped again by saveStore so it never persists.
+      setProfile({ ...present, readingZone: deviceZone(present.birth.city.tz) });
+      setStatus("present");
+      // A chart now exists worth protecting from eviction (M19.8-02). Fire and forget.
+      void requestPersistentStorage();
+    }
+    // True solar time loads on demand (M19.8-08). If loading fails, the screen
+    // still opens and the engine's error reaches the recovery screen.
+    if (stored.config.trueSolarTime) {
+      void ensureTrueSolarReady().finally(() => show(stored));
+      return;
+    }
+    show(stored);
   }, [router]);
 
   useEffect(() => {

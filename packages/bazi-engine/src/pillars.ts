@@ -10,7 +10,7 @@ import { DateTime } from "luxon";
 import { FIVE_RATS, FIVE_TIGERS, JIE_BY_NAME } from "../data/tables.js";
 import { branchAt, sexagenaryPillar, stemAt, stemIndex } from "./sexagenary.js";
 import { findGoverningTerm, findSolarYear } from "./solar-terms.js";
-import { applyTrueSolarTime } from "./true-solar-time.js";
+import { applyLoadedTrueSolarTime } from "./true-solar-loader.js";
 import { DEFAULT_CONFIG, type EngineConfig, type Pillar, type Stem } from "./types.js";
 
 /**
@@ -66,7 +66,7 @@ function effectiveInstant(
   if (!config.trueSolarTime) {
     return instant;
   }
-  return applyTrueSolarTime(instant, zone, requireLongitude(longitude));
+  return applyLoadedTrueSolarTime(instant, zone, requireLongitude(longitude));
 }
 
 /** The stem of a solar year, from its sexagenary position. */

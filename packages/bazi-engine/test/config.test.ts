@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 import { DateTime } from "luxon";
 import {
   dailyPillar,
@@ -6,8 +6,11 @@ import {
   hourPillar,
   monthPillar,
   yearPillar,
+  ensureTrueSolarReady,
   type EngineConfig,
 } from "../src/index.js";
+
+beforeAll(ensureTrueSolarReady);
 
 function localInstant(zone: string, iso: string): Date {
   return DateTime.fromISO(iso, { zone }).toJSDate();

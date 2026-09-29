@@ -34,7 +34,7 @@ Owner, 2026-09-29: "feel free to adjust the spec/ folder and execute" — covers
 | 05 | [Security and caching headers](05-security-headers/requirements.md) | done | — |
 | 06 | [Anonymous usage counts (dormant until configured)](06-usage-counts/requirements.md) | done | 01, 05 |
 | 07 | [Docs match the code](07-docs-drift/requirements.md) | done | 01–06 |
-| 08 | [Smaller first load](08-bundle-diet/requirements.md) | approved | — |
+| 08 | [Smaller first load](08-bundle-diet/requirements.md) | done | — |
 | 09 | [E2E on phones, including WebKit](09-mobile-webkit-e2e/requirements.md) | in-progress — waits on a push | 04 |
 
 ## Exit criteria
