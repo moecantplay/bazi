@@ -43,10 +43,15 @@ interface DetailLabel {
 
 ### 5. Web (R2, R4, R5, R11)
 
-- Each look's Today renders headline → body → pull-quote agency → "What the day suits" → a link card into the detail page. Card copy (mockup v4): kicker is the look's details title ("Along the way", "Notes on the day", "Readings"), title "What's behind Sep 29", line "The signs, the hours, your pace and the day's character, laid out in full."
-- New route `apps/web/src/app/today/details/page.tsx`: `ProfileGate` + `AppShell`, reads `date` with `useSearchParams` (static export: client-only, wrapped in `Suspense`), validates it against Today's range, renders `details` in the look's layout (`LookSwitch`), "How this reading works" at the bottom. A "‹ Today" back control links to `/today/?date=…`.
-- `use-today-screen.ts` seeds `offset` from `?date` when present and valid, and keeps the URL in step when the date changes (`router.replace`, no history spam), so Back from details lands on the same day.
-- `data-reading-body` wraps the first screen on Today and the details list on the detail page. Specs that asserted dos/don'ts, chapters or `[data-go-deeper]` are updated.
+- Each look's Today renders headline → body → "Read more" (the lead's topic page) → pull-quote agency → topic cards in the look's layout, each ending "Read more" → "What the day suits".
+- New route `apps/web/src/app/today/topic/page.tsx`: `ProfileGate` + `AppShell`, reads `date` and `topic` with `useSearchParams` inside `Suspense` (static export), validates both, recomputes the day's facts for that date, renders the topic page. "‹ Today" links to `/today/?date=…`.
+- `use-today-screen.ts` seeds `offset` from a valid `?date` and keeps it in the URL with `router.replace`.
+- The caption-to-glossary sheet leaves Today: the topic page's "Where the name comes from" replaces it. The glossary stays for Chart and Cycles. "How this reading works" stays in Today's footer.
+- Specs that asserted dos/don'ts, chapters or `[data-go-deeper]` are updated.
+
+### 5b. Topic page content (R11)
+
+`packages/content/src/topics/`: one entry per topic key with `plainTitle`, `forYou(fact)` (plain mechanics built from `BRANCH_ANIMALS` and a palace-to-life-area map), `how[]`, `work[]`, `nameOrigin`. Interactions adapt the five `read-more.ts` dives (rewritten to R10's plain rules; `read-more.ts` retires); `nameOrigin` adapts the glossary leads. New writing: 10 ten gods, 12 stages, ~19 stars, element suits/against, hours: about 45 short entries, drafted from the mockup's samples.
 
 ### 6. VOICE.md (R7)
 
@@ -62,7 +67,8 @@ Amend rules 2, 6, 11 and 12, add "one idea per screen", replace calibration exam
 | `packages/content/test/` | R1–R4, R6, R9 tests; voice tests to new rules |
 | `packages/presentation/src/today-screen.ts`, `route-waypoints.ts`, `reading-sections.ts` | New model; waypoints from facts; sections removed |
 | `apps/web/src/components/looks/*/today-*.tsx`, `components/today/*` | Render composed first screen, suits and the link card per look |
-| `apps/web/src/app/today/details/page.tsx` (new), per-look details components | Detail page (R4, R11) |
+| `apps/web/src/app/today/topic/page.tsx` (new), per-look card components | Topic cards and topic pages (R4, R11) |
+| `packages/content/src/topics/` (new); `read-more.ts` retired | Topic page content |
 | `apps/web/src/components/today/use-today-screen.ts` | `?date` in and out |
 | `apps/web/e2e/` | Today, glossary, dates-guidance specs updated |
 | `.claude/specs/foundation/VOICE.md` | Rules 2, 6, 11, 12 amended; new rule; examples |

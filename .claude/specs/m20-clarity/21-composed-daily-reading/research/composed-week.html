@@ -129,12 +129,24 @@ button { font: inherit; color: inherit; }
 .why { margin: 0; font-size: 14px; color: var(--mut); }
 .find { font-size: 13px; color: var(--mut); }
 
-/* the way into the detail page, and the page itself */
-.depth-link { all: unset; box-sizing: border-box; cursor: pointer; background: var(--card); border-radius: 22px; padding: 16px 44px 16px 18px; display: flex; flex-direction: column; gap: 4px; position: relative; min-height: 64px; }
-.depth-link b { font: 800 18px/1.25 var(--f-display); letter-spacing: -.01em; }
-.depth-link .g { color: var(--mut); font-size: 14px; }
-.depth-link .chev { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); font: 400 24px var(--f-body); color: var(--mut); }
-.depth-link:focus-visible, .back:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+/* cards open topic pages */
+.card-link { cursor: pointer; }
+.card-link:focus-visible, .lead-more:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 12px; }
+.more { display: block; margin-top: 6px; font: 700 10px var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink); }
+.lead-more { all: unset; cursor: pointer; align-self: flex-start; min-height: 40px; margin-top: -10px; display: inline-flex; align-items: center; font: 700 11px var(--f-mono); letter-spacing: .12em; text-transform: uppercase; }
+.oldline { margin: 0; font: italic 500 18px/1.35 var(--f-serif); color: var(--mut); }
+.tsec { display: flex; flex-direction: column; gap: 8px; }
+.tsec .body { margin: 0; }
+.work { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 16px; line-height: 1.55; }
+.tstars { display: flex; flex-direction: column; gap: 2px; }
+.tstar { background: var(--card); padding: 14px 16px; display: flex; flex-direction: column; gap: 3px; }
+.tstar:first-child { border-radius: 18px 18px 6px 6px; }
+.tstar:last-child { border-radius: 6px 6px 18px 18px; }
+.tstar:only-child { border-radius: 18px; }
+.tstar b { font: 800 17px/1.25 var(--f-display); letter-spacing: -.01em; }
+.tstar .g { color: var(--mut); font-size: 14.5px; }
+
+.back:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 .back { all: unset; cursor: pointer; align-self: flex-start; min-height: 44px; display: inline-flex; align-items: center; font: 700 11px var(--f-mono); letter-spacing: .12em; text-transform: uppercase; }
 .depth-head { display: flex; flex-direction: column; gap: 10px; }
 .depth-head .body { margin: 0; }
@@ -236,8 +248,8 @@ const ELEMENT = {
   against: (e) => [`${e} works against you today`, `Your chart already has plenty of what ${e} brings, so go a little softer.`, `${e} day`],
 };
 const ALSO = {
-  familyTrine: ["Family is on your side", "Today's sign, the horse, lines up with the dog, your chart's sign for family.", "Trine"],
-  homeCombine: ["Easy agreement at home", "Today's sign, the rooster, pairs with the dragon, your chart's sign for home and partner.", "Combine"],
+  familyTrine: ["Family is on your side", "The people you come from are easier to lean on today.", "Trine", "Today's sign, the horse, lines up with the dog, your birth chart's sign for family."],
+  homeCombine: ["Easy agreement at home", "You and the person closest to you find common ground faster than usual.", "Combine", "Today's sign, the rooster, pairs with the dragon, your birth chart's sign for home and partner."],
 };
 const WHY = {
   open: "Today favors starting things. Leave the clear-out for another day.",
@@ -352,7 +364,7 @@ const AFTER = {
   ],
 };
 
-const state = { chart: "a", version: "new", look: "trail", mode: "light", day: 0, page: "today" };
+const state = { chart: "a", version: "new", look: "trail", mode: "light", day: 0, page: "today", topic: "lead" };
 try {
   const saved = JSON.parse(localStorage.getItem("composed-week") || "{}");
   Object.assign(state, saved);
@@ -370,22 +382,106 @@ function headlineHTML(text) {
   return `${esc(w.slice(0, start).join(" "))} <em>${esc(w.slice(start, end).join(" "))}</em> ${esc(w.slice(end).join(" "))}`;
 }
 
-/* Each item: kicker, plain title, one plain sentence (optional), old name (optional). */
+/* Topic pages: what a card's "Read more" opens. Plain first; the old name is introduced here, once, as a name. */
+const INTERACTION_TOPIC = {
+  clash: {
+    old: "a clash",
+    how: ["It tends to show up as friction you can see: a meeting that moves, two plans that collide, something you postponed refusing to stay postponed.",
+      "Left alone, it usually settles in the least convenient direction. Handled early, you get to choose what moves."],
+    work: ["Pick which of the two gives way, and say so early.", "Holding on to both is what makes it grind."],
+    name: "Every day carries one of twelve animal signs, and your birth chart holds four, one for each part of life. When today's sign sits directly opposite one of yours, the two pull against each other.",
+  },
+  harm: {
+    old: "a harm",
+    how: ["It rarely looks like a problem. It shows up as small misreadings, a tone that's slightly off, a detail that slips.",
+      "Each one is minor. Over a few days they add up if nobody notices."],
+    work: ["Give important messages a second read.", "Ask the clarifying question now rather than later."],
+    name: "Every day carries one of twelve animal signs, and your birth chart holds four. When today's sign sits at an awkward angle to one of yours, not head-on, the result is a quiet rub rather than a collision.",
+  },
+  trine: {
+    old: "a trine",
+    how: ["Things line up without you arranging them: people agree faster, and pieces you've been holding separately start to fit.",
+      "The help is real but quiet. It makes doing things together cheaper; it doesn't do them for you."],
+    work: ["Bring in the people already leaning your way.", "Start the thing that needs more than one pair of hands."],
+    name: "Three of the twelve animal signs belong together as a set. When today's sign completes a set with signs in your birth chart, those parts of your life pull the same way.",
+  },
+  combine: {
+    old: "a combine",
+    how: ["Conversations go more smoothly than usual, and asks land softly.", "It's a good window for agreements, and windows close."],
+    work: ["Make the ask you've been saving for a good moment."],
+    name: "Some pairs of animal signs fit together naturally. When today's sign pairs with one in your birth chart, that part of your life gets easier to move.",
+  },
+};
+const TG_TOPIC = {
+  "Friend": { how: "People in the same position as you, peers and siblings, are the best company today. Shared work goes further than solo effort.", work: "Pair up on something you'd normally do alone." },
+  "Rob Wealth": { how: "A friendly competitive edge runs through the day: someone near you may want the same thing, the same credit or the same slot. It's rivalry, not hostility.", work: "Say out loud what you're after, so it doesn't turn into quiet jostling." },
+  "Eating God": { how: "Work done for the joy of it goes well: cooking, making, playing. The day rewards enjoying things without keeping score.", work: "Make something small just because you like making it." },
+  "Indirect Wealth": { how: "Chances show up unplanned: an offer, a lead, a lucky find. They reward attention more than planning.", work: "Say yes to one unexpected invitation." },
+  "Indirect Resource": { how: "Answers come sideways today: from a side conversation, a walk, an article you didn't mean to read.", work: "Step away from the problem for an hour and let it come back to you." },
+  "Direct Resource": { how: "Care and help reach you more easily: advice, support, someone looking out for you.", work: "Accept the help that's offered without explaining why you don't need it." },
+  "Hurting Officer": { how: "You're sharp and a little rule-bending today, quick to spot what could be done better.", work: "Offer the better way, and leave out the part about the old way being wrong." },
+};
+const TG_NAME = "The old calendars give each day a character from how the day's element relates to yours. There are ten of these characters, known as the ten gods, though they describe roles, not deities.";
+const STAGE_TOPIC = {
+  "Peak": "Spend today's drive on the one thing that matters most, and leave something for tomorrow.",
+  "Decline": "Finish things rather than start them.",
+  "Illness": "Cut the list down instead of pushing through it.",
+  "Stillness": "Let decisions wait a day if they can.",
+  "Storage": "Put one thing away properly.",
+  "Severance": "Clear away one thing that's finished.",
+  "Conception": "Write the idea down before it's ready.",
+};
+const STAGE_NAME = "The old calendars follow your chart's central element through twelve stages, like a life from first shoots to rest. Each day lands you on one of them.";
+const STAR_TOPIC = {
+  "General": "Others may look to you to make the call. Have an opinion ready.",
+  "Goat Blade": "Your will is strong today. Point it at one thing so it doesn't cut the wrong way.",
+  "Calamity": "Small bumps are likelier. Allow a little extra time.",
+  "Nobleman": "Help tends to appear when you ask for it. Ask.",
+  "Taiji Nobleman": "Big questions feel close. Give them a quiet half hour.",
+  "Virtue's Companion": "Kindness you give tends to come back.",
+  "Scholar": "Reading, writing and study come easier.",
+  "Travel Horse": "A change of scene helps, even a short one.",
+  "Peach Blossom": "You get noticed more than usual.",
+  "Canopy": "Time alone pays off today.",
+  "Void": "Plans may land lighter than you booked them. Keep expectations loose.",
+  "Heavenly Joy": "Small good news is likelier. Share it.",
+  "Monthly Virtue": "A gentle run of goodwill surrounds you.",
+  "Flying Blade": "Rushing causes small cuts. Slow down the fast parts.",
+  "Mourning Gate": "Old sadness may surface. Be gentle with it.",
+};
+const STAR_NAME = "The old calendars mark some days with small signs, called stars. Each points to one kind of luck, care or caution, and a day can carry several.";
+const ELEMENT_NAME = "The old calendars sort everything into five elements: Wood, Fire, Earth, Metal and Water. Your birth chart runs better with more of some and less of others, and each day brings one.";
+const HOURS_NAME = "The day splits into twelve two-hour blocks, each with its own animal sign. One block pulls with today's sign and one pulls against it; the old almanacs call them the day's lucky and unlucky hours.";
+
+const LEAD_TITLE = {
+  "Clash at work": "Something has to give at work", "Harm at work": "A slow leak at work",
+  "Trine across work and home": "Work and home pulling the same way", "Harm in the family": "A slow leak in the family",
+  "Clash at home": "Something has to give at home", "Harm to long-term plans": "A slow leak in your long-term plans",
+  "Trine across plans and home": "Plans and home pulling the same way", "Trine at home": "Home pulling the same way",
+  "Hurting Officer day (no sign pulls today)": "Clever, a little cheeky",
+};
+
+/* Cards on Today, below "What the day suits": every non-lead fact. */
 function details(r, d) {
-  const items = [{ k: "Why today", t: r.why[0], g: r.why[1], old: r.why[2] }];
-  for (const [t, g] of r.also) items.push({ k: "Also today", t, g, old: null });
-  if (r.element) items.push({ k: "The day's element", t: r.element[0], g: r.element[1], old: null });
-  const tg = r.tg ? TG[r.tg] : r.tgPlain;
-  if (tg) items.push({ k: "The day's character", t: tg[0], g: tg[1], old: null });
-  items.push({ k: "Hours", t: `Easiest ${d.easy[1]}`, g: `Roughest ${d.rough[1]}`, old: null });
-  items.push({ k: "Your pace", t: STAGE[r.stage][0], g: STAGE[r.stage][1], old: null });
-  items.push({ k: "Small signs", stars: r.stars });
+  const items = [];
+  for (const [t, g, old, mechanics] of r.also) items.push({ k: "Also today", t, g, topic: { kind: "interaction", key: old.toLowerCase(), forYou: `${g} ${mechanics}` } });
+  if (r.element) items.push({ k: "The day's element", t: r.element[0], g: r.element[1], topic: { kind: "element", name: r.element[2].replace(" day", ""), suits: r.element[0].includes("suits") } });
+  const tg = r.tg ? TG[r.tg] : null;
+  if (tg) items.push({ k: "The day's character", t: tg[0], g: tg[1], topic: { kind: "tg", key: r.tg } });
+  items.push({ k: "Hours", t: `Easiest ${d.easy[1]}`, g: `Roughest ${d.rough[1]}`, topic: { kind: "hours" } });
+  items.push({ k: "Your pace", t: STAGE[r.stage][0], g: STAGE[r.stage][1], topic: { kind: "stage", key: r.stage } });
+  items.push({ k: "Small signs", stars: r.stars, topic: { kind: "stars" } });
   return items;
 }
 
+function leadTopic(r) {
+  const kind = r.why[2] === "Hurting Officer" ? "tg" : "interaction";
+  return { kind, key: kind === "tg" ? "Hurting Officer" : r.why[2].toLowerCase(), forYou: r.why[1], lead: true };
+}
+
 function itemWords(it) {
-  if (it.stars) return it.stars.reduce((n, s) => n + words(STAR[s]) + words(s), 0);
-  return words(it.t) + words(it.g || "") + words(it.old || "");
+  if (it.stars) return it.stars.reduce((n, s) => n + words(STAR[s]), 0);
+  return words(it.t) + words(it.g || "");
 }
 
 function oldTag(old) {
@@ -393,31 +489,92 @@ function oldTag(old) {
 }
 
 function itemBody(it) {
+  const more = `<span class="more">Read more ›</span>`;
   if (it.stars) {
-    return `<div class="stars">${it.stars.map((s) => `<span class="star"><strong class="sn">${esc(STAR[s])}</strong></span>`).join("")}</div>`;
+    return `<div class="stars">${it.stars.map((s) => `<span class="star"><strong class="sn">${esc(STAR[s])}</strong></span>`).join("")}</div>${more}`;
   }
-  return `<b>${esc(it.t)}</b>${it.g ? `<span class="g">${esc(it.g)}</span>` : ""}${oldTag(it.old)}`;
+  return `<b>${esc(it.t)}</b>${it.g ? `<span class="g">${esc(it.g)}</span>` : ""}${more}`;
 }
 
 function detailsHTML(r, d, look) {
   const items = details(r, d);
+  const open = (i) => `data-go="topic" data-topic="${i}" role="button" tabindex="0"`;
   if (look === "trail") {
-    return `<div class="trail">${items.map((it) => `
-      <div class="wp"><i></i><div><span class="mono">${esc(it.k)}</span>${itemBody(it)}</div></div>`).join("")}</div>`;
+    return `<p class="mono section-k" style="margin:0">Along the way</p><div class="trail">${items.map((it, i) => `
+      <div class="wp card-link" ${open(i)}><i></i><div><span class="mono">${esc(it.k)}</span>${itemBody(it)}</div></div>`).join("")}</div>`;
   }
   if (look === "almanac") {
-    return `<div class="stack">${items.map((it) => `
-      <div class="row"><span class="mono">${esc(it.k)}</span><div>${itemBody(it)}</div></div>`).join("")}</div>`;
+    return `<p class="mono section-k" style="margin:0">Notes on the day</p><div class="stack">${items.map((it, i) => `
+      <div class="row card-link" ${open(i)}><span class="mono">${esc(it.k)}</span><div>${itemBody(it)}</div></div>`).join("")}</div>`;
   }
   const isWide = (it) => it.k !== "Hours" && it.k !== "Your pace";
-  return `<div class="tiles">${items.map((it) =>
-    `<div class="tile${isWide(it) ? " wide" : ""}"><span class="mono">${esc(it.k)}</span>${itemBody(it)}</div>`).join("")}</div>`;
+  return `<p class="mono section-k" style="margin:0">Readings</p><div class="tiles">${items.map((it, i) =>
+    `<div class="tile card-link${isWide(it) ? " wide" : ""}" ${open(i)}><span class="mono">${esc(it.k)}</span>${itemBody(it)}</div>`).join("")}</div>`;
+}
+
+/* One topic page's content, from the card (or the lead) it was opened from. */
+function topicContent(topic, it, r, d) {
+  if (topic.kind === "interaction") {
+    const t = INTERACTION_TOPIC[topic.key];
+    return { kicker: topic.lead ? "Today's reading" : it.k, title: topic.lead ? LEAD_TITLE[r.lead] : it.t,
+      oldLine: `The old calendars call this ${t.old}.`, forYou: topic.forYou, how: t.how, work: t.work, name: t.name };
+  }
+  if (topic.kind === "tg") {
+    const t = TG_TOPIC[topic.key];
+    const plain = TG[topic.key] || r.tgPlain || ["Clever, a little cheeky", "You spot the shortcut others miss. Say it kindly."];
+    return { kicker: topic.lead ? "Today's reading" : it.k, title: topic.lead ? LEAD_TITLE[r.lead] : plain[0],
+      oldLine: `The old calendars call this a ${topic.key} day.`, forYou: topic.lead ? topic.forYou : plain[1], how: [t.how], work: [t.work], name: TG_NAME };
+  }
+  if (topic.kind === "element") {
+    const e = topic.name;
+    const how = topic.suits
+      ? [`${e} is what your chart runs short of, so today tops you up. You're likely to feel more like yourself.`]
+      : [`Your chart already has plenty of what ${e} brings, so today can feel like a bit much.`];
+    const work = topic.suits ? ["Use the easier footing for something you've been putting off."] : ["Go a little softer than usual, and save bigger pushes for another day."];
+    return { kicker: it.k, title: it.t, oldLine: `The old calendars call this a ${e} day.`, forYou: it.g, how, work, name: ELEMENT_NAME };
+  }
+  if (topic.kind === "stage") {
+    return { kicker: it.k, title: it.t, oldLine: `The old calendars call this stage ${topic.key}.`, forYou: it.g, how: [], work: [STAGE_TOPIC[topic.key]], name: STAGE_NAME };
+  }
+  if (topic.kind === "hours") {
+    return { kicker: it.k, title: `Easiest ${d.easy[1]}, roughest ${d.rough[1]}`, oldLine: null,
+      forYou: `The ${d.easy[0].toLowerCase()} hour, ${d.easy[1]}, runs with today's sign. The ${d.rough[0].toLowerCase()} hour, ${d.rough[1]}, runs against it.`,
+      how: ["Plans made in the easy window tend to settle without a fuss. In the rough window, small things jostle."],
+      work: ["Put the conversation that matters in the easy window.", "Keep the rough window for routine work."], name: HOURS_NAME };
+  }
+  return { kicker: it.k, title: "Today's small signs", oldLine: null, forYou: null, how: [], work: [],
+    stars: it.stars.map((s) => ({ plain: STAR[s], old: s, line: STAR_TOPIC[s] })), name: STAR_NAME };
+}
+
+function topicHTML() {
+  const d = DAYS[state.day];
+  const r = AFTER[state.chart][state.day];
+  const items = details(r, d);
+  const it = state.topic === "lead" ? null : items[Number(state.topic)] || items[0];
+  const topic = it ? it.topic : leadTopic(r);
+  const c = topicContent(topic, it || {}, r, d);
+  const section = (label, inner) => inner ? `<section class="tsec"><span class="mono mut">${esc(label)}</span>${inner}</section>` : "";
+  const paras = (list) => list.map((p) => `<p class="body">${esc(p)}</p>`).join("");
+  const stars = c.stars ? c.stars.map((s) => `<div class="tstar"><b>${esc(s.plain)}</b><span class="g">${esc(s.line)}</span>${oldTag(s.old)}</div>`).join("") : "";
+  return `<div class="screen"><div class="statusbar"><span>9:41</span><span>●●●</span></div>
+    <div class="pad topic" style="padding-top:8px">
+      <button type="button" class="back" data-go="today">‹ Today</button>
+      <div class="depth-head"><span class="mono mut">${esc(c.kicker)} · ${esc(d.label)}</span>
+        <h1 class="hl" style="font-size:34px">${esc(c.title)}</h1>
+        ${c.oldLine ? `<p class="oldline">${esc(c.oldLine)}</p>` : ""}</div>
+      ${section("For you today", c.forYou ? `<p class="body">${esc(c.forYou)}</p>` : "")}
+      ${stars ? `<div class="tstars">${stars}</div>` : ""}
+      ${section("How it tends to go", c.how.length ? paras(c.how) : "")}
+      ${section("Working with it", c.work.length ? `<ul class="work">${c.work.map((w) => `<li>${esc(w)}</li>`).join("")}</ul>` : "")}
+      ${section("Where the name comes from", `<p class="body mut" style="font-size:15px">${esc(c.name)}</p>`)}
+    </div>
+    <nav class="nav" aria-label="App tabs (static)"><span>Chart</span><span class="on">Today</span><span>Cycles</span><span>Compare</span><span>Settings</span></nav></div>`;
 }
 
 function suitsHTML(r, d) {
   const favors = r.favors.length ? `<div class="chips"><span class="lean fav">Favors</span>${r.favors.map((c) => `<span class="chip fav">${esc(c)}</span>`).join("")}</div>` : "";
   const watch = r.watch.length ? `<div class="chips"><span class="lean watch">Watch</span>${r.watch.map((c) => `<span class="chip watch">${esc(c)}</span>`).join("")}</div><p class="why">${esc(r.whyWatch)}</p>` : "";
-  return `<div class="suits"><span class="mono mut">What the day suits</span><div><h3>${esc(d.officer[0])}</h3>${oldTag(d.officer[1])}</div>${favors}${watch}<span class="find">Find a day for something →</span></div>`;
+  return `<div class="suits"><span class="mono mut">What the day suits</span><h3>${esc(d.officer[0])}</h3>${favors}${watch}<span class="find">Find a day for something →</span></div>`;
 }
 
 function topo() {
@@ -478,29 +635,8 @@ function heroHTML(d, r, look) {
     <div class="pad" style="padding-top:20px">${hl}</div>`;
 }
 
-const DEPTH_TITLE = { trail: "Along the way", almanac: "Notes on the day", dial: "Readings" };
-
-function depthLinkHTML(d) {
-  return `<button type="button" class="depth-link" data-go="depth"><span class="mono mut">${esc(DEPTH_TITLE[state.look])}</span><b>What's behind ${esc(d.label.split(", ")[1])}</b><span class="g">The signs, the hours, your pace and the day's character, laid out in full.</span><span class="chev" aria-hidden="true">›</span></button>`;
-}
-
-function depthHTML() {
-  const d = DAYS[state.day];
-  const r = AFTER[state.chart][state.day];
-  return `<div class="screen"><div class="statusbar"><span>9:41</span><span>●●●</span></div>
-    <div class="pad" style="padding-top:8px">
-      <button type="button" class="back" data-go="today">‹ Today</button>
-      <div class="depth-head"><span class="mono mut">${esc(DEPTH_TITLE[state.look])} · ${esc(d.label)}</span>
-        <h1 class="hl" style="font-size:34px">What's behind today</h1>
-        <p class="body mut" style="font-size:15px">Your reading for ${esc(d.label.split(", ")[1])}, taken apart: what in your chart set it off, and everything else the day carries.</p></div>
-      ${detailsHTML(r, d, state.look)}
-      <span class="find">How this reading works →</span>
-    </div>
-    <nav class="nav" aria-label="App tabs (static)"><span>Chart</span><span class="on">Today</span><span>Cycles</span><span>Compare</span><span>Settings</span></nav></div>`;
-}
-
 function phoneHTML() {
-  if (state.page === "depth" && state.version === "new") return depthHTML();
+  if (state.page === "topic" && state.version === "new") return topicHTML();
   const d = DAYS[state.day];
   const fresh = state.version === "new";
   const r = fresh ? AFTER[state.chart][state.day] : null;
@@ -509,10 +645,10 @@ function phoneHTML() {
   const hero = heroHTML(d, { headline }, state.look);
   const bodyText = fresh ? r.body : b.grain;
   const agency = fresh ? r.agency : b.agency;
-  const top = `<p class="body rise" style="--d:2">${esc(bodyText)}</p>
+  const top = `<p class="body rise" style="--d:2">${esc(bodyText)}</p>${fresh ? `<button type="button" class="lead-more" data-go="topic" data-topic="lead">Read more ›</button>` : ""}
     <div class="quote rise" style="--d:3"><span class="mono">One thing to do</span><p>${esc(agency)}</p></div>`;
   const rest = fresh
-    ? `${suitsHTML(r, d)}${depthLinkHTML(d)}`
+    ? `${detailsHTML(r, d, state.look)}${suitsHTML(r, d)}`
     : `<p class="mono section-k" style="margin:0">The rest of the day, as it ships now</p><div class="old-rest">${b.rest.map((line) => `<p>${esc(line)}</p>`).join("")}</div>`;
   return `<div class="fold"><span>FOLD · 844 PX</span></div>
     <div class="screen"><div class="statusbar"><span>9:41</span><span>●●●</span></div>
@@ -534,21 +670,21 @@ function notesHTML() {
     <h2>${esc(d.label)}, ${esc(chartName)}</h2>
     <div class="nums">
       <div><span class="k">First screen</span><b>${firstNew}<small> words</small></b><span class="k">now ${firstOld}</span></div>
-      <div><span class="k">Detail page</span><b>${detailWords}<small> words</small></b><span class="k">now all on Today: ${totalOld}</span></div>
+      <div><span class="k">Whole screen</span><b>${firstNew + detailWords}<small> words</small></b><span class="k">now ${totalOld}</span></div>
       <div><span class="k">Budget</span><b>70<small> words</small></b><span class="k">proposed</span></div>
     </div>
     <div class="box"><span class="k">What leads, and why</span>
       <p><b>${esc(r.lead)}</b> is the strongest fact today, so the first screen is about it and nothing else repeats it.</p>
       <p>${r.mod ? `<b>${esc(r.mod)}</b> joins the body because it changes the advice.` : "The element agrees with the lead, so it stays in the details."}</p>
-      <p>Today says how the day could go and what helps. Everything else, including the one old name under <b>Why today</b>, is on the detail page behind the link.</p>
+      <p>Today says how the day could go and what helps, then one plain card per other topic. Every card, and the reading itself, has <b>Read more</b>: a page for that topic, where the old name, the signs behind it and how to work with it are laid out.</p>
     </div>
     <div class="box"><span class="k">Now, below the first screen</span>
       <ul class="before-list">${b.rest.slice(0, 4).map((line) => `<li>${esc(line)}</li>`).join("")}<li>…and ${Math.max(0, b.rest.length - 4)} more lines. Switch Version to “Now” to see the whole screen.</li></ul>
     </div>
     <div class="box"><span class="k">For you to decide</span>
       <ol class="qs">
-        <li>Is the link card the right way in, and is its wording clear?</li>
-        <li>Does the detail page read well in each look? Open it from the card or the Screen switch.</li>
+        <li>Do the topic pages have the right sections: for you today, how it tends to go, working with it, where the name comes from?</li>
+        <li>Is “Read more” under the reading and on each card the right way in?</li>
       </ol>
       <p class="k" style="text-transform:none;letter-spacing:0;font:400 12.5px var(--f-body)">Hero art is simplified here; this ticket doesn't change it.</p>
     </div>`;
@@ -571,16 +707,20 @@ function render() {
   segment("seg-version", "version", [["new", "Composed"], ["old", "Now"]]);
   segment("seg-look", "look", [["trail", "Explorer"], ["almanac", "Editorial"], ["dial", "Instrument"]]);
   segment("seg-mode", "mode", [["light", "Light"], ["dark", "Dark"]]);
-  segment("seg-page", "page", [["today", "Today"], ["depth", "What's behind it"]]);
+  segment("seg-page", "page", [["today", "Today"], ["topic", "Topic page"]]);
   segment("seg-day", "day", DAYS.map((d, i) => [i, `${d.dow} ${Number(d.date.slice(8))}`]));
   const phone = document.getElementById("phone");
   phone.dataset.mode = state.mode;
   phone.innerHTML = phoneHTML();
+  phone.onkeydown = (event) => {
+    if ((event.key === "Enter" || event.key === " ") && event.target.matches("[role=button][data-go]")) { event.preventDefault(); event.target.click(); }
+  };
   phone.onclick = (event) => {
     const go = event.target.closest("[data-go]");
     if (!go) return;
     state.page = go.dataset.go;
-    if (state.page === "depth") state.version = "new";
+    if (go.dataset.topic) state.topic = go.dataset.topic;
+    if (state.page === "topic") state.version = "new";
     try { localStorage.setItem("composed-week", JSON.stringify(state)); } catch (error) { /* per-viewer convenience only */ }
     render();
     phone.scrollIntoView({ block: "start", behavior: "smooth" });
