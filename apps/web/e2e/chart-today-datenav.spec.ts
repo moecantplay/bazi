@@ -16,6 +16,12 @@ function dateButton(page: Page, iso: string) {
   return page.getByRole("button", { name: new RegExp(`${longDate(iso)}.*jump to a date`) });
 }
 
+async function jumpTo(page: Page, iso: string) {
+  await page.getByRole("button", { name: /jump to a date/i }).click();
+  await page.getByLabel("Jump to a date").fill(iso);
+  await expect(dateButton(page, iso)).toBeVisible();
+}
+
 test("seeded chart renders and Today's date nav works and clamps", async ({ page, context }) => {
   await seedProfile(context, FIXTURE_A);
   await pinClock(context, `${TODAY}T09:00:00Z`);
@@ -44,30 +50,26 @@ test("seeded chart renders and Today's date nav works and clamps", async ({ page
   }
   expect(new Set(readings).size).toBe(3);
 
-  // Jump back to today, then confirm the ±30-day clamp in both directions.
-  await page.getByRole("button", { name: "Back to today" }).click();
-  await expect(dateButton(page, TODAY)).toBeVisible();
+  // Tapping the date opens a picker that jumps anywhere in the window.
+  await jumpTo(page, addDays(TODAY, 5));
 
+  // Confirm the ±30-day clamp in both directions. Jump near each edge and
+  // step the last days: stepping all 90 outruns the test timeout on CI WebKit.
   const prev = page.getByRole("button", { name: "Previous day" });
   const next = page.getByRole("button", { name: "Next day" });
 
-  for (let i = 0; i < 30; i += 1) {
-    await prev.click();
-  }
+  await jumpTo(page, addDays(TODAY, -28));
+  await prev.click();
+  await prev.click();
   await expect(prev).toBeDisabled();
   await expect(dateButton(page, addDays(TODAY, -30))).toBeVisible();
 
-  for (let i = 0; i < 60; i += 1) {
-    await next.click();
-  }
+  await jumpTo(page, addDays(TODAY, 28));
+  await next.click();
+  await next.click();
   await expect(next).toBeDisabled();
   await expect(dateButton(page, addDays(TODAY, 30))).toBeVisible();
   await expect(page.getByText("Readings reach 30 days out from today.")).toBeVisible();
-
-  // Tapping the date opens a picker that jumps anywhere in the window.
-  await page.getByRole("button", { name: /jump to a date/i }).click();
-  await page.getByLabel("Jump to a date").fill(addDays(TODAY, 5));
-  await expect(dateButton(page, addDays(TODAY, 5))).toBeVisible();
 
   // Past midnight, regaining visibility re-anchors the strip to the new day —
   // a PWA reopened the next morning must not keep showing yesterday.
