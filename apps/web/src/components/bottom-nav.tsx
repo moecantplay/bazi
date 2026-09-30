@@ -103,7 +103,7 @@ export function BottomNav() {
       <div className="mx-auto max-w-app px-5 pb-3">
         <ul className="flex items-stretch rounded-full bg-anchor px-2 py-1.5 shadow-nav">
           {TABS.map((tab) => {
-            const active = pathname === tab.href;
+            const active = pathname === tab.href || pathname.startsWith(`${tab.href}/`);
             return (
               <li key={tab.href} className="flex-1">
                 <Link

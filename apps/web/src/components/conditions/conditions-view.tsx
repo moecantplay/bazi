@@ -28,8 +28,9 @@ import { DayJournal } from "@/components/day-journal";
 import { MapHero } from "@/components/map-hero";
 import { Signpost } from "@/components/signpost";
 import { TokenText } from "@/components/token-text";
+import { ReadingBody } from "@/components/today/reading-body";
+import { TopicCards } from "@/components/today/topic-cards";
 import { TrailSigns } from "@/components/trail-signs";
-import { WaypointRail } from "@/components/waypoint-rail";
 import type { StoredProfile } from "@/lib/store-types";
 import { useDayProgress } from "@/lib/use-day-progress";
 import { useTodayLabel } from "@/lib/use-today-label";
@@ -49,7 +50,7 @@ export function ConditionsView({ profile }: Props) {
 
   const dateISO = addDays(today, offset);
   const model = useMemo(() => todayScreenModel(profile, dateISO, today), [profile, dateISO, today]);
-  const { pillars, stem, branch, reading, guidance, tone, waypoints, headline, branchByArea, dateRange } = model;
+  const { pillars, stem, branch, reading, guidance, tone, waypoints, headline, dateRange } = model;
 
   const blocks = useMemo(() => hourBlocks(model.dayPillar.branch), [model.dayPillar.branch]);
   const days = useMemo(() => conditionDays(profile, today), [profile, today]);
@@ -57,7 +58,7 @@ export function ConditionsView({ profile }: Props) {
   const officerKey = guidance.quality.officer.key;
   const officerName = guidance.quality.officer.english;
   const gloss = current?.gloss ?? "the day's own grain";
-  const hoursLine = reading.lines.find((line) => line.area === "hours");
+  const hoursCard = reading.cards.find((card) => card.topic === "hours");
   const routeLine = mapHeroSummary(waypoints, tone).ariaLabel.replace(/^Today.s route: /, "");
 
   useEffect(() => {
@@ -114,9 +115,13 @@ export function ConditionsView({ profile }: Props) {
         <p className="kicker">The hours</p>
         <div className="card">
           <HoursStrip blocks={blocks} currentIndex={offset === 0 ? currentHourBlockIndex() : null} />
-          {hoursLine && (
+          {hoursCard?.line && (
             <p className="px-4 pb-4 text-[13.5px] leading-relaxed text-ink">
-              <TokenText line={hoursLine.runs} />
+              {hoursCard.titles.map((title, index) => (
+                <TokenText key={index} line={title} />
+              ))}
+              {" · "}
+              <TokenText line={hoursCard.line} />
             </p>
           )}
         </div>
@@ -158,7 +163,10 @@ export function ConditionsView({ profile }: Props) {
       </section>
 
       <Fold label="Read the day · the full reading" open={readingOpen} onToggle={() => setReadingOpen((o) => !o)}>
-        <WaypointRail lines={reading.lines} branchByArea={branchByArea} waypoints={waypoints} />
+        <div className="flex flex-col gap-5">
+          <ReadingBody reading={reading} dateISO={dateISO} delay={0} />
+          <TopicCards cards={reading.cards} dateISO={dateISO} look="almanac" />
+        </div>
       </Fold>
 
       <Fold label="Go deeper · what the day suits" open={deeperOpen} onToggle={() => setDeeperOpen((o) => !o)}>
@@ -166,8 +174,6 @@ export function ConditionsView({ profile }: Props) {
           assessments={guidance.quality.assessments}
           chips={guidance.chips}
           proseLines={guidance.lines}
-          dos={reading.dos}
-          donts={reading.donts}
         />
         <Link href="/dates/" className="tap-target text-[12px] text-ink-soft hover:text-ink">
           Find a day for something &rarr;

@@ -110,11 +110,6 @@ export function interactionWord(interaction: InteractionType): string {
   return INTERACTION_WORDS[interaction];
 }
 
-/** The time-frame word a transit palace speaks in. */
-export function transitWhen(transitPalace: Palace): string {
-  return transitPalace === "annual" ? "this year" : "today";
-}
-
 /**
  * A two-hour block's wall-clock window as people say it: "9–11 am",
  * "11 am–1 pm", "11 pm–1 am". Hours are 0–23; the end is exclusive. Meridiem

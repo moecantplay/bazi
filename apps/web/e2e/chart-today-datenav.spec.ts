@@ -25,19 +25,18 @@ test("seeded chart renders and Today's date nav works and clamps", async ({ page
   await expect(page.getByRole("heading", { name: "Chart", exact: true })).toBeVisible();
   await expect(page.locator('[data-pillar="year"]')).toContainText("yang wood");
 
-  // Move to Today; the reading cites at least one fact.
+  // Move to Today; the reading's body and its cards render.
   await page.getByRole("link", { name: "Today" }).click();
-  await expect(page.getByRole("heading", { name: "Today", exact: true })).toBeVisible();
-  // Chapters may be collapsed (Editorial, Instrument), so the reading is read
-  // from the DOM rather than what is on screen.
+  await expect(page.getByRole("heading", { name: "Today", exact: true })).toBeAttached();
   const body = page.locator("[data-reading-body]");
-  await expect(body.locator("[data-fact-tag]").first()).toBeAttached();
+  await expect(body).toBeVisible();
+  await expect(page.locator("[data-topic-cards] a").first()).toBeVisible();
 
-  // Three consecutive dates each cite a fact and read differently.
+  // Three consecutive dates each read differently.
   const readings: string[] = [];
   for (let day = 0; day < 3; day += 1) {
     await expect(dateButton(page, addDays(TODAY, day))).toBeVisible();
-    await expect(body.locator("[data-fact-tag]").first()).toBeAttached();
+    await expect(body).not.toBeEmpty();
     readings.push((await body.textContent()) ?? "");
     if (day < 2) {
       await page.getByRole("button", { name: "Next day" }).click();
@@ -116,37 +115,30 @@ test("the map hero times its marks: the day's hours ride the route, chart relati
     await expect(hero.locator('[data-waypoint="all-day"]')).toHaveCount(0);
   }
 
-  // The reading carries the same two hours, cited with their windows.
-  const body = page.locator("[data-reading-body]");
-  await expect(body).toContainText(/hour clash · \d{1,2}(?: [ap]m)?–\d{1,2} [ap]m/);
-  await expect(body).toContainText(/hour combine · \d{1,2}(?: [ap]m)?–\d{1,2} [ap]m/);
+  // The hours card names the same two windows.
+  const hours = page.locator('[data-topic="hours"]');
+  await expect(hours).toContainText(/Easiest \d{1,2}(?: [ap]m)?–\d{1,2} [ap]m/);
+  await expect(hours).toContainText(/Roughest \d{1,2}(?: [ap]m)?–\d{1,2} [ap]m/);
 });
 
-test("today's terrain shows all 10 activities and its disclosure toggles the manifest", async ({
-  page,
-  context
-}) => {
+test("what the day suits lists all 10 activities behind its disclosure", async ({ page, context }) => {
   await seedProfile(context, FIXTURE_A);
   await pinClock(context, `${TODAY}T09:00:00Z`);
   await page.goto("/today/");
 
-  await page.locator("[data-go-deeper]").click();
-  const terrain = page.locator("[data-activity-terrain]");
-  await expect(terrain).toBeVisible();
-  const plot = terrain.locator('[role="img"]');
-  await expect(plot).toHaveAttribute("aria-label", /Today across 10 activities/);
-  await expect(plot.locator("[data-terrain-label]")).toHaveCount(10);
-  await expect(terrain.locator("[data-activity-manifest]")).toHaveCount(0);
+  const suits = page.locator("[data-guidance]");
+  await expect(suits).toBeVisible();
+  await expect(suits.locator("[data-activity-manifest]")).toHaveCount(0);
 
-  await terrain.getByRole("button", { name: "Show all 10 in detail" }).click();
-  const manifest = terrain.locator("[data-activity-manifest]");
+  await suits.getByRole("button", { name: "All ten activities" }).click();
+  const manifest = suits.locator("[data-activity-manifest]");
   await expect(manifest).toBeVisible();
   await expect(manifest.locator("li")).toHaveCount(10);
   await expect(manifest).toContainText("Gatherings");
   await expect(manifest).toContainText("meeting friends and kin");
 
-  await terrain.getByRole("button", { name: "Hide details" }).click();
-  await expect(terrain.locator("[data-activity-manifest]")).toHaveCount(0);
+  await suits.getByRole("button", { name: "Hide the ten activities" }).click();
+  await expect(suits.locator("[data-activity-manifest]")).toHaveCount(0);
 });
 
 test("streak counts consecutive opens and the tomorrow note shows only on today", async ({

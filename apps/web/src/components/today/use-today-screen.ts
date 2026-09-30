@@ -10,6 +10,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { addDays, clampOffsetToRange, dayProgress, daysBetween, todayScreenModel, type TodayScreenModel } from "@daymaster/presentation";
 import { trackReadingOpened } from "@/lib/analytics";
+import { dateFromQuery } from "@/lib/topic-href";
 import { hasOpenedToday, recordTodayOpen } from "@/lib/streak";
 import type { StoredProfile } from "@/lib/store-types";
 import { useNow } from "@/lib/use-now";
@@ -35,10 +36,20 @@ export interface TodayScreen {
   backToToday: () => void;
 }
 
+/**
+ * The day offset a link asked for (`?date=`, e.g. Back from a topic page),
+ * clamped to Today's range. Today only renders client-side, behind
+ * ProfileGate, so reading the URL here never mismatches server HTML.
+ */
+function offsetFromUrl(today: string): number {
+  const date = dateFromQuery(window.location.search);
+  return date === null ? 0 : clampOffsetToRange(daysBetween(today, date));
+}
+
 export function useTodayScreen(profile: StoredProfile): TodayScreen {
   const today = useTodayLabel();
   const now = useNow();
-  const [offset, setOffset] = useState(0);
+  const [offset, setOffset] = useState(() => offsetFromUrl(today));
   const [pickerOpen, setPickerOpen] = useState(false);
   const [streak, setStreak] = useState(0);
 
@@ -57,6 +68,13 @@ export function useTodayScreen(profile: StoredProfile): TodayScreen {
   useEffect(() => {
     document.documentElement.dataset.terrain = model.stem.element;
   }, [model.stem.element]);
+
+  // Keep the displayed date in the URL (without adding history entries), so a
+  // topic page's Back returns to this day rather than to today.
+  useEffect(() => {
+    const query = offset === 0 ? "" : `?date=${dateISO}`;
+    window.history.replaceState(window.history.state, "", `${window.location.pathname}${query}`);
+  }, [offset, dateISO]);
 
   function jumpTo(value: string) {
     if (value.length === 0) {

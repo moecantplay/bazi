@@ -24,11 +24,11 @@ describe("determinism", () => {
     expect(natalReading(withInteractions, "s")).toEqual(natalReading(withInteractions, "s"));
   });
 
-  it("dailyReading is identical for the same facts and seedKey", () => {
+  it("dailyReading is identical for the same facts and seed", () => {
     for (const interaction of INTERACTIONS) {
       for (const palace of NATAL_PALACES) {
         const facts = dailyFactSet(interaction, palace, "daily");
-        expect(dailyReading(facts, "day-seed")).toEqual(dailyReading(facts, "day-seed"));
+        expect(dailyReading(facts, { chart: "day-seed", date: "2026-09-29" })).toEqual(dailyReading(facts, { chart: "day-seed", date: "2026-09-29" }));
       }
     }
   });
@@ -55,8 +55,8 @@ describe("determinism", () => {
     for (const interaction of INTERACTIONS) {
       for (const palace of NATAL_PALACES) {
         const facts = dailyFactSet(interaction, palace, "daily");
-        const a = JSON.stringify(dailyReading(facts, "alpha"));
-        const b = JSON.stringify(dailyReading(facts, "beta"));
+        const a = JSON.stringify(dailyReading(facts, { chart: "alpha", date: "2026-09-29" }));
+        const b = JSON.stringify(dailyReading(facts, { chart: "beta", date: "2026-09-29" }));
         if (a !== b) {
           differences += 1;
         }

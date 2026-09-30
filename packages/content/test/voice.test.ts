@@ -81,17 +81,18 @@ function allEmittedLines(): ReadingLine[] {
     for (const interaction of INTERACTIONS) {
       for (const palace of NATAL_PALACES) {
         for (const transitPalace of ["daily", "annual"] as const) {
-          const reading = dailyReading(dailyFactSet(interaction, palace, transitPalace), seed);
-          lines.push(reading.headline, ...reading.lines, reading.agency);
+          // The body runs 2–3 sentences (VOICE.md rule 13); composed-daily.test.ts checks it.
+          const reading = dailyReading(dailyFactSet(interaction, palace, transitPalace), { chart: seed, date: "2026-09-29" });
+          lines.push(reading.headline, reading.agency);
         }
       }
     }
     for (const english of TEN_GODS) {
       const reading = dailyReading(
         dailyFactSet("six-clash", "day", "daily", { english, god: "測試" }),
-        seed,
+        { chart: seed, date: "2026-09-29" },
       );
-      lines.push(...reading.lines, reading.agency);
+      lines.push(reading.headline, reading.agency);
     }
     lines.push(...luckTransitionLines({ fromAge: 33, toAge: 43 }, seed));
     lines.push(...compareReading(compareFactSet(), seed).lines);

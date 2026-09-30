@@ -49,3 +49,26 @@ export function pickInt(min: number, max: number, seedKey: string, salt: string)
   const span = max - min + 1;
   return min + (fnv1a(`${seedKey}|${salt}`) % span);
 }
+
+const MS_PER_DAY = 86_400_000;
+
+/** Whole days from 1970-01-01 to a "YYYY-MM-DD" date. */
+export function dayNumber(dateISO: string): number {
+  const [year, month, day] = dateISO.split("-").map(Number);
+  return Math.floor(Date.UTC(year as number, (month as number) - 1, day as number) / MS_PER_DAY);
+}
+
+/**
+ * Pick from a pool by stepping through it instead of landing wherever a hash
+ * falls: the chart fixes a starting point, and `step` advances one entry per
+ * use (a visit count, or the day number). Consecutive steps never repeat an
+ * entry. Deterministic in (chart, slot, step).
+ */
+export function cyclePick<T>(items: readonly T[], chartSeed: string, slot: string, step: number): T {
+  if (items.length === 0) {
+    throw new Error(`cyclePick called with an empty list (slot "${slot}")`);
+  }
+  const offset = fnv1a(`${chartSeed}|${slot}`);
+  const index = (offset + step) % items.length;
+  return items[index] as T;
+}

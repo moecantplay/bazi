@@ -86,18 +86,6 @@ export async function seedStore(context: BrowserContext, partial: Record<string,
 }
 
 /**
- * Open every collapsed reading chapter (Editorial and Instrument start with
- * them closed; Explorer's cards are always open), leaving "What the day
- * suits" alone so specs that open that fold still control it.
- */
-export async function openReading(page: Page): Promise<void> {
-  const closed = page.locator('[data-reading-body] button[aria-expanded="false"]:not([data-go-deeper])');
-  while ((await closed.count()) > 0) {
-    await closed.first().click();
-  }
-}
-
-/**
  * Walk onboarding for Fixture A (1994-12-08 16:30 Jakarta, male) up to and
  * including "Save chart", choosing `lookName` on the look step.
  */

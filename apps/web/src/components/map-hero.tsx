@@ -240,13 +240,11 @@ export function MapHero({ pillars, dayBranchGloss, tone, waypoints, progress }: 
             </text>
           )}
 
-          {/* ALL DAY: day-long relation marks, off the route, numbered to
-              match the waypoint that tells their story below. */}
+          {/* ALL DAY: day-long relation marks, off the route, strongest first. */}
           {dayLong.map((waypoint, index) => {
             const y = ALL_DAY_ROW.firstY + index * ALL_DAY_ROW.rowGap;
             const branch = describeBranch(waypoint.transitBranch);
             const hue = `var(--element-${branch.element})`;
-            const number = waypoint.waypointNumber === undefined ? "" : `${String(waypoint.waypointNumber).padStart(2, "0")} · `;
             return (
               <g key={`all-day-${index}`} data-waypoint="all-day">
                 <WaypointMark x={ALL_DAY_ROW.x} y={y} color={hue} crossing={waypoint.crossing} />
@@ -257,7 +255,7 @@ export function MapHero({ pillars, dayBranchGloss, tone, waypoints, progress }: 
                   />
                 </g>
                 <MapLabel x={ALL_DAY_ROW.x + 40} y={y + 2.5}>
-                  {`${number}${interactionWord(waypoint.interaction).toUpperCase()} · ALL DAY`}
+                  {`${interactionWord(waypoint.interaction).toUpperCase()} · ALL DAY`}
                 </MapLabel>
               </g>
             );

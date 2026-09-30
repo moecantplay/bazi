@@ -1,52 +1,47 @@
 import { expect, test } from "@playwright/test";
-import { FIXTURE_A, openReading, pinClock, seedProfile } from "./helpers";
+import { FIXTURE_A, pinClock, seedProfile } from "./helpers";
 
 const TODAY = "2026-07-07";
 
-test("fact-tag captions open their glossary explainer", async ({ page, context }) => {
+test("a topic card opens its page, and Back keeps the day", async ({ page, context }) => {
   await seedProfile(context, FIXTURE_A);
   await pinClock(context, `${TODAY}T09:00:00Z`);
   await page.goto("/today/");
-  await openReading(page);
 
-  // Every daily body caption is a link; tapping one opens the sheet.
-  const body = page.locator("[data-reading-body]");
-  const caption = body.locator("[data-fact-tag] button").first();
-  await expect(caption).toBeVisible();
-  await caption.click();
+  await page.getByRole("button", { name: "Next day" }).click();
+  const card = page.locator("[data-topic-cards] a").first();
+  await card.click();
+  await expect(page).toHaveURL(/\/today\/topic\/\?date=2026-07-08&topic=/);
+  const topicPage = page.locator("[data-topic-page]");
+  await expect(topicPage.getByRole("heading", { level: 1 })).not.toBeEmpty();
+  await expect(topicPage.getByRole("heading", { name: "Where the name comes from" })).toBeVisible();
 
-  const sheet = page.locator("[data-glossary-sheet]");
-  await expect(sheet).toBeVisible();
-  await expect(sheet.getByRole("heading", { level: 2 })).not.toBeEmpty();
-
-  // The caption explains the category only — advice lives behind "Read more".
-  await expect(sheet.locator("[data-glossary-advice]")).toHaveCount(0);
-
-  // Escape closes it.
-  await page.keyboard.press("Escape");
-  await expect(sheet).toHaveCount(0);
+  await topicPage.getByRole("link", { name: /Today/ }).click();
+  await expect(page).toHaveURL(/\/today\/\?date=2026-07-08/);
+  await expect(page.getByRole("button", { name: "Back to today" })).toBeVisible();
 });
 
-test("a card's Read more opens the deep dive, not the category explainer", async ({
-  page,
-  context,
-}) => {
+test("the reading's Read more opens the lead's page, where the old name lives", async ({ page, context }) => {
   await seedProfile(context, FIXTURE_A);
   await pinClock(context, `${TODAY}T09:00:00Z`);
   await page.goto("/today/");
-  await openReading(page);
 
-  // The first daily body card is an interaction line; interactions have dives.
-  await page.locator("[data-reading-body] [data-read-more]").first().click();
+  // Today's own text never names the system; its topic page does, once.
+  await expect(page.locator("[data-reading-body]")).not.toContainText(/old calendars/i);
+  await page.locator("[data-reading-body] [data-read-more]").click();
+  const topicPage = page.locator("[data-topic-page]");
+  await expect(topicPage).toContainText("The old calendars call this");
+  await expect(topicPage.getByRole("heading", { name: "For you today" })).toBeVisible();
+  await expect(topicPage.getByRole("heading", { name: "Working with it" })).toBeVisible();
+});
 
-  const sheet = page.locator("[data-glossary-sheet]");
-  await expect(sheet).toBeVisible();
-  await expect(sheet.getByRole("heading", { level: 2, name: /^Inside / })).toBeVisible();
-  await expect(sheet.locator("[data-glossary-advice]")).toBeVisible();
-  await expect(sheet.getByRole("heading", { name: "Working with it" })).toBeVisible();
-
-  await page.keyboard.press("Escape");
-  await expect(sheet).toHaveCount(0);
+test("a topic the day doesn't carry falls back to Today", async ({ page, context }) => {
+  await seedProfile(context, FIXTURE_A);
+  await pinClock(context, `${TODAY}T09:00:00Z`);
+  await page.goto("/today/topic/?date=2026-07-07&topic=nonsense");
+  // 2026-07-07 is today, which Today shows without a date in its URL.
+  await expect(page).toHaveURL(/\/today\/$/);
+  await expect(page.locator("[data-reading-body]")).toBeVisible();
 });
 
 test("the read-more link explains how the reading works", async ({ page, context }) => {

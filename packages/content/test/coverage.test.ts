@@ -19,7 +19,7 @@ import {
   dailyFactSet,
   natalWithInteractions,
 } from "./collect.js";
-import { assertGlossed, lineFactTag, lineText, plainGloss } from "./token-utils.js";
+import { lineFactTag, lineText, plainGloss } from "./token-utils.js";
 
 const SEED = "coverage-seed";
 
@@ -30,9 +30,11 @@ function natalText(facts: ReadingFact[]): string {
     .join(" || ");
 }
 
+const DAILY_SEED = { chart: SEED, date: "2026-09-29" };
+
 function dailyText(facts: ReadingFact[]): string {
-  const reading = dailyReading(facts, SEED);
-  return [...reading.lines, reading.agency].map((line) => lineText(line)).join(" || ");
+  const reading = dailyReading(facts, DAILY_SEED);
+  return [reading.headline, reading.body, reading.agency].map((line) => lineText(line)).join(" || ");
 }
 
 describe("coverage: natal", () => {
@@ -138,65 +140,19 @@ describe("coverage: natal", () => {
 });
 
 describe("coverage: daily", () => {
-  it("every interaction x natal palace x transit palace yields lines", () => {
+  it("every interaction x natal palace yields a full first screen", () => {
     for (const interaction of INTERACTIONS) {
       for (const palace of NATAL_PALACES) {
-        for (const transitPalace of ["daily", "annual"] as const) {
-          const reading = dailyReading(dailyFactSet(interaction, palace, transitPalace), SEED);
-          expect(reading.lines.length, `${interaction}/${palace}/${transitPalace}`).toBeGreaterThanOrEqual(2);
-          expect(reading.lines.length).toBeLessThanOrEqual(6);
-          expect(lineText(reading.agency).length).toBeGreaterThan(0);
-          expect(reading.dos.length, "dos always present").toBeGreaterThanOrEqual(1);
-          expect(reading.dos.length).toBeLessThanOrEqual(2);
-          expect(reading.donts.length, "donts always present").toBeGreaterThanOrEqual(1);
-          expect(reading.donts.length).toBeLessThanOrEqual(2);
+        const reading = dailyReading(dailyFactSet(interaction, palace, "daily"), DAILY_SEED);
+        for (const line of [reading.headline, reading.body, reading.agency]) {
+          expect(lineText(line).length, `${interaction}/${palace}`).toBeGreaterThan(0);
         }
+        expect(reading.leadTopic).toBe(`interaction:${interaction}:${palace}`);
       }
     }
   });
 
-  it("every ten-god day line carries a glossed term run for the classical name", () => {
-    // The structural version of the old "carries its animal gloss and
-    // survives the Han strip" check: instead of rendering and regex-testing
-    // a string, assert the run shape directly (VOICE.md §11).
-    for (const english of TEN_GODS) {
-      const reading = dailyReading(
-        dailyFactSet("six-clash", "month", "daily", { god: "測試", english }),
-        SEED,
-      );
-      const tenGodLine = reading.lines.find((line) => line.topic === `ten-god:${english}`);
-      expect(tenGodLine, english).toBeDefined();
-      const runs = tenGodLine!.runs;
-      expect(runs, english).toBeDefined();
-      assertGlossed(runs!);
-      const termRun = runs!.find((run) => run.kind === "term" && run.term === english);
-      expect(termRun, `${english} term run`).toBeDefined();
-    }
-  });
-
-  it("every dos/donts fact tag with a real citation carries real (not mechanically-wrapped) runs, no raw Han when rendered gloss-only", () => {
-    // M19 Phase 11 cleanup: suggestionCandidates() used to build its factTag
-    // from raw fact data (branch glyphs, star chinese names) and never
-    // authored factTagRuns, so it fell through to the mechanical
-    // {kind:"text"} wrap — which does not strip Han, unlike a presenter's
-    // defensive stripHanCharacters call. Assert every dos/donts line whose
-    // factTag actually cites something (not the null-factTag generic
-    // fallback) has real term runs, correctly glossed, with no raw CJK
-    // surviving a gloss-only render.
-    for (const interaction of INTERACTIONS) {
-      const reading = dailyReading(dailyFactSet(interaction, "month", "daily"), SEED);
-      for (const line of [...reading.dos, ...reading.donts]) {
-        const factTag = lineFactTag(line);
-        if (factTag === null) continue;
-        expect(line.factTagRuns, factTag).toBeDefined();
-        assertGlossed(line.factTagRuns!);
-        const rendered = plainGloss(line.factTagRuns!);
-        expect(rendered, factTag).not.toMatch(/[㐀-鿿]/);
-      }
-    }
-  });
-
-  it("an unknown transit interaction falls back to a safe generic line", () => {
+  it("an unknown transit interaction falls back to the day's character", () => {
     const facts: ReadingFact[] = [
       {
         kind: "transit-interaction",
@@ -206,84 +162,44 @@ describe("coverage: daily", () => {
         transitPalace: "daily",
         transitBranch: "午",
       },
+      { kind: "ten-god-day", god: "正官", english: "Direct Officer" },
     ];
-    const reading = dailyReading(facts, SEED);
-    expect(lineText(reading.lines[0]!)).toMatch(/passing weather/);
+    const reading = dailyReading(facts, DAILY_SEED);
+    expect(lineText(reading.body).length).toBeGreaterThan(0);
   });
 
-  it("every element-day (element x favorable) yields a line", () => {
-    for (const element of ELEMENTS) {
-      for (const favorable of [true, false]) {
-        const text = dailyText([{ kind: "element-day", element, favorable }]);
-        expect(text.length, `${element}/${favorable}`).toBeGreaterThan(0);
-      }
-    }
-  });
-
-  it("every ten-god english yields a specific (non-generic) line", () => {
+  it("every ten-god english leads a quiet day with its own wording", () => {
+    const bodies = new Set<string>();
     for (const english of TEN_GODS) {
       const text = dailyText([{ kind: "ten-god-day", god: "測試", english }]);
-      expect(text, english).not.toMatch(/distinct ten-god note/);
       expect(text.length).toBeGreaterThan(0);
+      bodies.add(text);
     }
+    expect(bodies.size).toBe(TEN_GODS.length);
   });
 
-  it("an unknown ten-god english falls back to a safe generic line", () => {
+  it("an unknown ten-god english still reads", () => {
     const text = dailyText([{ kind: "ten-god-day", god: "??", english: "Nonsense God" }]);
-    expect(text).toMatch(/distinct ten-god note/);
+    expect(text.length).toBeGreaterThan(0);
   });
 
-  it("a daily reading always has 2-4 body lines and an agency line", () => {
-    // Minimal: only the two always-present day facts.
-    const reading = dailyReading(
-      [
-        { kind: "element-day", element: "metal", favorable: false },
-        { kind: "ten-god-day", god: "正官", english: "Direct Officer" },
-      ],
-      SEED,
-    );
-    expect(reading.lines.length).toBe(2);
-    expect(lineText(reading.agency).length).toBeGreaterThan(0);
-    expect(lineFactTag(reading.agency)).toBeNull();
-  });
-
-  it("a minimal reading still offers one do and one don't (generic fallback)", () => {
-    const reading = dailyReading(
-      [{ kind: "ten-god-day", god: "正官", english: "Direct Officer" }],
-      SEED,
-    );
-    expect(reading.dos.length).toBe(1);
-    expect(reading.donts.length).toBe(1);
-    expect(lineFactTag(reading.dos[0]!)).toBeNull();
-    expect(lineFactTag(reading.donts[0]!)).toBeNull();
-  });
-
-  it("every star key yields a star-day line naming the star", () => {
-    for (const star of STAR_KEYS) {
-      const english = `Star ${star}`;
-      const reading = dailyReading(
-        [{ kind: "star-day", star, chinese: "星", english, transitPalace: "daily" }],
-        SEED,
-      );
-      // The star's name is a term run (gloss-rendered, never its literal
-      // english label) — assert it structurally rather than in rendered text.
-      const starLine = reading.lines.find((line) =>
-        line.runs.some((run) => run.kind === "term" && run.term === english),
-      );
-      expect(starLine, star).toBeDefined();
+  it("every element, star and stage gets a card with a plain title", () => {
+    for (const element of ELEMENTS) {
+      for (const favorable of [true, false]) {
+        const reading = dailyReading([...dailyFactSet("six-clash", "month", "daily").filter((fact) => fact.kind !== "element-day"), { kind: "element-day", element, favorable }], DAILY_SEED);
+        const shown = reading.modifierTopic === `element:${element}` || reading.cards.some((card) => card.topic === `element:${element}`);
+        expect(shown, `${element}/${favorable}`).toBe(true);
+      }
     }
-  });
-
-  it("every life-stage label yields a stage-day line naming the stage", () => {
-    for (const label of STAGE_LABELS) {
-      const reading = dailyReading(
-        [{ kind: "stage-day", stage: { chinese: "段", english: label } }],
-        SEED,
-      );
-      const stageLine = reading.lines.find((line) =>
-        line.runs.some((run) => run.kind === "term" && run.term === label),
-      );
-      expect(stageLine, label).toBeDefined();
+    for (const star of STAR_KEYS) {
+      const reading = dailyReading([{ kind: "star-day", star, chinese: "星", english: star, transitPalace: "daily" }], DAILY_SEED);
+      const card = reading.cards.find((candidate) => candidate.topic === "stars");
+      expect(card && plainGloss(card.titles[0]!), star).not.toBe("A small sign today");
+    }
+    for (const stage of STAGE_LABELS) {
+      const reading = dailyReading([{ kind: "stage-day", stage: { chinese: "階", english: stage } }], DAILY_SEED);
+      const card = reading.cards.find((candidate) => candidate.topic === `stage:${stage}`);
+      expect(card && plainGloss(card.titles[0]!), stage).not.toBe("Your pace today");
     }
   });
 });

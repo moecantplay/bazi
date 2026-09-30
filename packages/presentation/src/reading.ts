@@ -5,8 +5,11 @@
  * anyone has seen):
  *   natal seedKey = natalSeedKey(profile) (see seed-key.ts, the single copy)
  *   daily seedKey = natal seedKey + `|${dateISO}`   (dateISO = displayed day)
- * The content layer is deterministic in the seedKey, so the same person and the
- * same date always render the identical reading.
+ * Today's reading takes the two apart ({ chart: natal seedKey, date, visit })
+ * so its first screen steps through its pools once per visit of the day's
+ * situation (M20-21, lead-visit.ts). The content layer is
+ * deterministic in its seed, so the same person and the same date always
+ * render the identical reading.
  */
 
 import {
@@ -23,6 +26,7 @@ import {
   type NatalReading
 } from "@daymaster/content";
 import { chartFor } from "./chart.js";
+import { leadVisit } from "./lead-visit.js";
 import { natalSeedKey } from "./seed-key.js";
 import { readingZoneOf } from "./reading-zone.js";
 import type { StoredProfile } from "./types.js";
@@ -50,6 +54,10 @@ export function dailyBundleFor(profile: StoredProfile, dateISO: string): DailyBu
   return {
     dayPillar: dailyPillar(dateISO, zone),
     facts,
-    reading: dailyReading(facts, dailySeedKey(profile, dateISO))
+    reading: dailyReading(facts, {
+      chart: natalSeedKey(profile),
+      date: dateISO,
+      visit: leadVisit(chart, zone, dateISO, natalSeedKey(profile))
+    })
   };
 }

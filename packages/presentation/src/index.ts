@@ -60,8 +60,7 @@ export { dailySeedKey, natalReadingFor, dailyBundleFor } from "./reading.js";
 export type { DailyBundle } from "./reading.js";
 export { dayGuidanceFor } from "./guidance.js";
 export type { DayGuidance, GuidanceChip, GuidanceBundle } from "./guidance.js";
-export { routeWaypointsFor, waypointNumberOf } from "./route-waypoints.js";
-export { readingSections, type ReadingSection } from "./reading-sections.js";
+export { routeWaypointsFor } from "./route-waypoints.js";
 export type { RouteWaypoint, WaypointTiming } from "./route-waypoints.js";
 export {
   todayScreenModel,
@@ -70,6 +69,7 @@ export {
   TODAY_RANGE_DAYS
 } from "./today-screen.js";
 export type { TodayScreenModel, TodayDateRange, HeadlineRun } from "./today-screen.js";
+export { topicPageFor } from "./topic-page.js";
 export { elevationWeek, elevationPath, ELEVATION_WEEK_LENGTH } from "./elevation.js";
 export type { ElevationCell } from "./elevation.js";
 export { activityTerrain } from "./activity-terrain.js";

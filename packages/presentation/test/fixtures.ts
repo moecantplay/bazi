@@ -26,3 +26,33 @@ export const FIXTURE_UNKNOWN_TIME: StoredProfile = {
   config: { lateZiHour: "midnight", trueSolarTime: false },
   createdAt: "2026-01-01T00:00:00.000Z"
 };
+
+/** Golden Fixture B's birth date (the 立春 boundary day, before it), noon. */
+export const FIXTURE_B: StoredProfile = {
+  birth: { date: "1994-02-03", time: "12:00", city: JAKARTA, sex: "female" },
+  config: { lateZiHour: "midnight", trueSolarTime: false },
+  createdAt: "2026-01-01T00:00:00.000Z"
+};
+
+/** Golden Fixture C's day anchor (甲子), noon. */
+export const FIXTURE_C: StoredProfile = {
+  birth: { date: "1949-10-01", time: "12:00", city: JAKARTA, sex: "male" },
+  config: { lateZiHour: "midnight", trueSolarTime: false },
+  createdAt: "2026-01-01T00:00:00.000Z"
+};
+
+/** Golden Fixture D's late zi hour (23:30). */
+export const FIXTURE_D: StoredProfile = {
+  birth: { date: "2000-06-15", time: "23:30", city: JAKARTA, sex: "female" },
+  config: { lateZiHour: "midnight", trueSolarTime: false },
+  createdAt: "2026-01-01T00:00:00.000Z"
+};
+
+/** Every fixture the 90-day reading checks run over. */
+export const READING_FIXTURES: readonly [string, StoredProfile][] = [
+  ["A", FIXTURE_A],
+  ["unknown time", FIXTURE_UNKNOWN_TIME],
+  ["B", FIXTURE_B],
+  ["C", FIXTURE_C],
+  ["D", FIXTURE_D]
+];

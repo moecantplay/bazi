@@ -95,17 +95,77 @@ export interface NatalReading {
   sections: ReadingSection[];
 }
 
-/** A daily reading: headline, body lines, suggestions, and the agency line. */
+/** What a daily reading is seeded by: the chart (fixed) and the displayed date. */
+export interface DailySeed {
+  /** The chart's seed, the same every day (natal seed key). */
+  chart: string;
+  /** The displayed date, "YYYY-MM-DD". */
+  date: string;
+  /**
+   * How many times the day's lead situation has come up before (presentation
+   * counts it). Each visit steps the first-screen pools to their next entry,
+   * so a situation never reads the same on two visits in a row. Absent: the
+   * day number steps them instead.
+   */
+  visit?: number;
+}
+
+/**
+ * One plain card below Today's first screen: a fact that isn't the lead,
+ * said in everyday words (VOICE.md rule 11). Its "Read more" opens the page
+ * for `topic`.
+ */
+export interface TopicCard {
+  /** Topic-page key, unique within the day, e.g. "interaction:trine:year", "stage:Peak", "stars". */
+  topic: string;
+  /** Small label above the title ("Also today", "Your pace"). */
+  kicker: string;
+  /** One plain title; the small-signs card has one per star. */
+  titles: TokenLine[];
+  /** One plain sentence, or null when the titles say it all. */
+  line: TokenLine | null;
+}
+
+/**
+ * Today's reading, composed around one lead fact (VOICE.md rule 13): the
+ * first screen is headline → body → agency, and every other fact is a card.
+ */
 export interface DailyReading {
-  /** Display-type hook that opens the reading; pure voice, cites nothing. */
+  /** The day's consequence in the reader's terms. */
   headline: ReadingLine;
-  lines: ReadingLine[];
-  /** Small actions the day's grain makes cheaper (1–2, always present). */
-  dos: ReadingLine[];
-  /** Things worth postponing today (1–2, always present), never prohibitions. */
-  donts: ReadingLine[];
-  /** One concrete thing to do today, always present, rendered last. */
+  /** How it could show up and how to ease it, 2–3 sentences. */
+  body: ReadingLine;
+  /** One concrete thing to do today; closes the first screen. */
   agency: ReadingLine;
+  /** Topic-page key of the lead fact: the body's "Read more". */
+  leadTopic: string;
+  /** Topic key of the element when it joined the body, else null. */
+  modifierTopic: string | null;
+  cards: TopicCard[];
+}
+
+/** One star on the small-signs topic page. */
+export interface StarEntry {
+  title: TokenLine;
+  line: TokenLine;
+  oldName: TokenLine;
+}
+
+/**
+ * A topic page: the long form behind a card. Plain first, then the old name
+ * once, framed as a name, then the plumbing (VOICE.md rule 11).
+ */
+export interface TopicPage {
+  title: TokenLine;
+  /** "The old calendars call this a clash." Null where the topic has no single old name. */
+  oldName: TokenLine | null;
+  /** How it applies to this chart on this date, sign mechanics in plain words. */
+  forYou: TokenLine | null;
+  how: TokenLine[];
+  work: TokenLine[];
+  nameOrigin: TokenLine;
+  /** Only the small-signs page lists stars. */
+  stars: StarEntry[];
 }
 
 /** A two-chart comparison reading: ordered lines, no agency line. */

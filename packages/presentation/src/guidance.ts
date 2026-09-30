@@ -30,3 +30,4 @@ export function dayGuidanceFor(profile: StoredProfile, dateISO: string): Guidanc
   const guidance = dayGuidance(quality, dailySeedKey(profile, dateISO));
   return { quality, chips: guidance.chips, lines: guidance.lines };
 }
+

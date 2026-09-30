@@ -8,7 +8,7 @@
 import type { Palace } from "@daymaster/bazi-engine";
 import type { DraftLine } from "../types.js";
 import type { ContentRun, TokenLine } from "../tokens.js";
-import { STAR_GLOSSES, palaceWord, transitWhen } from "../vocab.js";
+import { STAR_GLOSSES, palaceWord } from "../vocab.js";
 
 /** Everything the builders need from a star / star-day fact. */
 export interface StarInput {
@@ -75,27 +75,6 @@ export function natalStarLine(input: StarInput, palace: Palace): DraftLine {
     text,
     factTag: `${input.chinese} ${input.english} · ${palaceWord(palace)}`,
     factTagRuns: [starTermRun(input), { kind: "text", text: ` · ${palaceWord(palace)}` }],
-    topic: `star:${input.star}`,
-    runs,
-  };
-}
-
-/** A daily star line: "Today lights your Peach Blossom (咸池) — …". */
-export function starDayLine(input: StarInput, transitPalace: Palace): DraftLine {
-  const when = transitWhen(transitPalace);
-  const opener = when === "today" ? "Today lights" : "This year lights";
-  const gloss = glossFor(input);
-  const texture = textureFor(input);
-  const text = `${opener} your ${input.english} (${input.chinese}) — ${gloss}. ${texture}`;
-  const runs: TokenLine = [
-    { kind: "text", text: `${opener} your ` },
-    starTermRun(input),
-    { kind: "text", text: ` — ${gloss}. ${texture}` },
-  ];
-  return {
-    text,
-    factTag: `${input.chinese} ${input.english} · ${when}`,
-    factTagRuns: [starTermRun(input), { kind: "text", text: ` · ${when}` }],
     topic: `star:${input.star}`,
     runs,
   };

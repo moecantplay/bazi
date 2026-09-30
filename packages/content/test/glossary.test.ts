@@ -53,8 +53,8 @@ function emittedLines(): ReadingLine[] {
   const lines: ReadingLine[] = [];
   for (const interaction of INTERACTIONS) {
     for (const palace of NATAL_PALACES) {
-      const reading = dailyReading(dailyFactSet(interaction, palace, "daily"), seed);
-      lines.push(...reading.lines, ...reading.dos, ...reading.donts, reading.agency);
+      const reading = dailyReading(dailyFactSet(interaction, palace, "daily"), { chart: seed, date: "2026-09-29" });
+      lines.push(reading.headline, reading.body, reading.agency);
     }
   }
   for (const english of TEN_GODS) {
@@ -126,15 +126,13 @@ describe("glossary entries", () => {
       topicsSeen += 1;
       expect(glossaryEntry(line.topic), `${line.topic} <- "${lineText(line)}"`).toBeDefined();
     }
-    expect(topicsSeen).toBeGreaterThan(50);
+    // Today's lines no longer carry glossary topics: its cards open topic pages (M20-21).
+    expect(topicsSeen).toBeGreaterThan(40);
   });
 
-  it("captioned daily body lines always carry a topic", () => {
-    // Every body line on the Today screen cites a concept the glossary covers.
-    const reading = dailyReading(dailyFactSet("trine", "month", "daily"), "seed");
-    for (const line of reading.lines) {
-      expect(line.topic, lineText(line)).toBeDefined();
-    }
-    expect(reading.lines[0]!.topic).toBe("interaction:trine");
+  it("the reading's lead names its topic page by interaction and palace", () => {
+    const reading = dailyReading(dailyFactSet("trine", "month", "daily"), { chart: "seed", date: "2026-09-29" });
+    expect(reading.leadTopic).toBe("interaction:trine:month");
   });
+
 });

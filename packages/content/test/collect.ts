@@ -16,17 +16,10 @@ import {
   WEAK_LINES,
 } from "../src/banks/elements.js";
 import { NATAL_INTERACTION_TEMPLATES } from "../src/banks/natal-interactions.js";
-import { TRANSIT_INTERACTION_TEMPLATES } from "../src/banks/transit-interactions.js";
-import { HOUR_TEMPLATES } from "../src/banks/hour-interactions.js";
-import { ELEMENT_DAY_TEMPLATES, TEN_GOD_TEMPLATES } from "../src/banks/transit-days.js";
-import { AGENCY_POOLS } from "../src/banks/agency.js";
 import { COMPARE_TEMPLATES } from "../src/banks/compare.js";
 import { LUCK_TEMPLATES } from "../src/banks/luck.js";
 import { STAR_TEMPLATES } from "../src/banks/stars.js";
-import { STAGE_TEMPLATES } from "../src/banks/stages.js";
-import { DO_DONT_TEMPLATES } from "../src/banks/dos-donts.js";
 import { DAY_GUIDANCE_TEMPLATES } from "../src/banks/day-guidance.js";
-import { HEADLINE_TEMPLATES } from "../src/banks/headlines.js";
 import { HORIZON_TEMPLATES } from "../src/banks/horizons.js";
 import { LIFE_STAGE_GLOSSES, STAR_GLOSSES } from "../src/vocab.js";
 
@@ -120,18 +113,10 @@ export function allBankLines(): string[] {
     ...Object.values(FAVORABLE_LINES),
     ...Object.values(CAREER_LINES),
     ...NATAL_INTERACTION_TEMPLATES,
-    ...TRANSIT_INTERACTION_TEMPLATES,
-    ...HOUR_TEMPLATES,
-    ...ELEMENT_DAY_TEMPLATES,
-    ...TEN_GOD_TEMPLATES,
-    ...Object.values(AGENCY_POOLS).flat(),
     ...COMPARE_TEMPLATES,
     ...LUCK_TEMPLATES,
     ...STAR_TEMPLATES,
-    ...STAGE_TEMPLATES,
-    ...DO_DONT_TEMPLATES,
     ...DAY_GUIDANCE_TEMPLATES,
-    ...HEADLINE_TEMPLATES,
     ...HORIZON_TEMPLATES,
     ...Object.values(STAR_GLOSSES).map((gloss) => `A star — ${gloss}.`),
     ...Object.values(LIFE_STAGE_GLOSSES).map((gloss) => `A stage — ${gloss}.`),

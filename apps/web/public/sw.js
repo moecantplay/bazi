@@ -57,13 +57,17 @@ self.addEventListener("fetch", (event) => {
   event.respondWith(
     (async () => {
       const cache = await caches.open(CACHE_VERSION);
-      const cached = await cache.match(request);
+      // A page's query (/today/?date=…, /today/topic/?topic=…) is read by the
+      // client; the document is the same, so navigations match without it and
+      // never add one cache entry per query.
+      const navigateWithQuery = request.mode === "navigate" && url.search.length > 0;
+      const cached = await cache.match(request, navigateWithQuery ? { ignoreSearch: true } : undefined);
       if (cached) {
         return cached;
       }
       try {
         const response = await fetch(request);
-        if (response.ok) {
+        if (response.ok && !navigateWithQuery) {
           cache.put(request, response.clone());
         }
         return response;

@@ -119,7 +119,7 @@ function toChip(assessment: ActivityAssessment): GuidanceChip {
 }
 
 /** Favours chips then friction chips, each ordered and capped. */
-function buildChips(assessments: readonly ActivityAssessment[]): GuidanceChip[] {
+export function buildChips(assessments: readonly ActivityAssessment[]): GuidanceChip[] {
   const favors = assessments
     .filter((assessment) => assessment.leaning === "favors")
     .sort(byStrength)

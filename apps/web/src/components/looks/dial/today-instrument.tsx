@@ -1,15 +1,14 @@
-/** Today in Instrument (stored id `dial`): DESIGN.md v5 §Instrument. */
+/** Today in Instrument (stored id `dial`): DESIGN.md v5 §Instrument, composed per M20-21. */
 
 "use client";
 
-import { readingSections } from "@daymaster/presentation";
-import { TokenText } from "@/components/token-text";
 import { Headline, dayMeta } from "@/components/today/headline";
 import { PullQuoteBoard } from "@/components/today/pull-quote-board";
-import { ReadingChapters } from "@/components/today/reading-chapters";
+import { ReadingBody } from "@/components/today/reading-body";
 import { TodayDateNav, TodayDateNotes } from "@/components/today/today-date-nav";
 import { AboutReadingLink, TodayFooter } from "@/components/today/today-footer";
 import { TodaySuits } from "@/components/today/today-suits";
+import { TopicCards } from "@/components/today/topic-cards";
 import type { TodayScreen } from "@/components/today/use-today-screen";
 import { WeekLegendLink } from "@/components/week-legend-link";
 import { DayDial, DialKey } from "./day-dial";
@@ -21,7 +20,6 @@ interface Props {
 
 export function TodayInstrument({ screen }: Props) {
   const { model } = screen;
-  const sections = readingSections(model.reading.lines, model.grainLine);
 
   return (
     <div className="flex flex-col gap-5 pt-3">
@@ -39,15 +37,12 @@ export function TodayInstrument({ screen }: Props) {
       </div>
       <TodayDateNotes screen={screen} />
       <Headline runs={model.headline} className="arrive-rise text-[31px]" />
-      {model.grainLine && (
-        <p className="arrive-rise text-[16px] leading-relaxed text-ink" style={{ ["--d" as string]: 6 }}>
-          <TokenText line={model.grainLine.runs} />
-        </p>
-      )}
+      <ReadingBody reading={model.reading} dateISO={screen.dateISO} delay={6} />
       <div className="arrive-rise" style={{ ["--d" as string]: 7 }}>
         <PullQuoteBoard line={model.reading.agency.runs} />
       </div>
-      <ReadingChapters sections={sections} suits={<TodaySuits screen={screen} />} />
+      <TopicCards cards={model.reading.cards} dateISO={screen.dateISO} look="dial" />
+      <TodaySuits screen={screen} />
       <AboutReadingLink />
       <TodayFooter screen={screen} />
     </div>

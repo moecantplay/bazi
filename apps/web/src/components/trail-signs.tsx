@@ -2,9 +2,9 @@
  * Today's trail signs: one card that reads the day's activities top to bottom.
  * The skyline plot across all 10 almanac activities sits on top; beneath it
  * two sign rows — "Clear trail" (favors) and "Take it slow" (friction, rule-12
- * postponement never prohibition) — name the strongest leanings in words and
- * hang the fact-cited suggestions under them; a disclosure opens the full
- * 10-activity manifest last. The grouped guidance prose follows the card.
+ * postponement never prohibition) — name the strongest leanings in words; a
+ * disclosure opens the full 10-activity manifest last. The grouped guidance
+ * prose follows the card. Used by Conditions; Today has its own suits.
  *
  * Before 2026-09-10 the chips lived in two separate tiles under a separate
  * terrain card, so the same ten activities were drawn twice on one screen.
@@ -28,10 +28,9 @@ interface SignRowProps {
   title: string;
   emphasis: "wood" | "amber";
   chips: GuidanceChip[];
-  suggestions: ReadingLine[];
 }
 
-function SignRow({ title, emphasis, chips, suggestions }: SignRowProps) {
+function SignRow({ title, emphasis, chips }: SignRowProps) {
   const dotClass = emphasis === "wood" ? "bg-ink" : "bg-signal-amber";
   const titleClass = emphasis === "wood" ? "text-element-wood" : "text-signal-amber";
   const names = chips.map((chip) => chip.label).join(" · ");
@@ -45,18 +44,6 @@ function SignRow({ title, emphasis, chips, suggestions }: SignRowProps) {
           {names.length > 0 ? names : "Nothing leans hard today"}
         </span>
       </h3>
-      {suggestions.length > 0 && (
-        <ul className="flex flex-col gap-2 pl-[19px]">
-          {suggestions.map((line, index) => (
-            <li key={index}>
-              <p className="text-[13.5px] leading-relaxed text-ink">
-                <TokenText line={line.runs} />
-              </p>
-              <FactTag line={line} className="caption mt-0.5" />
-            </li>
-          ))}
-        </ul>
-      )}
     </div>
   );
 }
@@ -98,11 +85,9 @@ interface Props {
   chips: GuidanceChip[];
   /** The guidance prose: officer line plus chip explanations, fact-cited. */
   proseLines: ReadingLine[];
-  dos: ReadingLine[];
-  donts: ReadingLine[];
 }
 
-export function TrailSigns({ assessments, chips, proseLines, dos, donts }: Props) {
+export function TrailSigns({ assessments, chips, proseLines }: Props) {
   const [detailOpen, setDetailOpen] = useState(false);
   const cells = useActivityTerrain(assessments);
   const board = guidanceBoardFor(chips);
@@ -115,8 +100,8 @@ export function TrailSigns({ assessments, chips, proseLines, dos, donts }: Props
         <ActivityTerrainPlot cells={cells} calledOut={calledOut} />
 
         <div data-dos-donts className="mt-4 flex flex-col gap-4 border-t border-hairline pt-4">
-          <SignRow title="Clear trail" emphasis="wood" chips={board.favors} suggestions={dos} />
-          <SignRow title="Take it slow" emphasis="amber" chips={board.watch} suggestions={donts} />
+          <SignRow title="Clear trail" emphasis="wood" chips={board.favors} />
+          <SignRow title="Take it slow" emphasis="amber" chips={board.watch} />
         </div>
 
         <button

@@ -43,5 +43,6 @@ test("conditions screen reads the day as officer, hours and ten days", async ({ 
   // The reading is still there, behind its fold.
   await page.getByRole("button", { name: "Back to today" }).click();
   await page.getByRole("button", { name: "Read the day · the full reading" }).click();
-  await expect(page.locator("[data-reading-body] [data-fact-tag]").first()).toBeVisible();
+  await expect(page.locator("[data-reading-body]")).toBeVisible();
+  await expect(page.locator("[data-topic-cards] a").first()).toBeVisible();
 });

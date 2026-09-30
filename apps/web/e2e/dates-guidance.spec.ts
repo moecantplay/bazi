@@ -15,7 +15,7 @@ const TODAY = "2026-07-07";
 const OFFICER_NAMES =
   /Establish|Remove|Full|Balance|Stable|Hold|Break|Danger|Success|Receive|Open|Close/;
 
-test("Today shows the guidance chips and a cited guidance line", async ({ page, context }) => {
+test("Today shows what the day suits, in plain words", async ({ page, context }) => {
   await seedProfile(context, FIXTURE_A);
   await pinClock(context, `${TODAY}T09:00:00Z`);
 
@@ -24,17 +24,16 @@ test("Today shows the guidance chips and a cited guidance line", async ({ page, 
   await expect(page.locator("[data-headline]")).toBeVisible();
   await expect(page.locator("[data-headline]")).not.toBeEmpty();
 
-  // Trail signs sit behind the "Go deeper" fold so a daily check-in ends at
-  // the signpost; the fold opens the merged terrain-and-signs card.
-  await expect(page.locator("[data-guidance]")).toHaveCount(0);
-  await page.locator("[data-go-deeper]").click();
+  // What the day suits follows the cards: a plain heading, the Favors/Watch
+  // chips, and one reason whenever something is on watch (VOICE.md rule 12).
   const guidance = page.locator("[data-guidance]");
   await expect(guidance).toBeVisible();
-  // The two sign rows (Clear trail / Take it slow — rule-12 postponement,
-  // never prohibition) with a fact-tagged prose line beneath.
-  await expect(guidance.getByText(/^Clear trail$/)).toBeVisible();
-  await expect(guidance.getByText(/^Take it slow$/)).toBeVisible();
-  await expect(guidance.locator("[data-fact-tag]").first()).toBeVisible();
+  await expect(guidance.getByRole("heading", { level: 3 })).not.toBeEmpty();
+  await expect(guidance).toContainText(/Favors|Watch/);
+  if ((await guidance.getByText(/^Watch$/).count()) > 0) {
+    await expect(guidance.locator("[data-watch-reason]")).toBeVisible();
+  }
+  await expect(guidance).not.toContainText(/old calendars/i);
 });
 
 test("the elevation profile jumps the reading to the tapped day", async ({ page, context }) => {
@@ -131,8 +130,7 @@ test("the date finder ranks days and names the top officer", async ({ page, cont
   await pinClock(context, `${TODAY}T09:00:00Z`);
 
   await page.goto("/today/");
-  // The finder link lives inside Today's "Go deeper" fold.
-  await page.locator("[data-go-deeper]").click();
+  // The finder link closes What the day suits.
   await page.getByRole("link", { name: /Find a day for something/ }).click();
   await expect(page).toHaveURL(/\/dates\//);
   // The finder sits outside the bottom nav, so it carries its own back link.

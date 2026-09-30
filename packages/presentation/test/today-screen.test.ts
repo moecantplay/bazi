@@ -27,28 +27,16 @@ describe("todayScreenModel", () => {
     expect(model.branch.gloss.length).toBeGreaterThan(0);
   });
 
-  it("builds branchByArea from the chart's pillars plus the day's own branch", () => {
+  it("carries Today's suits alongside the reading", () => {
     const model = todayScreenModel(FIXTURE_A, TODAY, TODAY);
-    expect(model.branchByArea.year).toBe(model.chart.year.branch);
-    expect(model.branchByArea.month).toBe(model.chart.month.branch);
-    expect(model.branchByArea.day).toBe(model.chart.day.branch);
-    expect(model.branchByArea.hour).toBe(model.chart.hour?.branch);
-    expect(model.branchByArea.overall).toBe(model.dayPillar.branch);
+    expect(plainGloss(model.suits.heading).length).toBeGreaterThan(0);
+    expect(model.suits.chips).toEqual(model.guidance.chips);
   });
 
-  it("omits the hour key from branchByArea when birth time is unknown", () => {
+  it("never plots an hour-palace mark for an unknown-time chart", () => {
     const model = todayScreenModel(FIXTURE_UNKNOWN_TIME, TODAY, TODAY);
     expect(model.chart.hour).toBeNull();
-    expect("hour" in model.branchByArea).toBe(false);
-  });
-
-  it("picks the overall-area line as grainLine, falling back to the first line", () => {
-    const model = todayScreenModel(FIXTURE_A, TODAY, TODAY);
-    if (model.grainLine?.area) {
-      expect(model.grainLine.area).toBe("overall");
-    } else {
-      expect(model.grainLine).toBe(model.reading.lines[0]);
-    }
+    expect(model.waypoints.some((waypoint) => waypoint.area === "hour")).toBe(false);
   });
 
   it("computes the headline as headlineRuns(reading.headline.text)", () => {

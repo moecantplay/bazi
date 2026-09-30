@@ -8,8 +8,8 @@
  * `clampOffsetToRange` so the same rule governs every way of moving the date.
  */
 
-import type { Branch, Chart, Pillar } from "@daymaster/bazi-engine";
-import { plainGloss, type DailyReading, type ReadingArea, type ReadingLine } from "@daymaster/content";
+import type { Chart, Pillar } from "@daymaster/bazi-engine";
+import { plainGloss, todaySuits, type DailyReading, type TodaySuits } from "@daymaster/content";
 import { chartFor } from "./chart.js";
 import { addDays, daysBetween } from "./dates.js";
 import { dayTone, type DayTone } from "./day-tone.js";
@@ -66,12 +66,13 @@ export interface TodayScreenModel {
   stem: ReturnType<typeof describeStem>;
   branch: ReturnType<typeof describeBranch>;
   reading: DailyReading;
+  /** Today's "What the day suits": plain heading, chips, one Watch reason. */
+  suits: TodaySuits;
+  /** The full guidance (prose and assessments) for Conditions and the activity manifest. */
   guidance: GuidanceBundle;
   tone: DayTone;
   waypoints: RouteWaypoint[];
   headline: HeadlineRun[];
-  grainLine: ReadingLine | undefined;
-  branchByArea: Partial<Record<ReadingArea, Branch>>;
   dateRange: TodayDateRange;
 }
 
@@ -85,7 +86,7 @@ export function todayScreenModel(
   const bundle = dailyBundleFor(profile, dateISO);
   const guidance = dayGuidanceFor(profile, dateISO);
   const tone = dayTone(profile, dateISO);
-  const waypoints = routeWaypointsFor(bundle.reading.lines, bundle.facts);
+  const waypoints = routeWaypointsFor(bundle.facts);
 
   const stem = describeStem(bundle.dayPillar.stem);
   const branch = describeBranch(bundle.dayPillar.branch);
@@ -95,22 +96,6 @@ export function todayScreenModel(
     chart.day,
     chart.hour
   ];
-  const grainLine = bundle.reading.lines.find((line) => line.area === "overall") ?? bundle.reading.lines[0];
-
-  // The hours section's node shows the rough hour's animal — the mark the
-  // reader is most likely looking for on the route.
-  const roughHour = bundle.facts.find(
-    (fact) => fact.kind === "hour-interaction" && fact.interaction === "six-clash"
-  );
-  const branchByArea: Partial<Record<ReadingArea, Branch>> = {
-    year: chart.year.branch,
-    month: chart.month.branch,
-    day: chart.day.branch,
-    ...(chart.hour ? { hour: chart.hour.branch } : {}),
-    overall: bundle.dayPillar.branch,
-    ...(roughHour && roughHour.kind === "hour-interaction" ? { hours: roughHour.hourBranch } : {})
-  };
-
   const offset = daysBetween(todayISO, dateISO);
   const dateRange: TodayDateRange = {
     min: addDays(todayISO, -TODAY_RANGE_DAYS),
@@ -127,12 +112,11 @@ export function todayScreenModel(
     stem,
     branch,
     reading: bundle.reading,
+    suits: todaySuits(guidance.quality),
     guidance,
     tone,
     waypoints,
     headline: headlineRuns(plainGloss(bundle.reading.headline.runs)),
-    grainLine,
-    branchByArea,
     dateRange
   };
 }
