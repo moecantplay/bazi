@@ -72,7 +72,7 @@ Amend rules 2, 6, 11 and 12, add "one idea per screen", replace calibration exam
 ## Risks
 
 - **Every reading changes at once.** Intended, and it ships in one release, not piecemeal.
-- **Cell count.** 5 interactions × 4 palaces × 3 modifier states = 60 body cells, plus ten-god leads. ≥ 2 entries each is about 150 short pieces of writing. Mitigation: cells share a template skeleton per interaction, so the palace and modifier supply clauses, not whole new pieces. The mockup week tests whether that still reads as written.
+- **Cell count.** 5 interactions × 4 palaces × 3 modifier states = 60 body cells, plus ten-god leads. ≥ 3 entries each is about 180+ short pieces of writing. Mitigation: cells share a template skeleton per interaction, so the palace and modifier supply clauses, not whole new pieces. The mockup week tests whether that still reads as written.
 - **Lost facts.** A fact that used to be prose becomes a label, and the owner may miss the prose for some kinds (the stage line, say). R5's test proves nothing vanishes; the mockup shows what the label version feels like.
 - **Tickets 12/14 rebased.** Their bank lists come from this ticket's cells.
 

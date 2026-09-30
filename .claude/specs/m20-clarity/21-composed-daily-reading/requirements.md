@@ -31,7 +31,8 @@ Each day reads as a short piece built around one idea: the day's strongest fact,
   - Agency: follows from the lead (VOICE rule 6), closes the first screen.
   - Acceptance: over 90 days × Fixtures A–D, no two of headline/body/agency share a 4-word phrase; first-screen words/day within the budget agreed from the mockup (proposal: ≤ 70).
 - **R3. Wording is keyed to the combination, not the fact alone.** Body and headline pools are indexed by lead × area × modifier tone (e.g. clash · career palace · element suits you), so two clash days read differently when their circumstances differ.
-  - Acceptance: every reachable cell has a pool of ≥ 2 entries (ticket 14 grows them to ticket 12's window); a test enumerates the cells and fails on an empty one.
+  - Acceptance: every reachable cell has a pool of ≥ 3 entries with different sentence shapes (ticket 14 grows them to ticket 12's window); a test enumerates the cells and fails on a pool under 3.
+  - Variety (owner, 2026-09-30, on mockup v3: "needs more variety or choice of words to account for redundancy"): over 90 days × Fixtures A–D, no 4-word phrase on the first screen repeats within 7 days for the same chart. Repeated sentence shapes (e.g. "X may … today: a, b, or c") are capped by ticket 13's plain-writing rules.
 - **R4. Everything else is details, as labels.** Non-lead facts (other transits, element, ten god, star, stage, hours) render as short labels with their glossary link, not prose: `Fire day · suits you`, `Easy hour 1–3 pm · rough hour 11 pm–1 am`, `Horse joins the dog in your roots · support`. No sentences, ≤ 10 words, no fact repeated from the first screen.
   - Acceptance: a presentation test asserts each fact appears in exactly one visible element across first screen + details, over 90 days × Fixtures A–D.
 - **R5. Nothing is lost.** Every fact the engine produces for the day stays reachable: in the first screen, in details, or in "What the day suits". The map/dial marks still show the day's all-day relations and timed hours.
@@ -61,4 +62,5 @@ Each day reads as a short piece built around one idea: the day's strongest fact,
 - [x] **First-screen budget:** ≤ 70 words (owner, 2026-09-30, from mockup v1).
 - [x] **Details layout per look:** Explorer waypoints, Editorial rows, Instrument tiles (owner, 2026-09-30, from mockup v1).
 - [x] **Old names in the reading text?** **No** — say how the day could go and how to act (owner, 2026-09-30, on mockup v2). Mockup v3 applies it.
-- [ ] **Mockup v3 sign-off:** does each day read like advice from a person? Is the "Old name" tag in the details welcome, or noise?
+- [x] **Mockup v3: reads like a person?** **Yes**, needs more variety of wording (owner, 2026-09-30). Folded into R3.
+- [ ] **Old-name tags in details:** keep all, drop all, or keep only on "Why today" (recommended). Pros/cons given to owner 2026-09-30.
