@@ -129,6 +129,16 @@ button { font: inherit; color: inherit; }
 .why { margin: 0; font-size: 14px; color: var(--mut); }
 .find { font-size: 13px; color: var(--mut); }
 
+/* the way into the detail page, and the page itself */
+.depth-link { all: unset; box-sizing: border-box; cursor: pointer; background: var(--card); border-radius: 22px; padding: 16px 44px 16px 18px; display: flex; flex-direction: column; gap: 4px; position: relative; min-height: 64px; }
+.depth-link b { font: 800 18px/1.25 var(--f-display); letter-spacing: -.01em; }
+.depth-link .g { color: var(--mut); font-size: 14px; }
+.depth-link .chev { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); font: 400 24px var(--f-body); color: var(--mut); }
+.depth-link:focus-visible, .back:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.back { all: unset; cursor: pointer; align-self: flex-start; min-height: 44px; display: inline-flex; align-items: center; font: 700 11px var(--f-mono); letter-spacing: .12em; text-transform: uppercase; }
+.depth-head { display: flex; flex-direction: column; gap: 10px; }
+.depth-head .body { margin: 0; }
+
 /* current version */
 .old-rest { display: flex; flex-direction: column; gap: 10px; }
 .old-rest p { margin: 0; background: var(--card); border-radius: 14px; padding: 12px 14px; font-size: 14px; line-height: 1.5; }
@@ -174,6 +184,7 @@ button { font: inherit; color: inherit; }
   <div class="seg" id="seg-version" role="group" aria-label="Version"></div>
   <div class="seg" id="seg-look" role="group" aria-label="Look"></div>
   <div class="seg" id="seg-mode" role="group" aria-label="Theme"></div>
+  <div class="seg" id="seg-page" role="group" aria-label="Screen"></div>
   <div class="seg" id="seg-day" role="group" aria-label="Day"></div>
 </header>
 
@@ -341,7 +352,7 @@ const AFTER = {
   ],
 };
 
-const state = { chart: "a", version: "new", look: "trail", mode: "light", day: 0 };
+const state = { chart: "a", version: "new", look: "trail", mode: "light", day: 0, page: "today" };
 try {
   const saved = JSON.parse(localStorage.getItem("composed-week") || "{}");
   Object.assign(state, saved);
@@ -362,12 +373,12 @@ function headlineHTML(text) {
 /* Each item: kicker, plain title, one plain sentence (optional), old name (optional). */
 function details(r, d) {
   const items = [{ k: "Why today", t: r.why[0], g: r.why[1], old: r.why[2] }];
-  for (const [t, g, old] of r.also) items.push({ k: "Also today", t, g, old });
-  if (r.element) items.push({ k: "The day's element", t: r.element[0], g: r.element[1], old: r.element[2] });
+  for (const [t, g] of r.also) items.push({ k: "Also today", t, g, old: null });
+  if (r.element) items.push({ k: "The day's element", t: r.element[0], g: r.element[1], old: null });
   const tg = r.tg ? TG[r.tg] : r.tgPlain;
-  if (tg) items.push({ k: "The day's character", t: tg[0], g: tg[1], old: tg[2] });
+  if (tg) items.push({ k: "The day's character", t: tg[0], g: tg[1], old: null });
   items.push({ k: "Hours", t: `Easiest ${d.easy[1]}`, g: `Roughest ${d.rough[1]}`, old: null });
-  items.push({ k: "Your pace", t: STAGE[r.stage][0], g: STAGE[r.stage][1], old: r.stage });
+  items.push({ k: "Your pace", t: STAGE[r.stage][0], g: STAGE[r.stage][1], old: null });
   items.push({ k: "Small signs", stars: r.stars });
   return items;
 }
@@ -383,7 +394,7 @@ function oldTag(old) {
 
 function itemBody(it) {
   if (it.stars) {
-    return `<div class="stars">${it.stars.map((s) => `<span class="star"><strong class="sn">${esc(STAR[s])}</strong><span class="old">${esc(s)}</span></span>`).join("")}</div>`;
+    return `<div class="stars">${it.stars.map((s) => `<span class="star"><strong class="sn">${esc(STAR[s])}</strong></span>`).join("")}</div>`;
   }
   return `<b>${esc(it.t)}</b>${it.g ? `<span class="g">${esc(it.g)}</span>` : ""}${oldTag(it.old)}`;
 }
@@ -391,15 +402,15 @@ function itemBody(it) {
 function detailsHTML(r, d, look) {
   const items = details(r, d);
   if (look === "trail") {
-    return `<p class="mono section-k" style="margin:0">Along the way</p><div class="trail">${items.map((it) => `
+    return `<div class="trail">${items.map((it) => `
       <div class="wp"><i></i><div><span class="mono">${esc(it.k)}</span>${itemBody(it)}</div></div>`).join("")}</div>`;
   }
   if (look === "almanac") {
-    return `<p class="mono section-k" style="margin:0">Notes on the day</p><div class="stack">${items.map((it) => `
+    return `<div class="stack">${items.map((it) => `
       <div class="row"><span class="mono">${esc(it.k)}</span><div>${itemBody(it)}</div></div>`).join("")}</div>`;
   }
   const isWide = (it) => it.k !== "Hours" && it.k !== "Your pace";
-  return `<p class="mono section-k" style="margin:0">Readings</p><div class="tiles">${items.map((it) =>
+  return `<div class="tiles">${items.map((it) =>
     `<div class="tile${isWide(it) ? " wide" : ""}"><span class="mono">${esc(it.k)}</span>${itemBody(it)}</div>`).join("")}</div>`;
 }
 
@@ -467,7 +478,29 @@ function heroHTML(d, r, look) {
     <div class="pad" style="padding-top:20px">${hl}</div>`;
 }
 
+const DEPTH_TITLE = { trail: "Along the way", almanac: "Notes on the day", dial: "Readings" };
+
+function depthLinkHTML(d) {
+  return `<button type="button" class="depth-link" data-go="depth"><span class="mono mut">${esc(DEPTH_TITLE[state.look])}</span><b>What's behind ${esc(d.label.split(", ")[1])}</b><span class="g">The signs, the hours, your pace and the day's character, laid out in full.</span><span class="chev" aria-hidden="true">›</span></button>`;
+}
+
+function depthHTML() {
+  const d = DAYS[state.day];
+  const r = AFTER[state.chart][state.day];
+  return `<div class="screen"><div class="statusbar"><span>9:41</span><span>●●●</span></div>
+    <div class="pad" style="padding-top:8px">
+      <button type="button" class="back" data-go="today">‹ Today</button>
+      <div class="depth-head"><span class="mono mut">${esc(DEPTH_TITLE[state.look])} · ${esc(d.label)}</span>
+        <h1 class="hl" style="font-size:34px">What's behind today</h1>
+        <p class="body mut" style="font-size:15px">Your reading for ${esc(d.label.split(", ")[1])}, taken apart: what in your chart set it off, and everything else the day carries.</p></div>
+      ${detailsHTML(r, d, state.look)}
+      <span class="find">How this reading works →</span>
+    </div>
+    <nav class="nav" aria-label="App tabs (static)"><span>Chart</span><span class="on">Today</span><span>Cycles</span><span>Compare</span><span>Settings</span></nav></div>`;
+}
+
 function phoneHTML() {
+  if (state.page === "depth" && state.version === "new") return depthHTML();
   const d = DAYS[state.day];
   const fresh = state.version === "new";
   const r = fresh ? AFTER[state.chart][state.day] : null;
@@ -479,7 +512,7 @@ function phoneHTML() {
   const top = `<p class="body rise" style="--d:2">${esc(bodyText)}</p>
     <div class="quote rise" style="--d:3"><span class="mono">One thing to do</span><p>${esc(agency)}</p></div>`;
   const rest = fresh
-    ? `${detailsHTML(r, d, state.look)}${suitsHTML(r, d)}`
+    ? `${suitsHTML(r, d)}${depthLinkHTML(d)}`
     : `<p class="mono section-k" style="margin:0">The rest of the day, as it ships now</p><div class="old-rest">${b.rest.map((line) => `<p>${esc(line)}</p>`).join("")}</div>`;
   return `<div class="fold"><span>FOLD · 844 PX</span></div>
     <div class="screen"><div class="statusbar"><span>9:41</span><span>●●●</span></div>
@@ -501,21 +534,21 @@ function notesHTML() {
     <h2>${esc(d.label)}, ${esc(chartName)}</h2>
     <div class="nums">
       <div><span class="k">First screen</span><b>${firstNew}<small> words</small></b><span class="k">now ${firstOld}</span></div>
-      <div><span class="k">Whole reading</span><b>${firstNew + detailWords}<small> words</small></b><span class="k">now ${totalOld}</span></div>
+      <div><span class="k">Detail page</span><b>${detailWords}<small> words</small></b><span class="k">now all on Today: ${totalOld}</span></div>
       <div><span class="k">Budget</span><b>70<small> words</small></b><span class="k">proposed</span></div>
     </div>
     <div class="box"><span class="k">What leads, and why</span>
       <p><b>${esc(r.lead)}</b> is the strongest fact today, so the first screen is about it and nothing else repeats it.</p>
       <p>${r.mod ? `<b>${esc(r.mod)}</b> joins the body because it changes the advice.` : "The element agrees with the lead, so it stays in the details."}</p>
-      <p>The text says how the day could go and what helps. The old names and the signs are one step down, under <b>Why today</b>.</p>
+      <p>Today says how the day could go and what helps. Everything else, including the one old name under <b>Why today</b>, is on the detail page behind the link.</p>
     </div>
     <div class="box"><span class="k">Now, below the first screen</span>
       <ul class="before-list">${b.rest.slice(0, 4).map((line) => `<li>${esc(line)}</li>`).join("")}<li>…and ${Math.max(0, b.rest.length - 4)} more lines. Switch Version to “Now” to see the whole screen.</li></ul>
     </div>
     <div class="box"><span class="k">For you to decide</span>
       <ol class="qs">
-        <li>Does each day read like advice from a person? Point at any line that still feels generated or unclear.</li>
-        <li>In the details, is the small “Old name” tag welcome, or noise?</li>
+        <li>Is the link card the right way in, and is its wording clear?</li>
+        <li>Does the detail page read well in each look? Open it from the card or the Screen switch.</li>
       </ol>
       <p class="k" style="text-transform:none;letter-spacing:0;font:400 12.5px var(--f-body)">Hero art is simplified here; this ticket doesn't change it.</p>
     </div>`;
@@ -538,10 +571,20 @@ function render() {
   segment("seg-version", "version", [["new", "Composed"], ["old", "Now"]]);
   segment("seg-look", "look", [["trail", "Explorer"], ["almanac", "Editorial"], ["dial", "Instrument"]]);
   segment("seg-mode", "mode", [["light", "Light"], ["dark", "Dark"]]);
+  segment("seg-page", "page", [["today", "Today"], ["depth", "What's behind it"]]);
   segment("seg-day", "day", DAYS.map((d, i) => [i, `${d.dow} ${Number(d.date.slice(8))}`]));
   const phone = document.getElementById("phone");
   phone.dataset.mode = state.mode;
   phone.innerHTML = phoneHTML();
+  phone.onclick = (event) => {
+    const go = event.target.closest("[data-go]");
+    if (!go) return;
+    state.page = go.dataset.go;
+    if (state.page === "depth") state.version = "new";
+    try { localStorage.setItem("composed-week", JSON.stringify(state)); } catch (error) { /* per-viewer convenience only */ }
+    render();
+    phone.scrollIntoView({ block: "start", behavior: "smooth" });
+  };
   document.getElementById("notes").innerHTML = notesHTML();
 }
 render();

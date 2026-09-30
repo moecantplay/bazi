@@ -9,7 +9,8 @@ Check a task only with a one-line evidence note.
 - [ ] 5. Cell pools, ≥ 3 differently shaped entries per reachable cell, seeded from the approved mockup copy; 7-day phrase check green (R3)
 - [ ] 6. Guidance: one reason per Watch chip, skip lead-owned facts (R6)
 - [ ] 7. Presentation model; waypoints from facts; remove sections (R4, R5)
-- [ ] 8. Today in Explorer, Editorial, Instrument renders the composed reading and details (R2, R4, R5)
+- [ ] 8. Today in Explorer, Editorial, Instrument renders the composed first screen, suits and the link card (R2, R4, R5)
+- [ ] 8b. Detail page route in three looks; Today keeps its date in `?date` (R4, R11)
 - [ ] 9. Retire the per-fact day lines and dos/don'ts banks nothing references (R4, R6)
 - [ ] 10. E2E specs updated; decisions log entry
 - [ ] 11. Verify: before/after dump, `pnpm verify`, E2E in every look × theme, live check both themes, owner reads a week for two fixtures

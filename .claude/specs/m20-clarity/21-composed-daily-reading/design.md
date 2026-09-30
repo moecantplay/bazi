@@ -41,9 +41,12 @@ interface DetailLabel {
 - `routeWaypointsFor` takes facts directly (chosen transits + hour facts) instead of matching lines back to facts, which removes its dependency on reading lines.
 - Conditions (`conditions-view.tsx`) reads the same model; if M20-04 drops Conditions first, nothing to do.
 
-### 5. Web (R2, R4, R5)
+### 5. Web (R2, R4, R5, R11)
 
-Each look's Today renders headline → body → pull-quote agency, then details in its own layout (from the mockup), then "What the day suits". `data-reading-body` wraps first screen + details so existing E2E hooks keep meaning. Specs that asserted dos/don'ts or chapter counts are updated.
+- Each look's Today renders headline → body → pull-quote agency → "What the day suits" → a link card into the detail page. Card copy (mockup v4): kicker is the look's details title ("Along the way", "Notes on the day", "Readings"), title "What's behind Sep 29", line "The signs, the hours, your pace and the day's character, laid out in full."
+- New route `apps/web/src/app/today/details/page.tsx`: `ProfileGate` + `AppShell`, reads `date` with `useSearchParams` (static export: client-only, wrapped in `Suspense`), validates it against Today's range, renders `details` in the look's layout (`LookSwitch`), "How this reading works" at the bottom. A "‹ Today" back control links to `/today/?date=…`.
+- `use-today-screen.ts` seeds `offset` from `?date` when present and valid, and keeps the URL in step when the date changes (`router.replace`, no history spam), so Back from details lands on the same day.
+- `data-reading-body` wraps the first screen on Today and the details list on the detail page. Specs that asserted dos/don'ts, chapters or `[data-go-deeper]` are updated.
 
 ### 6. VOICE.md (R7)
 
@@ -58,7 +61,9 @@ Amend rules 2, 6, 11 and 12, add "one idea per screen", replace calibration exam
 | `packages/content/src/day-guidance.ts` | One reason per Watch chip; skip lead-owned facts |
 | `packages/content/test/` | R1–R4, R6, R9 tests; voice tests to new rules |
 | `packages/presentation/src/today-screen.ts`, `route-waypoints.ts`, `reading-sections.ts` | New model; waypoints from facts; sections removed |
-| `apps/web/src/components/looks/*/today-*.tsx`, `components/today/*` | Render composed reading + details per look |
+| `apps/web/src/components/looks/*/today-*.tsx`, `components/today/*` | Render composed first screen, suits and the link card per look |
+| `apps/web/src/app/today/details/page.tsx` (new), per-look details components | Detail page (R4, R11) |
+| `apps/web/src/components/today/use-today-screen.ts` | `?date` in and out |
 | `apps/web/e2e/` | Today, glossary, dates-guidance specs updated |
 | `.claude/specs/foundation/VOICE.md` | Rules 2, 6, 11, 12 amended; new rule; examples |
 | `.claude/specs/decisions.md` | "Daily reading is composed around one lead fact" |
