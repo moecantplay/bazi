@@ -93,7 +93,6 @@ button { font: inherit; color: inherit; }
 .wp .mono { color: var(--mut); font-size: 9.5px; }
 .wp b { display: block; font: 800 17px/1.25 var(--f-display); letter-spacing: -.01em; }
 .wp span.g { display: block; color: var(--mut); font-size: 14px; }
-.wp .stars { display: flex; flex-direction: column; gap: 2px; margin-top: 2px; }
 
 /* details: Editorial = tonal segment stack */
 .stack { display: flex; flex-direction: column; gap: 2px; }
@@ -111,7 +110,10 @@ button { font: inherit; color: inherit; }
 .tile.wide { grid-column: 1 / -1; }
 .tile .mono { color: var(--mut); font-size: 9px; letter-spacing: .14em; }
 .tile b { font: 800 16px/1.25 var(--f-display); letter-spacing: -.01em; }
-.sn { font: 600 14px var(--f-body); color: var(--ink); }
+.sn { font: 600 14.5px var(--f-body); color: var(--ink); }
+.old { display: block; font: 700 9px var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--mut); margin-top: 2px; }
+.stars { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+.star { display: flex; flex-direction: column; }
 .tile span.g { color: var(--mut); font-size: 13px; line-height: 1.4; }
 
 /* what the day suits */
@@ -184,128 +186,158 @@ button { font: inherit; color: inherit; }
 const BEFORE = {"a":[{"date":"2026-09-29","headline":"Something has to move today; better if you choose which.","grain":"A Fire day, and Fire tends to suit you. Warmth is on your side — a fair time to be seen or to share what you know.","agency":"Tell a colleague the thing you've been meaning to say plainly.","rest":["Today's sign, the horse, runs straight at the rat in your chart's career palace — a clash, two schedules booked for the same hour. Something has to move, and you get to pick which.","A trine today: the day's sign, the horse, joins the dog already in your chart's roots — three friends planning one surprise without a group chat. Support gathers in that room.","The old calendars call today an insight from the odd angle day — put plainly, learning by your own strange route: answers that arrive in the shower or mid-walk. Good for thinking sideways and learning strangely.","Today lights your a drawn blade — decisive force that needs a sheath — a drawn blade — decisive force that needs a sheath. Your decisiveness is real force — aimed, it cuts through; unaimed, it cuts whatever's near.","The day sits at your 'noon sun — full power, nothing left in reserve' stage — noon sun — full power, nothing left in reserve. Spend the height on what matters; peaks are for planting flags, not storing them.","Today's sign, the horse, has a rough hour and an easy one: the rat hour (11 pm–1 am) runs against it, so give whatever lands then a little slack, and the goat hour (1–3 pm) runs with it, a fair time to settle something.","Do: Say the thing out loud: share the draft, teach the trick, give the toast.","Do: Make the overdue decision — clash days are for moving stuck furniture.","Don't: Save the risky shortcut for another day; take the road you know.","Don't: Don't book the day back-to-back — leave room for something to move, because it will want to.","A gathering-in day, taking in what's owed and offered day — gathering-in day, taking in what's owed and offered.","Fire runs warm for you today — fair light for learning. Say yes to the thing you've already half-decided."]},{"date":"2026-09-30","headline":"The day reads friendlier than it runs; light steps carry.","grain":"A Fire day, and Fire tends to suit you. Warmth is on your side — a fair time to be seen or to share what you know.","agency":"Close one open loop at work before you log off.","rest":["Today's sign, the goat, sits at odds with the rat in your chart's career palace — a harm, a slow leak rather than a burst pipe. Worth a second look before you commit to anything there.","The old books name today being looked after — in everyday terms, being looked after, the friend who brings soup without being asked. A grain that favors rest and taking things in.","Today lights your a pull toward the deep questions — philosophy, patterns, the why under the why — a pull toward the deep questions — philosophy, patterns, the why under the why. You do your best thinking one level deeper than the question you were asked.","The day sits at your 'just past the summit — still high, starting to descend' stage — just past the summit — still high, starting to descend. Coast with intention — ease off the pace before the pace eases you off.","Today's sign, the goat, has a rough hour and an easy one: the ox hour (1–3 am) runs against it, so give whatever lands then a little slack, and the horse hour (11 am–1 pm) runs with it, a fair time to settle something.","Do: Say the thing out loud: share the draft, teach the trick, give the toast.","Do: Give today's plans a second read — small leaks are cheap to fix early.","Don't: Don't lock in loose plans today; let the details firm up first.","the door swung wide, fresh starts and open roads shapes the day — the door swung wide, fresh starts and open roads.","Fire runs warm for you today — fair light for launches. Say yes to the thing you've already half-decided.","Today's grain is set against clearing out. Nothing is lost by giving it another day."]},{"date":"2026-10-01","headline":"Three currents, one direction. The day moves.","grain":"An Earth day, and Earth tends to suit you. Steady footing; a good grain for building rather than rushing.","agency":"Finish the small work task that's been following you around all week.","rest":["A trine today: the day's sign, the monkey, joins the rat and dragon already in your chart's career palace — three friends planning one surprise without a group chat. Support gathers in that room.","The old calendars call today a peers at your table day — in everyday terms, peers at your table, people carrying the same pack you do. A grain that favors doing it together over going it alone.","Today lights your the study lamp — learning, writing, and exams come a shade easier — the study lamp — learning, writing, and exams come a shade easier. Reading, writing, and studying repay you faster than they repay most people.","The day sits at your 'a head cold, not a diagnosis — running at half speed' stage — a head cold, not a diagnosis — running at half speed. Half speed is honest speed; trim the list instead of pushing through it.","The day has its own rhythm: today's sign, the monkey, meets the tiger hour (3–5 am) head-on — the rough patch, where plans jostle — and settles into the snake hour (9–11 am), the easiest stretch to get something agreed.","Do: Do the steady, unglamorous step — the backup, the tidy-up, the follow-through.","Do: Change the scene — take the meeting on a walk, work an hour from somewhere new.","Don't: Don't do the group's job alone out of habit; the current is with company today.","the shutters drawn, a day to seal, store, and settle shapes the day — the shutters drawn, a day to seal, store, and settle.","The day's Earth sits with your grain, so rest catch a following wind. Lean in where you've been hesitating.","Today's grain is set against commitments. Nothing is lost by giving it another day."]},{"date":"2026-10-02","headline":"An easy-looking day with one quiet catch in it.","grain":"An Earth day, and Earth tends to suit you. Steady footing; a good grain for building rather than rushing.","agency":"Write down one thing you're grateful your upbringing gave you.","rest":["A harm today: the day's sign, the rooster, brushes the dog in your chart's roots — small erosions, like the overnight drip of a kitchen tap. Catch them early and they stay small.","Today's sign, the rooster, falls into combine with the dragon in your chart's home palace — two people finishing each other's sentences. Doors there open with a push instead of a shove.","The old books name today friendly rivalry — in modern terms, friendly rivalry: the housemate who eats your leftovers and still makes you laugh. Good drive; keep an eye on what it spends.","Today lights your charm in bloom — you get noticed whether or not you try — charm in bloom — you get noticed whether or not you try. Attention comes easily; choosing what to do with it is the actual work.","The day sits at your 'the pause between out-breath and in-breath' stage — the pause between out-breath and in-breath. Let the pause be a pause. Deciding can wait for the in-breath.","Today's sign, the rooster, has a rough hour and an easy one: the rabbit hour (5–7 am) runs against it, so give whatever lands then a little slack, and the dragon hour (7–9 am) runs with it, a fair time to settle something.","Do: Give today's plans a second read — small leaks are cheap to fix early.","Do: Do the steady, unglamorous step — the backup, the tidy-up, the follow-through.","Don't: Don't lock in loose plans today; let the details firm up first.","Don't: Don't negotiate against yourself before anyone has said no.","A the day the month sets its stake in the ground day — the day the month sets its stake in the ground.","Earth runs warm for you today — fair light for travel. Say yes to the thing you've already half-decided.","The day's grain runs the other way from clearing out — restless work today. The boxes will still be there tomorrow; let clearing out wait a day."]},{"date":"2026-10-03","headline":"Two things want the same hour today.","grain":"A Metal day, which cuts against your grain slightly. Edges feel sharper; softer handling goes further.","agency":"Share one meal today without a screen in the room.","rest":["Today's sign, the dog, runs straight at the dragon in your chart's home palace — a clash, two schedules booked for the same hour. Something has to move, and you get to pick which.","The old calendars call today an making for the joy of it day — put plainly, making for the joy of it, cooking for friends rather than for a review. A pleasant grain for enjoying without a scoreboard.","Today lights your the artist's parasol — solitude that feeds craft and reflection — the artist's parasol — solitude that feeds craft and reflection. Time alone isn't loneliness for you — it's where your best work ripens.","The day sits at your 'the harvest in the barn — quiet, kept, not gone' stage — the harvest in the barn — quiet, kept, not gone. Sort, keep, and file; the day favors consolidating over acquiring.","The day has its own rhythm: today's sign, the dog, meets the dragon hour (7–9 am) head-on — the rough patch, where plans jostle — and settles into the rabbit hour (5–7 am), the easiest stretch to get something agreed.","Do: Make the overdue decision — clash days are for moving stuck furniture.","Don't: Keep the sharp reply in drafts overnight — edges run keen today.","Don't: Don't book the day back-to-back — leave room for something to move, because it will want to.","A sweeping-out day, clearing the old to make room day — sweeping-out day, clearing the old to make room.","This is the day's kind of work — its grain leans toward clearing out. Say yes to the thing you've already half-decided.","A clash crosses your home palace today, a door and a draft. Let commitments wait for steadier footing."]},{"date":"2026-10-04","headline":"An easy-looking day with one quiet catch in it.","grain":"A Metal day, which cuts against your grain slightly. Edges feel sharper; softer handling goes further.","agency":"Do one small thing today that only pays off years from now.","rest":["A harm today: the day's sign, the pig, brushes the monkey in your chart's horizon — small erosions, like the overnight drip of a kitchen tap. Catch them early and they stay small.","The old books name today the witty rule-bender — in everyday terms, the witty rule-bender who improves the recipe and annoys the chef. Bright for creating, restless inside anyone else's format.","Today lights your small good news — occasions, celebrations, glad tidings — small good news — occasions, celebrations, glad tidings. Small celebrations suit you; mark the minor wins instead of saving joy for the big ones.","The day sits at your 'the field after clearing — empty so something new can start' stage — the field after clearing — empty so something new can start. Clearing is progress — an empty field is a field ready for seed.","Today's sign, the pig, has a rough hour and an easy one: the snake hour (9–11 am) runs against it, so give whatever lands then a little slack, and the tiger hour (3–5 am) runs with it, a fair time to settle something.","Do: Give today's plans a second read — small leaks are cheap to fix early.","Do: Mark a small win properly — cake counts.","Don't: Keep the sharp reply in drafts overnight — edges run keen today.","Don't: Don't hang the whole plan on one hook today — add a second anchor.","the cup filled to the brim, abundance that wants sharing shapes the day — the cup filled to the brim, abundance that wants sharing.","The day's grain runs with launches; the thing you've half-decided is worth a nod today."]},{"date":"2026-10-05","headline":"Momentum arrives from more than one side today.","grain":"A Water day, which runs a bit against your grain. Focus can drift — give it a channel and it settles.","agency":"Teach someone younger one small thing you know.","rest":["A trine today: the day's sign, the rat, joins the monkey and dragon already in your chart's horizon — three friends planning one surprise without a group chat. Support gathers in that room.","The old calendars call today an the lucky find day — in modern terms, the lucky find: chances that arrive sideways like a good parking spot. Light and mobile; hold them loosely.","Today lights your a room where grief once sat — tenderness worth honoring — a room where grief once sat — tenderness worth honoring. Endings deserve a nod from you rather than a shrug; you close chapters well when you close them consciously.","The day sits at your 'an idea that exists but isn't visible yet' stage — an idea that exists but isn't visible yet. Ideas want privacy today; draft before you announce.","Two hours stand out on today's route. The horse hour (11 am–1 pm) pulls opposite the rat, today's sign — expect things to shift there — while the ox hour (1–3 am) leans the same way it does, a quieter window for anything that needs a yes.","Do: Hand one task to the people who row with you instead of carrying it solo.","Don't: Save the risky shortcut for another day; take the road you know.","Don't: Don't do the group's job alone out of habit; the current is with company today.","Today runs the level road, even footing and nothing tipping: the level road, even footing and nothing tipping.","This is the day's kind of work — its grain leans toward deals & paperwork. Say yes to the thing you've already half-decided."]}],"u":[{"date":"2026-09-29","headline":"The day runs crosswise. Movement, not misfortune.","grain":"A Fire day, which isn't quite your grain. The tempo runs fast and bright; let it pass through without chasing it.","agency":"Finish the small work task that's been following you around all week.","rest":["A clash today: the day's sign, the horse, pulls opposite the rat in your chart's career palace — a door and a draft. Good weather for cutting a knot you've been avoiding.","Today's sign, the horse, completes a trine with the dog in your chart's roots — signs rowing one direction, a crew that has rowed together for years. Easier to build there than to start cold.","The old calendars call today an insight from the odd angle day — put plainly, learning by your own strange route: answers that arrive in the shower or mid-walk. Good for thinking sideways and learning strangely.","Today lights your a drawn blade — decisive force that needs a sheath — a drawn blade — decisive force that needs a sheath. Your decisiveness is real force — aimed, it cuts through; unaimed, it cuts whatever's near.","The day sits at your 'noon sun — full power, nothing left in reserve' stage — noon sun — full power, nothing left in reserve. Spend the height on what matters; peaks are for planting flags, not storing them.","Two hours stand out on today's route. The rat hour (11 pm–1 am) pulls opposite the horse, today's sign — expect things to shift there — while the goat hour (1–3 pm) leans the same way it does, a quieter window for anything that needs a yes.","Do: Make the overdue decision — clash days are for moving stuck furniture.","Do: Hand one task to the people who row with you instead of carrying it solo.","Don't: Let the spotlight pass today — your work reads better from a quieter room.","Don't: Don't do the group's job alone out of habit; the current is with company today.","gathering-in day, taking in what's owed and offered shapes the day — gathering-in day, taking in what's owed and offered.","The day's grain runs with learning; the thing you've half-decided is worth a nod today."]},{"date":"2026-09-30","headline":"A small snag under a smooth surface today.","grain":"A Fire day, which isn't quite your grain. The tempo runs fast and bright; let it pass through without chasing it.","agency":"Tidy one corner of your desk or one file you keep reopening.","rest":["A harm today: the day's sign, the goat, brushes the rat in your chart's career palace — small erosions, like the overnight drip of a kitchen tap. Catch them early and they stay small.","The old books name today being looked after — in everyday terms, being looked after, the friend who brings soup without being asked. A grain that favors rest and taking things in.","Today lights your helpful people show up for you — the stranger who holds the door at the right moment — helpful people show up for you — the stranger who holds the door at the right moment. When you ask for help, it tends to actually arrive; asking is the skill worth practicing.","The day sits at your 'just past the summit — still high, starting to descend' stage — just past the summit — still high, starting to descend. Coast with intention — ease off the pace before the pace eases you off.","Two hours stand out on today's route. The ox hour (1–3 am) pulls opposite the goat, today's sign — expect things to shift there — while the horse hour (11 am–1 pm) leans the same way it does, a quieter window for anything that needs a yes.","Do: Give today's plans a second read — small leaks are cheap to fix early.","Do: Ask the person who knows — help answers when called today.","Don't: Don't lock in loose plans today; let the details firm up first.","Don't: Let the spotlight pass today — your work reads better from a quieter room.","Today runs the door swung wide, fresh starts and open roads: the door swung wide, fresh starts and open roads.","The day's grain runs with launches; the thing you've half-decided is worth a nod today.","The day's grain runs the other way from clearing out — restless work today. The boxes will still be there tomorrow; let clearing out wait a day."]},{"date":"2026-10-01","headline":"The day pulls one way, and it's a useful way.","grain":"An Earth day, which sits a little heavy for you. Things may feel slow — treat it as ballast, not a wall.","agency":"Finish the small work task that's been following you around all week.","rest":["Today's sign, the monkey, completes a trine with the rat and dragon in your chart's career palace — signs rowing one direction, a crew that has rowed together for years. Easier to build there than to start cold.","The old calendars call today a peers at your table day — in everyday terms, peers at your table, people carrying the same pack you do. A grain that favors doing it together over going it alone.","Today lights your packed bags by the door — movement, travel, changes of scene — packed bags by the door — movement, travel, changes of scene. You think better in motion; a change of scene is a legitimate tool, not an escape.","The day sits at your 'a head cold, not a diagnosis — running at half speed' stage — a head cold, not a diagnosis — running at half speed. Half speed is honest speed; trim the list instead of pushing through it.","Two hours stand out on today's route. The tiger hour (3–5 am) pulls opposite the monkey, today's sign — expect things to shift there — while the snake hour (9–11 am) leans the same way it does, a quieter window for anything that needs a yes.","Do: Hand one task to the people who row with you instead of carrying it solo.","Do: Change the scene — take the meeting on a walk, work an hour from somewhere new.","Don't: Don't do the group's job alone out of habit; the current is with company today.","Don't: Let slow things be slow today; don't force the foundation you haven't measured.","the shutters drawn, a day to seal, store, and settle shapes the day — the shutters drawn, a day to seal, store, and settle.","This is the day's kind of work — its grain leans toward rest. Say yes to the thing you've already half-decided.","The day's grain runs the other way from commitments — restless work today. The boxes will still be there tomorrow; let commitments wait a day."]},{"date":"2026-10-02","headline":"An easy-looking day with one quiet catch in it.","grain":"An Earth day, which sits a little heavy for you. Things may feel slow — treat it as ballast, not a wall.","agency":"Write down one thing you're grateful your upbringing gave you.","rest":["Today's sign, the rooster, sits at odds with the dog in your chart's roots — a harm, a slow leak rather than a burst pipe. Worth a second look before you commit to anything there.","A combine today: the day's sign, the rooster, meets the dragon in your chart's home palace like neighbors who already get along. A fair window for mending or agreeing.","The old books name today friendly rivalry — in modern terms, friendly rivalry: the housemate who eats your leftovers and still makes you laugh. Good drive; keep an eye on what it spends.","Today lights your charm in bloom — you get noticed whether or not you try — charm in bloom — you get noticed whether or not you try. Attention comes easily; choosing what to do with it is the actual work.","The day sits at your 'the pause between out-breath and in-breath' stage — the pause between out-breath and in-breath. Let the pause be a pause. Deciding can wait for the in-breath.","The day has its own rhythm: today's sign, the rooster, meets the rabbit hour (5–7 am) head-on — the rough patch, where plans jostle — and settles into the dragon hour (7–9 am), the easiest stretch to get something agreed.","Do: Accept the invitation; being seen works in your favor today.","Do: Give today's plans a second read — small leaks are cheap to fix early.","Don't: Don't negotiate against yourself before anyone has said no.","Don't: Don't lock in loose plans today; let the details firm up first.","A the day the month sets its stake in the ground day — the day the month sets its stake in the ground.","The day's grain runs with travel; the thing you've half-decided is worth a nod today.","Today's grain is set against clearing out. Nothing is lost by giving it another day."]},{"date":"2026-10-03","headline":"The day runs crosswise. Movement, not misfortune.","grain":"A Metal day, and Metal tends to suit you. Clarity comes easier — a fair day to finish, refine, or decide.","agency":"Ask the person you live with how their day actually went, and wait for the real answer.","rest":["A clash today: the day's sign, the dog, pulls opposite the dragon in your chart's home palace — a door and a draft. Good weather for cutting a knot you've been avoiding.","The old calendars call today an making for the joy of it day — put plainly, making for the joy of it, cooking for friends rather than for a review. A pleasant grain for enjoying without a scoreboard.","Today lights your a pull toward the deep questions — philosophy, patterns, the why under the why — a pull toward the deep questions — philosophy, patterns, the why under the why. You do your best thinking one level deeper than the question you were asked.","The day sits at your 'the harvest in the barn — quiet, kept, not gone' stage — the harvest in the barn — quiet, kept, not gone. Sort, keep, and file; the day favors consolidating over acquiring.","The day has its own rhythm: today's sign, the dog, meets the dragon hour (7–9 am) head-on — the rough patch, where plans jostle — and settles into the rabbit hour (5–7 am), the easiest stretch to get something agreed.","Do: Make the overdue decision — clash days are for moving stuck furniture.","Do: Finish one thing completely; the last ten percent is where today shines.","Don't: Don't book the day back-to-back — leave room for something to move, because it will want to.","Don't: Don't hang the whole plan on one hook today — add a second anchor.","sweeping-out day, clearing the old to make room shapes the day — sweeping-out day, clearing the old to make room.","The day's Metal sits with your grain, so clearing out catch a following wind. Lean in where you've been hesitating."]},{"date":"2026-10-04","headline":"A day cut along your grain — most things cost a little less.","grain":"A Metal day, and Metal tends to suit you. Clarity comes easier — a fair day to finish, refine, or decide.","agency":"Take the walk you keep postponing — no phone, just the walk.","rest":["The old books name today the witty rule-bender — in everyday terms, the witty rule-bender who improves the recipe and annoys the chef. Bright for creating, restless inside anyone else's format.","Today lights your an empty seat at the table — what's booked there lands lighter than expected — an empty seat at the table — what's booked there lands lighter than expected. Plans anchored there benefit from a second anchor somewhere solid.","The day sits at your 'the field after clearing — empty so something new can start' stage — the field after clearing — empty so something new can start. Clearing is progress — an empty field is a field ready for seed.","Two hours stand out on today's route. The snake hour (9–11 am) pulls opposite the pig, today's sign — expect things to shift there — while the tiger hour (3–5 am) leans the same way it does, a quieter window for anything that needs a yes.","Do: Mark a small win properly — cake counts.","Do: Finish one thing completely; the last ten percent is where today shines.","Don't: Don't hang the whole plan on one hook today — add a second anchor.","Today runs the cup filled to the brim, abundance that wants sharing: the cup filled to the brim, abundance that wants sharing.","Metal runs warm for you today — fair light for launches. Say yes to the thing you've already half-decided."]},{"date":"2026-10-05","headline":"The day pulls one way, and it's a useful way.","grain":"A Water day, and Water tends to suit you. Things flow more freely; a good grain for connecting or going deep.","agency":"Ask the person you live with how their day actually went, and wait for the real answer.","rest":["A trine today: the day's sign, the rat, joins the dragon already in your chart's home palace — three friends planning one surprise without a group chat. Support gathers in that room.","The old calendars call today an the lucky find day — in modern terms, the lucky find: chances that arrive sideways like a good parking spot. Light and mobile; hold them loosely.","Today lights your a room where grief once sat — tenderness worth honoring — a room where grief once sat — tenderness worth honoring. Endings deserve a nod from you rather than a shrug; you close chapters well when you close them consciously.","The day sits at your 'an idea that exists but isn't visible yet' stage — an idea that exists but isn't visible yet. Ideas want privacy today; draft before you announce.","The day has its own rhythm: today's sign, the rat, meets the horse hour (11 am–1 pm) head-on — the rough patch, where plans jostle — and settles into the ox hour (1–3 am), the easiest stretch to get something agreed.","Do: Hand one task to the people who row with you instead of carrying it solo.","Do: Reach out and reconnect — one message to someone you've been meaning to find.","Don't: Save the risky shortcut for another day; take the road you know.","Don't: Don't shrug off an ending today; give it the nod it's asking for.","the level road, even footing and nothing tipping shapes the day — the level road, even footing and nothing tipping.","The day's Water sits with your grain, so deals & paperwork catch a following wind. Lean in where you've been hesitating."]}]};
 
 const DAYS = [
-  { date: "2026-09-29", dow: "Tue", label: "Tue, Sep 29", doy: 272, pillar: "Yang Fire · Horse day", animal: "Horse", elem: "fire", rough: ["Rat", "11 pm–1 am", 23], easy: ["Goat", "1–3 pm", 13], officer: ["Receive day", "gathering in what's owed and offered"] },
-  { date: "2026-09-30", dow: "Wed", label: "Wed, Sep 30", doy: 273, pillar: "Yin Fire · Goat day", animal: "Goat", elem: "fire", rough: ["Ox", "1–3 am", 1], easy: ["Horse", "11 am–1 pm", 11], officer: ["Open day", "fresh starts and open roads"] },
-  { date: "2026-10-01", dow: "Thu", label: "Thu, Oct 1", doy: 274, pillar: "Yang Earth · Monkey day", animal: "Monkey", elem: "earth", rough: ["Tiger", "3–5 am", 3], easy: ["Snake", "9–11 am", 9], officer: ["Close day", "seal, store and settle"] },
-  { date: "2026-10-02", dow: "Fri", label: "Fri, Oct 2", doy: 275, pillar: "Yin Earth · Rooster day", animal: "Rooster", elem: "earth", rough: ["Rabbit", "5–7 am", 5], easy: ["Dragon", "7–9 am", 7], officer: ["Establish day", "the month sets its stake in the ground"] },
-  { date: "2026-10-03", dow: "Sat", label: "Sat, Oct 3", doy: 276, pillar: "Yang Metal · Dog day", animal: "Dog", elem: "metal", rough: ["Dragon", "7–9 am", 7], easy: ["Rabbit", "5–7 am", 5], officer: ["Remove day", "clearing the old to make room"] },
-  { date: "2026-10-04", dow: "Sun", label: "Sun, Oct 4", doy: 277, pillar: "Yin Metal · Pig day", animal: "Pig", elem: "metal", rough: ["Snake", "9–11 am", 9], easy: ["Tiger", "3–5 am", 3], officer: ["Full day", "abundance that wants sharing"] },
-  { date: "2026-10-05", dow: "Mon", label: "Mon, Oct 5", doy: 278, pillar: "Yang Water · Rat day", animal: "Rat", elem: "water", rough: ["Horse", "11 am–1 pm", 11], easy: ["Ox", "1–3 am", 1], officer: ["Balance day", "even footing, nothing tipping"] },
+  { date: "2026-09-29", dow: "Tue", label: "Tue, Sep 29", doy: 272, pillar: "Yang Fire · Horse day", animal: "Horse", elem: "fire", rough: ["Rat", "11 pm–1 am", 23], easy: ["Goat", "1–3 pm", 13], officer: ["A day for collecting what's owed", "Receive"] },
+  { date: "2026-09-30", dow: "Wed", label: "Wed, Sep 30", doy: 273, pillar: "Yin Fire · Goat day", animal: "Goat", elem: "fire", rough: ["Ox", "1–3 am", 1], easy: ["Horse", "11 am–1 pm", 11], officer: ["A day for fresh starts", "Open"] },
+  { date: "2026-10-01", dow: "Thu", label: "Thu, Oct 1", doy: 274, pillar: "Yang Earth · Monkey day", animal: "Monkey", elem: "earth", rough: ["Tiger", "3–5 am", 3], easy: ["Snake", "9–11 am", 9], officer: ["A day for finishing and storing", "Close"] },
+  { date: "2026-10-02", dow: "Fri", label: "Fri, Oct 2", doy: 275, pillar: "Yin Earth · Rooster day", animal: "Rooster", elem: "earth", rough: ["Rabbit", "5–7 am", 5], easy: ["Dragon", "7–9 am", 7], officer: ["A day for setting things up", "Establish"] },
+  { date: "2026-10-03", dow: "Sat", label: "Sat, Oct 3", doy: 276, pillar: "Yang Metal · Dog day", animal: "Dog", elem: "metal", rough: ["Dragon", "7–9 am", 7], easy: ["Rabbit", "5–7 am", 5], officer: ["A day for clearing out", "Remove"] },
+  { date: "2026-10-04", dow: "Sun", label: "Sun, Oct 4", doy: 277, pillar: "Yin Metal · Pig day", animal: "Pig", elem: "metal", rough: ["Snake", "9–11 am", 9], easy: ["Tiger", "3–5 am", 3], officer: ["A day for sharing plenty", "Full"] },
+  { date: "2026-10-05", dow: "Mon", label: "Mon, Oct 5", doy: 278, pillar: "Yang Water · Rat day", animal: "Rat", elem: "water", rough: ["Horse", "11 am–1 pm", 11], easy: ["Ox", "1–3 am", 1], officer: ["An even, steady day", "Balance"] },
 ];
 
+/* Details speak in plain terms first; the old name rides along as a small tag. */
 const TG = {
-  "Friend": "peers at your table", "Rob Wealth": "friendly rivalry", "Eating God": "making for the joy of it",
-  "Hurting Officer": "the witty rule-bender", "Indirect Wealth": "the lucky find", "Indirect Resource": "insight from the odd angle",
-  "Direct Resource": "being looked after",
+  "Friend": ["A day for doing it together", "People in the same spot as you are the best company today.", "Friend"],
+  "Rob Wealth": ["A competitive streak", "Someone close may want the same thing you do. Keep it friendly.", "Rob Wealth"],
+  "Eating God": ["A day to make things for fun", "Cook, draw, tinker: work done for the joy of it goes well.", "Eating God"],
+  "Indirect Wealth": ["A day for lucky finds", "Unplanned chances show up. Notice them before you plan around them.", "Indirect Wealth"],
+  "Indirect Resource": ["Good for learning sideways", "Answers come from odd angles: a side conversation, a walk, a stray article.", "Indirect Resource"],
+  "Direct Resource": ["A day to be looked after", "Help and care reach you more easily today. Let them.", "Direct Resource"],
 };
 const STAGE = {
-  "Peak": "full power, nothing in reserve", "Decline": "just past the summit", "Illness": "running at half speed",
-  "Stillness": "the pause between breaths", "Storage": "the harvest in the barn", "Severance": "the field after clearing",
-  "Conception": "an idea not yet visible",
+  "Peak": ["You're at full strength", "Plenty in the tank, with little held back for later."],
+  "Decline": ["Just past your peak", "Still strong. Ease the pace before it eases you."],
+  "Illness": ["Running at half speed", "Trim the list rather than push through it."],
+  "Stillness": ["A pause day", "Good for waiting before you decide."],
+  "Storage": ["A day to put things away", "Sorting and keeping go better than starting."],
+  "Severance": ["A clean slate", "Something has ended, so there's room to begin."],
+  "Conception": ["An idea taking shape", "Something new is forming that isn't visible yet."],
 };
 const STAR = {
-  "General": "the one the room turns to", "Goat Blade": "decisive force that needs a sheath", "Calamity": "slow down through this stretch",
-  "Nobleman": "helpful people show up", "Taiji Nobleman": "a pull toward the deep questions", "Virtue's Companion": "goodwill answered in kind",
-  "Scholar": "learning comes a shade easier", "Travel Horse": "movement and changes of scene", "Peach Blossom": "you get noticed",
-  "Canopy": "solitude that feeds craft", "Void": "what's booked lands lighter", "Heavenly Joy": "small good news",
-  "Monthly Virtue": "a soft tailwind of goodwill", "Flying Blade": "sharpness that nicks when rushed", "Mourning Gate": "tenderness worth honoring",
+  "General": "People look to you to decide", "Goat Blade": "Strong will today; aim it", "Calamity": "Take things a little slower",
+  "Nobleman": "Someone helpful turns up", "Taiji Nobleman": "Drawn to the big questions", "Virtue's Companion": "Kindness comes back to you",
+  "Scholar": "Study and writing come easier", "Travel Horse": "Good for a change of scene", "Peach Blossom": "You get noticed",
+  "Canopy": "Time alone pays off", "Void": "Plans may land lighter than booked", "Heavenly Joy": "Small good news",
+  "Monthly Virtue": "A gentle run of goodwill", "Flying Blade": "Rushing causes small cuts", "Mourning Gate": "Be gentle with old sadness",
+};
+const ELEMENT = {
+  suits: (e) => [`${e} suits you today`, `Your chart runs better with more ${e}, and today brings it.`, `${e} day`],
+  against: (e) => [`${e} works against you today`, `Your chart already has plenty of what ${e} brings, so go a little softer.`, `${e} day`],
+};
+const ALSO = {
+  familyTrine: ["Family is on your side", "Today's sign, the horse, lines up with the dog, your chart's sign for family.", "Trine"],
+  homeCombine: ["Easy agreement at home", "Today's sign, the rooster, pairs with the dragon, your chart's sign for home and partner.", "Combine"],
 };
 const WHY = {
-  open: "An Open day favors starting things. Leave the clear-out for another day.",
-  close: "A Close day is for sealing and storing. New starts and moves go better another day.",
-  establish: "An Establish day favors setting things up. Leave the clear-out for tomorrow.",
+  open: "Today favors starting things. Leave the clear-out for another day.",
+  close: "Today favors finishing over starting. New commitments, launches and moves go better another day.",
+  establish: "Today favors setting things up. Leave the clear-out for tomorrow.",
   homeMoving: "With plans at home still moving, sign-offs and launches go better on a steadier day.",
 };
 
-/* lead: what the first screen owns. mod: the element, when it changes the advice. also: other transits. */
+/* why: how the lead works, in plain words. mod: the element, when it changes the advice. */
 const AFTER = {
   a: [
     { headline: "Something at work has to give, and you get to choose what.",
-      body: "The day's horse runs straight at the rat in your career palace, what the old calendars call a clash: two plans booked for the same hour. Fire suits you today, so the easiest thing to move is a conversation you've put off.",
+      body: "The old calendars call today a clash at work: two plans booked for the same slot, with room for only one. Fire suits you today, so the easiest thing to move is a conversation you've put off.",
       agency: "Tell a colleague the thing you've been meaning to say plainly.",
-      lead: "Rat–horse clash · career palace", mod: "Fire day · suits you",
-      also: [["Horse joins the dog in your roots", "family support gathers"]], element: null, tg: "Indirect Resource", stage: "Peak", stars: ["General", "Goat Blade", "Calamity"],
-      favors: ["Learning", "Deals & paperwork", "The big ask"], watch: [], why: null },
+      lead: "Clash at work", mod: "Fire suits you",
+      why: ["The horse meets the rat", "Today's sign, the horse, sits opposite the rat, your birth chart's sign for work.", "Clash"],
+      also: [ALSO.familyTrine], element: null, tg: "Indirect Resource", stage: "Peak", stars: ["General", "Goat Blade", "Calamity"],
+      favors: ["Learning", "Deals & paperwork", "The big ask"], watch: [], whyWatch: null },
     { headline: "Work looks smooth today. Check what's underneath before you lean on it.",
-      body: "The day's goat sits at an angle to the rat in your career palace. The old calendars call it a harm: a slow leak rather than a burst pipe. Fire suits you, so the day feels easy, and that's when a small drip goes unnoticed.",
+      body: "The old calendars call today a harm at work: a slow leak rather than a burst pipe. Fire suits you, so the day feels easy, and that's exactly when a small drip goes unnoticed.",
       agency: "Reread one work plan or message before you send it.",
-      lead: "Rat–goat harm · career palace", mod: "Fire day · suits you",
+      lead: "Harm at work", mod: "Fire suits you",
+      why: ["The goat meets the rat", "Today's sign, the goat, is at odds with the rat, your birth chart's sign for work.", "Harm"],
       also: [], element: null, tg: "Direct Resource", stage: "Decline", stars: ["Nobleman", "Taiji Nobleman"],
-      favors: ["Launches", "Moving", "Learning"], watch: ["Clearing out"], why: WHY.open },
+      favors: ["Launches", "Moving", "Learning"], watch: ["Clearing out"], whyWatch: WHY.open },
     { headline: "Work and home pull in the same direction today.",
-      body: "The day's monkey completes a set with the rat and dragon already in your chart, what the old calendars call a trine: three parts pulling one way. It runs through your career palace and your home palace, so help from one side makes the other lighter.",
+      body: "The old calendars call today a trine: three things pulling one way, and today they run through both your work and your home life. Help from one side makes the other lighter.",
       agency: "Tell someone at home about one work problem, and take their idea seriously.",
-      lead: "Monkey–rat–dragon trine · career and home palaces", mod: null,
-      also: [], element: ["Earth day", "suits you"], tg: "Friend", stage: "Illness", stars: ["Virtue's Companion", "Scholar", "Travel Horse"],
-      favors: ["Rest"], watch: ["Commitments", "Launches", "Moving"], why: WHY.close },
+      lead: "Trine across work and home", mod: null,
+      why: ["The monkey completes a set", "Today's sign, the monkey, makes a set of three with the rat and dragon, your chart's signs for work and home.", "Trine"],
+      also: [], element: ELEMENT.suits("Earth"), tg: "Friend", stage: "Illness", stars: ["Virtue's Companion", "Scholar", "Travel Horse"],
+      favors: ["Rest"], watch: ["Commitments", "Launches", "Moving"], whyWatch: WHY.close },
     { headline: "A small family friction runs under an easy day.",
-      body: "The day's rooster brushes the dog in your roots, the part of your chart that holds family and where you come from. The old calendars call it a harm: small wear, like a tap dripping overnight. Earth suits you today, so you have the steadiness to fix it while it's small.",
+      body: "The old calendars call today a harm in the family: small wear, like a tap dripping overnight. Earth suits you today, so you have the steadiness to fix it while it's small.",
       agency: "Answer the family message you've been leaving on read.",
-      lead: "Rooster–dog harm · roots", mod: "Earth day · suits you",
-      also: [["Rooster joins the dragon in your home palace", "easy agreement at home"]], element: null, tg: "Rob Wealth", stage: "Stillness", stars: ["Peach Blossom"],
-      favors: ["Travel", "Learning", "The big ask"], watch: ["Clearing out"], why: WHY.establish },
+      lead: "Harm in the family", mod: "Earth suits you",
+      why: ["The rooster meets the dog", "Today's sign, the rooster, is at odds with the dog, your birth chart's sign for family.", "Harm"],
+      also: [ALSO.homeCombine], element: null, tg: "Rob Wealth", stage: "Stillness", stars: ["Peach Blossom"],
+      favors: ["Travel", "Learning", "The big ask"], watch: ["Clearing out"], whyWatch: WHY.establish },
     { headline: "Home has two plans for the same evening.",
-      body: "The day's dog runs straight at the dragon in your home palace, the part of your chart that holds partnership and your inner room. The old calendars call it a clash. One plan will need to move, and it goes better when you choose it together.",
-      agency: "Ask the person you live with which plan matters more to them tonight.",
-      lead: "Dragon–dog clash · home palace", mod: null,
-      also: [], element: ["Metal day", "against your grain"], tg: "Eating God", stage: "Storage", stars: ["Taiji Nobleman", "Canopy", "Void"],
-      favors: ["Clearing out"], watch: ["Commitments", "Launches", "Deals & paperwork"], why: WHY.homeMoving },
+      body: "The old calendars call today a clash at home: you and the person closest to you may want different things from tonight. One plan will need to move, and it goes better when you choose it together.",
+      agency: "Ask the person closest to you which plan matters more to them tonight.",
+      lead: "Clash at home", mod: null,
+      why: ["The dog meets the dragon", "Today's sign, the dog, sits opposite the dragon, your birth chart's sign for home and partner.", "Clash"],
+      also: [], element: ELEMENT.against("Metal"), tg: "Eating God", stage: "Storage", stars: ["Taiji Nobleman", "Canopy", "Void"],
+      favors: ["Clearing out"], watch: ["Commitments", "Launches", "Deals & paperwork"], whyWatch: WHY.homeMoving },
     { headline: "A long-range plan springs a slow leak today.",
-      body: "The day's pig sits at an angle to the monkey in your horizon, the part of your chart that holds what you're building toward. The old calendars call it a harm: slow wear rather than a break. Nothing needs rescuing today, only noticing.",
+      body: "The old calendars call today a harm to what you're building: slow wear on a long-term plan, not a break. Nothing needs rescuing today, only noticing.",
       agency: "Write down one thing your long-term plan quietly depends on.",
-      lead: "Monkey–pig harm · horizon", mod: null,
-      also: [], element: ["Metal day", "against your grain"], tg: "Hurting Officer", stage: "Severance", stars: ["Heavenly Joy", "Void"],
-      favors: ["Launches", "Deals & paperwork", "Gatherings"], watch: [], why: null },
+      lead: "Harm to long-term plans", mod: null,
+      why: ["The pig meets the monkey", "Today's sign, the pig, is at odds with the monkey, your birth chart's sign for what you're building.", "Harm"],
+      also: [], element: ELEMENT.against("Metal"), tg: null, tgPlain: ["Clever, a little cheeky", "You spot the shortcut others miss. Say it kindly.", "Hurting Officer"], stage: "Severance", stars: ["Heavenly Joy", "Void"],
+      favors: ["Launches", "Deals & paperwork", "Gatherings"], watch: [], whyWatch: null },
     { headline: "What you're building and who you build it with line up.",
-      body: "The day's rat completes a set with the monkey and dragon in your chart, what the old calendars call a trine: a crew that has rowed together for years. It links your horizon to your home palace. Water runs against your grain, so the pull is steady but slow; go with it rather than pushing.",
+      body: "The old calendars call today a trine: your long-term plans and your home life pulling the same way, like a crew that has rowed together for years. Water works against you today, so progress is steady but slow. Go with it rather than pushing.",
       agency: "Tell the person closest to you one thing you're working toward.",
-      lead: "Monkey–rat–dragon trine · horizon and home palace", mod: "Water day · against your grain",
+      lead: "Trine across plans and home", mod: "Water works against you",
+      why: ["The rat completes a set", "Today's sign, the rat, makes a set of three with the monkey and dragon, your chart's signs for the future and home.", "Trine"],
       also: [], element: null, tg: "Indirect Wealth", stage: "Conception", stars: ["Monthly Virtue", "General", "Flying Blade", "Calamity", "Mourning Gate"],
-      favors: ["Deals & paperwork", "Gatherings"], watch: [], why: null },
+      favors: ["Deals & paperwork", "Gatherings"], watch: [], whyWatch: null },
   ],
   u: [
     { headline: "Two plans at work want the same slot today.",
-      body: "The day's horse runs straight at the rat in your career palace, which the old calendars call a clash. One plan has to shift, and today you get to choose which. Moving it early costs less than moving it late.",
+      body: "The old calendars call today a clash at work: two things booked for one slot. One has to shift, and today you get to choose which. Moving it early costs less than moving it late.",
       agency: "Pick the one task you'll move, and move it before lunch.",
-      lead: "Rat–horse clash · career palace", mod: null,
-      also: [["Horse joins the dog in your roots", "family support gathers"]], element: ["Fire day", "against your grain"], tg: "Indirect Resource", stage: "Peak", stars: ["General", "Goat Blade", "Calamity"],
-      favors: ["Learning"], watch: [], why: null },
+      lead: "Clash at work", mod: null,
+      why: ["The horse meets the rat", "Today's sign, the horse, sits opposite the rat, your birth chart's sign for work.", "Clash"],
+      also: [ALSO.familyTrine], element: ELEMENT.against("Fire"), tg: "Indirect Resource", stage: "Peak", stars: ["General", "Goat Blade", "Calamity"],
+      favors: ["Learning"], watch: [], whyWatch: null },
     { headline: "A small snag hides under a smooth workday.",
-      body: "The day's goat sits at an angle to the rat in your career palace. The old calendars call it a harm: a slow leak rather than a burst pipe. It tends to show up as small misreadings, cheap to fix today and costly next week.",
+      body: "The old calendars call today a harm at work: a slow leak rather than a burst pipe. It tends to show up as small misreadings, cheap to fix today and costly next week.",
       agency: "Confirm one detail at work you've been assuming.",
-      lead: "Rat–goat harm · career palace", mod: null,
-      also: [], element: ["Fire day", "against your grain"], tg: "Direct Resource", stage: "Decline", stars: ["Nobleman", "Taiji Nobleman"],
-      favors: ["Launches", "Moving", "Learning"], watch: ["Clearing out"], why: WHY.open },
+      lead: "Harm at work", mod: null,
+      why: ["The goat meets the rat", "Today's sign, the goat, is at odds with the rat, your birth chart's sign for work.", "Harm"],
+      also: [], element: ELEMENT.against("Fire"), tg: "Direct Resource", stage: "Decline", stars: ["Nobleman", "Taiji Nobleman"],
+      favors: ["Launches", "Moving", "Learning"], watch: ["Clearing out"], whyWatch: WHY.open },
     { headline: "Help is closer than it feels today.",
-      body: "The day's monkey completes a set with the rat and dragon in your chart, what the old calendars call a trine: three parts pulling one way, through work and home alike. Earth runs against your grain, so the day may feel heavy. The support is there if you ask for it.",
+      body: "The old calendars call today a trine: three things pulling one way, through your work and your home life. Earth works against you today, so the day may feel heavy. The support is there if you ask for it.",
       agency: "Ask for help with one thing you'd normally carry alone.",
-      lead: "Monkey–rat–dragon trine · career and home palaces", mod: "Earth day · against your grain",
+      lead: "Trine across work and home", mod: "Earth works against you",
+      why: ["The monkey completes a set", "Today's sign, the monkey, makes a set of three with the rat and dragon, your chart's signs for work and home.", "Trine"],
       also: [], element: null, tg: "Friend", stage: "Illness", stars: ["Virtue's Companion", "Scholar", "Travel Horse"],
-      favors: ["Rest"], watch: ["Commitments", "Launches", "Moving"], why: WHY.close },
+      favors: ["Rest"], watch: ["Commitments", "Launches", "Moving"], whyWatch: WHY.close },
     { headline: "Old family habits rub a little today.",
-      body: "The day's rooster brushes the dog in your roots, the part of your chart that holds family and where you come from. The old calendars call it a harm: small wear that's easy to overlook. Name it to yourself and it stays small.",
+      body: "The old calendars call today a harm in the family: small wear that's easy to overlook. Name it to yourself and it stays small.",
       agency: "Call one family member and keep it light.",
-      lead: "Rooster–dog harm · roots", mod: null,
-      also: [["Rooster joins the dragon in your home palace", "easy agreement at home"]], element: ["Earth day", "against your grain"], tg: "Rob Wealth", stage: "Stillness", stars: ["Peach Blossom"],
-      favors: ["Travel", "Learning", "The big ask"], watch: ["Clearing out"], why: WHY.establish },
+      lead: "Harm in the family", mod: null,
+      why: ["The rooster meets the dog", "Today's sign, the rooster, is at odds with the dog, your birth chart's sign for family.", "Harm"],
+      also: [ALSO.homeCombine], element: ELEMENT.against("Earth"), tg: "Rob Wealth", stage: "Stillness", stars: ["Peach Blossom"],
+      favors: ["Travel", "Learning", "The big ask"], watch: ["Clearing out"], whyWatch: WHY.establish },
     { headline: "Home has two plans for one evening. You can sort it.",
-      body: "The day's dog runs straight at the dragon in your home palace, the part of your chart for partnership and your inner room. The old calendars call it a clash. Metal suits you today, so you'll think clearly; use that to decide together rather than alone.",
-      agency: "Sit down with the person you live with and pick tonight's plan together.",
-      lead: "Dragon–dog clash · home palace", mod: "Metal day · suits you",
+      body: "The old calendars call today a clash at home: you and the person closest to you may want different things from tonight. Metal suits you today, so you'll think clearly. Use that to decide together rather than alone.",
+      agency: "Sit down with the person closest to you and pick tonight's plan together.",
+      lead: "Clash at home", mod: "Metal suits you",
+      why: ["The dog meets the dragon", "Today's sign, the dog, sits opposite the dragon, your birth chart's sign for home and partner.", "Clash"],
       also: [], element: null, tg: "Eating God", stage: "Storage", stars: ["Taiji Nobleman", "Canopy", "Void"],
-      favors: ["Clearing out", "Rest"], watch: [], why: null },
+      favors: ["Clearing out", "Rest"], watch: [], whyWatch: null },
     { headline: "A quiet day with room for one clever workaround.",
-      body: "Nothing in your chart is pulled hard today. The old calendars call it a Hurting Officer day, the witty rule-bender: the part of you that finds the shortcut others missed. Metal suits you, so a sharp idea lands well if you say it kindly.",
+      body: "The old calendars call today a Hurting Officer day. In plain terms, you're the witty rule-bender today: you spot the shortcut others miss. Metal suits you too, so a sharp idea lands well if you say it kindly.",
       agency: "Suggest one better way to do a routine task, and keep it short.",
-      lead: "Hurting Officer · the witty rule-bender", mod: "Metal day · suits you",
+      lead: "Hurting Officer day (no sign pulls today)", mod: "Metal suits you",
+      why: ["A quiet day for your chart", "None of today's signs pull on your chart's four signs, so the day's character leads.", "Hurting Officer"],
       also: [], element: null, tg: null, stage: "Severance", stars: ["Heavenly Joy", "Void"],
-      favors: ["Launches", "Deals & paperwork", "Gatherings"], watch: [], why: null },
+      favors: ["Launches", "Deals & paperwork", "Gatherings"], watch: [], whyWatch: null },
     { headline: "Home feels like a team today.",
-      body: "The day's rat joins the dragon in your home palace, what the old calendars call a trine: people pulling the same way without needing to talk it through. Plans you make together today tend to hold.",
-      agency: "Plan one thing for the weekend with the person you live with.",
-      lead: "Rat–dragon trine · home palace", mod: null,
-      also: [], element: ["Water day", "suits you"], tg: "Indirect Wealth", stage: "Conception", stars: ["Monthly Virtue", "General", "Flying Blade", "Calamity", "Mourning Gate"],
-      favors: ["Deals & paperwork", "Gatherings"], watch: [], why: null },
+      body: "The old calendars call today a trine at home: you and the people closest to you pulling the same way without needing to talk it through. Plans you make together today tend to hold.",
+      agency: "Plan one thing for the weekend with the person closest to you.",
+      lead: "Trine at home", mod: null,
+      why: ["The rat lines up with the dragon", "Today's sign, the rat, lines up with the dragon, your birth chart's sign for home and partner.", "Trine"],
+      also: [], element: ELEMENT.suits("Water"), tg: "Indirect Wealth", stage: "Conception", stars: ["Monthly Virtue", "General", "Flying Blade", "Calamity", "Mourning Gate"],
+      favors: ["Deals & paperwork", "Gatherings"], watch: [], whyWatch: null },
   ],
 };
 
@@ -327,41 +359,54 @@ function headlineHTML(text) {
   return `${esc(w.slice(0, start).join(" "))} <em>${esc(w.slice(start, end).join(" "))}</em> ${esc(w.slice(end).join(" "))}`;
 }
 
+/* Each item: kicker, plain title, one plain sentence (optional), old name (optional). */
 function details(r, d) {
-  const items = [];
-  for (const [label, gloss] of r.also) items.push({ k: "Also today", b: label, g: gloss });
-  if (r.element) items.push({ k: "The day", b: r.element[0], g: r.element[1] });
-  if (r.tg) items.push({ k: "The old name", b: r.tg, g: TG[r.tg] });
-  items.push({ k: "Hours", b: `Easy ${d.easy[1]}`, g: `Rough ${d.rough[1]}` });
-  items.push({ k: "Your cycle", b: r.stage, g: STAGE[r.stage] });
-  items.push({ k: "Stars", stars: r.stars });
+  const items = [{ k: "Why today", t: r.why[0], g: r.why[1], old: r.why[2] }];
+  for (const [t, g, old] of r.also) items.push({ k: "Also today", t, g, old });
+  if (r.element) items.push({ k: "The day's element", t: r.element[0], g: r.element[1], old: r.element[2] });
+  const tg = r.tg ? TG[r.tg] : r.tgPlain;
+  if (tg) items.push({ k: "The day's character", t: tg[0], g: tg[1], old: tg[2] });
+  items.push({ k: "Hours", t: `Easiest ${d.easy[1]}`, g: `Roughest ${d.rough[1]}`, old: null });
+  items.push({ k: "Your pace", t: STAGE[r.stage][0], g: STAGE[r.stage][1], old: r.stage });
+  items.push({ k: "Small signs", stars: r.stars });
   return items;
+}
+
+function itemWords(it) {
+  if (it.stars) return it.stars.reduce((n, s) => n + words(STAR[s]) + words(s), 0);
+  return words(it.t) + words(it.g || "") + words(it.old || "");
+}
+
+function oldTag(old) {
+  return old ? `<span class="old">Old name · ${esc(old)}</span>` : "";
+}
+
+function itemBody(it) {
+  if (it.stars) {
+    return `<div class="stars">${it.stars.map((s) => `<span class="star"><strong class="sn">${esc(STAR[s])}</strong><span class="old">${esc(s)}</span></span>`).join("")}</div>`;
+  }
+  return `<b>${esc(it.t)}</b>${it.g ? `<span class="g">${esc(it.g)}</span>` : ""}${oldTag(it.old)}`;
 }
 
 function detailsHTML(r, d, look) {
   const items = details(r, d);
-  const starLines = (stars) => stars.map((s) => `<span class="g"><strong class="sn">${esc(s)}</strong> · ${esc(STAR[s])}</span>`).join("");
   if (look === "trail") {
     return `<p class="mono section-k" style="margin:0">Along the way</p><div class="trail">${items.map((it) => `
-      <div class="wp"><i></i><div><span class="mono">${esc(it.k)}</span>${it.stars ? `<div class="stars">${starLines(it.stars)}</div>` : `<b>${esc(it.b)}</b><span class="g">${esc(it.g)}</span>`}</div></div>`).join("")}</div>`;
+      <div class="wp"><i></i><div><span class="mono">${esc(it.k)}</span>${itemBody(it)}</div></div>`).join("")}</div>`;
   }
   if (look === "almanac") {
     return `<p class="mono section-k" style="margin:0">Notes on the day</p><div class="stack">${items.map((it) => `
-      <div class="row"><span class="mono">${esc(it.k)}</span><div>${it.stars ? starLines(it.stars) : `<b>${esc(it.b)}</b><span class="g">${esc(it.g)}</span>`}</div></div>`).join("")}</div>`;
+      <div class="row"><span class="mono">${esc(it.k)}</span><div>${itemBody(it)}</div></div>`).join("")}</div>`;
   }
-  const isWide = (it) => Boolean(it.stars || it.k === "Also today" || (it.b && it.b.length > 22));
-  const narrow = items.filter((it) => !isWide(it));
-  const lastNarrow = narrow.length % 2 === 1 ? narrow[narrow.length - 1] : null;
-  return `<p class="mono section-k" style="margin:0">Readings</p><div class="tiles">${items.map((it) => {
-    const wide = isWide(it) || it === lastNarrow;
-    return `<div class="tile${wide ? " wide" : ""}"><span class="mono">${esc(it.k)}</span>${it.stars ? starLines(it.stars) : `<b>${esc(it.b)}</b><span class="g">${esc(it.g)}</span>`}</div>`;
-  }).join("")}</div>`;
+  const isWide = (it) => it.k !== "Hours" && it.k !== "Your pace";
+  return `<p class="mono section-k" style="margin:0">Readings</p><div class="tiles">${items.map((it) =>
+    `<div class="tile${isWide(it) ? " wide" : ""}"><span class="mono">${esc(it.k)}</span>${itemBody(it)}</div>`).join("")}</div>`;
 }
 
 function suitsHTML(r, d) {
   const favors = r.favors.length ? `<div class="chips"><span class="lean fav">Favors</span>${r.favors.map((c) => `<span class="chip fav">${esc(c)}</span>`).join("")}</div>` : "";
-  const watch = r.watch.length ? `<div class="chips"><span class="lean watch">Watch</span>${r.watch.map((c) => `<span class="chip watch">${esc(c)}</span>`).join("")}</div><p class="why">${esc(r.why)}</p>` : "";
-  return `<div class="suits"><span class="mono mut">What the day suits</span><h3>${esc(d.officer[0])} · ${esc(d.officer[1])}</h3>${favors}${watch}<span class="find">Find a day for something →</span></div>`;
+  const watch = r.watch.length ? `<div class="chips"><span class="lean watch">Watch</span>${r.watch.map((c) => `<span class="chip watch">${esc(c)}</span>`).join("")}</div><p class="why">${esc(r.whyWatch)}</p>` : "";
+  return `<div class="suits"><span class="mono mut">What the day suits</span><div><h3>${esc(d.officer[0])}</h3>${oldTag(d.officer[1])}</div>${favors}${watch}<span class="find">Find a day for something →</span></div>`;
 }
 
 function topo() {
@@ -449,7 +494,7 @@ function notesHTML() {
   const b = BEFORE[state.chart][state.day];
   const firstNew = words(r.headline) + words(r.body) + words(r.agency);
   const firstOld = words(b.headline) + words(b.grain) + words(b.agency);
-  const detailWords = details(r, d).reduce((n, it) => n + (it.stars ? it.stars.reduce((m, s) => m + words(s) + words(STAR[s]), 0) : words(it.b) + words(it.g)), 0);
+  const detailWords = details(r, d).reduce((n, it) => n + itemWords(it), 0);
   const totalOld = firstOld + b.rest.reduce((n, line) => n + words(line), 0);
   const chartName = state.chart === "a" ? "your chart (Fixture A)" : "the no-birth-time chart";
   return `
@@ -461,16 +506,17 @@ function notesHTML() {
     </div>
     <div class="box"><span class="k">What leads, and why</span>
       <p><b>${esc(r.lead)}</b> is the strongest fact today, so the first screen is about it and nothing else repeats it.</p>
-      <p>${r.mod ? `<b>${esc(r.mod)}</b> joins the body because it changes the advice.` : "The element agrees with the lead, so it stays a label in the details."}</p>
+      <p>${r.mod ? `<b>${esc(r.mod)}</b> joins the body because it changes the advice.` : "The element agrees with the lead, so it stays in the details."}</p>
+      <p>The text says what happens in your life. How the signs line up is one step down, under <b>Why today</b>.</p>
     </div>
     <div class="box"><span class="k">Now, below the first screen</span>
       <ul class="before-list">${b.rest.slice(0, 4).map((line) => `<li>${esc(line)}</li>`).join("")}<li>…and ${Math.max(0, b.rest.length - 4)} more lines. Switch Version to “Now” to see the whole screen.</li></ul>
     </div>
     <div class="box"><span class="k">For you to decide</span>
       <ol class="qs">
-        <li>Is about 70 words the right first screen, or should the body be shorter?</li>
-        <li>Details as short labels: enough, or does any kind (cycle stage, stars) need a sentence back?</li>
-        <li>Details layout per look: Explorer waypoints, Editorial rows, Instrument tiles. Keep, or swap any?</li>
+        <li>Can you follow every line without knowing BaZi? Point at any that still lose you.</li>
+        <li>Is “the old calendars call today a clash at work” the right amount of the old name in the text, or should the old names live only in the details?</li>
+        <li>In the details, is the small “Old name” tag welcome, or noise?</li>
       </ol>
       <p class="k" style="text-transform:none;letter-spacing:0;font:400 12.5px var(--f-body)">Hero art is simplified here; this ticket doesn't change it.</p>
     </div>`;

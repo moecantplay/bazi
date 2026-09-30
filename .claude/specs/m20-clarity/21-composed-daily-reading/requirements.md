@@ -42,6 +42,8 @@ Each day reads as a short piece built around one idea: the day's strongest fact,
   - Acceptance: VOICE.md amended in this ticket; existing voice tests updated to the new rules and green.
 - **R8. Mockups before code**, all three looks × both themes, 390×844, real content for a week for Fixture A and for the unknown-time fixture (VOICE rule 9 holds: nothing hour-derived). Owner picks the budget and the details layout.
   - Acceptance: artifact + screenshots in `research/`, owner sign-off noted below.
+- **R10. Plain words first; mechanics one step down.** Owner, 2026-09-30, on mockup v1: lines like "the day's sign, the rooster, brushes the dog in your chart's roots" and "the old books name today friendly rivalry" lose them. Reading text never narrates sign mechanics (animals, palaces). It names the life area in everyday words (work, family, home and partner, long-term plans) and keeps the old name framed once ("the old calendars call today a clash at work"). The mechanics go in a "Why today" detail, in plain words ("Today's sign, the horse, sits opposite the rat, your birth chart's sign for work"). Every detail leads with a plain title and one plain sentence, with the old name as a small tag.
+  - Acceptance: a content test fails if headline/body/agency contain an animal name, "palace", "roots" or "horizon"; owner signs off on mockup v2.
 - **R9. Deterministic, on-device.** Same profile + date gives the same reading; no render-time randomness; no network.
   - Acceptance: existing determinism tests green; a same-input-twice test over the new builder.
 
@@ -56,5 +58,6 @@ Each day reads as a short piece built around one idea: the day's strongest fact,
 
 - [x] **Run it now or after M19.9?** **Now** (owner, 2026-09-29). Today's three looks are done (M19.9-05) and the remaining M19.9 screens don't render the daily reading, so this doesn't collide with them.
 - [x] **Retire the dos/don'ts lists?** **Yes** (owner, 2026-09-29). The agency line carries the "do", and the Watch chips with their reasons carry the "don't". Keeping them brings back the restating this ticket removes.
-- [ ] **First-screen budget:** proposal ≤ 70 words. Answered by task 1 (mockup), before any code task. Mockup: `research/composed-week.html` (https://claude.ai/artifact/3CMt1mepeFPMG1B2dUV7Lw).
-- [ ] **Details layout per look** (label list, idea cards, dial annotations). Answered by task 1 (mockup), before any code task.
+- [x] **First-screen budget:** ≤ 70 words (owner, 2026-09-30, from mockup v1).
+- [x] **Details layout per look:** Explorer waypoints, Editorial rows, Instrument tiles (owner, 2026-09-30, from mockup v1).
+- [ ] **Mockup v2 (plain words, R10):** can every line be followed without knowing BaZi? Is one framed old name in the body right, or should old names live only in the details? Is the "Old name" tag in the details welcome?
