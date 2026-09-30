@@ -1,6 +1,6 @@
 # Today reads as one written piece
 
-Status: approved · Milestone: M20 · Ticket: 21
+Status: in-progress · Milestone: M20 · Ticket: 21
 
 ## Problem
 
@@ -19,7 +19,7 @@ M20 tickets 10, 12 and 14 cap length, rotate banks and grow them. They keep the 
 
 ## Goal
 
-Each day reads as a short piece built around one idea: the day's strongest fact, said once, turned into one thing to do. Every other fact is still there one tap away, as a label rather than a sentence.
+Each day reads as a short piece built around one idea: the day's strongest fact, said once, turned into one thing to do. Every other fact is still there, as a plain card with its own topic page.
 
 ## Requirements
 
@@ -37,22 +37,22 @@ Each day reads as a short piece built around one idea: the day's strongest fact,
   - Acceptance: a presentation test asserts each fact appears in exactly one of first screen / cards, over 90 days × Fixtures A–D; a content test fails if a card's title or sentence contains a system term (R10 list).
 - **R11. Topic pages.** A topic page has: a plain title; the old name, introduced once as a name ("The old calendars call this a clash."); "For you today" (how it applies to this chart and date, including the sign mechanics in plain words); "How it tends to go"; "Working with it" (soft directives, VOICE rule 12); "Where the name comes from" (the system plumbing, from the glossary). The small-signs page lists each star with its plain title, one line and its old name. Route `/today/topic/?date=YYYY-MM-DD&topic=<key>` using the existing topic keys (`interaction:six-clash`, `ten-god:Friend`, …), static-export safe. Back returns to Today on the same date, so Today reads and writes `?date` (clamped to its range).
   - Acceptance: every topic key reachable from Today over 90 days × Fixtures A–D has page content (test); E2E opens a card's page and the reading's page in every look and returns to the same date; a bad `date` or `topic` falls back to Today.
-- **R5. Nothing is lost.** Every fact the engine produces for the day stays reachable: in the first screen, in details, or in "What the day suits". The map/dial marks still show the day's all-day relations and timed hours.
+- **R5. Nothing is lost.** Every fact the engine produces for the day stays reachable: on the first screen, on a topic card, or in "What the day suits". The map/dial marks still show the day's all-day relations and timed hours.
   - Acceptance: presentation test: set of facts shown ⊇ set of facts produced; E2E map/dial specs green in all three looks.
 - **R6. "What the day suits" says each reason once.** Chips stay (VOICE rule 12). Each Watch chip keeps exactly one short reason; guidance prose no longer restates the element or lead fact already on the first screen. Separate dos/don'ts lists retire (see Open questions).
   - Acceptance: no guidance line shares a 4-word phrase with the first screen, 90 days × Fixtures A–D; every Watch chip has its reason (existing rule-12 test).
-- **R7. VOICE.md says how a composed reading works.** Rule 11 changes: reading text carries no system terms at all (R10); old names appear only in the details, as a tag under a plain title, with the glossary link. Rule 2 allows the 2–3 sentence body. A new rule: one idea per screen, each fact spoken once. Calibration examples updated.
+- **R7. VOICE.md says how a composed reading works.** Rule 11 changes: Today's reading text and cards carry no system terms at all (R10); old names appear only on topic pages (R11). Rule 2 allows the 2–3 sentence body. A new rule: one idea per screen, each fact spoken once. Calibration examples updated.
   - Acceptance: VOICE.md amended in this ticket; existing voice tests updated to the new rules and green.
 - **R8. Mockups before code**, all three looks × both themes, 390×844, real content for a week for Fixture A and for the unknown-time fixture (VOICE rule 9 holds: nothing hour-derived). Owner picks the budget and the details layout.
   - Acceptance: artifact + screenshots in `research/`, owner sign-off noted below.
-- **R10. The reading says how the day could go and what helps; no system terms in it.** Owner, 2026-09-30, on mockups v1–v2: sign mechanics ("the day's sign, the rooster, brushes the dog in your chart's roots") lose them, and even a framed old name ("the old calendars call today a clash at work") should go: "if it's trying to say there would be a clash at work then just say how it could be and … how the person should act to help reduce or maybe prevent". Headline, body and agency use everyday words only: the life area (work, family, home and partner, long-term plans), how the day could show up there, and how to act to ease or head it off. The element is said as its effect ("you come across well today"), not by name. Old names and the sign mechanics live in the details: a "Why today" item in plain words, and every detail leads with a plain title and one plain sentence, with the old name as a small tag.
+- **R10. The reading says how the day could go and what helps; no system terms in it.** Owner, 2026-09-30, on mockups v1–v2: sign mechanics ("the day's sign, the rooster, brushes the dog in your chart's roots") lose them, and even a framed old name ("the old calendars call today a clash at work") should go: "if it's trying to say there would be a clash at work then just say how it could be and … how the person should act to help reduce or maybe prevent". Headline, body and agency use everyday words only: the life area (work, family, home and partner, long-term plans), how the day could show up there, and how to act to ease or head it off. The element is said as its effect ("you come across well today"), not by name. Old names and the sign mechanics live on topic pages (R11).
   - Acceptance: a content test fails if headline/body/agency contain an animal name, a palace word ("palace", "roots", "horizon"), an element name, an interaction name (clash, combine, trine, harm, punishment), a ten-god or star name, or "old calendars"/"old books"; owner signs off on mockup v3.
 - **R9. Deterministic, on-device.** Same profile + date gives the same reading; no render-time randomness; no network.
   - Acceptance: existing determinism tests green; a same-input-twice test over the new builder.
 
 ## Out of scope
 
-- Growing pools to the repeat window (ticket 14) and the no-repeat rotation (ticket 12). This ticket ships ≥ 2 entries per cell and the structure they plug into.
+- Growing pools to the repeat window (ticket 14) and the no-repeat rotation (ticket 12). This ticket ships ≥ 3 entries per cell, a date-cycled pick so the same cell doesn't repeat an entry on nearby days, and the structure they plug into.
 - Cycles, Chart and Compare copy. If the owner wants the same treatment there, it becomes a follow-up ticket once this pattern is proven on Today.
 - First-run introduction (ticket 11).
 - Engine changes: every fact used already exists.
@@ -66,4 +66,4 @@ Each day reads as a short piece built around one idea: the day's strongest fact,
 - [x] **Old names in the reading text?** **No** — say how the day could go and how to act (owner, 2026-09-30, on mockup v2). Mockup v3 applies it.
 - [x] **Mockup v3: reads like a person?** **Yes**, needs more variety of wording (owner, 2026-09-30). Folded into R3.
 - [x] **Old-name tags in details:** middle option, but old names live on each topic's own page, reached by "Read more" from its card; Today stays plain (owner, 2026-09-30; a single detail page, mockup v4, was rejected). Mockup v5.
-- [ ] **Mockup v5 sign-off:** topic page sections, and "Read more" as the way in.
+- [x] **Mockup v5 sign-off:** approved — "i like how this is looking better, we can tweak as we go" (owner, 2026-09-30).

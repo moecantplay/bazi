@@ -57,6 +57,10 @@ interface DetailLabel {
 
 Amend rules 2, 6, 11 and 12, add "one idea per screen", replace calibration examples with composed ones from the approved mockup.
 
+## Dependencies
+
+Drafted as depending on 01 and 02; neither blocks it. The daily lines 01 fixes (star, stage, officer templates) are retired here, so 01 stays for Chart and Cycles. The variety and budget checks are this ticket's own tests over the real pipeline; 02's audit script measures the result once it exists.
+
 ## Changes
 
 | Area | Change |

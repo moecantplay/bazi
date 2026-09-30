@@ -2,8 +2,8 @@
 
 Check a task only with a one-line evidence note.
 
-- [ ] 1. Mockup: a composed week for Fixture A and the unknown-time fixture, three looks × two themes; owner picks budget and details layout (R2, R4, R8)
-- [ ] 2. VOICE.md amendments from the approved mockup (R7)
+- [x] 1. Mockup: a composed week for Fixture A and the unknown-time fixture, three looks × two themes; owner picks budget and details layout (R2, R4, R8) — five rounds, v5 approved 2026-09-30; `research/composed-week.html`, https://claude.ai/artifact/3CMt1mepeFPMG1B2dUV7Lw
+- [x] 2. VOICE.md amendments from the approved mockup (R7) — rules 2, 6, 11, 12 amended, rule 13 added, calibration examples and palace note updated
 - [ ] 3. Tests first (red): lead/modifier, no shared 4-word phrase, cell coverage, each fact once, nothing lost, determinism (R1–R6, R9)
 - [ ] 4. Composer and details builder; new `DailyReading` shape (R1, R2, R4, R9)
 - [ ] 5. Cell pools, ≥ 3 differently shaped entries per reachable cell, seeded from the approved mockup copy; 7-day phrase check green (R3)
