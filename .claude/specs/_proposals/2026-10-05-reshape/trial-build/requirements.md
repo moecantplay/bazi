@@ -68,6 +68,9 @@ The owner can install a preview of the reshaped app on their phone, use it with 
   - **Removed:** every single-day list (the ten-day strip, Coming up, best and bumpiest days). Days belong to Today, which already moves 30 days either way.
   - Acceptance: E2E: Ahead shows no day strip; a plan chip lands on Find a day with results showing; decade → year → month navigation works.
 
+- **R11. Pick any year (owner, 2026-10-05: "would be great if users can select the Year").** Year view opens with a row of years, the reader's lifetime (birth year to 90 years on, inside 1900–2100), scrolled to the current one. Picking a year reads it; its months open that month of that year.
+  - Acceptance: E2E picks a year from the row and reads it; no "next" preview past 2100.
+
 ## Out of scope
 
 - Writing the full plain banks for Ahead, You and People (proposal M24-11). The trial writes only the leads in R5–R7.

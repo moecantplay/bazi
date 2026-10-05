@@ -14,4 +14,5 @@ Check a task only with a one-line evidence note.
 - [ ] 10. Preview deploy (no `--prod`); production `last-modified` unchanged; live check on phone size, light and dark (R1, R8)
 - [ ] 11. Hand-off note to the owner: preview link, how to move the chart over, what's final-shape vs placeholder (R8)
 - [ ] 12. Ahead packs in more: tappable strip, coming-up days, month picker with best/bumpiest days, month-by-month, year-by-year, next previews; tests; redeploy preview (R9)
-- [x] 13. Ahead reworked as Plan something + Your seasons; single-day lists and their models removed; Find a day reads `?activity=`; tests; redeploy (R10) — 7ef4544; E2E chromium 76/76, mobile-webkit Ahead + Find a day 11/11; `pnpm verify` green; preview https://daymaster-rhyf19j69-gervin-sean-mirandas-projects.vercel.app, production last-modified unchanged
+- [ ] 13. Ahead reworked as Plan something + Your seasons; single-day lists and their models removed; Find a day reads `?activity=`; tests; redeploy (R10)
+- [x] 14. Year picker on Ahead's Year view; 2100 edge guarded; E2E; redeploy (R11) — c115b3c; E2E chromium 76/76, mobile-webkit tabs 5/5; `pnpm verify` green; preview https://daymaster-kakvqbai0-gervin-sean-mirandas-projects.vercel.app, production last-modified unchanged
