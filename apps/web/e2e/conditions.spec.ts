@@ -13,8 +13,8 @@ test("conditions screen reads the day as officer, hours and ten days", async ({ 
   await seedProfile(context, FIXTURE_A);
   await pinClock(context, `${TODAY}T10:07:00Z`);
 
-  await page.goto("/settings/");
-  await page.getByRole("link", { name: "Open Conditions" }).click();
+  // Unlinked in the reshape trial, but still served.
+  await page.goto("/conditions/");
   await expect(page.getByRole("heading", { name: "Conditions", exact: true })).toBeVisible();
 
   // Conditions hero: the officer is the condition, the day's stem and animal beneath.

@@ -24,3 +24,19 @@ export const OFFICER_DAY_HEADLINES: Record<string, string> = {
 export function welcomeHeadline(officerKey: string): string {
   return OFFICER_DAY_HEADLINES[officerKey] ?? "Today has its own grain.";
 }
+
+/** One plain word per day officer, for Ahead's ten-day strip. */
+export const OFFICER_DAY_WORDS: Record<string, string> = {
+  jian: "Starting",
+  chu: "Clearing",
+  man: "Full",
+  ping: "Steady",
+  ding: "Settled",
+  zhi: "Holding",
+  po: "Bumpy",
+  wei: "Careful",
+  cheng: "Together",
+  shou: "Receiving",
+  kai: "Opening",
+  bi: "Closing",
+};

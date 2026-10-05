@@ -98,14 +98,8 @@ export function periodReading(facts: readonly ReadingFact[], span: PeriodSpan): 
   };
 }
 
-export interface YouReading extends PlainReading {
-  /** Natal sign links (shown as a count that opens the full chart). */
-  patternCount: number;
-  starCount: number;
-}
-
 /** The You screen: the day-master portrait as the lead, plain cards after. */
-export function youReading(facts: readonly ReadingFact[], seedKey: string): YouReading | null {
+export function youReading(facts: readonly ReadingFact[], seedKey: string): PlainReading | null {
   const dayMaster = factOf(facts, "day-master");
   if (!dayMaster) {
     return null;
@@ -142,8 +136,6 @@ export function youReading(facts: readonly ReadingFact[], seedKey: string): YouR
       topic: "day-master",
     },
     cards,
-    patternCount: facts.filter((fact) => fact.kind === "natal-interaction").length,
-    starCount: facts.filter((fact) => fact.kind === "star").length,
   };
 }
 

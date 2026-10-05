@@ -54,7 +54,7 @@ export default function ComparePage() {
   return (
     <ProfileGate>
       {(profile) => (
-        <AppShell title="Compare">
+        <AppShell title="The full comparison" back>
           {active ? (
             <CompareView profile={profile} person={active} onChangePerson={handleChangePerson} />
           ) : (

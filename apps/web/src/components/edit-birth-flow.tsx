@@ -60,7 +60,7 @@ function ConfirmStep({ profile, birth }: ConfirmProps) {
       setSaveFailed(true);
       return;
     }
-    router.replace("/you");
+    router.replace("/chart");
   }
 
   return (

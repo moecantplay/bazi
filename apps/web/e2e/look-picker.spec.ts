@@ -9,21 +9,14 @@ async function storedLook(page: import("@playwright/test").Page): Promise<unknow
   return page.evaluate((key) => JSON.parse(window.localStorage.getItem(key) ?? "{}").look, STORE_KEY);
 }
 
-test("onboarding: the look chosen before the reveal is saved and Today opens in it, with no note", async ({ page, context }) => {
+test("onboarding has no look step: Today opens in Explorer, with no note", async ({ page, context }) => {
   await pinClock(context, `${TODAY}T02:00:00Z`);
-  await completeOnboarding(page, "Instrument");
+  await completeOnboarding(page);
 
   await expect(page.getByRole("heading", { name: "Today", exact: true })).toBeAttached();
-  await expect(page.locator(`main ${DIAL}`)).toBeVisible();
-  expect(await storedLook(page)).toBe("dial");
+  await expect(page.locator(`main ${ROUTE}`)).toBeVisible();
+  expect(await storedLook(page)).toBe("trail");
   await expect(page.locator("[data-look-intro]")).toHaveCount(0);
-});
-
-test("onboarding: choosing Editorial opens Today as the printed page", async ({ page, context }) => {
-  await pinClock(context, `${TODAY}T02:00:00Z`);
-  await completeOnboarding(page, "Editorial");
-  await expect(page.getByText(/^Day 188 of the year$/)).toBeVisible();
-  expect(await storedLook(page)).toBe("almanac");
 });
 
 test("settings: tapping a look switches Today without a reload", async ({ page, context }) => {

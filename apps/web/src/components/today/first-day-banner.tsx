@@ -1,7 +1,8 @@
 /**
- * Reshape trial: on the day a reader's chart was made, one line above the
- * reading says who they are in the system and what this page is for. Every
- * other day it renders nothing.
+ * Reshape trial: on the day a reader's chart was made, one line right after
+ * the first screen (the one-small-thing board stays above the nav) says who
+ * they are in the system and what this page is for. Every other day it
+ * renders nothing.
  */
 
 "use client";

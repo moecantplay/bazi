@@ -62,7 +62,7 @@ export { GLOSSARY, HOURS_TOPIC, READING_TOPIC, ROUTE_TOPIC, WEEK_TOPIC, glossary
 export type { GlossaryEntry } from "./glossary.js";
 export { READ_MORE, readMoreEntry } from "./read-more.js";
 export type { ReadMoreEntry } from "./read-more.js";
-export { OFFICER_DAY_HEADLINES, welcomeHeadline } from "./banks/trial/welcome.js";
+export { OFFICER_DAY_HEADLINES, OFFICER_DAY_WORDS, welcomeHeadline } from "./banks/trial/welcome.js";
 export { portraitLine, portraitRest } from "./banks/trial/portrait.js";
 export { pairReading, periodReading, youReading } from "./readings/trial/plain-readings.js";
-export type { PeriodSpan, PlainCard, PlainLead, PlainReading, YouReading } from "./readings/trial/plain-readings.js";
+export type { PeriodSpan, PlainCard, PlainLead, PlainReading } from "./readings/trial/plain-readings.js";

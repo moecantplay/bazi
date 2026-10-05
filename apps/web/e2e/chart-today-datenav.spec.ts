@@ -28,7 +28,7 @@ test("seeded chart renders and Today's date nav works and clamps", async ({ page
 
   // Chart renders from the seeded profile.
   await page.goto("/chart/");
-  await expect(page.getByRole("heading", { name: "Chart", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Your chart in full", exact: true })).toBeVisible();
   await expect(page.locator('[data-pillar="year"]')).toContainText("yang wood");
 
   // Move to Today; the reading's body and its cards render.

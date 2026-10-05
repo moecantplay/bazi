@@ -47,7 +47,8 @@ test("a topic the day doesn't carry falls back to Today", async ({ page, context
 test("the read-more link explains how the reading works", async ({ page, context }) => {
   await seedProfile(context, FIXTURE_A);
   await pinClock(context, `${TODAY}T09:00:00Z`);
-  await page.goto("/today/");
+  // Moved from Today to You in the reshape trial.
+  await page.goto("/you/");
 
   await page.locator("[data-about-reading]").click();
   const sheet = page.locator("[data-glossary-sheet]");

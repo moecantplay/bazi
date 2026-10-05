@@ -49,6 +49,6 @@ test("no chart, no request", async ({ page, context }) => {
   await spyOnPersistence(context);
 
   await page.goto("/onboarding/");
-  await expect(page.getByRole("heading", { name: "When were you born?" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /How today is likely to go/ })).toBeVisible();
   expect(await persistCalls(page)).toBe(0);
 });

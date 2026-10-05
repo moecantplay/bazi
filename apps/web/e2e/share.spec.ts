@@ -16,7 +16,7 @@ test("the chart card falls back to a PNG download without a share sheet", async 
   await expect(page.getByText("Card saved to your downloads.")).toBeVisible();
 });
 
-test("a chart link round-trips into Compare's add-person form", async ({ page, context }) => {
+test("a chart link round-trips into People's add-person form", async ({ page, context }) => {
   await seedProfile(context, FIXTURE_A);
   await stubShareAndClipboard(context);
 
@@ -28,17 +28,17 @@ test("a chart link round-trips into Compare's add-person form", async ({ page, c
   expect(url).toContain("/onboarding/#share=");
   expect(url).not.toContain("?share=");
 
-  // Opening the link on a device that already has a profile lands on Compare,
+  // Opening the link on a device that already has a profile lands on People,
   // form prefilled with the sender's details.
   await page.goto(url);
-  await expect(page).toHaveURL(/\/compare\/?$/);
+  await expect(page).toHaveURL(/\/people\/?$/);
   await expect(page.getByLabel("Their birth date")).toHaveValue(FIXTURE_A.birth.date);
   await expect(page.getByLabel("Their birth time")).toHaveValue(FIXTURE_A.birth.time);
 
   // Name them and read the pair without retyping anything else.
   await page.getByLabel("Their name").fill("Sender");
   await page.getByRole("button", { name: "Read the pair" }).click();
-  await expect(page.getByRole("heading", { name: "Sender" })).toBeVisible();
+  await expect(page.getByText("You and Sender")).toBeVisible();
 });
 
 /** Copy Fixture A's chart link from the Chart screen. */
@@ -51,11 +51,11 @@ async function copyChartLink(page: Page, context: BrowserContext): Promise<strin
   return copiedText(page);
 }
 
-test("a link sent before M19.8 (?share=) still opens in Compare", async ({ page, context }) => {
+test("a link sent before M19.8 (?share=) still opens in People", async ({ page, context }) => {
   const legacyUrl = (await copyChartLink(page, context)).replace("#share=", "?share=");
 
   await page.goto(legacyUrl);
-  await expect(page).toHaveURL(/\/compare\/?$/);
+  await expect(page).toHaveURL(/\/people\/?$/);
   await expect(page.getByLabel("Their birth date")).toHaveValue(FIXTURE_A.birth.date);
 });
 

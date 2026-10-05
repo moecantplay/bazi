@@ -11,7 +11,7 @@ import {
   natalFacts,
   type LuckPillar
 } from "@daymaster/bazi-engine";
-import { pairReading, periodReading, youReading, type PlainReading, type YouReading } from "@daymaster/content";
+import { pairReading, periodReading, youReading, type PlainReading } from "@daymaster/content";
 import { chartFor } from "./chart.js";
 import { compareBundleFor } from "./compare.js";
 import { readingZoneOf } from "./reading-zone.js";
@@ -78,7 +78,7 @@ export function aheadPeriodsFor(profile: StoredProfile, todayISO: string): Ahead
 }
 
 /** The You screen: portrait and plain cards from the natal facts. */
-export function youScreenFor(profile: StoredProfile): YouReading | null {
+export function youScreenFor(profile: StoredProfile): PlainReading | null {
   return youReading(natalFacts(chartFor(profile)), natalSeedKey(profile));
 }
 

@@ -129,13 +129,13 @@ test("the date finder ranks days and names the top officer", async ({ page, cont
   await seedProfile(context, FIXTURE_A);
   await pinClock(context, `${TODAY}T09:00:00Z`);
 
-  await page.goto("/today/");
-  // The finder link closes What the day suits.
-  await page.getByRole("link", { name: /Find a day for something/ }).click();
+  await page.goto("/ahead/");
+  // The finder is a card on Ahead's ten-day view (reshape trial).
+  await page.getByRole("link", { name: /Find a day/ }).click();
   await expect(page).toHaveURL(/\/dates\//);
   // The finder sits outside the bottom nav, so it carries its own back link.
   await page.getByRole("button", { name: /Back/ }).click();
-  await expect(page).toHaveURL(/\/today\//);
+  await expect(page).toHaveURL(/\/ahead\//);
 
   await page.goto("/dates/");
   // Pick "marriage and betrothal" (commit) from the activity dropdown, then run the default range.

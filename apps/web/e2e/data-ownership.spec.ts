@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { FIXTURE_A, seedProfile } from "./helpers";
+import { FIXTURE_A, seedProfile, startOnboarding } from "./helpers";
 
 test("edit birth details recomputes the chart without touching other settings", async ({
   page,
@@ -67,7 +67,7 @@ test("backup downloads and restores the whole chart on a fresh start", async ({
 });
 
 test("an onboarding refresh resumes on the same step with answers kept", async ({ page }) => {
-  await page.goto("/onboarding/");
+  await startOnboarding(page);
   await page.locator('input[type="date"]').fill("1994-12-08");
   await page.getByRole("button", { name: "Next" }).click();
   await expect(page.getByText("What time?")).toBeVisible();

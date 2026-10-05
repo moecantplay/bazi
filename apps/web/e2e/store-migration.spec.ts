@@ -52,7 +52,7 @@ test("migrates profile, saved people, active selection, and theme into store.v2,
   });
 
   await page.goto("/chart/");
-  await expect(page.getByRole("heading", { name: "Chart", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Your chart in full", exact: true })).toBeVisible();
   await expect(page.locator('[data-pillar="day"]')).toContainText("yang earth");
   // The pre-paint theme script falls back to the legacy key directly, ahead
   // of the client-side migration that runs a moment later.
@@ -111,7 +111,7 @@ test("silently drops a stray retired field from a legacy shape instead of crashi
   });
 
   await page.goto("/chart/");
-  await expect(page.getByRole("heading", { name: "Chart", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Your chart in full", exact: true })).toBeVisible();
   await expect(page.locator('[data-pillar="day"]')).toContainText("yang earth");
 
   expect(pageErrors).toHaveLength(0);

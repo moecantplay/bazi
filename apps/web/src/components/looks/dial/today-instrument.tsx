@@ -38,12 +38,12 @@ export function TodayInstrument({ screen }: Props) {
         <DialKey screen={screen} />
       </div>
       <TodayDateNotes screen={screen} />
-      <FirstDayBanner screen={screen} />
       <Headline runs={model.headline} className="arrive-rise text-[31px]" />
       <ReadingBody reading={model.reading} dateISO={screen.dateISO} delay={6} />
       <div className="arrive-rise" style={{ ["--d" as string]: 7 }}>
         <PullQuoteBoard line={model.reading.agency.runs} />
       </div>
+      <FirstDayBanner screen={screen} />
       <TopicCards cards={model.reading.cards} dateISO={screen.dateISO} look="dial" />
       <TodaySuits screen={screen} />
       <TodayFooter screen={screen} />

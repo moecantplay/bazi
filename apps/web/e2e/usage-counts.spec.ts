@@ -138,17 +138,16 @@ test("choosing a look in Settings is counted with where it was chosen", async ({
 });
 
 test("onboarding counts each step reached and the look it finished with", async ({ page }) => {
-  await completeOnboarding(page, "Editorial");
+  await completeOnboarding(page);
   await expect(page).toHaveURL(/\/today\/?$/);
 
+  // Welcome isn't counted; the look is the default (no look step in the reshape trial).
   const steps = (await events(page, "onboarding-step")).map((call) => call.data?.step);
-  expect(steps).toEqual(["date", "time", "city", "sex", "disclaimer", "look", "reveal"]);
+  expect(steps).toEqual(["date", "time", "city", "sex"]);
   expect(await events(page, "onboarding-finished")).toEqual([
-    { name: "onboarding-finished", data: { look: "almanac" } }
+    { name: "onboarding-finished", data: { look: "trail" } }
   ]);
-  expect(await events(page, "look-chosen")).toEqual([
-    { name: "look-chosen", data: { look: "almanac", where: "onboarding" } }
-  ]);
+  expect(await events(page, "look-chosen")).toEqual([]);
 });
 
 test("a broken screen is counted by route and error name, never the message", async ({ page }) => {

@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { pinClock } from "./helpers";
+import { pinClock, startOnboarding } from "./helpers";
 
 // Fixture A pillars 甲戌 丙子 戊辰 庚申 as their English-first glosses, keyed by
 // column so the assertions target visible grid text (icon tooltips share the
@@ -18,6 +18,11 @@ test("full onboarding for fixture A saves a chart that reads correctly", async (
   await pinClock(context, "2026-07-07T09:00:00Z");
   await page.goto("/onboarding/");
 
+  // Welcome: a chart-free sample of today, before anything is asked.
+  await expect(page.getByRole("heading", { name: /How today is likely to go/ })).toBeVisible();
+  await expect(page.getByLabel("Today, for anyone")).toBeVisible();
+  await page.getByRole("button", { name: "Get my reading" }).click();
+
   // Date.
   await expect(page.getByText("When were you born?")).toBeVisible();
   await page.fill('input[type="date"]', "1994-12-08");
@@ -34,36 +39,23 @@ test("full onboarding for fixture A saves a chart that reads correctly", async (
   await expect(page.getByRole("combobox")).toHaveValue(/Jakarta, Indonesia/);
   await page.getByRole("button", { name: "Next" }).click();
 
-  // Sex.
+  // Sex and the disclaimer on one step; the acknowledgment gates the action.
   await page.getByRole("radio", { name: "Male", exact: true }).click();
-  await page.getByRole("button", { name: "Next" }).click();
+  const show = page.getByRole("button", { name: "Show my day" });
+  await expect(show).toBeDisabled();
+  await expect(page.getByText(/You remain the author\./)).toBeVisible();
+  await page.getByRole("checkbox").check();
+  await show.click();
 
-  // Disclaimer: scroll to the end, then acknowledge.
-  await expect(page.getByText("Before your chart")).toBeVisible();
-  await page
-    .locator(".overflow-y-auto")
-    .first()
-    .evaluate((element) => {
-      element.scrollTop = element.scrollHeight;
-    });
-  const acknowledge = page.getByRole("checkbox");
-  await expect(acknowledge).toBeEnabled();
-  await acknowledge.check();
-  await page.getByRole("button", { name: "Show my chart" }).click();
+  // Straight to Today: no look step, no reveal.
+  await expect(page).toHaveURL(/\/today\/?$/);
+  await expect(page.getByRole("heading", { name: "Today", exact: true })).toBeAttached();
+  await expect(page.locator("[data-first-day]")).toBeVisible();
 
-  // Look: Explorer is chosen until the reader picks another.
-  await expect(page.getByRole("heading", { name: "Choose your look" })).toBeVisible();
-  await expect(page.getByRole("radio", { name: /^Explorer/ })).toHaveAttribute("aria-checked", "true");
-  await page.getByRole("button", { name: "Continue with Explorer" }).click();
-
-  // Reveal, then save.
-  await expect(page.getByText("Here is your chart.")).toBeVisible();
-  await page.getByRole("button", { name: "Save chart" }).click();
-  await expect(page.getByRole("heading", { name: "Today", exact: true })).toBeVisible();
-
-  // Open the chart and verify its content.
-  await page.getByRole("link", { name: "Chart" }).click();
-  await expect(page.getByRole("heading", { name: "Chart", exact: true })).toBeVisible();
+  // The full chart is behind You, and reads correctly.
+  await page.getByRole("link", { name: "You", exact: true }).click();
+  await page.getByRole("link", { name: /Your chart in full/ }).click();
+  await expect(page.getByRole("heading", { name: "Your chart in full", exact: true })).toBeVisible();
 
   for (const [pillar, words] of PILLAR_WORDS) {
     for (const word of words) {
@@ -81,7 +73,7 @@ test("refreshing mid-onboarding restores the step without a hydration error", as
   const pageErrors: string[] = [];
   page.on("pageerror", (error) => pageErrors.push(error.message));
 
-  await page.goto("/onboarding/");
+  await startOnboarding(page);
   await page.fill('input[type="date"]', "1994-12-08");
   await page.getByRole("button", { name: "Next", exact: true }).click();
   await page.fill('input[type="time"]', "16:30");

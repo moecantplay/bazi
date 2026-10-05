@@ -85,12 +85,18 @@ export async function seedStore(context: BrowserContext, partial: Record<string,
   );
 }
 
-/**
- * Walk onboarding for Fixture A (1994-12-08 16:30 Jakarta, male) up to and
- * including "Save chart", choosing `lookName` on the look step.
- */
-export async function completeOnboarding(page: Page, lookName = "Explorer"): Promise<void> {
+/** Open onboarding and pass the Welcome screen, landing on the birth-date step. */
+export async function startOnboarding(page: Page): Promise<void> {
   await page.goto("/onboarding/");
+  await page.getByRole("button", { name: "Get my reading" }).click();
+}
+
+/**
+ * Walk onboarding for Fixture A (1994-12-08 16:30 Jakarta, male): Welcome,
+ * date, time, city, then sex with the disclaimer, landing on Today.
+ */
+export async function completeOnboarding(page: Page): Promise<void> {
+  await startOnboarding(page);
   await page.fill('input[type="date"]', "1994-12-08");
   await page.getByRole("button", { name: "Next" }).click();
   await page.fill('input[type="time"]', "16:30");
@@ -99,23 +105,8 @@ export async function completeOnboarding(page: Page, lookName = "Explorer"): Pro
   await page.getByRole("button", { name: /Jakarta/ }).first().click();
   await page.getByRole("button", { name: "Next" }).click();
   await page.getByRole("radio", { name: "Male", exact: true }).click();
-  await page.getByRole("button", { name: "Next" }).click();
-  await page
-    .locator(".overflow-y-auto")
-    .first()
-    .evaluate((element) => {
-      element.scrollTop = element.scrollHeight;
-    });
   await page.getByRole("checkbox").check();
-  await page.getByRole("button", { name: "Show my chart" }).click();
-
-  // The look step: the reader's own day previewed three ways.
-  await page.getByRole("heading", { name: "Choose your look" }).waitFor();
-  await page.getByRole("radio", { name: new RegExp(`^${lookName}`) }).click();
-  await page.getByRole("button", { name: `Continue with ${lookName}` }).click();
-
-  await page.getByText("Here is your chart.").waitFor();
-  await page.getByRole("button", { name: "Save chart" }).click();
+  await page.getByRole("button", { name: "Show my day" }).click();
 }
 
 /** Seed the stored profile before the app loads. */

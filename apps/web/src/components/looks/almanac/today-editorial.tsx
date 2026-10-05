@@ -36,12 +36,12 @@ export function TodayEditorial({ screen }: Props) {
         <PosterField screen={screen} />
       </div>
       <TodayDateNotes screen={screen} />
-      <FirstDayBanner screen={screen} />
       <Headline runs={model.headline} className="arrive-rise text-[42px] !leading-[1.02]" />
       <ReadingBody reading={model.reading} dateISO={screen.dateISO} delay={4} />
       <div className="arrive-rise" style={{ ["--d" as string]: 5 }}>
         <PullQuoteBoard line={model.reading.agency.runs} />
       </div>
+      <FirstDayBanner screen={screen} />
       <TopicCards cards={model.reading.cards} dateISO={screen.dateISO} look="almanac" />
       <TodaySuits screen={screen} />
       <TodayFooter screen={screen} />

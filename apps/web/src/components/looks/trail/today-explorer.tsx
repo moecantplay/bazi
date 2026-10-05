@@ -26,11 +26,11 @@ export function TodayExplorer({ screen }: Props) {
         <RouteHero screen={screen} />
       </div>
       <TodayDateNotes screen={screen} />
-      <FirstDayBanner screen={screen} />
       <ReadingBody reading={model.reading} dateISO={screen.dateISO} delay={3} />
       <div className="arrive-rise" style={{ ["--d" as string]: 4 }}>
         <PullQuoteBoard line={model.reading.agency.runs} />
       </div>
+      <FirstDayBanner screen={screen} />
       <TopicCards cards={model.reading.cards} dateISO={screen.dateISO} look="trail" />
       <TodaySuits screen={screen} />
       <TodayFooter screen={screen} />
