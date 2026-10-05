@@ -51,3 +51,4 @@ New trial-only wording goes in `packages/content/src/banks/trial/`, so it is eas
 - **You:** no pattern or star counts. The full chart shows only three of a reader's stars, so a count would overclaim.
 - **Editing birth details** still returns to the full chart (`/chart/`), where the recomputed pillars show.
 - **E2E:** the seed helper rewrites the store on every full page load, so specs that change a setting reach the next screen in-app.
+- **R9, one lean everywhere on Ahead:** a day's or period's lean comes from its lead fact, the same thing Today's headline speaks from. The day strip's colours, Coming up, and best/bumpiest days all use it. Best days are helpful-lead days ranked by summed activity leaning; bumpiest are grinding-lead days, sharpest first. Ranking on the activity score alone put days whose headline grinds into "Best days". The same split exists between the shipped app's week strip (activity tone) and its readings, which is a finding for M24.

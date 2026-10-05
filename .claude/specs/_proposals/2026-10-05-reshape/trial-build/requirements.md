@@ -55,6 +55,13 @@ The owner can install a preview of the reshaped app on their phone, use it with 
   - Gate: `pnpm verify` green on the branch; E2E green for the flows changed in R2, R3 and R7; a live check of the preview.
   - Acceptance: `pnpm verify` output, E2E output, and the preview URL recorded in tasks.md.
 
+- **R9. Ahead packs in more (amendment, owner 2026-10-05: "i feel like the Ahead page can pack in more content"; all four options chosen, built straight into the trial).**
+  - **10 days:** each day in the strip opens Today on that date. "Coming up" lists the standout days of the next 30 (rough and good), each with that day's Today headline, and each opens Today on its date.
+  - **Month:** pick any month of the year. The month's lead and cards, its three best and three bumpiest days (ranked by the day's summed activity leaning, the score behind Find a day) each with that day's headline, and a preview of next month.
+  - **Year:** the year's lead and cards, then "Month by month" (each month's headline and tone; tap to read it), and a preview of next year.
+  - **Decade:** pick any ten-year stretch. Its lead and cards, "Year by year" (each year's headline; tap to read it), and a preview of the next stretch, saying when it begins.
+  - Acceptance: presentation tests build every new section for every fixture. The E2E Ahead spec opens a coming-up day on Today and reads a month from the year list. No new system terms (all headlines come from existing plain banks).
+
 ## Out of scope
 
 - Writing the full plain banks for Ahead, You and People (proposal M24-11). The trial writes only the leads in R5–R7.
