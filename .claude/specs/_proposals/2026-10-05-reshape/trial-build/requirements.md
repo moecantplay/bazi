@@ -1,6 +1,6 @@
 # Reshape trial build
 
-Status: in-progress · Milestone: proposal (2026-10-05 reshape) · Ticket: trial-build
+Status: done · Milestone: proposal (2026-10-05 reshape) · Ticket: trial-build
 
 ## Problem
 

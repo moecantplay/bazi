@@ -43,3 +43,11 @@ New trial-only wording goes in `packages/content/src/banks/trial/`, so it is eas
 - E2E green for onboarding, nav, Ahead and People, in all three looks for Today.
 - A live check of the preview on a phone-sized viewport in light and dark: onboarding from empty, all four tabs, Settings via the gear, a person added.
 - Production `last-modified` unchanged; `git log main` has no trial commits.
+
+## As built (2026-10-05)
+
+- **Settings control:** the sliders icon, not a gear. A spoked gear in this stroke style reads as a second sun beside the Today tab, as the old nav's comment warned. Bleed screens (each look's Today) place it in their own top row; in Editorial it sits beside the poster's date.
+- **First-day banner:** placed after the one-small-thing board, not above the reading, so the board still starts on the first screen (DESIGN.md §Base Concept).
+- **You:** no pattern or star counts. The full chart shows only three of a reader's stars, so a count would overclaim.
+- **Editing birth details** still returns to the full chart (`/chart/`), where the recomputed pillars show.
+- **E2E:** the seed helper rewrites the store on every full page load, so specs that change a setting reach the next screen in-app.
