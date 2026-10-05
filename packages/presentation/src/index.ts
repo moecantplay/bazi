@@ -97,3 +97,5 @@ export {
 export type { ConditionDay, HourBlock, HourMark } from "./conditions-screen.js";
 export { welcomeSample } from "./welcome-sample.js";
 export type { WelcomeSample } from "./welcome-sample.js";
+export { aheadPeriodsFor, pairScreenFor, youScreenFor } from "./trial-screens.js";
+export type { AheadPeriod, AheadPeriods, DecadeMark } from "./trial-screens.js";

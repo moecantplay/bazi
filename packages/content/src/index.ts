@@ -64,3 +64,5 @@ export { READ_MORE, readMoreEntry } from "./read-more.js";
 export type { ReadMoreEntry } from "./read-more.js";
 export { OFFICER_DAY_HEADLINES, welcomeHeadline } from "./banks/trial/welcome.js";
 export { portraitLine, portraitRest } from "./banks/trial/portrait.js";
+export { pairReading, periodReading, youReading } from "./readings/trial/plain-readings.js";
+export type { PeriodSpan, PlainCard, PlainLead, PlainReading, YouReading } from "./readings/trial/plain-readings.js";
