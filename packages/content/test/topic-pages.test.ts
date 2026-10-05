@@ -7,7 +7,9 @@
 import { describe, expect, it } from "vitest";
 import type { ReadingFact } from "@daymaster/bazi-engine";
 import { dailyReading, plainGloss, topicPage } from "../src/index.js";
+import { ELEMENT_SUITS, INTERACTION_SUITS, STAGE_SUITS, TEN_GOD_SUITS, type TopicSuits } from "../src/banks/topics/suits.js";
 import { ELEMENTS, INTERACTIONS, NATAL_PALACES, STAGE_LABELS, STAR_KEYS, TEN_GODS } from "./collect.js";
+import { assertPlain } from "./plain-terms.js";
 
 const BANNED: readonly RegExp[] = [/\benergy\b/i, /\buniverse\b/i, /\bdestiny\b/i, /\bfate\b/i, /\byou will\b/i, /\byou can't\b/i, /\bmust\b/i, /\bshould\b/i];
 
@@ -68,6 +70,10 @@ describe("topic pages", () => {
         } else {
           expect(page.forYou, `${topic} needs "For you today"`).not.toBeNull();
         }
+        if (topic !== "stars" && topic !== "hours") {
+          expect(page.goodFor.length, `${topic} needs "Good for"`).toBeGreaterThan(0);
+          expect(page.holdOff.length, `${topic} needs "Hold off on"`).toBeGreaterThan(0);
+        }
       }
     }
   });
@@ -79,6 +85,31 @@ describe("topic pages", () => {
     expect(page && plainGloss(page.forYou ?? [])).toMatch(/horse/);
     expect(page && plainGloss(page.forYou ?? [])).toMatch(/rat/);
     expect(page && plainGloss(page.forYou ?? [])).toMatch(/work/);
+  });
+
+  it("every topic has 2–3 things it's good for and 1–2 to hold off on, in plain words", () => {
+    const entries: [string, TopicSuits | undefined][] = [
+      ...TEN_GODS.map((english): [string, TopicSuits | undefined] => [english, TEN_GOD_SUITS[english]]),
+      ...STAGE_LABELS.map((stage): [string, TopicSuits | undefined] => [stage, STAGE_SUITS[stage]]),
+      ...ELEMENTS.flatMap((element): [string, TopicSuits][] => [
+        [`${element} suits`, ELEMENT_SUITS[element].suits],
+        [`${element} against`, ELEMENT_SUITS[element].against],
+      ]),
+      ...INTERACTIONS.map((interaction): [string, TopicSuits] => [interaction, INTERACTION_SUITS[interaction]]),
+    ];
+    for (const [key, entry] of entries) {
+      expect(entry, `no suits for ${key}`).toBeDefined();
+      if (!entry) continue;
+      expect(entry.goodFor.length, key).toBeGreaterThanOrEqual(2);
+      expect(entry.goodFor.length, key).toBeLessThanOrEqual(3);
+      expect(entry.holdOff.length, key).toBeGreaterThanOrEqual(1);
+      expect(entry.holdOff.length, key).toBeLessThanOrEqual(2);
+      for (const item of [...entry.goodFor, ...entry.holdOff]) {
+        assertVoice(item);
+        assertPlain(item);
+        expect(item, `no closing full stop: "${item}"`).not.toMatch(/\.$/);
+      }
+    }
   });
 
   it("an unknown topic has no page", () => {

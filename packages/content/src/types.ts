@@ -162,6 +162,10 @@ export interface TopicPage {
   /** How it applies to this chart on this date, sign mechanics in plain words. */
   forYou: TokenLine | null;
   how: TokenLine[];
+  /** What the topic makes easier, 2–3 items; empty on the hours and small-signs pages. */
+  goodFor: TokenLine[];
+  /** What to put down for the day, 1–2 items; empty where goodFor is. */
+  holdOff: TokenLine[];
   work: TokenLine[];
   nameOrigin: TokenLine;
   /** Only the small-signs page lists stars. */

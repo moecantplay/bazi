@@ -67,6 +67,17 @@
 .topic-star:first-child { border-radius: 18px 18px 6px 6px; }
 .topic-star:last-child { border-radius: 6px 6px 18px 18px; }
 .topic-star:only-child { border-radius: 18px; }
+/* Good for / Hold off on (trial R13): one tonal card, tinted like the suits chips */
+.topic-suits { display: flex; flex-direction: column; gap: 16px; padding: 16px 18px; border-radius: var(--radius-card); background: var(--surface); }
+.topic-suits-group { display: flex; flex-direction: column; gap: 8px; }
+.topic-suits-label { font: 700 9.5px var(--font-space-mono), ui-monospace, monospace; letter-spacing: .14em; text-transform: uppercase; }
+.topic-suits-favors .topic-suits-label { color: var(--element-wood); }
+.topic-suits-watch .topic-suits-label { color: var(--signal-amber); }
+.topic-suits-list { display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.topic-suits-item { display: flex; align-items: baseline; gap: 10px; font-size: 15.5px; line-height: 1.45; color: var(--ink); }
+.topic-suits-item::before { content: ""; flex: none; width: 8px; height: 8px; border-radius: 50%; transform: translateY(-1px); }
+.topic-suits-favors .topic-suits-item::before { background: var(--element-wood); }
+.topic-suits-watch .topic-suits-item::before { box-shadow: inset 0 0 0 2px var(--signal-amber); }
 
 /* ---- Explorer ---- */
 .route-hero { position: relative; height: 518px; overflow: hidden; }

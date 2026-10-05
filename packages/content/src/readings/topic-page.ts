@@ -22,13 +22,18 @@ import {
   TEN_GOD_NAME_ORIGIN,
   TEN_GOD_TOPICS,
 } from "../banks/topics/day.js";
+import { ELEMENT_SUITS, INTERACTION_SUITS, STAGE_SUITS, TEN_GOD_SUITS, type TopicSuits } from "../banks/topics/suits.js";
 import { interactionTopic, rankTransits, type TransitFact } from "./daily/lead.js";
 import { lifeAreaOf } from "./daily/life-areas.js";
 
 type FactOf<K extends ReadingFact["kind"]> = Extract<ReadingFact, { kind: K }>;
 
 function page(fields: Partial<TopicPage> & Pick<TopicPage, "title" | "nameOrigin">): TopicPage {
-  return { oldName: null, forYou: null, how: [], work: [], stars: [], ...fields };
+  return { oldName: null, forYou: null, how: [], goodFor: [], holdOff: [], work: [], stars: [], ...fields };
+}
+
+function suits(entry: TopicSuits | undefined): Pick<TopicPage, "goodFor" | "holdOff"> {
+  return { goodFor: lines(entry?.goodFor ?? []), holdOff: lines(entry?.holdOff ?? []) };
 }
 
 function lines(texts: readonly string[]) {
@@ -59,6 +64,7 @@ function interactionPage(fact: TransitFact): TopicPage {
     oldName: textRun(`The old calendars call this ${topic.oldName}.`),
     forYou: textRun(mechanics(fact, topic.verb)),
     how: lines(topic.how),
+    ...suits(INTERACTION_SUITS[fact.interaction]),
     work: lines(topic.work),
     nameOrigin: textRun(topic.nameOrigin),
   });
@@ -72,6 +78,7 @@ function tenGodPage(fact: FactOf<"ten-god-day">, quiet: boolean): TopicPage {
     oldName: textRun(`The old calendars call this a ${fact.english} day.`),
     forYou: textRun(quiet ? `${QUIET_FOR_YOU} ${line}` : line),
     how: lines([topic.how]),
+    ...suits(TEN_GOD_SUITS[fact.english] ?? TEN_GOD_SUITS["Friend"]),
     work: lines([topic.work]),
     nameOrigin: textRun(TEN_GOD_NAME_ORIGIN),
   });
@@ -86,6 +93,7 @@ function elementPage(fact: FactOf<"element-day">): TopicPage {
     oldName: textRun(`The old calendars call this a ${name} day.`),
     forYou: textRun(ELEMENT_TOPIC[tone].forYou(name)),
     how: lines([line]),
+    ...suits(ELEMENT_SUITS[fact.element][tone]),
     work: lines([ELEMENT_TOPIC[tone].work]),
     nameOrigin: textRun(ELEMENT_NAME_ORIGIN),
   });
@@ -98,6 +106,7 @@ function stagePage(fact: FactOf<"stage-day">): TopicPage {
     title: textRun(title),
     oldName: textRun(`The old calendars call this stage ${english}.`),
     forYou: textRun(line),
+    ...suits(STAGE_SUITS[english]),
     work: lines([STAGE_WORK[english] ?? "Match your plans to the pace the day offers."]),
     nameOrigin: textRun(STAGE_NAME_ORIGIN),
   });

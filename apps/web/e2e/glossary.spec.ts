@@ -33,6 +33,8 @@ test("the reading's Read more opens the lead's page, where the old name lives", 
   await expect(topicPage).toContainText("The old calendars call this");
   await expect(topicPage.getByRole("heading", { name: "For you today" })).toBeVisible();
   await expect(topicPage.getByRole("heading", { name: "Working with it" })).toBeVisible();
+  await expect(topicPage.getByRole("heading", { name: "Good for" })).toBeVisible();
+  await expect(topicPage.getByRole("heading", { name: "Hold off on" })).toBeVisible();
 });
 
 test("a topic the day doesn't carry falls back to Today", async ({ page, context }) => {

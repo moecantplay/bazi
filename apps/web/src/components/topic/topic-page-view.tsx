@@ -1,7 +1,7 @@
 /**
  * One topic page (M20-21 R11): plain title, the old name once, how it applies
- * today, how it tends to go, how to work with it, and where the name comes
- * from. A date outside Today's range or a topic the day doesn't carry sends
+ * today, how it tends to go, what it's good for and what to hold off on
+ * (trial R13), how to work with it, and where the name comes from. A date outside Today's range or a topic the day doesn't carry sends
  * the reader back to Today.
  */
 
@@ -13,6 +13,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import type { TokenLine } from "@daymaster/content";
 import { dayTerrain, formatLong, topicPageFor, type StoredProfile } from "@daymaster/presentation";
 import { TokenText } from "@/components/token-text";
+import { TopicSuits } from "@/components/topic/topic-suits";
 import { dateFromQuery, todayHref } from "@/lib/topic-href";
 import { useTodayLabel } from "@/lib/use-today-label";
 
@@ -104,6 +105,7 @@ export function TopicPageView({ profile }: Props) {
           <Paragraphs lines={page.how} />
         </Section>
       )}
+      <TopicSuits goodFor={page.goodFor} holdOff={page.holdOff} />
       {page.work.length > 0 && (
         <Section label="Working with it">
           <ul className="topic-work">
