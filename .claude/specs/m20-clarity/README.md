@@ -41,6 +41,7 @@ A 60-day audit of Today for Fixture A (2026-09-01 → 2026-10-30):
 | 19 | [Settings: everyday choices first](19-settings-order/requirements.md) | dropped — folded into M19.9-09 | — |
 | 20 | [Cycles: romanized names carry their meaning](20-cycles-romanized-names/requirements.md) | approved | — |
 | 21 | [Today reads as one written piece](21-composed-daily-reading/requirements.md) | in-progress | — |
+| 22 | [Topic pages say enough to be worth the tap](22-topic-page-depth/requirements.md) | draft | 21 |
 
 ## Exit criteria
 
