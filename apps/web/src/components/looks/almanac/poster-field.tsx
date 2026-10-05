@@ -14,9 +14,11 @@ import type { TodayScreen } from "@/components/today/use-today-screen";
 
 interface Props {
   screen: TodayScreen;
+  /** Off in the look previews, which sit inside a button on Settings itself. */
+  showSettings?: boolean;
 }
 
-export function PosterField({ screen }: Props) {
+export function PosterField({ screen, showSettings = true }: Props) {
   const { model, dateISO } = screen;
   const day = dayOfYear(dateISO);
   return (
@@ -27,7 +29,7 @@ export function PosterField({ screen }: Props) {
         </span>
         <div className="flex items-center">
           <TodayDateNav screen={screen} />
-          <SettingsGear className="-mr-2" />
+          {showSettings && <SettingsGear className="-mr-2" />}
         </div>
       </div>
       <svg className="poster-animal arrive-drift" viewBox="0 0 24 24" aria-hidden style={{ color: "var(--ink)" }}>

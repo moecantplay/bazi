@@ -18,6 +18,8 @@ import { CONTOURS, ROUTE_END, ROUTE_HEIGHT, ROUTE_WIDTH, routePath, routeX, rout
 
 interface Props {
   screen: TodayScreen;
+  /** Off in the look previews, which sit inside a button on Settings itself. */
+  showSettings?: boolean;
 }
 
 type TimedWaypoint = RouteWaypoint & { timing: Extract<RouteWaypoint["timing"], { kind: "hours" }> };
@@ -50,7 +52,7 @@ function clockLabel(date: Date): string {
   return new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit" }).format(date);
 }
 
-export function RouteHero({ screen }: Props) {
+export function RouteHero({ screen, showSettings = true }: Props) {
   const { model, progress, now } = screen;
   /** Unique per instance: a look preview can put a second route on the page. */
   const maskId = useId();
@@ -71,7 +73,7 @@ export function RouteHero({ screen }: Props) {
       </svg>
       <div className="arrive-rise relative flex items-center justify-between pl-2 pr-5 pt-4">
         <TodayDateNav screen={screen} />
-        <SettingsGear className="-mr-2" />
+        {showSettings && <SettingsGear className="-mr-2" />}
       </div>
       <Headline runs={model.headline} className="arrive-rise relative px-5 pt-3 text-[38px]" />
       <svg className="route-hero-route" viewBox={`0 0 ${ROUTE_WIDTH} ${ROUTE_HEIGHT}`} role="img" aria-label={ariaLabel}>
