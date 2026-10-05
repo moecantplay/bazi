@@ -13,3 +13,4 @@ Check a task only with a one-line evidence note.
 - [ ] 9. E2E updated and added; `pnpm verify` green (R2, R3, R5, R7, R8)
 - [ ] 10. Preview deploy (no `--prod`); production `last-modified` unchanged; live check on phone size, light and dark (R1, R8)
 - [ ] 11. Hand-off note to the owner: preview link, how to move the chart over, what's final-shape vs placeholder (R8)
+- [ ] 12. Ahead packs in more: tappable strip, coming-up days, month picker with best/bumpiest days, month-by-month, year-by-year, next previews; tests; redeploy preview (R9)

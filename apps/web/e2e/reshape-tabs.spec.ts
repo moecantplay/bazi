@@ -42,15 +42,38 @@ test("Ahead reads ten days, then a month, a year and a decade one at a time", as
   await expect(page.getByRole("link", { name: /Find a day/ })).toBeVisible();
 
   for (const [zoom, kicker, action] of [
-    ["Month", "October", "One thing this month"],
+    ["Month", "October 2026", "One thing this month"],
     ["Year", "2026", "One thing this year"],
     ["Decade", "Ages 29–38 · 2024–2033", "One thing this decade"]
   ] as const) {
     await page.getByRole("radio", { name: zoom }).click();
-    const lead = page.getByLabel(kicker);
+    const lead = page.getByLabel(kicker, { exact: true });
     await expect(lead.getByRole("heading")).toBeVisible();
     await expect(lead.getByText(action)).toBeVisible();
   }
+});
+
+test("Ahead moves through periods and opens a coming-up day on Today", async ({ page, context }) => {
+  await seedProfile(context, FIXTURE_A);
+  await pinClock(context, `${TODAY}T02:00:00Z`);
+  await page.goto("/ahead/");
+
+  // A standout day opens Today on its own date.
+  const upcoming = page.getByLabel("Coming up this month").getByRole("link");
+  await expect(upcoming.first()).toBeVisible();
+  await upcoming.first().click();
+  await expect(page).toHaveURL(/\/today\/\?date=2026-10-\d\d/);
+  await page.goBack();
+
+  // Decade → a year in it → a month of that year, with its best and bumpiest days.
+  await page.getByRole("radio", { name: "Decade" }).click();
+  await expect(page.getByLabel("Year by year").getByRole("button")).toHaveCount(10);
+  await page.getByLabel("Year by year").getByRole("button", { name: /^2027/ }).click();
+  await expect(page.getByLabel("2027", { exact: true }).getByRole("heading")).toBeVisible();
+  await page.getByLabel("Month by month").getByRole("button", { name: /^Mar/ }).click();
+  await expect(page.getByLabel("March 2027", { exact: true }).getByRole("heading")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Mar", exact: true })).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByText("Next month")).toBeVisible();
 });
 
 test("You leads with the portrait and opens the full chart", async ({ page, context }) => {

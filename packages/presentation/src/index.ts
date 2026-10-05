@@ -97,5 +97,18 @@ export {
 export type { ConditionDay, HourBlock, HourMark } from "./conditions-screen.js";
 export { welcomeSample } from "./welcome-sample.js";
 export type { WelcomeSample } from "./welcome-sample.js";
-export { aheadPeriodsFor, pairScreenFor, youScreenFor } from "./trial-screens.js";
-export type { AheadPeriod, AheadPeriods, DecadeMark } from "./trial-screens.js";
+export { pairScreenFor, youScreenFor } from "./trial-screens.js";
+export {
+  MONTH_NAMES,
+  bestAndBumpiest,
+  comingUp,
+  dayLeans,
+  decadeAges,
+  decadeView,
+  decadesOf,
+  monthView,
+  monthsOfYear,
+  yearView,
+  yearsOfDecade
+} from "./trial-ahead.js";
+export type { BestAndBumpiest, DayHeadline, Lean, PeriodSummary, PeriodView } from "./trial-ahead.js";
