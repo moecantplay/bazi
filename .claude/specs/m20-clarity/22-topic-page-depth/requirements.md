@@ -74,6 +74,6 @@ Every topic page reads as a short, useful article about this day for this reader
 
 ## Open questions
 
-- [ ] **Good for / Hold off on: written per topic, or taken from the day's activity chips?** Today already shows the day's Favors and Watch chips (`today-suits.ts`), so repeating them on every topic page would say the same thing five times a day. Recommended: written per topic (R4 as drafted). The preview the owner picked said "from the day's activities".
+- [ ] **Good for / Hold off on: written per topic, or taken from the day's activity chips?** Today already shows the day's Favors and Watch chips (`today-suits.ts`), so repeating them on every topic page would say the same thing five times a day. Recommended: written per topic (R4 as drafted). The preview the owner picked said "from the day's activities". Being tried on the trial as trial-build R13 (2026-10-05), written per topic.
 - [ ] Approve requirements and design.
 - [ ] Mockups of a ten-god page, a stage page and a sign-link page in Explorer, light and dark, before app code (CLAUDE.md "Mockups first"). The other two looks follow once the base is approved.

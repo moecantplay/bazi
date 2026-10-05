@@ -74,6 +74,15 @@ The owner can install a preview of the reshaped app on their phone, use it with 
 - **R12. Seasons first, Plan last (owner, 2026-10-05: "let's push Plan to the bottom of Ahead page").** Ahead opens on Your seasons; Plan something closes the screen.
   - Acceptance: E2E: the seasons section comes before Plan something in the page.
 
+- **R13. Good for / Hold off on, on topic pages (owner, 2026-10-05, on the M20-22 draft: "how would a list of each topic look like?" then "let's see it on the trial").**
+  - Every day's-character, element, pace and sign-link page gets one tonal card with two lists: 2–3 things the topic is good for and 1–2 to hold off on. The lists are written for each topic, not taken from the day's activity chips.
+  - The hours and small-signs pages don't get the card.
+  - This tries out M20-22's R4 ahead of that ticket. The bank (`banks/topics/suits.ts`) carries over to M20-22 if the owner keeps it.
+  - Acceptance:
+    - A bank test checks the counts and runs the voice and plain-words checks on all 37 entries.
+    - E2E finds both headings on the lead's topic page.
+    - Contrast is measured on rendered text in light and dark.
+
 ## Out of scope
 
 - Writing the full plain banks for Ahead, You and People (proposal M24-11). The trial writes only the leads in R5–R7.
