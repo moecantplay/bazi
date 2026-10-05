@@ -74,6 +74,14 @@ test("Ahead opens Find a day already searching, and moves through the seasons", 
   await expect(page.getByLabel("March 2027", { exact: true }).getByRole("heading")).toBeVisible();
   await expect(page.getByRole("button", { name: "Mar", exact: true })).toHaveAttribute("aria-pressed", "true");
   await expect(page.getByText("Next month")).toBeVisible();
+
+  // Any year of the reader's life can be picked directly.
+  await page.getByRole("radio", { name: "Year" }).click();
+  const years = page.getByLabel("Pick a year");
+  await expect(years.getByRole("button", { name: "2027" })).toHaveAttribute("aria-pressed", "true");
+  await years.getByRole("button", { name: "2040" }).click();
+  await expect(page.getByLabel("2040", { exact: true }).getByRole("heading")).toBeVisible();
+  await expect(years.getByRole("button", { name: "2040" })).toHaveAttribute("aria-pressed", "true");
 });
 
 test("You leads with the portrait and opens the full chart", async ({ page, context }) => {

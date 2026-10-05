@@ -44,7 +44,10 @@ interface MonthProps {
 export function MonthZoom({ profile, pick, onPick }: MonthProps) {
   const period = useMemo(() => monthView(profile, pick.year, pick.month), [profile, pick]);
   const next: MonthPick = pick.month === 12 ? { year: pick.year + 1, month: 1 } : { year: pick.year, month: pick.month + 1 };
-  const nextPeriod = useMemo(() => monthView(profile, next.year, next.month), [profile, next.year, next.month]);
+  const nextPeriod = useMemo(
+    () => (next.year <= 2100 ? monthView(profile, next.year, next.month) : null),
+    [profile, next.year, next.month]
+  );
   const monthsRef = useSelectedInView(`${pick.year}-${pick.month}`);
 
   return (
@@ -68,14 +71,24 @@ export function MonthZoom({ profile, pick, onPick }: MonthProps) {
       </ul>
       <PlainLeadBlock kicker={period.label} lead={period.reading.lead} actionLabel="One thing this month" />
       <PlainCardList cards={period.reading.cards} />
-      <NextPreview
-        label="Next month"
-        title={`${MONTH_NAMES[next.month - 1]} ${next.year}`}
-        headline={nextPeriod.reading.lead.headline}
-        onOpen={() => onPick(next)}
-      />
+      {nextPeriod && (
+        <NextPreview
+          label="Next month"
+          title={`${MONTH_NAMES[next.month - 1]} ${next.year}`}
+          headline={nextPeriod.reading.lead.headline}
+          onOpen={() => onPick(next)}
+        />
+      )}
     </>
   );
+}
+
+/** Years a reader can pick: their lifetime (birth year to 90 years on), inside the engine's 1900–2100 range. */
+function lifetimeYears(profile: StoredProfile): number[] {
+  const born = Number(profile.birth.date.slice(0, 4));
+  const first = Math.max(1900, born);
+  const last = Math.min(2100, born + 90);
+  return Array.from({ length: last - first + 1 }, (_, index) => first + index);
 }
 
 interface YearProps {
@@ -89,10 +102,29 @@ interface YearProps {
 export function YearZoom({ profile, year, currentMonth, onPickYear, onOpenMonth }: YearProps) {
   const period = useMemo(() => yearView(profile, year), [profile, year]);
   const months = useMemo(() => monthsOfYear(profile, year), [profile, year]);
-  const nextPeriod = useMemo(() => yearView(profile, year + 1), [profile, year]);
+  const nextPeriod = useMemo(() => (year < 2100 ? yearView(profile, year + 1) : null), [profile, year]);
+  const years = useMemo(() => lifetimeYears(profile), [profile]);
+  const yearsRef = useSelectedInView(year);
 
   return (
     <>
+      <ul ref={yearsRef} className="-mx-5 flex gap-1.5 overflow-x-auto px-5 pb-1" aria-label="Pick a year">
+        {years.map((candidate) => {
+          const selected = candidate === year;
+          return (
+            <li key={candidate} className="flex-none">
+              <button
+                type="button"
+                aria-pressed={selected}
+                onClick={() => onPickYear(candidate)}
+                className={`rounded-full px-3.5 py-2 text-[13px] font-semibold ${selected ? "bg-anchor text-paper" : "bg-surface text-ink"}`}
+              >
+                {candidate === currentMonth.year ? `${candidate} · now` : candidate}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
       <PlainLeadBlock kicker={period.label} lead={period.reading.lead} actionLabel="One thing this year" />
       <PlainCardList cards={period.reading.cards} />
       <PeriodList
@@ -101,7 +133,9 @@ export function YearZoom({ profile, year, currentMonth, onPickYear, onOpenMonth 
         currentKey={currentMonth.year === year ? currentMonth.month : undefined}
         onSelect={(month) => onOpenMonth({ year, month })}
       />
-      <NextPreview label="Next year" title={`${year + 1}`} headline={nextPeriod.reading.lead.headline} onOpen={() => onPickYear(year + 1)} />
+      {nextPeriod && (
+        <NextPreview label="Next year" title={`${year + 1}`} headline={nextPeriod.reading.lead.headline} onOpen={() => onPickYear(year + 1)} />
+      )}
     </>
   );
 }
