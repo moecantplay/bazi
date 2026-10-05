@@ -62,6 +62,12 @@ The owner can install a preview of the reshaped app on their phone, use it with 
   - **Decade:** pick any ten-year stretch. Its lead and cards, "Year by year" (each year's headline; tap to read it), and a preview of the next stretch, saying when it begins.
   - Acceptance: presentation tests build every new section for every fixture. The E2E Ahead spec opens a coming-up day on Today and reads a month from the year list. No new system terms (all headlines come from existing plain banks).
 
+- **R10. Ahead is Seasons + Plan (rework, owner 2026-10-05: "now im losing the purpose of the Ahead page if we already can scrub through days on the Today page, rework the Ahead page"; chose "Seasons + Plan", tab keeps the name "Ahead"). Supersedes R9's single-day parts.**
+  - **Plan something** (top): the ten activities as chips. Each opens Find a day with that activity chosen and the default window already searched (`/dates/?activity=<key>`). "Choose your own dates" opens it blank.
+  - **Your seasons** (below): Month / Year / Decade, as in R9: month picker, month by month, year by year, next previews.
+  - **Removed:** every single-day list (the ten-day strip, Coming up, best and bumpiest days). Days belong to Today, which already moves 30 days either way.
+  - Acceptance: E2E: Ahead shows no day strip; a plan chip lands on Find a day with results showing; decade → year → month navigation works.
+
 ## Out of scope
 
 - Writing the full plain banks for Ahead, You and People (proposal M24-11). The trial writes only the leads in R5–R7.
