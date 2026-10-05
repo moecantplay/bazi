@@ -42,6 +42,14 @@ test("Ahead plans something, then reads a month, a year and a decade one at a ti
   await expect(page.getByLabel("The next ten days")).toHaveCount(0);
   await expect(page.getByLabel("Plan something").getByRole("link")).toHaveCount(11);
 
+  // Seasons lead; Plan something closes the screen.
+  const order = await page.evaluate(() => {
+    const seasons = document.querySelector('[aria-label="Your seasons"]');
+    const plan = document.querySelector('[aria-label="Plan something"]');
+    return seasons && plan ? seasons.compareDocumentPosition(plan) & Node.DOCUMENT_POSITION_FOLLOWING : 0;
+  });
+  expect(order).toBeTruthy();
+
   for (const [zoom, kicker, action] of [
     ["Month", "October 2026", "One thing this month"],
     ["Year", "2026", "One thing this year"],

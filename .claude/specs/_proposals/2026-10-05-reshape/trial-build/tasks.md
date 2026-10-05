@@ -16,3 +16,4 @@ Check a task only with a one-line evidence note.
 - [ ] 12. Ahead packs in more: tappable strip, coming-up days, month picker with best/bumpiest days, month-by-month, year-by-year, next previews; tests; redeploy preview (R9)
 - [ ] 13. Ahead reworked as Plan something + Your seasons; single-day lists and their models removed; Find a day reads `?activity=`; tests; redeploy (R10)
 - [ ] 14. Year picker on Ahead's Year view; 2100 edge guarded; E2E; redeploy (R11)
+- [ ] 15. Plan something moved below Your seasons; E2E; redeploy (R12)

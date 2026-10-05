@@ -1,8 +1,9 @@
 /**
- * Reshape trial: Ahead (R10) — what Today can't show. "Plan something" answers
- * "when should I…?"; "Your seasons" reads the slower weather behind the days,
- * one zoom at a time: any month, a year month by month, a ten-year stretch
- * year by year. Single days belong to Today, which already moves through them.
+ * Reshape trial: Ahead (R10, R12) — what Today can't show. "Your seasons"
+ * leads: the slower weather behind the days, one zoom at a time (any month, a
+ * year month by month, a ten-year stretch year by year). "Plan something"
+ * closes the screen and answers "when should I…?". Single days belong to
+ * Today, which already moves through them.
  */
 
 "use client";
@@ -63,7 +64,6 @@ export function AheadView({ profile }: Props) {
 
   return (
     <div className="flex flex-col gap-6">
-      <PlanSomething />
       <section ref={seasonsRef} className="flex scroll-mt-6 flex-col gap-6" aria-label="Your seasons">
         <p className="kicker">Your seasons</p>
         <SegmentedControl options={ZOOMS} value={zoom} onChange={setZoom} ariaLabel="Which season" />
@@ -83,6 +83,7 @@ export function AheadView({ profile }: Props) {
           />
         )}
       </section>
+      <PlanSomething />
     </div>
   );
 }

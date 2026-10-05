@@ -71,6 +71,9 @@ The owner can install a preview of the reshaped app on their phone, use it with 
 - **R11. Pick any year (owner, 2026-10-05: "would be great if users can select the Year").** Year view opens with a row of years, the reader's lifetime (birth year to 90 years on, inside 1900–2100), scrolled to the current one. Picking a year reads it; its months open that month of that year.
   - Acceptance: E2E picks a year from the row and reads it; no "next" preview past 2100.
 
+- **R12. Seasons first, Plan last (owner, 2026-10-05: "let's push Plan to the bottom of Ahead page").** Ahead opens on Your seasons; Plan something closes the screen.
+  - Acceptance: E2E: the seasons section comes before Plan something in the page.
+
 ## Out of scope
 
 - Writing the full plain banks for Ahead, You and People (proposal M24-11). The trial writes only the leads in R5–R7.
