@@ -15,4 +15,5 @@ Check a task only with a one-line evidence note.
 - [ ] 11. Hand-off note to the owner: preview link, how to move the chart over, what's final-shape vs placeholder (R8)
 - [ ] 12. Ahead packs in more: tappable strip, coming-up days, month picker with best/bumpiest days, month-by-month, year-by-year, next previews; tests; redeploy preview (R9)
 - [ ] 13. Ahead reworked as Plan something + Your seasons; single-day lists and their models removed; Find a day reads `?activity=`; tests; redeploy (R10)
-- [x] 14. Year picker on Ahead's Year view; 2100 edge guarded; E2E; redeploy (R11) — c115b3c; E2E chromium 76/76, mobile-webkit tabs 5/5; `pnpm verify` green; preview https://daymaster-kakvqbai0-gervin-sean-mirandas-projects.vercel.app, production last-modified unchanged
+- [ ] 14. Year picker on Ahead's Year view; 2100 edge guarded; E2E; redeploy (R11)
+- [x] 15. Plan something moved below Your seasons; E2E; redeploy (R12) — 4d74ef0; E2E chromium 76/76 (order asserted), mobile-webkit tabs 5/5; `pnpm verify` green; preview https://daymaster-m7f1cvh1l-gervin-sean-mirandas-projects.vercel.app, production last-modified unchanged
