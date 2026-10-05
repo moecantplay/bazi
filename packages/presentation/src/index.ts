@@ -100,9 +100,6 @@ export type { WelcomeSample } from "./welcome-sample.js";
 export { pairScreenFor, youScreenFor } from "./trial-screens.js";
 export {
   MONTH_NAMES,
-  bestAndBumpiest,
-  comingUp,
-  dayLeans,
   decadeAges,
   decadeView,
   decadesOf,
@@ -111,4 +108,4 @@ export {
   yearView,
   yearsOfDecade
 } from "./trial-ahead.js";
-export type { BestAndBumpiest, DayHeadline, Lean, PeriodSummary, PeriodView } from "./trial-ahead.js";
+export type { Lean, PeriodSummary, PeriodView } from "./trial-ahead.js";

@@ -1,14 +1,14 @@
 /**
- * Reshape trial: Ahead's month, year and decade views (R5, R9). Each reads one
- * period plainly, then lets the reader move through its neighbours: months
- * within a year, years within a ten-year stretch, and a look at the next one.
+ * Reshape trial: Ahead's seasons — month, year and decade (R5, R9, R10). Each
+ * reads one period plainly, then lets the reader move through its neighbours:
+ * months within a year, years within a ten-year stretch, and a look at the
+ * next one. Single days belong to Today.
  */
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef } from "react";
 import {
   MONTH_NAMES,
-  bestAndBumpiest,
   decadeAges,
   decadeView,
   monthView,
@@ -19,7 +19,7 @@ import {
 } from "@daymaster/presentation";
 import type { LuckPillar } from "@daymaster/bazi-engine";
 import { PlainCardList, PlainLeadBlock } from "@/components/plain/plain-reading";
-import { DayList, NextPreview, PeriodList } from "./ahead-lists";
+import { NextPreview, PeriodList } from "./ahead-lists";
 
 /** Keeps the selected chip of a horizontal picker in view when the selection changes. */
 function useSelectedInView(selectedKey: string | number) {
@@ -37,14 +37,12 @@ export interface MonthPick {
 
 interface MonthProps {
   profile: StoredProfile;
-  today: string;
   pick: MonthPick;
   onPick: (pick: MonthPick) => void;
 }
 
-export function MonthZoom({ profile, today, pick, onPick }: MonthProps) {
+export function MonthZoom({ profile, pick, onPick }: MonthProps) {
   const period = useMemo(() => monthView(profile, pick.year, pick.month), [profile, pick]);
-  const days = useMemo(() => bestAndBumpiest(profile, today, pick.year, pick.month), [profile, today, pick]);
   const next: MonthPick = pick.month === 12 ? { year: pick.year + 1, month: 1 } : { year: pick.year, month: pick.month + 1 };
   const nextPeriod = useMemo(() => monthView(profile, next.year, next.month), [profile, next.year, next.month]);
   const monthsRef = useSelectedInView(`${pick.year}-${pick.month}`);
@@ -70,8 +68,6 @@ export function MonthZoom({ profile, today, pick, onPick }: MonthProps) {
       </ul>
       <PlainLeadBlock kicker={period.label} lead={period.reading.lead} actionLabel="One thing this month" />
       <PlainCardList cards={period.reading.cards} />
-      <DayList label="Best days" days={days.best} />
-      <DayList label="Bumpiest days" days={days.bumpiest} />
       <NextPreview
         label="Next month"
         title={`${MONTH_NAMES[next.month - 1]} ${next.year}`}

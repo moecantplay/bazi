@@ -1,12 +1,10 @@
 /**
- * Reshape trial (R9): the lists Ahead is built from — days with their Today
- * headline, periods with their lead headline, and the look ahead to the next
- * period. Every line is an existing plain headline.
+ * Reshape trial (R9, R10): the lists Ahead's seasons are built from — periods
+ * with their lead headline, and the look ahead to the next period. Every line
+ * is an existing plain headline.
  */
 
-import Link from "next/link";
-import type { DayHeadline, Lean, PeriodSummary } from "@daymaster/presentation";
-import { TokenText } from "@/components/token-text";
+import type { Lean, PeriodSummary } from "@daymaster/presentation";
 
 const LEAN_DOT: Record<Lean, string> = {
   good: "bg-[var(--element-wood)]",
@@ -14,61 +12,8 @@ const LEAN_DOT: Record<Lean, string> = {
   even: "bg-hairline"
 };
 
-const LEAN_WORD: Record<Lean, string> = { good: "Leans your way", rough: "Take it slowly", even: "Even" };
-
 function LeanDot({ lean }: { lean: Lean }) {
   return <span aria-hidden className={`mt-1.5 h-2.5 w-2.5 flex-none rounded-full ${LEAN_DOT[lean]}`} />;
-}
-
-function shortDate(iso: string): string {
-  return new Intl.DateTimeFormat("en-GB", { timeZone: "UTC", weekday: "short", day: "numeric", month: "short" }).format(
-    new Date(`${iso}T00:00:00Z`)
-  );
-}
-
-interface DayListProps {
-  label: string;
-  days: DayHeadline[];
-}
-
-export function DayList({ label, days }: DayListProps) {
-  if (days.length === 0) {
-    return null;
-  }
-  return (
-    <section className="flex flex-col gap-3" aria-label={label}>
-      <p className="kicker">{label}</p>
-      <ul className="stack">
-        {days.map((day) => {
-          const inner = (
-            <>
-              <LeanDot lean={day.lean} />
-              <span className="flex flex-1 flex-col gap-0.5">
-                <span className="caption">{`${shortDate(day.iso)} · ${LEAN_WORD[day.lean]}`}</span>
-                <span className="text-[15px] leading-snug text-ink">
-                  <TokenText line={day.headline.runs} />
-                </span>
-              </span>
-            </>
-          );
-          return (
-            <li key={day.iso}>
-              {day.openable ? (
-                <Link href={`/today/?date=${day.iso}`} className="flex items-start gap-3 px-4 py-3 text-ink">
-                  {inner}
-                  <span aria-hidden className="self-center text-ink-soft">
-                    &rsaquo;
-                  </span>
-                </Link>
-              ) : (
-                <div className="flex items-start gap-3 px-4 py-3">{inner}</div>
-              )}
-            </li>
-          );
-        })}
-      </ul>
-    </section>
-  );
 }
 
 interface PeriodListProps {

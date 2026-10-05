@@ -33,13 +33,14 @@ test("the four tabs and the Settings control navigate", async ({ page, context }
   await expect(page.getByText("Look for Today")).toBeVisible();
 });
 
-test("Ahead reads ten days, then a month, a year and a decade one at a time", async ({ page, context }) => {
+test("Ahead plans something, then reads a month, a year and a decade one at a time", async ({ page, context }) => {
   await seedProfile(context, FIXTURE_A);
   await pinClock(context, `${TODAY}T02:00:00Z`);
   await page.goto("/ahead/");
 
-  await expect(page.getByLabel("The next ten days").getByRole("listitem")).toHaveCount(10);
-  await expect(page.getByRole("link", { name: /Find a day/ })).toBeVisible();
+  // No single-day lists: days belong to Today.
+  await expect(page.getByLabel("The next ten days")).toHaveCount(0);
+  await expect(page.getByLabel("Plan something").getByRole("link")).toHaveCount(11);
 
   for (const [zoom, kicker, action] of [
     ["Month", "October 2026", "One thing this month"],
@@ -53,19 +54,18 @@ test("Ahead reads ten days, then a month, a year and a decade one at a time", as
   }
 });
 
-test("Ahead moves through periods and opens a coming-up day on Today", async ({ page, context }) => {
+test("Ahead opens Find a day already searching, and moves through the seasons", async ({ page, context }) => {
   await seedProfile(context, FIXTURE_A);
   await pinClock(context, `${TODAY}T02:00:00Z`);
   await page.goto("/ahead/");
 
-  // A standout day opens Today on its own date.
-  const upcoming = page.getByLabel("Coming up this month").getByRole("link");
-  await expect(upcoming.first()).toBeVisible();
-  await upcoming.first().click();
-  await expect(page).toHaveURL(/\/today\/\?date=2026-10-\d\d/);
+  // A plan chip opens Find a day with that activity chosen and the days ranked.
+  await page.getByLabel("Plan something").getByRole("link", { name: "Moving" }).click();
+  await expect(page).toHaveURL(/\/dates\/\?activity=move/);
+  await expect(page.locator("[data-date-results]")).toBeVisible();
   await page.goBack();
 
-  // Decade → a year in it → a month of that year, with its best and bumpiest days.
+  // Decade → a year in it → a month of that year.
   await page.getByRole("radio", { name: "Decade" }).click();
   await expect(page.getByLabel("Year by year").getByRole("button")).toHaveCount(10);
   await page.getByLabel("Year by year").getByRole("button", { name: /^2027/ }).click();

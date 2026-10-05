@@ -1,27 +1,17 @@
 /**
- * TRIAL (2026-10-05 reshape trial build, R9): Ahead's view-models — one
- * period's plain reading, the months of a year and years of a ten-year
- * stretch as browsable headlines, the standout days of the next 30, and a
- * month's best and bumpiest days. Every headline comes from an existing
- * plain reading (content's period reading or Today's composed reading).
+ * TRIAL (2026-10-05 reshape trial build, R9, R10): Ahead's seasons — one
+ * period's plain reading, and the months of a year and years of a ten-year
+ * stretch as browsable headlines. Every headline comes from content's plain
+ * period reading. Single days belong to Today.
  */
 
-import {
-  annualPillarFacts,
-  dayQuality,
-  luckPillarFacts,
-  monthlyPillarFactsForCalendarMonth,
-  type LuckPillar
-} from "@daymaster/bazi-engine";
-import { periodReading, type PlainReading, type ReadingLine } from "@daymaster/content";
+import { annualPillarFacts, luckPillarFacts, monthlyPillarFactsForCalendarMonth, type LuckPillar } from "@daymaster/bazi-engine";
+import { periodReading, type PlainReading } from "@daymaster/content";
 import { chartFor } from "./chart.js";
-import { addDays, daysBetween } from "./dates.js";
 import { readingZoneOf } from "./reading-zone.js";
-import { dailyBundleFor } from "./reading.js";
-import { TODAY_RANGE_DAYS } from "./today-screen.js";
 import type { StoredProfile } from "./types.js";
 
-/** How a period or day leans: from its lead fact. */
+/** How a period leans: from its lead fact. */
 export type Lean = "rough" | "good" | "even";
 
 export interface PeriodView {
@@ -37,14 +27,6 @@ export interface PeriodSummary {
   short: string;
   headline: string;
   lean: Lean;
-}
-
-export interface DayHeadline {
-  iso: string;
-  headline: ReadingLine;
-  lean: Lean;
-  /** Today can open this date (it reads 30 days either side of today). */
-  openable: boolean;
 }
 
 export const MONTH_NAMES = [
@@ -126,74 +108,4 @@ export function yearsOfDecade(profile: StoredProfile, luck: LuckPillar): PeriodS
     const { reading, lean } = yearView(profile, year);
     return { key: year, short: `${year}`, headline: reading.lead.headline, lean };
   });
-}
-
-function dayHeadline(profile: StoredProfile, todayISO: string, iso: string): DayHeadline {
-  const { reading } = dailyBundleFor(profile, iso);
-  return {
-    iso,
-    headline: reading.headline,
-    lean: leanOf(reading.leadTopic),
-    openable: Math.abs(daysBetween(todayISO, iso)) <= TODAY_RANGE_DAYS
-  };
-}
-
-/** The standout days of the next `days`: up to `perLean` rough and `perLean` good, in date order. */
-export function comingUp(profile: StoredProfile, todayISO: string, days = 30, perLean = 4): DayHeadline[] {
-  const all = Array.from({ length: days }, (_, index) => dayHeadline(profile, todayISO, addDays(todayISO, index + 1)));
-  const rough = all.filter((day) => day.lean === "rough").slice(0, perLean);
-  const good = all.filter((day) => day.lean === "good").slice(0, perLean);
-  return [...rough, ...good].sort((a, b) => a.iso.localeCompare(b.iso));
-}
-
-export interface BestAndBumpiest {
-  best: DayHeadline[];
-  bumpiest: DayHeadline[];
-}
-
-/** Lead severity, sharpest first (mirrors content's lead ranking). */
-const SEVERITY: Record<string, number> = { "six-clash": 0, punishment: 1, harm: 2, "six-combine": 3, trine: 4 };
-
-function severityOf(topic: string): number {
-  return SEVERITY[topic.split(":")[1] ?? ""] ?? 5;
-}
-
-/**
- * A month's best and bumpiest days. A day's lean is what Today says about it
- * (its lead fact), so a "best day" never opens with a grinding headline: best
- * are the helpful-lead days, ranked by summed activity leaning (Find a day's
- * score); bumpiest are the grinding-lead days, sharpest lead first.
- */
-export function bestAndBumpiest(profile: StoredProfile, todayISO: string, year: number, month: number, count = 3): BestAndBumpiest {
-  const chart = chartFor(profile);
-  const zone = readingZoneOf(profile);
-  const first = `${year}-${`${month}`.padStart(2, "0")}-01`;
-  const length = new Date(Date.UTC(year, month, 0)).getUTCDate();
-  const days = Array.from({ length }, (_, index) => {
-    const iso = addDays(first, index);
-    const { reading } = dailyBundleFor(profile, iso);
-    const score = dayQuality(chart, iso, zone).assessments.reduce((sum, assessment) => sum + assessment.score, 0);
-    return { iso, topic: reading.leadTopic, lean: leanOf(reading.leadTopic), score };
-  });
-  const best = days
-    .filter((day) => day.lean === "good")
-    .sort((a, b) => b.score - a.score || a.iso.localeCompare(b.iso))
-    .slice(0, count);
-  const bumpiest = days
-    .filter((day) => day.lean === "rough")
-    .sort((a, b) => severityOf(a.topic) - severityOf(b.topic) || a.score - b.score || a.iso.localeCompare(b.iso))
-    .slice(0, count);
-  const byDate = (picked: { iso: string }[]) =>
-    picked.map((day) => dayHeadline(profile, todayISO, day.iso)).sort((a, b) => a.iso.localeCompare(b.iso));
-  return { best: byDate(best), bumpiest: byDate(bumpiest) };
-}
-
-/** The lean of each of the next `days` days (today first), as Today reads them. */
-export function dayLeans(profile: StoredProfile, todayISO: string, days = 10): Record<string, Lean> {
-  const leans: Record<string, Lean> = {};
-  for (let index = 0; index < days; index += 1) {
-    const iso = addDays(todayISO, index);
-    leans[iso] = leanOf(dailyBundleFor(profile, iso).reading.leadTopic);
-  }
-  return leans;
 }

@@ -130,8 +130,8 @@ test("the date finder ranks days and names the top officer", async ({ page, cont
   await pinClock(context, `${TODAY}T09:00:00Z`);
 
   await page.goto("/ahead/");
-  // The finder is a card on Ahead's ten-day view (reshape trial).
-  await page.getByRole("link", { name: /Find a day/ }).click();
+  // The finder opens from Ahead's Plan something (reshape trial).
+  await page.getByRole("link", { name: /Choose your own dates/ }).click();
   await expect(page).toHaveURL(/\/dates\//);
   // The finder sits outside the bottom nav, so it carries its own back link.
   await page.getByRole("button", { name: /Back/ }).click();

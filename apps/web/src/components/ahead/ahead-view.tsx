@@ -1,23 +1,22 @@
 /**
- * Reshape trial: Ahead — what's coming, at four zooms shown one at a time
- * (R5), each with room to move through it (R9): ten days and the standout
- * days of the month; any month with its best and bumpiest days; a year month
- * by month; a ten-year stretch year by year.
+ * Reshape trial: Ahead (R10) — what Today can't show. "Plan something" answers
+ * "when should I…?"; "Your seasons" reads the slower weather behind the days,
+ * one zoom at a time: any month, a year month by month, a ten-year stretch
+ * year by year. Single days belong to Today, which already moves through them.
  */
 
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { decadesOf, type StoredProfile } from "@daymaster/presentation";
 import { SegmentedControl } from "@/components/segmented-control";
 import { useTodayLabel } from "@/lib/use-today-label";
 import { DecadeZoom, MonthZoom, YearZoom, type MonthPick } from "./period-zooms";
-import { TenDays } from "./ten-days";
+import { PlanSomething } from "./plan-something";
 
-type Zoom = "days" | "month" | "year" | "decade";
+type Zoom = "month" | "year" | "decade";
 
 const ZOOMS: { value: Zoom; label: string }[] = [
-  { value: "days", label: "10 days" },
   { value: "month", label: "Month" },
   { value: "year", label: "Year" },
   { value: "decade", label: "Decade" }
@@ -33,47 +32,57 @@ export function AheadView({ profile }: Props) {
   const thisMonth: MonthPick = { year: thisYear, month: Number(today.slice(5, 7)) };
   const { decades, currentIndex } = useMemo(() => decadesOf(profile, thisYear), [profile, thisYear]);
 
-  const [zoom, setZoom] = useState<Zoom>("days");
+  const [zoom, setZoom] = useState<Zoom>("month");
   const [monthPick, setMonthPick] = useState<MonthPick>(thisMonth);
   const [year, setYear] = useState(thisYear);
   const [decadeIndex, setDecadeIndex] = useState(currentIndex ?? 0);
 
+  const seasonsRef = useRef<HTMLElement>(null);
+
+  /** Moving to another period brings the seasons section back into view. */
+  function toSeasons() {
+    seasonsRef.current?.scrollIntoView({ block: "start" });
+  }
+
   function openMonth(pick: MonthPick) {
     setMonthPick(pick);
     setZoom("month");
-    window.scrollTo({ top: 0 });
+    toSeasons();
   }
 
   function openYear(next: number) {
     setYear(next);
     setZoom("year");
-    window.scrollTo({ top: 0 });
+    toSeasons();
   }
 
   function pickDecade(index: number) {
     setDecadeIndex(index);
-    window.scrollTo({ top: 0 });
+    toSeasons();
   }
 
   return (
     <div className="flex flex-col gap-6">
-      <SegmentedControl options={ZOOMS} value={zoom} onChange={setZoom} ariaLabel="How far ahead" />
-      {zoom === "days" && <TenDays profile={profile} today={today} />}
-      {zoom === "month" && <MonthZoom profile={profile} today={today} pick={monthPick} onPick={openMonth} />}
-      {zoom === "year" && (
-        <YearZoom profile={profile} year={year} currentMonth={thisMonth} onPickYear={openYear} onOpenMonth={openMonth} />
-      )}
-      {zoom === "decade" && decades.length > 0 && (
-        <DecadeZoom
-          profile={profile}
-          decades={decades}
-          index={decadeIndex}
-          currentIndex={currentIndex}
-          thisYear={thisYear}
-          onPickDecade={pickDecade}
-          onOpenYear={openYear}
-        />
-      )}
+      <PlanSomething />
+      <section ref={seasonsRef} className="flex scroll-mt-6 flex-col gap-6" aria-label="Your seasons">
+        <p className="kicker">Your seasons</p>
+        <SegmentedControl options={ZOOMS} value={zoom} onChange={setZoom} ariaLabel="Which season" />
+        {zoom === "month" && <MonthZoom profile={profile} pick={monthPick} onPick={openMonth} />}
+        {zoom === "year" && (
+          <YearZoom profile={profile} year={year} currentMonth={thisMonth} onPickYear={openYear} onOpenMonth={openMonth} />
+        )}
+        {zoom === "decade" && decades.length > 0 && (
+          <DecadeZoom
+            profile={profile}
+            decades={decades}
+            index={decadeIndex}
+            currentIndex={currentIndex}
+            thisYear={thisYear}
+            onPickDecade={pickDecade}
+            onOpenYear={openYear}
+          />
+        )}
+      </section>
     </div>
   );
 }
