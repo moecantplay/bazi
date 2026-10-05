@@ -10,8 +10,7 @@
  */
 
 import { DEFAULT_CONFIG } from "@daymaster/bazi-engine";
-import { DEFAULT_LOOK } from "@/lib/store";
-import { isStoredCity, parseLookPreference, type LookPreference, type Sex, type StoredCity } from "@/lib/store-types";
+import { isStoredCity, type Sex, type StoredCity } from "@/lib/store-types";
 
 export interface OnboardingDraft {
   date: string; // YYYY-MM-DD, "" until entered
@@ -19,8 +18,6 @@ export interface OnboardingDraft {
   timeUnknown: boolean;
   city: StoredCity | null;
   sex: Sex | null;
-  /** Chosen on the look step, just before the reveal (M19.9-04). */
-  look: LookPreference;
 }
 
 export const EMPTY_DRAFT: OnboardingDraft = {
@@ -28,11 +25,10 @@ export const EMPTY_DRAFT: OnboardingDraft = {
   time: "",
   timeUnknown: false,
   city: null,
-  sex: null,
-  look: DEFAULT_LOOK
+  sex: null
 };
 
-/** The engine settings a new chart starts with (the look step's preview and the reveal both use them). */
+/** The engine settings a new chart starts with. */
 export const ONBOARDING_CONFIG = {
   lateZiHour: DEFAULT_CONFIG.lateZiHour,
   trueSolarTime: DEFAULT_CONFIG.trueSolarTime
@@ -44,11 +40,11 @@ export interface DraftEnvelope {
 }
 
 const DRAFT_KEY = "daymaster.onboarding.v1";
-/** Restore lands on the last gathering step (the look step) at most, never mid-reveal. */
-const MAX_RESTORE_STEP = 5;
+/** Restore lands on the last gathering step at most. */
+const MAX_RESTORE_STEP = 4;
 
-/** A draft saved before the look step existed has no `look`; `withLook` fills it. */
-function isDraft(value: unknown): value is Omit<OnboardingDraft, "look"> & { look?: unknown } {
+/** An older draft may still carry `look` (from the retired look step); it's ignored. */
+function isDraft(value: unknown): value is OnboardingDraft {
   if (typeof value !== "object" || value === null) {
     return false;
   }
@@ -84,7 +80,8 @@ export function loadDraftEnvelope(): DraftEnvelope {
       return fresh;
     }
     const step = Math.min(Math.max(Math.trunc(envelope.step), 0), MAX_RESTORE_STEP);
-    return { step, draft: { ...envelope.draft, look: parseLookPreference(envelope.draft.look) ?? DEFAULT_LOOK } };
+    const { date, time, timeUnknown, city, sex } = envelope.draft;
+    return { step, draft: { date, time, timeUnknown, city, sex } };
   } catch {
     return fresh;
   }

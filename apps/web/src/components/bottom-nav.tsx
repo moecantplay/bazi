@@ -1,6 +1,7 @@
 /**
- * The five-tab bottom navigation (Chart - Today - Cycles - Compare - Settings),
- * safe-area padded and shown on every main screen. Hidden during onboarding,
+ * The four-tab bottom navigation (Today - Ahead - You - People), safe-area
+ * padded and shown on every main screen; Settings opens from the header gear
+ * (AppShell). Hidden during onboarding,
  * which owns the full viewport. Restyled as an anchor-fill pill (DESIGN.md
  * §Surfaces "Signpost + nav"): one of Trail's two fixed anchor objects, along
  * with the Today signpost. The active tab reads full paper; inactive tabs
@@ -18,6 +19,8 @@ import type { ReactNode } from "react";
 interface Tab {
   href: string;
   label: string;
+  /** Route prefixes that light this tab (a tab's leaf screens count as the tab). */
+  matches: string[];
   icon: ReactNode;
 }
 
@@ -34,18 +37,9 @@ const iconProps = {
 
 const TABS: Tab[] = [
   {
-    href: "/chart",
-    label: "Chart",
-    icon: (
-      <svg {...iconProps} aria-hidden>
-        <rect x="4" y="4" width="16" height="16" rx="2" />
-        <path d="M12 4v16M4 12h16" />
-      </svg>
-    )
-  },
-  {
     href: "/today",
     label: "Today",
+    matches: ["/today"],
     icon: (
       <svg {...iconProps} aria-hidden>
         <circle cx="12" cy="12" r="4" />
@@ -54,37 +48,35 @@ const TABS: Tab[] = [
     )
   },
   {
-    href: "/cycles",
-    label: "Cycles",
+    href: "/ahead",
+    label: "Ahead",
+    matches: ["/ahead", "/dates"],
     icon: (
       <svg {...iconProps} aria-hidden>
-        <circle cx="7" cy="7" r="2.5" />
-        <circle cx="7" cy="17" r="2.5" />
-        <path d="M7 9.5v5M11 7h9M11 17h9" />
+        <path d="M4 18c3-1 4-5 7-6s5 1 9-6" />
+        <path d="M15 6h5v5" />
       </svg>
     )
   },
   {
-    href: "/compare",
-    label: "Compare",
+    href: "/you",
+    label: "You",
+    matches: ["/you", "/chart"],
+    icon: (
+      <svg {...iconProps} aria-hidden>
+        <circle cx="12" cy="8.5" r="3.5" />
+        <path d="M5 20c1.2-3.6 4-5.5 7-5.5s5.8 1.9 7 5.5" />
+      </svg>
+    )
+  },
+  {
+    href: "/people",
+    label: "People",
+    matches: ["/people"],
     icon: (
       <svg {...iconProps} aria-hidden>
         <circle cx="9" cy="12" r="5.5" />
         <circle cx="15" cy="12" r="5.5" />
-      </svg>
-    )
-  },
-  {
-    href: "/settings",
-    label: "Settings",
-    // Tune sliders, not a spoked gear — a gear drawn in this stroke style
-    // reads as a second sun next to the Today tab.
-    icon: (
-      <svg {...iconProps} aria-hidden>
-        <path d="M3 7h8M15 7h6M3 12h4M11 12h10M3 17h10M17 17h4" />
-        <circle cx="13" cy="7" r="2" />
-        <circle cx="9" cy="12" r="2" />
-        <circle cx="15" cy="17" r="2" />
       </svg>
     )
   }
@@ -103,7 +95,7 @@ export function BottomNav() {
       <div className="mx-auto max-w-app px-5 pb-3">
         <ul className="flex items-stretch rounded-full bg-anchor px-2 py-1.5 shadow-nav">
           {TABS.map((tab) => {
-            const active = pathname === tab.href || pathname.startsWith(`${tab.href}/`);
+            const active = tab.matches.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
             return (
               <li key={tab.href} className="flex-1">
                 <Link

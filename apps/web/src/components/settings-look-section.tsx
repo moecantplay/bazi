@@ -27,11 +27,11 @@ export function SettingsLookSection({ profile }: Props) {
 
   return (
     <section>
-      <h2 className="kicker">Look</h2>
+      <h2 className="kicker">Look for Today</h2>
       <div className="mt-3">
         <LookPicker value={look} onChange={choose} screen={screen} size="small" />
       </div>
-      <p className="mt-3 text-[13px] leading-relaxed text-ink-soft">Changes how Today looks. The reading stays the same.</p>
+      <p className="mt-3 text-[13px] leading-relaxed text-ink-soft">Changes how Today looks. Every other screen stays the same.</p>
     </section>
   );
 }

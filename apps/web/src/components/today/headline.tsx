@@ -22,8 +22,3 @@ export function Headline({ runs, className = "" }: Props) {
     </h2>
   );
 }
-
-/** "yang fire · horse day": the day pillar in words, for each look's meta line. */
-export function dayMeta(stemGloss: string, branchGloss: string): string {
-  return `${stemGloss} · ${branchGloss} day`;
-}

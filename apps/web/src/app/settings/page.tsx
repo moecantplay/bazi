@@ -8,7 +8,7 @@ export default function SettingsPage() {
   return (
     <ProfileGate>
       {(profile) => (
-        <AppShell title="Settings">
+        <AppShell title="Settings" back>
           <SettingsContent profile={profile} />
         </AppShell>
       )}

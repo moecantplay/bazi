@@ -8,7 +8,7 @@ export default function CyclesPage() {
   return (
     <ProfileGate>
       {(profile) => (
-        <AppShell title="Cycles">
+        <AppShell title="Your decades" back>
           <LuckTimeline profile={profile} />
         </AppShell>
       )}
