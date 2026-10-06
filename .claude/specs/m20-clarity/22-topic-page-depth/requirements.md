@@ -17,16 +17,17 @@ The topic pages from [M20-21](../21-composed-daily-reading/requirements.md) R11 
 | Small signs (`stars`) | 7–51 | One short line per star |
 | Sign links (`interaction:*`) | ~80–90 | Two How sentences, two Working with it lines (bank: `banks/topics/interactions.ts`) |
 
-Two more gaps:
+Three more gaps:
 
 - **Nothing on the page is about the reader beyond the day's facts.** The pages don't use what the engine already knows about the chart: whether it runs strong or weak (`strength` fact), its element balance (`element-balance`), where the day sits in the twelve-stage cycle, or the day's other ten hours.
+- **No line has a source.** The engine's tables each cite brief §11 or astronomy-engine, and anything unverifiable goes in `flags.md`. The wording is different: every meaning in `packages/content` ("Direct Wealth = steady work", "the Illness stage = half speed") was written by Claude from general BaZi knowledge, simplified, and never checked against a text or a practitioner (owner, 2026-10-05: "where are we getting the current content from?").
 - **The longer writing that exists isn't used.** `read-more.ts` holds 3-paragraph dives for the five sign links, written before M20-21, and nothing renders them on a topic page.
 
 Sources: `packages/content/src/readings/topic-page.ts`, `packages/content/src/banks/topics/day.ts`, `packages/content/src/banks/topics/interactions.ts`, `apps/web/src/components/topic/topic-page-view.tsx`.
 
 ## Goal
 
-Every topic page reads as a short, useful article about this day for this reader: several paragraphs on how it tends to go, where it shows up, what it's good for, how to work with it, and parts drawn from the reader's own chart. None of it repeats the card the reader just tapped.
+Every topic page reads as a short, useful article about this day for this reader: several paragraphs on how it tends to go, where it shows up, what it's good for, how to work with it, and parts drawn from the reader's own chart. None of it repeats the card the reader just tapped. Every meaning traces to a cited classical passage, and the wording changes with the combinations the engine already computes (owner chose "1 + 3", 2026-10-06).
 
 ## Requirements
 
@@ -41,7 +42,7 @@ Every topic page reads as a short, useful article about this day for this reader
 - **R5. Working with it: three steps.** Every page except Small signs has three concrete steps.
   - Acceptance: a bank test checks there are exactly three steps for every key.
 - **R6. For you today is personal.**
-  - Ten-god pages say how the day's character meets *this* chart: one line for a chart that runs strong and one for a chart that runs weak, per ten-god (20 lines).
+  - Ten-god pages say how the day's character meets *this* chart, with separate wording for a chart that runs strong and one that runs weak (see R12).
   - Element pages keep their suits/against line and add what that means for the reader's balance.
   - Stage pages say where the reader is in the cycle: what came before and what comes next.
   - Sign-link pages keep their plain mechanics sentence.
@@ -65,6 +66,30 @@ Every topic page reads as a short, useful article about this day for this reader
 - **R11. Voice.** Topic pages follow VOICE.md rule 11 as it stands for topic pages: the old name appears once, framed as a name; no system term stands alone; there's no fatalism, and the page closes on agency (Working with it before Where the name comes from).
   - Acceptance: the M20-21 voice test runs on every topic-page line. The owner reads Fixture A's pages for one week on device.
 
+- **R12. The wording changes with the chart.** Where the classical source says a meaning depends on the chart, the page has a variant for each case:
+  - **Ten-god pages:** For you today, How it tends to go, and Good for / Hold off on each have a strong-chart variant and a weak-chart variant (10 × 2).
+  - **Element pages:** suits/against, as now (5 × 2).
+  - **Sign-link pages:** Where it shows up, by the affected life area (5 × 4).
+  - **Stages and small signs:** stay single entries unless their source gives a split.
+  - Acceptance: a presentation test renders the same ten-god day for a strong fixture and a weak fixture, and the For you today, How and Good for sections differ.
+- **R13. Every meaning cites its source.**
+  - Each bank entry carries a `source` field (never rendered, like a term run's `han`) with:
+    - the work and chapter;
+    - the verbatim passage, or passages;
+    - an English translation;
+    - which page lines it supports;
+    - anything dropped or reframed, and why: gendered readings (wealth as wives), and money, health or legal claims (VOICE rule 12).
+  - One source per family:
+    - *Zi Ping Zhen Quan* for the day's characters;
+    - *San Ming Tong Hui* for stages and small signs;
+    - *Di Tian Sui* or *San Ming Tong Hui* for sign links and elements, whichever covers the topic.
+  - An entry with no source passage is listed in a new "Content without a source" section of `flags.md`, never silently shipped.
+  - Passages come from public-domain full texts that allow reading; ctext.org is not used (its terms forbid scraping). The URL is recorded with each passage.
+  - Acceptance:
+    - A bank test fails if an entry has no `source` and isn't in `flags.md`.
+    - A test confirms no `source` text reaches a rendered `TokenLine`.
+    - Each family's translations are checked by a second reader before that family ships (see Open questions).
+
 ## Out of scope
 
 - Topic pages for cards on Ahead, You and People (the reshape's M24-11).
@@ -75,5 +100,6 @@ Every topic page reads as a short, useful article about this day for this reader
 ## Open questions
 
 - [ ] **Good for / Hold off on: written per topic, or taken from the day's activity chips?** Today already shows the day's Favors and Watch chips (`today-suits.ts`), so repeating them on every topic page would say the same thing five times a day. Recommended: written per topic (R4 as drafted). The preview the owner picked said "from the day's activities". Being tried on the trial as trial-build R13 (2026-10-05), written per topic.
+- [ ] **Who checks the translations?** I can quote the classical text exactly; how I read it is the part that needs a second reader. Candidates: the owner, the source behind the master reading (Fixture A), or another practitioner. A family doesn't ship until its translations are checked.
 - [ ] Approve requirements and design.
 - [ ] Mockups of a ten-god page, a stage page and a sign-link page in Explorer, light and dark, before app code (CLAUDE.md "Mockups first"). The other two looks follow once the base is approved.
