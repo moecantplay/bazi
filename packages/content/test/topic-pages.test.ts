@@ -7,6 +7,7 @@
 import { describe, expect, it } from "vitest";
 import type { ReadingFact } from "@daymaster/bazi-engine";
 import { dailyReading, plainGloss, topicPage } from "../src/index.js";
+import { SORE_SPOT_WORDS, STAGE_STEPS, TOPIC_CLOSING, TOPIC_DEPTH } from "../src/banks/topics/trial-depth.js";
 import { ELEMENT_SUITS, INTERACTION_SUITS, STAGE_SUITS, TEN_GOD_SUITS, type TopicSuits } from "../src/banks/topics/suits.js";
 import { ELEMENTS, INTERACTIONS, NATAL_PALACES, STAGE_LABELS, STAR_KEYS, TEN_GODS } from "./collect.js";
 import { assertPlain } from "./plain-terms.js";
@@ -110,6 +111,41 @@ describe("topic pages", () => {
         expect(item, `no closing full stop: "${item}"`).not.toMatch(/\.$/);
       }
     }
+  });
+
+  it("trial R14: each written-out topic has its full shape, in voice, with a source", () => {
+    for (const [topic, depth] of Object.entries(TOPIC_DEPTH)) {
+      expect(depth.source.length, topic).toBeGreaterThan(0);
+      expect(depth.how.length, topic).toBeGreaterThanOrEqual(2);
+      expect(depth.where.length, topic).toBe(3);
+      expect(depth.work.length, topic).toBe(3);
+      for (const variant of [depth.strong, depth.weak]) {
+        expect(variant.goodFor.length, topic).toBeGreaterThanOrEqual(2);
+        expect(variant.holdOff.length, topic).toBeGreaterThanOrEqual(1);
+        assertVoice(variant.tagline);
+        assertPlain(variant.tagline);
+        for (const line of [variant.forYou, ...variant.goodFor, ...variant.holdOff].filter(Boolean)) {
+          assertVoice(line);
+        }
+      }
+      for (const line of [...depth.how, ...depth.where.map(([, text]) => text), ...depth.work]) {
+        assertVoice(line);
+      }
+    }
+  });
+
+  it("trial R14: sore-spot words and stage steps cover every element and stage, in plain words", () => {
+    for (const element of ELEMENTS) {
+      const words = SORE_SPOT_WORDS[element];
+      for (const line of [words.problem, words.problemChip, words.remedyChip, words.action]) {
+        assertVoice(line);
+        assertPlain(line);
+      }
+    }
+    for (const stage of STAGE_LABELS) {
+      expect(STAGE_STEPS[stage], stage).toBeDefined();
+    }
+    assertVoice(TOPIC_CLOSING);
   });
 
   it("an unknown topic has no page", () => {

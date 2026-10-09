@@ -6,7 +6,7 @@
 
 import type { Branch, ReadingFact } from "@daymaster/bazi-engine";
 import { textRun } from "../tokens.js";
-import type { TopicPage } from "../types.js";
+import type { TopicContext, TopicPage } from "../types.js";
 import { BRANCH_ANIMALS, elementWord, hourWindowLabel } from "../vocab.js";
 import { ELEMENT_CARDS, STAGE_CARDS, STAR_TITLES, TEN_GOD_CARDS } from "../banks/daily/cards.js";
 import { AREA_SIGN_SUBJECT, AREA_TITLE_PHRASE, INTERACTION_TOPICS } from "../banks/topics/interactions.js";
@@ -23,13 +23,30 @@ import {
   TEN_GOD_TOPICS,
 } from "../banks/topics/day.js";
 import { ELEMENT_SUITS, INTERACTION_SUITS, STAGE_SUITS, TEN_GOD_SUITS, type TopicSuits } from "../banks/topics/suits.js";
+import { TOPIC_CLOSING } from "../banks/topics/trial-depth.js";
 import { interactionTopic, rankTransits, type TransitFact } from "./daily/lead.js";
+import { deepenTopicPage } from "./topic-depth.js";
 import { lifeAreaOf } from "./daily/life-areas.js";
 
 type FactOf<K extends ReadingFact["kind"]> = Extract<ReadingFact, { kind: K }>;
 
 function page(fields: Partial<TopicPage> & Pick<TopicPage, "title" | "nameOrigin">): TopicPage {
-  return { oldName: null, forYou: null, how: [], goodFor: [], holdOff: [], work: [], stars: [], ...fields };
+  return {
+    oldName: null,
+    forYou: null,
+    how: [],
+    goodFor: [],
+    holdOff: [],
+    work: [],
+    stars: [],
+    tagline: null,
+    where: [],
+    sore: null,
+    visual: null,
+    recurrences: [],
+    closing: textRun(TOPIC_CLOSING),
+    ...fields,
+  };
 }
 
 function suits(entry: TopicSuits | undefined): Pick<TopicPage, "goodFor" | "holdOff"> {
@@ -137,8 +154,16 @@ function starsPage(stars: readonly FactOf<"star-day">[]): TopicPage {
   });
 }
 
-/** The page for a topic key, or null when the day carries nothing under it. */
-export function topicPage(topic: string, facts: readonly ReadingFact[]): TopicPage | null {
+/**
+ * The page for a topic key, or null when the day carries nothing under it.
+ * With the chart's context, the page gains the trial's fuller sections (R14).
+ */
+export function topicPage(topic: string, facts: readonly ReadingFact[], context?: TopicContext): TopicPage | null {
+  const base = basePage(topic, facts);
+  return base && context ? deepenTopicPage(base, topic, facts, context) : base;
+}
+
+function basePage(topic: string, facts: readonly ReadingFact[]): TopicPage | null {
   if (topic.startsWith("interaction:")) {
     const fact = rankTransits(facts).find((candidate) => interactionTopic(candidate) === topic);
     return fact ? interactionPage(fact) : null;

@@ -42,6 +42,11 @@ export type {
   TopicCard,
   TopicPage,
   StarEntry,
+  TopicContext,
+  TopicSore,
+  TopicVisual,
+  TopicWhere,
+  SoreStatus,
   CompareReading,
   ReadingArea,
 } from "./types.js";

@@ -6,7 +6,7 @@
  * lines that cite nothing).
  */
 
-import type { Palace } from "@daymaster/bazi-engine";
+import type { Branch, Element, Palace } from "@daymaster/bazi-engine";
 import { textRun, type TokenLine } from "./tokens.js";
 
 /**
@@ -170,6 +170,59 @@ export interface TopicPage {
   nameOrigin: TokenLine;
   /** Only the small-signs page lists stars. */
   stars: StarEntry[];
+  /** Trial R14: a short everyday line under the title, where one is written. */
+  tagline: TokenLine | null;
+  /** Trial R14: one line per part of life, the affected one first. */
+  where: TopicWhere[];
+  /** Trial R14: the chart's sore spot and whether today eases or presses on it. */
+  sore: TopicSore | null;
+  /** Trial R14: one small drawing of the reader's own chart, where one fits. */
+  visual: TopicVisual | null;
+  /** Trial R14: later dates in Today's range that carry the same topic, "YYYY-MM-DD". */
+  recurrences: string[];
+  /** Trial R14: closes every page; describes tendencies, not outcomes. */
+  closing: TokenLine;
+}
+
+export interface TopicWhere {
+  label: string;
+  line: TokenLine;
+}
+
+export type SoreStatus = "neither" | "eases" | "presses" | "both";
+
+export interface TopicSore {
+  status: SoreStatus;
+  statusLabel: string;
+  problem: string;
+  remedies: string[];
+  body: TokenLine;
+}
+
+export type TopicVisual =
+  | { kind: "stage-arc"; steps: { label: string; height: number; today: boolean }[]; yesterday: string; today: string; tomorrow: string }
+  | {
+      kind: "signs";
+      /** Friendly links (pairs, sets) mark in the favours tone; the rest in the watch tone. */
+      tone: "favors" | "watch";
+      signs: { area: string; animal: string; note: string | null; mark: "met" | "same" | null }[];
+    };
+
+/**
+ * What a topic page needs to know about the chart beyond the day's facts.
+ * Presentation computes it; content only phrases it (zero chart math).
+ */
+export interface TopicContext {
+  strength: "strong" | "weak";
+  /** Null when the chart has no sore spot (its problem element is absent). */
+  sore: { problem: Element; remedies: Element[]; status: SoreStatus; easing: Element | null } | null;
+  /** The chart's own signs; hour is missing for an unknown birth time. */
+  natalSigns: { palace: Palace; branch: Branch }[];
+  /** Palaces already in a six-clash inside the birth chart. */
+  natalClashPalaces: Palace[];
+  /** The stage names of the day before and after. */
+  stageNeighbours: { yesterday: string; tomorrow: string } | null;
+  recurrences: string[];
 }
 
 /** A two-chart comparison reading: ordered lines, no agency line. */

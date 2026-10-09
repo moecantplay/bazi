@@ -85,3 +85,18 @@ test("cycles horizon captions link to the glossary too", async ({ page, context 
   await yearCard.locator("[data-fact-tag] button").first().click();
   await expect(page.locator("[data-glossary-sheet]")).toBeVisible();
 });
+
+test("trial R14: a written-out topic page carries every section, and a date it comes back opens that day", async ({ page, context }) => {
+  await seedProfile(context, FIXTURE_A);
+  await pinClock(context, "2026-10-10T09:00:00Z");
+  await page.goto(`/today/topic/?date=2026-10-06&topic=${encodeURIComponent("ten-god:Direct Wealth")}`);
+  const topicPage = page.locator("[data-topic-page]");
+  await expect(topicPage.locator("[data-topic-tagline]")).toHaveText("Do less, finish it, take the help.");
+  for (const heading of ["For you today", "How it tends to go", "Where it shows up", "Your sore spot and what eases it", "Working with it", "When it comes back"]) {
+    await expect(topicPage.getByRole("heading", { name: heading })).toBeVisible();
+  }
+  await expect(topicPage.locator("[data-topic-closing]")).toBeVisible();
+  await topicPage.getByRole("link", { name: /16 Oct/ }).click();
+  await expect(page).toHaveURL(/date=2026-10-16&topic=ten-god/);
+  await expect(page.locator("[data-topic-page] h1")).toHaveText("A day for steady work");
+});
