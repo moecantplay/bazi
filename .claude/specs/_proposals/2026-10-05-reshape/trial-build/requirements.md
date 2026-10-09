@@ -83,6 +83,28 @@ The owner can install a preview of the reshaped app on their phone, use it with 
     - E2E finds both headings on the lead's topic page.
     - Contrast is measured on rendered text in light and dark.
 
+- **R14. The fuller topic page, to feel locally (owner, 2026-10-10, on the M20-22 mockups: "i'd need to try it on local first at least to get the feel").**
+  - The topic page takes the mockup's layout, in this order:
+    - tagline;
+    - For you today;
+    - a drawing of the chart (stage hill or sign tiles);
+    - How it tends to go;
+    - Where it shows up;
+    - Your sore spot and what eases it;
+    - Good for / Hold off on;
+    - three steps;
+    - When it comes back;
+    - Where the name comes from;
+    - a closing line.
+  - Fully written for three topics: steady work (strong and weak), Coming of Age, and the family clash. Every other topic shows the new layout with its current lines.
+  - The sore spot is computed in presentation as a stopgap (`trial-sore-spot.ts`): the problem is the element that controls the chart's first helpful element, when it's present; the remedies control the problem or bridge it. M20-23 moves this into the engine.
+    - For Fixture A this gives water, eased by earth and wood. The mockup showed fate-craft's reading (wood, eased by metal and fire). That's a school split, to settle in M20-23.
+  - Acceptance:
+    - Presentation tests for Fixture A on 6 and 9 Oct: the sore spot, the stage hill, the sign tiles, the honest clash line, and the dates it comes back.
+    - Content tests on the new bank.
+    - E2E: every section shows, and a comes-back date opens that day.
+    - Contrast measured at 4.5 or above on all text, light and dark.
+
 ## Out of scope
 
 - Writing the full plain banks for Ahead, You and People (proposal M24-11). The trial writes only the leads in R5–R7.
