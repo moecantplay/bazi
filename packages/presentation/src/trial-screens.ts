@@ -4,18 +4,21 @@
  * trial-ahead.ts.
  */
 
-import { natalFacts, type Element } from "@daymaster/bazi-engine";
+import { controls, elementOfStem, natalFacts, produces, type Element } from "@daymaster/bazi-engine";
 import {
+  dayColour,
   pairReading,
   youColours,
   youElements,
   youReading,
+  type DayColour,
   type PlainReading,
   type YouColours,
   type YouElements,
 } from "@daymaster/content";
 import { chartFor } from "./chart.js";
 import { compareBundleFor } from "./compare.js";
+import { dailyBundleFor } from "./reading.js";
 import { ELEMENT_ORDER } from "./elements.js";
 import { natalSeedKey } from "./seed-key.js";
 import type { StoredBirth, StoredProfile } from "./types.js";
@@ -39,6 +42,26 @@ export function youElementsFor(profile: StoredProfile): YouElements | null {
 export function youColoursFor(profile: StoredProfile): YouColours | null {
   const { helps, wears } = elementSplit(profile);
   return youColours(helps, wears);
+}
+
+/**
+ * R17: Today's colour for one date. On a day whose element helps you, its own
+ * colour; on one that wears you down, a helper that keeps it in check, else
+ * the helper it feeds. One always exists: a weak chart's helpers (self,
+ * resource) check wealth and output and are fed by officer; a strong chart's
+ * (output, wealth, officer) check resource and self.
+ */
+export function todayColourFor(profile: StoredProfile, dateISO: string): DayColour | null {
+  const { helps } = elementSplit(profile);
+  const dayElement = elementOfStem(dailyBundleFor(profile, dateISO).dayPillar.stem);
+  const seedKey = `${natalSeedKey(profile)}|${dateISO}`;
+  if (helps.includes(dayElement)) {
+    return dayColour(dayElement, "lean", seedKey);
+  }
+  const steadier =
+    helps.find((element) => controls(element) === dayElement) ??
+    helps.find((element) => produces(dayElement) === element);
+  return steadier === undefined ? null : dayColour(steadier, "steady", seedKey);
 }
 
 function elementSplit(profile: StoredProfile): { helps: Element[]; wears: Element[] } {

@@ -9,6 +9,7 @@ import { PullQuoteBoard } from "@/components/today/pull-quote-board";
 import { ReadingBody } from "@/components/today/reading-body";
 import { TodayDateNav, TodayDateNotes } from "@/components/today/today-date-nav";
 import { TodayFooter } from "@/components/today/today-footer";
+import { TodayColour } from "@/components/today/today-colour";
 import { TodaySuits } from "@/components/today/today-suits";
 import { TopicCards } from "@/components/today/topic-cards";
 import type { TodayScreen } from "@/components/today/use-today-screen";
@@ -46,6 +47,7 @@ export function TodayInstrument({ screen }: Props) {
       <FirstDayBanner screen={screen} />
       <TopicCards cards={model.reading.cards} dateISO={screen.dateISO} look="dial" />
       <TodaySuits screen={screen} />
+      <TodayColour screen={screen} />
       <TodayFooter screen={screen} />
     </div>
   );

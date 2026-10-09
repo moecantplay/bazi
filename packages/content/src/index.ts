@@ -71,6 +71,7 @@ export { OFFICER_DAY_HEADLINES, OFFICER_DAY_WORDS, welcomeHeadline } from "./ban
 export { portraitLine, portraitRest } from "./banks/trial/portrait.js";
 export { pairReading, periodReading, youColours, youElements, youReading } from "./readings/trial/plain-readings.js";
 export type { Colour } from "./banks/trial/colours.js";
+export { dayColour, type DayColour, type DayColourMode } from "./readings/trial/day-colour.js";
 export type {
   ElementLine,
   PeriodSpan,

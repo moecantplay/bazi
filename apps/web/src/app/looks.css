@@ -58,6 +58,8 @@
 .suits-chip { padding: 7px 12px; border-radius: 999px; background: var(--paper); font-size: 13px; font-weight: 600; color: var(--ink); }
 .suits-chip-favors { box-shadow: inset 0 0 0 2px var(--element-wood); }
 .suits-chip-watch { box-shadow: inset 0 0 0 2px var(--signal-amber); }
+/* Today's colour (trial R17): a real-colour swatch, ringed so white and black show on either ground */
+.day-colour-swatch { flex: none; width: 28px; height: 28px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(128, 128, 128, .5); }
 /* Topic page */
 .topic-old-name { font: italic 500 19px/1.35 ui-serif, "New York", Georgia, serif; color: var(--ink-soft); }
 .topic-section { display: flex; flex-direction: column; gap: 8px; }

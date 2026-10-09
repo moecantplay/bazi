@@ -18,8 +18,8 @@ import {
 } from "../src/banks/trial/period.js";
 import { OFFICER_DAY_HEADLINES } from "../src/banks/trial/welcome.js";
 import { BALANCE_CARDS, HELPS_YOU, STRENGTH_CARDS, WEARS_YOU, easeLine } from "../src/banks/trial/you.js";
-import { COLOURS_WHERE, ELEMENT_COLOURS, colourFixLine } from "../src/banks/trial/colours.js";
-import { pairReading, periodReading, youColours, youElements, youReading } from "../src/index.js";
+import { COLOURS_WHERE, ELEMENT_COLOURS, colourFixLine, dayColourLine } from "../src/banks/trial/colours.js";
+import { dayColour, pairReading, periodReading, youColours, youElements, youReading } from "../src/index.js";
 import { ELEMENTS, INTERACTIONS, TEN_GODS } from "./collect.js";
 import { assertPlain } from "./plain-terms.js";
 
@@ -187,5 +187,17 @@ describe("trial builders", () => {
     }
     assertPlain(COLOURS_WHERE);
     assertPlain(colourFixLine("black", "red"));
+  });
+
+  it("phrases Today's colour plainly and picks a shade of the given element (R17)", () => {
+    for (const element of ELEMENTS) {
+      for (const mode of ["lean", "steady"] as const) {
+        const pick = dayColour(element, mode, "seed|2026-10-10");
+        expect(ELEMENT_COLOURS[element]).toContain(pick.colour);
+        expect(pick).toEqual(dayColour(element, mode, "seed|2026-10-10"));
+        assertPlain(pick.line);
+      }
+    }
+    expect(dayColourLine("lean", "pink")).toBe("It matches the day. Wear it, or keep something pink close.");
   });
 });

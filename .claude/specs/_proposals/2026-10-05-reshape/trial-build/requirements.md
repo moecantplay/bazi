@@ -93,6 +93,20 @@ The owner can install a preview of the reshaped app on their phone, use it with 
     - The E2E You check sees both headings.
     - Light and dark are checked live.
 
+- **R17. Today's colour (owner, 2026-10-10: "do you think its a good idea to add what colour is good to wear on the Today page?"; mockup https://claude.ai/artifact/9dwonc48gK716NiVKXzcs6; approved, owner 2026-10-10: "alright build it").**
+  - One small card after What the day suits, the same in every look: a swatch, the colour's name, and one line.
+  - **How the colour is picked:**
+    - On a day whose element (the day stem's) helps you, the colour is that element's ("It matches the day. Wear it, or keep something pink close.").
+    - On a day whose element wears you down, it is a helping element that steadies the day: one that keeps the day's element in check, else one the day's element feeds ("It keeps you steady today. A little goes far: a scarf, a mug, a pen.").
+    - Every chart always has such a helper, so a day is never left without a colour.
+    - The shade within the element follows hash(birth data + date).
+  - Wording stays neutral, so it never contradicts the day's lead. It is never on the first screen, and no system terms are used. The steadying rule is interpretive and is flagged in `flags.md`.
+  - Acceptance:
+    - A presentation test checks every fixture has a colour on every day across a year.
+    - A content test checks the lines name no system term.
+    - The Today E2E sees the card in each look.
+    - Light and dark are checked in all three looks.
+
 ## Out of scope
 
 - Writing the full plain banks for Ahead, You and People (proposal M24-11). The trial writes only the leads in R5–R7.

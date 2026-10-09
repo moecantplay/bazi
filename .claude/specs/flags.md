@@ -13,6 +13,7 @@ Moved from the old PROGRESS.md (`_sources/progress.md`) on 2026-09-29.
 - Luck-start day precision matches the reference app exactly (9y5m25d) when the birth wall-clock is UTC+8; at Asia/Jakarta (UTC+7) the same rule yields 9y5m20d. Both asserted in tests. The pillars, stages, and stars are timezone-insensitive for this chart; only the 起運 day count shifts.
 
 - Element colours (trial R16, packages/content/src/banks/trial/colours.ts): the five classical colours are sourced (黃帝內經·素問·金匱真言論 ch. 4: 青 赤 黃 白 黑 for Wood, Fire, Earth, Metal, Water). The modern shades beside them (teal; orange, pink; beige, brown; grey, gold; navy) are common feng-shui convention with no classical source, and vary between writers. Kept to two per element.
+- Today's colour steadying rule (trial R17, packages/presentation/src/trial-screens.ts `todayColourFor`): on a day whose element wears you down, the colour comes from the helping element that controls the day's element, else the one it produces. This follows the five-element cycles but is our own interpretive choice, not a sourced almanac rule; other writers pick the remedy differently. The day's element is the day stem's.
 
 ## Resolved
 

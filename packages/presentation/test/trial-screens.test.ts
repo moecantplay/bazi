@@ -10,7 +10,9 @@ import {
   decadesOf,
   monthView,
   monthsOfYear,
+  addDays,
   pairScreenFor,
+  todayColourFor,
   yearView,
   yearsOfDecade,
   youColoursFor,
@@ -49,6 +51,15 @@ describe("trial screens", () => {
       const wears = elements?.wears.map((entry) => entry.element) ?? [];
       expect(helps.length).toBeGreaterThan(0);
       expect([...helps, ...wears].sort()).toEqual(["earth", "fire", "metal", "water", "wood"]);
+    });
+
+    it(`gives Today a colour from a helping element on every day of a year for fixture ${name} (R17)`, () => {
+      const suits = new Set(youColoursFor(profile)?.suit);
+      for (let offset = 0; offset < 366; offset += 1) {
+        const pick = todayColourFor(profile, addDays("2026-01-01", offset));
+        expect(pick).not.toBeNull();
+        expect(suits.has(pick!.colour)).toBe(true);
+      }
     });
 
     it(`builds the colours card for fixture ${name} (R16)`, () => {
