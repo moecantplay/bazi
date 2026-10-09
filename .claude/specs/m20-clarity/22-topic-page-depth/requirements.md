@@ -90,16 +90,38 @@ Every topic page reads as a short, useful article about this day for this reader
     - A test confirms no `source` text reaches a rendered `TokenLine`.
     - Each family's translations are checked by a second reader before that family ships (see Open questions).
 
+- **R14. Problem and remedy on the page (owner, 2026-10-10).**
+  - Every topic page except Small signs gets a "Your sore spot and what eases it" section, from M20-23's `problem-remedy` and `remedy-day` facts, in plain words.
+  - The section says whether today brings what eases your chart, presses on the sore spot, or neither. It closes on what the reader can do, never on an outcome.
+  - Acceptance: on a day that brings a remedy and a day that brings the problem (Fixture A, found by the M20-23 daily fact), the section's wording differs. The voice test passes. The section is left out when the chart has no problem fact.
+- **R15. Several styles, all original (owner, 2026-10-10: "use their style of interpretations as a variety").**
+  - Each page mixes formats seen across other BaZi tools (2026-10-09 comparison), each written fresh:
+
+    | Format | Seen in | On our page |
+    | --- | --- | --- |
+    | A one-line tagline ("Built slow. Stands long.") | BaZi Script's day-master profile | Under the title: a 2–6 word line per topic, per strong/weak |
+    | Do / Hold lists | BaZi Wealth's daily play | Good for / Hold off on (R4; trial R13) |
+    | Problem → remedy | fate-craft's classical analysis | R14 |
+    | A "this is a description, not a prediction" note | Master Sean Chan | One closing line on every page, from a small rotating set |
+    | Plain consequence → action | Ours (M20-21) | For you today and Working with it |
+
+  - Formats, rhythms and section shapes can't be copyrighted, so those are borrowed. Their sentences are not: no line is a reworded version of another product's sentence. Classical passages are the only text we adapt, and those are cited (R13).
+  - Acceptance:
+    - A bank test checks that every topic has a tagline (strong and weak for ten-gods).
+    - During writing, each family's lines are run against the comparison excerpts saved on 2026-10-09 with the existing four-word overlap helper (`fourGrams` in `test/plain-terms.ts`), and any shared four-word run is rewritten. The excerpts stay out of the repo; the result is noted in tasks.md per family.
+
 ## Out of scope
 
 - Topic pages for cards on Ahead, You and People (the reshape's M24-11).
 - Changing Today's first screen or its cards.
-- New engine facts (for example, trine or harm hours). Everything comes from facts the engine already produces.
+- New engine facts (for example, trine or harm hours). Everything comes from facts the engine already produces, plus M20-23's problem-and-remedy facts.
+- Scores and lucky colours or directions (Eastern Fate's format). They're false precision and lean on "energy", which VOICE.md bans.
 - New looks-specific layouts beyond rendering the new sections and visuals in each look.
 
 ## Open questions
 
 - [ ] **Good for / Hold off on: written per topic, or taken from the day's activity chips?** Today already shows the day's Favors and Watch chips (`today-suits.ts`), so repeating them on every topic page would say the same thing five times a day. Recommended: written per topic (R4 as drafted). The preview the owner picked said "from the day's activities". Being tried on the trial as trial-build R13 (2026-10-05), written per topic.
 - [ ] **Who checks the translations?** I can quote the classical text exactly; how I read it is the part that needs a second reader. Candidates: the owner, the source behind the master reading (Fixture A), or another practitioner. A family doesn't ship until its translations are checked.
+- [ ] **Tagline register.** BaZi Script's taglines are about the person ("Built slow. Stands long."). Ours would be about the day for this person ("Steady wins it, with backup."). Recommended: day-focused, so a tagline never reads as a fixed verdict on who someone is.
 - [ ] Approve requirements and design.
 - [ ] Mockups of a ten-god page, a stage page and a sign-link page in Explorer, light and dark, before app code (CLAUDE.md "Mockups first"). The other two looks follow once the base is approved.

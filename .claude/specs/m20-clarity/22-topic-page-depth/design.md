@@ -76,7 +76,7 @@ There are four layers, each in the package it belongs to. The content is written
 3. **Presentation (packages/presentation `topic-page.ts`).** `topicPageFor` passes the natal facts through. A new `topicRecurrences(profile, date, today, topic)` scans Today's ±30-day range with the memoised `dailyBundleFor` and returns up to three later dates carrying the key (R8). It returns ISO dates only; the view formats them.
 
 4. **UI (apps/web `components/topic/`).** `topic-page-view.tsx` is split to stay under ~200 lines.
-   - Sections in order: For you today → visual → How it tends to go → Where it shows up → Good for / Hold off on → Working with it → When it comes back → Where the name comes from.
+   - Sections in order: tagline (R15) → For you today → visual → How it tends to go → Where it shows up → Your sore spot and what eases it (R14) → Good for / Hold off on → Working with it → When it comes back → Where the name comes from → the description-not-prediction line (R15).
    - The four visuals live in `topic-visual.tsx`. They're inline SVG or CSS on existing tokens (element tints, `--ink`, `--ink-soft`), with no new colour mass; cinnabar stays seal-only.
    - Each look moves sections; it never drops one (DESIGN.md v5).
 
@@ -87,7 +87,7 @@ There are four layers, each in the package it belongs to. The content is written
 | `packages/content/src/banks/topics/*` | New per-family bank files with `TopicDepth` entries, each with its `source`; `day.ts` emptied and removed; `suits.ts` (trial R13) folded in if kept |
 | `.claude/specs/flags.md` | New "Content without a source" section (R13) |
 | `packages/content/src/readings/topic-page.ts` | Builds the extended page, the visual data and the personal For you today; never echoes the card |
-| `packages/content/src/types.ts` | `TopicPage` gains `where`, `goodFor`, `holdOff`, `visual`; adds the `TopicVisual` union |
+| `packages/content/src/types.ts` | `TopicPage` gains `tagline`, `where`, `remedy`, `goodFor`, `holdOff`, `visual`, `closing`; adds the `TopicVisual` union |
 | `packages/content/test/` | Bank shape tests (R2–R5, R9), the no-echo test (R1), the length test (R10), voice on all lines (R11) |
 | `packages/presentation/src/topic-page.ts` | Passes natal facts; adds `topicRecurrences` |
 | `packages/presentation/test/topic-page.test.ts` | Strong vs weak For you today (R6), recurrence dates (R8), unknown-time signs (R7) |
@@ -103,6 +103,14 @@ There are four layers, each in the package it belongs to. The content is written
 - **Keep writing without sources (options 2 and 3 alone).** Lost (owner chose 1 + 3, 2026-10-06): a practitioner review alone still leaves nothing to trace, and more combinations without sources multiply unsourced claims.
 - **ctext.org as the text source.** Lost: its terms forbid scraping. Other public-domain full texts are used, with the URL recorded.
 - **Generate copy at runtime with an LLM.** Ruled out by the non-negotiables: on-device, deterministic, no backend for readings.
+
+## Writing in borrowed styles (R15)
+
+The 2026-10-09 comparison (scratchpad `xcheck/`: Master Sean Chan, BaZi Script, fate-craft, Eastern Fate, BaZi Wealth) is a reference for **formats only**:
+
+- Copy the shape: the length of a tagline, a Do/Hold pairing, problem then remedy, a closing disclaimer.
+- Don't copy the sentence: write each line from the classical passage (R13) and the chart condition, then run the four-word overlap check against the saved excerpts before the family ships.
+- Rewording a competitor's sentence (synonym swaps, reordered clauses) is still that sentence, and still off limits. If a line started from their text, it's rewritten from the source passage instead.
 
 ## Risks
 

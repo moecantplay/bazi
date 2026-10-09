@@ -8,6 +8,7 @@ Check a task only with a one-line evidence note.
 - [ ] 4. Element and stage banks: sources, translations checked, entries (R2–R6, R12, R13)
 - [ ] 5. Sign-link bank: sources, translations checked, per-area Where it shows up; read-more dives as raw material (R2–R5, R12, R13)
 - [ ] 6. Hours and stars banks: sources, translations checked, entries; unsourced entries flagged in `flags.md` (R2, R5, R9, R13)
+- [ ] 6b. Taglines (strong/weak for ten-gods), the problem-and-remedy wording, and the closing-line set; overlap check per family (R14, R15)
 - [ ] 7. Page builder: extended page, visual data, personal For you today, no echo (R1, R6, R7)
 - [ ] 8. Presentation: natal facts passed through; `topicRecurrences` with tests (R6, R8)
 - [ ] 9. UI: split the view; sections, `topic-visual.tsx`, recurrence links; styles for every look with `[data-theme]` twins (R7, R8)
