@@ -42,12 +42,15 @@ The engine reports each chart's problem and remedies, and for any date whether t
 - **R4. Plain words.** The content bank gives the problem and each remedy in everyday words. "Your steady side gets pushed around by rush and sprawl; structure and warmth set it right" is the shape. The words "illness" and "medicine" are never used, and no outcome is promised: the verse's "prosperity follows" is dropped (VOICE: no fatalism, no financial claims).
   - Acceptance: the voice and plain-terms tests pass on every line.
 
+- **R5. Periods too, said straight.** A `remedy-period` fact for each luck period and year says whether it brings a remedy, presses on the problem, or both. Content says it plainly, including when a period presses on the problem, and always pairs it with what prevents or reduces it (owner, 2026-10-10). The fact never names an outcome ("the problem flares"); it says what the period asks of the reader and what helps.
+  - Acceptance: Fixture A's current period (己卯, wood) reads as pressing on the problem, with remedy wording. Tests cover every luck period of Fixture A.
+
 ## Out of scope
 
-- Where it renders. Topic pages use it through [M20-22](../22-topic-page-depth/requirements.md) R14; the You screen picks it up in the reshape's You work.
-- Per-luck-period analysis, as fate-craft does per decade.
+- Where it renders. Topic pages use it through [M20-22](../22-topic-page-depth/requirements.md) R14; the You screen and Cycles pick up R5 in the reshape's work.
+- fate-craft's severity grading (how bad a problem is). There's no source rule for it yet.
 
 ## Open questions
 
-- [ ] fate-craft reads "the problem flares" in your current decade (己卯), which is fatalistic. Do we show the period-level read at all? Recommended: only as "a decade that asks more of your steady side", never as an outcome. Not in this ticket either way.
+- [x] Do we show the period-level read? Answered (owner, 2026-10-10): "we shouldn't hide anything bad if it's the truth. instead provide remedy to prevent and/or reduce." Yes, as R5: said plainly, always with the remedy.
 - [ ] Approve requirements and design.

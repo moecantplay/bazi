@@ -93,6 +93,7 @@ Every topic page reads as a short, useful article about this day for this reader
 - **R14. Problem and remedy on the page (owner, 2026-10-10).**
   - Every topic page except Small signs gets a "Your sore spot and what eases it" section, from M20-23's `problem-remedy` and `remedy-day` facts, in plain words.
   - The section says whether today brings what eases your chart, presses on the sore spot, or neither. It closes on what the reader can do, never on an outcome.
+  - Bad news is said plainly, never softened or hidden, and always comes with what prevents or reduces it (owner, 2026-10-10: "we shouldn't hide anything bad if it's the truth. instead provide remedy to prevent and/or reduce"). For example, a clash that hits a sore spot the chart already has says so ("this one usually lands harder on you than on most people") and then gives the remedy.
   - Acceptance: on a day that brings a remedy and a day that brings the problem (Fixture A, found by the M20-23 daily fact), the section's wording differs. The voice test passes. The section is left out when the chart has no problem fact.
 - **R15. Several styles, all original (owner, 2026-10-10: "use their style of interpretations as a variety").**
   - Each page mixes formats seen across other BaZi tools (2026-10-09 comparison), each written fresh:
@@ -122,6 +123,6 @@ Every topic page reads as a short, useful article about this day for this reader
 
 - [ ] **Good for / Hold off on: written per topic, or taken from the day's activity chips?** Today already shows the day's Favors and Watch chips (`today-suits.ts`), so repeating them on every topic page would say the same thing five times a day. Recommended: written per topic (R4 as drafted). The preview the owner picked said "from the day's activities". Being tried on the trial as trial-build R13 (2026-10-05), written per topic.
 - [ ] **Who checks the translations?** I can quote the classical text exactly; how I read it is the part that needs a second reader. Candidates: the owner, the source behind the master reading (Fixture A), or another practitioner. A family doesn't ship until its translations are checked.
-- [ ] **Tagline register.** BaZi Script's taglines are about the person ("Built slow. Stands long."). Ours would be about the day for this person ("Steady wins it, with backup."). Recommended: day-focused, so a tagline never reads as a fixed verdict on who someone is.
+- [x] **Tagline register.** Answered (owner, 2026-10-10): "the tagline style should use a more common day-to-day tone to give simpler, easier, and better understanding." Taglines are everyday words about the day for this reader ("Do less, finish it, take the help."), never a verdict on who someone is.
 - [ ] Approve requirements and design.
-- [ ] Mockups of a ten-god page, a stage page and a sign-link page in Explorer, light and dark, before app code (CLAUDE.md "Mockups first"). The other two looks follow once the base is approved.
+- [ ] Mockups of a ten-god page, a stage page and a sign-link page in Explorer, light and dark, before app code (CLAUDE.md "Mockups first"). The other two looks follow once the base is approved. **Posted for review** (2026-10-10): [canvas](https://claude.ai/artifact/8CzcwMiHHApLpizzD3kCVm), Fixture A on 6 Oct (steady work) and 9 Oct (your pace; family clash), plus the current page for comparison.
