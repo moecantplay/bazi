@@ -5,7 +5,7 @@
  * Selection is fixed per fact, so the same facts always read the same.
  */
 
-import type { CompareFact, ReadingFact } from "@daymaster/bazi-engine";
+import type { CompareFact, Element, ReadingFact } from "@daymaster/bazi-engine";
 import { CAREER_LINES } from "../../banks/elements.js";
 import { DAY_MASTER_LINES } from "../../banks/day-master.js";
 import { PAIR_AREA_SUFFIX, PAIR_INTERACTION_CARDS, PAIR_LEADS } from "../../banks/trial/pair.js";
@@ -19,7 +19,7 @@ import {
   type PeriodLeadText,
 } from "../../banks/trial/period.js";
 import { portraitLine, portraitRest } from "../../banks/trial/portrait.js";
-import { BALANCE_CARDS, FEEDS_YOU, FEEDS_YOU_TITLE, ROOMS_TITLE, STRENGTH_CARDS } from "../../banks/trial/you.js";
+import { BALANCE_CARDS, HELPS_YOU, ROOMS_TITLE, STRENGTH_CARDS, WEARS_YOU, easeLine } from "../../banks/trial/you.js";
 import { pick } from "../../hash.js";
 import { interactionTopic, rankTransits } from "../daily/lead.js";
 import { lifeAreaOf } from "../daily/life-areas.js";
@@ -98,6 +98,31 @@ export function periodReading(facts: readonly ReadingFact[], span: PeriodSpan): 
   };
 }
 
+export interface ElementLine {
+  element: Element;
+  line: string;
+}
+
+/** R15: the elements that help you and the ones that wear you down, each with a plain line. */
+export interface YouElements {
+  helps: ElementLine[];
+  wears: ElementLine[];
+  ease: string;
+}
+
+/** Your elements, or null with nothing favourable to lead with. */
+export function youElements(helps: readonly Element[], wears: readonly Element[]): YouElements | null {
+  const [first] = helps;
+  if (first === undefined) {
+    return null;
+  }
+  return {
+    helps: helps.map((element) => ({ element, line: capitalise(HELPS_YOU[element]) })),
+    wears: wears.map((element) => ({ element, line: capitalise(WEARS_YOU[element]) })),
+    ease: easeLine(first),
+  };
+}
+
 /** The You screen: the day-master portrait as the lead, plain cards after. */
 export function youReading(facts: readonly ReadingFact[], seedKey: string): PlainReading | null {
   const dayMaster = factOf(facts, "day-master");
@@ -121,8 +146,6 @@ export function youReading(facts: readonly ReadingFact[], seedKey: string): Plai
 
   const favorable = factOf(facts, "favorable");
   if (favorable && favorable.elements.length > 0) {
-    const phrases = favorable.elements.map((element) => FEEDS_YOU[element]);
-    cards.push({ topic: "favorable", title: FEEDS_YOU_TITLE, line: `${capitalise(phrases.join(", and "))}.` });
     const careerElement = pick(favorable.elements, seedKey, `career:${favorable.elements.join("")}`);
     const rooms = CAREER_LINES[careerElement].replace(/^Rooms you tend to do well in lean \w+: /, "");
     cards.push({ topic: "favorable", title: ROOMS_TITLE, line: capitalise(rooms) });

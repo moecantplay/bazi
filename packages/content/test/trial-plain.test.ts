@@ -17,8 +17,8 @@ import {
   PERIOD_TEN_GOD_CARDS,
 } from "../src/banks/trial/period.js";
 import { OFFICER_DAY_HEADLINES } from "../src/banks/trial/welcome.js";
-import { BALANCE_CARDS, FEEDS_YOU, STRENGTH_CARDS } from "../src/banks/trial/you.js";
-import { pairReading, periodReading, youReading } from "../src/index.js";
+import { BALANCE_CARDS, HELPS_YOU, STRENGTH_CARDS, WEARS_YOU, easeLine } from "../src/banks/trial/you.js";
+import { pairReading, periodReading, youElements, youReading } from "../src/index.js";
 import { ELEMENTS, INTERACTIONS, TEN_GODS } from "./collect.js";
 import { assertPlain } from "./plain-terms.js";
 
@@ -79,7 +79,9 @@ describe("trial banks use everyday words only", () => {
       assertPlain(`${title} ${line}`);
     }
     for (const element of ELEMENTS) {
-      assertPlain(FEEDS_YOU[element]);
+      assertPlain(HELPS_YOU[element]);
+      assertPlain(WEARS_YOU[element]);
+      assertPlain(easeLine(element));
       assertPlain(CAREER_LINES[element].replace(/^Rooms you tend to do well in lean \w+: /, ""));
     }
   });
@@ -153,11 +155,20 @@ describe("trial builders", () => {
     expect(reading?.cards.map((card) => card.title)).toEqual([
       "Better in good company",
       "Well rounded",
-      "What feeds you",
       "Rooms you tend to do well in",
     ]);
     for (const card of reading?.cards ?? []) {
       assertPlain(`${card.title} ${card.line}`);
     }
+  });
+
+  it("splits your elements into what helps and what wears you down (R15)", () => {
+    const elements = youElements(["fire", "earth"], ["wood", "metal", "water"]);
+    expect(elements?.helps.map((entry) => entry.element)).toEqual(["fire", "earth"]);
+    expect(elements?.wears.map((entry) => entry.element)).toEqual(["wood", "metal", "water"]);
+    expect(elements?.helps[0]?.line).toBe("Being seen and sharing what you know");
+    expect(elements?.ease).toBe("When it wears on you, turn back to being seen and sharing what you know.");
+    expect(youElements(["fire", "earth"], ["wood", "metal", "water"])).toEqual(elements);
+    expect(youElements([], ELEMENTS)).toBeNull();
   });
 });

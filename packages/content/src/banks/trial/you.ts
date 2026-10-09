@@ -1,7 +1,8 @@
 /**
  * TRIAL (2026-10-05 reshape trial build): the You screen's plain cards — how
- * you carry weight, how even you are, what feeds you, the rooms you tend to do
- * well in. Everyday words only (VOICE.md rule 11).
+ * you carry weight, how even you are, the rooms you tend to do well in — and
+ * the lines beside each element chip (R15). Everyday words only (VOICE.md
+ * rule 11); the element names appear only as chip labels.
  */
 
 import type { Element } from "@daymaster/bazi-engine";
@@ -19,7 +20,7 @@ export const BALANCE_CARDS = {
 } as const satisfies Record<string, PeriodCardText>;
 
 /** What each favourable element tends to feel like in a life. */
-export const FEEDS_YOU: Record<Element, string> = {
+export const HELPS_YOU: Record<Element, string> = {
   wood: "growing and starting things",
   fire: "being seen and sharing what you know",
   earth: "steady, slow building",
@@ -27,5 +28,17 @@ export const FEEDS_YOU: Record<Element, string> = {
   water: "ideas, talk and movement",
 };
 
-export const FEEDS_YOU_TITLE = "What feeds you";
+/** What each unfavourable element tends to feel like when it piles up. */
+export const WEARS_YOU: Record<Element, string> = {
+  wood: "starting more than you can finish",
+  fire: "running hot and always being on show",
+  earth: "worry, weight and things that won't budge",
+  metal: "hard rules, sharp words and pressure",
+  water: "drift, overthinking and too much talk",
+};
+
+/** The ease line, pointing back to the first element that helps. */
+export function easeLine(helps: Element): string {
+  return `When it wears on you, turn back to ${HELPS_YOU[helps]}.`;
+}
 export const ROOMS_TITLE = "Rooms you tend to do well in";

@@ -5,15 +5,27 @@
  */
 
 import { natalFacts } from "@daymaster/bazi-engine";
-import { pairReading, youReading, type PlainReading } from "@daymaster/content";
+import { pairReading, youElements, youReading, type PlainReading, type YouElements } from "@daymaster/content";
 import { chartFor } from "./chart.js";
 import { compareBundleFor } from "./compare.js";
+import { ELEMENT_ORDER } from "./elements.js";
 import { natalSeedKey } from "./seed-key.js";
 import type { StoredBirth, StoredProfile } from "./types.js";
 
 /** The You screen: portrait and plain cards from the natal facts. */
 export function youScreenFor(profile: StoredProfile): PlainReading | null {
   return youReading(natalFacts(chartFor(profile)), natalSeedKey(profile));
+}
+
+/**
+ * R15: the elements that help you (the engine's favourable set, in its order)
+ * and the ones that wear you down — the rest, the same strength rule read the
+ * other way.
+ */
+export function youElementsFor(profile: StoredProfile): YouElements | null {
+  const helps = chartFor(profile).favorableElements;
+  const wears = ELEMENT_ORDER.filter((element) => !helps.includes(element));
+  return youElements(helps, wears);
 }
 
 /** People: the pair reading for one saved person. */

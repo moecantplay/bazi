@@ -13,6 +13,7 @@ import {
   pairScreenFor,
   yearView,
   yearsOfDecade,
+  youElementsFor,
   youScreenFor
 } from "../src/index.js";
 import { FIXTURE_B, READING_FIXTURES } from "./fixtures.js";
@@ -39,6 +40,14 @@ describe("trial screens", () => {
     it(`builds You and a pair for fixture ${name}`, () => {
       expect(youScreenFor(profile)?.lead.headline).toMatch(/^You are /);
       expect(pairScreenFor(profile, FIXTURE_B.birth)?.lead.headline.length).toBeGreaterThan(0);
+    });
+
+    it(`splits all five elements between helps and wears for fixture ${name} (R15)`, () => {
+      const elements = youElementsFor(profile);
+      const helps = elements?.helps.map((entry) => entry.element) ?? [];
+      const wears = elements?.wears.map((entry) => entry.element) ?? [];
+      expect(helps.length).toBeGreaterThan(0);
+      expect([...helps, ...wears].sort()).toEqual(["earth", "fire", "metal", "water", "wood"]);
     });
   }
 });

@@ -74,6 +74,13 @@ The owner can install a preview of the reshaped app on their phone, use it with 
 - **R12. Seasons first, Plan last (owner, 2026-10-05: "let's push Plan to the bottom of Ahead page").** Ahead opens on Your seasons; Plan something closes the screen.
   - Acceptance: E2E: the seasons section comes before Plan something in the page.
 
+- **R15. Your elements on You (owner, 2026-10-10: "i think its nice to show the person's element (favourable and non-favourable) on the You page"; chose named chips with a plain line beside each).**
+  - A "Your elements" section on You, after the lead. **What helps you** lists the favourable elements in the engine's order, and **What wears you down** lists the rest. Each is a chip with the element's swatch and English name, and an everyday line beside it. One "Ease it" line closes the section and points back to the first helping element.
+  - "Wears you down" means the elements the favourable set leaves out. It is the same strength rule read the other way: a weak day master is drained by output, wealth and control, and a strong one by more of itself and its resource. No new table.
+  - This section replaces the "What feeds you" card. "Rooms you tend to do well in" stays.
+  - **Amends R6:** element names may appear on You, as chip labels only. Every line stays plain, and Today is unchanged.
+  - Acceptance: a content test checks that the lines name no system term, that the two lists split all five elements, and that the output is deterministic. A presentation test builds the section for every fixture. The E2E You check sees both headings. Light and dark are checked live.
+
 ## Out of scope
 
 - Writing the full plain banks for Ahead, You and People (proposal M24-11). The trial writes only the leads in R5–R7.

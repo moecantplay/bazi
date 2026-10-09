@@ -17,3 +17,4 @@ Check a task only with a one-line evidence note.
 - [ ] 13. Ahead reworked as Plan something + Your seasons; single-day lists and their models removed; Find a day reads `?activity=`; tests; redeploy (R10)
 - [ ] 14. Year picker on Ahead's Year view; 2100 edge guarded; E2E; redeploy (R11)
 - [ ] 15. Plan something moved below Your seasons; E2E; redeploy (R12)
+- [x] 16. Your elements on You: helps / wears-down chips with plain lines and an ease line, replacing "What feeds you"; tests; redeploy (R15) — `pnpm verify` green; reshape-tabs + glossary E2E 36/36 (Chromium, WebKit); light and dark checked on the export at phone size; preview https://daymaster-dq0ytdazr-gervin-sean-mirandas-projects.vercel.app (302 to the Vercel login); production `last-modified` unchanged (Fri, 09 Oct 2026 19:50:47 GMT)
