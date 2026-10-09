@@ -81,6 +81,18 @@ The owner can install a preview of the reshaped app on their phone, use it with 
   - **Amends R6:** element names may appear on You, as chip labels only. Every line stays plain, and Today is unchanged.
   - Acceptance: a content test checks that the lines name no system term, that the two lists split all five elements, and that the output is deterministic. A presentation test builds the section for every fixture. The E2E You check sees both headings. Light and dark are checked live.
 
+- **R16. Colours on You (owner, 2026-10-10: "can we add favourable colours for the person to wear and/or add in their lives (and vice-versa for avoiding)"; chose its own card).**
+  - A colours card follows Your elements. **Colours that suit you** lists colour chips for each helping element, and **Go easy on** lists them for each wearing element. One line says where colours apply (what you wear, your desk, your room), and one fix line follows the honest-news rule: "If you live in black, add one red thing: a scarf, a bag, a mug."
+  - Colours per element:
+    - The classical five colours, from the *Huangdi Neijing* (Suwen ch. 4, 金匱真言論): Wood green, Fire red, Earth yellow, Metal white, Water black.
+    - At most two modern shades per element, from feng-shui convention. These have no classical source and are flagged in `flags.md`.
+  - The card says "go easy on", never "avoid". The swatches are small (no colour mass, so the seal stays the only cinnabar mass), and each colour is named in words beside its swatch.
+  - Acceptance:
+    - A content test checks that each colour list follows the R15 split and that the lines name no system term.
+    - A presentation test builds the card for every fixture.
+    - The E2E You check sees both headings.
+    - Light and dark are checked live.
+
 ## Out of scope
 
 - Writing the full plain banks for Ahead, You and People (proposal M24-11). The trial writes only the leads in R5–R7.

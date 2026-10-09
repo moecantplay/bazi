@@ -13,6 +13,7 @@ import {
   pairScreenFor,
   yearView,
   yearsOfDecade,
+  youColoursFor,
   youElementsFor,
   youScreenFor
 } from "../src/index.js";
@@ -48,6 +49,12 @@ describe("trial screens", () => {
       const wears = elements?.wears.map((entry) => entry.element) ?? [];
       expect(helps.length).toBeGreaterThan(0);
       expect([...helps, ...wears].sort()).toEqual(["earth", "fire", "metal", "water", "wood"]);
+    });
+
+    it(`builds the colours card for fixture ${name} (R16)`, () => {
+      const colours = youColoursFor(profile);
+      expect(colours?.suit.length).toBeGreaterThan(0);
+      expect(colours?.suit.some((colour) => colours.easyOn.includes(colour))).toBe(false);
     });
   }
 });

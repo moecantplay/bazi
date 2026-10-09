@@ -18,7 +18,8 @@ import {
 } from "../src/banks/trial/period.js";
 import { OFFICER_DAY_HEADLINES } from "../src/banks/trial/welcome.js";
 import { BALANCE_CARDS, HELPS_YOU, STRENGTH_CARDS, WEARS_YOU, easeLine } from "../src/banks/trial/you.js";
-import { pairReading, periodReading, youElements, youReading } from "../src/index.js";
+import { COLOURS_WHERE, ELEMENT_COLOURS, colourFixLine } from "../src/banks/trial/colours.js";
+import { pairReading, periodReading, youColours, youElements, youReading } from "../src/index.js";
 import { ELEMENTS, INTERACTIONS, TEN_GODS } from "./collect.js";
 import { assertPlain } from "./plain-terms.js";
 
@@ -170,5 +171,21 @@ describe("trial builders", () => {
     expect(elements?.ease).toBe("When it wears on you, turn back to being seen and sharing what you know.");
     expect(youElements(["fire", "earth"], ["wood", "metal", "water"])).toEqual(elements);
     expect(youElements([], ELEMENTS)).toBeNull();
+  });
+
+  it("gives colours that follow the same split, the classical one first (R16)", () => {
+    const colours = youColours(["fire", "earth"], ["wood", "metal", "water"]);
+    expect(colours?.suit).toEqual(["red", "orange", "pink", "yellow", "beige", "brown"]);
+    expect(colours?.easyOn).toEqual(["green", "teal", "white", "grey", "gold", "black", "navy"]);
+    expect(colours?.fix).toBe("If you live in black, add one red thing: a scarf, a bag, a mug.");
+    expect(youColours(["water", "metal"], ["wood", "fire", "earth"])?.fix).toBe(
+      "If you live in yellow, add one black thing: a scarf, a bag, a mug.",
+    );
+    expect(youColours([], ELEMENTS)).toBeNull();
+    for (const element of ELEMENTS) {
+      expect(ELEMENT_COLOURS[element].length).toBeLessThanOrEqual(3);
+    }
+    assertPlain(COLOURS_WHERE);
+    assertPlain(colourFixLine("black", "red"));
   });
 });

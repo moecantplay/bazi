@@ -97,7 +97,8 @@ export {
 export type { ConditionDay, HourBlock, HourMark } from "./conditions-screen.js";
 export { welcomeSample } from "./welcome-sample.js";
 export type { WelcomeSample } from "./welcome-sample.js";
-export { pairScreenFor, youElementsFor, youScreenFor } from "./trial-screens.js";
+export { COLOUR_SWATCH } from "./colours.js";
+export { pairScreenFor, youColoursFor, youElementsFor, youScreenFor } from "./trial-screens.js";
 export {
   MONTH_NAMES,
   decadeAges,

@@ -4,8 +4,16 @@
  * trial-ahead.ts.
  */
 
-import { natalFacts } from "@daymaster/bazi-engine";
-import { pairReading, youElements, youReading, type PlainReading, type YouElements } from "@daymaster/content";
+import { natalFacts, type Element } from "@daymaster/bazi-engine";
+import {
+  pairReading,
+  youColours,
+  youElements,
+  youReading,
+  type PlainReading,
+  type YouColours,
+  type YouElements,
+} from "@daymaster/content";
 import { chartFor } from "./chart.js";
 import { compareBundleFor } from "./compare.js";
 import { ELEMENT_ORDER } from "./elements.js";
@@ -23,9 +31,19 @@ export function youScreenFor(profile: StoredProfile): PlainReading | null {
  * other way.
  */
 export function youElementsFor(profile: StoredProfile): YouElements | null {
-  const helps = chartFor(profile).favorableElements;
-  const wears = ELEMENT_ORDER.filter((element) => !helps.includes(element));
+  const { helps, wears } = elementSplit(profile);
   return youElements(helps, wears);
+}
+
+/** R16: the colours of the same split. */
+export function youColoursFor(profile: StoredProfile): YouColours | null {
+  const { helps, wears } = elementSplit(profile);
+  return youColours(helps, wears);
+}
+
+function elementSplit(profile: StoredProfile): { helps: Element[]; wears: Element[] } {
+  const helps = chartFor(profile).favorableElements;
+  return { helps, wears: ELEMENT_ORDER.filter((element) => !helps.includes(element)) };
 }
 
 /** People: the pair reading for one saved person. */

@@ -18,6 +18,7 @@ import {
   type PeriodCardText,
   type PeriodLeadText,
 } from "../../banks/trial/period.js";
+import { COLOURS_WHERE, ELEMENT_COLOURS, STAPLE_ORDER, colourFixLine, type Colour } from "../../banks/trial/colours.js";
 import { portraitLine, portraitRest } from "../../banks/trial/portrait.js";
 import { BALANCE_CARDS, HELPS_YOU, ROOMS_TITLE, STRENGTH_CARDS, WEARS_YOU, easeLine } from "../../banks/trial/you.js";
 import { pick } from "../../hash.js";
@@ -120,6 +121,29 @@ export function youElements(helps: readonly Element[], wears: readonly Element[]
     helps: helps.map((element) => ({ element, line: capitalise(HELPS_YOU[element]) })),
     wears: wears.map((element) => ({ element, line: capitalise(WEARS_YOU[element]) })),
     ease: easeLine(first),
+  };
+}
+
+/** R16: colours that suit you and colours to go easy on, from the R15 split. */
+export interface YouColours {
+  suit: Colour[];
+  easyOn: Colour[];
+  where: string;
+  fix: string | null;
+}
+
+/** Your colours, or null with nothing favourable to lead with. */
+export function youColours(helps: readonly Element[], wears: readonly Element[]): YouColours | null {
+  const [helper] = helps;
+  if (helper === undefined) {
+    return null;
+  }
+  const staple = STAPLE_ORDER.find((element) => wears.includes(element));
+  return {
+    suit: helps.flatMap((element) => ELEMENT_COLOURS[element]),
+    easyOn: wears.flatMap((element) => ELEMENT_COLOURS[element]),
+    where: COLOURS_WHERE,
+    fix: staple === undefined ? null : colourFixLine(ELEMENT_COLOURS[staple][0], ELEMENT_COLOURS[helper][0]),
   };
 }
 

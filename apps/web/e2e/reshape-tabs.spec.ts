@@ -101,6 +101,9 @@ test("You leads with the portrait and opens the full chart", async ({ page, cont
   const elements = page.getByLabel("Your elements");
   await expect(elements.getByText("What helps you")).toBeVisible();
   await expect(elements.getByText("What wears you down")).toBeVisible();
+  const colours = page.getByLabel("Your colours");
+  await expect(colours.getByText("Colours that suit you")).toBeVisible();
+  await expect(colours.getByText("Go easy on")).toBeVisible();
   await page.getByRole("link", { name: /Your chart in full/ }).click();
   await expect(page.getByRole("heading", { name: "Your chart in full", exact: true })).toBeVisible();
 });

@@ -8,10 +8,11 @@
 
 import Link from "next/link";
 import { useMemo } from "react";
-import { chartFor, youElementsFor, youScreenFor, type StoredProfile } from "@daymaster/presentation";
+import { chartFor, youColoursFor, youElementsFor, youScreenFor, type StoredProfile } from "@daymaster/presentation";
 import { PlainCardList, PlainLeadBlock } from "@/components/plain/plain-reading";
 import { Seal } from "@/components/seal";
 import { AboutReadingLink } from "@/components/today/today-footer";
+import { YouColoursCard } from "@/components/you/you-colours";
 import { YouElementsSection } from "@/components/you/you-elements";
 
 interface Props {
@@ -22,6 +23,7 @@ export function YouView({ profile }: Props) {
   const chart = useMemo(() => chartFor(profile), [profile]);
   const reading = useMemo(() => youScreenFor(profile), [profile]);
   const elements = useMemo(() => youElementsFor(profile), [profile]);
+  const colours = useMemo(() => youColoursFor(profile), [profile]);
   if (!reading) {
     return null;
   }
@@ -31,6 +33,7 @@ export function YouView({ profile }: Props) {
       <Seal pillars={[chart.year, chart.month, chart.day, chart.hour]} size={72} />
       <PlainLeadBlock kicker="Who you are" lead={reading.lead} actionLabel="Worth remembering" />
       {elements && <YouElementsSection elements={elements} />}
+      {colours && <YouColoursCard colours={colours} />}
 
       <section className="flex flex-col gap-3" aria-label="What shapes you">
         <p className="kicker">What shapes you</p>
