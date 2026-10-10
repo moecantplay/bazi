@@ -51,10 +51,10 @@ test("full onboarding for fixture A saves a chart that reads correctly", async (
   await acknowledge.check();
   await page.getByRole("button", { name: "Show my chart" }).click();
 
-  // Look: Explorer is chosen until the reader picks another.
+  // Look: Instrument (the default since M19.9-13) is chosen until the reader picks another.
   await expect(page.getByRole("heading", { name: "Choose your look" })).toBeVisible();
-  await expect(page.getByRole("radio", { name: /^Explorer/ })).toHaveAttribute("aria-checked", "true");
-  await page.getByRole("button", { name: "Continue with Explorer" }).click();
+  await expect(page.getByRole("radio", { name: /^Instrument/ })).toHaveAttribute("aria-checked", "true");
+  await page.getByRole("button", { name: "Continue with Instrument" }).click();
 
   // Reveal, then save.
   await expect(page.getByText("Here is your chart.")).toBeVisible();

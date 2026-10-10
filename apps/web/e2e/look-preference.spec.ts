@@ -18,16 +18,27 @@ async function lookAtParse(page: Page): Promise<string | undefined> {
   return page.evaluate(() => (window as unknown as { lookAtParse?: string }).lookAtParse);
 }
 
-test("a chosen look is on <html> before the app hydrates and survives reload", async ({ page, context }) => {
-  await seedStore(context, { profile: FIXTURE_A, look: "dial" });
+for (const look of ["trail", "almanac"] as const) {
+  test(`a chosen ${look} look is on <html> before the app hydrates and survives reload`, async ({ page, context }) => {
+    await seedStore(context, { profile: FIXTURE_A, look, lookPromptSeen: true });
+    await recordLookAtParse(context);
+
+    await page.goto("/today/");
+    expect(await lookAtParse(page)).toBe(look);
+    await expect(page.locator("html")).toHaveAttribute("data-look", look);
+
+    await page.reload();
+    expect(await lookAtParse(page)).toBe(look);
+  });
+}
+
+test("a look the reader never chose opens in the default (M19.9-13 R3)", async ({ page, context }) => {
+  await seedStore(context, { profile: FIXTURE_A, look: "trail", lookPromptSeen: false });
   await recordLookAtParse(context);
 
   await page.goto("/today/");
   expect(await lookAtParse(page)).toBe("dial");
   await expect(page.locator("html")).toHaveAttribute("data-look", "dial");
-
-  await page.reload();
-  expect(await lookAtParse(page)).toBe("dial");
 });
 
 test("a store written before looks existed opens in the default look", async ({ page, context }) => {
@@ -42,8 +53,8 @@ test("a store written before looks existed opens in the default look", async ({ 
   await recordLookAtParse(context);
 
   await page.goto("/today/");
-  expect(await lookAtParse(page)).toBe("trail");
-  await expect(page.locator("html")).toHaveAttribute("data-look", "trail");
+  expect(await lookAtParse(page)).toBe("dial");
+  await expect(page.locator("html")).toHaveAttribute("data-look", "dial");
 });
 
 test("an unknown stored look falls back to the default", async ({ page, context }) => {
@@ -51,5 +62,5 @@ test("an unknown stored look falls back to the default", async ({ page, context 
   await recordLookAtParse(context);
 
   await page.goto("/today/");
-  expect(await lookAtParse(page)).toBe("trail");
+  expect(await lookAtParse(page)).toBe("dial");
 });

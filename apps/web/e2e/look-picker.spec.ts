@@ -2,7 +2,6 @@ import { expect, test } from "@playwright/test";
 import { FIXTURE_A, STORE_KEY, completeOnboarding, pinClock, seedStore } from "./helpers";
 
 const TODAY = "2026-07-07";
-const ROUTE = 'svg[aria-label^="Today\'s route"]';
 const DIAL = 'svg[aria-label^="Today\'s hours"]';
 
 async function storedLook(page: import("@playwright/test").Page): Promise<unknown> {
@@ -57,11 +56,12 @@ test("existing readers are told once, and keeping the look retires the note", as
 
   const note = page.locator("[data-look-intro]");
   await expect(note.getByRole("heading", { name: "Your day, three ways" })).toBeVisible();
-  await note.getByRole("button", { name: "Keep Explorer", exact: true }).click();
+  // The default is Instrument since M19.9-13, so that is the look to keep.
+  await note.getByRole("button", { name: "Keep Instrument", exact: true }).click();
   await expect(note).toHaveCount(0);
 
   await page.reload();
-  await expect(page.locator(`main ${ROUTE}`).first()).toBeVisible();
+  await expect(page.locator(`main ${DIAL}`).first()).toBeVisible();
   await expect(note).toHaveCount(0);
 });
 
@@ -81,7 +81,7 @@ test("existing readers can pick another look from the note", async ({ page, cont
 
   const note = page.locator("[data-look-intro]");
   await note.getByRole("radio", { name: /^Editorial/ }).click();
-  await expect(note.getByRole("button", { name: "Not now, keep Explorer", exact: true })).toBeVisible();
+  await expect(note.getByRole("button", { name: "Not now, keep Instrument", exact: true })).toBeVisible();
   await note.getByRole("button", { name: "Use Editorial", exact: true }).click();
 
   await expect(note).toHaveCount(0);

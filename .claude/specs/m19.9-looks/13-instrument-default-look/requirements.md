@@ -1,6 +1,6 @@
 # Instrument is the default look
 
-Status: draft · Milestone: M19.9 · Ticket: 13
+Status: in-progress · Milestone: M19.9 · Ticket: 13
 
 ## Problem
 
@@ -45,7 +45,8 @@ A reader who hasn't chosen a look sees Instrument. A reader who chose one keeps 
 
 ## Open questions
 
-- [ ] **Readers who never chose a look** (`lookPromptSeen: false`, still on the old default). Choose one:
+- [x] **Readers who never chose a look** (`lookPromptSeen: false`, still on the old default). Choose one:
   - **(a) Move them to Instrument** (recommended). They never picked Explorer. They'll see the one-time look note on their next visit anyway, with Instrument shown as the current look, so the switch comes with an explanation.
   - **(b) Leave them on Explorer.** Only brand-new readers get Instrument.
-- [ ] Approve this ticket (requirements and design).
+  - **Answered: (a)** (owner, 2026-10-10: "i accept all your recommendations").
+- [x] Approve this ticket (requirements and design). **Approved** (owner, 2026-10-10).

@@ -32,7 +32,7 @@ Owner, 2026-09-29: "make the app look and feel like an award winning app", then 
 | 10 | [Conditions in three looks (or dropped)](10-conditions-look/requirements.md) | draft | 02, 03 |
 | 11 | [Retire the old Trail composition and ship](11-retire-trail-and-ship/requirements.md) | draft | 05–10 |
 | 12 | [Pick the permanent look](12-pick-the-permanent-look/requirements.md) | draft | 11, M19.8-06 |
-| 13 | [Instrument is the default look](13-instrument-default-look/requirements.md) | draft | 03, 04 |
+| 13 | [Instrument is the default look](13-instrument-default-look/requirements.md) | in-progress | 03, 04 |
 
 ## Exit criteria
 

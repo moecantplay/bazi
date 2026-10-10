@@ -8,8 +8,8 @@ Change the one constant, then close the two places where "default" meant "Explor
 
 | Area | Change |
 | --- | --- |
-| `apps/web/src/lib/store.ts` (R1, R3) | `DEFAULT_LOOK = "dial"`. With (a): when parsing, a store with `lookPromptSeen !== true` reads `look` as `DEFAULT_LOOK`, whatever it holds, because it was never a choice. With (b): no parse change. |
-| `apps/web/src/app/layout.tsx` (R2, R3) | `PREFERENCES_INIT_SCRIPT` stamps `parsed.look` when it is any valid look other than the default, so `trail` is now included. With (a), it stamps only when `parsed.lookPromptSeen === true`. The doc comment notes that it mirrors `store.ts` and the two must stay in sync. |
+| `apps/web/src/lib/store.ts` (R1, R3) | `DEFAULT_LOOK = "dial"`. Option (a), as chosen: when parsing, a store with `lookPromptSeen !== true` reads `look` as `DEFAULT_LOOK`, whatever it holds, because it was never a choice. **Found while building:** `saveLookPreference` (the Settings picker) didn't set `lookPromptSeen`, so a Settings choice by a reader who never answered the note would have been overridden. It now sets `lookPromptSeen: true`: choosing in Settings is a choice, and it means the reader knows about looks. |
+| `apps/web/src/app/layout.tsx` (R2, R3) | `PREFERENCES_INIT_SCRIPT` stamps `parsed.look` when `parsed.lookPromptSeen === true` and it is any valid look other than the default (`trail` is now included). The default is interpolated from `DEFAULT_LOOK`, so the script can't drift from the constant. The doc comment notes that it mirrors `store.ts` and the two must stay in sync. |
 | `apps/web/src/components/onboarding/draft.ts` (R1) | No change. It reads `DEFAULT_LOOK`, so the look step preselects Instrument. |
 | Tests (R1–R3) | `store-look.test.ts`: the default becomes `dial`, plus a case for the never-chosen store. `e2e/look-preference.spec.ts`: the empty case expects `dial`, plus a seeded-`trail` case read at first parse. |
 | Docs (R4) | DESIGN.md line 12; a row in `decisions.md`. |

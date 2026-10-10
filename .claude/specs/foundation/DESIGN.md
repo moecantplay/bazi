@@ -9,7 +9,7 @@ How the parts relate:
 - **§Base binds every look.** A look may only add or replace what its own section names. Anything a look wants to change in the base goes through this file with owner sign-off.
 - **Each look is one design in both themes** (the v4 rule "both themes are one design", now per look): reviewed on device in both, contrast measured on rendered text in both, every theme rule with `[data-theme]` twins.
 - **Every look renders the same facts and actions** from one presentation model; a look moves content, never drops it.
-- Stored as `look` (`trail` | `almanac` | `dial`) in `daymaster.store.v2`, stamped on `<html>` as `data-look` before first paint ([M19.9-03](../m19.9-looks/03-look-architecture/design.md)). Default `trail`.
+- Stored as `look` (`trail` | `almanac` | `dial`) in `daymaster.store.v2`, stamped on `<html>` as `data-look` before first paint ([M19.9-03](../m19.9-looks/03-look-architecture/design.md)). Default `dial` (Instrument; owner, 2026-10-10, [M19.9-13](../m19.9-looks/13-instrument-default-look/design.md)): a look the reader never chose (`lookPromptSeen` false) reads as the default.
 
 # Base
 

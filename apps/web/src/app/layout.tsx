@@ -55,15 +55,16 @@ export const viewport: Viewport = {
 
 /**
  * Runs before first paint so a pinned theme or a chosen look never flashes.
- * The look is stamped only when the store names a valid non-default one; the
- * server HTML already carries `data-look={DEFAULT_LOOK}`. For the theme, reads
+ * The look is stamped only when the reader chose it (`lookPromptSeen`) and it
+ * is a valid look other than the default; the server HTML already carries
+ * `data-look={DEFAULT_LOOK}` (M19.9-13). For the theme, reads
  * the v2 store's `theme` field first; falls back to the legacy `daymaster.theme.v1`
  * key for a device that hasn't opened the app since cutover yet (the
  * migration itself runs later, client-side, the first time something calls
  * `loadStore()` — see lib/store.ts). Mirrors store.ts/store-migration.ts;
  * keep the two in sync.
  */
-const PREFERENCES_INIT_SCRIPT = `try{var t=null;var raw=localStorage.getItem("daymaster.store.v2");if(raw){try{var parsed=JSON.parse(raw);if(parsed&&(parsed.theme==="light"||parsed.theme==="dark")){t=parsed.theme}if(parsed&&(parsed.look==="almanac"||parsed.look==="dial")){document.documentElement.dataset.look=parsed.look}}catch(e){}}if(t===null){var legacy=localStorage.getItem("daymaster.theme.v1");if(legacy==="light"||legacy==="dark"){t=legacy}}if(t==="light"||t==="dark"){document.documentElement.dataset.theme=t}}catch(e){}`;
+const PREFERENCES_INIT_SCRIPT = `try{var t=null;var raw=localStorage.getItem("daymaster.store.v2");if(raw){try{var parsed=JSON.parse(raw);if(parsed&&(parsed.theme==="light"||parsed.theme==="dark")){t=parsed.theme}if(parsed&&parsed.lookPromptSeen===true&&(parsed.look==="trail"||parsed.look==="almanac"||parsed.look==="dial")&&parsed.look!=="${DEFAULT_LOOK}"){document.documentElement.dataset.look=parsed.look}}catch(e){}}if(t===null){var legacy=localStorage.getItem("daymaster.theme.v1");if(legacy==="light"||legacy==="dark"){t=legacy}}if(t==="light"||t==="dark"){document.documentElement.dataset.theme=t}}catch(e){}`;
 
 interface Props {
   children: React.ReactNode;

@@ -39,8 +39,11 @@ export interface JournalEntry {
 /** Longest note kept — a line, not a diary page. */
 export const JOURNAL_NOTE_MAX = 140;
 
-/** The look for anyone who hasn't chosen one, including every store written before looks existed. */
-export const DEFAULT_LOOK: LookPreference = "trail";
+/**
+ * The look for anyone who hasn't chosen one, including every store written
+ * before looks existed. Instrument since M19.9-13 (owner, 2026-10-10).
+ */
+export const DEFAULT_LOOK: LookPreference = "dial";
 
 export interface DaymasterStore {
   app: "daymaster";
@@ -155,7 +158,10 @@ export function peekStore(): DaymasterStore | null {
     return {
       ...parsed,
       journal: sanitizeJournal(fields.journal),
-      look: parseLookPreference(fields.look) ?? DEFAULT_LOOK,
+      // Every save writes `look`, so only `lookPromptSeen` tells a choice from
+      // the default of the day: a look the reader never chose follows the
+      // current default (M19.9-13). Mirrored in layout.tsx's pre-paint script.
+      look: fields.lookPromptSeen === true ? (parseLookPreference(fields.look) ?? DEFAULT_LOOK) : DEFAULT_LOOK,
       lookPromptSeen: fields.lookPromptSeen === true,
       usageCounts: fields.usageCounts !== false
     };
@@ -292,9 +298,9 @@ export function applyLookPreference(look: LookPreference): void {
   document.documentElement.dataset.look = look;
 }
 
-/** Persist the look and apply it immediately, matching the pre-paint init script's read shape. */
+/** Persist the look as the reader's choice and apply it immediately, matching the pre-paint init script's read shape. */
 export function saveLookPreference(look: LookPreference): void {
-  saveStore({ ...loadStore(), look });
+  saveStore({ ...loadStore(), look, lookPromptSeen: true });
   applyLookPreference(look);
 }
 

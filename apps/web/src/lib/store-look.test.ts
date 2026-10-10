@@ -23,10 +23,10 @@ beforeEach(() => {
 });
 
 describe("look preference in the v2 store", () => {
-  it("defaults to the trail look", () => {
-    expect(DEFAULT_LOOK).toBe("trail");
-    expect(emptyStore().look).toBe("trail");
-    expect(loadLookPreference()).toBe("trail");
+  it("defaults to the dial look (M19.9-13)", () => {
+    expect(DEFAULT_LOOK).toBe("dial");
+    expect(emptyStore().look).toBe("dial");
+    expect(loadLookPreference()).toBe("dial");
   });
 
   it("a v2 document written before looks existed reads with the default look", () => {
@@ -34,24 +34,37 @@ describe("look preference in the v2 store", () => {
     delete older.look;
     localStorage.setItem(STORE_KEY, JSON.stringify(older));
 
-    expect(loadStore().look).toBe("trail");
+    expect(loadStore().look).toBe("dial");
   });
 
-  it("an unknown stored look falls back to the default instead of throwing", () => {
-    localStorage.setItem(STORE_KEY, JSON.stringify({ ...emptyStore(), look: "neon" }));
+  it("a look the reader never chose reads as the default, whatever is stored (M19.9-13 R3)", () => {
+    localStorage.setItem(STORE_KEY, JSON.stringify({ ...emptyStore(), profile: PROFILE, look: "trail", lookPromptSeen: false }));
+
+    expect(loadLookPreference()).toBe("dial");
+  });
+
+  it("a look the reader chose survives the new default (M19.9-13 R2)", () => {
+    localStorage.setItem(STORE_KEY, JSON.stringify({ ...emptyStore(), profile: PROFILE, look: "trail", lookPromptSeen: true }));
 
     expect(loadLookPreference()).toBe("trail");
   });
 
-  it("saving a look persists it and leaves the rest of the document alone", () => {
+  it("an unknown stored look falls back to the default instead of throwing", () => {
+    localStorage.setItem(STORE_KEY, JSON.stringify({ ...emptyStore(), look: "neon", lookPromptSeen: true }));
+
+    expect(loadLookPreference()).toBe("dial");
+  });
+
+  it("saving a look persists it as a choice and leaves the rest of the document alone", () => {
     localStorage.setItem(STORE_KEY, JSON.stringify({ ...emptyStore(), theme: "dark" }));
 
-    saveLookPreference("dial");
+    saveLookPreference("trail");
 
     const stored = JSON.parse(localStorage.getItem(STORE_KEY)!);
-    expect(stored.look).toBe("dial");
+    expect(stored.look).toBe("trail");
+    expect(stored.lookPromptSeen).toBe(true);
     expect(stored.theme).toBe("dark");
-    expect(loadLookPreference()).toBe("dial");
+    expect(loadLookPreference()).toBe("trail");
   });
 
   it("a backup made before looks existed restores with the default look", () => {
@@ -60,7 +73,7 @@ describe("look preference in the v2 store", () => {
     const backup = { app: "daymaster", version: 2, exportedAt: new Date().toISOString(), store };
 
     expect(importBackup(JSON.stringify(backup))).toBe("ok");
-    expect(loadLookPreference()).toBe("trail");
+    expect(loadLookPreference()).toBe("dial");
   });
 });
 
