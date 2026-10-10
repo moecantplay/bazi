@@ -10,6 +10,7 @@ All work — past and planned — is written here. Milestones M0–M19.5 were re
 | [M19.8 — Foundations](m19.8-foundations/README.md) | in progress — alongside M19.9 |
 | [M19.9 — Looks](m19.9-looks/README.md) | drafting — current |
 | [M20 — Clarity](m20-clarity/README.md) | drafting — after M19.9 |
+| [M24 — Reshape](m24-reshape/README.md) | drafting — full rebuild approved 2026-10-10; scope changes to M19.9 and M20 land with M24-01 |
 | [M21 — Backend + accounts](m21-backend-accounts/README.md) | not started |
 | [M22 — Subscriptions](m22-subscriptions/README.md) | not started |
 | [M23 — Mobile](m23-mobile/README.md) | not started |

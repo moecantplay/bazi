@@ -1,6 +1,6 @@
 # Reshape proposal — product, content delivery and roadmap
 
-Status: draft · 2026-10-05 · For owner review. Nothing in `.claude/specs/` changes until this is approved.
+Status: approved · 2026-10-05, approved 2026-10-10 · Owner chose the full M24 rebuild (2026-10-10): the trial branch is a reference only, never merged, and each M24 ticket ships to production on its own. Carried out in [M24 — Reshape](../../m24-reshape/README.md).
 
 Mockups: [canvas](https://claude.ai/artifact/HVGR4EnLXf7qwv87TEJYjA). The owner decides after using a trial build for a few days: [trial-build/](trial-build/requirements.md).
 
