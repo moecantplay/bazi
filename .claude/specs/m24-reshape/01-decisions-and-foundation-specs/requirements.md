@@ -1,6 +1,6 @@
 # Decisions and foundation specs
 
-Status: draft · Milestone: M24 · Ticket: 01
+Status: approved · Milestone: M24 · Ticket: 01
 
 ## Problem
 
@@ -61,5 +61,5 @@ The decisions log, DESIGN.md, VOICE.md, CLAUDE.md and the roadmap READMEs descri
 
 ## Open questions
 
-- [ ] D1, D3, D4, D5 and D6 were recommendations; only D2 was decided on 2026-10-05. Choosing the full rebuild suggests you accept them all as recommended. Confirm, or name any to change.
-- [ ] Approve this ticket (requirements and design) so the decisions and spec edits can be written.
+- [x] D1, D3, D4, D5 and D6 were recommendations; only D2 was decided on 2026-10-05. Choosing the full rebuild suggests you accept them all as recommended. Confirm, or name any to change. **Answered: all accepted as recommended** (owner, 2026-10-10: "i accept all your recommendations").
+- [x] Approve this ticket (requirements and design) so the decisions and spec edits can be written. **Approved** (owner, 2026-10-10).
