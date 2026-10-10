@@ -1,6 +1,6 @@
 # Instrument is the default look
 
-Status: in-progress · Milestone: M19.9 · Ticket: 13
+Status: done · Milestone: M19.9 · Ticket: 13
 
 ## Problem
 
