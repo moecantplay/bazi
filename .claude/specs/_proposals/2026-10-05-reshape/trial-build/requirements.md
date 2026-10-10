@@ -105,6 +105,39 @@ The owner can install a preview of the reshaped app on their phone, use it with 
     - E2E: every section shows, and a comes-back date opens that day.
     - Contrast measured at 4.5 or above on all text, light and dark.
 
+- **R15. Your elements on You (owner, 2026-10-10: "i think its nice to show the person's element (favourable and non-favourable) on the You page"; chose named chips with a plain line beside each).**
+  - A "Your elements" section on You, after the lead. **What helps you** lists the favourable elements in the engine's order, and **What wears you down** lists the rest. Each is a chip with the element's swatch and English name, and an everyday line beside it. One "Ease it" line closes the section and points back to the first helping element.
+  - "Wears you down" means the elements the favourable set leaves out. It is the same strength rule read the other way: a weak day master is drained by output, wealth and control, and a strong one by more of itself and its resource. No new table.
+  - This section replaces the "What feeds you" card. "Rooms you tend to do well in" stays.
+  - **Amends R6:** element names may appear on You, as chip labels only. Every line stays plain, and Today is unchanged.
+  - Acceptance: a content test checks that the lines name no system term, that the two lists split all five elements, and that the output is deterministic. A presentation test builds the section for every fixture. The E2E You check sees both headings. Light and dark are checked live.
+
+- **R16. Colours on You (owner, 2026-10-10: "can we add favourable colours for the person to wear and/or add in their lives (and vice-versa for avoiding)"; chose its own card).**
+  - A colours card follows Your elements. **Colours that suit you** lists colour chips for each helping element, and **Go easy on** lists them for each wearing element. One line says where colours apply (what you wear, your desk, your room), and one fix line follows the honest-news rule: "If you live in black, add one red thing: a scarf, a bag, a mug."
+  - Colours per element:
+    - The classical five colours, from the *Huangdi Neijing* (Suwen ch. 4, 金匱真言論): Wood green, Fire red, Earth yellow, Metal white, Water black.
+    - At most two modern shades per element, from feng-shui convention. These have no classical source and are flagged in `flags.md`.
+  - The card says "go easy on", never "avoid". The swatches are small (no colour mass, so the seal stays the only cinnabar mass), and each colour is named in words beside its swatch.
+  - Acceptance:
+    - A content test checks that each colour list follows the R15 split and that the lines name no system term.
+    - A presentation test builds the card for every fixture.
+    - The E2E You check sees both headings.
+    - Light and dark are checked live.
+
+- **R17. Today's colour (owner, 2026-10-10: "do you think its a good idea to add what colour is good to wear on the Today page?"; mockup https://claude.ai/artifact/9dwonc48gK716NiVKXzcs6; approved, owner 2026-10-10: "alright build it").**
+  - One small card after What the day suits, the same in every look: a swatch, the colour's name, and one line.
+  - **How the colour is picked:**
+    - On a day whose element (the day stem's) helps you, the colour is that element's ("It matches the day. Wear it, or keep something pink close.").
+    - On a day whose element wears you down, it is a helping element that steadies the day: one that keeps the day's element in check, else one the day's element feeds ("It keeps you steady today. A little goes far: a scarf, a mug, a pen.").
+    - Every chart always has such a helper, so a day is never left without a colour.
+    - The shade within the element follows hash(birth data + date).
+  - Wording stays neutral, so it never contradicts the day's lead. It is never on the first screen, and no system terms are used. The steadying rule is interpretive and is flagged in `flags.md`.
+  - Acceptance:
+    - A presentation test checks every fixture has a colour on every day across a year.
+    - A content test checks the lines name no system term.
+    - The Today E2E sees the card in each look.
+    - Light and dark are checked in all three looks.
+
 ## Out of scope
 
 - Writing the full plain banks for Ahead, You and People (proposal M24-11). The trial writes only the leads in R5–R7.
