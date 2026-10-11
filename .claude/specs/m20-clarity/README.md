@@ -52,7 +52,7 @@ A 60-day audit of Today for Fixture A (2026-09-01 → 2026-10-30):
 | 18 | [First run shows a reading before asking](18-first-run-shows-a-reading/requirements.md) | dropped — carried into M24-05 | — |
 | 19 | [Settings: everyday choices first](19-settings-order/requirements.md) | dropped — folded into M19.9-09 | — |
 | 20 | [Cycles: romanized names carry their meaning](20-cycles-romanized-names/requirements.md) | dropped — superseded by M24-07 | — |
-| 21 | [Today reads as one written piece](21-composed-daily-reading/requirements.md) | in-progress | — |
+| 21 | [Today reads as one written piece](21-composed-daily-reading/requirements.md) | done | — |
 | 22 | [Topic pages say enough to be worth the tap](22-topic-page-depth/requirements.md) | draft | 21, 23 |
 | 23 | [Problem and remedy](23-problem-and-remedy/requirements.md) | draft | — |
 

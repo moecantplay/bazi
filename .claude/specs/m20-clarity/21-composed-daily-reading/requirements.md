@@ -1,6 +1,6 @@
 # Today reads as one written piece
 
-Status: in-progress · Milestone: M20 · Ticket: 21
+Status: done · Milestone: M20 · Ticket: 21
 
 ## Problem
 
