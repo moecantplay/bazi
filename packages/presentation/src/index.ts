@@ -110,3 +110,4 @@ export {
   type PeriodSummary,
   type PeriodView
 } from "./ahead-screen.js";
+export { pairScreenFor } from "./pair-screen.js";

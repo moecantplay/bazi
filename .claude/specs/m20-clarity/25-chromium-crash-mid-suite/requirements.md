@@ -10,6 +10,7 @@ Full local E2E runs lose about one test per run to a Chromium headless crash, no
 - A 462-run repeat on 2026-10-11 captured it: `Received signal 11 SEGV_ACCERR` in `chrome-headless-shell`, shortly after `error-recovery.spec.ts` deliberately throws `RangeError`s (a 2150 date and a `Mars/Olympus` zone).
 - The failing test passes alone, and 100 of 100 times on repeat.
 - Seen in M19.9-13, M20-24, M24-08 and M24-07 runs. In M24-07's runs it spread to other specs (share, today-looks, durable-storage) and hit about one test in 60, even in subsets without `error-recovery.spec.ts`. That weakens the error-recovery hypothesis.
+- M24-09's runs again lost a test or two per look. Failures cluster on Editorial's poster (the "chosen almanac" test, and suites in the almanac look), and the poster's grain is an inline SVG `feTurbulence` with `mix-blend-mode`. But 72 of 72 runs of look-preference with error-recovery in the almanac look passed, so that's unproven.
 - The machine has 8 GB of RAM with about 185 MB free (`vm_stat`, 2026-10-11) while the suite runs, so memory pressure is a strong candidate. CI retries once (`retries: 1` under CI), which hides it there. Locally it costs a re-run and a doubt every time.
 
 ## Goal

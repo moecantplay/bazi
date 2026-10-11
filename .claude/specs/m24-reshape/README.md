@@ -37,7 +37,7 @@ What changes:
 | 06 | Today slimmed, with Today's colour | planned | 04 | R4, R17 |
 | 07 | [Ahead](07-ahead/requirements.md) | done | 08 | R5, R9–R12 |
 | 08 | [You](08-you/requirements.md) | done | 01 | R6, R15, R16 |
-| 09 | People: saved people first | planned | 08 | R7 |
+| 09 | [People](09-people/requirements.md) | in-progress | 08 | R7 |
 | 10 | First week (M20-11) | planned | 05, 06 | — |
 | 11 | Words: no-repeat rotation, voice lint, copy rewrite over every screen (M20-12, 13, 14) | planned | 06–09 | — |
 | 12 | Retire the legacy Trail composition (M19.9-11) and the trial branch | planned | 04–09 | — |
