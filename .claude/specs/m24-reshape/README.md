@@ -25,6 +25,8 @@ What changes:
 - **Fact scope types (03)** is a type-safety guard the trial didn't need. It runs after the trial work is in production.
 - **Narrowed M20** (01 widened, VOICE cleanup, 09, 16, 02) also runs after, except where a ticket here needs it.
 
+**Trial parity reached, 2026-10-11.** Everything the trial built (R2–R17) is in production: You (08), Ahead (07), People (09), navigation (04), onboarding (05), Today (06), and the topic pages ([M20-26](../m20-clarity/26-topic-pages-from-the-trial/requirements.md)). A source diff against `trial/reshape` leaves only renames, comments and deliberate changes made since: the day's tone in Today's header (M20-24), Instrument as the default (M19.9-13), and the 1900/2100 edge guards on Ahead. What remains (03, 10, 11, 12) goes beyond the trial.
+
 ## Tickets
 
 | # | Ticket | Status | Depends on | Carries forward from the trial |
