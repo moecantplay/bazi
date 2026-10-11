@@ -22,7 +22,9 @@ import type { LookPreference, StoredBirth, StoredPerson, StoredProfile, ThemePre
 
 export const STORE_KEY = "daymaster.store.v2";
 const STREAK_KEY = "daymaster.streak.v1";
-const ONBOARDING_DRAFT_KEY = "daymaster.onboarding.v1";
+/** The onboarding draft (session-scoped). v2 since M24-05 renumbered the steps; v1 is still cleared on delete. */
+export const ONBOARDING_DRAFT_KEY = "daymaster.onboarding.v2";
+const LEGACY_ONBOARDING_DRAFT_KEY = "daymaster.onboarding.v1";
 /** Session-scoped stash for a birth that arrived via a share link — see share-link.ts. */
 export const SHARE_INCOMING_KEY = "daymaster.share-incoming.v1";
 
@@ -347,6 +349,7 @@ export function deleteAllData(): void {
   }
   try {
     window.sessionStorage.removeItem(ONBOARDING_DRAFT_KEY);
+    window.sessionStorage.removeItem(LEGACY_ONBOARDING_DRAFT_KEY);
     window.sessionStorage.removeItem(SHARE_INCOMING_KEY);
   } catch {
     // Nothing to clean up if storage is unreachable.

@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { FIXTURE_A, longDate, pinClock, seedProfile, walkOnboardingToLookStep } from "./helpers";
+import { FIXTURE_A, longDate, pinClock, seedProfile } from "./helpers";
 
 /**
  * M20-24: Today's header says nothing a reader needs the system to understand.
@@ -70,9 +70,10 @@ test("Today speaks no animal or element name to a screen reader", async ({ page,
   expectPlain(spoken, "Today's accessibility tree");
 });
 
-test("the onboarding look step previews carry no pillar words", async ({ page, context }) => {
+test("onboarding's Welcome sample carries no pillar words (the look step it replaced did, M24-05)", async ({ page, context }) => {
   await pinClock(context, "2026-07-07T09:00:00+07:00");
-  await walkOnboardingToLookStep(page);
+  await page.goto("/onboarding/");
+  await expect(page.getByLabel("Today, for anyone")).toBeVisible();
 
-  expectPlain(await page.locator("main").innerText(), "the look step");
+  expectPlain(await page.locator("main").innerText(), "the Welcome screen");
 });

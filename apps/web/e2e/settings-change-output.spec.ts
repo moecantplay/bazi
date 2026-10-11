@@ -50,7 +50,7 @@ test("late-Zi toggle changes the day pillar, and delete clears the profile", asy
   await page.getByRole("button", { name: "Delete my data" }).click();
   await page.getByRole("button", { name: "Delete my data" }).last().click();
 
-  await expect(page.getByText("When were you born?")).toBeVisible();
+  await expect(page.getByRole("heading", { name: /How today is likely to go/ })).toBeVisible();
   const stored = await page.evaluate((key) => window.localStorage.getItem(key), STORE_KEY);
   expect(stored).toBeNull();
 });

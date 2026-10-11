@@ -67,6 +67,6 @@ test("start over clears everything and lands on onboarding", async ({ page }) =>
   await page.getByRole("button", { name: "Erase and start over" }).click();
 
   await expect(page).toHaveURL(/\/onboarding\/?$/);
-  await expect(page.getByRole("heading", { name: "When were you born?" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /How today is likely to go/ })).toBeVisible();
   expect(await page.evaluate((key) => window.localStorage.getItem(key), STORE_KEY)).toBeNull();
 });

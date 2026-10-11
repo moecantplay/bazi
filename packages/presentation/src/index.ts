@@ -111,3 +111,4 @@ export {
   type PeriodView
 } from "./ahead-screen.js";
 export { pairScreenFor } from "./pair-screen.js";
+export { welcomeSample, type WelcomeSample } from "./welcome-sample.js";

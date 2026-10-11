@@ -71,3 +71,4 @@ export type { ElementLine, YouColours, YouElements } from "./readings/you/you-re
 export { ELEMENT_COLOURS, type Colour } from "./banks/colours.js";
 export { periodReading, type PeriodSpan } from "./readings/ahead/period-reading.js";
 export { pairReading } from "./readings/people/pair-reading.js";
+export { OFFICER_DAY_HEADLINES, welcomeHeadline } from "./banks/welcome.js";
