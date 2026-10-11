@@ -8,7 +8,7 @@ test("compare flow: enter a second person, read the pair, change person", async 
   await seedProfile(context, FIXTURE_A);
 
   await page.goto("/compare/");
-  await expect(page.getByRole("heading", { name: "Compare", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "The full comparison", exact: true })).toBeVisible();
 
   // Fill the second person's details (day-pillar anchor date: 甲子 day).
   await page.getByLabel("Their birth date").fill("1949-10-01");
@@ -19,8 +19,8 @@ test("compare flow: enter a second person, read the pair, change person", async 
   await page.getByRole("button", { name: "Read the pair" }).click();
 
   // Both pillar sets render; the reading cites facts, day-masters first.
-  await expect(page.getByText("You", { exact: true })).toBeVisible();
-  await expect(page.getByText("Them", { exact: true })).toBeVisible();
+  await expect(page.locator("main").getByText("You", { exact: true })).toBeVisible();
+  await expect(page.locator("main").getByText("Them", { exact: true })).toBeVisible();
   const reading = page.locator("[data-compare-reading]");
   await expect(reading.locator("[data-fact-tag]").first()).toBeVisible();
   await expect(reading.locator("[data-fact-tag]").first()).toContainText("day-masters");

@@ -94,7 +94,7 @@ export default function OnboardingPage() {
     }
     stashIncomingShare(birth);
     if (loadStore().profile !== null) {
-      router.replace("/compare");
+      router.replace("/people");
       return;
     }
     window.history.replaceState(null, "", "/onboarding/");

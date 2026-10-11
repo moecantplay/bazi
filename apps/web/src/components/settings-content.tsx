@@ -7,7 +7,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ensureTrueSolarReady } from "@daymaster/bazi-engine";
 import { DISCLAIMER } from "@daymaster/content";
@@ -106,18 +105,6 @@ export function SettingsContent({ profile }: Props) {
 
   return (
     <div className="flex flex-col gap-8">
-      <section className="stack">
-        {rows.map((row) => (
-          <div key={row.label} className="flex items-start justify-between gap-4 px-5 py-4">
-            <div className="flex-1">
-              <p className="text-[15px] text-ink">{row.label}</p>
-              <p className="mt-1 text-[13px] leading-relaxed text-ink-soft">{row.explanation}</p>
-            </div>
-            <Toggle checked={row.checked} onChange={row.onChange} label={row.label} />
-          </div>
-        ))}
-      </section>
-
       <section>
         <h2 className="kicker">Appearance</h2>
         <div className="mt-3">
@@ -159,14 +146,18 @@ export function SettingsContent({ profile }: Props) {
       </section>
 
       <section>
-        <h2 className="kicker">Try a different rhythm</h2>
-        <p className="mt-3 text-[13px] leading-relaxed text-ink-soft">
-          The same daily reading arranged like a weather app: conditions first, then the hours, then
-          ten days ahead. Today itself is unchanged.
-        </p>
-        <Link href="/conditions/" className="tap-target mt-2 inline-block text-[15px] text-ink">
-          Open Conditions &rarr;
-        </Link>
+        <h2 className="kicker">How your chart is counted</h2>
+        <div className="stack mt-3">
+          {rows.map((row) => (
+            <div key={row.label} className="flex items-start justify-between gap-4 px-5 py-4">
+              <div className="flex-1">
+                <p className="text-[15px] text-ink">{row.label}</p>
+                <p className="mt-1 text-[13px] leading-relaxed text-ink-soft">{row.explanation}</p>
+              </div>
+              <Toggle checked={row.checked} onChange={row.onChange} label={row.label} />
+            </div>
+          ))}
+        </div>
       </section>
 
       <section>

@@ -10,6 +10,7 @@
 import { useId } from "react";
 import { describeBranch, mapHeroSummary, type RouteWaypoint } from "@daymaster/presentation";
 import { AnimalGlyphMark } from "@/components/glyph-icon";
+import { SettingsGear } from "@/components/settings-gear";
 import { DayTonePhrase, Headline } from "@/components/today/headline";
 import { TodayDateNav } from "@/components/today/today-date-nav";
 import type { TodayScreen } from "@/components/today/use-today-screen";
@@ -17,6 +18,8 @@ import { CONTOURS, ROUTE_END, ROUTE_HEIGHT, ROUTE_WIDTH, routePath, routeX, rout
 
 interface Props {
   screen: TodayScreen;
+  /** Off in the look previews, which sit inside a button on Settings itself. */
+  showSettings?: boolean;
 }
 
 type TimedWaypoint = RouteWaypoint & { timing: Extract<RouteWaypoint["timing"], { kind: "hours" }> };
@@ -49,7 +52,7 @@ function clockLabel(date: Date): string {
   return new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit" }).format(date);
 }
 
-export function RouteHero({ screen }: Props) {
+export function RouteHero({ screen, showSettings = true }: Props) {
   const { model, progress, now } = screen;
   /** Unique per instance: a look preview can put a second route on the page. */
   const maskId = useId();
@@ -70,7 +73,10 @@ export function RouteHero({ screen }: Props) {
       </svg>
       <div className="arrive-rise relative flex items-center justify-between pl-2 pr-5 pt-4">
         <TodayDateNav screen={screen} />
-        <DayTonePhrase tone={model.tone} className="caption truncate pl-2" />
+        <div className="flex min-w-0 items-center gap-2">
+          <DayTonePhrase tone={model.tone} className="caption truncate pl-2" />
+          {showSettings && <SettingsGear className="-mr-3 flex-none" />}
+        </div>
       </div>
       <Headline runs={model.headline} className="arrive-rise relative px-5 pt-3 text-[38px]" />
       <svg className="route-hero-route" viewBox={`0 0 ${ROUTE_WIDTH} ${ROUTE_HEIGHT}`} role="img" aria-label={ariaLabel}>

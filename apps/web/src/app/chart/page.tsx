@@ -8,7 +8,7 @@ export default function ChartPage() {
   return (
     <ProfileGate>
       {(profile) => (
-        <AppShell title="Chart">
+        <AppShell title="Your chart in full" back>
           <ChartView profile={profile} />
         </AppShell>
       )}

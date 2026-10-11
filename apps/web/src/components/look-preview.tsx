@@ -48,7 +48,7 @@ function Hero({ look, screen }: Props) {
   if (look === "almanac") {
     return (
       <>
-        <PosterField screen={screen} />
+        <PosterField screen={screen} showSettings={false} />
         <Headline runs={model.headline} className="px-5 pt-6 text-[42px] !leading-[1.02]" />
       </>
     );
@@ -62,7 +62,7 @@ function Hero({ look, screen }: Props) {
       </div>
     );
   }
-  return <RouteHero screen={screen} />;
+  return <RouteHero screen={screen} showSettings={false} />;
 }
 
 export function LookPreview({ look, screen }: Props) {

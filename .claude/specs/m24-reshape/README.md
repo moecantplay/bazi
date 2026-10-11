@@ -32,7 +32,7 @@ What changes:
 | 01 | [Decisions and foundation specs](01-decisions-and-foundation-specs/requirements.md) | done | — | the decisions behind R2–R17 |
 | 02 | Mockups first: Today in three looks, every other screen in the base design | dropped — the trial build served as the mockup (standing instruction) | 01 | the screens as built, R9–R17 |
 | 03 | Facts carry their time scope (from M20-08) | planned — after the trial work | 01 | Ahead's period facts (R5, R9–R11) |
-| 04 | Navigation and Settings in the header; Conditions retired | planned | 07, 08, 09 | R2 |
+| 04 | [Navigation and Settings in the header](04-navigation/requirements.md) | in-progress | 07, 08, 09 | R2 |
 | 05 | Welcome and five-step onboarding (M20-18, look step removed) | planned | 04 | R3 |
 | 06 | Today slimmed, with Today's colour | planned | 04 | R4, R17 |
 | 07 | [Ahead](07-ahead/requirements.md) | done | 08 | R5, R9–R12 |

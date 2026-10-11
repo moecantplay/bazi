@@ -61,9 +61,10 @@ test("full onboarding for fixture A saves a chart that reads correctly", async (
   await page.getByRole("button", { name: "Save chart" }).click();
   await expect(page.getByRole("heading", { name: "Today", exact: true })).toBeVisible();
 
-  // Open the chart and verify its content.
-  await page.getByRole("link", { name: "Chart" }).click();
-  await expect(page.getByRole("heading", { name: "Chart", exact: true })).toBeVisible();
+  // Open the chart (You, then "Your chart in full") and verify its content.
+  await page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "You", exact: true }).click();
+  await page.getByRole("link", { name: /Your chart in full/ }).click();
+  await expect(page.getByRole("heading", { name: "Your chart in full", exact: true })).toBeVisible();
 
   for (const [pillar, words] of PILLAR_WORDS) {
     for (const word of words) {

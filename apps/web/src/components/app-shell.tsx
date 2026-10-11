@@ -1,12 +1,15 @@
 /**
  * The frame every main screen renders inside: a centered, mobile-first column
- * (max 28rem) with the bottom tab nav below it. Onboarding does not use this
- * shell; it owns the whole viewport until a chart is saved.
+ * (max 28rem) with the bottom tab nav below it. Tab screens carry the gear
+ * that opens Settings (bleed screens place it themselves); leaf screens
+ * (`back`) carry Back instead. Onboarding
+ * does not use this shell; it owns the whole viewport until a chart is saved.
  */
 
 import type { ReactNode } from "react";
 import { BackLink } from "@/components/back-link";
 import { BottomNav } from "@/components/bottom-nav";
+import { SettingsGear } from "@/components/settings-gear";
 
 interface Props {
   title: string;
@@ -26,7 +29,15 @@ export function AppShell({ title, children, back = false, bleed = false }: Props
     <div className="min-h-screen bg-paper">
       <div className={`mx-auto flex min-h-screen w-full max-w-app flex-col px-5 pb-28 ${bleed ? "overflow-x-clip" : "pt-8"}`}>
         {back && <BackLink />}
-        <h1 className={bleed ? "sr-only" : "font-display text-3xl text-ink"}>{title}</h1>
+        {bleed ? (
+          // A bleed screen (a look's Today) places the gear in its own top row.
+          <h1 className="sr-only">{title}</h1>
+        ) : (
+          <div className="flex items-center justify-between gap-3">
+            <h1 className="font-display text-3xl text-ink">{title}</h1>
+            {!back && <SettingsGear className="-mr-2" />}
+          </div>
+        )}
         <main className={`flex-1 ${bleed ? "" : "mt-6"}`}>{children}</main>
       </div>
       <BottomNav />

@@ -8,15 +8,18 @@
 
 import { dayOfYear } from "@daymaster/presentation";
 import { AnimalGlyphMark } from "@/components/glyph-icon";
+import { SettingsGear } from "@/components/settings-gear";
 import { DayTonePhrase } from "@/components/today/headline";
 import { TodayDateNav } from "@/components/today/today-date-nav";
 import type { TodayScreen } from "@/components/today/use-today-screen";
 
 interface Props {
   screen: TodayScreen;
+  /** Off in the look previews, which sit inside a button on Settings itself. */
+  showSettings?: boolean;
 }
 
-export function PosterField({ screen }: Props) {
+export function PosterField({ screen, showSettings = true }: Props) {
   const { model, dateISO } = screen;
   const day = dayOfYear(dateISO);
   return (
@@ -25,7 +28,10 @@ export function PosterField({ screen }: Props) {
         <span className="font-display text-[64px] leading-[.9] tracking-[-0.04em] text-ink" aria-hidden>
           {day}
         </span>
-        <TodayDateNav screen={screen} />
+        <div className="flex items-center">
+          <TodayDateNav screen={screen} />
+          {showSettings && <SettingsGear className="-mr-2" />}
+        </div>
       </div>
       <svg className="poster-animal arrive-drift" viewBox="0 0 24 24" aria-hidden style={{ color: "var(--ink)" }}>
         <AnimalGlyphMark animal={model.branch.gloss} renderSize={340} />
