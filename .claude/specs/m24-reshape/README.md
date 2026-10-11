@@ -35,7 +35,7 @@ What changes:
 | 04 | Navigation and Settings in the header; Conditions retired | planned | 07, 08, 09 | R2 |
 | 05 | Welcome and five-step onboarding (M20-18, look step removed) | planned | 04 | R3 |
 | 06 | Today slimmed, with Today's colour | planned | 04 | R4, R17 |
-| 07 | [Ahead](07-ahead/requirements.md) | in-progress | 08 | R5, R9–R12 |
+| 07 | [Ahead](07-ahead/requirements.md) | done | 08 | R5, R9–R12 |
 | 08 | [You](08-you/requirements.md) | done | 01 | R6, R15, R16 |
 | 09 | People: saved people first | planned | 08 | R7 |
 | 10 | First week (M20-11) | planned | 05, 06 | — |
