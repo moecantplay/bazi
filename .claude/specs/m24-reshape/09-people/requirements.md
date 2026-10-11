@@ -1,6 +1,6 @@
 # People
 
-Status: in-progress · Milestone: M24 · Ticket: 09 · Approved under the owner's standing instruction (2026-10-11, [M24 README](../README.md))
+Status: done · Milestone: M24 · Ticket: 09 · Approved under the owner's standing instruction (2026-10-11, [M24 README](../README.md))
 
 ## Problem
 
