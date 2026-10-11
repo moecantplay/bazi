@@ -1,6 +1,8 @@
 # Settings and onboarding in three looks
 
-Status: draft · Milestone: M19.9 · Ticket: 09
+Status: dropped · Milestone: M19.9 · Ticket: 09
+
+> Dropped 2026-10-10 ([M24-01](../../m24-reshape/01-decisions-and-foundation-specs/design.md)): Settings moves behind the header gear (M24-04) and onboarding is rebuilt (M24-05), both in the base design (D2).
 
 ## Problem
 

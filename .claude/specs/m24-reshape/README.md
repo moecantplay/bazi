@@ -16,11 +16,11 @@ From the proposal's narrowed M20, these go first because they guard every screen
 
 ## Tickets
 
-Only ticket 01 is drafted. Each later ticket is drafted with `/spec new` once the one it depends on is approved, so it is written against decisions that are already settled.
+Ticket 01 is done. Each later ticket is drafted with `/spec new` once the one it depends on is approved, so it is written against decisions that are already settled.
 
 | # | Ticket | Status | Depends on | Carries forward from the trial |
 | --- | --- | --- | --- | --- |
-| 01 | [Decisions and foundation specs](01-decisions-and-foundation-specs/requirements.md) | approved | — | the decisions behind R2–R17 |
+| 01 | [Decisions and foundation specs](01-decisions-and-foundation-specs/requirements.md) | done | — | the decisions behind R2–R17 |
 | 02 | Mockups first: Today in three looks, every other screen in the base design | planned | 01 | the screens as built, R9–R17 |
 | 03 | Facts carry their time scope (from M20-08) | planned | 01 | Ahead's period facts (R5, R9–R11) |
 | 04 | Navigation and Settings in the header; Conditions retired | planned | 02 | R2 |

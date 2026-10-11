@@ -2,6 +2,8 @@
 
 Status: draft · Milestone: M19.9 · Ticket: 12
 
+> Deferred 2026-10-10 ([M24-01](../../m24-reshape/01-decisions-and-foundation-specs/design.md)): looks now apply to Today only (D2), so this picks Today's permanent look. It waits for M21-01's usage counts (D6).
+
 ## Problem
 
 Owner, 2026-09-29: every screen ships in three looks "because down the line i would pick one for the permanent design". Keeping three looks costs about ×3 on every future screen (M20 Today work, M21 accounts, M23 mobile), so the trial needs an end point and evidence to end it with.

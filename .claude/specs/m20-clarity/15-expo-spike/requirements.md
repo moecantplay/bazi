@@ -1,6 +1,8 @@
 # Expo spike
 
-Status: draft · Milestone: M20 · Ticket: 15
+Status: dropped · Milestone: M20 · Ticket: 15
+
+> Dropped 2026-10-10 ([M24-01](../../m24-reshape/01-decisions-and-foundation-specs/design.md)): Moved to M23 as its first ticket (M23-00).
 
 ## Problem
 

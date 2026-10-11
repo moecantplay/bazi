@@ -1,6 +1,8 @@
 # Cycles: romanized names carry their meaning
 
-Status: approved · Milestone: M20 · Ticket: 20
+Status: dropped · Milestone: M20 · Ticket: 20
+
+> Dropped 2026-10-10 ([M24-01](../../m24-reshape/01-decisions-and-foundation-specs/design.md)): Superseded by M24-07: Ahead uses no romanized names at all (D5).
 
 ## Problem
 

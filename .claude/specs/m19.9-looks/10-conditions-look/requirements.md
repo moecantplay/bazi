@@ -1,6 +1,8 @@
 # Conditions in three looks (or dropped)
 
-Status: draft · Milestone: M19.9 · Ticket: 10
+Status: dropped · Milestone: M19.9 · Ticket: 10
+
+> Dropped 2026-10-10 ([M24-01](../../m24-reshape/01-decisions-and-foundation-specs/design.md)): Conditions is dropped (D4); retired in M24-04.
 
 ## Problem
 

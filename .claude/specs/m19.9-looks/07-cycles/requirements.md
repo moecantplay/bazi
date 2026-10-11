@@ -1,6 +1,8 @@
 # Cycles in three looks
 
-Status: draft · Milestone: M19.9 · Ticket: 07
+Status: dropped · Milestone: M19.9 · Ticket: 07
+
+> Dropped 2026-10-10 ([M24-01](../../m24-reshape/01-decisions-and-foundation-specs/design.md)): Cycles is replaced by Ahead, built once in the base design (D2) in M24-07.
 
 ## Problem
 

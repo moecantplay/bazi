@@ -1,6 +1,8 @@
 # Chart in three looks
 
-Status: draft · Milestone: M19.9 · Ticket: 06
+Status: dropped · Milestone: M19.9 · Ticket: 06
+
+> Dropped 2026-10-10 ([M24-01](../../m24-reshape/01-decisions-and-foundation-specs/design.md)): Chart is replaced by You and "Your chart in full", built once in the base design (D2) in M24-08.
 
 ## Problem
 

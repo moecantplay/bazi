@@ -1,6 +1,8 @@
 # Retire the old Trail composition and ship
 
-Status: draft · Milestone: M19.9 · Ticket: 11
+Status: dropped · Milestone: M19.9 · Ticket: 11
+
+> Dropped 2026-10-10 ([M24-01](../../m24-reshape/01-decisions-and-foundation-specs/design.md)): Carried into M24-12, which retires the legacy Trail composition once the new screens ship.
 
 ## Problem
 

@@ -1,6 +1,6 @@
 # Decisions and foundation specs
 
-Status: approved · Milestone: M24 · Ticket: 01
+Status: done · Milestone: M24 · Ticket: 01
 
 ## Problem
 

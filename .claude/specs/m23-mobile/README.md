@@ -10,6 +10,8 @@ Native iOS and Android apps sharing the engine, content and presentation package
 
 Converted 2026-09-29 from the old plan (`_sources/plan.md`) (where this was M22, approved 2026-07-29 as part of the v2 arc) and [the roadmap discussion](../m18-design-reset/research/discussion-rewrite-and-roadmap.md). Renumbered because M20 Clarity runs first.
 
+**2026-10-10 ([M24-01](../m24-reshape/01-decisions-and-foundation-specs/design.md)):** the Expo spike moves here from M20 as the first ticket, M23-00, to be drafted when M23 starts. Its draft is [M20-15](../m20-clarity/15-expo-spike/requirements.md).
+
 ## Tickets
 
 | # | Ticket | Status | Depends on |

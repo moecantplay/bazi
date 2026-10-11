@@ -1,6 +1,8 @@
 # Restructure presentation
 
-Status: draft · Milestone: M20 · Ticket: 06
+Status: dropped · Milestone: M20 · Ticket: 06
+
+> Dropped 2026-10-10 ([M24-01](../../m24-reshape/01-decisions-and-foundation-specs/design.md)): Folded into the M24 screen tickets (04–09): each screen's folder is reorganised when that screen is rebuilt.
 
 ## Problem
 

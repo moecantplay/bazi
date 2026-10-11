@@ -1,6 +1,8 @@
 # Voice rules the linter enforces
 
-Status: draft · Milestone: M20 · Ticket: 13
+Status: dropped · Milestone: M20 · Ticket: 13
+
+> Dropped 2026-10-10 ([M24-01](../../m24-reshape/01-decisions-and-foundation-specs/design.md)): Carried into M24-11 (Words), over every screen's banks.
 
 ## Problem
 

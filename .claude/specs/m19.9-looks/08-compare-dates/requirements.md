@@ -1,6 +1,8 @@
 # Compare and Find a day in three looks
 
-Status: draft · Milestone: M19.9 · Ticket: 08
+Status: dropped · Milestone: M19.9 · Ticket: 08
+
+> Dropped 2026-10-10 ([M24-01](../../m24-reshape/01-decisions-and-foundation-specs/design.md)): Compare becomes People (M24-09) and Find a day moves under Ahead (M24-07), both in the base design (D2).
 
 ## Problem
 

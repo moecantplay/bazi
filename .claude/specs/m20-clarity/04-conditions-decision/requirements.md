@@ -1,6 +1,8 @@
 # Conditions: keep or drop
 
-Status: draft · Milestone: M20 · Ticket: 04
+Status: dropped · Milestone: M20 · Ticket: 04
+
+> Dropped 2026-10-10 ([M24-01](../../m24-reshape/01-decisions-and-foundation-specs/design.md)): Decided by D4: Conditions is dropped; its hours go to Today and its ten days to Ahead. Carried out in M24-04.
 
 > 2026-09-29: M19.9 now runs first, so this decision is needed earlier; [M19.9-10](../../m19.9-looks/10-conditions-look/requirements.md) depends on it.
 

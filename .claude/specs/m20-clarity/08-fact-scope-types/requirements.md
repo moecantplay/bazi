@@ -1,6 +1,8 @@
 # Facts carry their time scope
 
-Status: draft · Milestone: M20 · Ticket: 08
+Status: dropped · Milestone: M20 · Ticket: 08
+
+> Dropped 2026-10-10 ([M24-01](../../m24-reshape/01-decisions-and-foundation-specs/design.md)): Carried into M24-03, ahead of Ahead (M24-07), which mixes day, month, year and decade facts.
 
 ## Problem
 

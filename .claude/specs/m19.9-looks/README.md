@@ -16,6 +16,8 @@ Owner, 2026-09-29: "make the app look and feel like an award winning app", then 
 - Every later screen (M20 Today work, M21 accounts, M23 mobile) is built and contrast-checked in three looks.
 - `look` joins the store, which is the M21 sync payload.
 
+**Narrowed 2026-10-10 ([M24-01](../m24-reshape/01-decisions-and-foundation-specs/design.md)): looks apply to Today only (D2).** Today is already done in three looks (05). Chart, Cycles, Compare, Settings, onboarding and Conditions are rebuilt once, in the base design, by [M24](../m24-reshape/README.md), so 06–11 are dropped and 12 waits for usage counts. Instrument is the default look (13).
+
 ## Tickets
 
 | # | Ticket | Status | Depends on |
@@ -25,13 +27,13 @@ Owner, 2026-09-29: "make the app look and feel like an award winning app", then 
 | 03 | [Look preference: store, pre-paint and component switch](03-look-architecture/requirements.md) | done | — |
 | 04 | [Choose your look: onboarding step and Settings option](04-choose-your-look/requirements.md) | done | 03, 05 |
 | 05 | [Today in three looks](05-today/requirements.md) | done | 01, 02, 03 |
-| 06 | [Chart in three looks](06-chart/requirements.md) | draft | 02, 03 |
-| 07 | [Cycles in three looks](07-cycles/requirements.md) | draft | 02, 03 |
-| 08 | [Compare and Find a day in three looks](08-compare-dates/requirements.md) | draft | 02, 03 |
-| 09 | [Settings and onboarding in three looks](09-settings-onboarding/requirements.md) | draft | 02, 03, 04 |
-| 10 | [Conditions in three looks (or dropped)](10-conditions-look/requirements.md) | draft | 02, 03 |
-| 11 | [Retire the old Trail composition and ship](11-retire-trail-and-ship/requirements.md) | draft | 05–10 |
-| 12 | [Pick the permanent look](12-pick-the-permanent-look/requirements.md) | draft | 11, M19.8-06 |
+| 06 | [Chart in three looks](06-chart/requirements.md) | dropped — D2, rebuilt once in M24 | 02, 03 |
+| 07 | [Cycles in three looks](07-cycles/requirements.md) | dropped — D2, rebuilt once in M24 | 02, 03 |
+| 08 | [Compare and Find a day in three looks](08-compare-dates/requirements.md) | dropped — D2, rebuilt once in M24 | 02, 03 |
+| 09 | [Settings and onboarding in three looks](09-settings-onboarding/requirements.md) | dropped — D2, rebuilt once in M24 | 02, 03, 04 |
+| 10 | [Conditions in three looks (or dropped)](10-conditions-look/requirements.md) | dropped — D2, rebuilt once in M24 | 02, 03 |
+| 11 | [Retire the old Trail composition and ship](11-retire-trail-and-ship/requirements.md) | dropped — carried into M24-12 | 05–10 |
+| 12 | [Pick the permanent look](12-pick-the-permanent-look/requirements.md) | deferred — Today only, after M21-01 counts | 11, M19.8-06 |
 | 13 | [Instrument is the default look](13-instrument-default-look/requirements.md) | done | 03, 04 |
 
 ## Exit criteria
