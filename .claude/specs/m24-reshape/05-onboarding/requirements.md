@@ -1,6 +1,6 @@
 # Welcome and five-step onboarding
 
-Status: in-progress · Milestone: M24 · Ticket: 05 · Approved under the owner's standing instruction (2026-10-11, [M24 README](../README.md)) · Carries [M20-18](../../m20-clarity/18-first-run-shows-a-reading/requirements.md) (approved 2026-09-30)
+Status: done · Milestone: M24 · Ticket: 05 · Approved under the owner's standing instruction (2026-10-11, [M24 README](../README.md)) · Carries [M20-18](../../m20-clarity/18-first-run-shows-a-reading/requirements.md) (approved 2026-09-30)
 
 ## Problem
 
