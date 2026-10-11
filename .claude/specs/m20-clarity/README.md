@@ -20,7 +20,7 @@ A 60-day audit of Today for Fixture A (2026-09-01 → 2026-10-30):
 
 1. 21: composed daily reading, finish.
 2. 01: duplicated glosses, widened to the stray Chart glosses ("out of season", "rooted", "outnumbered") and Cycles' broken "is the old name for" sentence.
-3. Today's header in plain words (drop "Yang Water · Rat Day"). New ticket, to draft.
+3. [24](24-today-header-plain/requirements.md): Today's header in plain words (drop "Yang Water · Rat Day").
 4. VOICE.md cleanup: rule 10 and the examples drop Chinese characters to match M17.5-05. New ticket, to draft.
 5. 09: quality gates (undefined vars, rendered contrast).
 6. 16: flaky migration test.
@@ -55,6 +55,7 @@ A 60-day audit of Today for Fixture A (2026-09-01 → 2026-10-30):
 | 21 | [Today reads as one written piece](21-composed-daily-reading/requirements.md) | done | — |
 | 22 | [Topic pages say enough to be worth the tap](22-topic-page-depth/requirements.md) | draft | 21, 23 |
 | 23 | [Problem and remedy](23-problem-and-remedy/requirements.md) | draft | — |
+| 24 | [Today's header in plain words](24-today-header-plain/requirements.md) | draft | — |
 
 ## Exit criteria
 
