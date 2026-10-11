@@ -1,6 +1,6 @@
 # Today's header in plain words
 
-Status: in-progress · Milestone: M20 · Ticket: 24
+Status: done · Milestone: M20 · Ticket: 24
 
 ## Problem
 
