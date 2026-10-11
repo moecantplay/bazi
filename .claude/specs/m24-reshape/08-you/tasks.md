@@ -6,4 +6,4 @@ Check a task only with a one-line evidence note.
 - [x] 2. Content: plain-reading module, You and colour banks, You builder; exports (R1–R4, R6) — readings/plain/plain-reading.ts, readings/you/you-reading.ts, banks/you/{you,portrait}.ts, banks/colours.ts; content tests 121/121
 - [x] 3. Presentation: `you-screen.ts`, `colours.ts`; exports (R2–R4, R6) — you-screen.ts (elementSplit, youScreenFor, youElementsFor, youColoursFor), colours.ts
 - [x] 4. Web: plain-reading components, You view, elements, colours, `/you/` page (R1–R5) — components/plain/plain-reading.tsx, components/you/*, app/you/page.tsx; no "trial" left in the touched paths
-- [ ] 5. `pnpm verify`; full E2E in every look; screenshots light and dark; deploy; live check (R7)
+- [x] 5. `pnpm verify`; full E2E in every look; screenshots light and dark; deploy; live check (R7) — `pnpm verify` green; full E2E trail 233/233, almanac 233/233, dial 232/233 (the one Chromium crash, filed as M20-25; passes on rerun); screenshots light and dark; deployed 2026-10-11 03:18 GMT, sw `daymaster-0c4a46d2d692` live; production /you/ passes in light and dark
