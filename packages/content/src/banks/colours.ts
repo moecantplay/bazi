@@ -42,3 +42,10 @@ export const COLOURS_WHERE = "In what you wear, on your desk, around your room."
 export function colourFixLine(staple: Colour, helper: Colour): string {
   return `If you live in ${staple}, add one ${helper} thing: a scarf, a bag, a mug.`;
 }
+
+/** Today's colour line (M24-06): leaning in, or steadying the day. Neutral, so it never contradicts the day's lead. */
+export function dayColourLine(mode: "lean" | "steady", colour: Colour): string {
+  return mode === "lean"
+    ? `It matches the day. Wear it, or keep something ${colour} close.`
+    : `It keeps you steady today. A little goes far: a scarf, a mug, a pen.`;
+}

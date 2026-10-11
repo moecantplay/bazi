@@ -50,6 +50,8 @@ test("full onboarding for fixture A saves a chart that reads correctly", async (
   // Straight to Today: no look step, no reveal.
   await expect(page).toHaveURL(/\/today\/?$/);
   await expect(page.getByRole("heading", { name: "Today", exact: true })).toBeAttached();
+  // The first day carries a one-line welcome (M24-06).
+  await expect(page.locator("[data-first-day]")).toBeVisible();
 
   // The full chart is behind You, and reads correctly.
   await page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "You", exact: true }).click();

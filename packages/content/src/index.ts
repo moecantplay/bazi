@@ -72,3 +72,5 @@ export { ELEMENT_COLOURS, type Colour } from "./banks/colours.js";
 export { periodReading, type PeriodSpan } from "./readings/ahead/period-reading.js";
 export { pairReading } from "./readings/people/pair-reading.js";
 export { OFFICER_DAY_HEADLINES, welcomeHeadline } from "./banks/welcome.js";
+export { portraitLine } from "./banks/you/portrait.js";
+export { dayColour, type DayColour, type DayColourMode } from "./readings/daily/day-colour.js";

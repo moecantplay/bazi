@@ -207,3 +207,20 @@ test("the day journal marks today, keeps the mark across reload, and stays off f
   await expect(journal.getByRole("button", { name: "Rang true" })).toHaveAttribute("aria-pressed", "false");
   await expect(journal.getByPlaceholder("What actually happened")).toHaveCount(0);
 });
+
+test("Today's colour follows what the day suits, and Today links neither Find a day nor the explainer (M24-06)", async ({ page, context }) => {
+  await seedProfile(context, FIXTURE_A);
+  await pinClock(context, "2026-10-15T09:00:00+07:00");
+  await page.goto("/today/");
+
+  const colour = page.getByLabel("Today's colour");
+  await expect(colour.getByRole("heading", { name: "beige" })).toBeVisible();
+  await expect(colour).toContainText("It keeps you steady today.");
+  const suitsBottom = await page.locator("[data-guidance]").evaluate((element) => element.getBoundingClientRect().bottom);
+  const colourTop = await colour.evaluate((element) => element.getBoundingClientRect().top);
+  expect(colourTop).toBeGreaterThan(suitsBottom);
+
+  await expect(page.getByRole("link", { name: /Find a day for something/ })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: /How this reading works/ })).toHaveCount(0);
+  await expect(page.locator("[data-first-day]")).toHaveCount(0);
+});

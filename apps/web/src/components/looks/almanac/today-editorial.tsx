@@ -6,7 +6,9 @@ import { Headline } from "@/components/today/headline";
 import { PullQuoteBoard } from "@/components/today/pull-quote-board";
 import { ReadingBody } from "@/components/today/reading-body";
 import { TodayDateNotes } from "@/components/today/today-date-nav";
-import { AboutReadingLink, TodayFooter } from "@/components/today/today-footer";
+import { FirstDayBanner } from "@/components/today/first-day-banner";
+import { TodayColour } from "@/components/today/today-colour";
+import { TodayFooter } from "@/components/today/today-footer";
 import { TodaySuits } from "@/components/today/today-suits";
 import { TopicCards } from "@/components/today/topic-cards";
 import type { TodayScreen } from "@/components/today/use-today-screen";
@@ -40,9 +42,10 @@ export function TodayEditorial({ screen }: Props) {
       <div className="arrive-rise" style={{ ["--d" as string]: 5 }}>
         <PullQuoteBoard line={model.reading.agency.runs} />
       </div>
+      <FirstDayBanner screen={screen} />
       <TopicCards cards={model.reading.cards} dateISO={screen.dateISO} look="almanac" />
       <TodaySuits screen={screen} />
-      <AboutReadingLink />
+      <TodayColour screen={screen} />
       <TodayFooter screen={screen} />
       <DashedRule label="The week" />
       <WeekCalendar profile={screen.profile} today={screen.today} selectedISO={screen.dateISO} onSelect={screen.jumpTo} />

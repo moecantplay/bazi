@@ -112,3 +112,4 @@ export {
 } from "./ahead-screen.js";
 export { pairScreenFor } from "./pair-screen.js";
 export { welcomeSample, type WelcomeSample } from "./welcome-sample.js";
+export { todayColourFor } from "./today-colour.js";

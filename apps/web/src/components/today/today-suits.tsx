@@ -7,7 +7,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import type { GuidanceChip } from "@daymaster/presentation";
 import { ActivityManifest, useActivityTerrain } from "@/components/activity-terrain";
 import { TokenText } from "@/components/token-text";
@@ -60,9 +59,6 @@ export function TodaySuits({ screen }: Props) {
         </span>
       </button>
       {allOpen && <ActivityManifest cells={cells} />}
-      <Link href="/dates/" className="tap-target self-start text-[13px] text-ink-soft hover:text-ink">
-        Find a day for something &rarr;
-      </Link>
     </section>
   );
 }

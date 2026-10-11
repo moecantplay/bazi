@@ -34,7 +34,7 @@ What changes:
 | 03 | Facts carry their time scope (from M20-08) | planned — after the trial work | 01 | Ahead's period facts (R5, R9–R11) |
 | 04 | [Navigation and Settings in the header](04-navigation/requirements.md) | done | 07, 08, 09 | R2 |
 | 05 | [Welcome and five-step onboarding](05-onboarding/requirements.md) | done | 04 | R3 |
-| 06 | Today slimmed, with Today's colour | planned | 04 | R4, R17 |
+| 06 | [Today slimmed, with Today's colour](06-today/requirements.md) | in-progress | 04 | R4, R17 |
 | 07 | [Ahead](07-ahead/requirements.md) | done | 08 | R5, R9–R12 |
 | 08 | [You](08-you/requirements.md) | done | 01 | R6, R15, R16 |
 | 09 | [People](09-people/requirements.md) | done | 08 | R7 |
