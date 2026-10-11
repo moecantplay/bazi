@@ -1,6 +1,6 @@
 # Topic pages as the trial built them
 
-Status: in-progress · Milestone: M20 · Ticket: 26 · Approved under the owner's standing instruction (2026-10-11, [M24 README](../../m24-reshape/README.md))
+Status: done · Milestone: M20 · Ticket: 26 · Approved under the owner's standing instruction (2026-10-11, [M24 README](../../m24-reshape/README.md))
 
 ## Problem
 
