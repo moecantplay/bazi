@@ -51,6 +51,7 @@ export { natalReading } from "./natal-reading.js";
 export { dailyReading, leadCellOf } from "./readings/daily/daily-reading.js";
 export { rankTransits } from "./readings/daily/lead.js";
 export { todaySuits } from "./readings/daily/today-suits.js";
+export { dayTonePhrase, type DayToneKey } from "./banks/daily/day-tone.js";
 export type { TodaySuits } from "./readings/daily/today-suits.js";
 export { topicPage } from "./readings/topic-page.js";
 export { luckTransitionLines, luckPillarReading } from "./luck-reading.js";

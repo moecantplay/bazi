@@ -10,7 +10,7 @@
 import { useId } from "react";
 import { describeBranch, mapHeroSummary, type RouteWaypoint } from "@daymaster/presentation";
 import { AnimalGlyphMark } from "@/components/glyph-icon";
-import { Headline, dayMeta } from "@/components/today/headline";
+import { DayTonePhrase, Headline } from "@/components/today/headline";
 import { TodayDateNav } from "@/components/today/today-date-nav";
 import type { TodayScreen } from "@/components/today/use-today-screen";
 import { CONTOURS, ROUTE_END, ROUTE_HEIGHT, ROUTE_WIDTH, routePath, routeX, routeY, spreadMarks } from "./route-geometry";
@@ -70,7 +70,7 @@ export function RouteHero({ screen }: Props) {
       </svg>
       <div className="arrive-rise relative flex items-center justify-between pl-2 pr-5 pt-4">
         <TodayDateNav screen={screen} />
-        <span className="caption truncate pl-2">{dayMeta(model.stem.gloss, model.branch.gloss)}</span>
+        <DayTonePhrase tone={model.tone} className="caption truncate pl-2" />
       </div>
       <Headline runs={model.headline} className="arrive-rise relative px-5 pt-3 text-[38px]" />
       <svg className="route-hero-route" viewBox={`0 0 ${ROUTE_WIDTH} ${ROUTE_HEIGHT}`} role="img" aria-label={ariaLabel}>

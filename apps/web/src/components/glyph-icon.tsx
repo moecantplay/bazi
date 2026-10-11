@@ -114,18 +114,21 @@ interface AnimalIconProps {
   element: Element;
   size?: number;
   tone?: "element" | "ink";
+  /** Imagery only: hidden from screen readers, for screens that may not name signs (Today, M20-24). */
+  decorative?: boolean;
 }
 
-export function AnimalIcon({ animal, element, size = 24, tone = "element" }: AnimalIconProps) {
+export function AnimalIcon({ animal, element, size = 24, tone = "element", decorative = false }: AnimalIconProps) {
+  const style = tone === "element" ? { color: `var(--element-${element})` } : { color: "var(--ink)" };
+  if (decorative) {
+    return (
+      <svg aria-hidden width={size} height={size} viewBox="0 0 24 24" style={style}>
+        <AnimalGlyphMark animal={animal} renderSize={size} />
+      </svg>
+    );
+  }
   return (
-    <svg
-      role="img"
-      aria-label={animal}
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      style={tone === "element" ? { color: `var(--element-${element})` } : { color: "var(--ink)" }}
-    >
+    <svg role="img" aria-label={animal} width={size} height={size} viewBox="0 0 24 24" style={style}>
       <title>{animal}</title>
       <AnimalGlyphMark animal={animal} renderSize={size} />
     </svg>

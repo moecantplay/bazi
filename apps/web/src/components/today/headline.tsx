@@ -1,6 +1,7 @@
 /** The day's headline hook: Bricolage 800 with the serif-italic emphasis run (DESIGN.md §Type). Each look sets the size. */
 
-import type { HeadlineRun } from "@daymaster/presentation";
+import { dayTonePhrase } from "@daymaster/content";
+import type { DayTone, HeadlineRun } from "@daymaster/presentation";
 
 interface Props {
   runs: HeadlineRun[];
@@ -23,7 +24,16 @@ export function Headline({ runs, className = "" }: Props) {
   );
 }
 
-/** "yang fire · horse day": the day pillar in words, for each look's meta line. */
-export function dayMeta(stemGloss: string, branchGloss: string): string {
-  return `${stemGloss} · ${branchGloss} day`;
+interface DayToneProps {
+  tone: DayTone;
+  className?: string;
+}
+
+/** The day's tone in plain words, for each look's meta line, where the day-pillar label was (M20-24). */
+export function DayTonePhrase({ tone, className = "caption" }: DayToneProps) {
+  return (
+    <span data-day-tone={tone} className={className}>
+      {dayTonePhrase(tone)}
+    </span>
+  );
 }

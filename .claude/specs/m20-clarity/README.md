@@ -55,7 +55,7 @@ A 60-day audit of Today for Fixture A (2026-09-01 → 2026-10-30):
 | 21 | [Today reads as one written piece](21-composed-daily-reading/requirements.md) | done | — |
 | 22 | [Topic pages say enough to be worth the tap](22-topic-page-depth/requirements.md) | draft | 21, 23 |
 | 23 | [Problem and remedy](23-problem-and-remedy/requirements.md) | draft | — |
-| 24 | [Today's header in plain words](24-today-header-plain/requirements.md) | draft | — |
+| 24 | [Today's header in plain words](24-today-header-plain/requirements.md) | in-progress | — |
 
 ## Exit criteria
 

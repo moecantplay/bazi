@@ -8,7 +8,7 @@
 
 import { dayOfYear } from "@daymaster/presentation";
 import { AnimalGlyphMark } from "@/components/glyph-icon";
-import { dayMeta } from "@/components/today/headline";
+import { DayTonePhrase } from "@/components/today/headline";
 import { TodayDateNav } from "@/components/today/today-date-nav";
 import type { TodayScreen } from "@/components/today/use-today-screen";
 
@@ -32,7 +32,7 @@ export function PosterField({ screen }: Props) {
       </svg>
       <div className="arrive-rise relative z-[1] flex flex-col gap-1" style={{ ["--d" as string]: 2 }}>
         <span className="caption !text-ink">{`Day ${day} of the year`}</span>
-        <span className="caption !text-ink">{dayMeta(model.stem.gloss, model.branch.gloss)}</span>
+        <DayTonePhrase tone={model.tone} className="caption !text-ink" />
       </div>
     </div>
   );

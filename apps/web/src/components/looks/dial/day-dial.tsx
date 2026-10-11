@@ -34,6 +34,11 @@ function clockLabel(date: Date): string {
   return new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit" }).format(date).toUpperCase();
 }
 
+/** The weekday of another day, in place of a sign name (M20-24). */
+function weekdayLabel(dateISO: string): string {
+  return new Intl.DateTimeFormat(undefined, { weekday: "long", timeZone: "UTC" }).format(new Date(`${dateISO}T00:00:00Z`)).toUpperCase();
+}
+
 export function DayDial({ screen }: Props) {
   const { model, now } = screen;
   const timed = model.waypoints.filter((waypoint): waypoint is Timed => waypoint.timing.kind === "hours");
@@ -111,7 +116,7 @@ export function DayDial({ screen }: Props) {
         <AnimalGlyphMark animal={model.branch.gloss} transform={`translate(${C - 25} ${C - 33}) scale(${50 / 24})`} renderSize={50} />
       </g>
       <text className="svg-label" x={C} y={C + 32} fontSize={8.5} fill="var(--ink-soft)" textAnchor="middle">
-        {now ? `NOW ${clockLabel(now)}` : `${model.branch.gloss.toUpperCase()} DAY`}
+        {now ? `NOW ${clockLabel(now)}` : weekdayLabel(screen.dateISO)}
       </text>
     </svg>
   );

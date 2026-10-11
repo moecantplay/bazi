@@ -90,12 +90,12 @@ export function ElevationProfile({ profile, today, selectedISO, onSelect }: Prop
                   <span style={{ opacity: isToday ? 1 : opacity }}>
                     {isToday ? (
                       <span className="flex h-6 w-6 items-center justify-center rounded-full bg-anchor text-paper">
-                        <svg width={15} height={15} viewBox="0 0 24 24" role="img" aria-label={cell.animal}>
+                        <svg width={15} height={15} viewBox="0 0 24 24" aria-hidden>
                           <AnimalGlyphMark animal={cell.animal} />
                         </svg>
                       </span>
                     ) : (
-                      <AnimalIcon animal={cell.animal} element={cell.element} size={18} />
+                      <AnimalIcon animal={cell.animal} element={cell.element} size={18} decorative />
                     )}
                   </span>
                   <span className="font-mono text-[8px] font-bold uppercase tracking-wide text-ink-soft">

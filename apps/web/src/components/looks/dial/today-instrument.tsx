@@ -2,7 +2,7 @@
 
 "use client";
 
-import { Headline, dayMeta } from "@/components/today/headline";
+import { DayTonePhrase, Headline } from "@/components/today/headline";
 import { PullQuoteBoard } from "@/components/today/pull-quote-board";
 import { ReadingBody } from "@/components/today/reading-body";
 import { TodayDateNav, TodayDateNotes } from "@/components/today/today-date-nav";
@@ -25,7 +25,7 @@ export function TodayInstrument({ screen }: Props) {
     <div className="flex flex-col gap-5 pt-3">
       <div className="arrive-rise -ml-3 flex items-center justify-between">
         <TodayDateNav screen={screen} />
-        <span className="caption truncate pl-2">{dayMeta(model.stem.gloss, model.branch.gloss)}</span>
+        <DayTonePhrase tone={model.tone} className="caption truncate pl-2" />
       </div>
       <div className="arrive-rise flex flex-col gap-4" style={{ ["--d" as string]: 1 }}>
         <WeekRings profile={screen.profile} today={screen.today} selectedISO={screen.dateISO} onSelect={screen.jumpTo} />

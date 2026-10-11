@@ -1,6 +1,6 @@
 # Today's header in plain words
 
-Status: draft · Milestone: M20 · Ticket: 24
+Status: in-progress · Milestone: M20 · Ticket: 24
 
 ## Problem
 
@@ -32,17 +32,20 @@ Today's header, in every look and in the look previews, says nothing a reader ne
   - Acceptance: an E2E accessibility snapshot of Today in each look contains no animal-sign name.
 - **R3. The look previews follow.** The onboarding and Settings previews show the same header without the label.
   - Acceptance: an E2E check on the onboarding look step finds no pillar words.
+- **R4. The day's tone takes the label's place** (option (b)).
+  - The freed slot shows the day's tone in a few plain words, from the same tone as the week strip and the route, so the header and the strip always agree.
+  - Acceptance: a unit test checks every tone has a phrase that passes the plain-terms check. E2E finds the phrase in each look's header, and it matches the tone of the day's cell in the week strip.
 
 ## Out of scope
 
 - The animal artwork itself: the glyphs stay as imagery, and only their spoken names go.
 - Conditions' hero ("yin fire · pig day"). Conditions is retired in M24-04 (D4).
 - Chart, Cycles and Compare, which keep the old voice until their M24 ticket (VOICE rule 11).
-- Putting anything in the label's place. See the open question.
 
 ## Open questions
 
-- [ ] **What goes where the label was?** Choose one:
+- [x] **What goes where the label was?** Choose one:
   - **(a) Nothing** (recommended). The header is the date alone. The trial ran this way, and the day's character is already a card below.
   - **(b) The day's tone in a word or two** ("A clear day", "Take it slow"), from the same tone the week strip uses.
-- [ ] Approve this ticket (requirements and design).
+  - **Answered: (b)** (owner, 2026-10-11: "let's go with b"). This becomes R4.
+- [x] Approve this ticket (requirements and design). **Approved** with (b) (owner, 2026-10-11).

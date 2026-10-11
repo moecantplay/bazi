@@ -2,20 +2,19 @@
 
 ## Approach
 
-Remove, don't replace (with option (a)). Each look's hero loses one span. `dayMeta` goes with its last caller. The animal glyphs on Today become `aria-hidden`, which also suits them as imagery. The previews need no change of their own, because they render the same hero components.
+The owner chose option (b): the day-pillar label is replaced by the day's tone in plain words. Each look's hero swaps one span for `DayTonePhrase`, and `dayMeta` is deleted. The animal glyphs on Today become `aria-hidden`, which also suits them as imagery. The previews need no change of their own, because they render the same hero components.
 
 ## Changes
 
 | Area | Change |
 | --- | --- |
-| `components/today/headline.tsx` (R1) | Delete `dayMeta`. |
-| `looks/trail/route-hero.tsx` (R1) | Drop the meta span. `TodayDateNav` keeps the row, with `justify-between` adjusted so the date sits as it does on days without the label. |
-| `looks/dial/today-instrument.tsx` (R1) | The same. |
-| `looks/almanac/poster-field.tsx` (R1) | The foot keeps one line, "Day N of the year". |
-| `components/elevation-profile.tsx` (R2) | Today's icon: `role="img" aria-label={cell.animal}` becomes `aria-hidden`. The cell button's label already gives the date and tone. |
-| Other animal glyphs on Today (R2) | Audit `AnimalIcon`, the dial rim, the route's NOW disc and the poster animal: each is `aria-hidden` or labelled without the sign. |
-| E2E (R1–R3) | A new spec, `today-plain-header.spec.ts`: for each look × theme, assert the hero's text and Today's accessibility snapshot contain no term from the plain-terms list (copied into an E2E helper, so `packages/content`'s test file stays the source). The onboarding look step gets the same check. |
-| Option (b) only | A `toneWord` span in the freed slot, from `WEEK_TONE_WORD` (`presentation`), in the existing `caption` style. |
+| `packages/content/src/banks/daily/day-tone.ts` (R4) | `dayTonePhrase(tone)`: favoured "Leans your way", friction "Take it slow", even "An even day". This is the week legend's vocabulary (DESIGN.md §Instrument), kept in content with the other wording. Unit-tested against the plain-terms list. |
+| `components/today/headline.tsx` (R1, R4) | Delete `dayMeta`. Add `DayTonePhrase` (`data-day-tone`), fed by `model.tone`, the same `dayTone` the week strip uses, so the header and the strip agree. |
+| `looks/trail/route-hero.tsx`, `looks/dial/today-instrument.tsx` (R1, R4) | The top-right meta span shows the tone phrase. |
+| `looks/almanac/poster-field.tsx` (R1, R4) | The foot's second line shows the tone phrase under "Day N of the year". |
+| `looks/dial/day-dial.tsx` (R1) | **Found while building:** on any day but today, the dial's centre read "<ANIMAL> DAY". It now reads the weekday ("WEDNESDAY"). DESIGN.md §Instrument is updated to match. |
+| `components/elevation-profile.tsx`, `components/glyph-icon.tsx` (R2) | Today's strip icon is `aria-hidden`, and `AnimalIcon` gains a `decorative` prop (hidden, no `<title>`) used by the strip. Chart and Cycles keep the named icon. The dial rim, route NOW disc and poster animal were already inside a labelled `role="img"` or `aria-hidden`. |
+| E2E (R1–R4) | `today-plain-header.spec.ts`, run per look: across three days, Today's visible text holds no term from the plain-terms list (copied in the spec, minus "chart") and the header phrase matches the week cell's tone. Today's accessibility snapshot holds no term; link `/url:` lines are excluded because they're never spoken and topic ids name mechanics. The onboarding look step gets the same check. `walkOnboardingToLookStep` is split out of `completeOnboarding`. |
 
 ## Alternatives considered
 
