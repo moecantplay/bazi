@@ -36,7 +36,7 @@ What changes:
 | 05 | Welcome and five-step onboarding (M20-18, look step removed) | planned | 04 | R3 |
 | 06 | Today slimmed, with Today's colour | planned | 04 | R4, R17 |
 | 07 | Ahead: your seasons, plan something, any year | planned | 08 | R5, R9–R12 |
-| 08 | You: portrait, your elements, your colours, "Your chart in full" | planned | 01 | R6, R15, R16 |
+| 08 | [You](08-you/requirements.md) | in-progress | 01 | R6, R15, R16 |
 | 09 | People: saved people first | planned | 08 | R7 |
 | 10 | First week (M20-11) | planned | 05, 06 | — |
 | 11 | Words: no-repeat rotation, voice lint, copy rewrite over every screen (M20-12, 13, 14) | planned | 06–09 | — |

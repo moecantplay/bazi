@@ -63,3 +63,9 @@ export { GLOSSARY, HOURS_TOPIC, READING_TOPIC, ROUTE_TOPIC, WEEK_TOPIC, glossary
 export type { GlossaryEntry } from "./glossary.js";
 export { READ_MORE, readMoreEntry } from "./read-more.js";
 export type { ReadMoreEntry } from "./read-more.js";
+
+// The plain reading shape for screens past Today, and You (M24-08).
+export type { CardText, PlainCard, PlainLead, PlainReading } from "./readings/plain/plain-reading.js";
+export { youColours, youElements, youReading } from "./readings/you/you-reading.js";
+export type { ElementLine, YouColours, YouElements } from "./readings/you/you-reading.js";
+export { ELEMENT_COLOURS, type Colour } from "./banks/colours.js";

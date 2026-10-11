@@ -95,3 +95,5 @@ export {
   hourBlocks
 } from "./conditions-screen.js";
 export type { ConditionDay, HourBlock, HourMark } from "./conditions-screen.js";
+export { COLOUR_SWATCH } from "./colours.js";
+export { elementSplit, youColoursFor, youElementsFor, youScreenFor, type ElementSplit } from "./you-screen.js";

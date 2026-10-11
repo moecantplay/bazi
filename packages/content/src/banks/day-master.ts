@@ -4,7 +4,7 @@
  * Each block's first line is the defining image (always shown first in a
  * reading); the rest are supporting lines the selector draws from. Images are
  * fixed by the brief: 甲 tall tree · 乙 vine · 丙 sun · 丁 lantern · 戊 mountain ·
- * 己 garden soil · 庚 raw metal · 辛 jewel · 壬 ocean · 癸 rain.
+ * 己 garden soil · 庚 raw iron · 辛 jewel · 壬 ocean · 癸 rain.
  */
 
 import type { Stem } from "@daymaster/bazi-engine";
@@ -59,7 +59,7 @@ export const DAY_MASTER_LINES: Record<Stem, readonly string[]> = {
     "You hold the whole garden together without announcing it. Notice your own hand in the harvest.",
   ],
   庚: [
-    "You are raw metal: unrefined ore with an edge already in it. You are made to cut through, and you feel dull when you don't.",
+    "You are raw iron: unrefined ore with an edge already in it. You are made to cut through, and you feel dull when you don't.",
     "You value directness and clean lines. Bluntness is your honesty, though it lands hard on softer ground.",
     "Pressure and heat are how you take shape. You often become yourself in difficulty, not comfort.",
     "You cut to the decision fast. Slow down just enough to be sure it is the right cut.",
@@ -67,7 +67,7 @@ export const DAY_MASTER_LINES: Record<Stem, readonly string[]> = {
     "You would rather be true than smooth. That is a rare and useful spine.",
   ],
   辛: [
-    "You are the jewel: refined metal, cut and polished, valued for precision rather than force. You want things done well or not at all.",
+    "You are the jewel: cut and polished, valued for precision rather than force. You want things done well or not at all.",
     "You have taste and a low tolerance for the shoddy. That standard is a gift when you don't turn it on yourself.",
     "You shine under the right light and go cold under the wrong one. Setting matters to you.",
     "Small flaws catch your eye first. Aim that precision at the work, not at your own worth.",
@@ -83,7 +83,7 @@ export const DAY_MASTER_LINES: Record<Stem, readonly string[]> = {
     "Still water and storm are the same sea. Both belong to you.",
   ],
   癸: [
-    "You are the rain: fine, quiet water that soaks in rather than floods. You work by patience and reach places force never touches.",
+    "You are the rain: fine and quiet, soaking in rather than flooding. You work by patience and reach places force never touches.",
     "You nourish without spectacle. Whole fields depend on the soft, steady kind of giving you do.",
     "You sense shifts before others — a change of pressure, a mood in the room. Trust that early read.",
     "You are gentle and quietly relentless. Rain has worn down stone that resisted the hammer.",
