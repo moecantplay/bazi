@@ -4,12 +4,14 @@
  * every chart. Everything runs on the stored profile chart with no network. The
  * range is clamped to the engine's supported span before the search, so a wide
  * or out-of-bounds request comes back trimmed with a note, never a crash.
+ * Opened with `?activity=<key>` (Ahead's Plan something), it starts on that
+ * activity with the default window already searched.
  */
 
 "use client";
 
 import { useMemo, useState } from "react";
-import type { ActivityKey } from "@daymaster/bazi-engine";
+import { ACTIVITY_KEYS, type ActivityKey } from "@daymaster/bazi-engine";
 import {
   addDays,
   dateFinderChartLabels,
@@ -36,18 +38,31 @@ interface Props {
   profile: StoredProfile;
 }
 
+/** The activity a link asked for, if it names one. Rendered client-side only (under ProfileGate). */
+function activityFromQuery(): ActivityKey | null {
+  const value = new URLSearchParams(window.location.search).get("activity");
+  return ACTIVITY_KEYS.find((key) => key === value) ?? null;
+}
+
 export function DateFinder({ profile }: Props) {
   const today = todayLabel();
   const people = useMemo(() => loadPeople(), []);
 
-  const [activity, setActivity] = useState<ActivityKey | null>(null);
+  const [initialActivity] = useState(activityFromQuery);
+  const [activity, setActivity] = useState<ActivityKey | null>(initialActivity);
   const [start, setStart] = useState(today);
   const [end, setEnd] = useState(() => addDays(today, DEFAULT_SPAN_DAYS));
   const [personId, setPersonId] = useState<string>(() => {
     const active = loadActivePersonId();
     return active !== null && people.some((person) => person.id === active) ? active : JUST_ME;
   });
-  const [search, setSearch] = useState<DateSearch | null>(null);
+  const [search, setSearch] = useState<DateSearch | null>(() => {
+    if (initialActivity === null) {
+      return null;
+    }
+    const initialPerson = people.find((candidate) => candidate.id === loadActivePersonId()) ?? null;
+    return findDatesFor(profile, initialActivity, today, addDays(today, DEFAULT_SPAN_DAYS), initialPerson);
+  });
   const [error, setError] = useState<string | null>(null);
 
   const person = personId === JUST_ME ? null : people.find((p) => p.id === personId) ?? null;

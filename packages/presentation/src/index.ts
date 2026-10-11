@@ -97,3 +97,16 @@ export {
 export type { ConditionDay, HourBlock, HourMark } from "./conditions-screen.js";
 export { COLOUR_SWATCH } from "./colours.js";
 export { elementSplit, youColoursFor, youElementsFor, youScreenFor, type ElementSplit } from "./you-screen.js";
+export {
+  MONTH_NAMES,
+  decadeAges,
+  decadeView,
+  decadesOf,
+  monthView,
+  monthsOfYear,
+  yearView,
+  yearsOfDecade,
+  type Lean,
+  type PeriodSummary,
+  type PeriodView
+} from "./ahead-screen.js";
