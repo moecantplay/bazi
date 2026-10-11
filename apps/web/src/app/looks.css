@@ -69,6 +69,68 @@
 .topic-star:first-child { border-radius: 18px 18px 6px 6px; }
 .topic-star:last-child { border-radius: 6px 6px 18px 18px; }
 .topic-star:only-child { border-radius: 18px; }
+/* Good for / Hold off on (M20-26): one tonal card, tinted like the suits chips */
+.topic-suits { display: flex; flex-direction: column; gap: 16px; padding: 16px 18px; border-radius: var(--radius-card); background: var(--surface); }
+.topic-suits-group { display: flex; flex-direction: column; gap: 8px; }
+.topic-suits-label { font: 700 9.5px var(--font-space-mono), ui-monospace, monospace; letter-spacing: .14em; text-transform: uppercase; }
+.topic-suits-favors .topic-suits-label { color: var(--element-wood); }
+.topic-suits-watch .topic-suits-label { color: var(--signal-amber); }
+.topic-suits-list { display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.topic-suits-item { display: flex; align-items: baseline; gap: 10px; font-size: 15.5px; line-height: 1.45; color: var(--ink); }
+.topic-suits-item::before { content: ""; flex: none; width: 8px; height: 8px; border-radius: 50%; transform: translateY(-1px); }
+.topic-suits-favors .topic-suits-item::before { background: var(--element-wood); }
+.topic-suits-watch .topic-suits-item::before { box-shadow: inset 0 0 0 2px var(--signal-amber); }
+/* The fuller topic page (M20-26): tagline, cards, sore spot, steps, dates, drawings */
+:root { --topic-accent: var(--ink); }
+:root[data-terrain="wood"] { --topic-accent: var(--element-wood); }
+:root[data-terrain="fire"] { --topic-accent: var(--element-fire); }
+:root[data-terrain="earth"] { --topic-accent: var(--element-earth); }
+:root[data-terrain="metal"] { --topic-accent: var(--element-metal); }
+:root[data-terrain="water"] { --topic-accent: var(--element-water); }
+.topic-tagline { font-size: 19px; font-weight: 600; line-height: 1.35; color: var(--topic-accent); }
+.topic-closing { font-size: 13px; font-style: italic; line-height: 1.5; color: var(--ink-soft); }
+.topic-card-surface { display: flex; flex-direction: column; gap: 14px; padding: 16px 18px; border-radius: var(--radius-card); background: var(--surface); }
+.topic-mono-label { font: 700 9.5px var(--font-space-mono), ui-monospace, monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
+.topic-tone-favors { color: var(--element-wood); }
+.topic-tone-watch { color: var(--signal-amber); }
+.topic-tone-accent { color: var(--topic-accent); }
+.topic-where-row { display: flex; flex-direction: column; gap: 4px; }
+.topic-where-line { font-size: 15.5px; line-height: 1.5; color: var(--ink); }
+.topic-where-row:first-child .topic-where-line { font-size: 16px; }
+.topic-sore-status { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 10px; border-radius: 999px; background: var(--paper); font: 700 10.5px var(--font-space-mono), ui-monospace, monospace; letter-spacing: .1em; text-transform: uppercase; }
+.topic-sore-status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; }
+.topic-sore-status-favors { color: var(--element-wood); }
+.topic-sore-status-favors::before { background: var(--element-wood); }
+.topic-sore-status-watch { color: var(--signal-amber); }
+.topic-sore-status-watch::before { box-shadow: inset 0 0 0 2px var(--signal-amber); }
+.topic-sore-status-even { color: var(--ink-soft); }
+.topic-sore-status-even::before { background: var(--ink-soft); }
+.topic-sore-group { display: flex; flex-direction: column; gap: 8px; }
+.topic-chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.topic-chip { padding: 6px 12px; border-radius: 999px; background: var(--paper); font-size: 13px; font-weight: 600; color: var(--ink); }
+.topic-chip-favors { box-shadow: inset 0 0 0 2px var(--element-wood); }
+.topic-chip-watch { box-shadow: inset 0 0 0 2px var(--signal-amber); }
+.topic-steps { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.topic-steps li { display: flex; align-items: flex-start; gap: 12px; font-size: 16px; line-height: 1.5; color: var(--ink); }
+.topic-step-number { flex: none; width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; background: var(--surface); font: 700 12px var(--font-space-mono), ui-monospace, monospace; color: var(--ink); }
+.topic-recurrences { display: flex; flex-wrap: wrap; gap: 8px; }
+.topic-date-chip { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 999px; background: var(--surface); font-size: 14px; font-weight: 600; color: var(--ink); }
+.topic-date-chip:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.topic-stage-bars { display: flex; align-items: flex-end; gap: 5px; height: 100px; }
+.topic-stage-bar-slot { flex: 1; display: flex; align-items: flex-end; height: 100%; }
+.topic-stage-bar { width: 100%; border-radius: 6px; background: var(--hairline); }
+.topic-stage-bar-today { background: var(--topic-accent); }
+.topic-stage-neighbours { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.topic-stage-neighbour { display: flex; flex-direction: column; gap: 2px; }
+.topic-stage-name { font-size: 14.5px; font-weight: 500; color: var(--ink); }
+.topic-stage-name-today { font-weight: 700; }
+.topic-sign-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.topic-sign-tile { display: flex; flex-direction: column; gap: 4px; min-height: 96px; padding: 12px 14px; border-radius: var(--radius-tile); background: var(--surface); }
+.topic-sign-tile-met-watch { box-shadow: inset 0 0 0 2px var(--signal-amber); }
+.topic-sign-tile-met-favors { box-shadow: inset 0 0 0 2px var(--element-wood); }
+.topic-sign-tile-same { box-shadow: inset 0 0 0 2px var(--hairline); }
+.topic-sign-animal { font-family: var(--font-bricolage), sans-serif; font-weight: 800; font-size: 20px; line-height: 1.2; color: var(--ink); }
+.topic-sign-note { font-size: 12.5px; font-weight: 600; line-height: 1.35; color: var(--ink-soft); }
 
 /* ---- Explorer ---- */
 .route-hero { position: relative; height: 518px; overflow: hidden; }

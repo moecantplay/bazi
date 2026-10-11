@@ -91,3 +91,13 @@ export function formatLong(iso: string): string {
     year: "numeric"
   }).format(new Date(`${iso}T00:00:00Z`));
 }
+
+/** A short human date like "Fri 16 Oct", for date chips; same locale and zone rules as `formatLong`. */
+export function formatDayShort(iso: string): string {
+  return new Intl.DateTimeFormat(undefined, {
+    timeZone: "UTC",
+    weekday: "short",
+    day: "numeric",
+    month: "short"
+  }).format(new Date(`${iso}T00:00:00Z`));
+}

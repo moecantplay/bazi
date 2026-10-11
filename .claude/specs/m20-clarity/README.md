@@ -57,6 +57,7 @@ A 60-day audit of Today for Fixture A (2026-09-01 → 2026-10-30):
 | 23 | [Problem and remedy](23-problem-and-remedy/requirements.md) | draft | — |
 | 24 | [Today's header in plain words](24-today-header-plain/requirements.md) | done | — |
 | 25 | [Chromium crashes mid-suite](25-chromium-crash-mid-suite/requirements.md) | draft | — |
+| 26 | [Topic pages as the trial built them](26-topic-pages-from-the-trial/requirements.md) | in-progress | 21 |
 
 ## Exit criteria
 

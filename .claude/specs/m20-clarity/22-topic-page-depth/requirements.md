@@ -2,6 +2,8 @@
 
 Status: draft · Milestone: M20 · Ticket: 22
 
+> 2026-10-11: [M20-26](../26-topic-pages-from-the-trial/requirements.md) shipped the trial's cut of this ticket (R4 Good for / Hold off on, the fuller layout, three topics written out, the sore spot as a presentation stopgap). What remains here is the full version on top of it.
+
 ## Problem
 
 Owner, 2026-10-05: "i think we're lacking of content. detail page for each topic are just single sentences."

@@ -1,8 +1,10 @@
 /**
- * One topic page (M20-21 R11): plain title, the old name once, how it applies
- * today, how it tends to go, how to work with it, and where the name comes
- * from. A date outside Today's range or a topic the day doesn't carry sends
- * the reader back to Today.
+ * One topic page (M20-21 R11; fuller since M20-26): plain title, a
+ * short everyday line, the old name once, how it applies today, a drawing of
+ * the reader's chart where one fits, how it tends to go, where it shows up,
+ * the chart's sore spot, what it's good for, three steps, when it comes back
+ * and where the name comes from. A date outside Today's range or a topic the
+ * day doesn't carry sends the reader back to Today.
  */
 
 "use client";
@@ -10,35 +12,18 @@
 import { useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import type { TokenLine } from "@daymaster/content";
 import { dayTerrain, formatLong, topicPageFor, type StoredProfile } from "@daymaster/presentation";
 import { TokenText } from "@/components/token-text";
+import { TopicParagraphs, TopicRecurrences, TopicSection, TopicSteps, TopicWhereCard } from "@/components/topic/topic-sections";
+import { TopicSoreSpot } from "@/components/topic/topic-sore-spot";
+import { TopicStars } from "@/components/topic/topic-stars";
+import { TopicSuits } from "@/components/topic/topic-suits";
+import { TopicVisualBlock } from "@/components/topic/topic-visual";
 import { dateFromQuery, todayHref } from "@/lib/topic-href";
 import { useTodayLabel } from "@/lib/use-today-label";
 
 interface Props {
   profile: StoredProfile;
-}
-
-function Section({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <section className="topic-section">
-      <h2 className="kicker">{label}</h2>
-      {children}
-    </section>
-  );
-}
-
-function Paragraphs({ lines }: { lines: readonly TokenLine[] }) {
-  return (
-    <>
-      {lines.map((line, index) => (
-        <p key={index} className="text-[16px] leading-relaxed text-ink">
-          <TokenText line={line} />
-        </p>
-      ))}
-    </>
-  );
 }
 
 export function TopicPageView({ profile }: Props) {
@@ -71,6 +56,11 @@ export function TopicPageView({ profile }: Props) {
         <h1 className="font-display text-[34px] leading-[1.07] tracking-[-0.022em] text-ink [text-wrap:balance]">
           <TokenText line={page.title} />
         </h1>
+        {page.tagline && (
+          <p data-topic-tagline className="topic-tagline">
+            <TokenText line={page.tagline} />
+          </p>
+        )}
         {page.oldName && (
           <p className="topic-old-name">
             <TokenText line={page.oldName} />
@@ -78,48 +68,30 @@ export function TopicPageView({ profile }: Props) {
         )}
       </header>
       {page.forYou && (
-        <Section label="For you today">
-          <Paragraphs lines={[page.forYou]} />
-        </Section>
+        <TopicSection label="For you today">
+          <TopicParagraphs lines={[page.forYou]} />
+        </TopicSection>
       )}
-      {page.stars.length > 0 && (
-        <ul className="topic-stars">
-          {page.stars.map((star, index) => (
-            <li key={index} className="topic-star">
-              <span className="topic-card-title">
-                <TokenText line={star.title} />
-              </span>
-              <span className="topic-card-line">
-                <TokenText line={star.line} />
-              </span>
-              <span className="topic-card-kicker">
-                Old name · <TokenText line={star.oldName} />
-              </span>
-            </li>
-          ))}
-        </ul>
-      )}
+      {page.visual && <TopicVisualBlock visual={page.visual} />}
+      {page.stars.length > 0 && <TopicStars stars={page.stars} />}
       {page.how.length > 0 && (
-        <Section label="How it tends to go">
-          <Paragraphs lines={page.how} />
-        </Section>
+        <TopicSection label="How it tends to go">
+          <TopicParagraphs lines={page.how} />
+        </TopicSection>
       )}
-      {page.work.length > 0 && (
-        <Section label="Working with it">
-          <ul className="topic-work">
-            {page.work.map((line, index) => (
-              <li key={index}>
-                <TokenText line={line} />
-              </li>
-            ))}
-          </ul>
-        </Section>
-      )}
-      <Section label="Where the name comes from">
+      {page.where.length > 0 && <TopicWhereCard rows={page.where} />}
+      {page.sore && <TopicSoreSpot sore={page.sore} />}
+      <TopicSuits goodFor={page.goodFor} holdOff={page.holdOff} />
+      {page.work.length > 0 && <TopicSteps lines={page.work} />}
+      {page.recurrences.length > 0 && <TopicRecurrences dates={page.recurrences} topic={topic} />}
+      <TopicSection label="Where the name comes from">
         <p className="text-[15px] leading-relaxed text-ink-soft">
           <TokenText line={page.nameOrigin} />
         </p>
-      </Section>
+      </TopicSection>
+      <p data-topic-closing className="topic-closing">
+        <TokenText line={page.closing} />
+      </p>
     </article>
   );
 }

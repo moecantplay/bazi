@@ -33,6 +33,8 @@ test("the reading's Read more opens the lead's page, where the old name lives", 
   await expect(topicPage).toContainText("The old calendars call this");
   await expect(topicPage.getByRole("heading", { name: "For you today" })).toBeVisible();
   await expect(topicPage.getByRole("heading", { name: "Working with it" })).toBeVisible();
+  await expect(topicPage.getByRole("heading", { name: "Good for" })).toBeVisible();
+  await expect(topicPage.getByRole("heading", { name: "Hold off on" })).toBeVisible();
 });
 
 test("a topic the day doesn't carry falls back to Today", async ({ page, context }) => {
@@ -82,4 +84,19 @@ test("cycles horizon captions link to the glossary too", async ({ page, context 
   const yearCard = page.locator('[data-horizon="year"]');
   await yearCard.locator("[data-fact-tag] button").first().click();
   await expect(page.locator("[data-glossary-sheet]")).toBeVisible();
+});
+
+test("M20-26: a written-out topic page carries every section, and a date it comes back opens that day", async ({ page, context }) => {
+  await seedProfile(context, FIXTURE_A);
+  await pinClock(context, "2026-10-10T09:00:00Z");
+  await page.goto(`/today/topic/?date=2026-10-06&topic=${encodeURIComponent("ten-god:Direct Wealth")}`);
+  const topicPage = page.locator("[data-topic-page]");
+  await expect(topicPage.locator("[data-topic-tagline]")).toHaveText("Do less, finish it, take the help.");
+  for (const heading of ["For you today", "How it tends to go", "Where it shows up", "Your sore spot and what eases it", "Working with it", "When it comes back"]) {
+    await expect(topicPage.getByRole("heading", { name: heading })).toBeVisible();
+  }
+  await expect(topicPage.locator("[data-topic-closing]")).toBeVisible();
+  await topicPage.getByRole("link", { name: /16 Oct/ }).click();
+  await expect(page).toHaveURL(/date=2026-10-16&topic=ten-god/);
+  await expect(page.locator("[data-topic-page] h1")).toHaveText("A day for steady work");
 });

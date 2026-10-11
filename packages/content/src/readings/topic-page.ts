@@ -6,7 +6,7 @@
 
 import type { Branch, ReadingFact } from "@daymaster/bazi-engine";
 import { textRun } from "../tokens.js";
-import type { TopicPage } from "../types.js";
+import type { TopicContext, TopicPage } from "../types.js";
 import { BRANCH_ANIMALS, elementWord, hourWindowLabel } from "../vocab.js";
 import { ELEMENT_CARDS, STAGE_CARDS, STAR_TITLES, TEN_GOD_CARDS } from "../banks/daily/cards.js";
 import { AREA_SIGN_SUBJECT, AREA_TITLE_PHRASE, INTERACTION_TOPICS } from "../banks/topics/interactions.js";
@@ -22,13 +22,35 @@ import {
   TEN_GOD_NAME_ORIGIN,
   TEN_GOD_TOPICS,
 } from "../banks/topics/day.js";
+import { ELEMENT_SUITS, INTERACTION_SUITS, STAGE_SUITS, TEN_GOD_SUITS, type TopicSuits } from "../banks/topics/suits.js";
+import { TOPIC_CLOSING } from "../banks/topics/depth.js";
 import { interactionTopic, rankTransits, type TransitFact } from "./daily/lead.js";
+import { deepenTopicPage } from "./topic-depth.js";
 import { lifeAreaOf } from "./daily/life-areas.js";
 
 type FactOf<K extends ReadingFact["kind"]> = Extract<ReadingFact, { kind: K }>;
 
 function page(fields: Partial<TopicPage> & Pick<TopicPage, "title" | "nameOrigin">): TopicPage {
-  return { oldName: null, forYou: null, how: [], work: [], stars: [], ...fields };
+  return {
+    oldName: null,
+    forYou: null,
+    how: [],
+    goodFor: [],
+    holdOff: [],
+    work: [],
+    stars: [],
+    tagline: null,
+    where: [],
+    sore: null,
+    visual: null,
+    recurrences: [],
+    closing: textRun(TOPIC_CLOSING),
+    ...fields,
+  };
+}
+
+function suits(entry: TopicSuits | undefined): Pick<TopicPage, "goodFor" | "holdOff"> {
+  return { goodFor: lines(entry?.goodFor ?? []), holdOff: lines(entry?.holdOff ?? []) };
 }
 
 function lines(texts: readonly string[]) {
@@ -59,6 +81,7 @@ function interactionPage(fact: TransitFact): TopicPage {
     oldName: textRun(`The old calendars call this ${topic.oldName}.`),
     forYou: textRun(mechanics(fact, topic.verb)),
     how: lines(topic.how),
+    ...suits(INTERACTION_SUITS[fact.interaction]),
     work: lines(topic.work),
     nameOrigin: textRun(topic.nameOrigin),
   });
@@ -72,6 +95,7 @@ function tenGodPage(fact: FactOf<"ten-god-day">, quiet: boolean): TopicPage {
     oldName: textRun(`The old calendars call this a ${fact.english} day.`),
     forYou: textRun(quiet ? `${QUIET_FOR_YOU} ${line}` : line),
     how: lines([topic.how]),
+    ...suits(TEN_GOD_SUITS[fact.english] ?? TEN_GOD_SUITS["Friend"]),
     work: lines([topic.work]),
     nameOrigin: textRun(TEN_GOD_NAME_ORIGIN),
   });
@@ -86,6 +110,7 @@ function elementPage(fact: FactOf<"element-day">): TopicPage {
     oldName: textRun(`The old calendars call this a ${name} day.`),
     forYou: textRun(ELEMENT_TOPIC[tone].forYou(name)),
     how: lines([line]),
+    ...suits(ELEMENT_SUITS[fact.element][tone]),
     work: lines([ELEMENT_TOPIC[tone].work]),
     nameOrigin: textRun(ELEMENT_NAME_ORIGIN),
   });
@@ -98,6 +123,7 @@ function stagePage(fact: FactOf<"stage-day">): TopicPage {
     title: textRun(title),
     oldName: textRun(`The old calendars call this stage ${english}.`),
     forYou: textRun(line),
+    ...suits(STAGE_SUITS[english]),
     work: lines([STAGE_WORK[english] ?? "Match your plans to the pace the day offers."]),
     nameOrigin: textRun(STAGE_NAME_ORIGIN),
   });
@@ -128,8 +154,16 @@ function starsPage(stars: readonly FactOf<"star-day">[]): TopicPage {
   });
 }
 
-/** The page for a topic key, or null when the day carries nothing under it. */
-export function topicPage(topic: string, facts: readonly ReadingFact[]): TopicPage | null {
+/**
+ * The page for a topic key, or null when the day carries nothing under it.
+ * With the chart's context, the page gains fuller sections (M20-26).
+ */
+export function topicPage(topic: string, facts: readonly ReadingFact[], context?: TopicContext): TopicPage | null {
+  const base = basePage(topic, facts);
+  return base && context ? deepenTopicPage(base, topic, facts, context) : base;
+}
+
+function basePage(topic: string, facts: readonly ReadingFact[]): TopicPage | null {
   if (topic.startsWith("interaction:")) {
     const fact = rankTransits(facts).find((candidate) => interactionTopic(candidate) === topic);
     return fact ? interactionPage(fact) : null;
