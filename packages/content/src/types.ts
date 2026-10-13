@@ -124,6 +124,8 @@ export interface TopicCard {
   titles: TokenLine[];
   /** One plain sentence, or null when the titles say it all. */
   line: TokenLine | null;
+  /** A second sentence on its own line: only the hours card's best hour (M24-13). */
+  note: TokenLine | null;
 }
 
 /**

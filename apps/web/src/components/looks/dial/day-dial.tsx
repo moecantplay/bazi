@@ -1,8 +1,9 @@
 /**
  * Instrument's signature object (DESIGN.md v5 §Instrument): the day's easy
- * and rough hours as arcs on a 24-hour ring, the twelve two-hour animals on
- * the rim (three lit: rough, easy, and the hour you are in), and a hand in
- * the anchor pair pointing at now. On any other day there is no hand.
+ * and rough hours as arcs on a 24-hour ring, the reader's best hour as a thin
+ * arc just outside it (M24-13), the twelve two-hour animals on the rim (up to
+ * four lit: rough, easy, your best hour and the hour you are in), and a hand
+ * in the anchor pair pointing at now. On any other day there is no hand.
  */
 
 "use client";
@@ -10,6 +11,8 @@
 import { describeBranch, mapHeroSummary, type RouteWaypoint } from "@daymaster/presentation";
 import { AnimalGlyphMark } from "@/components/glyph-icon";
 import type { TodayScreen } from "@/components/today/use-today-screen";
+import type { Element } from "@daymaster/bazi-engine";
+import { BestHourStar, elementFill, elementHue } from "../best-hour-star";
 import { DIAL_CENTRE as C, HOUR_ANIMALS, RIM_RADIUS, TRACK_RADIUS, angleOf, arcPath, blockOfHour, polar } from "./dial-geometry";
 
 interface Props {
@@ -28,7 +31,12 @@ const CARDINALS: [number, string][] = [
 interface Lit {
   fill: string;
   ring: string;
+  /** The reader's best hour: its element's star, and an outer ring when it shares the easy hour's halo. */
+  bestHour?: { element: Element; sharesHalo: boolean };
 }
+
+/** Radius of the best-hour arc, between the track (118 ± 8) and the rim animals (154 − 15). */
+const BEST_HOUR_RADIUS = 133;
 
 function clockLabel(date: Date): string {
   return new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit" }).format(date).toUpperCase();
@@ -41,6 +49,7 @@ function weekdayLabel(dateISO: string): string {
 
 export function DayDial({ screen }: Props) {
   const { model, now } = screen;
+  const { bestHour } = model;
   const timed = model.waypoints.filter((waypoint): waypoint is Timed => waypoint.timing.kind === "hours");
   const hour = now ? now.getHours() + now.getMinutes() / 60 : null;
 
@@ -50,11 +59,18 @@ export function DayDial({ screen }: Props) {
       ? { fill: "var(--signal-amber-fill)", ring: "var(--signal-amber)" }
       : { fill: "var(--element-wood-fill)", ring: "var(--element-wood)" });
   }
+  if (bestHour) {
+    const animal = describeBranch(bestHour.branch).gloss;
+    const shared = lit.get(animal);
+    lit.set(animal, shared
+      ? { ...shared, bestHour: { element: bestHour.element, sharesHalo: true } }
+      : { fill: elementFill(bestHour.element), ring: elementHue(bestHour.element), bestHour: { element: bestHour.element, sharesHalo: false } });
+  }
   const currentAnimal = hour === null ? null : HOUR_ANIMALS[blockOfHour(hour)];
   if (currentAnimal && !lit.has(currentAnimal)) {
     lit.set(currentAnimal, { fill: "var(--surface)", ring: "var(--ink)" });
   }
-  const { ariaLabel } = mapHeroSummary(model.waypoints, model.tone);
+  const { ariaLabel } = mapHeroSummary(model.waypoints, model.tone, bestHour);
 
   return (
     <svg className="day-dial" viewBox="-12 -12 364 364" role="img" aria-label={ariaLabel.replace("Today's route", "Today's hours")}>
@@ -90,16 +106,31 @@ export function DayDial({ screen }: Props) {
           strokeDasharray={1}
         />
       ))}
+      {bestHour && (
+        <path
+          data-waypoint="best-hour"
+          className="arrive-draw"
+          d={arcPath(bestHour.startHour, bestHour.endHour, BEST_HOUR_RADIUS)}
+          fill="none"
+          stroke={elementHue(bestHour.element)}
+          strokeWidth={5}
+          strokeLinecap="round"
+          pathLength={1}
+          strokeDasharray={1}
+        />
+      )}
       {HOUR_ANIMALS.map((animal, index) => {
         const [x, y] = polar(index * 2, RIM_RADIUS);
         const mark = lit.get(animal);
         const size = mark ? 18 : 16;
         return (
           <g key={animal} className="arrive-pop" style={{ ["--d" as string]: 2 + index * 0.35 }}>
+            {mark?.bestHour?.sharesHalo && <circle cx={x} cy={y} r={19} fill="none" stroke={elementHue(mark.bestHour.element)} strokeWidth={2} />}
             {mark && <circle cx={x} cy={y} r={15} fill={mark.fill} stroke={mark.ring} strokeWidth={1.8} />}
             <g style={{ color: "var(--ink)" }} opacity={mark ? 1 : 0.42}>
               <AnimalGlyphMark animal={animal} transform={`translate(${x - size / 2} ${y - size / 2}) scale(${size / 24})`} renderSize={size} />
             </g>
+            {mark?.bestHour && <BestHourStar x={x + 12} y={y - 12} element={mark.bestHour.element} />}
           </g>
         );
       })}
@@ -122,8 +153,9 @@ export function DayDial({ screen }: Props) {
   );
 }
 
-/** The dial's key: the easy and rough hours in words, under the ring. */
+/** The dial's key: the easy and rough hours in words, under the ring, then the reader's best hour. */
 export function DialKey({ screen }: Props) {
+  const { bestHour } = screen.model;
   const timed = screen.model.waypoints.filter((waypoint): waypoint is Timed => waypoint.timing.kind === "hours");
   return (
     <p className="caption flex flex-wrap gap-x-4 gap-y-1">
@@ -137,6 +169,12 @@ export function DialKey({ screen }: Props) {
           {`${waypoint.crossing ? "Rough" : "Easy"} ${waypoint.timing.label}`}
         </span>
       ))}
+      {bestHour && (
+        <span data-best-hour-key className="inline-flex items-center gap-2">
+          <span aria-hidden className="h-[7px] w-[18px] rounded-full" style={{ background: elementHue(bestHour.element) }} />
+          {bestHour.isEasyHour ? "Easy hour suits you" : `Suits you ${bestHour.label}`}
+        </span>
+      )}
     </p>
   );
 }

@@ -7,7 +7,7 @@
 
 import type { ReadingFact } from "@daymaster/bazi-engine";
 import { cyclePick, dayNumber } from "../../hash.js";
-import { textRun } from "../../tokens.js";
+import { textRun, type TokenLine } from "../../tokens.js";
 import type { DailySeed, TopicCard } from "../../types.js";
 import { hourWindowLabel } from "../../vocab.js";
 import {
@@ -19,6 +19,7 @@ import {
   TEN_GOD_CARDS,
   type CardText,
 } from "../../banks/daily/cards.js";
+import { BEST_HOUR_LINES } from "../../banks/topics/day.js";
 import { interactionTopic, rankTransits, type Lead, type Modifier } from "./lead.js";
 import { lifeAreaOf } from "./life-areas.js";
 
@@ -29,7 +30,14 @@ function factOf<K extends ReadingFact["kind"]>(facts: readonly ReadingFact[], ki
 }
 
 function card(topic: string, kicker: string, [title, line]: CardText): TopicCard {
-  return { topic, kicker, titles: [textRun(title)], line: textRun(line) };
+  return { topic, kicker, titles: [textRun(title)], line: textRun(line), note: null };
+}
+
+function bestHourNote(bestHour: FactOf<"best-hour"> | undefined): TokenLine | null {
+  if (!bestHour) {
+    return null;
+  }
+  return textRun(bestHour.isEasyHour ? BEST_HOUR_LINES.cardIsEasyHour : BEST_HOUR_LINES.card(hourWindowLabel(bestHour.startHour, bestHour.endHour)));
 }
 
 /** Every non-lead fact as a plain card. */
@@ -66,6 +74,7 @@ export function topicCards(facts: readonly ReadingFact[], lead: Lead, modifier: 
       kicker: CARD_KICKERS.hours,
       titles: [textRun(`Easiest ${hourWindowLabel(easy.startHour, easy.endHour)}`)],
       line: textRun(`Roughest ${hourWindowLabel(rough.startHour, rough.endHour)}.`),
+      note: bestHourNote(factOf(facts, "best-hour")),
     });
   }
 
@@ -82,6 +91,7 @@ export function topicCards(facts: readonly ReadingFact[], lead: Lead, modifier: 
       kicker: CARD_KICKERS.stars,
       titles: stars.map((star) => textRun(STAR_TITLES[star.star] ?? "A small sign today")),
       line: null,
+      note: null,
     });
   }
 

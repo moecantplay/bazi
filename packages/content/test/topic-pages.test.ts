@@ -29,6 +29,7 @@ function dayWith(extra: ReadingFact[], english = "Friend", stage = "Peak"): Read
     { kind: "stage-day", stage: { chinese: "階", english: stage } },
     { kind: "hour-interaction", interaction: "six-clash", hourBranch: "子", dayBranch: "午", startHour: 23, endHour: 1 },
     { kind: "hour-interaction", interaction: "six-combine", hourBranch: "未", dayBranch: "午", startHour: 13, endHour: 15 },
+    { kind: "best-hour", hourBranch: "辰", hourStem: "丙", element: "fire", startHour: 7, endHour: 9, isEasyHour: false, score: 2, reasons: [{ source: "stem-element", element: "fire" }] },
     ...STAR_KEYS.map((star): ReadingFact => ({ kind: "star-day", star, chinese: "星", english: star, transitPalace: "daily" })),
   ];
 }
@@ -50,6 +51,7 @@ describe("topic pages", () => {
     for (const element of ELEMENTS) {
       days.push([...dayWith([]).filter((fact) => fact.kind !== "element-day"), { kind: "element-day", element, favorable: false }]);
     }
+    days.push(dayWith([]).map((fact) => (fact.kind === "best-hour" ? { ...fact, hourBranch: "未", startHour: 13, endHour: 15, isEasyHour: true } : fact)));
     for (const facts of days) {
       const reading = dailyReading(facts, { chart: "c", date: "2026-09-29" });
       for (const topic of [reading.leadTopic, ...reading.cards.map((card) => card.topic)]) {
@@ -58,6 +60,9 @@ describe("topic pages", () => {
         if (!page) continue;
         assertVoice(plainGloss(page.title));
         assertVoice(plainGloss(page.nameOrigin));
+        if (page.forYou) {
+          assertVoice(plainGloss(page.forYou));
+        }
         for (const line of [...page.how, ...page.work]) {
           assertVoice(plainGloss(line));
         }

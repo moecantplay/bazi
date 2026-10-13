@@ -42,6 +42,11 @@ function CardText({ card }: { card: TopicCard }) {
           <TokenText line={card.line} />
         </span>
       )}
+      {card.note && (
+        <span className="topic-card-line" data-card-note>
+          <TokenText line={card.note} />
+        </span>
+      )}
       <span className="topic-card-more">
         Read more <span aria-hidden>&rsaquo;</span>
       </span>

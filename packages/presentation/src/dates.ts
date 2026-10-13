@@ -61,7 +61,19 @@ export function dayProgress(now: Date = new Date()): number {
  * and the EVENING arrow at the end, whatever hour they resolve to.
  */
 const TIMED_PROGRESS_MIN = 0.2;
-const TIMED_PROGRESS_MAX = 0.86;
+export const TIMED_PROGRESS_MAX = 0.86;
+
+/**
+ * A two-hour block's centre on the route's 0–1 scale before clamping: below
+ * 0 for the small hours, above 1 for late night. Orders blocks that clamp to
+ * the same end by when they fall in the day.
+ */
+export function hourWindowRawProgress(startHour: number, endHour: number): number {
+  const wrapsMidnight = endHour < startHour;
+  const centre = wrapsMidnight ? startHour + 1 : (startHour + endHour) / 2;
+  const span = ROUTE_DAY_END_HOUR - ROUTE_DAY_START_HOUR;
+  return (centre - ROUTE_DAY_START_HOUR) / span;
+}
 
 /**
  * Where a two-hour block's centre falls along the route, on the same 0–1
@@ -70,11 +82,7 @@ const TIMED_PROGRESS_MAX = 0.86;
  * is treated as late night, so it sits at the EVENING end.
  */
 export function hourWindowProgress(startHour: number, endHour: number): number {
-  const wrapsMidnight = endHour < startHour;
-  const centre = wrapsMidnight ? startHour + 1 : (startHour + endHour) / 2;
-  const span = ROUTE_DAY_END_HOUR - ROUTE_DAY_START_HOUR;
-  const raw = (centre - ROUTE_DAY_START_HOUR) / span;
-  return Math.min(TIMED_PROGRESS_MAX, Math.max(TIMED_PROGRESS_MIN, raw));
+  return Math.min(TIMED_PROGRESS_MAX, Math.max(TIMED_PROGRESS_MIN, hourWindowRawProgress(startHour, endHour)));
 }
 
 /**

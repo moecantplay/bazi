@@ -37,9 +37,11 @@ export function TodayInstrument({ screen }: Props) {
         <WeekRings profile={screen.profile} today={screen.today} selectedISO={screen.dateISO} onSelect={screen.jumpTo} />
         <WeekLegendLink />
       </div>
-      <DayDial screen={screen} />
-      <div className="arrive-rise" style={{ ["--d" as string]: 4 }}>
-        <DialKey screen={screen} />
+      <div className="flex flex-col gap-2">
+        <DayDial screen={screen} />
+        <div className="arrive-rise" style={{ ["--d" as string]: 4 }}>
+          <DialKey screen={screen} />
+        </div>
       </div>
       <TodayDateNotes screen={screen} />
       <Headline runs={model.headline} className="arrive-rise text-[31px]" />

@@ -88,6 +88,7 @@ export {
   hourPillar,
   annualPillar,
   dailyPillar,
+  hourBlockWindow,
 } from "./pillars.js";
 
 export { findGoverningTerm, findNextTerm, findSolarYear, SOLAR_TERMS } from "./solar-terms.js";
@@ -124,7 +125,8 @@ export { luckPillars, luckStart, type LuckPillarInput } from "./luck-pillars.js"
 export { strength, type StrengthInput } from "./strength.js";
 export { favorableElements, type FavorableInput } from "./favorable-elements.js";
 export { computeChart } from "./chart.js";
-export { natalFacts, dailyFacts, hourInteractionFacts, hourBlockWindow, type ReadingFact } from "./facts.js";
+export { natalFacts, dailyFacts, hourInteractionFacts, type ReadingFact } from "./facts.js";
+export { bestHourFact, type BestHour, type BestHourReason } from "./best-hour.js";
 export {
   ACTIVITIES,
   ACTIVITY_KEYS,

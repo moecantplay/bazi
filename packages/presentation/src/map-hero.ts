@@ -1,14 +1,14 @@
-/** The map hero's derived summary: how many day-long waypoints are crossings, and the SVG's aria-label (tone, crossings, the timed hours). */
+/** The map hero's derived summary: how many day-long waypoints are crossings, and the SVG's aria-label (tone, crossings, the timed hours, the reader's best hour). */
 
 import type { DayTone } from "./day-tone.js";
-import type { RouteWaypoint } from "./route-waypoints.js";
+import type { BestHourMark, RouteWaypoint } from "./route-waypoints.js";
 
 export interface MapHeroSummary {
   crossingCount: number;
   ariaLabel: string;
 }
 
-export function mapHeroSummary(waypoints: readonly RouteWaypoint[], tone: DayTone): MapHeroSummary {
+export function mapHeroSummary(waypoints: readonly RouteWaypoint[], tone: DayTone, bestHour: BestHourMark | null = null): MapHeroSummary {
   const dayLong = waypoints.filter((waypoint) => waypoint.timing.kind === "all-day");
   const crossingCount = dayLong.filter((waypoint) => waypoint.crossing).length;
   const toneWord =
@@ -23,6 +23,9 @@ export function mapHeroSummary(waypoints: readonly RouteWaypoint[], tone: DayTon
         : ""
     )
     .filter((part) => part.length > 0);
+  if (bestHour) {
+    hours.push(bestHour.isEasyHour ? "the easy hour suits you best" : `suits you best ${bestHour.label}`);
+  }
   const hoursPart = hours.length > 0 ? `, ${hours.join(", ")}` : "";
   const ariaLabel = `Today's route: ${toneWord}${crossings}${hoursPart}`;
   return { crossingCount, ariaLabel };

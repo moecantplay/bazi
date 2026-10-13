@@ -150,7 +150,7 @@
 .week-calendar-day[aria-pressed="true"] { background: var(--anchor); color: var(--paper); }
 
 /* ---- Instrument ---- */
-.day-dial { display: block; width: 100%; max-width: 280px; margin: 0 auto; overflow: visible; }
+.day-dial { display: block; width: 100%; max-width: 272px; margin: 0 auto; overflow: visible; }
 .week-ring { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; border: 2.5px solid var(--hairline); font: 700 11px var(--font-space-mono), ui-monospace, monospace; color: var(--ink); }
 .week-ring[data-tone="favoured"] { border-color: var(--element-wood); }
 .week-ring[data-tone="friction"] { border-color: var(--signal-amber); border-style: dashed; }

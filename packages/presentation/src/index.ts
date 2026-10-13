@@ -60,8 +60,8 @@ export { dailySeedKey, natalReadingFor, dailyBundleFor } from "./reading.js";
 export type { DailyBundle } from "./reading.js";
 export { dayGuidanceFor } from "./guidance.js";
 export type { DayGuidance, GuidanceChip, GuidanceBundle } from "./guidance.js";
-export { routeWaypointsFor } from "./route-waypoints.js";
-export type { RouteWaypoint, WaypointTiming } from "./route-waypoints.js";
+export { bestHourMarkFor, routeWaypointsFor } from "./route-waypoints.js";
+export type { BestHourMark, RouteWaypoint, WaypointTiming } from "./route-waypoints.js";
 export {
   todayScreenModel,
   headlineRuns,

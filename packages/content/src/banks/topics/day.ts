@@ -60,6 +60,14 @@ export const HOURS_TOPIC = {
   nameOrigin: "The day splits into twelve two-hour blocks, each with its own animal sign. One block pulls with today's sign and one pulls against it; the old almanacs call them the day's lucky and unlucky hours.",
 };
 
+/** The reader's best hour (M24-13): the card's own line and the topic page's why. */
+export const BEST_HOUR_LINES = {
+  card: (window: string) => `${window} suits you best.`,
+  cardIsEasyHour: "The easy hour suits you best too.",
+  why: (window: string, element: string) => `${window} suits you best: it brings ${element}, and your birth chart runs better with more of it.`,
+  whyIsEasyHour: (element: string) => `The easy hour suits you best too: it brings ${element}, and your birth chart runs better with more of it.`,
+};
+
 export const STAR_LINES: Record<string, string> = {
   "tianyi-nobleman": "Help tends to appear when you ask for it. Ask.",
   "tiande-virtue": "Trouble tends to shrink near you today.",

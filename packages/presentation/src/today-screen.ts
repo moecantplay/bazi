@@ -16,7 +16,7 @@ import { dayTone, type DayTone } from "./day-tone.js";
 import { describeBranch, describeStem } from "./display.js";
 import { dayGuidanceFor, type GuidanceBundle } from "./guidance.js";
 import { dailyBundleFor } from "./reading.js";
-import { routeWaypointsFor, type RouteWaypoint } from "./route-waypoints.js";
+import { bestHourMarkFor, routeWaypointsFor, type BestHourMark, type RouteWaypoint } from "./route-waypoints.js";
 import type { StoredProfile } from "./types.js";
 
 /** How many days out from today a reading may be viewed, in either direction. */
@@ -72,6 +72,8 @@ export interface TodayScreenModel {
   guidance: GuidanceBundle;
   tone: DayTone;
   waypoints: RouteWaypoint[];
+  /** The reader's best hour (M24-13), placed on the route with the day's timed waypoints. */
+  bestHour: BestHourMark | null;
   headline: HeadlineRun[];
   dateRange: TodayDateRange;
 }
@@ -87,6 +89,7 @@ export function todayScreenModel(
   const guidance = dayGuidanceFor(profile, dateISO);
   const tone = dayTone(profile, dateISO);
   const waypoints = routeWaypointsFor(bundle.facts);
+  const bestHour = bestHourMarkFor(bundle.facts);
 
   const stem = describeStem(bundle.dayPillar.stem);
   const branch = describeBranch(bundle.dayPillar.branch);
@@ -116,6 +119,7 @@ export function todayScreenModel(
     guidance,
     tone,
     waypoints,
+    bestHour,
     headline: headlineRuns(plainGloss(bundle.reading.headline.runs)),
     dateRange
   };

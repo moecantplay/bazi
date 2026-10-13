@@ -55,16 +55,22 @@ export const CONTOURS: { d: string; heavy: boolean }[] = [
   }))
 );
 
-/** Keep two timed marks at least `gap` apart on the route. */
-export function spreadMarks(xs: number[], gap = 46): number[] {
-  if (xs.length !== 2) {
-    return xs;
+/** Space Mono at 9.5px with the label letter-spacing: about 7px a character. */
+const LABEL_CHAR_WIDTH = 7.1;
+
+/**
+ * Up and to the left of the mark, where the climbing route never is; a label
+ * that would run off the left edge goes down and to the right instead, the
+ * other side the route never occupies.
+ */
+export function labelPlacement(x: number, y: number, text: string): { x: number; y: number; anchor: "start" | "end" } {
+  if (x - 24 - text.length * LABEL_CHAR_WIDTH >= 4) {
+    return { x: x - 24, y: y - 12, anchor: "end" };
   }
-  const [first = 0, second = 0] = xs;
-  const distance = Math.abs(second - first);
-  if (distance >= gap) {
-    return xs;
-  }
-  const push = (gap - distance) / 2;
-  return first <= second ? [first - push, second + push] : [first + push, second - push];
+  return { x: x + 24, y: y + 26, anchor: "start" };
+}
+
+/** Whether a clock hour falls inside a two-hour block (blocks may wrap past midnight). */
+export function inBlock(hour: number, start: number, end: number): boolean {
+  return end > start ? hour >= start && hour < end : hour >= start || hour < end;
 }

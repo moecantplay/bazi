@@ -8,10 +8,10 @@
 
 import { DateTime } from "luxon";
 import { FIVE_RATS, FIVE_TIGERS, JIE_BY_NAME } from "../data/tables.js";
-import { branchAt, sexagenaryPillar, stemAt, stemIndex } from "./sexagenary.js";
+import { branchAt, branchIndex, sexagenaryPillar, stemAt, stemIndex } from "./sexagenary.js";
 import { findGoverningTerm, findSolarYear } from "./solar-terms.js";
 import { applyLoadedTrueSolarTime } from "./true-solar-loader.js";
-import { DEFAULT_CONFIG, type EngineConfig, type Pillar, type Stem } from "./types.js";
+import { DEFAULT_CONFIG, type Branch, type EngineConfig, type Pillar, type Stem } from "./types.js";
 
 /**
  * Sexagenary anchor for the solar year: the 立春-bounded year of 1984 is 甲子
@@ -148,6 +148,12 @@ export function hourPillar(
     stem: stemAt(stemIndex(FIVE_RATS[dayStem]) + slot),
     branch: branchAt(slot),
   };
+}
+
+/** The wall-clock window of a branch's two-hour block: 子 23–1, 丑 1–3, … 亥 21–23. */
+export function hourBlockWindow(branch: Branch): { startHour: number; endHour: number } {
+  const startHour = (branchIndex(branch) * 2 + 23) % 24;
+  return { startHour, endHour: (startHour + 2) % 24 };
 }
 
 /**

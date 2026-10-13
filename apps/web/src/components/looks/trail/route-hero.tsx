@@ -1,8 +1,9 @@
 /**
  * Explorer's signature object (DESIGN.md v5 §Explorer): date, headline and
  * the day's route on one terrain. The walked stretch is solid up to NOW;
- * only the two timed marks ride the route, labelled up and to the left,
- * where the climbing line never is.
+ * only the timed marks ride the route (the day's rough and easy hours and
+ * the reader's best hour, M24-13), labelled up and to the left, where the
+ * climbing line never is.
  */
 
 "use client";
@@ -14,7 +15,9 @@ import { SettingsGear } from "@/components/settings-gear";
 import { DayTonePhrase, Headline } from "@/components/today/headline";
 import { TodayDateNav } from "@/components/today/today-date-nav";
 import type { TodayScreen } from "@/components/today/use-today-screen";
-import { CONTOURS, ROUTE_END, ROUTE_HEIGHT, ROUTE_WIDTH, routePath, routeX, routeY, spreadMarks } from "./route-geometry";
+import { BestHourStar, elementHue } from "../best-hour-star";
+import { BestHourRouteMark } from "./best-hour-route-mark";
+import { CONTOURS, ROUTE_END, ROUTE_HEIGHT, ROUTE_WIDTH, inBlock, labelPlacement, routePath, routeX, routeY } from "./route-geometry";
 
 interface Props {
   screen: TodayScreen;
@@ -28,26 +31,6 @@ function isTimed(waypoint: RouteWaypoint): waypoint is TimedWaypoint {
   return waypoint.timing.kind === "hours";
 }
 
-/** Space Mono at 9.5px with the label letter-spacing: about 7px a character. */
-const LABEL_CHAR_WIDTH = 7.1;
-
-/**
- * Up and to the left of the mark, where the climbing route never is; a label
- * that would run off the left edge goes down and to the right instead, the
- * other side the route never occupies.
- */
-function labelPlacement(x: number, y: number, text: string): { x: number; y: number; anchor: "start" | "end" } {
-  if (x - 24 - text.length * LABEL_CHAR_WIDTH >= 4) {
-    return { x: x - 24, y: y - 12, anchor: "end" };
-  }
-  return { x: x + 24, y: y + 26, anchor: "start" };
-}
-
-/** Whether a clock hour falls inside a two-hour block (blocks may wrap past midnight). */
-function inBlock(hour: number, start: number, end: number): boolean {
-  return end > start ? hour >= start && hour < end : hour >= start || hour < end;
-}
-
 function clockLabel(date: Date): string {
   return new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit" }).format(date);
 }
@@ -56,13 +39,16 @@ export function RouteHero({ screen, showSettings = true }: Props) {
   const { model, progress, now } = screen;
   /** Unique per instance: a look preview can put a second route on the page. */
   const maskId = useId();
-  const { ariaLabel } = mapHeroSummary(model.waypoints, model.tone);
+  const { bestHour } = model;
+  const { ariaLabel } = mapHeroSummary(model.waypoints, model.tone, bestHour);
   const timed = model.waypoints.filter(isTimed);
-  const markXs = spreadMarks(timed.map((waypoint) => routeX(waypoint.timing.progress)));
   const nowX = progress === null ? null : routeX(progress);
   const hour = now ? now.getHours() + now.getMinutes() / 60 : null;
   /** The timed mark you are inside right now: NOW takes its ring and the mark's own disc steps aside. */
   const current = hour === null ? undefined : timed.find((waypoint) => inBlock(hour, waypoint.timing.startHour, waypoint.timing.endHour));
+  const ownBestHour = bestHour && !bestHour.isEasyHour ? bestHour : null;
+  const inBestHour = hour !== null && ownBestHour !== null && inBlock(hour, ownBestHour.startHour, ownBestHour.endHour);
+  const nowRing = current ? (current.crossing ? "var(--signal-amber)" : "var(--element-wood)") : inBestHour && ownBestHour ? elementHue(ownBestHour.element) : "none";
 
   return (
     <div className="route-hero arrive-fade">
@@ -106,11 +92,12 @@ export function RouteHero({ screen, showSettings = true }: Props) {
           EVENING
         </text>
         {timed.map((waypoint, index) => {
-          const x = markXs[index] ?? routeX(waypoint.timing.progress);
+          const x = routeX(waypoint.timing.progress);
           const y = routeY(x);
           const rough = waypoint.crossing;
           const animal = describeBranch(waypoint.transitBranch).gloss;
-          const label = `${rough ? "ROUGH" : "EASY"} · ${waypoint.timing.label.toUpperCase()}`;
+          const suitsYou = !rough && bestHour?.isEasyHour === true;
+          const label = `${rough ? "ROUGH" : suitsYou ? "EASY · SUITS YOU" : "EASY"} · ${waypoint.timing.label.toUpperCase()}`;
           const placed = labelPlacement(x, y, label);
           return (
             <g key={index} data-waypoint="hours" className="arrive-pop" style={{ ["--d" as string]: 6 + index }}>
@@ -130,6 +117,7 @@ export function RouteHero({ screen, showSettings = true }: Props) {
                   {rough && (
                     <path d={`M${x + 9} ${y - 21}l8 8m0-8l-8 8`} stroke="var(--signal-amber)" strokeWidth={2.4} strokeLinecap="round" />
                   )}
+                  {suitsYou && bestHour && <BestHourStar x={x + 13} y={y - 15} element={bestHour.element} />}
                 </g>
               )}
               <text className="svg-label" x={placed.x} y={placed.y} fontSize={9.5} fill="var(--ink)" textAnchor={placed.anchor}>
@@ -138,6 +126,7 @@ export function RouteHero({ screen, showSettings = true }: Props) {
             </g>
           );
         })}
+        {ownBestHour && <BestHourRouteMark mark={ownBestHour} hidden={inBestHour} />}
         {nowX !== null && (
           <g className="arrive-pop" style={{ ["--d" as string]: 5 }}>
             <circle
@@ -145,7 +134,7 @@ export function RouteHero({ screen, showSettings = true }: Props) {
               cy={routeY(nowX)}
               r={21}
               fill="var(--anchor)"
-              stroke={current ? (current.crossing ? "var(--signal-amber)" : "var(--element-wood)") : "none"}
+              stroke={nowRing}
               strokeWidth={4}
             />
             <g style={{ color: "var(--paper)" }}>

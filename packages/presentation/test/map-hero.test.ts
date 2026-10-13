@@ -51,4 +51,11 @@ describe("mapHeroSummary", () => {
       "Today's route: an even stretch, 1 day-long crossing, rough hour 3–5 am, easy hour 9–11 am"
     );
   });
+
+  it("names the reader's best hour after the day's hours (M24-13)", () => {
+    const mark = { branch: "午", element: "fire", startHour: 11, endHour: 13, label: "11 am–1 pm", progress: 0.44, isEasyHour: false } as const;
+    expect(mapHeroSummary([ROUGH_HOUR], "even", mark).ariaLabel).toMatch(/rough hour .+, suits you best 11 am–1 pm$/);
+    expect(mapHeroSummary([ROUGH_HOUR], "even", { ...mark, isEasyHour: true }).ariaLabel).toMatch(/, the easy hour suits you best$/);
+    expect(mapHeroSummary([ROUGH_HOUR], "even", null).ariaLabel).not.toContain("suits you");
+  });
 });

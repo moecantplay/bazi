@@ -23,7 +23,12 @@ const LIT = {
   rat: { ring: 'var(--am)', fill: 'var(--am-f)' },
   goat: { ring: 'var(--wd)', fill: 'var(--wd-f)' },
   snake: { ring: 'var(--ink)', fill: 'var(--card)' },
+  dragon: { ring: 'var(--fr)', fill: 'var(--fr-f)', star: true },
 };
+
+/** The reader's best hour badge (M24-13): a four-point star in the hour element's hue. */
+const star = (x, y, hue) =>
+  `<path d="M${x} ${y - 6}L${x + 1.8} ${y - 1.8}L${x + 6} ${y}L${x + 1.8} ${y + 1.8}L${x} ${y + 6}L${x - 1.8} ${y + 1.8}L${x - 6} ${y}L${x - 1.8} ${y - 1.8}Z" fill="${hue}"/>`;
 
 function dial() {
   const ticks = Array.from({ length: 24 }, (_, hour) => {
@@ -42,7 +47,8 @@ function dial() {
     const [x, y] = polar(i * 2, 154);
     const lit = LIT[name];
     const halo = lit ? `<circle cx="${x}" cy="${y}" r="15" fill="${lit.fill}" stroke="${lit.ring}" stroke-width="1.8"/>` : '';
-    return `${halo}<g opacity="${lit ? 1 : 0.42}">${animal(name, x, y, lit ? 18 : 16, 'var(--ink)')}</g>`;
+    const badge = lit?.star ? star(x + 12, y - 12, lit.ring) : '';
+    return `${halo}<g opacity="${lit ? 1 : 0.42}">${animal(name, x, y, lit ? 18 : 16, 'var(--ink)')}</g>${badge}`;
   }).join('');
   const hand = (angleOf(10 + 40 / 60) * 180) / Math.PI;
   return `
@@ -51,6 +57,7 @@ function dial() {
     ${ticks}${cardinals}
     <path d="${arc(13, 15, 118)}" fill="none" stroke="var(--wd)" stroke-width="16" stroke-linecap="round"/>
     <path d="${arc(23, 1, 118)}" fill="none" stroke="var(--am)" stroke-width="16" stroke-linecap="round"/>
+    <path d="${arc(7, 9, 133)}" fill="none" stroke="var(--fr)" stroke-width="5" stroke-linecap="round"/>
     ${rim}
     <g transform="rotate(${hand} ${C} ${C})">
       <line x1="${C + 64}" y1="${C}" x2="${C + 128}" y2="${C}" stroke="var(--blk)" stroke-width="3" stroke-linecap="round"/>
@@ -69,13 +76,14 @@ const dayDial = {
   fonts: ['figtree', 'spacemono'],
   height: 440,
   note:
-    'Instrument’s signature object. Lit animals: the rough hour (amber), the easy hour (wood), the hour ' +
-    'you are in (ink ring). The hand is the anchor pair. Arrival: the arcs draw, the hand sweeps to now.',
+    'Instrument’s signature object. Lit animals: the rough hour (amber), the easy hour (wood), your best hour ' +
+    '(its element, with a star; a thin arc outside the track), the hour you are in (ink ring). The hand is the ' +
+    'anchor pair. Arrival: the arcs draw, the hand sweeps to now.',
   css: `${LOOK_BASE}
   .dial { display: block; width: 100%; max-width: 330px; margin: 0 auto; overflow: visible; }
   `,
   markup: `
-  <svg class="dial" viewBox="-12 -12 364 364" role="img" aria-label="Today's hours: easy 1 to 3 pm, rough 11 pm to 1 am, now 10:40 am">${dial()}</svg>`,
+  <svg class="dial" viewBox="-12 -12 364 364" role="img" aria-label="Today's hours: easy 1 to 3 pm, rough 11 pm to 1 am, suits you best 7 to 9 am, now 10:40 am">${dial()}</svg>`,
 };
 
 const WEEK = [['Tue', '29', 'today'], ['Wed', '30', 'up'], ['Thu', '1', ''], ['Fri', '2', 'up'], ['Sat', '3', 'down'], ['Sun', '4', 'up'], ['Mon', '5', 'up']];
@@ -84,7 +92,7 @@ const weekAndHours = {
   slug: 'week-rings-and-hours',
   name: 'Week rings & hour legend',
   group: 'Instrument',
-  subtitle: 'The week as seven tone rings; the two hours in words',
+  subtitle: 'The week as seven tone rings; the day’s two hours and your best hour in words',
   fonts: ['figtree', 'bricolage', 'spacemono'],
   height: 420,
   note: 'Ring tone: solid wood = the day leans your way, dashed amber = take it slow, plain = even. Today is the anchor pair.',
@@ -110,6 +118,7 @@ const weekAndHours = {
     <div class="legend">
       <div class="row"><span class="sw" style="background:var(--wd)"></span><span class="mono">Easy · 1–3 pm · goat hour</span><b>Runs with the day. Settle something.</b></div>
       <div class="row"><span class="sw" style="background:var(--am)"></span><span class="mono">Rough · 11 pm–1 am · rat hour</span><b>Runs against it. Give it slack.</b></div>
+      <div class="row"><span class="sw" style="background:var(--fr)"></span><span class="mono">Suits you · 7–9 am · dragon hour</span><b>7–9 am suits you best.</b></div>
     </div>
   </div>`,
 };

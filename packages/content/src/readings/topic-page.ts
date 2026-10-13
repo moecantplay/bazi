@@ -13,6 +13,7 @@ import { AREA_SIGN_SUBJECT, AREA_TITLE_PHRASE, INTERACTION_TOPICS } from "../ban
 import {
   ELEMENT_NAME_ORIGIN,
   ELEMENT_TOPIC,
+  BEST_HOUR_LINES,
   HOURS_TOPIC,
   QUIET_FOR_YOU,
   STAGE_NAME_ORIGIN,
@@ -129,13 +130,24 @@ function stagePage(fact: FactOf<"stage-day">): TopicPage {
   });
 }
 
-function hoursPage(easy: FactOf<"hour-interaction">, rough: FactOf<"hour-interaction">): TopicPage {
+function bestHourWhy(bestHour: FactOf<"best-hour"> | undefined): string {
+  if (!bestHour) {
+    return "";
+  }
+  const element = elementWord(bestHour.element);
+  const why = bestHour.isEasyHour
+    ? BEST_HOUR_LINES.whyIsEasyHour(element)
+    : BEST_HOUR_LINES.why(hourWindowLabel(bestHour.startHour, bestHour.endHour), element);
+  return ` ${why}`;
+}
+
+function hoursPage(easy: FactOf<"hour-interaction">, rough: FactOf<"hour-interaction">, bestHour: FactOf<"best-hour"> | undefined): TopicPage {
   const easyWindow = hourWindowLabel(easy.startHour, easy.endHour);
   const roughWindow = hourWindowLabel(rough.startHour, rough.endHour);
   const day = BRANCH_ANIMALS[easy.dayBranch];
   return page({
     title: textRun(`Easiest ${easyWindow}, roughest ${roughWindow}`),
-    forYou: textRun(`The ${BRANCH_ANIMALS[easy.hourBranch]} hour, ${easyWindow}, runs with today's sign, the ${day}. The ${BRANCH_ANIMALS[rough.hourBranch]} hour, ${roughWindow}, runs against it.`),
+    forYou: textRun(`The ${BRANCH_ANIMALS[easy.hourBranch]} hour, ${easyWindow}, runs with today's sign, the ${day}. The ${BRANCH_ANIMALS[rough.hourBranch]} hour, ${roughWindow}, runs against it.${bestHourWhy(bestHour)}`),
     how: lines([HOURS_TOPIC.how]),
     work: lines(HOURS_TOPIC.work),
     nameOrigin: textRun(HOURS_TOPIC.nameOrigin),
@@ -184,7 +196,8 @@ function basePage(topic: string, facts: readonly ReadingFact[]): TopicPage | nul
     const hours = facts.filter((candidate): candidate is FactOf<"hour-interaction"> => candidate.kind === "hour-interaction");
     const easy = hours.find((fact) => fact.interaction === "six-combine");
     const rough = hours.find((fact) => fact.interaction === "six-clash");
-    return easy && rough ? hoursPage(easy, rough) : null;
+    const bestHour = facts.find((candidate): candidate is FactOf<"best-hour"> => candidate.kind === "best-hour");
+    return easy && rough ? hoursPage(easy, rough, bestHour) : null;
   }
   if (topic === "stars") {
     const stars = facts.filter((candidate): candidate is FactOf<"star-day"> => candidate.kind === "star-day");

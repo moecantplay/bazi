@@ -40,6 +40,10 @@ const routePath = (from, to) => {
   return d;
 };
 
+/** The reader's best hour badge (M24-13): a four-point star in the hour element's hue. */
+const star = (x, y, hue) =>
+  `<path d="M${x} ${y - 6}L${x + 1.8} ${y - 1.8}L${x + 6} ${y}L${x + 1.8} ${y + 1.8}L${x} ${y + 6}L${x - 1.8} ${y + 1.8}L${x - 6} ${y}L${x - 1.8} ${y - 1.8}Z" fill="${hue}"/>`;
+
 function route() {
   const nowX = hourX(10 + 40 / 60);
   const nowY = routeY(nowX);
@@ -48,6 +52,8 @@ function route() {
   const roughX = 318;
   const roughY = routeY(roughX);
   const endY = routeY(366);
+  const bestX = hourX(8);
+  const bestY = routeY(bestX);
   return `
     <path d="${routePath(24, 366)}" fill="none" stroke="var(--ink)" stroke-width="2.2" stroke-dasharray="6 6"/>
     <path d="${routePath(24, nowX)}" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>
@@ -61,6 +67,10 @@ function route() {
     ${animal('rat', roughX, roughY, 18, 'var(--ink)')}
     <path d="M${roughX + 9} ${roughY - 21}l8 8m0-8l-8 8" stroke="var(--am)" stroke-width="2.4" stroke-linecap="round"/>
     ${label('ROUGH · 11 PM–1 AM', roughX - 24, roughY - 10, { size: 9.5, fill: 'var(--ink)', anchor: 'end' })}
+    <circle cx="${bestX}" cy="${bestY}" r="17" fill="var(--fr-f)" stroke="var(--fr)" stroke-width="2"/>
+    ${animal('dragon', bestX, bestY, 19, 'var(--ink)')}
+    ${star(bestX + 13, bestY - 15, 'var(--fr)')}
+    ${label('SUITS YOU · 7–9 AM', bestX + 24, bestY + 26, { size: 9.5, fill: 'var(--ink)', anchor: 'start' })}
     <circle cx="${nowX}" cy="${nowY}" r="21" fill="var(--blk)"/>
     ${animal('horse', nowX, nowY, 24, 'var(--pale)')}
     <rect x="${nowX - 34}" y="${nowY + 28}" width="68" height="20" rx="10" fill="var(--blk)"/>

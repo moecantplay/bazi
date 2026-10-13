@@ -318,6 +318,17 @@ export function dailyFactSet(
     { kind: "stage-day", stage: { chinese: "帝旺", english: "Peak" } },
     { kind: "hour-interaction", interaction: "six-clash", hourBranch: "子", dayBranch: "午", startHour: 23, endHour: 1 },
     { kind: "hour-interaction", interaction: "six-combine", hourBranch: "未", dayBranch: "午", startHour: 13, endHour: 15 },
+    {
+      kind: "best-hour",
+      hourBranch: "辰",
+      hourStem: "丙",
+      element: "fire",
+      startHour: 7,
+      endHour: 9,
+      isEasyHour: false,
+      score: 2,
+      reasons: [{ source: "stem-element", element: "fire" }],
+    },
   ];
 }
 

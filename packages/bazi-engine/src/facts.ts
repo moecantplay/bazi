@@ -10,10 +10,10 @@
 import { SIX_CLASHES, SIX_COMBINES } from "../data/interactions-tables.js";
 import { ELEMENT_PRODUCTION_ORDER } from "../data/tables.js";
 import { elementOfStem, polarityOfStem } from "./attributes.js";
+import { bestHourFact, type BestHour } from "./best-hour.js";
 import { interactions, natalPalacedBranches } from "./interactions.js";
 import { lifeStage } from "./life-stages.js";
-import { dailyPillar } from "./pillars.js";
-import { branchIndex } from "./sexagenary.js";
+import { dailyPillar, hourBlockWindow } from "./pillars.js";
 import { shensha } from "./shensha.js";
 import { tenGods } from "./ten-gods.js";
 import type {
@@ -81,6 +81,8 @@ export type ReadingFact =
       /** Block end, exclusive, 0–23. */
       endHour: number;
     }
+  /** The reader's best hour — the block that suits the chart most (best-hour.ts). */
+  | BestHour
   | { kind: "element-day"; element: Element; favorable: boolean }
   | { kind: "ten-god-day"; god: string; english: string }
   | {
@@ -218,12 +220,6 @@ export function transitInteractionFacts(
     }));
 }
 
-/** The wall-clock window of a branch's two-hour block: 子 23–1, 丑 1–3, … 亥 21–23. */
-export function hourBlockWindow(branch: Branch): { startHour: number; endHour: number } {
-  const startHour = (branchIndex(branch) * 2 + 23) % 24;
-  return { startHour, endHour: (startHour + 2) % 24 };
-}
-
 function partnerOf(
   pairs: readonly (readonly [Branch, Branch])[],
   branch: Branch,
@@ -252,6 +248,11 @@ export function hourInteractionFacts(dayBranch: Branch): ReadingFact[] {
   return facts;
 }
 
+function withBestHour(chart: Chart, dayTransit: Pillar): ReadingFact[] {
+  const bestHour = bestHourFact(chart, dayTransit);
+  return bestHour ? [bestHour] : [];
+}
+
 /** Facts for a transit date compared against the natal chart. Day-only — see file header. */
 export function dailyFacts(chart: Chart, dateISO: string, zone: string): ReadingFact[] {
   const dayTransit = dailyPillar(dateISO, zone);
@@ -273,6 +274,7 @@ export function dailyFacts(chart: Chart, dateISO: string, zone: string): Reading
   return [
     ...transitInteractionFacts(chart, dayTransit.branch, "daily"),
     ...hourInteractionFacts(dayTransit.branch),
+    ...withBestHour(chart, dayTransit),
     {
       kind: "element-day",
       element: dayElement,
