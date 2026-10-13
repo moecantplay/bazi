@@ -1,6 +1,6 @@
 # Your best hour
 
-Status: in-progress · Milestone: M24 · Ticket: 13 · Approved by the owner 2026-10-13 ("start")
+Status: done · Milestone: M24 · Ticket: 13 · Approved by the owner 2026-10-13 ("start")
 
 ## Problem
 
