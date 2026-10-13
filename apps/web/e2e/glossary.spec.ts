@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { FIXTURE_A, pinClock, seedProfile } from "./helpers";
+import { FIXTURE_A, pinClock, seedProfile, seedStore } from "./helpers";
 
 const TODAY = "2026-07-07";
 
@@ -62,19 +62,30 @@ test("the read-more link explains how the reading works", async ({ page, context
   await expect(sheet).toHaveCount(0);
 });
 
-test("the week strip's legend link explains the tone marks", async ({ page, context }) => {
-  await seedProfile(context, FIXTURE_A);
-  await pinClock(context, `${TODAY}T09:00:00Z`);
-  await page.goto("/today/");
+/** M24-15: every "What the marks mean" link opens the sheet for its own look's marks. */
+const MARKS_SHEETS = [
+  { look: "dial", topic: "marks:dial", title: "The week and the day", text: "dashed amber ring" },
+  { look: "almanac", topic: "marks:almanac", title: "The week", text: "Each day carries a dot" },
+  { look: "trail", topic: "marks:trail-week", title: "The week ahead", text: "Each point carries that day's animal" },
+  { look: "trail", topic: "marks:trail-route", title: "Today's route", text: "amber circle with an X" }
+] as const;
 
-  await page.locator("[data-week-legend]").click();
-  const sheet = page.locator("[data-glossary-sheet]");
-  await expect(sheet.getByRole("heading", { name: "The week ahead" })).toBeVisible();
-  await expect(sheet.getByText("filled dot")).toBeVisible();
+for (const { look, topic, title, text } of MARKS_SHEETS) {
+  test(`${look}: the ${topic} link explains the marks drawn above it`, async ({ page, context }) => {
+    await seedStore(context, { profile: FIXTURE_A, look });
+    await pinClock(context, `${TODAY}T09:00:00Z`);
+    await page.goto("/today/");
 
-  await page.keyboard.press("Escape");
-  await expect(sheet).toHaveCount(0);
-});
+    await page.locator(`[data-marks-legend="${topic}"]`).click();
+    const sheet = page.locator("[data-glossary-sheet]");
+    await expect(sheet.getByRole("heading", { name: title, exact: true })).toBeVisible();
+    await expect(sheet.getByText(text)).toBeVisible();
+    await expect(sheet).not.toContainText("filled dot");
+
+    await page.keyboard.press("Escape");
+    await expect(sheet).toHaveCount(0);
+  });
+}
 
 test("cycles horizon captions link to the glossary too", async ({ page, context }) => {
   await seedProfile(context, FIXTURE_A);

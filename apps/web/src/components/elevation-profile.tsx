@@ -22,9 +22,11 @@
 "use client";
 
 import { useMemo } from "react";
+import { MARKS_TOPIC } from "@daymaster/content";
 import { elevationPath, elevationWeek, formatLong } from "@daymaster/presentation";
 import { AnimalGlyphMark, AnimalIcon } from "@/components/glyph-icon";
-import { WEEK_TONE_WORD, WeekLegendLink } from "@/components/week-legend-link";
+import { MarksLegendLink } from "@/components/marks-legend-link";
+import { WEEK_TONE_WORD } from "@/components/week-tone-word";
 import type { StoredProfile } from "@/lib/store-types";
 
 function weekdayInitial(iso: string): string {
@@ -107,7 +109,7 @@ export function ElevationProfile({ profile, today, selectedISO, onSelect }: Prop
           })}
         </ul>
       </div>
-      <WeekLegendLink />
+      <MarksLegendLink topic={MARKS_TOPIC.trailWeek} />
     </div>
   );
 }

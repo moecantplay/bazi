@@ -7,7 +7,6 @@ import { describe, expect, it } from "vitest";
 import {
   GLOSSARY,
   READING_TOPIC,
-  WEEK_TOPIC,
   annualReading,
   compareReading,
   dailyReading,
@@ -106,15 +105,6 @@ describe("glossary entries", () => {
 
   it("the read-more overview exists", () => {
     expect(glossaryEntry(READING_TOPIC)?.title).toBe("How this reading works");
-  });
-
-  it("the week-strip legend entry exists and names all three marks", () => {
-    const entry = glossaryEntry(WEEK_TOPIC);
-    expect(entry?.title).toBe("The week ahead");
-    const text = entry!.body.join(" ");
-    for (const mark of ["filled dot", "open ring", "dash"]) {
-      expect(text).toContain(mark);
-    }
   });
 
   it("every topic on an emitted line resolves to an entry", () => {

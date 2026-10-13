@@ -12,6 +12,7 @@
 import type { InteractionType } from "@daymaster/bazi-engine";
 import type { TokenLine } from "./tokens.js";
 import { TEN_GOD_PERIOD_THEMES } from "./banks/horizons.js";
+import { MARKS_ENTRIES } from "./marks.js";
 import {
   LIFE_STAGE_GLOSSES,
   OFFICER_GLOSSES,
@@ -43,17 +44,6 @@ const READING_ENTRY: GlossaryEntry = {
     "Each day, month, and year carries a pair of its own: one of ten stems and one of twelve animal signs. A reading is what happens when a passing pair meets your chart — where they pull together, where they grind.",
     "Your chart's pillars double as rooms: roots (family, origins), the career palace, the home palace (partnership), and the horizon (what you're building toward). When a line names a room, that's where the weather sits.",
     "Read every line as weather, not verdict — what the pattern tends to make cheaper or costlier, with the wheel staying in your hands. The same birth details and date always produce the same words; nothing here is random.",
-  ],
-};
-
-/** The entry behind the week strip's "what the marks mean" link. */
-export const WEEK_TOPIC = "week";
-
-const WEEK_ENTRY: GlossaryEntry = {
-  title: "The week ahead",
-  body: [
-    "Each day in the strip carries a small mark summed from that day's activity leanings. A filled dot leans favorable, an open ring leans toward friction, and a short dash means the day sits even — no strong pull either way.",
-    "The mark is weather at a glance, never a verdict — a friction day simply favors a different kind of work. Tap any day to read it in full.",
   ],
 };
 
@@ -226,9 +216,9 @@ function officerEntries(): Record<string, GlossaryEntry> {
 /** Every glossary entry, keyed by topic, before runs are attached. */
 const RAW_GLOSSARY: Record<string, GlossaryEntry> = {
   [READING_TOPIC]: READING_ENTRY,
-  [WEEK_TOPIC]: WEEK_ENTRY,
   [ROUTE_TOPIC]: ROUTE_ENTRY,
   [HOURS_TOPIC]: HOURS_ENTRY,
+  ...MARKS_ENTRIES,
   ...interactionEntries(),
   ...tenGodEntries(),
   ...starEntries(),

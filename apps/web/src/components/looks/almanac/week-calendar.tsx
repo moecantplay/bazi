@@ -7,8 +7,10 @@
 "use client";
 
 import { useMemo } from "react";
+import { MARKS_TOPIC } from "@daymaster/content";
 import { elevationWeek, formatLong, type DayTone } from "@daymaster/presentation";
-import { WEEK_TONE_WORD, WeekLegendLink } from "@/components/week-legend-link";
+import { MarksLegendLink } from "@/components/marks-legend-link";
+import { WEEK_TONE_WORD } from "@/components/week-tone-word";
 import type { StoredProfile } from "@/lib/store-types";
 
 interface Props {
@@ -54,7 +56,7 @@ export function WeekCalendar({ profile, today, selectedISO, onSelect }: Props) {
           );
         })}
       </div>
-      <WeekLegendLink />
+      <MarksLegendLink topic={MARKS_TOPIC.almanac} />
     </div>
   );
 }

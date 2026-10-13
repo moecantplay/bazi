@@ -2,6 +2,7 @@
 
 "use client";
 
+import { MARKS_TOPIC } from "@daymaster/content";
 import { SettingsGear } from "@/components/settings-gear";
 import { DayTonePhrase, Headline } from "@/components/today/headline";
 import { PullQuoteBoard } from "@/components/today/pull-quote-board";
@@ -13,7 +14,7 @@ import { TodayFooter } from "@/components/today/today-footer";
 import { TodaySuits } from "@/components/today/today-suits";
 import { TopicCards } from "@/components/today/topic-cards";
 import type { TodayScreen } from "@/components/today/use-today-screen";
-import { WeekLegendLink } from "@/components/week-legend-link";
+import { MarksLegendLink } from "@/components/marks-legend-link";
 import { DayDial, DialKey } from "./day-dial";
 import { WeekRings } from "./week-rings";
 
@@ -35,7 +36,7 @@ export function TodayInstrument({ screen }: Props) {
       </div>
       <div className="arrive-rise flex flex-col gap-4" style={{ ["--d" as string]: 1 }}>
         <WeekRings profile={screen.profile} today={screen.today} selectedISO={screen.dateISO} onSelect={screen.jumpTo} />
-        <WeekLegendLink />
+        <MarksLegendLink topic={MARKS_TOPIC.dial} />
       </div>
       <div className="flex flex-col gap-2">
         <DayDial screen={screen} />

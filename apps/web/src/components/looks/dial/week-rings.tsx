@@ -8,7 +8,7 @@
 
 import { useMemo } from "react";
 import { elevationWeek, formatLong } from "@daymaster/presentation";
-import { WEEK_TONE_WORD } from "@/components/week-legend-link";
+import { WEEK_TONE_WORD } from "@/components/week-tone-word";
 import type { StoredProfile } from "@/lib/store-types";
 
 interface Props {

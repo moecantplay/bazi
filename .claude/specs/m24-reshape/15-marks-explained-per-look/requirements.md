@@ -1,6 +1,6 @@
 # What the marks mean, per look
 
-Status: draft · Milestone: M24 · Ticket: 15 · Asked by the owner 2026-10-13; needs owner approval
+Status: in-progress · Milestone: M24 · Ticket: 15 · Asked by the owner 2026-10-13; approved by the owner 2026-10-13 ("ok")
 
 ## Problem
 

@@ -45,7 +45,7 @@ What changes:
 | 12 | Retire the legacy Trail composition (M19.9-11) and the trial branch | planned | 04–09 | — |
 | 13 | [Your best hour](13-your-best-hour/requirements.md) | done — live 2026-10-13 | 06 | — |
 | 14 | [NOW pill covers an hour label](14-now-pill-covers-hour-label/requirements.md) | draft — found during 13 | — | — |
-| 15 | [What the marks mean, per look](15-marks-explained-per-look/requirements.md) | draft — owner, 2026-10-13 | — | — |
+| 15 | [What the marks mean, per look](15-marks-explained-per-look/requirements.md) | in-progress — built, deploy pending | — | — |
 
 Topic-page depth (trial R13, R14) stays with [M20-22](../m20-clarity/22-topic-page-depth/requirements.md) and [M20-23](../m20-clarity/23-problem-and-remedy/requirements.md).
 

@@ -2,7 +2,9 @@
 
 "use client";
 
+import { MARKS_TOPIC } from "@daymaster/content";
 import { ElevationProfile } from "@/components/elevation-profile";
+import { MarksLegendLink } from "@/components/marks-legend-link";
 import { PullQuoteBoard } from "@/components/today/pull-quote-board";
 import { ReadingBody } from "@/components/today/reading-body";
 import { TodayDateNotes } from "@/components/today/today-date-nav";
@@ -23,8 +25,11 @@ export function TodayExplorer({ screen }: Props) {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="-mx-5">
-        <RouteHero screen={screen} />
+      <div className="flex flex-col gap-1">
+        <div className="-mx-5">
+          <RouteHero screen={screen} />
+        </div>
+        <MarksLegendLink topic={MARKS_TOPIC.trailRoute} />
       </div>
       <TodayDateNotes screen={screen} />
       <ReadingBody reading={model.reading} dateISO={screen.dateISO} delay={3} />
