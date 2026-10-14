@@ -68,7 +68,7 @@ export interface TodayScreenModel {
   reading: DailyReading;
   /** Today's "What the day suits": plain heading, chips, one Watch reason. */
   suits: TodaySuits;
-  /** The full guidance (prose and assessments) for Conditions and the activity manifest. */
+  /** The full guidance (prose and assessments) behind the activity manifest in "What the day suits". */
   guidance: GuidanceBundle;
   tone: DayTone;
   waypoints: RouteWaypoint[];

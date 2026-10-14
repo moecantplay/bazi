@@ -37,7 +37,7 @@ function LeaningCell({
       </span>
       {/* Full ink, not ink-soft: muted text on the tinted leaning fill fails
           AA (measured 3.14-3.65:1 across terrains) — same fix as the
-          segmented-control/legend-tags tinted-background bugs. */}
+          segmented-control tinted-background bug. */}
       <span className="text-[10px] text-ink">{label}</span>
     </div>
   );

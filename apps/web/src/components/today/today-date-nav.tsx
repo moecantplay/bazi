@@ -23,7 +23,6 @@ export function TodayDateNav({ screen }: Props) {
       max={dateRange.max}
       atStart={dateRange.atStart}
       atEnd={dateRange.atEnd}
-      month="short"
     />
   );
 }

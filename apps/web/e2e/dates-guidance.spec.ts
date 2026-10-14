@@ -40,14 +40,14 @@ test("the elevation profile jumps the reading to the tapped day", async ({ page,
   await seedProfile(context, FIXTURE_A);
   await pinClock(context, `${TODAY}T09:00:00Z`);
 
-  // The datebar's own date button carries "jump to a date" in its accessible
-  // name (Datebar's aria-label); the elevation-profile's per-day points also
+  // The date stepper's own date button carries "jump to a date" in its
+  // accessible name; the elevation-profile's per-day points also
   // carry the long date in theirs, so this disambiguates the two once both
   // show the same date after the jump below.
   const dateButton = (iso: string) => page.getByRole("button", { name: new RegExp(`${longDate(iso)}.*jump to a date`) });
 
   await page.goto("/today/");
-  // The datebar opens on today; tapping a later elevation-profile day-point
+  // The date stepper opens on today; tapping a later elevation-profile day-point
   // moves the reading.
   await expect(dateButton(TODAY)).toBeVisible();
   const target = addDays(TODAY, 2);

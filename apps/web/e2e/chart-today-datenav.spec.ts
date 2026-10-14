@@ -4,10 +4,10 @@ import { addDays, E2E_LOOK, FIXTURE_A, longDate, pinClock, seedProfile } from ".
 const TODAY = "2026-07-07";
 
 /**
- * The datebar shows a short mono date on the page; the full long date lives
- * in the "jump to a date" button's accessible name instead (Datebar's
- * aria-label). Assert against that rather than visible text so this stays
- * robust to the datebar's own visual format. The "jump to a date" suffix
+ * The date stepper shows a short mono date on the page; the full long date
+ * lives in the "jump to a date" button's accessible name instead. Assert
+ * against that rather than visible text so this stays robust to the
+ * stepper's own visual format. The "jump to a date" suffix
  * also disambiguates from the elevation profile's own per-day buttons, whose
  * accessible names carry the same long date whenever that day falls in the
  * visible 7-day window.

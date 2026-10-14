@@ -32,7 +32,7 @@ interface Notch {
   size: number;
 }
 
-export interface SealGeometry {
+interface SealGeometry {
   ringWeight: number;
   nodeAngle: number;
   rotation: number;
@@ -43,23 +43,17 @@ const RING_WEIGHTS = [3.5, 4.5, 5.5];
 const NODE_ANGLES = [-135, -90, -45, 0, 45, 90, 135, 180];
 const CORNERS: Corner[] = ["tl", "tr", "br", "bl"];
 
-/** The ring's radius and the orbit node's radius, in the shared 100x100 box —
- * also used by CompassMark, which reuses this geometry without the cinnabar
- * square, notches, or element mark. */
-export const SEAL_RING_RADIUS = 36;
-export const SEAL_NODE_RADIUS = 6;
+/** The ring's radius and the orbit node's radius, in the shared 100x100 box. */
+const SEAL_RING_RADIUS = 36;
+const SEAL_NODE_RADIUS = 6;
 
 /** All pillars present, in chart order, dropping the hour when time is unknown. */
 function orderedPillars(pillars: (Pillar | null)[]): Pillar[] {
   return pillars.filter((pillar): pillar is Pillar => pillar !== null);
 }
 
-/**
- * The seal's deterministic geometry, seeded from the chart's stem+branch
- * signature. Exported so CompassMark can reuse the exact same ring/node/
- * rotation math as the map hero's compass rose, instead of duplicating it.
- */
-export function computeSealGeometry(pillars: Pillar[]): SealGeometry {
+/** The seal's deterministic geometry, seeded from the chart's stem+branch signature. */
+function computeSealGeometry(pillars: Pillar[]): SealGeometry {
   const signature = pillars.map((pillar) => pillar.stem + pillar.branch).join("");
   const random = createSeededRandom(fnv1a(signature));
 

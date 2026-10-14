@@ -1,17 +1,7 @@
-"use client";
+/** Conditions retired in M24-12: its hours went to Today, its ten days to Ahead. */
 
-import { AppShell } from "@/components/app-shell";
-import { ConditionsView } from "@/components/conditions/conditions-view";
-import { ProfileGate } from "@/components/profile-gate";
+import { RetiredRoute } from "@/components/retired-route";
 
 export default function ConditionsPage() {
-  return (
-    <ProfileGate>
-      {(profile) => (
-        <AppShell title="Conditions" back>
-          <ConditionsView profile={profile} />
-        </AppShell>
-      )}
-    </ProfileGate>
-  );
+  return <RetiredRoute to="/today/" />;
 }

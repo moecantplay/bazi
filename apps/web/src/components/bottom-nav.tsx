@@ -3,8 +3,8 @@
  * padded and shown on every main screen; Settings opens from the header gear
  * (AppShell). Hidden during onboarding,
  * which owns the full viewport. Restyled as an anchor-fill pill (DESIGN.md
- * §Surfaces "Signpost + nav"): one of Trail's two fixed anchor objects, along
- * with the Today signpost. The active tab reads full paper; inactive tabs
+ * §Surfaces "Signpost + nav"), the chrome's fixed anchor object. The active
+ * tab reads full paper; inactive tabs
  * mix toward ink-soft (color-mix, since --paper is a raw hex custom
  * property with no Tailwind alpha-channel plumbing — see globals.css's
  * .border-ink-tint for the same constraint).

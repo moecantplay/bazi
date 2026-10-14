@@ -1,6 +1,6 @@
 /**
  * ‹ date › with a tap-to-pick date field: the day navigation every Today
- * look and Conditions share. The date shows in Space Mono; tapping it swaps
+ * look shares. The date shows in Space Mono; tapping it swaps
  * in a native date input clamped to the reading range.
  */
 
@@ -19,12 +19,11 @@ interface Props {
   max: string;
   atStart: boolean;
   atEnd: boolean;
-  /** "long" = TUE, SEPTEMBER 29 (Datebar); "short" = TUE, 29 SEP (the looks, where it shares a row). */
-  month?: "long" | "short";
 }
 
-function monoDate(iso: string, month: "long" | "short"): string {
-  return new Intl.DateTimeFormat(undefined, { timeZone: "UTC", weekday: "short", day: "numeric", month })
+/** TUE, 29 SEP: short enough to share a row in every look. */
+function monoDate(iso: string): string {
+  return new Intl.DateTimeFormat(undefined, { timeZone: "UTC", weekday: "short", day: "numeric", month: "short" })
     .format(new Date(`${iso}T00:00:00Z`))
     .toUpperCase();
 }
@@ -39,8 +38,7 @@ export function DateStepper({
   min,
   max,
   atStart,
-  atEnd,
-  month = "long"
+  atEnd
 }: Props) {
   return (
     <div className="flex min-w-0 items-center gap-1">
@@ -72,7 +70,7 @@ export function DateStepper({
           aria-label={`${formatLong(dateISO)} — jump to a date`}
           className="tap-target truncate font-mono text-[11px] font-bold tracking-[.18em] text-ink"
         >
-          {monoDate(dateISO, month)}
+          {monoDate(dateISO)}
         </button>
       )}
       <button
