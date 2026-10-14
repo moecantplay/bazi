@@ -42,9 +42,9 @@ What changes:
 | 09 | [People](09-people/requirements.md) | done | 08 | R7 |
 | 10 | First week (M20-11) | planned | 05, 06 | — |
 | 11 | Words: no-repeat rotation, voice lint, copy rewrite over every screen (M20-12, 13, 14) | planned | 06–09 | — |
-| 12 | Retire the legacy Trail composition (M19.9-11) and the trial branch | planned | 04–09 | — |
+| 12 | [Retire the legacy screens and the trial](12-retire-legacy/requirements.md) (M19.9-11) | draft — deletions need owner approval | 04–09 | — |
 | 13 | [Your best hour](13-your-best-hour/requirements.md) | done — live 2026-10-13 | 06 | — |
-| 14 | [NOW pill covers an hour label](14-now-pill-covers-hour-label/requirements.md) | draft — measured 2026-10-14, wider than first seen; owner to choose | — | — |
+| 14 | [NOW pill covers an hour label](14-now-pill-covers-hour-label/requirements.md) | draft — measured 2026-10-14; mockups out, owner to choose | — | — |
 | 15 | [What the marks mean, per look](15-marks-explained-per-look/requirements.md) | done — live 2026-10-14 | — | — |
 
 Topic-page depth (trial R13, R14) stays with [M20-22](../m20-clarity/22-topic-page-depth/requirements.md) and [M20-23](../m20-clarity/23-problem-and-remedy/requirements.md).

@@ -37,4 +37,4 @@ A daily screen cannot receive a month, year, decade or birth-chart fact without 
 
 ## Open questions
 
-- [ ] Order against M24-12. Cycles (`horizon-reading.ts`, `luck-reading.ts`, `cycle-reading.ts`) consumes period facts and retires in M24-12. Run 12 first so this ticket doesn't type code that's about to be deleted? M24-12 deletes files, so it needs your go-ahead either way.
+- [ ] Order against [M24-12](../12-retire-legacy/requirements.md). Cycles (`horizon-reading.ts`, `luck-reading.ts`, `cycle-reading.ts`) and Conditions consume facts; if M24-12 retires them, run it first so this ticket doesn't type code about to be deleted.
