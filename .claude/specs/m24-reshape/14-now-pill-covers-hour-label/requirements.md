@@ -1,6 +1,6 @@
 # NOW pill covers an hour label
 
-Status: in-progress · Milestone: M24 · Ticket: 14 · Found during M24-13; approved by the owner 2026-10-14 ("fixed pill bottom right", from the mockups)
+Status: done · Milestone: M24 · Ticket: 14 · Found during M24-13; approved by the owner 2026-10-14 ("fixed pill bottom right", from the mockups)
 
 ## Problem
 
