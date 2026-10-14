@@ -88,13 +88,10 @@ export type { GuidanceBoard } from "./guidance-board.js";
 export { renderRun } from "./render-run.js";
 export type { RenderedRun } from "./render-run.js";
 
-export {
-  CONDITION_DAYS_LENGTH,
-  conditionDays,
-  currentHourBlockIndex,
-  hourBlocks
-} from "./conditions-screen.js";
-export type { ConditionDay, HourBlock, HourMark } from "./conditions-screen.js";
+export { CONDITION_DAYS_LENGTH, conditionDays, currentHourBlockIndex } from "./conditions-screen.js";
+export type { ConditionDay } from "./conditions-screen.js";
+export { hourBlocks } from "./hour-blocks.js";
+export type { HourBlock, HourMark } from "./hour-blocks.js";
 export { COLOUR_SWATCH } from "./colours.js";
 export { elementSplit, youColoursFor, youElementsFor, youScreenFor, type ElementSplit } from "./you-screen.js";
 export {

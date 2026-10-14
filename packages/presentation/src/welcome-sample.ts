@@ -6,7 +6,7 @@
 
 import { dailyPillar, dayOfficer } from "@daymaster/bazi-engine";
 import { ACTIVITY_LABELS, welcomeHeadline } from "@daymaster/content";
-import { hourBlocks } from "./conditions-screen.js";
+import { hourBlocks } from "./hour-blocks.js";
 
 export interface WelcomeSample {
   headline: string;

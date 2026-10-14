@@ -42,7 +42,7 @@ What changes:
 | 09 | [People](09-people/requirements.md) | done | 08 | R7 |
 | 10 | First week (M20-11) | planned | 05, 06 | — |
 | 11 | Words: no-repeat rotation, voice lint, copy rewrite over every screen (M20-12, 13, 14) | planned | 06–09 | — |
-| 12 | [Retire the legacy screens and the trial](12-retire-legacy/requirements.md) (M19.9-11) | draft — deletions need owner approval | 04–09 | — |
+| 12 | [Retire the legacy screens and the trial](12-retire-legacy/requirements.md) (M19.9-11) | in-progress — approved 2026-10-14 | 04–09 | — |
 | 13 | [Your best hour](13-your-best-hour/requirements.md) | done — live 2026-10-13 | 06 | — |
 | 14 | [NOW pill covers an hour label](14-now-pill-covers-hour-label/requirements.md) | done — live 2026-10-14 | — | — |
 | 15 | [What the marks mean, per look](15-marks-explained-per-look/requirements.md) | done — live 2026-10-14 | — | — |

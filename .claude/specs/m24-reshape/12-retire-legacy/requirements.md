@@ -1,6 +1,6 @@
 # Retire the legacy screens and the trial
 
-Status: draft · Milestone: M24 · Ticket: 12 · Carries [M19.9-11](../../m19.9-looks/11-retire-trail-and-ship/requirements.md) and the retirements deferred by M24-04, 07, 09, 13 and 15; needs owner approval (deletions)
+Status: in-progress · Milestone: M24 · Ticket: 12 · Carries [M19.9-11](../../m19.9-looks/11-retire-trail-and-ship/requirements.md) and the retirements deferred by M24-04, 07, 09, 13 and 15; deletions approved by the owner 2026-10-14 ("ok with deletions")
 
 ## Problem
 
@@ -25,12 +25,12 @@ The build holds only what the four tabs, Settings and onboarding reach, and the 
   - Acceptance: no `conditions` route, component or spec remains; the welcome-sample tests pass unchanged; an E2E visit to `/conditions/` ends on `/today/`.
 - **R2. The legacy Trail composition is gone.** Every component, hook and content entry no live page reaches is deleted, with comments that name them updated.
   - Acceptance: a reachability check (script or test) from every page finds no orphan in `apps/web/src`; `ROUTE_TOPIC` and its entry are gone.
-- **R3. Cycles and Compare are retired or kept, as the owner decides** (open questions). If retired, the links to them go, a visit lands on the tab that replaced them (Ahead, People), and any engine, content or presentation code only they used is deleted.
-  - Acceptance: per the decision; same reachability check.
+- **R3. Cycles and Compare are retired until further notice** (owner, 2026-10-14). The links to them go, a visit lands on the tab that replaced them (`/cycles/` → Ahead, `/compare/` → People), and any content or presentation code only they used is deleted. The archive tag (R5) and git history keep them recoverable.
+  - Acceptance: no link to either; E2E visits land on Ahead and People; the reachability check finds no orphan in `apps/web/src`, and no content or presentation export is left that only they used.
 - **R4. What the old code hid is checked** (standing rule, m19/03). After the deletions, full E2E runs for every look × theme, and the copy audit if M20-02 has shipped.
   - Acceptance: full E2E green on the deletion commit, with any failure explained, not rerun away.
-- **R5. The trial is archived, not lost.** `trial/reshape` is tagged `archive/trial-reshape` and pushed, then the branch is deleted; the `daymaster-trial.vercel.app` alias is removed.
-  - Acceptance: the tag exists on GitHub; `git branch -a` has no trial branch; the alias returns 404.
+- **R5. The trial is archived, not lost.** `trial/reshape` is tagged `archive/trial-reshape` and pushed, then the branch is deleted; the `daymaster-trial.vercel.app` alias is removed and the trial's preview deployments are deleted (owner, 2026-10-14).
+  - Acceptance: the tag exists on GitHub; `git branch -a` has no trial branch; the alias no longer resolves; `vercel ls` lists no trial previews.
 - **R6. Production deployed, live-app check** of Today in every look × theme, and Ahead, You, People, Settings, onboarding.
 
 ## Out of scope
@@ -41,6 +41,6 @@ The build holds only what the four tabs, Settings and onboarding reach, and the 
 
 ## Open questions
 
-- [ ] **Cycles:** retire it and drop Ahead's "Your decades, the old way" link? Ahead's decade view would be the only place for decades.
-- [ ] **Compare:** retire it and drop People's "full comparison" link? People's own card would be the only comparison.
-- [ ] **Trial previews:** besides removing the alias, delete the trial's Vercel preview deployments, or leave them (unlisted, behind Vercel login)?
+- [x] **Cycles:** retire it and drop Ahead's "Your decades, the old way" link? **Retire it until further notice** (owner, 2026-10-14).
+- [x] **Compare:** retire it and drop People's "full comparison" link? **Retire it until further notice** (owner, 2026-10-14).
+- [x] **Trial previews:** besides removing the alias, delete the trial's Vercel preview deployments, or leave them (unlisted, behind Vercel login)? **Delete them** (owner, 2026-10-14).
