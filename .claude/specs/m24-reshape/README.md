@@ -25,7 +25,7 @@ What changes:
 - **Fact scope types (03)** is a type-safety guard the trial didn't need. It runs after the trial work is in production.
 - **Narrowed M20** (01 widened, VOICE cleanup, 09, 16, 02) also runs after, except where a ticket here needs it.
 
-**Trial parity reached, 2026-10-11.** Everything the trial built (R2–R17) is in production: You (08), Ahead (07), People (09), navigation (04), onboarding (05), Today (06), and the topic pages ([M20-26](../m20-clarity/26-topic-pages-from-the-trial/requirements.md)). A source diff against `trial/reshape` leaves only renames, comments and deliberate changes made since: the day's tone in Today's header (M20-24), Instrument as the default (M19.9-13), and the 1900/2100 edge guards on Ahead. What remains (03, 10, 11, 12) goes beyond the trial.
+**Trial parity reached, 2026-10-11.** Everything the trial built (R2–R17) is in production: You (08), Ahead (07), People (09), navigation (04), onboarding (05), Today (06), and the topic pages ([M20-26](../m20-clarity/26-topic-pages-from-the-trial/requirements.md)). A source diff against `trial/reshape` leaves only renames, comments and deliberate changes made since: the day's tone in Today's header (M20-24), Instrument as the default (M19.9-13), and the 1900/2100 edge guards on Ahead. What remained (03, 10, 11, 12) goes beyond the trial.
 
 ## Tickets
 
@@ -33,7 +33,7 @@ What changes:
 | --- | --- | --- | --- | --- |
 | 01 | [Decisions and foundation specs](01-decisions-and-foundation-specs/requirements.md) | done | — | the decisions behind R2–R17 |
 | 02 | Mockups first: Today in three looks, every other screen in the base design | dropped — the trial build served as the mockup (standing instruction) | 01 | the screens as built, R9–R17 |
-| 03 | [Facts carry their time scope](03-fact-scope-types/requirements.md) (from M20-08) | draft | 01 | Ahead's period facts (R5, R9–R11) |
+| 03 | [Facts carry their time scope](03-fact-scope-types/requirements.md) (from M20-08) | done — live 2026-10-14 | 01 | Ahead's period facts (R5, R9–R11) |
 | 04 | [Navigation and Settings in the header](04-navigation/requirements.md) | done | 07, 08, 09 | R2 |
 | 05 | [Welcome and five-step onboarding](05-onboarding/requirements.md) | done | 04 | R3 |
 | 06 | [Today slimmed, with Today's colour](06-today/requirements.md) | done | 04 | R4, R17 |

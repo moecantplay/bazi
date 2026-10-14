@@ -1,6 +1,6 @@
 # Facts carry their time scope
 
-Status: in-progress · Milestone: M24 · Ticket: 03 · Carried from [M20-08](../../m20-clarity/08-fact-scope-types/requirements.md); approved by the owner 2026-10-14
+Status: done · Milestone: M24 · Ticket: 03 · Carried from [M20-08](../../m20-clarity/08-fact-scope-types/requirements.md); approved by the owner 2026-10-14
 
 ## Problem
 
