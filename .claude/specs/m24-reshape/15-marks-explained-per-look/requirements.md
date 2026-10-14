@@ -1,6 +1,6 @@
 # What the marks mean, per look
 
-Status: in-progress · Milestone: M24 · Ticket: 15 · Asked by the owner 2026-10-13; approved by the owner 2026-10-13 ("ok")
+Status: done · Milestone: M24 · Ticket: 15 · Asked by the owner 2026-10-13; approved by the owner 2026-10-13 ("ok"); copy after review approved 2026-10-14
 
 ## Problem
 
