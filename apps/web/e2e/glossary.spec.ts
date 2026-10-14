@@ -64,13 +64,13 @@ test("the read-more link explains how the reading works", async ({ page, context
 
 /** M24-15: every "What the marks mean" link opens the sheet for its own look's marks. */
 const MARKS_SHEETS = [
-  { look: "dial", topic: "marks:dial", title: "The week and the day", text: "dashed amber ring" },
-  { look: "almanac", topic: "marks:almanac", title: "The week", text: "Each day carries a dot" },
-  { look: "trail", topic: "marks:trail-week", title: "The week ahead", text: "Each point carries that day's animal" },
-  { look: "trail", topic: "marks:trail-route", title: "Today's route", text: "amber circle with an X" }
+  { look: "dial", topic: "marks:dial", title: "The week and the day", texts: ["dashed amber ring", "best hour"] },
+  { look: "almanac", topic: "marks:almanac", title: "The week", texts: ["Each day carries a dot"] },
+  { look: "trail", topic: "marks:trail-week", title: "The week ahead", texts: ["Each point carries that day's animal"] },
+  { look: "trail", topic: "marks:trail-route", title: "Today's route", texts: ["amber circle with an X"] }
 ] as const;
 
-for (const { look, topic, title, text } of MARKS_SHEETS) {
+for (const { look, topic, title, texts } of MARKS_SHEETS) {
   test(`${look}: the ${topic} link explains the marks drawn above it`, async ({ page, context }) => {
     await seedStore(context, { profile: FIXTURE_A, look });
     await pinClock(context, `${TODAY}T09:00:00Z`);
@@ -79,7 +79,9 @@ for (const { look, topic, title, text } of MARKS_SHEETS) {
     await page.locator(`[data-marks-legend="${topic}"]`).click();
     const sheet = page.locator("[data-glossary-sheet]");
     await expect(sheet.getByRole("heading", { name: title, exact: true })).toBeVisible();
-    await expect(sheet.getByText(text)).toBeVisible();
+    for (const text of texts) {
+      await expect(sheet).toContainText(text);
+    }
     await expect(sheet).not.toContainText("filled dot");
 
     await page.keyboard.press("Escape");

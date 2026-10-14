@@ -7,11 +7,11 @@
 "use client";
 
 import { useState } from "react";
-import { glossaryEntry } from "@daymaster/content";
+import { glossaryEntry, type MarksTopic } from "@daymaster/content";
 import { GlossarySheet } from "@/components/glossary-sheet";
 
 interface Props {
-  topic: string;
+  topic: MarksTopic;
 }
 
 export function MarksLegendLink({ topic }: Props) {

@@ -65,7 +65,7 @@ export { activityAreaLine, dayGuidance, dateVerdictLine } from "./day-guidance.j
 export type { GuidanceChip, DayGuidance } from "./day-guidance.js";
 export { annualReading, monthlyReading } from "./horizon-reading.js";
 export { GLOSSARY, HOURS_TOPIC, READING_TOPIC, ROUTE_TOPIC, glossaryEntry } from "./glossary.js";
-export { MARKS_TOPIC } from "./marks.js";
+export { MARKS_TOPIC, type MarksTopic } from "./marks.js";
 export type { GlossaryEntry } from "./glossary.js";
 export { READ_MORE, readMoreEntry } from "./read-more.js";
 export type { ReadMoreEntry } from "./read-more.js";

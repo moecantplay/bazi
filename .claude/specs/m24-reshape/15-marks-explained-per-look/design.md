@@ -15,27 +15,29 @@
 ## Copy as shipped
 
 **Instrument — The week and the day**
-- The seven rings are the days ahead: a solid green ring leans your way, a dashed amber ring is a day to take slower, and a plain grey ring sits even. The filled one is the day on screen; tap any ring to open that day.
+- The seven rings are the days ahead: a solid green ring leans your way, a dashed amber ring is a day to take slower, and a faint ring sits even. The filled one is the day on screen; tap any ring to open that day.
 - The dial below is the whole day, noon at the top and midnight at the bottom. When you're looking at today, the hand points at now.
 - The amber arc is the day's rough hour, when small things tend to jostle: keep it for routine work. The green arc is the easy hour, when plans tend to settle without a fuss: put the conversation that matters there.
-- The thin arc with a star, just outside the ring, is your best hour: the two hours whose element your birth chart runs better with. Unlike the rough and easy hours, which everyone shares, that one is yours alone.
-- The animals round the edge mark the day's twelve two-hour blocks. The lit ones are the hours above and the one you're in now.
+- The thin arc just outside the ring is your best hour, labelled Suits you: the two hours whose element your birth chart runs better with. Unlike the rough and easy hours, which everyone shares, that one is yours alone.
+- The animals round the edge mark the day's twelve two-hour blocks. The lit ones are the hours above and the one you're in now, and your best hour's animal wears a star.
 
 **Editorial — The week**
-- Each day carries a dot: green leans your way, amber is a day to take slower, and grey sits even.
-- The highlighted cell is the day on screen. Tap any day to open it.
+- Each day carries a dot: green leans your way, amber is a day to take slower, and a faint dot sits even.
+- The highlighted cell is the day on screen; its dot turns plain. Tap any day to open it.
 
 **Explorer, bottom — The week ahead**
-- The higher a day sits, the more it leans your way; low days are ones to take slower, and the middle is even. Each point carries that day's animal.
+- A high day leans your way, a low day is one to take slower, and the middle is even. Each point carries that day's animal.
 - Today is the filled disc, and a ringed day is the one on screen. Tap any day to open it.
 
 **Explorer, route — Today's route**
 - The route is the day, from morning on the left to evening at the flag. The solid stretch is the part you've already walked, and the disc labelled NOW is where you are.
 - The amber circle with an X is the day's rough hour, when small things tend to jostle: keep it for routine work. The green circle is the easy hour, when plans tend to settle without a fuss: put the conversation that matters there.
-- The star is your best hour: the two hours whose element your birth chart runs better with. Unlike the rough and easy hours, which everyone shares, that one is yours alone.
+- The star marks your best hour, labelled Suits you: the two hours whose element your birth chart runs better with. Unlike the rough and easy hours, which everyone shares, that one is yours alone.
 - When now falls inside one of these hours, the NOW disc wears its colour as a ring. Each mark's label gives its time.
 
 Changed from the draft after the dark-theme screenshots: "dark disc" / "dark cell" became "disc labelled NOW", "filled disc" and "highlighted cell". The anchor pair is light in dark theme, so "dark" named the wrong mark there. A test now bans dark/black/white in these sheets. "On today, the hand…" became "When you're looking at today, the hand…".
+
+Changed after the review, 2026-10-14: "grey" became "faint", because the even mark is the terrain-tinted hairline (brown on fire and earth, blue on water). The star moved from the arc to the rim animal, where `day-dial.tsx` draws it. Both best-hour lines now give the on-screen label, Suits you. Explorer's week names its three heights instead of a sliding scale, and Editorial says the highlighted day's dot turns plain. Tests now also ban "grey" and, on Instrument and the route, "dot" and "dash".
 
 ## Changes
 
@@ -43,7 +45,7 @@ Changed from the draft after the dark-theme screenshots: "dark disc" / "dark cel
 | --- | --- |
 | content `marks.ts` (new), `glossary.ts`, `index.ts` | four per-link entries; `WEEK_TOPIC` removed |
 | content `test/marks.test.ts` (new), `test/glossary.test.ts` | each sheet pinned to its marks; no retired marks, system terms or theme-bound words; old week test removed |
-| web `marks-legend-link.tsx` (renamed), `week-tone-word.ts` (new) | topic prop; tone words split out |
+| web `marks-legend-link.tsx` (renamed), `week-tone-word.ts` (new) | `MarksTopic` prop; tone words split out |
 | web `elevation-profile.tsx`, `looks/almanac/week-calendar.tsx`, `looks/dial/today-instrument.tsx`, `looks/dial/week-rings.tsx` | pass their topic / new import path |
 | web `looks/trail/today-explorer.tsx` | route link under the hero |
 | web `e2e/glossary.spec.ts` | each look's link opens its own sheet |
