@@ -12,15 +12,15 @@
  *   as its own mark, `bestHourMarkFor`, spread together with them.
  */
 
-import type { Branch, Element, InteractionType, Palace, ReadingFact } from "@daymaster/bazi-engine";
+import type { Branch, DayFact, Element, InteractionType, Palace } from "@daymaster/bazi-engine";
 import { hourWindowLabel, rankTransits } from "@daymaster/content";
 import { TIMED_PROGRESS_MAX, hourWindowProgress, hourWindowRawProgress } from "./dates.js";
 
 /** Interaction types the map hero marks with a crossing (circle + X). */
 const CROSSING_TYPES: ReadonlySet<InteractionType> = new Set(["six-clash", "punishment", "harm"]);
 
-type HourInteractionFact = Extract<ReadingFact, { kind: "hour-interaction" }>;
-type BestHourFact = Extract<ReadingFact, { kind: "best-hour" }>;
+type HourInteractionFact = Extract<DayFact, { kind: "hour-interaction" }>;
+type BestHourFact = Extract<DayFact, { kind: "best-hour" }>;
 
 /** When a waypoint holds: the whole day, or one two-hour block. */
 export type WaypointTiming =
@@ -129,7 +129,7 @@ interface TimedLayout {
   bestHour: BestHourMark | null;
 }
 
-function timedLayout(facts: readonly ReadingFact[]): TimedLayout {
+function timedLayout(facts: readonly DayFact[]): TimedLayout {
   const hours = facts.filter((fact): fact is HourInteractionFact => fact.kind === "hour-interaction");
   const timed = hours.map(timedWaypoint);
   const slots: TimedSlot[] = timed.flatMap((waypoint) =>
@@ -168,7 +168,7 @@ function progressOf(waypoint: RouteWaypoint): number {
 }
 
 /** Every route waypoint: the day-long ones first (up to two), then the day's timed ones in route order. */
-export function routeWaypointsFor(facts: readonly ReadingFact[]): RouteWaypoint[] {
+export function routeWaypointsFor(facts: readonly DayFact[]): RouteWaypoint[] {
   const dayLong = rankTransits(facts)
     .slice(0, MAX_DAY_LONG)
     .map((fact): RouteWaypoint => ({
@@ -182,6 +182,6 @@ export function routeWaypointsFor(facts: readonly ReadingFact[]): RouteWaypoint[
 }
 
 /** The reader's best hour, spread on the route together with the day's timed waypoints. */
-export function bestHourMarkFor(facts: readonly ReadingFact[]): BestHourMark | null {
+export function bestHourMarkFor(facts: readonly DayFact[]): BestHourMark | null {
   return timedLayout(facts).bestHour;
 }

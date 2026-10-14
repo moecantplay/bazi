@@ -5,7 +5,7 @@
  */
 
 import { describe, expect, it } from "vitest";
-import type { ReadingFact } from "@daymaster/bazi-engine";
+import type { PeriodFact } from "@daymaster/bazi-engine";
 import {
   PERIOD_ELEMENT_SENTENCES,
   PERIOD_INTERACTION_CARDS,
@@ -27,12 +27,12 @@ function plainAcrossSpans(text: string): void {
   }
 }
 
-const PERIOD_FACTS: ReadingFact[] = [
-  { kind: "ten-god-period", period: "monthly", god: "比肩", english: "Friend" },
-  { kind: "element-period", period: "monthly", element: "earth", favorable: true },
-  { kind: "transit-interaction", interaction: "trine", branches: ["子", "申", "辰"], natalPalaces: ["hour"], transitPalace: "monthly", transitBranch: "子" },
-  { kind: "transit-interaction", interaction: "six-clash", branches: ["辰", "戌"], natalPalaces: ["day"], transitPalace: "monthly", transitBranch: "戌" },
-] as ReadingFact[];
+const PERIOD_FACTS: PeriodFact[] = [
+  { kind: "ten-god-period", scope: "month", god: "比肩", english: "Friend" },
+  { kind: "element-period", scope: "month", element: "earth", favorable: true },
+  { kind: "transit-interaction", scope: "month", interaction: "trine", branches: ["子", "申", "辰"], natalPalaces: ["hour"], transitPalace: "monthly", transitBranch: "子" },
+  { kind: "transit-interaction", scope: "month", interaction: "six-clash", branches: ["辰", "戌"], natalPalaces: ["day"], transitPalace: "monthly", transitBranch: "戌" },
+];
 
 describe("Ahead's wording", () => {
   it("is plain in every lead and card", () => {

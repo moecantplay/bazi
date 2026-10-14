@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { ReadingFact } from "@daymaster/bazi-engine";
+import type { DayFact, PeriodFact } from "@daymaster/bazi-engine";
 import { dailyBundleFor } from "../src/reading.js";
 import { bestHourMarkFor, routeWaypointsFor } from "../src/route-waypoints.js";
 import { addDays } from "../src/dates.js";
@@ -40,9 +40,9 @@ describe("routeWaypointsFor", () => {
   });
 
   it("leads with the strongest relation, the same one Today's reading leads with", () => {
-    const facts: ReadingFact[] = [
-      { kind: "transit-interaction", interaction: "trine", branches: ["午", "戌"], natalPalaces: ["year"], transitPalace: "daily", transitBranch: "午" },
-      { kind: "transit-interaction", interaction: "six-clash", branches: ["子", "午"], natalPalaces: ["month"], transitPalace: "daily", transitBranch: "午" }
+    const facts: DayFact[] = [
+      { kind: "transit-interaction", scope: "day", interaction: "trine", branches: ["午", "戌"], natalPalaces: ["year"], transitPalace: "daily", transitBranch: "午" },
+      { kind: "transit-interaction", scope: "day", interaction: "six-clash", branches: ["子", "午"], natalPalaces: ["month"], transitPalace: "daily", transitBranch: "午" }
     ];
     const dayLong = routeWaypointsFor(facts);
     expect(dayLong.map((waypoint) => [waypoint.interaction, waypoint.area, waypoint.crossing])).toEqual([
@@ -110,5 +110,15 @@ describe("bestHourMarkFor (M24-13)", () => {
         }
       }
     }
+  });
+});
+
+describe("routeWaypointsFor's input (M24-03)", () => {
+  it("refuses a year's facts at compile time", () => {
+    const yearFacts: PeriodFact[] = [
+      { kind: "transit-interaction", scope: "year", interaction: "six-clash", branches: ["子", "午"], natalPalaces: ["month"], transitPalace: "annual", transitBranch: "午" }
+    ];
+    // @ts-expect-error a year fact is not a day fact
+    expect(routeWaypointsFor(yearFacts).length).toBe(1);
   });
 });

@@ -4,7 +4,7 @@
  * facts; null when the key names nothing the day carries.
  */
 
-import type { Branch, ReadingFact } from "@daymaster/bazi-engine";
+import type { Branch, DayFact } from "@daymaster/bazi-engine";
 import { textRun } from "../tokens.js";
 import type { TopicContext, TopicPage } from "../types.js";
 import { BRANCH_ANIMALS, elementWord, hourWindowLabel } from "../vocab.js";
@@ -29,7 +29,7 @@ import { interactionTopic, rankTransits, type TransitFact } from "./daily/lead.j
 import { deepenTopicPage } from "./topic-depth.js";
 import { lifeAreaOf } from "./daily/life-areas.js";
 
-type FactOf<K extends ReadingFact["kind"]> = Extract<ReadingFact, { kind: K }>;
+type FactOf<K extends DayFact["kind"]> = Extract<DayFact, { kind: K }>;
 
 function page(fields: Partial<TopicPage> & Pick<TopicPage, "title" | "nameOrigin">): TopicPage {
   return {
@@ -170,12 +170,12 @@ function starsPage(stars: readonly FactOf<"star-day">[]): TopicPage {
  * The page for a topic key, or null when the day carries nothing under it.
  * With the chart's context, the page gains fuller sections (M20-26).
  */
-export function topicPage(topic: string, facts: readonly ReadingFact[], context?: TopicContext): TopicPage | null {
+export function topicPage(topic: string, facts: readonly DayFact[], context?: TopicContext): TopicPage | null {
   const base = basePage(topic, facts);
   return base && context ? deepenTopicPage(base, topic, facts, context) : base;
 }
 
-function basePage(topic: string, facts: readonly ReadingFact[]): TopicPage | null {
+function basePage(topic: string, facts: readonly DayFact[]): TopicPage | null {
   if (topic.startsWith("interaction:")) {
     const fact = rankTransits(facts).find((candidate) => interactionTopic(candidate) === topic);
     return fact ? interactionPage(fact) : null;

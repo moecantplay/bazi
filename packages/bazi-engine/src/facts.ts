@@ -3,8 +3,12 @@
  *
  * `natalFacts` describes the static chart; `dailyFacts` compares a transit date's
  * day pillar against the natal branches — day-only, by design: month/year/decade
- * transit facts are horizons.ts's job (Cycles), not Today's. Same chart +
+ * transit facts are horizons.ts's job (Ahead), not Today's. Same chart +
  * same date always yields identical facts.
+ *
+ * Every fact carries its `scope` (M24-03), and each producer returns a type
+ * narrowed to its own: `NatalFact`, `DayFact`, `PeriodFact`. A screen that
+ * takes `DayFact[]` cannot be handed a year's facts.
  */
 
 import { SIX_CLASHES, SIX_COMBINES } from "../data/interactions-tables.js";
@@ -29,11 +33,21 @@ import type {
   Stem,
 } from "./types.js";
 
-/** A single structured observation about a chart or a transit day. */
+/** What a fact is about: the birth chart, or a day, month, year or decade of transit. */
+export type FactScope = "natal" | "day" | "month" | "year" | "decade";
+
+/** The scopes a transit can have: everything but the birth chart. */
+export type TransitScope = Exclude<FactScope, "natal">;
+
+/** The scopes horizons.ts reads a period pillar at. */
+export type PeriodScope = Exclude<TransitScope, "day">;
+
+/** A single structured observation about a chart or a transit period. */
 export type ReadingFact =
-  | { kind: "day-master"; stem: Stem; element: Element; polarity: Polarity }
+  | { kind: "day-master"; scope: "natal"; stem: Stem; element: Element; polarity: Polarity }
   | {
       kind: "strength";
+      scope: "natal";
       value: "strong" | "weak";
       /** The verdict was decided by a single weighted point or less. */
       narrow: boolean;
@@ -42,9 +56,10 @@ export type ReadingFact =
       rooted: boolean;
       backed: boolean;
     }
-  | { kind: "element-balance"; counts: Record<Element, number>; dominant: Element; missing: Element[] }
+  | { kind: "element-balance"; scope: "natal"; counts: Record<Element, number>; dominant: Element; missing: Element[] }
   | {
       kind: "natal-interaction";
+      scope: "natal";
       interaction: InteractionType;
       branches: Branch[];
       palaces: Palace[];
@@ -52,12 +67,13 @@ export type ReadingFact =
       completeness?: "full" | "half";
       punishmentKind?: "mutual" | "self";
     }
-  | { kind: "favorable"; elements: Element[] }
-  | { kind: "star"; star: string; chinese: string; english: string; palace: Palace }
-  | { kind: "life-stage"; palace: Palace; branch: Branch; stage: LifeStage }
-  | { kind: "na-yin"; palace: Palace; chinese: string; english: string; element: Element }
+  | { kind: "favorable"; scope: "natal"; elements: Element[] }
+  | { kind: "star"; scope: "natal"; star: string; chinese: string; english: string; palace: Palace }
+  | { kind: "life-stage"; scope: "natal"; palace: Palace; branch: Branch; stage: LifeStage }
+  | { kind: "na-yin"; scope: "natal"; palace: Palace; chinese: string; english: string; element: Element }
   | {
       kind: "transit-interaction";
+      scope: TransitScope;
       interaction: InteractionType;
       branches: Branch[];
       natalPalaces: Palace[];
@@ -73,6 +89,7 @@ export type ReadingFact =
        * these hold only within their block, in wall-clock hours of the zone.
        */
       kind: "hour-interaction";
+      scope: "day";
       interaction: "six-clash" | "six-combine";
       hourBranch: Branch;
       dayBranch: Branch;
@@ -83,19 +100,33 @@ export type ReadingFact =
     }
   /** The reader's best hour — the block that suits the chart most (best-hour.ts). */
   | BestHour
-  | { kind: "element-day"; element: Element; favorable: boolean }
-  | { kind: "ten-god-day"; god: string; english: string }
-  | {
-      kind: "element-period";
-      period: "annual" | "monthly" | "luck";
-      element: Element;
-      favorable: boolean;
-    }
-  | { kind: "ten-god-period"; period: "annual" | "monthly" | "luck"; god: string; english: string }
-  | { kind: "star-day"; star: string; chinese: string; english: string; transitPalace: Palace }
-  | { kind: "stage-day"; stage: LifeStage };
+  | { kind: "element-day"; scope: "day"; element: Element; favorable: boolean }
+  | { kind: "ten-god-day"; scope: "day"; god: string; english: string }
+  | { kind: "element-period"; scope: PeriodScope; element: Element; favorable: boolean }
+  | { kind: "ten-god-period"; scope: PeriodScope; god: string; english: string }
+  | { kind: "star-day"; scope: "day"; star: string; chinese: string; english: string; transitPalace: Palace }
+  | { kind: "stage-day"; scope: "day"; stage: LifeStage };
 
-const TRANSIT_PALACES: readonly Palace[] = ["daily", "monthly", "annual", "luck"];
+/** A fact about the birth chart alone. */
+export type NatalFact = ReadingFact & { scope: "natal" };
+
+/** A fact about one transit day: Today's only input. */
+export type DayFact = ReadingFact & { scope: "day" };
+
+/** A fact about a month, a year or a decade: Ahead's input. */
+export type PeriodFact = ReadingFact & { scope: PeriodScope };
+
+type TransitInteractionFact = Extract<ReadingFact, { kind: "transit-interaction" }>;
+
+/** The palace a transit pillar takes for each scope. */
+const TRANSIT_PALACE: Record<TransitScope, Palace> = {
+  day: "daily",
+  month: "monthly",
+  year: "annual",
+  decade: "luck",
+};
+
+const TRANSIT_PALACES: readonly Palace[] = Object.values(TRANSIT_PALACE);
 
 function dominantElement(counts: Record<Element, number>): Element {
   return ELEMENT_PRODUCTION_ORDER.reduce((best, element) =>
@@ -124,16 +155,18 @@ function interactionExtras(interaction: Interaction): InteractionExtras {
 }
 
 /** Static facts about the natal chart. */
-export function natalFacts(chart: Chart): ReadingFact[] {
-  const facts: ReadingFact[] = [
+export function natalFacts(chart: Chart): NatalFact[] {
+  const facts: NatalFact[] = [
     {
       kind: "day-master",
+      scope: "natal",
       stem: chart.dayMaster,
       element: elementOfStem(chart.dayMaster),
       polarity: polarityOfStem(chart.dayMaster),
     },
     {
       kind: "strength",
+      scope: "natal",
       value: chart.strength.value,
       narrow: chart.strength.narrow,
       seasonal: chart.strength.seasonalSupport,
@@ -142,6 +175,7 @@ export function natalFacts(chart: Chart): ReadingFact[] {
     },
     {
       kind: "element-balance",
+      scope: "natal",
       counts: chart.fiveElementCounts,
       dominant: dominantElement(chart.fiveElementCounts),
       missing: missingElements(chart.fiveElementCounts),
@@ -151,6 +185,7 @@ export function natalFacts(chart: Chart): ReadingFact[] {
   for (const interaction of chart.interactions) {
     facts.push({
       kind: "natal-interaction",
+      scope: "natal",
       interaction: interaction.type,
       branches: [...interaction.branches],
       palaces: [...interaction.palaces],
@@ -158,11 +193,12 @@ export function natalFacts(chart: Chart): ReadingFact[] {
     });
   }
 
-  facts.push({ kind: "favorable", elements: chart.favorableElements });
+  facts.push({ kind: "favorable", scope: "natal", elements: chart.favorableElements });
 
   for (const hit of chart.shensha) {
     facts.push({
       kind: "star",
+      scope: "natal",
       star: hit.key,
       chinese: hit.chinese,
       english: hit.english,
@@ -179,12 +215,13 @@ export function natalFacts(chart: Chart): ReadingFact[] {
   for (const [palace, pillar] of stagePalaces) {
     const stages = chart.lifeStages[palace];
     if (pillar && stages) {
-      facts.push({ kind: "life-stage", palace, branch: pillar.branch, stage: stages.dayMaster });
+      facts.push({ kind: "life-stage", scope: "natal", palace, branch: pillar.branch, stage: stages.dayMaster });
     }
   }
 
   facts.push({
     kind: "na-yin",
+    scope: "natal",
     palace: "day",
     chinese: chart.naYin.day.chinese,
     english: chart.naYin.day.english,
@@ -194,11 +231,12 @@ export function natalFacts(chart: Chart): ReadingFact[] {
 }
 
 /** Transit interactions between a single transit branch and the natal branches. */
-export function transitInteractionFacts(
+export function transitInteractionFacts<S extends TransitScope>(
   chart: Chart,
   branch: Branch,
-  transitPalace: Palace,
-): ReadingFact[] {
+  scope: S,
+): (TransitInteractionFact & { scope: S })[] {
+  const transitPalace = TRANSIT_PALACE[scope];
   const combined = [
     ...natalPalacedBranches({
       year: chart.year.branch,
@@ -210,8 +248,9 @@ export function transitInteractionFacts(
   ];
   return interactions(combined)
     .filter((interaction) => interaction.palaces.includes(transitPalace))
-    .map((interaction): ReadingFact => ({
-      kind: "transit-interaction",
+    .map((interaction) => ({
+      kind: "transit-interaction" as const,
+      scope,
       interaction: interaction.type,
       branches: [...interaction.branches],
       natalPalaces: interaction.palaces.filter((palace) => !TRANSIT_PALACES.includes(palace)),
@@ -235,26 +274,26 @@ function partnerOf(
  * The day's rough hour (its branch's clash partner) and easy hour (its combine
  * partner), always one each — every branch has exactly one of both.
  */
-export function hourInteractionFacts(dayBranch: Branch): ReadingFact[] {
-  const facts: ReadingFact[] = [];
+export function hourInteractionFacts(dayBranch: Branch): DayFact[] {
+  const facts: DayFact[] = [];
   const clashHour = partnerOf(SIX_CLASHES, dayBranch);
   if (clashHour) {
-    facts.push({ kind: "hour-interaction", interaction: "six-clash", hourBranch: clashHour, dayBranch, ...hourBlockWindow(clashHour) });
+    facts.push({ kind: "hour-interaction", scope: "day", interaction: "six-clash", hourBranch: clashHour, dayBranch, ...hourBlockWindow(clashHour) });
   }
   const combineHour = partnerOf(SIX_COMBINES, dayBranch);
   if (combineHour) {
-    facts.push({ kind: "hour-interaction", interaction: "six-combine", hourBranch: combineHour, dayBranch, ...hourBlockWindow(combineHour) });
+    facts.push({ kind: "hour-interaction", scope: "day", interaction: "six-combine", hourBranch: combineHour, dayBranch, ...hourBlockWindow(combineHour) });
   }
   return facts;
 }
 
-function withBestHour(chart: Chart, dayTransit: Pillar): ReadingFact[] {
+function withBestHour(chart: Chart, dayTransit: Pillar): DayFact[] {
   const bestHour = bestHourFact(chart, dayTransit);
   return bestHour ? [bestHour] : [];
 }
 
 /** Facts for a transit date compared against the natal chart. Day-only — see file header. */
-export function dailyFacts(chart: Chart, dateISO: string, zone: string): ReadingFact[] {
+export function dailyFacts(chart: Chart, dateISO: string, zone: string): DayFact[] {
   const dayTransit = dailyPillar(dateISO, zone);
 
   const dayElement = elementOfStem(dayTransit.stem);
@@ -272,24 +311,26 @@ export function dailyFacts(chart: Chart, dateISO: string, zone: string): Reading
   );
 
   return [
-    ...transitInteractionFacts(chart, dayTransit.branch, "daily"),
+    ...transitInteractionFacts(chart, dayTransit.branch, "day"),
     ...hourInteractionFacts(dayTransit.branch),
     ...withBestHour(chart, dayTransit),
     {
       kind: "element-day",
+      scope: "day",
       element: dayElement,
       favorable: chart.favorableElements.includes(dayElement),
     },
-    { kind: "ten-god-day", god: tenGod.chinese, english: tenGod.english },
+    { kind: "ten-god-day", scope: "day", god: tenGod.chinese, english: tenGod.english },
     ...starHits.map(
-      (hit): ReadingFact => ({
+      (hit): DayFact => ({
         kind: "star-day",
+        scope: "day",
         star: hit.key,
         chinese: hit.chinese,
         english: hit.english,
         transitPalace: hit.palace,
       }),
     ),
-    { kind: "stage-day", stage: lifeStage(chart.dayMaster, dayTransit.branch) },
+    { kind: "stage-day", scope: "day", stage: lifeStage(chart.dayMaster, dayTransit.branch) },
   ];
 }

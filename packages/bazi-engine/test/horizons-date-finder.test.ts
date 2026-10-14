@@ -40,7 +40,7 @@ describe("annualPillarFacts — Fixture A, an arbitrary selected year (2026)", (
   it("reads the stem as favourable fire, 偏印 to the 戊 day master", () => {
     expect(facts).toContainEqual({
       kind: "element-period",
-      period: "annual",
+      scope: "year",
       element: "fire",
       favorable: true,
     });
@@ -48,7 +48,7 @@ describe("annualPillarFacts — Fixture A, an arbitrary selected year (2026)", (
       (fact): fact is Extract<ReadingFact, { kind: "ten-god-period" }> =>
         fact.kind === "ten-god-period",
     );
-    expect(tenGod).toMatchObject({ period: "annual", god: "偏印" });
+    expect(tenGod).toMatchObject({ scope: "year", god: "偏印" });
   });
 
   it("finds the 午 transit clashing the natal 子 month palace", () => {
@@ -84,7 +84,7 @@ describe("monthlyPillarFactsForCalendarMonth — Fixture A, June 2026", () => {
   it("reads the stem as unfavourable wood, 七杀 to the 戊 day master", () => {
     expect(facts).toContainEqual({
       kind: "element-period",
-      period: "monthly",
+      scope: "month",
       element: "wood",
       favorable: false,
     });
@@ -92,7 +92,7 @@ describe("monthlyPillarFactsForCalendarMonth — Fixture A, June 2026", () => {
       (fact): fact is Extract<ReadingFact, { kind: "ten-god-period" }> =>
         fact.kind === "ten-god-period",
     );
-    expect(tenGod).toMatchObject({ period: "monthly", god: "七杀" });
+    expect(tenGod).toMatchObject({ scope: "month", god: "七杀" });
   });
 
   it("finds the 午 transit clashing the natal 子 month palace", () => {
@@ -129,7 +129,7 @@ describe("luckPillarFacts — Fixture A's current decade (己卯, age 29)", () =
   it("reads the luck stem as favourable earth, 劫财 (Rob Wealth) to the 戊 day master", () => {
     expect(facts).toContainEqual({
       kind: "element-period",
-      period: "luck",
+      scope: "decade",
       element: "earth",
       favorable: true,
     });
@@ -137,7 +137,7 @@ describe("luckPillarFacts — Fixture A's current decade (己卯, age 29)", () =
       (fact): fact is Extract<ReadingFact, { kind: "ten-god-period" }> =>
         fact.kind === "ten-god-period",
     );
-    expect(tenGod).toMatchObject({ period: "luck", god: "劫财", english: "Rob Wealth" });
+    expect(tenGod).toMatchObject({ scope: "decade", god: "劫财", english: "Rob Wealth" });
   });
 
   it("finds the 卯 transit combining the natal 戌 year (roots) palace", () => {

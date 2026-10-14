@@ -5,7 +5,7 @@
  */
 
 import { describe, expect, it } from "vitest";
-import type { InteractionType, Palace, ReadingFact } from "@daymaster/bazi-engine";
+import type { DayFact, InteractionType, NatalFact, Palace } from "@daymaster/bazi-engine";
 import { DOMINANT_LINES } from "../src/banks/elements.js";
 import { dailyReading, natalReading } from "../src/index.js";
 import {
@@ -23,7 +23,7 @@ import { lineFactTag, lineText, plainGloss } from "./token-utils.js";
 
 const SEED = "coverage-seed";
 
-function natalText(facts: ReadingFact[]): string {
+function natalText(facts: NatalFact[]): string {
   return natalReading(facts, SEED)
     .sections.flatMap((section) => section.lines)
     .map((line) => lineText(line))
@@ -32,7 +32,7 @@ function natalText(facts: ReadingFact[]): string {
 
 const DAILY_SEED = { chart: SEED, date: "2026-09-29" };
 
-function dailyText(facts: ReadingFact[]): string {
+function dailyText(facts: DayFact[]): string {
   const reading = dailyReading(facts, DAILY_SEED);
   return [reading.headline, reading.body, reading.agency].map((line) => lineText(line)).join(" || ");
 }
@@ -41,7 +41,7 @@ describe("coverage: natal", () => {
   it("every day-master stem yields a 3-line section", () => {
     for (const stem of STEMS) {
       const reading = natalReading(
-        [{ kind: "day-master", stem, element: "water", polarity: "yang" }],
+        [{ kind: "day-master", scope: "natal", stem, element: "water", polarity: "yang" }],
         SEED,
       );
       const section = reading.sections.find((current) => current.title === "Your day-master");
@@ -57,7 +57,7 @@ describe("coverage: natal", () => {
     for (const dominant of ELEMENTS) {
       // A lead of 2 is what makes an element dominant (M20-17).
       const counts = { wood: 1, fire: 1, earth: 1, metal: 1, water: 1, [dominant]: 3 };
-      const text = natalText([{ kind: "element-balance", counts, dominant, missing: [] }]);
+      const text = natalText([{ kind: "element-balance", scope: "natal", counts, dominant, missing: [] }]);
       expect(
         DOMINANT_LINES[dominant].some((line) => text.includes(line)),
         `dominant ${dominant}`,
@@ -70,6 +70,7 @@ describe("coverage: natal", () => {
       const text = natalText([
         {
           kind: "element-balance",
+          scope: "natal",
           counts: { wood: 1, fire: 1, earth: 1, metal: 1, water: 1 },
           dominant: "earth",
           missing: [missing],
@@ -83,6 +84,7 @@ describe("coverage: natal", () => {
     const text = natalText([
       {
         kind: "element-balance",
+        scope: "natal",
         counts: { wood: 1, fire: 1, earth: 1, metal: 1, water: 1 },
         dominant: "earth",
         missing: [],
@@ -94,7 +96,7 @@ describe("coverage: natal", () => {
   it("both strength values yield a line", () => {
     for (const value of ["strong", "weak"] as const) {
       const text = natalText([
-        { kind: "strength", value, narrow: false, seasonal: value === "strong", rooted: true, backed: false },
+        { kind: "strength", scope: "natal", value, narrow: false, seasonal: value === "strong", rooted: true, backed: false },
       ]);
       expect(text.length, `strength ${value}`).toBeGreaterThan(0);
     }
@@ -102,7 +104,7 @@ describe("coverage: natal", () => {
 
   it("every favorable element yields a suits + inclinations line", () => {
     for (const element of ELEMENTS) {
-      const reading = natalReading([{ kind: "favorable", elements: [element] }], SEED);
+      const reading = natalReading([{ kind: "favorable", scope: "natal", elements: [element] }], SEED);
       const section = reading.sections.find((current) => current.title === "What tends to suit you");
       expect(section, `favorable ${element}`).toBeDefined();
       // one favorable line + one career line
@@ -111,14 +113,14 @@ describe("coverage: natal", () => {
   });
 
   it("every natal-interaction kind/variant yields a non-generic line", () => {
-    const variants: ReadingFact[] = [
-      { kind: "natal-interaction", interaction: "six-combine", branches: ["子", "丑"], palaces: ["year", "month"] },
-      { kind: "natal-interaction", interaction: "six-clash", branches: ["子", "午"], palaces: ["month", "day"] },
-      { kind: "natal-interaction", interaction: "trine", branches: ["申", "子", "辰"], palaces: ["year", "month", "day"], element: "water", completeness: "full" },
-      { kind: "natal-interaction", interaction: "trine", branches: ["申", "子"], palaces: ["year", "month"], element: "water", completeness: "half" },
-      { kind: "natal-interaction", interaction: "punishment", branches: ["寅", "巳", "申"], palaces: ["year", "month", "day"], punishmentKind: "mutual" },
-      { kind: "natal-interaction", interaction: "punishment", branches: ["辰", "辰"], palaces: ["day", "day"], punishmentKind: "self" },
-      { kind: "natal-interaction", interaction: "harm", branches: ["子", "未"], palaces: ["year", "day"] },
+    const variants: NatalFact[] = [
+      { kind: "natal-interaction", scope: "natal", interaction: "six-combine", branches: ["子", "丑"], palaces: ["year", "month"] },
+      { kind: "natal-interaction", scope: "natal", interaction: "six-clash", branches: ["子", "午"], palaces: ["month", "day"] },
+      { kind: "natal-interaction", scope: "natal", interaction: "trine", branches: ["申", "子", "辰"], palaces: ["year", "month", "day"], element: "water", completeness: "full" },
+      { kind: "natal-interaction", scope: "natal", interaction: "trine", branches: ["申", "子"], palaces: ["year", "month"], element: "water", completeness: "half" },
+      { kind: "natal-interaction", scope: "natal", interaction: "punishment", branches: ["寅", "巳", "申"], palaces: ["year", "month", "day"], punishmentKind: "mutual" },
+      { kind: "natal-interaction", scope: "natal", interaction: "punishment", branches: ["辰", "辰"], palaces: ["day", "day"], punishmentKind: "self" },
+      { kind: "natal-interaction", scope: "natal", interaction: "harm", branches: ["子", "未"], palaces: ["year", "day"] },
     ];
     for (const fact of variants) {
       const text = natalText([fact]);
@@ -130,10 +132,11 @@ describe("coverage: natal", () => {
   it("an unknown natal interaction falls back to a safe generic line", () => {
     const bogus = {
       kind: "natal-interaction",
+      scope: "natal",
       interaction: "bogus" as InteractionType,
       branches: ["子", "午"],
       palaces: ["year", "month"] as Palace[],
-    } satisfies ReadingFact;
+    } satisfies NatalFact;
     const text = natalText([bogus]);
     expect(text).toMatch(/one of your chart's textures/);
   });
@@ -153,16 +156,17 @@ describe("coverage: daily", () => {
   });
 
   it("an unknown transit interaction falls back to the day's character", () => {
-    const facts: ReadingFact[] = [
+    const facts: DayFact[] = [
       {
         kind: "transit-interaction",
+        scope: "day",
         interaction: "bogus" as InteractionType,
         branches: ["子", "午"],
         natalPalaces: ["month"],
         transitPalace: "daily",
         transitBranch: "午",
       },
-      { kind: "ten-god-day", god: "正官", english: "Direct Officer" },
+      { kind: "ten-god-day", scope: "day", god: "正官", english: "Direct Officer" },
     ];
     const reading = dailyReading(facts, DAILY_SEED);
     expect(lineText(reading.body).length).toBeGreaterThan(0);
@@ -171,7 +175,7 @@ describe("coverage: daily", () => {
   it("every ten-god english leads a quiet day with its own wording", () => {
     const bodies = new Set<string>();
     for (const english of TEN_GODS) {
-      const text = dailyText([{ kind: "ten-god-day", god: "測試", english }]);
+      const text = dailyText([{ kind: "ten-god-day", scope: "day", god: "測試", english }]);
       expect(text.length).toBeGreaterThan(0);
       bodies.add(text);
     }
@@ -179,25 +183,25 @@ describe("coverage: daily", () => {
   });
 
   it("an unknown ten-god english still reads", () => {
-    const text = dailyText([{ kind: "ten-god-day", god: "??", english: "Nonsense God" }]);
+    const text = dailyText([{ kind: "ten-god-day", scope: "day", god: "??", english: "Nonsense God" }]);
     expect(text.length).toBeGreaterThan(0);
   });
 
   it("every element, star and stage gets a card with a plain title", () => {
     for (const element of ELEMENTS) {
       for (const favorable of [true, false]) {
-        const reading = dailyReading([...dailyFactSet("six-clash", "month", "daily").filter((fact) => fact.kind !== "element-day"), { kind: "element-day", element, favorable }], DAILY_SEED);
+        const reading = dailyReading([...dailyFactSet("six-clash", "month", "daily").filter((fact) => fact.kind !== "element-day"), { kind: "element-day", scope: "day", element, favorable }], DAILY_SEED);
         const shown = reading.modifierTopic === `element:${element}` || reading.cards.some((card) => card.topic === `element:${element}`);
         expect(shown, `${element}/${favorable}`).toBe(true);
       }
     }
     for (const star of STAR_KEYS) {
-      const reading = dailyReading([{ kind: "star-day", star, chinese: "星", english: star, transitPalace: "daily" }], DAILY_SEED);
+      const reading = dailyReading([{ kind: "star-day", scope: "day", star, chinese: "星", english: star, transitPalace: "daily" }], DAILY_SEED);
       const card = reading.cards.find((candidate) => candidate.topic === "stars");
       expect(card && plainGloss(card.titles[0]!), star).not.toBe("A small sign today");
     }
     for (const stage of STAGE_LABELS) {
-      const reading = dailyReading([{ kind: "stage-day", stage: { chinese: "階", english: stage } }], DAILY_SEED);
+      const reading = dailyReading([{ kind: "stage-day", scope: "day", stage: { chinese: "階", english: stage } }], DAILY_SEED);
       const card = reading.cards.find((candidate) => candidate.topic === `stage:${stage}`);
       expect(card && plainGloss(card.titles[0]!), stage).not.toBe("Your pace today");
     }

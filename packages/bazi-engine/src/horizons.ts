@@ -1,8 +1,8 @@
 /**
  * Horizon facts: the year (流年) and month (流月) currents read against a natal
  * chart — the same treatment `dailyFacts` gives the day, lifted to the two
- * longer periods, but for an arbitrarily *selected* year/month/decade (the
- * Cycles decade → year → month picker) rather than "the date happening now".
+ * longer periods, but for an arbitrarily *selected* year/month/decade (Ahead's
+ * decade, years and months) rather than "the date happening now".
  *
  * `annualPillarFacts` takes a bare Gregorian year — the sexagenary year
  * boundary is 立春, not a date, so `annualPillar` never needed one.
@@ -16,45 +16,41 @@
 
 import { DateTime } from "luxon";
 import { elementOfStem } from "./attributes.js";
-import { transitInteractionFacts, type ReadingFact } from "./facts.js";
+import { transitInteractionFacts, type PeriodFact, type PeriodScope } from "./facts.js";
 import { annualPillar, monthPillar } from "./pillars.js";
 import { tenGods } from "./ten-gods.js";
 import type { Chart, LuckPillar, Pillar } from "./types.js";
 
-function periodFacts(
-  chart: Chart,
-  pillar: Pillar,
-  period: "annual" | "monthly" | "luck",
-): ReadingFact[] {
+function periodFacts(chart: Chart, pillar: Pillar, scope: PeriodScope): PeriodFact[] {
   const element = elementOfStem(pillar.stem);
   const tenGod = tenGods(chart.dayMaster, pillar.stem);
   return [
-    ...transitInteractionFacts(chart, pillar.branch, period),
+    ...transitInteractionFacts(chart, pillar.branch, scope),
     {
       kind: "element-period",
-      period,
+      scope,
       element,
       favorable: chart.favorableElements.includes(element),
     },
-    { kind: "ten-god-period", period, god: tenGod.chinese, english: tenGod.english },
+    { kind: "ten-god-period", scope, god: tenGod.chinese, english: tenGod.english },
   ];
 }
 
 /** The current a luck pillar (大运) brings, read against the natal chart. */
-export function luckPillarFacts(chart: Chart, luck: LuckPillar): ReadingFact[] {
-  return periodFacts(chart, luck.pillar, "luck");
+export function luckPillarFacts(chart: Chart, luck: LuckPillar): PeriodFact[] {
+  return periodFacts(chart, luck.pillar, "decade");
 }
 
 /** One arbitrary calendar year's or month's pillar and facts, e.g. for a selected year. */
 export interface PillarFacts {
   pillar: Pillar;
-  facts: ReadingFact[];
+  facts: PeriodFact[];
 }
 
 /** The current an arbitrary selected year (流年) brings, independent of any date. */
 export function annualPillarFacts(chart: Chart, year: number): PillarFacts {
   const pillar = annualPillar(year);
-  return { pillar, facts: periodFacts(chart, pillar, "annual") };
+  return { pillar, facts: periodFacts(chart, pillar, "year") };
 }
 
 /** The current an arbitrary selected calendar month (流月) brings. */
@@ -71,5 +67,5 @@ export function monthlyPillarFactsForCalendarMonth(
     );
   }
   const pillar = monthPillar(noon.toJSDate(), zone);
-  return { pillar, facts: periodFacts(chart, pillar, "monthly") };
+  return { pillar, facts: periodFacts(chart, pillar, "month") };
 }

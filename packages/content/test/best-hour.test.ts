@@ -5,7 +5,7 @@
  */
 
 import { describe, expect, it } from "vitest";
-import { computeChart, dailyFacts, type ReadingFact } from "@daymaster/bazi-engine";
+import { computeChart, dailyFacts, type DayFact } from "@daymaster/bazi-engine";
 import { dailyReading, plainGloss, topicPage } from "../src/index.js";
 import type { TokenLine, TopicCard } from "../src/index.js";
 import { assertPlain } from "./plain-terms.js";
@@ -13,12 +13,13 @@ import { assertPlain } from "./plain-terms.js";
 const SEED = { chart: "chart-seed", date: "2026-09-29" };
 const ZONE = "Asia/Jakarta";
 
-const ROUGH: ReadingFact = { kind: "hour-interaction", interaction: "six-clash", hourBranch: "子", dayBranch: "午", startHour: 23, endHour: 1 };
-const EASY: ReadingFact = { kind: "hour-interaction", interaction: "six-combine", hourBranch: "未", dayBranch: "午", startHour: 13, endHour: 15 };
+const ROUGH: DayFact = { kind: "hour-interaction", scope: "day", interaction: "six-clash", hourBranch: "子", dayBranch: "午", startHour: 23, endHour: 1 };
+const EASY: DayFact = { kind: "hour-interaction", scope: "day", interaction: "six-combine", hourBranch: "未", dayBranch: "午", startHour: 13, endHour: 15 };
 
-function bestHour(overrides: Partial<Extract<ReadingFact, { kind: "best-hour" }>> = {}): ReadingFact {
+function bestHour(overrides: Partial<Extract<DayFact, { kind: "best-hour" }>> = {}): DayFact {
   return {
     kind: "best-hour",
+    scope: "day",
     hourBranch: "辰",
     hourStem: "丙",
     element: "fire",
@@ -35,7 +36,7 @@ function text(line: TokenLine | null): string {
   return line ? plainGloss(line) : "";
 }
 
-function hoursCard(facts: ReadingFact[]): TopicCard {
+function hoursCard(facts: DayFact[]): TopicCard {
   const card = dailyReading(facts, SEED).cards.find((candidate) => candidate.topic === "hours");
   expect(card).toBeDefined();
   return card!;

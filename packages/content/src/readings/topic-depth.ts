@@ -5,7 +5,7 @@
  * context presentation computed; does no chart math.
  */
 
-import { LIFE_STAGES, type ReadingFact } from "@daymaster/bazi-engine";
+import { LIFE_STAGES, type DayFact } from "@daymaster/bazi-engine";
 import { textRun } from "../tokens.js";
 import type { TopicContext, TopicPage, TopicSore, TopicVisual } from "../types.js";
 import { BRANCH_ANIMALS } from "../vocab.js";
@@ -91,7 +91,7 @@ function signTiles(fact: TransitFact, context: TopicContext): TopicVisual {
 }
 
 /** The page with its fuller sections added (M20-26). */
-export function deepenTopicPage(page: TopicPage, topic: string, facts: readonly ReadingFact[], context: TopicContext): TopicPage {
+export function deepenTopicPage(page: TopicPage, topic: string, facts: readonly DayFact[], context: TopicContext): TopicPage {
   const transit = topic.startsWith("interaction:") ? rankTransits(facts).find((fact) => interactionTopic(fact) === topic) : undefined;
   const visual = transit ? signTiles(transit, context) : topic.startsWith("stage:") ? stageArc(topic, context) : null;
   const deeper: TopicPage = { ...page, sore: soreFor(context), visual, recurrences: context.recurrences };

@@ -27,10 +27,9 @@ export interface PlainReading {
 /** A card's wording: [title, line]. */
 export type CardText = readonly [string, string];
 
-type FactOf<K extends ReadingFact["kind"]> = Extract<ReadingFact, { kind: K }>;
-
-export function factOf<K extends ReadingFact["kind"]>(facts: readonly ReadingFact[], kind: K): FactOf<K> | undefined {
-  return facts.find((fact): fact is FactOf<K> => fact.kind === kind);
+/** The first fact of a kind, narrowed to the scope the list carries. */
+export function factOf<F extends ReadingFact, K extends F["kind"]>(facts: readonly F[], kind: K): Extract<F, { kind: K }> | undefined {
+  return facts.find((fact): fact is Extract<F, { kind: K }> => fact.kind === kind);
 }
 
 export function card(topic: string, [title, line]: CardText): PlainCard {

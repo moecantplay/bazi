@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { DateTime } from "luxon";
 import { computeChart } from "../src/chart.js";
-import { dailyFacts, natalFacts, type ReadingFact } from "../src/facts.js";
+import { dailyFacts, natalFacts, type DayFact } from "../src/facts.js";
 import type { Chart } from "../src/types.js";
 
 function fixtureA(hourKnown = true): Chart {
@@ -96,7 +96,7 @@ describe("dailyFacts — Fixture A on a 2026 date", () => {
     // annualPillar(2026) = 丙午; 午 clashes the natal month branch 子, but that
     // belongs to the year's own reading (Cycles' annualReading), not Today's.
     const annualInteraction = facts.find(
-      (f): f is Extract<ReadingFact, { kind: "transit-interaction" }> =>
+      (f): f is Extract<DayFact, { kind: "transit-interaction" }> =>
         f.kind === "transit-interaction" && f.transitPalace === "annual",
     );
     expect(annualInteraction).toBeUndefined();
@@ -104,7 +104,7 @@ describe("dailyFacts — Fixture A on a 2026 date", () => {
 
   it("still reports the daily transit-interaction facts (day pillar only)", () => {
     const dailyInteractions = facts.filter(
-      (f): f is Extract<ReadingFact, { kind: "transit-interaction" }> =>
+      (f): f is Extract<DayFact, { kind: "transit-interaction" }> =>
         f.kind === "transit-interaction",
     );
     expect(dailyInteractions.every((f) => f.transitPalace === "daily")).toBe(true);
@@ -113,7 +113,7 @@ describe("dailyFacts — Fixture A on a 2026 date", () => {
   it("never reports a star hit triggered by the annual pillar — 2026's 將星/羊刃/災煞 stay off Today", () => {
     // Confirmed present with transitPalace "annual" before this fix (將星
     // General Star, 羊刃 Goat Blade, 災煞 Calamity Star, all lit by 丙午).
-    const starDays = facts.filter((f): f is Extract<ReadingFact, { kind: "star-day" }> => f.kind === "star-day");
+    const starDays = facts.filter((f): f is Extract<DayFact, { kind: "star-day" }> => f.kind === "star-day");
     expect(starDays.every((f) => f.transitPalace === "daily")).toBe(true);
   });
 
@@ -128,16 +128,16 @@ describe("dailyFacts — Fixture A on a 2026 date", () => {
   });
 
   it("marks the two-hour blocks whose sign clashes and combines with the day's own — 申 day: 寅 3–5am, 巳 9–11am", () => {
-    const hours = facts.filter((f): f is Extract<ReadingFact, { kind: "hour-interaction" }> => f.kind === "hour-interaction");
+    const hours = facts.filter((f): f is Extract<DayFact, { kind: "hour-interaction" }> => f.kind === "hour-interaction");
     expect(hours).toEqual([
-      { kind: "hour-interaction", interaction: "six-clash", hourBranch: "寅", dayBranch: "申", startHour: 3, endHour: 5 },
-      { kind: "hour-interaction", interaction: "six-combine", hourBranch: "巳", dayBranch: "申", startHour: 9, endHour: 11 },
+      { kind: "hour-interaction", scope: "day", interaction: "six-clash", hourBranch: "寅", dayBranch: "申", startHour: 3, endHour: 5 },
+      { kind: "hour-interaction", scope: "day", interaction: "six-combine", hourBranch: "巳", dayBranch: "申", startHour: 9, endHour: 11 },
     ]);
   });
 
   it("moves the marked hours with the day branch — 酉 day: 卯 5–7am clash, 辰 7–9am combine", () => {
     const next = dailyFacts(fixtureA(), "2026-06-16", "Asia/Jakarta");
-    const hours = next.filter((f): f is Extract<ReadingFact, { kind: "hour-interaction" }> => f.kind === "hour-interaction");
+    const hours = next.filter((f): f is Extract<DayFact, { kind: "hour-interaction" }> => f.kind === "hour-interaction");
     expect(hours.map((f) => `${f.interaction}:${f.hourBranch}:${f.startHour}-${f.endHour}`)).toEqual([
       "six-clash:卯:5-7",
       "six-combine:辰:7-9",
@@ -148,7 +148,7 @@ describe("dailyFacts — Fixture A on a 2026 date", () => {
     // 2026-06-25 is a 庚午 day (dailyPillar confirmed).
     const wuDay = dailyFacts(fixtureA(), "2026-06-25", "Asia/Jakarta");
     const clash = wuDay.find(
-      (f): f is Extract<ReadingFact, { kind: "hour-interaction" }> =>
+      (f): f is Extract<DayFact, { kind: "hour-interaction" }> =>
         f.kind === "hour-interaction" && f.interaction === "six-clash",
     );
     expect(clash).toMatchObject({ dayBranch: "午", hourBranch: "子", startHour: 23, endHour: 1 });

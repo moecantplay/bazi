@@ -1,6 +1,6 @@
 # Facts carry their time scope
 
-Status: draft · Milestone: M24 · Ticket: 03 · Carried from [M20-08](../../m20-clarity/08-fact-scope-types/requirements.md); needs owner approval
+Status: in-progress · Milestone: M24 · Ticket: 03 · Carried from [M20-08](../../m20-clarity/08-fact-scope-types/requirements.md); approved by the owner 2026-10-14
 
 ## Problem
 
@@ -29,6 +29,7 @@ A daily screen cannot receive a month, year, decade or birth-chart fact without 
   - Acceptance: `@ts-expect-error` tests pass a year fact to `dailyReading` and to `routeWaypointsFor`, and `tsc` holds.
 - **R4.** Nothing a reader sees changes.
   - Acceptance: golden fixtures and every existing test keep their assertions (only construction sites gain the field); the M20-02 copy-audit output, if it exists by then, is byte-identical; full E2E green.
+  - M20-02 was never built, so a one-off render diff stands in for it (design §Verification).
 
 ## Out of scope
 
@@ -37,4 +38,4 @@ A daily screen cannot receive a month, year, decade or birth-chart fact without 
 
 ## Open questions
 
-- [ ] Order against [M24-12](../12-retire-legacy/requirements.md). Cycles (`horizon-reading.ts`, `luck-reading.ts`, `cycle-reading.ts`) and Conditions consume facts; if M24-12 retires them, run it first so this ticket doesn't type code about to be deleted.
+- [x] Order against [M24-12](../12-retire-legacy/requirements.md). Cycles (`horizon-reading.ts`, `luck-reading.ts`, `cycle-reading.ts`) and Conditions consume facts; if M24-12 retires them, run it first so this ticket doesn't type code about to be deleted. **Resolved:** M24-12 ran first and deleted them (live 2026-10-14).

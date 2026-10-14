@@ -17,7 +17,7 @@ import {
   dailyPillar,
   natalFacts,
   type Pillar,
-  type ReadingFact
+  type DayFact
 } from "@daymaster/bazi-engine";
 import {
   dailyReading,
@@ -43,7 +43,7 @@ export function natalReadingFor(profile: StoredProfile): NatalReading {
 /** Everything the Today screen needs for one displayed date, computed once. */
 export interface DailyBundle {
   dayPillar: Pillar;
-  facts: ReadingFact[];
+  facts: DayFact[];
   reading: DailyReading;
 }
 

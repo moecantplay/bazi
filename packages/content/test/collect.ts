@@ -4,7 +4,7 @@
  * branches on.
  */
 
-import type { Element, InteractionType, Palace, ReadingFact, Stem } from "@daymaster/bazi-engine";
+import type { DayFact, Element, InteractionType, NatalFact, Palace, Stem } from "@daymaster/bazi-engine";
 import { DAY_MASTER_LINES } from "../src/banks/day-master.js";
 import {
   BALANCED_LINES,
@@ -184,28 +184,30 @@ export function compareFactSet(): import("@daymaster/bazi-engine").CompareFact[]
 }
 
 /** A representative set of complete natal fact arrays covering the enum space. */
-export function natalFactSets(): ReadingFact[][] {
-  const sets: ReadingFact[][] = [];
+export function natalFactSets(): NatalFact[][] {
+  const sets: NatalFact[][] = [];
   for (const stem of STEMS) {
     for (const dominant of ELEMENTS) {
       const missing: Element[] = ELEMENTS.filter((element) => element !== dominant).slice(0, 1);
       sets.push([
-        { kind: "day-master", stem, element: "water", polarity: "yang" },
+        { kind: "day-master", scope: "natal", stem, element: "water", polarity: "yang" },
         {
           kind: "element-balance",
+          scope: "natal",
           counts: { wood: 2, fire: 1, earth: 3, metal: 1, water: 2 },
           dominant,
           missing,
         },
         {
           kind: "strength",
+          scope: "natal",
           value: dominant === "wood" ? "strong" : "weak",
           narrow: dominant === "earth",
           seasonal: dominant === "wood",
           rooted: true,
           backed: dominant === "fire",
         },
-        { kind: "favorable", elements: [dominant, missing[0] as Element] },
+        { kind: "favorable", scope: "natal", elements: [dominant, missing[0] as Element] },
       ]);
     }
   }
@@ -213,42 +215,47 @@ export function natalFactSets(): ReadingFact[][] {
 }
 
 /** A natal fact array with one interaction of every kind/variant present. */
-export function natalWithInteractions(): ReadingFact[] {
+export function natalWithInteractions(): NatalFact[] {
   return [
-    { kind: "day-master", stem: "戊", element: "earth", polarity: "yang" },
+    { kind: "day-master", scope: "natal", stem: "戊", element: "earth", polarity: "yang" },
     {
       kind: "element-balance",
+      scope: "natal",
       counts: { wood: 1, fire: 1, earth: 4, metal: 1, water: 1 },
       dominant: "earth",
       missing: [],
     },
-    { kind: "strength", value: "strong", narrow: false, seasonal: true, rooted: true, backed: false },
-    { kind: "favorable", elements: ["water", "metal"] },
-    { kind: "star", star: "wenchang-scholar", chinese: "文昌", english: "Scholar Star", palace: "hour" },
-    { kind: "star", star: "taohua-peach-blossom", chinese: "咸池", english: "Peach Blossom", palace: "day" },
-    { kind: "star", star: "kongwang-void", chinese: "空亡", english: "Void", palace: "year" },
-    { kind: "star", star: "yima-travel-horse", chinese: "驛馬", english: "Travel Horse", palace: "month" },
+    { kind: "strength", scope: "natal", value: "strong", narrow: false, seasonal: true, rooted: true, backed: false },
+    { kind: "favorable", scope: "natal", elements: ["water", "metal"] },
+    { kind: "star", scope: "natal", star: "wenchang-scholar", chinese: "文昌", english: "Scholar Star", palace: "hour" },
+    { kind: "star", scope: "natal", star: "taohua-peach-blossom", chinese: "咸池", english: "Peach Blossom", palace: "day" },
+    { kind: "star", scope: "natal", star: "kongwang-void", chinese: "空亡", english: "Void", palace: "year" },
+    { kind: "star", scope: "natal", star: "yima-travel-horse", chinese: "驛馬", english: "Travel Horse", palace: "month" },
     {
       kind: "life-stage",
+      scope: "natal",
       palace: "day",
       branch: "辰",
       stage: { chinese: "冠帶", english: "Coming of Age" },
     },
-    { kind: "na-yin", palace: "day", chinese: "大林木", english: "Great Forest Wood", element: "wood" },
+    { kind: "na-yin", scope: "natal", palace: "day", chinese: "大林木", english: "Great Forest Wood", element: "wood" },
     {
       kind: "natal-interaction",
+      scope: "natal",
       interaction: "six-combine",
       branches: ["子", "丑"],
       palaces: ["year", "month"],
     },
     {
       kind: "natal-interaction",
+      scope: "natal",
       interaction: "six-clash",
       branches: ["子", "午"],
       palaces: ["month", "day"],
     },
     {
       kind: "natal-interaction",
+      scope: "natal",
       interaction: "trine",
       branches: ["申", "子", "辰"],
       palaces: ["year", "month", "day"],
@@ -257,6 +264,7 @@ export function natalWithInteractions(): ReadingFact[] {
     },
     {
       kind: "natal-interaction",
+      scope: "natal",
       interaction: "trine",
       branches: ["申", "子"],
       palaces: ["year", "month"],
@@ -265,6 +273,7 @@ export function natalWithInteractions(): ReadingFact[] {
     },
     {
       kind: "natal-interaction",
+      scope: "natal",
       interaction: "punishment",
       branches: ["寅", "巳", "申"],
       palaces: ["year", "month", "day"],
@@ -272,6 +281,7 @@ export function natalWithInteractions(): ReadingFact[] {
     },
     {
       kind: "natal-interaction",
+      scope: "natal",
       interaction: "punishment",
       branches: ["辰", "辰"],
       palaces: ["day", "day"],
@@ -279,6 +289,7 @@ export function natalWithInteractions(): ReadingFact[] {
     },
     {
       kind: "natal-interaction",
+      scope: "natal",
       interaction: "harm",
       branches: ["子", "未"],
       palaces: ["year", "day"],
@@ -292,30 +303,33 @@ export function dailyFactSet(
   natalPalace: Palace,
   transitPalace: Palace,
   options: { element?: Element; favorable?: boolean; god?: string; english?: string } = {},
-): ReadingFact[] {
+): DayFact[] {
   return [
     {
       kind: "transit-interaction",
+      scope: "day",
       interaction,
       branches: ["子", "午"],
       natalPalaces: [natalPalace],
       transitPalace,
       transitBranch: "午",
     },
-    { kind: "element-day", element: options.element ?? "wood", favorable: options.favorable ?? true },
-    { kind: "ten-god-day", god: options.god ?? "比肩", english: options.english ?? "Friend" },
+    { kind: "element-day", scope: "day", element: options.element ?? "wood", favorable: options.favorable ?? true },
+    { kind: "ten-god-day", scope: "day", god: options.god ?? "比肩", english: options.english ?? "Friend" },
     {
       kind: "star-day",
+      scope: "day",
       star: "yima-travel-horse",
       chinese: "驛馬",
       english: "Travel Horse",
       transitPalace,
     },
-    { kind: "stage-day", stage: { chinese: "帝旺", english: "Peak" } },
-    { kind: "hour-interaction", interaction: "six-clash", hourBranch: "子", dayBranch: "午", startHour: 23, endHour: 1 },
-    { kind: "hour-interaction", interaction: "six-combine", hourBranch: "未", dayBranch: "午", startHour: 13, endHour: 15 },
+    { kind: "stage-day", scope: "day", stage: { chinese: "帝旺", english: "Peak" } },
+    { kind: "hour-interaction", scope: "day", interaction: "six-clash", hourBranch: "子", dayBranch: "午", startHour: 23, endHour: 1 },
+    { kind: "hour-interaction", scope: "day", interaction: "six-combine", hourBranch: "未", dayBranch: "午", startHour: 13, endHour: 15 },
     {
       kind: "best-hour",
+      scope: "day",
       hourBranch: "辰",
       hourStem: "丙",
       element: "fire",

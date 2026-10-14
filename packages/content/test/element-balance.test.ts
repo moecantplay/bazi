@@ -6,7 +6,7 @@
  */
 
 import { describe, expect, it } from "vitest";
-import { computeChart, natalFacts, type Element, type ReadingFact } from "@daymaster/bazi-engine";
+import { computeChart, natalFacts, type Element, type NatalFact } from "@daymaster/bazi-engine";
 import { BALANCED_LINES, DOMINANT_LINES, MISSING_LINES } from "../src/banks/elements.js";
 import { natalReading } from "../src/index.js";
 import { ELEMENTS } from "./collect.js";
@@ -16,7 +16,7 @@ const SEED = "element-balance-seed";
 
 type Counts = Record<Element, number>;
 
-function elementLines(facts: ReadingFact[]): string[] {
+function elementLines(facts: NatalFact[]): string[] {
   const section = natalReading(facts, SEED).sections.find((current) => current.key === "elements");
   return (section?.lines ?? []).map((line) => lineText(line));
 }
@@ -24,7 +24,7 @@ function elementLines(facts: ReadingFact[]): string[] {
 function linesFor(counts: Counts): string[] {
   const dominant = ELEMENTS.reduce((best, element) => (counts[element] > counts[best] ? element : best));
   const missing = ELEMENTS.filter((element) => counts[element] === 0);
-  return elementLines([{ kind: "element-balance", counts, dominant, missing }]);
+  return elementLines([{ kind: "element-balance", scope: "natal", counts, dominant, missing }]);
 }
 
 const ALL_DOMINANT = new Set(Object.values(DOMINANT_LINES).flat());

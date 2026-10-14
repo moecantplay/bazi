@@ -4,7 +4,7 @@
  */
 
 import { describe, expect, it } from "vitest";
-import type { Element, InteractionType, Palace, ReadingFact } from "@daymaster/bazi-engine";
+import type { Element, InteractionType, Palace, DayFact } from "@daymaster/bazi-engine";
 import { dailyReading, plainGloss } from "../src/index.js";
 import type { DailyReading } from "../src/index.js";
 import {
@@ -35,18 +35,18 @@ function assertVoice(line: string): void {
   }
 }
 
-function transit(interaction: InteractionType, palace: Palace): ReadingFact {
-  return { kind: "transit-interaction", interaction, branches: ["子", "午"], natalPalaces: [palace], transitPalace: "daily", transitBranch: "午" };
+function transit(interaction: InteractionType, palace: Palace): DayFact {
+  return { kind: "transit-interaction", scope: "day", interaction, branches: ["子", "午"], natalPalaces: [palace], transitPalace: "daily", transitBranch: "午" };
 }
 
-function baseDay(element: Element, favorable: boolean, english = "Friend"): ReadingFact[] {
+function baseDay(element: Element, favorable: boolean, english = "Friend"): DayFact[] {
   return [
-    { kind: "element-day", element, favorable },
-    { kind: "ten-god-day", god: "比肩", english },
-    { kind: "stage-day", stage: { chinese: "帝旺", english: "Peak" } },
-    { kind: "hour-interaction", interaction: "six-clash", hourBranch: "子", dayBranch: "午", startHour: 23, endHour: 1 },
-    { kind: "hour-interaction", interaction: "six-combine", hourBranch: "未", dayBranch: "午", startHour: 13, endHour: 15 },
-    { kind: "best-hour", hourBranch: "辰", hourStem: "丙", element: "fire", startHour: 7, endHour: 9, isEasyHour: false, score: 2, reasons: [{ source: "stem-element", element: "fire" }] },
+    { kind: "element-day", scope: "day", element, favorable },
+    { kind: "ten-god-day", scope: "day", god: "比肩", english },
+    { kind: "stage-day", scope: "day", stage: { chinese: "帝旺", english: "Peak" } },
+    { kind: "hour-interaction", scope: "day", interaction: "six-clash", hourBranch: "子", dayBranch: "午", startHour: 23, endHour: 1 },
+    { kind: "hour-interaction", scope: "day", interaction: "six-combine", hourBranch: "未", dayBranch: "午", startHour: 13, endHour: 15 },
+    { kind: "best-hour", scope: "day", hourBranch: "辰", hourStem: "丙", element: "fire", startHour: 7, endHour: 9, isEasyHour: false, score: 2, reasons: [{ source: "stem-element", element: "fire" }] },
   ];
 }
 
@@ -76,7 +76,7 @@ describe("lead", () => {
 describe("cards", () => {
   it("every non-lead fact has exactly one card and the lead has none", () => {
     const facts = [transit("six-clash", "month"), transit("trine", "year"), ...baseDay("fire", false),
-      { kind: "star-day", star: "yima-travel-horse", chinese: "驛馬", english: "Travel Horse", transitPalace: "daily" } as ReadingFact];
+      { kind: "star-day", scope: "day", star: "yima-travel-horse", chinese: "驛馬", english: "Travel Horse", transitPalace: "daily" } as DayFact];
     const reading = dailyReading(facts, SEED);
     const topics = reading.cards.map((card) => card.topic);
     expect(topics).toEqual(["interaction:trine:year", "element:fire", "ten-god:Friend", "hours", "stage:Peak", "stars"]);
@@ -93,14 +93,14 @@ describe("cards", () => {
   });
 
   it("card text is plain for every star, stage, day character, element and interaction", () => {
-    const facts: ReadingFact[] = [];
+    const facts: DayFact[] = [];
     for (const interaction of INTERACTIONS) {
       for (const palace of NATAL_PALACES) {
         facts.push(transit(interaction, palace));
       }
     }
     for (const key of STAR_KEYS) {
-      facts.push({ kind: "star-day", star: key, chinese: "星", english: key, transitPalace: "daily" });
+      facts.push({ kind: "star-day", scope: "day", star: key, chinese: "星", english: key, transitPalace: "daily" });
     }
     const readings: DailyReading[] = [];
     for (const english of TEN_GODS) {
@@ -110,7 +110,7 @@ describe("cards", () => {
     }
     for (const stage of STAGE_LABELS) {
       readings.push(dailyReading([...facts, ...baseDay("wood", true).filter((fact) => fact.kind !== "stage-day"),
-        { kind: "stage-day", stage: { chinese: "階", english: stage } }], SEED));
+        { kind: "stage-day", scope: "day", stage: { chinese: "階", english: stage } }], SEED));
     }
     for (const reading of readings) {
       for (const card of reading.cards) {

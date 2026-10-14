@@ -13,7 +13,7 @@ import {
   type Chart,
   type Element,
   type Pillar,
-  type ReadingFact,
+  type DayFact,
 } from "@daymaster/bazi-engine";
 import type { SoreStatus, TopicContext } from "@daymaster/content";
 
@@ -33,7 +33,7 @@ export function chartSoreSpot(chart: Chart): { wounds: Element; problem: Element
 }
 
 /** Whether a day eases the sore spot, presses on it, both or neither. */
-export function daySoreSpot(chart: Chart, day: Pillar, facts: readonly ReadingFact[]): TopicContext["sore"] {
+export function daySoreSpot(chart: Chart, day: Pillar, facts: readonly DayFact[]): TopicContext["sore"] {
   const spot = chartSoreSpot(chart);
   if (spot === null) {
     return null;

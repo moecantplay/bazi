@@ -31,6 +31,7 @@ export type BestHourReason =
 
 export interface BestHour {
   kind: "best-hour";
+  scope: "day";
   hourBranch: Branch;
   hourStem: Stem;
   /** The block stem's element — always one the chart favours. */
@@ -88,7 +89,7 @@ function scoreBlock(chart: Chart, day: Pillar, slot: number): ScoredBlock | null
   }
 
   return {
-    fact: { kind: "best-hour", hourBranch, hourStem, element, ...hourBlockWindow(hourBranch), isEasyHour, score, reasons },
+    fact: { kind: "best-hour", scope: "day", hourBranch, hourStem, element, ...hourBlockWindow(hourBranch), isEasyHour, score, reasons },
     slot,
     elementRank,
   };

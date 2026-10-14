@@ -37,6 +37,7 @@ describe("best hour — Fixture A goldens worked by hand", () => {
     // 寅 is the rough hour (excluded). Scores: 子2 丑3 卯2 戌1 (natal clash) 亥2; the rest fail the gate.
     expect(bestHourOn(chart, "2026-06-15")).toEqual({
       kind: "best-hour",
+      scope: "day",
       hourBranch: "丑",
       hourStem: "丁",
       element: "fire",

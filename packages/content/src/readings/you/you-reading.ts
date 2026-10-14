@@ -5,7 +5,7 @@
  * here). Selection is fixed per fact, so the same chart always reads the same.
  */
 
-import type { Element, ReadingFact } from "@daymaster/bazi-engine";
+import type { Element, NatalFact } from "@daymaster/bazi-engine";
 import { COLOURS_WHERE, ELEMENT_COLOURS, STAPLE_ORDER, colourFixLine, type Colour } from "../../banks/colours.js";
 import { DAY_MASTER_LINES } from "../../banks/day-master.js";
 import { CAREER_LINES } from "../../banks/elements.js";
@@ -35,7 +35,7 @@ export interface YouColours {
 }
 
 /** The portrait lead and the What shapes you cards, or null without a day-master. */
-export function youReading(facts: readonly ReadingFact[], seedKey: string): PlainReading | null {
+export function youReading(facts: readonly NatalFact[], seedKey: string): PlainReading | null {
   const dayMaster = factOf(facts, "day-master");
   if (!dayMaster) {
     return null;

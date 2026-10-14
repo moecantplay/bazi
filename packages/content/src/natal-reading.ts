@@ -6,7 +6,7 @@
  * relations and derives no new facts.
  */
 
-import type { Element, ReadingFact } from "@daymaster/bazi-engine";
+import type { Element, NatalFact } from "@daymaster/bazi-engine";
 import type { DraftLine, NatalReading, ReadingSection } from "./types.js";
 import { finalizeLine } from "./types.js";
 import type { TokenLine } from "./tokens.js";
@@ -25,16 +25,16 @@ import {
 } from "./banks/elements.js";
 import { natalInteractionLine } from "./banks/natal-interactions.js";
 
-type FactOf<K extends ReadingFact["kind"]> = Extract<ReadingFact, { kind: K }>;
+type FactOf<K extends NatalFact["kind"]> = Extract<NatalFact, { kind: K }>;
 
-function firstFact<K extends ReadingFact["kind"]>(
-  facts: readonly ReadingFact[],
+function firstFact<K extends NatalFact["kind"]>(
+  facts: readonly NatalFact[],
   kind: K,
 ): FactOf<K> | undefined {
   return facts.find((fact): fact is FactOf<K> => fact.kind === kind);
 }
 
-function dayMasterSection(facts: readonly ReadingFact[], seedKey: string): ReadingSection | null {
+function dayMasterSection(facts: readonly NatalFact[], seedKey: string): ReadingSection | null {
   const fact = firstFact(facts, "day-master");
   if (!fact) {
     return null;
@@ -63,7 +63,7 @@ function elementLead(counts: Record<Element, number>): number {
 
 const DOMINANT_LEAD = 2;
 
-function elementsSection(facts: readonly ReadingFact[], seedKey: string): ReadingSection | null {
+function elementsSection(facts: readonly NatalFact[], seedKey: string): ReadingSection | null {
   const lines: DraftLine[] = [];
 
   const balance = firstFact(facts, "element-balance");
@@ -142,7 +142,7 @@ function strengthWhyLine(strength: FactOf<"strength">): DraftLine {
   return { text, factTag: "strength · three checks", topic: "strength", runs };
 }
 
-function starsSection(facts: readonly ReadingFact[], seedKey: string): ReadingSection | null {
+function starsSection(facts: readonly NatalFact[], seedKey: string): ReadingSection | null {
   const stars = facts.filter((fact): fact is FactOf<"star"> => fact.kind === "star");
   if (stars.length === 0) {
     return null;
@@ -161,7 +161,7 @@ function starsSection(facts: readonly ReadingFact[], seedKey: string): ReadingSe
   return { key: "stars", title: "Your stars", lines: lines.map(finalizeLine) };
 }
 
-function suitsSection(facts: readonly ReadingFact[], seedKey: string): ReadingSection | null {
+function suitsSection(facts: readonly NatalFact[], seedKey: string): ReadingSection | null {
   const favorable = firstFact(facts, "favorable");
   if (!favorable || favorable.elements.length === 0) {
     return null;
@@ -184,7 +184,7 @@ function suitsSection(facts: readonly ReadingFact[], seedKey: string): ReadingSe
   return { key: "favorable", title: "What tends to suit you", lines: lines.map(finalizeLine) };
 }
 
-function structureSection(facts: readonly ReadingFact[], seedKey: string): ReadingSection | null {
+function structureSection(facts: readonly NatalFact[], seedKey: string): ReadingSection | null {
   const interactions = facts.filter(
     (fact): fact is FactOf<"natal-interaction"> => fact.kind === "natal-interaction",
   );
@@ -208,7 +208,7 @@ function structureSection(facts: readonly ReadingFact[], seedKey: string): Readi
 }
 
 /** Build the full natal reading. Sections with no lines are omitted. */
-export function natalReading(facts: ReadingFact[], seedKey: string): NatalReading {
+export function natalReading(facts: readonly NatalFact[], seedKey: string): NatalReading {
   const sections = [
     dayMasterSection(facts, seedKey),
     elementsSection(facts, seedKey),

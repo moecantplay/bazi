@@ -5,7 +5,7 @@
  * topic page.
  */
 
-import type { ReadingFact } from "@daymaster/bazi-engine";
+import type { DayFact } from "@daymaster/bazi-engine";
 import { cyclePick, dayNumber } from "../../hash.js";
 import { textRun, type TokenLine } from "../../tokens.js";
 import type { DailySeed, TopicCard } from "../../types.js";
@@ -23,9 +23,9 @@ import { BEST_HOUR_LINES } from "../../banks/topics/day.js";
 import { interactionTopic, rankTransits, type Lead, type Modifier } from "./lead.js";
 import { lifeAreaOf } from "./life-areas.js";
 
-type FactOf<K extends ReadingFact["kind"]> = Extract<ReadingFact, { kind: K }>;
+type FactOf<K extends DayFact["kind"]> = Extract<DayFact, { kind: K }>;
 
-function factOf<K extends ReadingFact["kind"]>(facts: readonly ReadingFact[], kind: K): FactOf<K> | undefined {
+function factOf<K extends DayFact["kind"]>(facts: readonly DayFact[], kind: K): FactOf<K> | undefined {
   return facts.find((fact): fact is FactOf<K> => fact.kind === kind);
 }
 
@@ -41,7 +41,7 @@ function bestHourNote(bestHour: FactOf<"best-hour"> | undefined): TokenLine | nu
 }
 
 /** Every non-lead fact as a plain card. */
-export function topicCards(facts: readonly ReadingFact[], lead: Lead, modifier: Modifier | null, seed: DailySeed): TopicCard[] {
+export function topicCards(facts: readonly DayFact[], lead: Lead, modifier: Modifier | null, seed: DailySeed): TopicCard[] {
   const cards: TopicCard[] = [];
 
   for (const fact of rankTransits(facts)) {

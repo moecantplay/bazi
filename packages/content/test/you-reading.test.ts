@@ -5,7 +5,7 @@
  */
 
 import { describe, expect, it } from "vitest";
-import type { ReadingFact, Stem } from "@daymaster/bazi-engine";
+import type { NatalFact, Stem } from "@daymaster/bazi-engine";
 import { CAREER_LINES } from "../src/banks/elements.js";
 import { COLOURS_WHERE, ELEMENT_COLOURS, colourFixLine } from "../src/banks/colours.js";
 import { BALANCE_CARDS, HELPS_YOU, STRENGTH_CARDS, WEARS_YOU, easeLine } from "../src/banks/you/you.js";
@@ -13,13 +13,13 @@ import { youColours, youElements, youReading } from "../src/index.js";
 import { ELEMENTS, STEMS } from "./collect.js";
 import { assertPlain } from "./plain-terms.js";
 
-function factsFor(stem: Stem): ReadingFact[] {
+function factsFor(stem: Stem): NatalFact[] {
   return [
-    { kind: "day-master", stem, element: "earth", polarity: "yang" },
-    { kind: "strength", value: "weak", narrow: true, seasonal: false, rooted: true, backed: false },
-    { kind: "element-balance", counts: { wood: 1, fire: 1, earth: 3, metal: 2, water: 1 }, dominant: "earth", missing: [] },
-    { kind: "favorable", elements: ["fire", "earth"] },
-  ] as ReadingFact[];
+    { kind: "day-master", scope: "natal", stem, element: "earth", polarity: "yang" },
+    { kind: "strength", scope: "natal", value: "weak", narrow: true, seasonal: false, rooted: true, backed: false },
+    { kind: "element-balance", scope: "natal", counts: { wood: 1, fire: 1, earth: 3, metal: 2, water: 1 }, dominant: "earth", missing: [] },
+    { kind: "favorable", scope: "natal", elements: ["fire", "earth"] },
+  ];
 }
 
 describe("You's wording", () => {

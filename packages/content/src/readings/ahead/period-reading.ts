@@ -6,7 +6,7 @@
  * always reads the same.
  */
 
-import type { ReadingFact } from "@daymaster/bazi-engine";
+import type { PeriodFact } from "@daymaster/bazi-engine";
 import {
   PERIOD_ELEMENT_SENTENCES,
   PERIOD_INTERACTION_CARDS,
@@ -21,7 +21,7 @@ import { card, factOf, type PlainCard, type PlainReading } from "../plain/plain-
 
 export type PeriodSpan = "month" | "year" | "decade";
 
-export function periodReading(facts: readonly ReadingFact[], span: PeriodSpan): PlainReading {
+export function periodReading(facts: readonly PeriodFact[], span: PeriodSpan): PlainReading {
   const fill = (text: string) => text.replaceAll("{span}", `this ${span}`);
   const ranked = rankTransits(facts);
   const strongest = ranked[0];

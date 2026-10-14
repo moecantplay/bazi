@@ -18,6 +18,7 @@ describe("factTag correctness", () => {
       [
         {
           kind: "natal-interaction",
+          scope: "natal",
           interaction: "six-clash",
           branches: ["子", "午"],
           palaces: ["month", "day"],

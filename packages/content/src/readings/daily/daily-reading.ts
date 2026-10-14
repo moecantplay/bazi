@@ -8,7 +8,7 @@
  * (facts, seed). No chart math — facts carry everything.
  */
 
-import type { ReadingFact } from "@daymaster/bazi-engine";
+import type { DayFact } from "@daymaster/bazi-engine";
 import { cyclePick, dayNumber } from "../../hash.js";
 import { finalizeLine, type DailyReading, type DailySeed } from "../../types.js";
 import { topicCards } from "./cards.js";
@@ -35,7 +35,7 @@ interface FirstScreenPools {
  * or the day's character on a quiet day. Presentation counts a situation's
  * visits by this key.
  */
-export function leadCellOf(facts: readonly ReadingFact[], chartSeed: string): string {
+export function leadCellOf(facts: readonly DayFact[], chartSeed: string): string {
   return poolsFor(chooseLead(facts, { chart: chartSeed })).cell;
 }
 
@@ -67,7 +67,7 @@ function modifierSentence(modifier: Modifier | null, seed: DailySeed): string | 
 }
 
 /** Build Today's reading. */
-export function dailyReading(facts: ReadingFact[], seed: DailySeed): DailyReading {
+export function dailyReading(facts: readonly DayFact[], seed: DailySeed): DailyReading {
   const lead = chooseLead(facts, seed);
   const modifier = chooseModifier(facts, lead);
   const pools = poolsFor(lead);

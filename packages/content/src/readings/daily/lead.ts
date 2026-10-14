@@ -4,13 +4,14 @@
  * joins the first screen only when it changes the advice.
  */
 
-import type { Element, InteractionType, ReadingFact } from "@daymaster/bazi-engine";
+import type { DayFact, Element, InteractionType, ReadingFact } from "@daymaster/bazi-engine";
 import { pick } from "../../hash.js";
 import type { DailySeed } from "../../types.js";
 import { isFriction, lifeAreaOf, type LifeArea } from "./life-areas.js";
 
-export type TransitFact = Extract<ReadingFact, { kind: "transit-interaction" }>;
-type ElementFact = Extract<ReadingFact, { kind: "element-day" }>;
+export type TransitFact = Extract<DayFact, { kind: "transit-interaction" }>;
+type TransitOf<F extends ReadingFact> = Extract<F, { kind: "transit-interaction" }>;
+type ElementFact = Extract<DayFact, { kind: "element-day" }>;
 
 /** How loudly each interaction speaks, strongest first. */
 const SEVERITY: Record<InteractionType, number> = {
@@ -32,23 +33,24 @@ export interface Modifier {
 }
 
 /** A transit's topic key: its interaction and the first natal palace it touches. */
-export function interactionTopic(fact: TransitFact): string {
+export function interactionTopic(fact: TransitOf<ReadingFact>): string {
   return `interaction:${fact.interaction}:${fact.natalPalaces[0] ?? "overall"}`;
 }
 
 /**
- * Every transit Today can speak about, strongest first; equal severities keep
- * a stable topic order. An interaction kind this layer doesn't know (a future
- * engine enum) is left out rather than guessed at.
+ * Every transit a reading can speak about, a day's or a period's, strongest
+ * first; equal severities keep a stable topic order. An interaction kind this
+ * layer doesn't know (a future engine enum) is left out rather than guessed at.
  */
-export function rankTransits(facts: readonly ReadingFact[]): TransitFact[] {
+export function rankTransits<F extends ReadingFact>(facts: readonly F[]): TransitOf<F>[] {
   return facts
-    .filter((fact): fact is TransitFact => fact.kind === "transit-interaction" && fact.interaction in SEVERITY)
+    .filter((fact): fact is TransitOf<F> => fact.kind === "transit-interaction")
+    .filter((fact) => fact.interaction in SEVERITY)
     .sort((a, b) => SEVERITY[a.interaction] - SEVERITY[b.interaction] || interactionTopic(a).localeCompare(interactionTopic(b)));
 }
 
 /** The lead: the strongest transit (the seed breaks ties), else the day's character. */
-export function chooseLead(facts: readonly ReadingFact[], seed: Pick<DailySeed, "chart">): Lead {
+export function chooseLead(facts: readonly DayFact[], seed: Pick<DailySeed, "chart">): Lead {
   const ranked = rankTransits(facts);
   const strongest = ranked[0];
   if (strongest) {
@@ -58,7 +60,7 @@ export function chooseLead(facts: readonly ReadingFact[], seed: Pick<DailySeed, 
     const fact = tier.length === 1 ? strongest : pick(tier, `${seed.chart}|${strongest.transitBranch}`, "lead");
     return { kind: "interaction", fact, area: lifeAreaOf(fact.natalPalaces[0]), topic: interactionTopic(fact) };
   }
-  const tenGod = facts.find((fact): fact is Extract<ReadingFact, { kind: "ten-god-day" }> => fact.kind === "ten-god-day");
+  const tenGod = facts.find((fact): fact is Extract<DayFact, { kind: "ten-god-day" }> => fact.kind === "ten-god-day");
   const god = tenGod?.english ?? "Friend";
   return { kind: "quiet", god, topic: `ten-god:${god}` };
 }
@@ -68,7 +70,7 @@ export function chooseLead(facts: readonly ReadingFact[], seed: Pick<DailySeed, 
  * on a day that suits you, a helping lead on a day against your grain. On a
  * quiet day it always joins, as the day's second fact.
  */
-export function chooseModifier(facts: readonly ReadingFact[], lead: Lead): Modifier | null {
+export function chooseModifier(facts: readonly DayFact[], lead: Lead): Modifier | null {
   const element = facts.find((fact): fact is ElementFact => fact.kind === "element-day");
   if (!element) {
     return null;
