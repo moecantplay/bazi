@@ -70,6 +70,26 @@ export function labelPlacement(x: number, y: number, text: string): { x: number;
   return { x: x + 24, y: y + 26, anchor: "start" };
 }
 
+/** A label's box: uppercase Space Mono sits about 8px above its baseline; 2px below covers the hairline under it. */
+export function textBox(x: number, baseline: number, text: string, anchor: "start" | "end"): { x0: number; y0: number; x1: number; y1: number } {
+  const width = text.length * LABEL_CHAR_WIDTH;
+  const x0 = anchor === "end" ? x - width : x;
+  return { x0, y0: baseline - 8, x1: x0 + width, y1: baseline + 2 };
+}
+
+/** The box a timed mark's label takes, wherever `labelPlacement` puts it. */
+export function labelBox(x: number, y: number, text: string): { x0: number; y0: number; x1: number; y1: number } {
+  const placed = labelPlacement(x, y, text);
+  return textBox(placed.x, placed.y, text, placed.anchor);
+}
+
+/**
+ * The NOW pill's fixed spot (M24-14): bottom right, the corner opposite
+ * MORNING, its text level with MORNING's. The route runs high there and the
+ * lowest a mark's label can reach is y ≈ 215, so nothing ever lands on it.
+ */
+export const NOW_PILL = { x: 282, y: 224, width: 88, height: 20 };
+
 /** Whether a clock hour falls inside a two-hour block (blocks may wrap past midnight). */
 export function inBlock(hour: number, start: number, end: number): boolean {
   return end > start ? hour >= start && hour < end : hour >= start || hour < end;

@@ -1,6 +1,6 @@
 # NOW pill covers an hour label
 
-Status: draft · Milestone: M24 · Ticket: 14 · Found during M24-13; needs owner approval
+Status: in-progress · Milestone: M24 · Ticket: 14 · Found during M24-13; approved by the owner 2026-10-14 ("fixed pill bottom right", from the mockups)
 
 ## Problem
 
@@ -22,19 +22,23 @@ Neither fix in the open question works on its own. Lifting the pill straight abo
 
 ## Goal
 
-No timed-mark label is ever covered by the NOW pill, at any time of day.
+The NOW pill never covers a label or runs off the hero, at any time of day: it sits in a fixed spot in the corner opposite MORNING, and the NOW disc alone moves along the route.
 
 ## Requirements
 
-- **R1.** A timed label and the NOW pill never overlap.
-  - Acceptance: a presentation or web unit test sweeps every hour of the day over a year of days for every fixture and finds no label box intersecting the pill box. An E2E screenshot of the 2026-10-13 10:00 case shows the label readable.
+- **R1.** The NOW pill sits in a fixed spot, bottom right of the route, the corner opposite MORNING. It no longer moves with the disc.
+  - Acceptance: an E2E finds the pill at the same position at 6:30, 10:00 and 18:00, inside the hero.
+- **R2.** No label, MORNING or EVENING ever overlaps the pill, and the pill stays inside the route's drawing.
+  - Acceptance: a unit test sweeps every timed-mark position (0.2–0.86) with every label the marks can carry (each kind × each two-hour block) and finds no label box within 4px of the pill box; the pill and MORNING/EVENING boxes are apart; the pill is inside the 390×250 viewBox.
+- **R3.** DESIGN.md §Explorer records the fixed pill, through this ticket.
 
 ## Out of scope
 
 - Moving NOW or the marks themselves.
+- The NOW disc passing over small-hours marks drawn on the morning stretch (measured above). Not raised to a ticket by the owner yet.
 
 ## Open questions
 
-- [ ] Fix by moving the label (for example, above the mark when the pill is below it), or by lifting the pill above its disc while it passes a label, as the legacy map did ("YOU ARE HERE" lifted)?
-- [ ] Widen the ticket to MORNING, the edges and the NOW disc over other marks, or keep it to labels?
-- [ ] Given the measurements, take the clock out of the moving pill (for example, a fixed spot on the hero that nothing else uses), or keep a moving pill that tries several spots?
+- [x] Fix by moving the label (for example, above the mark when the pill is below it), or by lifting the pill above its disc while it passes a label, as the legacy map did ("YOU ARE HERE" lifted)? **Neither**: measured, neither clears every case.
+- [x] Widen the ticket to MORNING, the edges and the NOW disc over other marks, or keep it to labels? **Labels, MORNING and the edges**: the fixed pill clears all three. The disc overlap stays out of scope.
+- [x] Given the measurements, take the clock out of the moving pill (for example, a fixed spot on the hero that nothing else uses), or keep a moving pill that tries several spots? **Fixed pill, bottom right** (owner, 2026-10-14, from the mockups; a fixed caption was the other option).

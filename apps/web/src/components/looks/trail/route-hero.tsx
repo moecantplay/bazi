@@ -1,6 +1,7 @@
 /**
  * Explorer's signature object (DESIGN.md v5 §Explorer): date, headline and
- * the day's route on one terrain. The walked stretch is solid up to NOW;
+ * the day's route on one terrain. The walked stretch is solid up to NOW,
+ * whose time sits in a fixed pill in the corner opposite MORNING (M24-14);
  * only the timed marks ride the route (the day's rough and easy hours and
  * the reader's best hour, M24-13), labelled up and to the left, where the
  * climbing line never is.
@@ -17,7 +18,7 @@ import { TodayDateNav } from "@/components/today/today-date-nav";
 import type { TodayScreen } from "@/components/today/use-today-screen";
 import { BestHourStar, elementHue } from "../best-hour-star";
 import { BestHourRouteMark } from "./best-hour-route-mark";
-import { CONTOURS, ROUTE_END, ROUTE_HEIGHT, ROUTE_WIDTH, inBlock, labelPlacement, routePath, routeX, routeY } from "./route-geometry";
+import { CONTOURS, NOW_PILL, ROUTE_END, ROUTE_HEIGHT, ROUTE_WIDTH, inBlock, labelPlacement, routePath, routeX, routeY } from "./route-geometry";
 
 interface Props {
   screen: TodayScreen;
@@ -144,8 +145,19 @@ export function RouteHero({ screen, showSettings = true }: Props) {
                 renderSize={24}
               />
             </g>
-            <rect x={nowX - 44} y={routeY(nowX) + 28} width={88} height={20} rx={10} fill="var(--anchor)" />
-            <text className="svg-label" x={nowX} y={routeY(nowX) + 41.5} fontSize={8.5} fill="var(--paper)" textAnchor="middle">
+          </g>
+        )}
+        {nowX !== null && (
+          <g data-now-pill className="arrive-pop" style={{ ["--d" as string]: 5 }}>
+            <rect x={NOW_PILL.x} y={NOW_PILL.y} width={NOW_PILL.width} height={NOW_PILL.height} rx={NOW_PILL.height / 2} fill="var(--anchor)" />
+            <text
+              className="svg-label"
+              x={NOW_PILL.x + NOW_PILL.width / 2}
+              y={NOW_PILL.y + 13.5}
+              fontSize={8.5}
+              fill="var(--paper)"
+              textAnchor="middle"
+            >
               {`NOW ${now ? clockLabel(now).toUpperCase() : ""}`}
             </text>
           </g>
