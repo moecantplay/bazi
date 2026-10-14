@@ -15,12 +15,11 @@ import {
   TEN_GOD_GLOSSES,
   compareReading,
   dailyReading,
-  luckTransitionLines,
   natalReading,
 } from "../src/index.js";
 import type { ReadingLine } from "../src/index.js";
 import { DATE_WHY_CLAUSES, DAY_GUIDANCE_TEMPLATES } from "../src/banks/day-guidance.js";
-import { HORIZON_TEMPLATES, TEN_GOD_PERIOD_THEMES } from "../src/banks/horizons.js";
+import { TEN_GOD_PERIOD_THEMES } from "../src/banks/horizons.js";
 import {
   INTERACTIONS,
   NATAL_PALACES,
@@ -94,7 +93,6 @@ function allEmittedLines(): ReadingLine[] {
       );
       lines.push(reading.headline, reading.agency);
     }
-    lines.push(...luckTransitionLines({ fromAge: 33, toAge: 43 }, seed));
     lines.push(...compareReading(compareFactSet(), seed).lines);
   }
   return lines;
@@ -156,7 +154,6 @@ describe("voice compliance", () => {
     ];
     const templates = [
       ...DAY_GUIDANCE_TEMPLATES,
-      ...HORIZON_TEMPLATES,
       ...Object.values(DATE_WHY_CLAUSES),
     ];
     for (const template of templates) {

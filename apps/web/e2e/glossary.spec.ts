@@ -89,16 +89,6 @@ for (const { look, topic, title, texts } of MARKS_SHEETS) {
   });
 }
 
-test("cycles horizon captions link to the glossary too", async ({ page, context }) => {
-  await seedProfile(context, FIXTURE_A);
-  await pinClock(context, `${TODAY}T09:00:00Z`);
-  await page.goto("/cycles/");
-
-  const yearCard = page.locator('[data-horizon="year"]');
-  await yearCard.locator("[data-fact-tag] button").first().click();
-  await expect(page.locator("[data-glossary-sheet]")).toBeVisible();
-});
-
 test("M20-26: a written-out topic page carries every section, and a date it comes back opens that day", async ({ page, context }) => {
   await seedProfile(context, FIXTURE_A);
   await pinClock(context, "2026-10-10T09:00:00Z");

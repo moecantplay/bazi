@@ -132,15 +132,10 @@ test("a legacy compare.v1 companion (predating saved people) migrates into a per
     [LEGACY_COMPANION_KEY]: FRIEND_BIRTH
   });
 
-  await page.goto("/compare/");
-  // Already active straight off the migration: the reading renders, not the picker.
-  await expect(page.getByRole("heading", { name: "Them" })).toBeVisible();
-  await expect(page.locator("[data-compare-reading]")).toBeVisible();
-
-  // The saved-people picker also lists them by name.
-  await page.getByRole("button", { name: "Change person" }).click();
-  await expect(page.getByText("Saved people")).toBeVisible();
-  await expect(page.getByRole("button", { name: /^Them/ })).toBeVisible();
+  await page.goto("/people/");
+  // Already active straight off the migration: listed by name, selected, and read.
+  await expect(page.getByRole("button", { name: /^Them/ })).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByLabel("You and Them")).toBeVisible();
 
   const stored = await page.evaluate((key) => window.localStorage.getItem(key), STORE_KEY);
   const store = JSON.parse(stored!);
@@ -164,19 +159,14 @@ test("a compare.v1 companion appends after already-saved people and outranks the
     [LEGACY_COMPANION_KEY]: FRIEND_BIRTH
   });
 
-  await page.goto("/compare/");
+  await page.goto("/people/");
   // The migrated compare.v1 companion (Them) becomes active, overriding the
   // legacy people-active.v1 pointer at Friend.
-  await expect(page.getByRole("heading", { name: "Them" })).toBeVisible();
+  await expect(page.getByRole("button", { name: /^Them/ })).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByRole("button", { name: /^Friend/ })).toHaveAttribute("aria-pressed", "false");
 
-  // Read the store before "Change person" deliberately clears the active
-  // selection (CompareView's own behavior, not part of migration).
   const stored = await page.evaluate((key) => window.localStorage.getItem(key), STORE_KEY);
   const store = JSON.parse(stored!);
   expect(store.people.map((person: { name: string }) => person.name)).toEqual(["Friend", "Them"]);
   expect(store.activePersonId).toBe(store.people[1].id);
-
-  await page.getByRole("button", { name: "Change person" }).click();
-  await expect(page.getByRole("button", { name: /^Friend/ })).toBeVisible();
-  await expect(page.getByRole("button", { name: /^Them/ })).toBeVisible();
 });

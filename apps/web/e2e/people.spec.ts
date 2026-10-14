@@ -18,6 +18,4 @@ test("People adds someone and reads the pair in plain words", async ({ page, con
   await expect(lead.getByRole("heading")).toBeVisible();
   await expect(lead.getByText("One thing to try")).toBeVisible();
   await expect(page.getByRole("button", { name: "Add someone" })).toBeVisible();
-  await page.getByRole("link", { name: /The full comparison/ }).click();
-  await expect(page).toHaveURL(/\/compare\/$/);
 });

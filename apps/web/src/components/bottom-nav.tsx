@@ -72,7 +72,7 @@ const TABS: Tab[] = [
   {
     href: "/people",
     label: "People",
-    matches: ["/people", "/compare"],
+    matches: ["/people"],
     icon: (
       <svg {...iconProps} aria-hidden>
         <circle cx="9" cy="12" r="5.5" />

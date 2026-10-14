@@ -6,7 +6,6 @@
 
 "use client";
 
-import Link from "next/link";
 import { useMemo, useState } from "react";
 import { formatLong, pairScreenFor, type StoredProfile } from "@daymaster/presentation";
 import { Button } from "@/components/button";
@@ -96,9 +95,6 @@ export function PeopleView({ profile }: Props) {
         <>
           <PlainLeadBlock kicker={`You and ${active.name}`} lead={reading.lead} actionLabel="One thing to try" />
           <PlainCardList cards={reading.cards} />
-          <Link href="/compare/" className="tap-target self-start text-[13px] text-ink-soft hover:text-ink">
-            The full comparison &rarr;
-          </Link>
         </>
       )}
     </div>

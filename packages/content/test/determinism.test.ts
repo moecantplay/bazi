@@ -4,7 +4,7 @@
  */
 
 import { describe, expect, it } from "vitest";
-import { dailyReading, luckTransitionLines, natalReading } from "../src/index.js";
+import { dailyReading, natalReading } from "../src/index.js";
 import {
   INTERACTIONS,
   NATAL_PALACES,
@@ -33,11 +33,6 @@ describe("determinism", () => {
     }
   });
 
-  it("luckTransitionLines is identical for the same params and seedKey", () => {
-    const params = { fromAge: 24, toAge: 34 };
-    expect(luckTransitionLines(params, "luck-seed")).toEqual(luckTransitionLines(params, "luck-seed"));
-  });
-
   it("different seedKeys vary natal output across a sample", () => {
     let differences = 0;
     for (const facts of natalFactSets()) {
@@ -60,22 +55,6 @@ describe("determinism", () => {
         if (a !== b) {
           differences += 1;
         }
-      }
-    }
-    expect(differences).toBeGreaterThan(0);
-  });
-
-  it("different seedKeys vary luck output", () => {
-    const params = { fromAge: 5, toAge: 15 };
-    const a = JSON.stringify(luckTransitionLines(params, "one"));
-    const b = JSON.stringify(luckTransitionLines(params, "two"));
-    // Not guaranteed per single seed pair, so sample several.
-    let differences = a !== b ? 1 : 0;
-    for (let index = 0; index < 20; index += 1) {
-      const left = JSON.stringify(luckTransitionLines(params, `L${index}`));
-      const right = JSON.stringify(luckTransitionLines(params, `R${index}`));
-      if (left !== right) {
-        differences += 1;
       }
     }
     expect(differences).toBeGreaterThan(0);

@@ -1,17 +1,7 @@
-"use client";
+/** Cycles retired in M24-12, until further notice: Ahead reads the decade, year and month. */
 
-import { AppShell } from "@/components/app-shell";
-import { LuckTimeline } from "@/components/luck-timeline";
-import { ProfileGate } from "@/components/profile-gate";
+import { RetiredRoute } from "@/components/retired-route";
 
 export default function CyclesPage() {
-  return (
-    <ProfileGate>
-      {(profile) => (
-        <AppShell title="Your decades" back>
-          <LuckTimeline profile={profile} />
-        </AppShell>
-      )}
-    </ProfileGate>
-  );
+  return <RetiredRoute to="/ahead/" />;
 }

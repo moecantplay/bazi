@@ -25,8 +25,8 @@ test("offline: never-visited routes render fully from the precache", async ({
   await context.setOffline(true);
 
   // Full navigations to routes this page never fetched online.
-  await page.goto("/cycles/");
-  await expect(page.getByText("Current decade")).toBeVisible();
+  await page.goto("/ahead/");
+  await expect(page.getByLabel("Plan something")).toBeVisible();
 
   await page.goto("/chart/");
   await expect(page.locator('[data-pillar="day"]')).toContainText("yang earth");

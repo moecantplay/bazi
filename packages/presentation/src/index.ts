@@ -74,17 +74,11 @@ export { elevationWeek, elevationPath, ELEVATION_WEEK_LENGTH } from "./elevation
 export type { ElevationCell } from "./elevation.js";
 export { activityTerrain } from "./activity-terrain.js";
 export type { ActivityTerrainCell } from "./activity-terrain.js";
-export { luckPillarReadingsFor } from "./luck-reading.js";
-export type { LuckPillarReading } from "./luck-reading.js";
-export { annualReadingFor, monthlyReadingFor } from "./cycle-reading.js";
-export type { AnnualCycleReading, MonthlyCycleReading } from "./cycle-reading.js";
 export { chartPreviewFor } from "./chart-preview.js";
 export type { ChartPreviewResult } from "./chart-preview.js";
 export { starsForPalace } from "./pillar-stars.js";
 export { mapHeroSummary } from "./map-hero.js";
 export type { MapHeroSummary } from "./map-hero.js";
-export { guidanceBoardFor, groupGuidanceByFactTag } from "./guidance-board.js";
-export type { GuidanceBoard } from "./guidance-board.js";
 export { renderRun } from "./render-run.js";
 export type { RenderedRun } from "./render-run.js";
 

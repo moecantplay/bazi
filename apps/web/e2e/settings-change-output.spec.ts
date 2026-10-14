@@ -62,7 +62,7 @@ test("late-Zi toggle changes the day pillar, and delete clears the profile", asy
 test("a chart with true solar time on opens everywhere", async ({ page, context }) => {
   await seedProfile(context, { ...FIXTURE_A, config: { ...FIXTURE_A.config, trueSolarTime: true } });
 
-  for (const path of ["/today/", "/ahead/", "/you/", "/people/", "/chart/", "/cycles/", "/compare/"]) {
+  for (const path of ["/today/", "/ahead/", "/you/", "/people/", "/chart/", "/dates/"]) {
     await page.goto(path);
     await page.waitForLoadState("networkidle");
     await expect(page.getByText("This screen didn’t open"), path).toHaveCount(0);

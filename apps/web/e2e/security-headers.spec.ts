@@ -7,7 +7,7 @@ import { FIXTURE_A, seedProfile } from "./helpers";
  * the real CSP.
  */
 
-const ROUTES = ["/today/", "/chart/", "/cycles/", "/compare/", "/dates/", "/conditions/", "/settings/"];
+const ROUTES = ["/today/", "/ahead/", "/you/", "/people/", "/chart/", "/dates/", "/settings/"];
 
 test("every document carries the security headers", async ({ request }) => {
   for (const path of ["/", "/today/", "/onboarding/"]) {

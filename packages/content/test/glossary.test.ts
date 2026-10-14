@@ -7,19 +7,15 @@ import { describe, expect, it } from "vitest";
 import {
   GLOSSARY,
   READING_TOPIC,
-  annualReading,
   compareReading,
   dailyReading,
   glossaryEntry,
-  luckTransitionLines,
-  monthlyReading,
   natalReading,
 } from "../src/index.js";
 import type { ReadingLine } from "../src/index.js";
 import {
   INTERACTIONS,
   NATAL_PALACES,
-  TEN_GODS,
   compareFactSet,
   dailyFactSet,
   natalWithInteractions,
@@ -56,20 +52,10 @@ function emittedLines(): ReadingLine[] {
       lines.push(reading.headline, reading.body, reading.agency);
     }
   }
-  for (const english of TEN_GODS) {
-    lines.push(
-      ...annualReading([{ kind: "ten-god-period", period: "annual", god: "測試", english }], seed),
-      ...monthlyReading(
-        [{ kind: "element-period", period: "monthly", element: "wood", favorable: false }],
-        seed,
-      ),
-    );
-  }
   for (const section of natalReading(natalWithInteractions(), seed).sections) {
     lines.push(...section.lines);
   }
   lines.push(...compareReading(compareFactSet(), seed).lines);
-  lines.push(...luckTransitionLines({ fromAge: 33, toAge: 43 }, seed));
   return lines;
 }
 
@@ -117,7 +103,9 @@ describe("glossary entries", () => {
       expect(glossaryEntry(line.topic), `${line.topic} <- "${lineText(line)}"`).toBeDefined();
     }
     // Today's lines no longer carry glossary topics: its cards open topic pages (M20-21).
-    expect(topicsSeen).toBeGreaterThan(40);
+    // Cycles' year and month lines did, until they retired (M24-12); natal and
+    // compare lines still carry 27.
+    expect(topicsSeen).toBeGreaterThan(20);
   });
 
   it("the reading's lead names its topic page by interaction and palace", () => {

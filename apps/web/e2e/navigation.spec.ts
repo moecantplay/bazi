@@ -4,11 +4,12 @@ import { FIXTURE_A, pinClock, seedProfile } from "./helpers";
 /**
  * M24-04: four tabs (Today · Ahead · You · People), Settings behind a gear in
  * each tab's header with Back to return, leaf screens under their tab, and
- * nothing linking to Conditions.
+ * nothing linking to the retired screens (Conditions, Cycles, Compare; M24-12).
  */
 const TODAY = "2026-10-05";
+const RETIRED_LINKS = 'a[href^="/conditions"], a[href^="/cycles"], a[href^="/compare"]';
 
-test("the four tabs and the Settings gear navigate, and nothing links to Conditions", async ({ page, context }) => {
+test("the four tabs and the Settings gear navigate, and nothing links to a retired screen", async ({ page, context }) => {
   await seedProfile(context, FIXTURE_A);
   await pinClock(context, `${TODAY}T02:00:00Z`);
   await page.goto("/today/");
@@ -19,13 +20,13 @@ test("the four tabs and the Settings gear navigate, and nothing links to Conditi
   for (const tab of ["Ahead", "You", "People", "Today"] as const) {
     await nav.getByRole("link", { name: tab, exact: true }).click();
     await expect(page.getByRole("heading", { name: tab, exact: true })).toBeAttached();
-    await expect(page.locator('a[href^="/conditions"]')).toHaveCount(0);
+    await expect(page.locator(RETIRED_LINKS)).toHaveCount(0);
     await expect(page.getByRole("link", { name: "Settings" })).toBeVisible();
   }
 
   await page.getByRole("link", { name: "Settings" }).click();
   await expect(page.getByRole("heading", { name: "Settings", exact: true })).toBeVisible();
-  await expect(page.locator('a[href^="/conditions"]')).toHaveCount(0);
+  await expect(page.locator(RETIRED_LINKS)).toHaveCount(0);
   await expect(page.getByText("Look for Today")).toBeVisible();
   await expect(page.getByText("How your chart is counted")).toBeVisible();
   await page.getByRole("button", { name: /Back$/ }).first().click();
@@ -39,8 +40,6 @@ test("leaf screens sit under their tab, with Back", async ({ page, context }) =>
 
   for (const [path, title, tab] of [
     ["/chart/", "Your chart in full", "You"],
-    ["/compare/", "The full comparison", "People"],
-    ["/cycles/", "Your decades", "Today"],
     ["/dates/", "Find a day", "Ahead"]
   ] as const) {
     await page.goto(path);

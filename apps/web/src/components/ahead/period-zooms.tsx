@@ -5,7 +5,6 @@
  * periods the engine can read are offered (its tables run 1900–2100).
  */
 
-import Link from "next/link";
 import { useEffect, useMemo, useRef } from "react";
 import {
   MONTH_NAMES,
@@ -199,9 +198,6 @@ export function DecadeZoom({ profile, decades, index, currentIndex, thisYear, on
           onOpen={() => onPickDecade(index + 1)}
         />
       )}
-      <Link href="/cycles/" className="tap-target self-start text-[13px] text-ink-soft hover:text-ink">
-        Your decades, the old way &rarr;
-      </Link>
     </>
   );
 }

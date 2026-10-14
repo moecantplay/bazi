@@ -6,7 +6,11 @@ import { FIXTURE_A, pinClock, seedProfile } from "./helpers";
  * on to the tab that replaced it.
  */
 
-const RETIRED = [{ from: "/conditions/", to: /\/today\/?$/ }];
+const RETIRED = [
+  { from: "/conditions/", to: /\/today\/?$/ },
+  { from: "/cycles/", to: /\/ahead\/?$/ },
+  { from: "/compare/", to: /\/people\/?$/ }
+];
 
 for (const { from, to } of RETIRED) {
   test(`${from} lands on the tab that replaced it`, async ({ page, context }) => {
