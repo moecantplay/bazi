@@ -33,7 +33,7 @@ What changes:
 | --- | --- | --- | --- | --- |
 | 01 | [Decisions and foundation specs](01-decisions-and-foundation-specs/requirements.md) | done | — | the decisions behind R2–R17 |
 | 02 | Mockups first: Today in three looks, every other screen in the base design | dropped — the trial build served as the mockup (standing instruction) | 01 | the screens as built, R9–R17 |
-| 03 | Facts carry their time scope (from M20-08) | planned — after the trial work | 01 | Ahead's period facts (R5, R9–R11) |
+| 03 | [Facts carry their time scope](03-fact-scope-types/requirements.md) (from M20-08) | draft | 01 | Ahead's period facts (R5, R9–R11) |
 | 04 | [Navigation and Settings in the header](04-navigation/requirements.md) | done | 07, 08, 09 | R2 |
 | 05 | [Welcome and five-step onboarding](05-onboarding/requirements.md) | done | 04 | R3 |
 | 06 | [Today slimmed, with Today's colour](06-today/requirements.md) | done | 04 | R4, R17 |
@@ -44,8 +44,8 @@ What changes:
 | 11 | Words: no-repeat rotation, voice lint, copy rewrite over every screen (M20-12, 13, 14) | planned | 06–09 | — |
 | 12 | Retire the legacy Trail composition (M19.9-11) and the trial branch | planned | 04–09 | — |
 | 13 | [Your best hour](13-your-best-hour/requirements.md) | done — live 2026-10-13 | 06 | — |
-| 14 | [NOW pill covers an hour label](14-now-pill-covers-hour-label/requirements.md) | draft — found during 13 | — | — |
-| 15 | [What the marks mean, per look](15-marks-explained-per-look/requirements.md) | in-progress — built, deploy pending | — | — |
+| 14 | [NOW pill covers an hour label](14-now-pill-covers-hour-label/requirements.md) | draft — measured 2026-10-14, wider than first seen; owner to choose | — | — |
+| 15 | [What the marks mean, per look](15-marks-explained-per-look/requirements.md) | in-progress — live 2026-10-14; review fixes await the owner's copy read | — | — |
 
 Topic-page depth (trial R13, R14) stays with [M20-22](../m20-clarity/22-topic-page-depth/requirements.md) and [M20-23](../m20-clarity/23-problem-and-remedy/requirements.md).
 
