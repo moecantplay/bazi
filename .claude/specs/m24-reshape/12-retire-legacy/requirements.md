@@ -1,6 +1,6 @@
 # Retire the legacy screens and the trial
 
-Status: in-progress · Milestone: M24 · Ticket: 12 · Carries [M19.9-11](../../m19.9-looks/11-retire-trail-and-ship/requirements.md) and the retirements deferred by M24-04, 07, 09, 13 and 15; deletions approved by the owner 2026-10-14 ("ok with deletions")
+Status: done · Milestone: M24 · Ticket: 12 · Carries [M19.9-11](../../m19.9-looks/11-retire-trail-and-ship/requirements.md) and the retirements deferred by M24-04, 07, 09, 13 and 15; deletions approved by the owner 2026-10-14 ("ok with deletions")
 
 ## Problem
 
@@ -29,7 +29,7 @@ The build holds only what the four tabs, Settings and onboarding reach, and the 
   - Acceptance: no link to either; E2E visits land on Ahead and People; the reachability check finds no orphan in `apps/web/src`, and no content or presentation export is left that only they used.
 - **R4. What the old code hid is checked** (standing rule, m19/03). After the deletions, full E2E runs for every look × theme, and the copy audit if M20-02 has shipped.
   - Acceptance: full E2E green on the deletion commit, with any failure explained, not rerun away.
-- **R5. The trial is archived, not lost.** `trial/reshape` is tagged `archive/trial-reshape` and pushed, then the branch is deleted; the `daymaster-trial.vercel.app` alias is removed and the trial's preview deployments are deleted (owner, 2026-10-14).
+- **R5. The trial is archived, not lost.** `trial/reshape` (local only) is tagged `archive/trial-reshape` and the tag pushed, then the branch is deleted; the `daymaster-trial.vercel.app` alias is removed and the trial's preview deployments are deleted (owner, 2026-10-14).
   - Acceptance: the tag exists on GitHub; `git branch -a` has no trial branch; the alias no longer resolves; `vercel ls` lists no trial previews.
 - **R6. Production deployed, live-app check** of Today in every look × theme, and Ahead, You, People, Settings, onboarding.
 
