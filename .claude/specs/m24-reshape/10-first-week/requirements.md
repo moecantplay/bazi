@@ -1,6 +1,6 @@
 # First week
 
-Status: in-progress · Milestone: M24 · Ticket: 10 · Carries [M20-11](../../m20-clarity/11-today-first-run/requirements.md) (dropped into this ticket 2026-10-10) · Approved by the owner 2026-10-15 ("i approve all your recommendations, run it")
+Status: done · Milestone: M24 · Ticket: 10 · Carries [M20-11](../../m20-clarity/11-today-first-run/requirements.md) (dropped into this ticket 2026-10-10) · Approved by the owner 2026-10-15 ("i approve all your recommendations, run it")
 
 ## Problem
 

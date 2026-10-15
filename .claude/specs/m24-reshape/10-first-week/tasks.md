@@ -22,6 +22,16 @@ The mockups (task 2) are taken from the real static build, as in M24-13, so task
 - [x] 7. E2E `first-week.spec.ts`: Fixture A's real week with a gap and a skipped part, a reload, three looks, a seeded old store (R1–R3, R5).
   - First version: 18/18 across chromium, mobile-chromium and mobile-webkit. One Chromium "browser has been closed" crash on the first run passed 6/6 on a rerun.
   - After review, the reload and next-day checks moved into the unseeded onboarding walk, because a seeded store re-seeds on reload.
-- [ ] 8. `pnpm verify`, full E2E in every look, contrast check, screenshots in 3 looks × 2 themes, deploy, live check (R8)
-  - `pnpm verify` green 2026-10-15 with style D: engine 199, content 146, presentation 218, web 49.
+- [x] 8. `pnpm verify`, full E2E in every look, contrast check, screenshots in 3 looks × 2 themes, deploy, live check (R8)
+  - `pnpm verify` green 2026-10-15 after the review fixes: engine 199, content 146, presentation 219, web 50.
+  - Full E2E per look: trail 317/320, almanac 319/320, dial 319/320 (1 skipped each).
+    - All five failures were Chromium "browser has been closed" crashes (M20-25).
+    - After the review fixes and a rebuild, the first-week, look-preference, error-recovery and navigation specs ran in all three looks. Dial 51/51. Trail and almanac each had look-preference crash again; that spec then passed 15/15 alone in both.
+  - Contrast check: 4030 rendered runs × 2 themes × 5 terrains, 0 failures, theme parity clean.
+  - Screenshots: the week in style D, 3 looks × 2 themes (mockup v3).
   - Reviewer: approved with 7 minor issues. Fixed 1–5 and 7. Issue 6 (the What the day suits note promises picking a day) is the owner's approved copy, so it went back to the owner; the stale "date finder" comment in `today-suits.tsx` is fixed.
+  - Committed `086e76b`; deployed to production 2026-10-15. daymaster-nu.vercel.app serves sw `daymaster-41eb7f2cb075`, matching the build.
+  - Live check on production:
+    - A fresh onboarding shows the banner, no note, and stores `{"opened":["2026-10-15"],"noted":{}}`.
+    - A seeded day 2 shows the Hours note, "day 2" and two dots in 3 looks × 2 themes, with the sunken fill.
+    - No console errors; Ahead, You, People and Settings return 200.
