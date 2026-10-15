@@ -19,6 +19,7 @@ import { NATAL_INTERACTION_TEMPLATES } from "../src/banks/natal-interactions.js"
 import { COMPARE_TEMPLATES } from "../src/banks/compare.js";
 import { STAR_TEMPLATES } from "../src/banks/stars.js";
 import { DAY_GUIDANCE_TEMPLATES } from "../src/banks/day-guidance.js";
+import { FIRST_WEEK_NOTES } from "../src/banks/first-week.js";
 import { LIFE_STAGE_GLOSSES, STAR_GLOSSES } from "../src/vocab.js";
 
 export const STEMS: readonly Stem[] = [
@@ -114,6 +115,7 @@ export function allBankLines(): string[] {
     ...COMPARE_TEMPLATES,
     ...STAR_TEMPLATES,
     ...DAY_GUIDANCE_TEMPLATES,
+    ...Object.values(FIRST_WEEK_NOTES),
     ...Object.values(STAR_GLOSSES).map((gloss) => `A star — ${gloss}.`),
     ...Object.values(LIFE_STAGE_GLOSSES).map((gloss) => `A stage — ${gloss}.`),
   ];

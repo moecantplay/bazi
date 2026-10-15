@@ -162,6 +162,44 @@ body {
     @apply rounded-card bg-surface shadow-card;
   }
 
+  /* The first-week note (M24-10, DESIGN.md §Shared surfaces): sunk into the
+     page rather than raised like the cards below it, with a tail pointing down
+     at them and a dot for each day of the week. Built from tokens only, so it
+     follows both themes and every terrain. */
+  .first-week-note {
+    @apply relative mb-1.5 flex flex-col gap-1 rounded-card p-4;
+    background-color: color-mix(in srgb, var(--ink) 7%, var(--paper));
+  }
+  .first-week-note::after {
+    content: "";
+    position: absolute;
+    left: 30px;
+    bottom: -9px;
+    width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    transform: rotate(45deg);
+    background-color: inherit;
+  }
+  /* The kicker's usual ink-soft measures 4.07:1 on this tint in light themes;
+     a step toward ink clears AA everywhere (design-system check, M24-10). */
+  .first-week-note .kicker {
+    color: color-mix(in srgb, var(--ink-soft) 60%, var(--ink));
+  }
+  .first-week-note .kicker::before {
+    background: currentColor;
+  }
+  .first-week-dots {
+    @apply ml-auto flex flex-none gap-[5px];
+  }
+  .first-week-dots > span {
+    @apply h-[7px] w-[7px] rounded-full;
+    background-color: color-mix(in srgb, var(--ink) 18%, transparent);
+  }
+  .first-week-dots > .is-reached {
+    background-color: var(--ink);
+  }
+
   /* Segment stacks (settings rows, saved people): flat,
      borderless, 2px gaps — Trail is quieter here than on Today (round 5's
      own audit: the rail motif doesn't belong on a settings list). */

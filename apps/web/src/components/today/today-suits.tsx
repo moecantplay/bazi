@@ -1,7 +1,7 @@
 /**
  * What the day suits (VOICE.md rule 12, M20-21 R6), the same in every look: a
  * plain heading for the day type, Favors and Watch chips, one reason for the
- * Watch group, all ten activities behind a disclosure, and the date finder.
+ * Watch group, and all ten activities behind a disclosure.
  */
 
 "use client";

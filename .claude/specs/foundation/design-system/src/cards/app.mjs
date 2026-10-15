@@ -306,4 +306,38 @@ const signpostBoard = {
   </div>`,
 };
 
-export const APP_CARDS = [buttons, fields, segmented, lists, sheet, signpostBoard];
+/** The first-week note (M24-10): sunk into the page, a tail pointing at the cards below, a dot per day. */
+const firstWeekNote = {
+  slug: 'first-week-note',
+  name: 'First-week note',
+  group: 'Components',
+  subtitle: 'One note a day on a new reader’s days 2–7, in the first-day banner’s slot',
+  fonts: ['figtree', 'spacemono'],
+  height: 300,
+  note:
+    'Same in Explorer, Editorial and Instrument. A 7% ink tint of the page instead of a raised card, no shadow, ' +
+    'with a tail toward the cards it introduces. Seven dots, filled up to today. Nothing from day 8.',
+  css: `
+  .pad { padding: 0 20px; display: flex; flex-direction: column; gap: 22px; }
+  .fw { position: relative; display: flex; flex-direction: column; gap: 4px; padding: 16px; border-radius: var(--radius-card); background: color-mix(in srgb, var(--ink) 7%, var(--bg)); }
+  .fw::after { content: ""; position: absolute; left: 30px; bottom: -9px; width: 18px; height: 18px; border-radius: 3px; transform: rotate(45deg); background: inherit; }
+  .fw .row { display: flex; align-items: center; gap: 12px; }
+  .fw .kicker { display: flex; align-items: center; gap: 8px; margin: 0; font-family: "SpaceMono", ui-monospace, monospace; font-size: 10px; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; color: color-mix(in srgb, var(--mut) 60%, var(--ink)); }
+  .fw .kicker::before { content: ""; width: 16px; height: 2px; background: currentColor; }
+  .fw .dots { margin-left: auto; display: flex; gap: 5px; }
+  .fw .dots i { width: 7px; height: 7px; border-radius: 50%; background: color-mix(in srgb, var(--ink) 18%, transparent); }
+  .fw .dots i.on { background: var(--ink); }
+  .fw p.body { margin: 0; font-size: 14px; line-height: 1.625; color: var(--ink); }
+  .next { margin: 0; font-family: "SpaceMono", ui-monospace, monospace; font-size: 10px; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; color: var(--mut); }
+  `,
+  markup: `
+  <div class="pad">
+    <section class="fw">
+      <div class="row"><p class="kicker">Your first week · day 2</p><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i></span></div>
+      <p class="body">Hours, below, is for timing things: give the call that matters the easiest window, and save the roughest for errands.</p>
+    </section>
+    <p class="next">Readings</p>
+  </div>`,
+};
+
+export const APP_CARDS = [buttons, fields, segmented, lists, sheet, signpostBoard, firstWeekNote];

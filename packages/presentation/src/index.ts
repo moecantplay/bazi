@@ -100,3 +100,13 @@ export {
 export { pairScreenFor } from "./pair-screen.js";
 export { welcomeSample, type WelcomeSample } from "./welcome-sample.js";
 export { todayColourFor } from "./today-colour.js";
+export {
+  FIRST_WEEK_DAYS,
+  INTRO_ORDER,
+  firstWeekNote,
+  partsOnScreen,
+  startFirstWeek,
+  type FirstWeekState,
+  type FirstWeekStep,
+  type IntroPart
+} from "./first-week.js";

@@ -9,7 +9,10 @@
  * (presentation is framework/IO-free).
  */
 
+import { FIRST_WEEK_DAYS, INTRO_ORDER } from "@daymaster/presentation";
 import type {
+  FirstWeekState,
+  IntroPart,
   Sex,
   StoredCity,
   StoredBirth,
@@ -18,7 +21,7 @@ import type {
   StoredPerson
 } from "@daymaster/presentation";
 
-export type { Sex, StoredCity, StoredBirth, StoredConfig, StoredProfile, StoredPerson };
+export type { FirstWeekState, Sex, StoredCity, StoredBirth, StoredConfig, StoredProfile, StoredPerson };
 export type ThemePreference = "system" | "light" | "dark";
 
 /**
@@ -81,6 +84,35 @@ export function isStoredPerson(value: unknown): value is StoredPerson {
     return false;
   }
   return typeof value.id === "string" && typeof value.name === "string" && isStoredBirth(value.birth);
+}
+
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+function isISODate(value: unknown): value is string {
+  return typeof value === "string" && ISO_DATE.test(value);
+}
+
+/**
+ * The stored first week (M24-10), keeping only well-formed dates and known
+ * parts. Anything that isn't the right shape reads as null: a finished week,
+ * which is also how documents written before M24-10 read.
+ */
+export function sanitizeFirstWeek(value: unknown): FirstWeekState | null {
+  if (!isObject(value) || !Array.isArray(value.opened) || !isObject(value.noted) || Array.isArray(value.noted)) {
+    return null;
+  }
+  if (!value.opened.every((date) => typeof date === "string")) {
+    return null;
+  }
+  const noted: Partial<Record<IntroPart, string>> = {};
+  for (const part of INTRO_ORDER) {
+    const date = value.noted[part];
+    if (isISODate(date)) {
+      noted[part] = date;
+    }
+  }
+  // Deduped and capped, so a hand-edited backup can never stretch the week past its last day.
+  return { opened: [...new Set(value.opened.filter(isISODate))].slice(0, FIRST_WEEK_DAYS), noted };
 }
 
 /** Rebuilds a person from only its known fields, dropping anything else the raw value carried. */

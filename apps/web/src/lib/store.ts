@@ -16,9 +16,10 @@
  * decision C. `deleteAllData` below still clears it as one user action.
  */
 
+import { startFirstWeek } from "@daymaster/presentation";
 import { migrateLegacyStore } from "./store-migration";
-import { parseLookPreference, toStoredProfile } from "./store-types";
-import type { LookPreference, StoredBirth, StoredPerson, StoredProfile, ThemePreference } from "./store-types";
+import { parseLookPreference, sanitizeFirstWeek, toStoredProfile } from "./store-types";
+import type { FirstWeekState, LookPreference, StoredBirth, StoredPerson, StoredProfile, ThemePreference } from "./store-types";
 
 export const STORE_KEY = "daymaster.store.v2";
 const STREAK_KEY = "daymaster.streak.v1";
@@ -75,6 +76,12 @@ export interface DaymasterStore {
    * configured for it and no Global Privacy Control / Do Not Track signal.
    */
   usageCounts: boolean;
+  /**
+   * The reader's first week on Today (M24-10). Onboarding starts it; null once
+   * it's over. Additive like `journal`; older documents read as null, so
+   * readers who had a chart before M24-10 never see it.
+   */
+  firstWeek: FirstWeekState | null;
 }
 
 export function emptyStore(): DaymasterStore {
@@ -89,7 +96,8 @@ export function emptyStore(): DaymasterStore {
     journal: {},
     look: DEFAULT_LOOK,
     lookPromptSeen: false,
-    usageCounts: true
+    usageCounts: true,
+    firstWeek: null
   };
 }
 
@@ -156,6 +164,7 @@ export function peekStore(): DaymasterStore | null {
       look?: unknown;
       lookPromptSeen?: unknown;
       usageCounts?: unknown;
+      firstWeek?: unknown;
     };
     return {
       ...parsed,
@@ -165,7 +174,8 @@ export function peekStore(): DaymasterStore | null {
       // current default (M19.9-13). Mirrored in layout.tsx's pre-paint script.
       look: fields.lookPromptSeen === true ? (parseLookPreference(fields.look) ?? DEFAULT_LOOK) : DEFAULT_LOOK,
       lookPromptSeen: fields.lookPromptSeen === true,
-      usageCounts: fields.usageCounts !== false
+      usageCounts: fields.usageCounts !== false,
+      firstWeek: sanitizeFirstWeek(fields.firstWeek)
     };
   } catch {
     // Malformed JSON or storage access denied: nothing readable.
@@ -315,13 +325,22 @@ export function saveUsageCountsPreference(allowed: boolean): void {
   saveStore({ ...loadStore(), usageCounts: allowed });
 }
 
-/** Onboarding's save: the new profile and the look chosen just before the reveal, together. */
+/** Onboarding's save: the new profile, its look, and the start of the reader's first week, together. */
 export function saveOnboardingResult(profile: StoredProfile, look: LookPreference): boolean {
-  const saved = saveStore({ ...loadStore(), profile, look, lookPromptSeen: true });
+  const saved = saveStore({ ...loadStore(), profile, look, lookPromptSeen: true, firstWeek: startFirstWeek() });
   if (saved) {
     applyLookPreference(look);
   }
   return saved;
+}
+
+/** The reader's first week, or null when it's over or never started. */
+export function loadFirstWeek(): FirstWeekState | null {
+  return loadStore().firstWeek;
+}
+
+export function setFirstWeek(firstWeek: FirstWeekState | null): void {
+  saveStore({ ...loadStore(), firstWeek });
 }
 
 /** True for a reader with a profile who has never been told they can choose a look. */

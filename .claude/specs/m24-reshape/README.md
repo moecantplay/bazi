@@ -40,7 +40,7 @@ What changes:
 | 07 | [Ahead](07-ahead/requirements.md) | done | 08 | R5, R9–R12 |
 | 08 | [You](08-you/requirements.md) | done | 01 | R6, R15, R16 |
 | 09 | [People](09-people/requirements.md) | done | 08 | R7 |
-| 10 | First week (M20-11) | planned | 05, 06 | — |
+| 10 | [First week](10-first-week/requirements.md) (M20-11) | in progress | 05, 06 | — |
 | 11 | Words: no-repeat rotation, voice lint, copy rewrite over every screen (M20-12, 13, 14) | planned | 06–09 | — |
 | 12 | [Retire the legacy screens and the trial](12-retire-legacy/requirements.md) (M19.9-11) | done — live 2026-10-14 | 04–09 | — |
 | 13 | [Your best hour](13-your-best-hour/requirements.md) | done — live 2026-10-13 | 06 | — |

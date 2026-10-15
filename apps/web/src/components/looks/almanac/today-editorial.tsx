@@ -7,6 +7,7 @@ import { PullQuoteBoard } from "@/components/today/pull-quote-board";
 import { ReadingBody } from "@/components/today/reading-body";
 import { TodayDateNotes } from "@/components/today/today-date-nav";
 import { FirstDayBanner } from "@/components/today/first-day-banner";
+import { FirstWeekNote } from "@/components/today/first-week-note";
 import { TodayColour } from "@/components/today/today-colour";
 import { TodayFooter } from "@/components/today/today-footer";
 import { TodaySuits } from "@/components/today/today-suits";
@@ -43,6 +44,7 @@ export function TodayEditorial({ screen }: Props) {
         <PullQuoteBoard line={model.reading.agency.runs} />
       </div>
       <FirstDayBanner screen={screen} />
+      <FirstWeekNote screen={screen} />
       <TopicCards cards={model.reading.cards} dateISO={screen.dateISO} look="almanac" />
       <TodaySuits screen={screen} />
       <TodayColour screen={screen} />

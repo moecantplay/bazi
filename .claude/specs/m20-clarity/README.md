@@ -42,7 +42,7 @@ A 60-day audit of Today for Fixture A (2026-09-01 → 2026-10-30):
 | 08 | [Facts carry their time scope](08-fact-scope-types/requirements.md) | dropped — carried into M24-03 | — |
 | 09 | [Quality gates](09-quality-gates/requirements.md) | draft | — |
 | 10 | [Today says each thing once](10-today-one-idea/requirements.md) | dropped — folded into 21 | — |
-| 11 | [Today for a first-time reader](11-today-first-run/requirements.md) | dropped — carried into M24-10 | 21 |
+| 11 | [Today for a first-time reader](11-today-first-run/requirements.md) | dropped — carried into [M24-10](../m24-reshape/10-first-week/requirements.md) | 21 |
 | 12 | [No repeats day to day](12-no-repeat-selection/requirements.md) | dropped — carried into M24-11 | 02, 07, 21 |
 | 13 | [Voice rules the linter enforces](13-voice-lint/requirements.md) | dropped — carried into M24-11 | 02 |
 | 14 | [Copy rewrite](14-copy-rewrite/requirements.md) | dropped — carried into M24-11 | 12, 13, 21 |
