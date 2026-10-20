@@ -12,7 +12,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run",
-    "build": "tsc --noEmit"
+    "build": "tsc --noEmit",
+    "copy-audit": "tsx scripts/copy-audit.ts"
   },
   "dependencies": {
     "@daymaster/bazi-engine": "workspace:*",
@@ -22,6 +23,7 @@
     "@types/node": "^22.20.0",
     "@vitest/coverage-v8": "^2.1.8",
     "eslint": "^9.18.0",
+    "tsx": "^4.19.2",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.20.0",
     "vitest": "^2.1.8"
