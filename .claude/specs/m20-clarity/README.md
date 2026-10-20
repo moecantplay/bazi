@@ -33,7 +33,7 @@ A 60-day audit of Today for Fixture A (2026-09-01 → 2026-10-30):
 | # | Ticket | Status | Depends on |
 | --- | --- | --- | --- |
 | 01 | [Fix duplicated glosses](01-fix-duplicated-glosses/requirements.md) | draft | — |
-| 02 | [Copy audit baseline](02-copy-audit-baseline/requirements.md) | draft | — |
+| 02 | [Copy audit baseline](02-copy-audit-baseline/requirements.md) | done | — |
 | 03 | [Convert all docs to specs](03-convert-docs-to-specs/requirements.md) | done | — |
 | 04 | [Conditions: keep or drop](04-conditions-decision/requirements.md) | dropped — decided by D4, carried out in M24-04 | — |
 | 05 | [Restructure apps/web](05-restructure-web/requirements.md) | dropped — folded into M24 screen tickets | 04 |
