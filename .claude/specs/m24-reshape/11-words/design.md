@@ -5,12 +5,21 @@ Three phases in one ticket, each committed and reviewed on its own, deployed onc
 ## Phase 1 — Rules (R1, R2)
 
 - **VOICE.md** gains "Plain writing" after the hard rules, in the owner's approved wording. Each mechanical rule names its test. The metaphor rule goes on a review checklist.
-- **`content/test/plain-writing.test.ts`** renders every bank entry. `collect.ts` already enumerates the older banks (day-master, elements, natal interactions, compare, stars, day guidance, first week). It's extended to the M24 banks: `banks/daily/*`, `banks/ahead/period.ts`, `banks/people/pair.ts`, `banks/you/*`, `banks/topics/*`, `banks/colours.ts`. Checks:
-  - rule 1: no `—`
-  - rule 2: at most 25 words per sentence (the same `wordsOf` as the presentation tests)
-  - rule 3: contrast-construction patterns, each a regex with an allow-list entry and a reason
-  - rule 4: the stock-phrase list, drafted from the copy audit's top repeats and openers
-- **Worklist.** The first run's failures are written to `11-words/worklist.md` and asserted as a known-failures list in the test. The test passes while the list only shrinks, and fails if a new failure appears. Phase 3 empties the list, and the known-failures mechanism is deleted in the same commit. This keeps `pnpm verify` green between phases without `it.fails`, which can't say which entries still fail.
+- **`content/test/plain-writing.test.ts`** checks every line `test/plain-writing-rules.ts` collects:
+  - every string reachable from every module under `src/banks/` (found on disk, so a new bank is checked without being listed) and from the reference copy readers see (`vocab.ts`, `glossary.ts`, `marks.ts`, `read-more.ts`), each run through `collect.ts`'s `render()` so templates are checked with sample values filled in;
+  - every function those modules export. Line-building functions are called over their inputs (portrait, ease, colour lines, day-tone phrase, first-week kicker, welcome fallback, every star in every palace). Word and token helpers, and lookups of walked data, are listed as building no line. A test fails on any function export in neither list, so a new function bank can't slip past;
+  - the chart page's composed lines (`natalReading` over `collect.ts`'s natal fact sets), where the strength tally and the star and interaction lines are assembled.
+
+  `banks/compare.ts` is left out because its lines reach no screen since M24-12. Lines composed inside `readings/**` for Today, topic pages, Ahead and People are checked on rendered screens by `screen-repeats.test.ts` (task 8), which runs rules 1–4 over every collected sentence as well as rule 5. That's what stops phase 3 emptying this list while composed frames still break a rule.
+
+  Checks, each pattern with its reason in the code:
+  - rule 1: an em-dash, a hyphen dash (" - ", "--"), a spaced en-dash, or an en-dash not followed by a number ("5–7 pm" and "11 pm–1 am" pass, "Monday–Friday" fails). Checked on every string.
+  - rule 2: at most 25 words per sentence, the same word count as the presentation tests.
+  - rule 3: "It's not X, but Y" (a copula before "not": "do not rush the email, but do send it" passes, while "it is not much, but it helps" is flagged, as rule 3 intends), "Not X, it's Y" opening a sentence, "aimed…; unaimed…", "planned; unplanned".
+  - rule 4: the opener and filler list, each entry with its reason.
+
+  No allow-list was needed: the tightened patterns flag no legitimate line on the first run. One gets added, with a reason per entry, the first time a pattern over-matches.
+- **Worklist.** The first run's failures (416 of 1,961 lines) are committed as `test/plain-writing-known.ts` (`rule | module | text`), summarised in `11-words/worklist.md`, and asserted as a known-failures list. The test passes while the list only shrinks, and fails if a new failure appears. Phase 3 empties the list, and the known-failures mechanism is deleted in the same commit. This keeps `pnpm verify` green between phases without `it.fails`, which can't say which entries still fail.
 
 ## Phase 2 — Rotation (R3–R5)
 
@@ -32,7 +41,7 @@ Three phases in one ticket, each committed and reviewed on its own, deployed onc
 
 - **Order.** Worst offender first, by the copy audit and the two worklists: colour line, best-hour note, card pools, suits headings and Watch reasons, then Ahead, People, topic pages, and the chart banks (em-dashes).
 - **Each bank** goes to the content-writer agent with a brief: what the slot is for, the facts it may cite, VOICE.md, its worklist entries, three good and three bad examples from the current bank, and the pool size R4 asks for. The agent returns the bank. Then run `voice`, `plain-writing` and the rotation tests, and re-run the copy audit.
-- **Rendered tests (R6).** `presentation/test/screen-repeats.test.ts`, beside `today-composed.test.ts`: the 14-day window on Today and the within-view rules on every screen, over 90 days and every fixture. It reuses the copy audit's collector and metrics (`scripts/copy-audit/surfaces.ts`, `metrics.ts`), so the test and the audit count the same way.
+- **Rendered tests (R6).** `presentation/test/screen-repeats.test.ts`, beside `today-composed.test.ts`: the 14-day window on Today, the within-view rules on every screen, and plain-writing rules 1–4 on every rendered sentence, over 90 days and every fixture. The rules move from `content/test/plain-writing-rules.ts` into one module both packages' tests import. It reuses the copy audit's collector and metrics (`scripts/copy-audit/surfaces.ts`, `metrics.ts`), so the test and the audit count the same way.
 - **Sample (R9).** `copy-audit --sample <fixture>` prints a fixture's sample in reading order, from `collectSurfaces`. Fixtures A and D are published as one private page for the owner to read.
 - **After.** Commit `after.json` and the before/after table (R8). Owner sign-off, then one deploy.
 
@@ -41,7 +50,7 @@ Three phases in one ticket, each committed and reviewed on its own, deployed onc
 | Area | Change |
 | --- | --- |
 | `.claude/specs/foundation/VOICE.md` | Plain writing section (R1) |
-| `packages/content/test/plain-writing.test.ts`, `collect.ts` | New test; enumeration extended to the M24 banks |
+| `packages/content/test/plain-writing{.test,-rules,-known}.ts` | New test, rules and line walk, known-failures list |
 | `packages/presentation/src/lead-visit.ts` → `slot-visits.ts` | One 60-day scan, a visit count per slot |
 | `packages/content/src/types.ts` | `DailySeed.visits` |
 | `packages/content/src/banks/**` | Pools in place of fixed lines; rewritten entries |

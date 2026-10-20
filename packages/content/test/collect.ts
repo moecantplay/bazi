@@ -61,7 +61,7 @@ export const TEN_GODS: readonly string[] = [
 ];
 
 /** Fill every placeholder with a representative value so templates read as real lines. */
-function render(template: string): string {
+export function render(template: string): string {
   return template
     .replaceAll("{period}", "day")
     .replaceAll("{periodPossCap}", "Today's")
@@ -97,7 +97,7 @@ function render(template: string): string {
     .replaceAll("{periodNoun}", "year")
     .replaceAll("{tgEn}", "Eating God")
     .replaceAll("{tgCn}", "食神")
-    .replaceAll("{tgTheme}", "making for the joy of it — cooking for friends rather than for a review");
+    .replaceAll("{tgTheme}", "making for the joy of it, cooking for friends rather than for a review");
 }
 
 /** Every user-facing line in the whole bank, rendered with sample values. */

@@ -95,3 +95,9 @@ A reader who opens the app every day doesn't meet the same sentence again within
 - [x] **Card titles rotate with their lines?** Recommendation: yes, as [title, line] pairs (interaction cards already work this way), except star titles and the hours card (R3). Answer (owner, 2026-10-20): yes, except star titles and the hours card.
 - [x] **Who writes?** M20-14 recommended a human copywriter for the core banks. Since then you've chosen the content-writer agent's draft over copy written in the main conversation (M24-10) and have no budget for paid services yet. Recommendation: content-writer drafts every bank, and you read the R9 sample before ship. A copywriter can still take one pass later over the banks the sample flags. Answer (owner, 2026-10-20): the content-writer agent drafts, the owner reads the R9 sample.
 - [x] **Approve the R8 targets**, or set others. Answer (owner, 2026-10-20): approved as proposed.
+
+Raised during the build (2026-10-20, phase 1 review):
+
+- [ ] **Does "X, not Y" count as a contrast construction?** For example "a hinge, not a wound", "light, not lacking", "a season, not a verdict". It shows up about 49 times in the reference copy and the chart banks. The approved rule 3 doesn't list it, so the test doesn't flag it. Recommendation: yes. It's the most common version of the habit M20-13 described. If you agree, rule 3 gains it and those lines join the worklist.
+- [ ] **The chart page prints each star's gloss twice** (live, see worklist.md). M20-01 covers this class of bug. Recommendation: fix it inside this ticket when `stars.ts` is rewritten in phase 3, and note it on M20-01, rather than running M20-01 separately.
+
