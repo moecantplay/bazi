@@ -11,7 +11,7 @@ import { readdirSync, statSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import type { Element, Palace, Stem } from "@daymaster/bazi-engine";
-import { colourFixLine, dayColourLine } from "../src/banks/colours.js";
+import { colourFixLine } from "../src/banks/colours.js";
 import { dayTonePhrase } from "../src/banks/daily/day-tone.js";
 import { firstWeekKicker } from "../src/banks/first-week.js";
 import { natalStarLine } from "../src/banks/stars.js";
@@ -33,7 +33,7 @@ const EXCLUDED_MODULES = ["banks/compare.ts"];
 
 /** Function exports called by `functionBankLines` or `natalReading` below. */
 const CALLED_FUNCTIONS = [
-  "colourFixLine", "dayColourLine", "dayTonePhrase", "easeLine", "firstWeekKicker", "natalInteractionLine",
+  "colourFixLine", "dayTonePhrase", "easeLine", "firstWeekKicker", "natalInteractionLine",
   "natalStarLine", "portraitLine", "portraitRest", "welcomeHeadline",
 ];
 
@@ -113,8 +113,6 @@ function functionBankLines(): string[] {
     ...STEMS.flatMap((stem: Stem) => [portraitLine(stem), portraitRest(stem)]),
     ...ELEMENTS.map((element: Element) => easeLine(element)),
     colourFixLine("red", "green"),
-    dayColourLine("lean", "red"),
-    dayColourLine("steady", "red"),
     ...(["favoured", "friction", "even"] as const).map((tone) => dayTonePhrase(tone)),
     firstWeekKicker(2),
     welcomeHeadline("unknown"),

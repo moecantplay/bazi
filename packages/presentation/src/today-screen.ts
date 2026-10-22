@@ -9,7 +9,7 @@
  */
 
 import type { Chart, Pillar } from "@daymaster/bazi-engine";
-import { plainGloss, todaySuits, type DailyReading, type TodaySuits } from "@daymaster/content";
+import { plainGloss, todaySuits, type DailyReading, type DayColour, type TodaySuits } from "@daymaster/content";
 import { chartFor } from "./chart.js";
 import { addDays, daysBetween } from "./dates.js";
 import { dayTone, type DayTone } from "./day-tone.js";
@@ -17,6 +17,8 @@ import { describeBranch, describeStem } from "./display.js";
 import { dayGuidanceFor, type GuidanceBundle } from "./guidance.js";
 import { dailyBundleFor } from "./reading.js";
 import { bestHourMarkFor, routeWaypointsFor, type BestHourMark, type RouteWaypoint } from "./route-waypoints.js";
+import { natalSeedKey } from "./seed-key.js";
+import { todayColourFor } from "./today-colour.js";
 import type { StoredProfile } from "./types.js";
 
 /** How many days out from today a reading may be viewed, in either direction. */
@@ -68,6 +70,8 @@ export interface TodayScreenModel {
   reading: DailyReading;
   /** Today's "What the day suits": plain heading, chips, one Watch reason. */
   suits: TodaySuits;
+  /** Today's colour, its line stepped by the same visits as the reading (M24-11). */
+  colour: DayColour | null;
   /** The full guidance (prose and assessments) behind the activity manifest in "What the day suits". */
   guidance: GuidanceBundle;
   tone: DayTone;
@@ -115,7 +119,8 @@ export function todayScreenModel(
     stem,
     branch,
     reading: bundle.reading,
-    suits: todaySuits(guidance.quality),
+    suits: todaySuits(guidance.quality, { chart: natalSeedKey(profile), date: dateISO }),
+    colour: todayColourFor(profile, dateISO, bundle.visits),
     guidance,
     tone,
     waypoints,

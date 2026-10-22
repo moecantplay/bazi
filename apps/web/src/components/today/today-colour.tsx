@@ -3,10 +3,7 @@
  * why. Sits after What the day suits.
  */
 
-"use client";
-
-import { useMemo } from "react";
-import { COLOUR_SWATCH, todayColourFor } from "@daymaster/presentation";
+import { COLOUR_SWATCH } from "@daymaster/presentation";
 import type { TodayScreen } from "@/components/today/use-today-screen";
 
 interface Props {
@@ -14,7 +11,7 @@ interface Props {
 }
 
 export function TodayColour({ screen }: Props) {
-  const pick = useMemo(() => todayColourFor(screen.profile, screen.dateISO), [screen.profile, screen.dateISO]);
+  const pick = screen.model.colour;
   if (!pick) {
     return null;
   }

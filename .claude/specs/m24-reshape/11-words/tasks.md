@@ -9,11 +9,11 @@ Check a task only with a one-line evidence note.
 
 ## Phase 2 — Rotation
 
-- [ ] 3. `slot-visits.ts` replaces `lead-visit.ts`; `DailySeed.visits`; tests first (R3)
-- [ ] 4. Today's lower half picks by visit: card pools, best-hour note, colour line, suits heading, Watch reason; interaction cards move to visits (R3)
-- [ ] 5. `pool-minimums.test.ts` with its short-pool list (R4)
-- [ ] 6. Ahead visits; People distinct lines per screen (R5)
-- [ ] 7. Phone-profile render time before and after (design, Risks)
+- [x] 3. `slot-visits.ts` replaces `lead-visit.ts`; `DailySeed.visits`; tests first (R3) — `slot-visits.test.ts` (count +1 per occurrence over 150 days × 3 fixtures, order-independent) and `rotation.test.ts`; headline and agency identical to before over 450 fixture-days
+- [x] 4. Today's lower half picks by visit: card pools, best-hour note, colour line, suits heading, Watch reason; interaction cards move to visits (R3) — suits heading and Watch reason step by day number (no fixed cycle, design); only interaction cards and the body's modifier sentence changed text (pools of 2–3); colour in the model; topic pages mirror the card
+- [x] 5. `pool-minimums.test.ts` with its short-pool list (R4) — fixtures plus 60 pool charts (added after review): 170 Today slots, 63 short; a removed list entry fails the test; sizes in worklist.md
+- [x] 6. Ahead steps by period number; People distinct lines per screen (R5) — period number instead of visits (design); 138 Ahead slots, 56 short, including every quiet-month lead; People `firstUnused` + `PAIR_BRINGS`, its within-screen check in task 8; memo and card-mirror tests added after review
+- [x] 7. Phone-profile render time before and after (design, Risks) — Playwright, 4× CPU throttle, day step on Today: ~82 ms (phase 1) → ~98 ms → ~70 ms median once the block scan is memoized; copy audit 2.4 s (was 21 s before the memo)
 
 ## Phase 3 — Words
 

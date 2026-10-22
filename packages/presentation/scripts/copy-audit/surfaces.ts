@@ -15,7 +15,6 @@ import {
   natalReadingFor,
   pairScreenFor,
   TODAY_RANGE_DAYS,
-  todayColourFor,
   todayScreenModel,
   topicPageFor,
   yearView,
@@ -83,7 +82,7 @@ function todayAndTopics([fixture, profile]: Fixture): { today: FixtureView[]; to
   const topics: FixtureView[] = [];
   for (let index = 0; index < DAYS; index += 1) {
     const date = addDays(START, index);
-    const { reading, suits } = todayScreenModel(profile, date, date);
+    const { reading, suits, colour } = todayScreenModel(profile, date, date);
     today.push({
       fixture,
       key: `${fixture} ${date}`,
@@ -98,7 +97,7 @@ function todayAndTopics([fixture, profile]: Fixture): { today: FixtureView[]; to
         ]),
         ...runs("suits heading", suits.heading),
         ...runs("watch reason", suits.watchReason),
-        ...slot("colour line", todayColourFor(profile, date)?.line)
+        ...slot("colour line", colour?.line)
       ]
     });
     const shown = [reading.leadTopic, ...(reading.modifierTopic ? [reading.modifierTopic] : []), ...reading.cards.map((card) => card.topic)];

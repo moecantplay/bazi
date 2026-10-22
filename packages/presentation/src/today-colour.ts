@@ -7,22 +7,35 @@
  * steadying rule is interpretive and flagged in .claude/specs/flags.md.
  */
 
-import { controls, elementOfStem, produces } from "@daymaster/bazi-engine";
-import { dayColour, type DayColour } from "@daymaster/content";
-import { dailyBundleFor } from "./reading.js";
+import { controls, dailyPillar, elementOfStem, produces, type Element, type Stem } from "@daymaster/bazi-engine";
+import { dayColour, type DayColour, type DayColourMode } from "@daymaster/content";
+import { readingZoneOf } from "./reading-zone.js";
 import { natalSeedKey } from "./seed-key.js";
 import type { StoredProfile } from "./types.js";
 import { elementSplit } from "./you-screen.js";
 
-export function todayColourFor(profile: StoredProfile, dateISO: string): DayColour | null {
+function colourElementFor(profile: StoredProfile, dayStem: Stem): { element: Element; mode: DayColourMode } | null {
   const { helps } = elementSplit(profile);
-  const dayElement = elementOfStem(dailyBundleFor(profile, dateISO).dayPillar.stem);
-  const seedKey = `${natalSeedKey(profile)}|${dateISO}`;
+  const dayElement = elementOfStem(dayStem);
   if (helps.includes(dayElement)) {
-    return dayColour(dayElement, "lean", seedKey);
+    return { element: dayElement, mode: "lean" };
   }
   const steadier =
     helps.find((element) => controls(element) === dayElement) ??
     helps.find((element) => produces(dayElement) === element);
-  return steadier === undefined ? null : dayColour(steadier, "steady", seedKey);
+  return steadier === undefined ? null : { element: steadier, mode: "steady" };
+}
+
+/** Whether the day's colour leans in or steadies, or null when no colour fits: the colour line's situation. */
+export function colourModeFor(profile: StoredProfile, dayStem: Stem): DayColourMode | null {
+  return colourElementFor(profile, dayStem)?.mode ?? null;
+}
+
+/** Today's colour; `visits` steps its line by visit (M24-11), else by day number. */
+export function todayColourFor(profile: StoredProfile, dateISO: string, visits?: Readonly<Record<string, number>>): DayColour | null {
+  const choice = colourElementFor(profile, dailyPillar(dateISO, readingZoneOf(profile)).stem);
+  if (!choice) {
+    return null;
+  }
+  return dayColour(choice.element, choice.mode, { chart: natalSeedKey(profile), date: dateISO, visits });
 }

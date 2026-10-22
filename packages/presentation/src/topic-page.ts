@@ -6,11 +6,13 @@
  * fuller page needs.
  */
 
-import { lifeStage, type Chart, type Palace } from "@daymaster/bazi-engine";
+import { dailyFacts, dailyPillar, lifeStage, type Chart, type Palace } from "@daymaster/bazi-engine";
 import { topicPage, type TopicContext, type TopicPage } from "@daymaster/content";
 import { addDays, daysBetween } from "./dates.js";
 import { chartFor } from "./chart.js";
-import { dailyBundleFor } from "./reading.js";
+import { readingZoneOf } from "./reading-zone.js";
+import { natalSeedKey } from "./seed-key.js";
+import { slotVisits } from "./slot-visits.js";
 import { TODAY_RANGE_DAYS } from "./today-screen.js";
 import { daySoreSpot } from "./sore-spot.js";
 import type { StoredProfile } from "./types.js";
@@ -26,12 +28,14 @@ function natalClashPalaces(chart: Chart): Palace[] {
   return chart.interactions.filter((interaction) => interaction.type === "six-clash").flatMap((interaction) => interaction.palaces);
 }
 
-/** Up to three later dates in Today's range whose day carries the same topic. */
+/** Up to three later dates in Today's range whose day carries the same topic. Facts only: a page needs no reading to exist. */
 function recurrences(profile: StoredProfile, dateISO: string, todayISO: string, topic: string): string[] {
   const found: string[] = [];
+  const chart = chartFor(profile);
+  const zone = readingZoneOf(profile);
   const last = addDays(todayISO, TODAY_RANGE_DAYS);
   for (let date = addDays(dateISO, 1); daysBetween(date, last) >= 0 && found.length < MAX_RECURRENCES; date = addDays(date, 1)) {
-    if (topicPage(topic, dailyBundleFor(profile, date).facts) !== null) {
+    if (topicPage(topic, dailyFacts(chart, date, zone)) !== null) {
       found.push(date);
     }
   }
@@ -42,13 +46,16 @@ export function topicPageFor(profile: StoredProfile, dateISO: string, todayISO: 
   if (Math.abs(daysBetween(todayISO, dateISO)) > TODAY_RANGE_DAYS) {
     return null;
   }
-  const { facts, dayPillar } = dailyBundleFor(profile, dateISO);
+  const chart = chartFor(profile);
+  const zone = readingZoneOf(profile);
+  const facts = dailyFacts(chart, dateISO, zone);
   if (topicPage(topic, facts) === null) {
     return null;
   }
-  const chart = chartFor(profile);
-  const neighbour = (offset: number) => lifeStage(chart.dayMaster, dailyBundleFor(profile, addDays(dateISO, offset)).dayPillar.branch).english;
+  const dayPillar = dailyPillar(dateISO, zone);
+  const neighbour = (offset: number) => lifeStage(chart.dayMaster, dailyPillar(addDays(dateISO, offset), zone).branch).english;
   const context: TopicContext = {
+    seed: { chart: natalSeedKey(profile), date: dateISO, visits: slotVisits(profile, dateISO) },
     strength: chart.strength.value,
     sore: daySoreSpot(chart, dayPillar, facts),
     natalSigns: natalSigns(chart),

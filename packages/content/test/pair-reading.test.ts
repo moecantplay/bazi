@@ -29,7 +29,7 @@ describe("People's wording", () => {
     for (const lead of Object.values(PAIR_LEADS)) {
       assertPlain(`${lead.headline} ${lead.body} ${lead.action}`);
     }
-    for (const [title, line] of Object.values(PAIR_INTERACTION_CARDS)) {
+    for (const [title, line] of Object.values(PAIR_INTERACTION_CARDS).flat()) {
       for (const suffix of Object.values(PAIR_AREA_SUFFIX)) {
         assertPlain(`${title} ${suffix}`);
       }

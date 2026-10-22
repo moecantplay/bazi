@@ -38,12 +38,12 @@ export const PAIR_LEADS: Record<ElementRelation, PeriodLeadText> = {
   },
 };
 
-export const PAIR_INTERACTION_CARDS: Record<InteractionType, CardText> = {
-  "six-clash": ["Friction to work through", "You pull in different directions here; talk it out early."],
-  punishment: ["An old pattern between you", "The same small argument may recur; name it once."],
-  harm: ["Small leaks", "Little irritations add up if they're left unsaid."],
-  "six-combine": ["Easy together", "Cooperation comes naturally here."],
-  trine: ["A shared drive", "Together you move faster, and faster still with one more on board."],
+export const PAIR_INTERACTION_CARDS: Record<InteractionType, readonly CardText[]> = {
+  "six-clash": [["Friction to work through", "You pull in different directions here; talk it out early."]],
+  punishment: [["An old pattern between you", "The same small argument may recur; name it once."]],
+  harm: [["Small leaks", "Little irritations add up if they're left unsaid."]],
+  "six-combine": [["Easy together", "Cooperation comes naturally here."]],
+  trine: [["A shared drive", "Together you move faster, and faster still with one more on board."]],
 };
 
 /** Where in your life a pair link lands, as a title suffix. */
@@ -52,4 +52,21 @@ export const PAIR_AREA_SUFFIX: Record<LifeArea, string> = {
   family: "about family",
   home: "at home",
   plans: "in long-term plans",
+};
+
+/**
+ * What each of you brings out in the other, by the character one day-master
+ * sees in the other. A pool, so the two lines differ when both see the same.
+ */
+export const PAIR_BRINGS: Record<string, readonly string[]> = {
+  "Friend": ["Doing it together."],
+  "Rob Wealth": ["Pace-setters at your elbow."],
+  "Eating God": ["Making for the joy of it."],
+  "Hurting Officer": ["A sharp, busy eye."],
+  "Indirect Wealth": ["Chances off the plan."],
+  "Direct Wealth": ["Steady effort pays."],
+  "Seven Killings": ["Pressure that builds strength."],
+  "Direct Officer": ["Doing things properly."],
+  "Indirect Resource": ["Learning your own way."],
+  "Direct Resource": ["Help comes easily."],
 };

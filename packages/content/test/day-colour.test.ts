@@ -2,20 +2,22 @@
 
 import { describe, expect, it } from "vitest";
 import { ELEMENT_COLOURS, dayColour } from "../src/index.js";
-import { dayColourLine } from "../src/banks/colours.js";
 import { ELEMENTS } from "./collect.js";
 import { assertPlain } from "./plain-terms.js";
+
+const SEED = { chart: "seed", date: "2026-10-10" };
 
 describe("dayColour", () => {
   it("picks a shade of the element, the same each time, in plain words", () => {
     for (const element of ELEMENTS) {
       for (const mode of ["lean", "steady"] as const) {
-        const pick = dayColour(element, mode, "seed|2026-10-10");
+        const pick = dayColour(element, mode, SEED);
         expect(ELEMENT_COLOURS[element]).toContain(pick.colour);
-        expect(dayColour(element, mode, "seed|2026-10-10")).toEqual(pick);
+        expect(dayColour(element, mode, SEED)).toEqual(pick);
         assertPlain(pick.line);
       }
     }
-    expect(dayColourLine("lean", "pink")).toBe("It matches the day. Wear it, or keep something pink close.");
+    const fire = dayColour("fire", "lean", SEED);
+    expect(fire.line).toBe(`It matches the day. Wear it, or keep something ${fire.colour} close.`);
   });
 });

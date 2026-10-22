@@ -7,7 +7,9 @@
 
 import type { ActivityReason, DayQuality } from "@daymaster/bazi-engine";
 import { buildChips, type GuidanceChip } from "../../day-guidance.js";
+import { fillSlots, pickerFor, type Picker, type RotationSlot } from "../../rotation.js";
 import { textRun, type TokenLine } from "../../tokens.js";
+import type { DailySeed } from "../../types.js";
 import { OFFICER_PLAIN, WATCH_AREA_PHRASE, WATCH_REASONS } from "../../banks/daily/suits.js";
 import { lifeAreaOf } from "./life-areas.js";
 
@@ -26,7 +28,7 @@ function joinActs(labels: readonly string[]): string {
   return `${lower.slice(0, -1).join(", ")} and ${lower[lower.length - 1] as string}`;
 }
 
-function watchReason(quality: DayQuality, watch: readonly GuidanceChip[]): string | null {
+function watchReason(quality: DayQuality, watch: readonly GuidanceChip[], pick: Picker): string | null {
   if (watch.length === 0) {
     return null;
   }
@@ -36,20 +38,36 @@ function watchReason(quality: DayQuality, watch: readonly GuidanceChip[]): strin
   const clash = reasons.find((reason) => reason.source === "day-breaker" || reason.source === "palace-clash");
   if (clash) {
     const area = lifeAreaOf(clash.source === "palace-clash" ? clash.palace : "day");
-    return WATCH_REASONS.unsettled.replace("{area}", WATCH_AREA_PHRASE[area]).replace("{acts}", acts);
+    return fillSlots(pick(WATCH_REASONS.unsettled, "watch:unsettled"), { area: WATCH_AREA_PHRASE[area], acts });
   }
   const officer = OFFICER_PLAIN[quality.officer.key];
   if (officer && reasons.some((reason) => reason.source === "officer" && reason.direction === -1)) {
-    return WATCH_REASONS.officer.replace("{favours}", officer.favours).replace("{acts}", acts);
+    return fillSlots(pick(WATCH_REASONS.officer, "watch:officer"), { favours: officer.favours, acts });
   }
-  return WATCH_REASONS.plain.replace("{Acts}", `${acts.charAt(0).toUpperCase()}${acts.slice(1)}`);
+  return fillSlots(pick(WATCH_REASONS.plain, "watch:plain"), { Acts: `${acts.charAt(0).toUpperCase()}${acts.slice(1)}` });
 }
 
-/** Today's "What the day suits". */
-export function todaySuits(quality: DayQuality): TodaySuits {
+/**
+ * Today's "What the day suits". The heading and reason step by day number:
+ * `seed` carries no visits for them, because the day type follows the solar
+ * month and has no fixed cycle to count over.
+ */
+export function todaySuits(quality: DayQuality, seed: Pick<DailySeed, "chart" | "date">): TodaySuits {
+  return composeSuits(quality, pickerFor(seed));
+}
+
+/** The slots "What the day suits" picks under on a day, with their pool sizes (for the pool-minimum test). */
+export function todaySuitsSlots(quality: DayQuality): RotationSlot[] {
+  const slots: RotationSlot[] = [];
+  composeSuits(quality, pickerFor({ chart: "", date: "1970-01-01" }, slots));
+  return slots;
+}
+
+function composeSuits(quality: DayQuality, pick: Picker): TodaySuits {
   const chips = buildChips(quality.assessments);
   const watch = chips.filter((chip) => chip.leaning === "friction");
-  const reason = watchReason(quality, watch);
-  const heading = OFFICER_PLAIN[quality.officer.key]?.heading ?? "The day's grain";
+  const reason = watchReason(quality, watch, pick);
+  const officer = OFFICER_PLAIN[quality.officer.key];
+  const heading = officer ? pick(officer.headings, `suits-heading:${quality.officer.key}`) : "The day's grain";
   return { heading: textRun(heading), chips, watchReason: reason ? textRun(reason) : null };
 }

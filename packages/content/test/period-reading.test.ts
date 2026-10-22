@@ -34,22 +34,23 @@ const PERIOD_FACTS: PeriodFact[] = [
   { kind: "transit-interaction", scope: "month", interaction: "six-clash", branches: ["辰", "戌"], natalPalaces: ["day"], transitPalace: "monthly", transitBranch: "戌" },
 ];
 
+const SEED = { chart: "chart", step: 0 };
+
 describe("Ahead's wording", () => {
   it("is plain in every lead and card", () => {
     for (const interaction of INTERACTIONS) {
-      for (const lead of Object.values(PERIOD_LEADS[interaction])) {
+      for (const lead of Object.values(PERIOD_LEADS[interaction]).flat()) {
         plainAcrossSpans(lead.headline);
         plainAcrossSpans(lead.body);
         plainAcrossSpans(lead.action);
       }
-      for (const [title, line] of Object.values(PERIOD_INTERACTION_CARDS[interaction])) {
+      for (const [title, line] of Object.values(PERIOD_INTERACTION_CARDS[interaction]).flat()) {
         plainAcrossSpans(title);
         plainAcrossSpans(line);
       }
     }
     for (const element of ELEMENTS) {
-      plainAcrossSpans(PERIOD_ELEMENT_SENTENCES[element].suits);
-      plainAcrossSpans(PERIOD_ELEMENT_SENTENCES[element].against);
+      [...PERIOD_ELEMENT_SENTENCES[element].suits, ...PERIOD_ELEMENT_SENTENCES[element].against].forEach(plainAcrossSpans);
     }
   });
 
@@ -59,15 +60,19 @@ describe("Ahead's wording", () => {
       const card = PERIOD_TEN_GOD_CARDS[god];
       expect(lead, god).toBeDefined();
       expect(card, god).toBeDefined();
-      plainAcrossSpans(`${lead!.headline} ${lead!.body} ${lead!.action}`);
-      plainAcrossSpans(`${card![0]} ${card![1]}`);
+      for (const entry of lead!) {
+        plainAcrossSpans(`${entry.headline} ${entry.body} ${entry.action}`);
+      }
+      for (const [title, line] of card!) {
+        plainAcrossSpans(`${title} ${line}`);
+      }
     }
   });
 });
 
 describe("periodReading", () => {
   it("leads with the strongest link and closes the body with the period's element", () => {
-    const reading = periodReading(PERIOD_FACTS, "month");
+    const reading = periodReading(PERIOD_FACTS, "month", SEED);
     expect(reading.lead.topic).toBe("interaction:six-clash:day");
     expect(reading.lead.headline).toBe("Home asks for some give this month.");
     expect(reading.lead.body.endsWith("Steady, patient building suits you this month.")).toBe(true);
@@ -76,12 +81,12 @@ describe("periodReading", () => {
 
   it("leads a quiet period with its character, with no character card", () => {
     const quiet = PERIOD_FACTS.filter((fact) => fact.kind !== "transit-interaction");
-    const reading = periodReading(quiet, "year");
+    const reading = periodReading(quiet, "year", SEED);
     expect(reading.lead.topic).toBe("ten-god:Friend");
     expect(reading.cards).toEqual([]);
   });
 
   it("is deterministic", () => {
-    expect(periodReading(PERIOD_FACTS, "decade")).toEqual(periodReading(PERIOD_FACTS, "decade"));
+    expect(periodReading(PERIOD_FACTS, "decade", SEED)).toEqual(periodReading(PERIOD_FACTS, "decade", SEED));
   });
 });

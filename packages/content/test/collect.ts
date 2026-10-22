@@ -97,7 +97,14 @@ export function render(template: string): string {
     .replaceAll("{periodNoun}", "year")
     .replaceAll("{tgEn}", "Eating God")
     .replaceAll("{tgCn}", "食神")
-    .replaceAll("{tgTheme}", "making for the joy of it, cooking for friends rather than for a review");
+    .replaceAll("{tgTheme}", "making for the joy of it, cooking for friends rather than for a review")
+    .replaceAll("{colour}", "red")
+    .replaceAll("{window}", "5–7 pm")
+    .replaceAll("{acts}", "commitments and moving")
+    .replaceAll("{Acts}", "Commitments and moving")
+    .replaceAll("{favours}", "bringing things together")
+    .replaceAll("{area}", "at work")
+    .replaceAll("{span}", "this month");
 }
 
 /** Every user-facing line in the whole bank, rendered with sample values. */

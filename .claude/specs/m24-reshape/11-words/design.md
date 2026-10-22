@@ -23,19 +23,27 @@ Three phases in one ticket, each committed and reviewed on its own, deployed onc
 
 ## Phase 2 — Rotation (R3–R5)
 
-**Visits, generalised.** `presentation/src/lead-visit.ts` counts how many times a day's lead situation has come up, from a 12- or 60-day block, with no history. Every Today slot in R3 is a pure function of the day pillar plus the chart: element and day's character follow the stem (10-day cycle), pace follows the branch (12), and the colour, suits heading and Watch reason follow the whole pillar (60). So one 60-day scan serves them all:
+**One picker, slots as keys.** `content/src/rotation.ts` holds the picker every rotating line uses. A slot string names both the line and its situation (`card:stage:Peak`, `headline:six-clash:work`, `colour-line:steady`), and doubles as the key its visits are counted under. `DailySeed.visit: number` became `DailySeed.visits: Record<slot, number>`. A slot with no count steps by the day number, which keeps callers without visits working (welcome sample, previews).
 
-- `slotVisits(chart, zone, dateISO, chartSeed)`: for each day in the date's 60-day block, compute the day's facts once, derive every slot's situation key, and return `{ [slotKey]: visitCount }` for the displayed date.
-- This replaces `leadVisit`, which becomes the `lead` entry, so Today still scans one block per render, not one per slot. `DailySeed.visit: number` becomes `DailySeed.visits: Record<string, number>`.
-- The 60-day scan costs about 60 × `dailyFacts`. `leadVisit` already does that on quiet days, so the worst case on device doesn't change. Check render time on a phone-class CPU profile before and after.
+**Visits, generalised (`presentation/src/slot-visits.ts`, replacing `lead-visit.ts`).** Every Today slot counted here depends only on the chart and the day pillar: the lead, the modifier and the cards on the day's facts, the best-hour note on the day's hours, the colour line on the day's element. So one scan of the date's 60-day pillar block counts them all: `block × times-per-block + rank-within-block`. Content's `dailySlots(facts, chartSeed)` runs the reading with a recording picker to list a day's slots; the slots depend only on the facts, never on the steps. `slot-visits.test.ts` checks, over 150 days and three fixtures, that every slot's count goes up by exactly one per occurrence, which holds only if the 60-day assumption does. The lead's counts equal what `leadVisit` gave (headline and agency identical over 450 fixture-days). The body changed only in its appended day-element sentence, which now steps by visit too.
 
-**Pools.** In `content/src/banks/daily/cards.ts`, `ELEMENT_CARDS`, `TEN_GOD_CARDS` and `STAGE_CARDS` change from one `[title, line]` to a pool of pairs. `BEST_HOUR_LINES`, `dayColourLine`, the suits headings and `WATCH_REASONS` become pools. `cards.ts`, `day-colour.ts` and `today-suits.ts` pick with `cyclePick(pool, chart, slot, visits[slot])`. Interaction cards move from `dayNumber(seed.date)` to their visit count.
+**Pools.** `ELEMENT_CARDS`, `TEN_GOD_CARDS` and `STAGE_CARDS` hold pools of `[title, line]` pairs. `BEST_HOUR_LINES.card` and `.cardIsEasyHour`, `DAY_COLOUR_LINES` (replacing `dayColourLine`), the suits headings and `WATCH_REASONS` are pools whose placeholders (`{window}`, `{colour}`, `{acts}`) are filled after the pick. Each holds its old text as its only entry, so phase 2 changes no words, only which entry a pool of two or more shows. Interaction cards and the modifier moved from day-number to visit stepping.
 
-**Ahead.** `periodReading` gains the same visit stepping, counted in `presentation/src/ahead-screen.ts` the way `slotVisits` counts days: a block scan over the period's own cycle (months: 12 or 60 months; years: 12 or 60 years), depending on whether the period's lead follows only its sign or its whole pillar. Phase 2 confirms which, from `periodReading`'s lead choice, before writing the scan.
+**Day-type slots step by day number.** The suits heading and the Watch reason follow the day's officer, which depends on the solar month as well as the day, so they have no fixed cycle to count visits over. They step by day number, and the pool-minimum test finds sizes that avoid every gap they actually show within 14 days.
 
-**People.** `pairReading` picks link-card lines with `pickDistinct` across the screen, instead of one fixed line per (link, area), so two cards on one screen can't share a line.
+**Today's colour joins the screen model.** `todayScreenModel` computes `colour` with the same visits, so Today scans once per render. The web component reads `model.colour` and no longer needs a client hook.
 
-**Pool minimums (R4).** `presentation/test/pool-minimums.test.ts` walks two years of dates for every fixture, records each slot key's largest count within any 14-day window, and compares it with the pool's length. The failures it lists are Phase 3's pool worklist.
+**Topic pages mirror the card.** A topic page's title, and its opening line where the page has no fuller opening of its own, come from the same pool and visit as the card that opened it: `TopicContext.seed` carries the day's visits, and without it (existence checks) the pool's first entry heads the page. The explanations stay fixed. The page's "comes back on" look-ahead now reads facts only (`dailyFacts`), not full readings, which more than pays for the page's own visit scan.
+
+**Ahead steps by period number, not visits.** Counting visits would mean a 60-period scan for every month and year on screen, and Ahead's lists show 12 months or 10 years at once. Each period instead steps by its own number (months since January 1970, the year, the decade's start year ÷ 10) through `steppedPicker`. Neighbouring periods then pick consecutive entries, and the pool-minimum test finds sizes that keep any 12 consecutive months, and any decade's years, free of repeats. Slots carry the span (`month:lead:…`, `year:element:…`), so months and years rotate independently.
+
+**People: each line the screen hasn't shown.** `pairReading` takes the first pool entry not already on the screen (`firstUnused`) for link cards and for the two "brings out" lines, from a new `PAIR_BRINGS` bank (seeded from the period ten-god titles it used before). A pool of n keeps n links of one kind distinct.
+
+**Pool minimums (R4, R5).** `presentation/test/pool-minimums.ts` lists each slot's occurrences with the step it picks by: visit count or day number on Today over a year, month number over ten years and year over a century on Ahead. A pool of size n repeats inside the window exactly when two occurrences inside it have steps differing by a multiple of n, so the test reads off each slot's smallest safe size. It runs over the five reading fixtures plus sixty pool charts (births 373 days apart from 1950: every day pillar, a spread of years, every two-hour block), because the fixtures alone missed short pools that ordinary charts hit (review, 2026-10-23). The 119 pools that repeat as they stand are the known list and phase 3's pool worklist.
+
+**Topic pages without a card.** A quiet day's character page (opened from the lead) and an element page whose element joined the body have no card, so no visit. They take the pool's first entry, so their titles don't change day to day. `topic-card-mirror.test.ts` checks that every element, character and pace card shares its page's title over 60 days. The card's line opens the page only where the fuller page (M20-26) has no opening of its own.
+
+**Render time.** Scanning every slot instead of just the lead first cost a day step on Today about 16 ms at 4× CPU throttle (about 82 ms median on the phase 1 build, about 98 ms after). It also tripled the copy audit's run time (21 s, against M20-02's 10 s), because every topic page re-scanned its block. So the block scan is memoized, like `chartFor`, on birth, config, zone and block: one entry, kept for the next date in the same block. After that, a day step takes about 70 ms median at 4× throttle, faster than before phase 2, and the copy audit runs in 2.4 s.
 
 ## Phase 3 — Words (R6–R9)
 
@@ -51,12 +59,14 @@ Three phases in one ticket, each committed and reviewed on its own, deployed onc
 | --- | --- |
 | `.claude/specs/foundation/VOICE.md` | Plain writing section (R1) |
 | `packages/content/test/plain-writing{.test,-rules,-known}.ts` | New test, rules and line walk, known-failures list |
+| `packages/content/src/rotation.ts` | Picker, stepped picker, first-unused, placeholder fill |
 | `packages/presentation/src/lead-visit.ts` → `slot-visits.ts` | One 60-day scan, a visit count per slot |
+| `packages/presentation/src/{today-colour,today-screen,topic-page}.ts`, `apps/web/.../today-colour.tsx` | Colour in the screen model; topic pages mirror the card |
 | `packages/content/src/types.ts` | `DailySeed.visits` |
 | `packages/content/src/banks/**` | Pools in place of fixed lines; rewritten entries |
 | `packages/content/src/readings/daily/{cards,day-colour,today-suits,daily-reading}.ts` | Pick by visit |
-| `packages/content/src/readings/{ahead,people}/*`, `presentation/src/ahead-screen.ts` | Ahead visits; People distinct lines |
-| `packages/presentation/test/{pool-minimums,screen-repeats}.test.ts` | New |
+| `packages/content/src/readings/{ahead,people}/*`, `presentation/src/ahead-screen.ts` | Ahead steps by period number; People distinct lines |
+| `packages/presentation/test/{slot-visits,pool-minimums,screen-repeats}.test.ts`, `pool-minimums{,-known}.ts` | New |
 | `packages/presentation/scripts/copy-audit*` | `--sample` |
 | this ticket | `worklist.md`, `after.json`, before/after table |
 

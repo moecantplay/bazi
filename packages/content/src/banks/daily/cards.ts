@@ -44,44 +44,47 @@ export const INTERACTION_CARDS: Record<InteractionType, Record<LifeArea, readonl
   },
 };
 
-/** The day's element as its effect, when it didn't join the first screen. */
-export const ELEMENT_CARDS: Record<Element, { suits: CardText; against: CardText }> = {
-  wood: { suits: ["Room to grow today", "New starts and fresh plans take hold more easily."], against: ["Plans sprawl a little today", "Keep to one or two things rather than starting many."] },
-  fire: { suits: ["You come across well today", "A good day to be seen and to share what you know."], against: ["Tempers run a little warm", "Take a breath before you answer anything sharp."] },
-  earth: { suits: ["Steady ground under you", "Solid, patient work goes further than usual."], against: ["The day may feel heavy", "Keep the list short and move at your own pace."] },
-  metal: { suits: ["You're thinking clearly", "Decisions and edits come easier than usual."], against: ["Edges feel sharper today", "Softer handling goes further with people."] },
-  water: { suits: ["Things flow your way", "Conversations and ideas move easily today."], against: ["Things move slower than you'd like", "Let them take the time they take."] },
+/** The day's element as its effect, when it didn't join the first screen. Each a pool, stepped by visit (M24-11). */
+export const ELEMENT_CARDS: Record<Element, { suits: readonly CardText[]; against: readonly CardText[] }> = {
+  wood: { suits: [["Room to grow today", "New starts and fresh plans take hold more easily."]], against: [["Plans sprawl a little today", "Keep to one or two things rather than starting many."]] },
+  fire: { suits: [["You come across well today", "A good day to be seen and to share what you know."]], against: [["Tempers run a little warm", "Take a breath before you answer anything sharp."]] },
+  earth: { suits: [["Steady ground under you", "Solid, patient work goes further than usual."]], against: [["The day may feel heavy", "Keep the list short and move at your own pace."]] },
+  metal: { suits: [["You're thinking clearly", "Decisions and edits come easier than usual."]], against: [["Edges feel sharper today", "Softer handling goes further with people."]] },
+  water: { suits: [["Things flow your way", "Conversations and ideas move easily today."]], against: [["Things move slower than you'd like", "Let them take the time they take."]] },
 };
 
-/** The day's character, by its English name. */
-export const TEN_GOD_CARDS: Record<string, CardText> = {
-  "Friend": ["A day for doing it together", "People in the same spot as you are the best company today."],
-  "Rob Wealth": ["A competitive streak", "Someone close may want the same thing you do. Keep it friendly."],
-  "Eating God": ["A day to make things for fun", "Cook, draw, tinker: things done for the joy of it go well."],
-  "Hurting Officer": ["Clever, a little cheeky", "You spot the shortcut others miss. Say it kindly."],
-  "Indirect Wealth": ["A day for lucky finds", "Unplanned chances show up, so keep an eye out."],
-  "Direct Wealth": ["A day for steady work", "Plain, reliable effort pays off today."],
-  "Seven Killings": ["Pressure that sharpens you", "Demands run high, and meeting them builds strength."],
-  "Direct Officer": ["A day for doing things properly", "Rules, routines and fair play work in your favour."],
-  "Indirect Resource": ["Good for learning sideways", "Answers come from odd angles: a side conversation, a walk, a stray article."],
-  "Direct Resource": ["A day to be looked after", "Help and care reach you more easily today. Let them."],
+/** The day's character, by its English name. Each a pool, stepped by visit (M24-11). */
+export const TEN_GOD_CARDS: Record<string, readonly CardText[]> = {
+  "Friend": [["A day for doing it together", "People in the same spot as you are the best company today."]],
+  "Rob Wealth": [["A competitive streak", "Someone close may want the same thing you do. Keep it friendly."]],
+  "Eating God": [["A day to make things for fun", "Cook, draw, tinker: things done for the joy of it go well."]],
+  "Hurting Officer": [["Clever, a little cheeky", "You spot the shortcut others miss. Say it kindly."]],
+  "Indirect Wealth": [["A day for lucky finds", "Unplanned chances show up, so keep an eye out."]],
+  "Direct Wealth": [["A day for steady work", "Plain, reliable effort pays off today."]],
+  "Seven Killings": [["Pressure that sharpens you", "Demands run high, and meeting them builds strength."]],
+  "Direct Officer": [["A day for doing things properly", "Rules, routines and fair play work in your favour."]],
+  "Indirect Resource": [["Good for learning sideways", "Answers come from odd angles: a side conversation, a walk, a stray article."]],
+  "Direct Resource": [["A day to be looked after", "Help and care reach you more easily today. Let them."]],
 };
 
-/** Your pace: the day's stage in the twelve-stage cycle, by its English name. */
-export const STAGE_CARDS: Record<string, CardText> = {
-  "Growth": ["Something new is starting", "Fresh and eager, still finding its feet."],
-  "Bath": ["Open and a little exposed", "Impressions land easily today, good and bad."],
-  "Coming of Age": ["Ready to be taken seriously", "A good day to step up and be counted."],
-  "Taking Office": ["Capable and in motion", "Plenty of drive for the work in front of you."],
-  "Peak": ["You're at full strength", "Plenty in the tank, with little held back for later."],
-  "Decline": ["Just past your peak", "Still strong. Ease the pace before it eases you."],
-  "Illness": ["Running at half speed", "Trim the list rather than push through it."],
-  "Stillness": ["A pause day", "Good for waiting before you decide."],
-  "Storage": ["A day to put things away", "Sorting and keeping go better than starting."],
-  "Severance": ["A clean slate", "Something has ended, so there's room to begin."],
-  "Conception": ["An idea taking shape", "Something new is forming that isn't visible yet."],
-  "Nurture": ["Growing quietly", "Progress happens out of sight today; let it."],
+/** Your pace: the day's stage in the twelve-stage cycle, by its English name. Each a pool, stepped by visit (M24-11). */
+export const STAGE_CARDS: Record<string, readonly CardText[]> = {
+  "Growth": [["Something new is starting", "Fresh and eager, still finding its feet."]],
+  "Bath": [["Open and a little exposed", "Impressions land easily today, good and bad."]],
+  "Coming of Age": [["Ready to be taken seriously", "A good day to step up and be counted."]],
+  "Taking Office": [["Capable and in motion", "Plenty of drive for the work in front of you."]],
+  "Peak": [["You're at full strength", "Plenty in the tank, with little held back for later."]],
+  "Decline": [["Just past your peak", "Still strong. Ease the pace before it eases you."]],
+  "Illness": [["Running at half speed", "Trim the list rather than push through it."]],
+  "Stillness": [["A pause day", "Good for waiting before you decide."]],
+  "Storage": [["A day to put things away", "Sorting and keeping go better than starting."]],
+  "Severance": [["A clean slate", "Something has ended, so there's room to begin."]],
+  "Conception": [["An idea taking shape", "Something new is forming that isn't visible yet."]],
+  "Nurture": [["Growing quietly", "Progress happens out of sight today; let it."]],
 };
+
+/** A stage the bank has no entry for. */
+export const STAGE_CARD_FALLBACK: CardText = ["Your pace today", "Take the day at the speed it offers."];
 
 /** Small signs: one plain title per star key. */
 export const STAR_TITLES: Record<string, string> = {

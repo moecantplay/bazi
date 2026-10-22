@@ -6,9 +6,10 @@
 
 import type { Branch, DayFact } from "@daymaster/bazi-engine";
 import { textRun } from "../tokens.js";
-import type { TopicContext, TopicPage } from "../types.js";
+import type { DailySeed, TopicContext, TopicPage } from "../types.js";
 import { BRANCH_ANIMALS, elementWord, hourWindowLabel } from "../vocab.js";
-import { ELEMENT_CARDS, STAGE_CARDS, STAR_TITLES, TEN_GOD_CARDS } from "../banks/daily/cards.js";
+import { pickerFor, type Picker } from "../rotation.js";
+import { ELEMENT_CARDS, STAGE_CARDS, STAGE_CARD_FALLBACK, STAR_TITLES, TEN_GOD_CARDS } from "../banks/daily/cards.js";
 import { AREA_SIGN_SUBJECT, AREA_TITLE_PHRASE, INTERACTION_TOPICS } from "../banks/topics/interactions.js";
 import {
   ELEMENT_NAME_ORIGIN,
@@ -88,8 +89,8 @@ function interactionPage(fact: TransitFact): TopicPage {
   });
 }
 
-function tenGodPage(fact: FactOf<"ten-god-day">, quiet: boolean): TopicPage {
-  const [title, line] = TEN_GOD_CARDS[fact.english] ?? TEN_GOD_CARDS["Friend"]!;
+function tenGodPage(fact: FactOf<"ten-god-day">, quiet: boolean, pick: Picker): TopicPage {
+  const [title, line] = pick(TEN_GOD_CARDS[fact.english] ?? TEN_GOD_CARDS["Friend"]!, `card:ten-god:${fact.english}`);
   const topic = TEN_GOD_TOPICS[fact.english] ?? TEN_GOD_TOPICS["Friend"]!;
   return page({
     title: textRun(title),
@@ -102,9 +103,9 @@ function tenGodPage(fact: FactOf<"ten-god-day">, quiet: boolean): TopicPage {
   });
 }
 
-function elementPage(fact: FactOf<"element-day">): TopicPage {
+function elementPage(fact: FactOf<"element-day">, pick: Picker): TopicPage {
   const tone = fact.favorable ? "suits" : "against";
-  const [title, line] = ELEMENT_CARDS[fact.element][tone];
+  const [title, line] = pick(ELEMENT_CARDS[fact.element][tone], `card:element:${fact.element}:${tone}`);
   const name = elementWord(fact.element);
   return page({
     title: textRun(title),
@@ -117,9 +118,9 @@ function elementPage(fact: FactOf<"element-day">): TopicPage {
   });
 }
 
-function stagePage(fact: FactOf<"stage-day">): TopicPage {
+function stagePage(fact: FactOf<"stage-day">, pick: Picker): TopicPage {
   const english = fact.stage.english;
-  const [title, line] = STAGE_CARDS[english] ?? ["Your pace today", "Take the day at the speed it offers."];
+  const [title, line] = pick(STAGE_CARDS[english] ?? [STAGE_CARD_FALLBACK], `card:stage:${english}`);
   return page({
     title: textRun(title),
     oldName: textRun(`The old calendars call this stage ${english}.`),
@@ -166,31 +167,48 @@ function starsPage(stars: readonly FactOf<"star-day">[]): TopicPage {
   });
 }
 
+/** Without the day's seed, a card pool's first entry heads the page. */
+function firstEntry<T>(pool: readonly T[]): T {
+  return pool[0] as T;
+}
+
+/**
+ * The card's own pick when Today counted the slot; the pool's first entry when
+ * no card shows it (a quiet day's character page, opened from the lead, or an
+ * element that joined the body), so those titles never change day to day.
+ */
+function cardPicker(seed: DailySeed): Picker {
+  const pick = pickerFor(seed);
+  return <T>(pool: readonly T[], slot: string): T => (seed.visits?.[slot] === undefined ? firstEntry(pool) : pick(pool, slot));
+}
+
 /**
  * The page for a topic key, or null when the day carries nothing under it.
- * With the chart's context, the page gains fuller sections (M20-26).
+ * With the chart's context, the page gains fuller sections (M20-26), and its
+ * title, and its opening line where the page has no fuller opening of its
+ * own, are the ones the card showed (M24-11).
  */
 export function topicPage(topic: string, facts: readonly DayFact[], context?: TopicContext): TopicPage | null {
-  const base = basePage(topic, facts);
+  const base = basePage(topic, facts, context ? cardPicker(context.seed) : firstEntry);
   return base && context ? deepenTopicPage(base, topic, facts, context) : base;
 }
 
-function basePage(topic: string, facts: readonly DayFact[]): TopicPage | null {
+function basePage(topic: string, facts: readonly DayFact[], pick: Picker): TopicPage | null {
   if (topic.startsWith("interaction:")) {
     const fact = rankTransits(facts).find((candidate) => interactionTopic(candidate) === topic);
     return fact ? interactionPage(fact) : null;
   }
   if (topic.startsWith("ten-god:")) {
     const fact = facts.find((candidate): candidate is FactOf<"ten-god-day"> => candidate.kind === "ten-god-day" && `ten-god:${candidate.english}` === topic);
-    return fact ? tenGodPage(fact, rankTransits(facts).length === 0) : null;
+    return fact ? tenGodPage(fact, rankTransits(facts).length === 0, pick) : null;
   }
   if (topic.startsWith("element:")) {
     const fact = facts.find((candidate): candidate is FactOf<"element-day"> => candidate.kind === "element-day" && `element:${candidate.element}` === topic);
-    return fact ? elementPage(fact) : null;
+    return fact ? elementPage(fact, pick) : null;
   }
   if (topic.startsWith("stage:")) {
     const fact = facts.find((candidate): candidate is FactOf<"stage-day"> => candidate.kind === "stage-day" && `stage:${candidate.stage.english}` === topic);
-    return fact ? stagePage(fact) : null;
+    return fact ? stagePage(fact, pick) : null;
   }
   if (topic === "hours") {
     const hours = facts.filter((candidate): candidate is FactOf<"hour-interaction"> => candidate.kind === "hour-interaction");

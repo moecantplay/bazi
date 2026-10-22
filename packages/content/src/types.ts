@@ -102,12 +102,12 @@ export interface DailySeed {
   /** The displayed date, "YYYY-MM-DD". */
   date: string;
   /**
-   * How many times the day's lead situation has come up before (presentation
-   * counts it). Each visit steps the first-screen pools to their next entry,
-   * so a situation never reads the same on two visits in a row. Absent: the
-   * day number steps them instead.
+   * How many times each slot's situation has come up before, keyed by slot
+   * (presentation counts them, M24-11). Each visit steps that slot's pool to
+   * its next entry, so a situation never reads the same on two visits in a
+   * row. A slot with no count steps by the day number instead.
    */
-  visit?: number;
+  visits?: Readonly<Record<string, number>>;
 }
 
 /**
@@ -215,6 +215,8 @@ export type TopicVisual =
  * Presentation computes it; content only phrases it (zero chart math).
  */
 export interface TopicContext {
+  /** The day's seed with its visits, so the page's head matches the card it opened from (M24-11). */
+  seed: DailySeed;
   strength: "strong" | "weak";
   /** Null when the chart has no sore spot (its problem element is absent). */
   sore: { problem: Element; remedies: Element[]; status: SoreStatus; easing: Element | null } | null;

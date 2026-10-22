@@ -8,6 +8,7 @@ import { annualPillarFacts, luckPillarFacts, monthlyPillarFactsForCalendarMonth,
 import { periodReading, type PlainReading } from "@daymaster/content";
 import { chartFor } from "./chart.js";
 import { readingZoneOf } from "./reading-zone.js";
+import { natalSeedKey } from "./seed-key.js";
 import type { StoredProfile } from "./types.js";
 
 /** How a period leans: from its lead fact. */
@@ -58,6 +59,11 @@ function leanOf(topic: string): Lean {
   return GOOD.includes(interaction) ? "good" : "even";
 }
 
+/** Months since January 1970: what a month's pools step by (M24-11). */
+export function monthNumber(year: number, month: number): number {
+  return (year - 1970) * 12 + (month - 1);
+}
+
 function view(label: string, reading: PlainReading): PeriodView {
   return { label, reading, lean: leanOf(reading.lead.topic) };
 }
@@ -70,7 +76,7 @@ function view(label: string, reading: PlainReading): PeriodView {
 export function monthView(profile: StoredProfile, year: number, month: number): PeriodView | null {
   try {
     const facts = monthlyPillarFactsForCalendarMonth(chartFor(profile), year, month, readingZoneOf(profile)).facts;
-    return view(`${MONTH_NAMES[month - 1] ?? ""} ${year}`, periodReading(facts, "month"));
+    return view(`${MONTH_NAMES[month - 1] ?? ""} ${year}`, periodReading(facts, "month", { chart: natalSeedKey(profile), step: monthNumber(year, month) }));
   } catch (error) {
     if (error instanceof RangeError) {
       return null;
@@ -80,7 +86,7 @@ export function monthView(profile: StoredProfile, year: number, month: number): 
 }
 
 export function yearView(profile: StoredProfile, year: number): PeriodView {
-  return view(`${year}`, periodReading(annualPillarFacts(chartFor(profile), year).facts, "year"));
+  return view(`${year}`, periodReading(annualPillarFacts(chartFor(profile), year).facts, "year", { chart: natalSeedKey(profile), step: year }));
 }
 
 export function decadeAges(luck: LuckPillar): string {
@@ -89,7 +95,7 @@ export function decadeAges(luck: LuckPillar): string {
 
 export function decadeView(profile: StoredProfile, luck: LuckPillar): PeriodView {
   const label = `Ages ${decadeAges(luck)} · ${luck.startYear}–${luck.startYear + 9}`;
-  return view(label, periodReading(luckPillarFacts(chartFor(profile), luck), "decade"));
+  return view(label, periodReading(luckPillarFacts(chartFor(profile), luck), "decade", { chart: natalSeedKey(profile), step: Math.floor(luck.startYear / 10) }));
 }
 
 /** Every ten-year stretch, and which one holds `year` (null before the first). */
