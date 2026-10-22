@@ -1,23 +1,29 @@
 # Worklist — plain writing
 
-The first run of `packages/content/test/plain-writing.test.ts` (2026-10-20): 1,961 lines checked, 416 failures. The full list, line by line, is `packages/content/test/plain-writing-known.ts`. It may only shrink: phase 3 rewrites each line and removes it.
+`packages/content/test/plain-writing.test.ts` (first run 2026-10-20; rule 3 gained "X, not Y" on 2026-10-23): 1,973 lines checked, 498 failures. The full list, line by line, is `packages/content/test/plain-writing-known.ts`. It may only shrink: phase 3 rewrites each line and removes it. VOICE.md's verbatim disclaimer is allowed, with its reason.
 
 | Source | Em-dash | Long sentence | Contrast | Stock phrase | Total |
 | --- | --- | --- | --- | --- | --- |
-| `function banks` | 77 | 34 | 4 | 4 | 119 |
-| `glossary.ts` | 76 | 9 | 0 | 29 | 114 |
-| `rendered: chart page` | 40 | 10 | 0 | 1 | 51 |
-| `vocab.ts` | 41 | 0 | 0 | 1 | 42 |
-| `banks/elements.ts` | 24 | 1 | 0 | 0 | 25 |
-| `read-more.ts` | 12 | 3 | 0 | 0 | 15 |
+| `glossary.ts` | 76 | 9 | 28 | 29 | 142 |
+| `function banks` | 77 | 34 | 9 | 4 | 124 |
+| `rendered: chart page` | 40 | 10 | 12 | 1 | 63 |
+| `vocab.ts` | 41 | 0 | 2 | 1 | 44 |
+| `banks/elements.ts` | 24 | 1 | 3 | 0 | 28 |
+| `read-more.ts` | 12 | 3 | 3 | 0 | 18 |
+| `banks/natal-interactions.ts` | 9 | 0 | 3 | 2 | 14 |
+| `banks/day-master.ts` | 5 | 0 | 7 | 0 | 12 |
+| `banks/stars.ts` | 7 | 0 | 3 | 1 | 11 |
 | `banks/day-guidance.ts` | 11 | 0 | 0 | 0 | 11 |
-| `banks/natal-interactions.ts` | 9 | 0 | 0 | 2 | 11 |
 | `banks/horizons.ts` | 10 | 0 | 0 | 0 | 10 |
-| `banks/stars.ts` | 7 | 0 | 1 | 1 | 9 |
-| `banks/day-master.ts` | 5 | 0 | 0 | 0 | 5 |
-| `banks/topics/depth.ts` | 0 | 3 | 0 | 0 | 3 |
+| `banks/topics/depth.ts` | 0 | 3 | 6 | 0 | 9 |
+| `banks/daily/friction.ts` | 0 | 0 | 3 | 0 | 3 |
+| `banks/ahead/period.ts` | 0 | 0 | 2 | 0 | 2 |
+| `banks/daily/cards.ts` | 0 | 0 | 2 | 0 | 2 |
+| `banks/topics/day.ts` | 0 | 0 | 2 | 0 | 2 |
+| `banks/topics/interactions.ts` | 0 | 0 | 1 | 0 | 1 |
+| `banks/welcome.ts` | 0 | 0 | 1 | 0 | 1 |
 | `marks.ts` | 0 | 1 | 0 | 0 | 1 |
-| **Total** | 312 | 61 | 5 | 38 | 416 |
+| **Total** | 312 | 61 | 87 | 38 | 498 |
 
 - **function banks**: mostly `natalStarLine`, rendered for every star in every palace (21 × 4). It also prints each star's gloss twice, live on the chart page ("The an empty seat at the table — … sits in your roots — an empty seat at the table — …"). That's the bug class [M20-01](../../m20-clarity/01-fix-duplicated-glosses/requirements.md) covers.
 - **rendered: chart page**: the strength tally and composed star and interaction lines in `natal-reading.ts`.

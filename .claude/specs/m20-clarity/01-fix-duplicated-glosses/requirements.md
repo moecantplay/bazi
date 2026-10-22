@@ -2,6 +2,8 @@
 
 Status: draft · Milestone: M20 · Ticket: 01
 
+> 2026-10-23: the chart page's star lines ("The an empty seat at the table — … sits in your roots — an empty seat at the table — …") printed their gloss twice too. [M24-11](../../m24-reshape/11-words/requirements.md) fixed that one (`natalStarLine` says the gloss once). Check the rest of this list against the app as it is now before running this ticket.
+
 ## Problem
 
 Several reading lines print their explanation twice and lose the name they are explaining. Live on 2026-09-29 for Fixture A:

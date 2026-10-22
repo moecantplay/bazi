@@ -98,6 +98,6 @@ A reader who opens the app every day doesn't meet the same sentence again within
 
 Raised during the build (2026-10-20, phase 1 review):
 
-- [ ] **Does "X, not Y" count as a contrast construction?** For example "a hinge, not a wound", "light, not lacking", "a season, not a verdict". It shows up about 49 times in the reference copy and the chart banks. The approved rule 3 doesn't list it, so the test doesn't flag it. Recommendation: yes. It's the most common version of the habit M20-13 described. If you agree, rule 3 gains it and those lines join the worklist.
-- [ ] **The chart page prints each star's gloss twice** (live, see worklist.md). M20-01 covers this class of bug. Recommendation: fix it inside this ticket when `stars.ts` is rewritten in phase 3, and note it on M20-01, rather than running M20-01 separately.
+- [x] **Does "X, not Y" count as a contrast construction?** For example "a hinge, not a wound", "light, not lacking", "a season, not a verdict". It shows up about 49 times in the reference copy and the chart banks. The approved rule 3 doesn't list it, so the test doesn't flag it. Recommendation: yes. It's the most common version of the habit M20-13 described. If you agree, rule 3 gains it and those lines join the worklist. Answer (owner, 2026-10-23): yes; rule 3 gains it.
+- [x] **The chart page prints each star's gloss twice** (live, see worklist.md). M20-01 covers this class of bug. Recommendation: fix it inside this ticket when `stars.ts` is rewritten in phase 3, and note it on M20-01, rather than running M20-01 separately. Answer (owner, 2026-10-23): yes, fixed here in phase 3, noted on M20-01.
 

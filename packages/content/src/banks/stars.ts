@@ -61,15 +61,18 @@ function starTermRun(input: StarInput): Extract<ContentRun, { kind: "term" }> {
   return { kind: "term", term: input.english, gloss: glossFor(input), han: input.chinese };
 }
 
-/** A natal star line: "The Scholar Star (文昌) sits in your career palace — …". */
+/**
+ * A natal star line: "In your career palace: {gloss}. {texture}". The star's
+ * term run renders as its gloss, so the gloss is said once (M20-01, M24-11).
+ */
 export function natalStarLine(input: StarInput, palace: Palace): DraftLine {
   const gloss = glossFor(input);
   const texture = textureFor(input);
-  const text = `The ${input.english} (${input.chinese}) sits in your ${palaceWord(palace)} — ${gloss}. ${texture}`;
+  const text = `In your ${palaceWord(palace)}: ${gloss}. ${texture}`;
   const runs: TokenLine = [
-    { kind: "text", text: "The " },
+    { kind: "text", text: `In your ${palaceWord(palace)}: ` },
     starTermRun(input),
-    { kind: "text", text: ` sits in your ${palaceWord(palace)} — ${gloss}. ${texture}` },
+    { kind: "text", text: `. ${texture}` },
   ];
   return {
     text,

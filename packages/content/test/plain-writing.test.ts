@@ -7,7 +7,8 @@
 
 import { describe, expect, it } from "vitest";
 import { KNOWN_PLAIN_WRITING_FAILURES } from "./plain-writing-known.js";
-import { brokenRules, failureKey, plainWritingLines, uncheckedFunctions, type PlainFailure } from "./plain-writing-rules.js";
+import { brokenRules } from "../src/plain-writing.js";
+import { failureKey, plainWritingLines, uncheckedFunctions, type PlainFailure } from "./plain-writing-rules.js";
 
 const { lines, functionExports } = await plainWritingLines();
 const failures: PlainFailure[] = lines.flatMap(({ module, text }) => brokenRules(text).map((rule) => ({ rule, module, text })));
@@ -47,6 +48,8 @@ describe("plain writing (VOICE.md)", () => {
     expect(brokenRules("If not today, it is fine tomorrow.")).toEqual([]);
     expect(brokenRules("Planned; unplanned, it drifts.")).toEqual(["contrast"]);
     expect(brokenRules("Aimed, it cuts through; unaimed, it cuts whatever's near.")).toEqual(["contrast"]);
-    expect(brokenRules("A stage is a season, not a verdict.")).toEqual(["stock-phrase"]);
+    expect(brokenRules("A stage is a season, not a verdict.")).toEqual(["contrast", "stock-phrase"]);
+    expect(brokenRules("Friction is movement: a hinge, not a wound.")).toEqual(["contrast"]);
+    expect(brokenRules("Whether or not you go, rest first.")).toEqual([]);
   });
 });

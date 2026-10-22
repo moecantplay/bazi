@@ -28,8 +28,8 @@ What makes copy read as generated, named so a test can catch it (owner, 2026-10-
 
 1. **No em-dashes.** Use a full stop, a comma or a colon. An en-dash belongs only between numbers ("5–7 pm"), never spaced as a dash.
 2. **Sentences of 25 words or fewer.**
-3. **No contrast constructions:** "not X, but Y"; "X; un-X, Y"; "aimed, it cuts through; unaimed, it cuts whatever's near".
-4. **No stock openers or filler from a named list.** The list lives in `plain-writing-rules.ts` with a reason beside each entry, and grows when a phrase starts repeating. It starts with the old Today's fixed opener ("The day sits at your…") and the reassurance and abstraction the reference copy repeats: "verdict", "texture", "flavour", "seasoning", "never a prediction", "they never sentence". "Today's sign…" stays: it is how a topic page opens the mechanics (rule 11), once per page and never on Today.
+3. **No contrast constructions:** "not X, but Y"; "X; un-X, Y"; "aimed, it cuts through; unaimed, it cuts whatever's near"; "X, not Y" ("a hinge, not a wound"; owner, 2026-10-23). Say what it is.
+4. **No stock openers or filler from a named list.** The list lives in `packages/content/src/plain-writing.ts` with a reason beside each entry, and grows when a phrase starts repeating. It starts with the old Today's fixed opener ("The day sits at your…") and the reassurance and abstraction the reference copy repeats: "verdict", "texture", "flavour", "seasoning", "never a prediction", "they never sentence". "Today's sign…" stays: it is how a topic page opens the mechanics (rule 11), once per page and never on Today.
 5. **A screen says each thing once.** No sentence twice on one screen, and no two sentences on one screen sharing a 4-word phrase. A title may echo the line it introduces.
 
 Review checklist (not mechanical): at most one metaphor or comparison per card.

@@ -17,7 +17,7 @@ Check a task only with a one-line evidence note.
 
 ## Phase 3 — Words
 
-- [ ] 8. `screen-repeats.test.ts` over every screen, reusing the audit collector: window, within-view rules, and plain-writing rules 1–4 on rendered sentences (R6, R2)
+- [x] 8. `screen-repeats.test.ts` over every screen, reusing the audit collector: window, within-view rules, and plain-writing rules 1–4 on rendered sentences (R6, R2) — counts per surface as a ratchet that may only go down (`screen-repeats-known.ts`): Today 3,732 window repeats, People 66 said twice, topic pages 1,456 phrase pairs and 3,778 contrast breaks, and so on; rules now in `content/src/plain-writing.ts`, shared by both packages
 - [ ] 9. Rewrite banks with the content-writer agent, worst first, until the known-failures list, the pool list and R6 are empty; delete the known-failures mechanism (R7)
 - [ ] 10. `copy-audit --sample`; publish the A and D sample for the owner; record sign-off (R9)
 - [ ] 11. `after.json` and the before/after table; R8 targets met (R8)

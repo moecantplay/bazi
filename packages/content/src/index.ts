@@ -80,3 +80,4 @@ export { OFFICER_DAY_HEADLINES, welcomeHeadline } from "./banks/welcome.js";
 export { portraitLine } from "./banks/you/portrait.js";
 export { FIRST_WEEK_NOTES, firstWeekKicker, type FirstWeekPart } from "./banks/first-week.js";
 export { dayColour, dayColourSlot, type DayColour, type DayColourMode } from "./readings/daily/day-colour.js";
+export { brokenRules, type PlainRule } from "./plain-writing.js";
