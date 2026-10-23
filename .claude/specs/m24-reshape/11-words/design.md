@@ -64,6 +64,22 @@ Three phases in one ticket, each committed and reviewed on its own, deployed onc
 - Two em-dashes in fixed UI text on the chart page (`chart-view.tsx`) are outside this ticket (fixed UI strings are out of scope).
 - Find a day's doubled officer gloss is noted on M20-01.
 
+## Phase 4 — Word variety (R11, R12)
+
+Proposed 2026-10-23, for the owner to approve.
+
+**Choice groups in the bank string.** An entry like `"[Name it|Say it] out loud once and it tends to [lose its grip|ease off]."` reads four ways. Brackets and pipes appear in no bank string today, so the syntax can't collide with text, and `{placeholder}` fills still run after the groups resolve. The writer picks each part for its sentence, so every combination is one a person chose.
+
+**Resolved in the picker.** `pickerFor` and `steppedPicker` in `content/src/rotation.ts` resolve groups in whatever they return (a string, or each string of a `[title, line]` pair), so every rotating line gets them with no change at the call sites. Lines that never go through a picker get no groups, and a rendered-screen check makes sure no bracket gets through.
+
+**Each comeback gets the next combination.** The pool entry still steps as it does now: `(offset + step) mod n` for a pool of n. The combination steps once per comeback: `(comboOffset + floor(step / n)) mod m` for m combinations, read like an odometer across the groups. So the R4 window still holds on the sentence, and when the same sentence returns it has different words in it, cycling through all m before any repeat. `comboOffset` hashes chart and slot, so two charts don't share wordings on the same day.
+
+**Checked by expansion.** `collect.ts` expands every combination of every line, so `plain-writing`, `voice` and the new "a"/"an" check see each wording. The limits (3 groups per sentence, 4 parts per group, so at most 64 wordings) keep the walk bounded. Groups found in a topic-page bank or a fixed-line bank fail the test.
+
+**Word caps (R12).** `presentation/test/word-variety.test.ts` counts content words and two-word phrases on rendered screens, using the copy audit's collector like `screen-repeats` does: per 7-day window of Today, per 12-month window of Ahead, per screen elsewhere. Stop words and the R12 exempt list are skipped. Caps are proposed from a measured run (task 15), then approved. The first failing run becomes the rewrite's worklist, as phase 1's did.
+
+**Rewrite.** The content-writer agent takes the worst banks first, as in phase 3, with a brief that adds: VOICE.md's overused-word list, the bank's top words from the worklist, and "add choice groups where a word or phrase repeats; every part must fit its sentence."
+
 ## Changes
 
 | Area | Change |
@@ -79,6 +95,9 @@ Three phases in one ticket, each committed and reviewed on its own, deployed onc
 | `packages/content/src/readings/{ahead,people}/*`, `presentation/src/ahead-screen.ts` | Ahead steps by period number; People distinct lines |
 | `packages/presentation/test/{slot-visits,pool-minimums,screen-repeats}.test.ts`, `pool-minimums{,-known}.ts` | New |
 | `packages/presentation/scripts/copy-audit*` | `--sample` |
+| `packages/content/src/rotation.ts`, `content/test/collect.ts` | Choice groups resolved in the picker; every combination expanded for the bank tests (Phase 4) |
+| `packages/presentation/test/word-variety.test.ts` | New (Phase 4) |
+| `.claude/specs/foundation/VOICE.md` | Overused words with plain alternatives (Phase 4) |
 | this ticket | `worklist.md`, `after.json`, before/after table |
 
 ## Alternatives considered
@@ -87,6 +106,9 @@ Three phases in one ticket, each committed and reviewed on its own, deployed onc
 - **Remember what was shown, in the store.** Breaks determinism across devices and after restore (M20-12 rejected it too).
 - **Rotate topic-page explanations.** A reference page that changes each visit is harder to learn from. Left out (requirements, out of scope).
 - **A prose-linting dependency.** Generic rules, not ours, and a new dependency (M20-13 rejected it too).
+- **Automatic synonym swaps from a word list** (Phase 4). No rewriting, but a swap that fits one sentence breaks another ("a small slip" reads fine as "a minor slip", "start one small thing" doesn't), and no one ever chose the result.
+- **A sentence generator** assembling subject, verb and object from parts (Phase 4). The most variety, but every line ends up the same shape, and the VOICE.md rules get much harder to hold.
+- **Only bigger pools** (Phase 4). Still one fixed sentence per entry, which is what the owner asked to get past; pools stay, and groups multiply them.
 
 ## Risks
 
@@ -94,10 +116,13 @@ Three phases in one ticket, each committed and reviewed on its own, deployed onc
 - **Pool sizes grow fast.** The colour line's situation (whole pillar, lean or steady) can come up most days, so its pool may need 10 or more entries. R4's test says exactly how many before any writing starts, so nothing is written blind.
 - **Rendering cost.** Covered by the phone-profile check in Phase 2.
 - **Copy written only by the agent may still read as generated.** That's the reason for the R9 owner read, and the open question on a later copywriter pass.
+- **A combination that reads wrong** (Phase 4): a part that only fits one neighbour, "a" before a vowel. Tests catch the mechanical cases; the fresh R9 sample shows real combinations for the owner to read.
+- **Test time** (Phase 4). At most 64 wordings per sentence over about 2,000 lines; measured in task 14, with the walk sampled per line if it runs past a few seconds.
 
 ## Verification
 
 - `pnpm verify` green after each phase. `plain-writing`, `pool-minimums` and `screen-repeats` pass with no known-failures left.
 - Copy audit: R8 targets met, `after.json` committed.
-- Owner sign-off on the R9 sample.
+- `word-variety` passes with the approved caps and no exceptions (Phase 4).
+- Owner sign-off on the R9 sample, regenerated after Phase 4.
 - E2E in all three looks (`e2e:looks`), then deploy and a live-app check of Today in each look × both themes, a topic page, Ahead and People.

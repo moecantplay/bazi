@@ -1,6 +1,6 @@
 # Words
 
-Status: in-progress · Milestone: M24 · Ticket: 11 · Approved by the owner 2026-10-20 ("approved", every recommendation below) · Carries [M20-12](../../m20-clarity/12-no-repeat-selection/requirements.md) (no repeats day to day), [M20-13](../../m20-clarity/13-voice-lint/requirements.md) (voice lint) and [M20-14](../../m20-clarity/14-copy-rewrite/requirements.md) (copy rewrite), all dropped into this ticket 2026-10-10. Judged against the [M20-02 baseline](../../m20-clarity/02-copy-audit-baseline/requirements.md#baseline).
+Status: in-progress · Milestone: M24 · Ticket: 11 · Approved by the owner 2026-10-20 ("approved", every recommendation below) · Carries [M20-12](../../m20-clarity/12-no-repeat-selection/requirements.md) (no repeats day to day), [M20-13](../../m20-clarity/13-voice-lint/requirements.md) (voice lint) and [M20-14](../../m20-clarity/14-copy-rewrite/requirements.md) (copy rewrite), all dropped into this ticket 2026-10-10. R11–R12 (word variety) added at the owner's request 2026-10-23, design awaiting approval. Judged against the [M20-02 baseline](../../m20-clarity/02-copy-audit-baseline/requirements.md#baseline).
 
 ## Problem
 
@@ -79,6 +79,17 @@ A reader who opens the app every day doesn't meet the same sentence again within
 - **R10. Ships once.** Every reading changes on deploy, so the new voice arrives in one step, not bank by bank.
   - Acceptance: one production deploy at the end; live-app check of Today in all three looks × both themes, a topic page, Ahead and People.
 
+### Word variety
+
+Added 2026-10-23 at the owner's request after reading the R9 sample ("there could be more variety of word choices… mix and match different words to create different sentences so it's not tied as a sentence"). The sentence tests pass, but the same few words carry the sample. Counted over the R9 sample (7 days of Today with their topic pages, Ahead's 12 months, two People pairings), Fixture A / Fixture D: "this month" 32 / 35 (Ahead, about three a month), "plan" or "plans" 42 / 51, "small" 24 / 27, "same" 21 / 23, "tends to" or "tend to" 22 / 23, "something" 15 / 25, "things" 17 / 23, "early" 20 / 11, "rather than" 8 / 7. On Today alone, Fixture A says "work" 17 times in a week and Fixture D says "day" 12 times.
+
+- **R11. Lines are built from interchangeable parts.** A rotating line may hold choice groups, written `[part|part|part]` inside the bank string, so one entry reads several ways. Each time the line comes back for a chart, it comes back in its next combination, and every combination is used before one repeats. A sentence holds at most 3 groups and a group at most 4 parts; every part fits the sentence around it. Topic-page explanations stay fixed (out of scope), so their banks hold no groups.
+  - Acceptance: the determinism test, extended (same chart and date give the same text, whatever order days are viewed in); every combination of every bank line passes `plain-writing.test.ts` and `voice.test.ts` and an "a"/"an" check; no `[` or `|` reaches a rendered screen; a test that a line's combinations all appear before any repeats.
+- **R12. No word carries the screen.** Over every fixture and 90 days, no content word or two-word phrase appears more than its cap per 7 days of Today, per 12 months of Ahead, or per screen on topic pages, People and the chart page. VOICE.md lists the overused words with plain alternatives. The words a slot exists to name (its part of life: work, family, home, plans) and the fixed lines (topic-page closing, sore-spot, old-name and best-hour lines) are exempt.
+  - Acceptance: `presentation/test/word-variety.test.ts` passes with no exceptions; caps and the exempt list approved by the owner before the rewrite starts.
+
+R9 applies again: a fresh sample with R11 and R12 in, read and signed off before the one deploy (R10).
+
 ### Before and after (R8), 2026-10-23
 
 `after.json` beside this ticket; before is [M20-02's baseline](../../m20-clarity/02-copy-audit-baseline/baseline.json). Fixture A.
@@ -109,6 +120,10 @@ Every window target holds in tests: no Today line back within 14 days, no Ahead 
 - [x] **Card titles rotate with their lines?** Recommendation: yes, as [title, line] pairs (interaction cards already work this way), except star titles and the hours card (R3). Answer (owner, 2026-10-20): yes, except star titles and the hours card.
 - [x] **Who writes?** M20-14 recommended a human copywriter for the core banks. Since then you've chosen the content-writer agent's draft over copy written in the main conversation (M24-10) and have no budget for paid services yet. Recommendation: content-writer drafts every bank, and you read the R9 sample before ship. A copywriter can still take one pass later over the banks the sample flags. Answer (owner, 2026-10-20): the content-writer agent drafts, the owner reads the R9 sample.
 - [x] **Approve the R8 targets**, or set others. Answer (owner, 2026-10-20): approved as proposed.
+- [x] **Add word variety to this ticket?** Answer (owner, 2026-10-23): yes, as R11 and R12, deploy held until they're done; lines may mix and match parts so they aren't tied to one sentence.
+- [ ] **Approve the R11 design** (`design.md`, Phase 4): choice groups inside bank strings, at most 3 per sentence and 4 parts per group, stepped so a returning line comes back in its next combination. Recommendation: approve.
+- [ ] **R12 caps and exempt list.** Measured in task 15 over every fixture, then proposed here with numbers. Starting point: no word more than 5 times in a week of Today or 12 months of Ahead, and no more than twice on one topic page, People screen or the chart page.
+- [ ] **The two R8 ratios** (Today 37.7%, Ahead 58.2%). Choice groups count toward unique sentences, so both should rise; decide at the new R9 sign-off.
 
 Raised during the build (2026-10-20, phase 1 review):
 
