@@ -6,7 +6,7 @@
 
 export const TEN_GOD_TOPICS: Record<string, { how: string; work: string }> = {
   "Friend": { how: "People in the same position as you, peers and siblings, are the best company today. Shared work goes further than solo effort.", work: "Pair up on something you'd normally do alone." },
-  "Rob Wealth": { how: "A friendly competitive edge runs through the day: someone near you may want the same thing, the same credit or the same slot. It's rivalry, not hostility.", work: "Say out loud what you're after, so it doesn't turn into quiet jostling." },
+  "Rob Wealth": { how: "A friendly competitive edge runs through the day: someone near you may want the same thing, the same credit or the same slot. The rivalry is usually good-natured, and naming it keeps it that way.", work: "Say out loud what you're after, so it doesn't turn into quiet jostling." },
   "Eating God": { how: "Work done for the joy of it goes well: cooking, making, playing. The day rewards enjoying things without keeping score.", work: "Make something small just because you like making it." },
   "Hurting Officer": { how: "You're sharp and a little rule-bending today, quick to spot what could be done better.", work: "Offer the better way, and leave out the part about the old way being wrong." },
   "Indirect Wealth": { how: "Chances show up unplanned: an offer, a lead, a lucky find. They reward attention more than planning.", work: "Say yes to one unexpected invitation." },
@@ -18,7 +18,7 @@ export const TEN_GOD_TOPICS: Record<string, { how: string; work: string }> = {
 };
 
 export const TEN_GOD_NAME_ORIGIN =
-  "The old calendars give each day a character from how the day's element relates to the element at the centre of your birth chart. There are ten of these characters, known as the ten gods, though they describe roles, not deities.";
+  "The old calendars give each day a character from how the day's element relates to the element at the centre of your birth chart. There are ten of these characters, known as the ten gods. Despite the name, each one describes a role in your day.";
 
 export const QUIET_FOR_YOU = "None of today's signs pull on your birth chart, so the day's character leads.";
 
@@ -65,8 +65,34 @@ export const HOURS_TOPIC = {
  * The notes are pools stepped by visit (M24-11); {window} is the hour window.
  */
 export const BEST_HOUR_LINES = {
-  card: ["{window} suits you best."],
-  cardIsEasyHour: ["The easy hour suits you best too."],
+  card: [
+    "Your strongest hours today: {window}.",
+    "{window} suits you best.",
+    "Save the thing that matters for {window}.",
+    "You're at your sharpest around {window}.",
+    "Aim your hardest task at {window}.",
+    "Your best stretch of the day is {window}.",
+    "Book the important call for {window} if you can.",
+    "{window} gives you the most to work with.",
+    "Keep {window} free for something that counts.",
+    "Your focus peaks at {window}.",
+    "If you can choose the hour, choose {window}.",
+    "Put your best effort into {window}.",
+    "For you, {window} is the pick of the day.",
+    "Plan the part that needs you most for {window}.",
+  ],
+  cardIsEasyHour: [
+    "That easiest window is your best one as well.",
+    "Your best hour lines up with the easiest, so use it.",
+    "The easiest stretch doubles as your strongest today.",
+    "Everything favours the easy window today, for you most of all.",
+    "Make the easy window count: it's yours as well.",
+    "Those easy hours happen to be your best ones.",
+    "Save your main task for the easiest hours; they suit you too.",
+    "The smooth window is also when your mind is clearest.",
+    "Your peak hours and the easy window fall together today.",
+    "The easy hour suits you best too.",
+  ],
   why: (window: string, element: string) => `${window} suits you best: it brings ${element}, and your birth chart runs better with more of it.`,
   whyIsEasyHour: (element: string) => `The easy hour suits you best too: it brings ${element}, and your birth chart runs better with more of it.`,
 };

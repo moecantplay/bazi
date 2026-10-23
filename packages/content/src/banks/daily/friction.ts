@@ -89,20 +89,20 @@ export const PUNISHMENT_BODIES: Pool = {
   ],
   family: [
     "A familiar family friction may come round again today: the same comment, the same tone. Noticing the pattern takes a lot of the sting out of it.",
-    "An old family sore point may get pressed today. Answer from where you are now, not from where the argument started years ago.",
+    "An old family sore point may get pressed today. Answer as the person you are now, and let the years-old version of the argument rest.",
     "Family habits may grate a little today, small and familiar. You don't have to fix them; just decide how you'll respond before it happens.",
     "An old family pattern may play out again today, familiar lines and all. Stepping out of your usual part changes the scene more than arguing does.",
     "A family niggle that never quite goes away may surface today. Treat it lightly; it rarely needs solving today.",
   ],
   home: [
-    "A small, recurring friction at home may show up again today: the dishes, the timing, the same remark. Talk about the pattern, not just today's version of it.",
+    "A small, recurring friction at home may show up again today: the dishes, the timing, the same remark. Talk kindly about the pattern itself, and the next round gets smaller.",
     "Something small at home may keep catching today, like a stone in your shoe. Stop and take it out: one honest conversation beats a week of limping.",
     "An old household niggle may come back today. Laughing about it together usually works better than winning it.",
     "A familiar little issue at home may come up again today. Swap roles on it for a day and see if it eases.",
     "A home routine that keeps rubbing may rub again. Change one small part of it instead of the whole thing.",
   ],
   plans: [
-    "A recurring setback may show up again in your long-range plans today. It's a sign the plan needs a small fix, not a bigger push.",
+    "A recurring setback may show up again in your long-range plans today. A small fix to the plan tends to clear it faster than a bigger push.",
     "The same obstacle may block a bigger goal again today. Look at why it keeps returning; the answer is usually simpler than the workaround.",
     "A slow, nagging problem in something you're building may itch today. Deal with it while it's small and you're paying attention.",
     "A long-term goal may hit the same wall again today. Try a side door: a different time, a different helper, a smaller step.",

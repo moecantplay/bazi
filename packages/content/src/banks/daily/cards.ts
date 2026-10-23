@@ -10,7 +10,7 @@ import type { LifeArea } from "../../readings/daily/life-areas.js";
 /** [title, sentence] */
 export type CardText = readonly [string, string];
 
-/** A sign link that isn't today's lead: two variants per interaction × area. */
+/** A sign link that isn't today's lead: a pool per interaction × area, stepped by visit (M24-11). */
 export const INTERACTION_CARDS: Record<InteractionType, Record<LifeArea, readonly CardText[]>> = {
   "six-clash": {
     work: [["Two things at work want one slot", "Decide early which gives way."], ["A choice to make at work", "Something at work has to move; pick what."]],
@@ -19,10 +19,10 @@ export const INTERACTION_CARDS: Record<InteractionType, Record<LifeArea, readonl
     plans: [["A plan meets a hurry", "Protect a little time for the long game."], ["A bigger plan may need rerouting", "Adjust early rather than defend it."]],
   },
   punishment: {
-    work: [["An old work niggle returns", "Name it once and it loosens."], ["The same work snag again", "Fix the cause, not just today's version."]],
+    work: [["An old work niggle returns", "Name it once and it loosens."], ["The same work snag again", "Find what keeps causing it, and fix that once."]],
     family: [["A familiar family friction", "Decide your answer before it comes."], ["An old family sore spot", "Answer from who you are now."]],
     home: [["A small repeat at home", "Talk about the pattern, kindly."], ["A household niggle", "Laugh about it together if you can."]],
-    plans: [["A recurring setback", "It needs a small fix, not a bigger push."], ["The same obstacle again", "Ask why it keeps coming back."]],
+    plans: [["A recurring setback", "Adjust one small thing before you try any harder."], ["The same obstacle again", "Ask why it keeps coming back."]],
   },
   harm: {
     work: [["Small slips at work", "A second look catches most of them."], ["A quiet snag at work", "Ask the obvious question early."]],
@@ -37,50 +37,110 @@ export const INTERACTION_CARDS: Record<InteractionType, Record<LifeArea, readonl
     plans: [["A helping hand for a bigger plan", "Say yes to the fit."], ["A long plan moves more easily", "Push the part that's been waiting."]],
   },
   trine: {
-    work: [["Work pulls your way", "Bring others in rather than going solo."], ["Support at work", "Start the task that needs more hands."]],
-    family: [["Family is on your side", "The people you come from are easier to lean on today."], ["Your relatives pull together", "A good day for a shared plan."]],
-    home: [["Home works as a team", "Split the work and share the wins."], ["Everyone at home pulls one way", "Plans made together tend to hold."]],
-    plans: [["A bigger plan has company", "Let support carry it rather than pushing alone."], ["Pieces of a goal fit together", "Move the ready parts first."]],
+    work: [["Work pulls your way", "Bring others in rather than going solo."], ["Support at work", "Start the task that needs more hands."], ["Colleagues fall in step", "Put a shared goal on the table and people tend to join."]],
+    family: [["Family is on your side", "The people you come from are easier to lean on today."], ["Your relatives pull together", "A good day for a shared plan."], ["A good day to gather the family", "Suggest the meal everyone keeps meaning to arrange."]],
+    home: [["Home works as a team", "Split the work and share the wins."], ["Everyone at home pulls one way", "Plans made together tend to hold."], ["The household runs smoothly", "Tackle the job at home that needs everyone at once."]],
+    plans: [["A bigger plan has company", "Let support carry it rather than pushing alone."], ["Pieces of a goal fit together", "Move the ready parts first."], ["Allies for the long goal", "Tell someone what you're building; they may want to help."]],
   },
 };
 
 /** The day's element as its effect, when it didn't join the first screen. Each a pool, stepped by visit (M24-11). */
 export const ELEMENT_CARDS: Record<Element, { suits: readonly CardText[]; against: readonly CardText[] }> = {
-  wood: { suits: [["Room to grow today", "New starts and fresh plans take hold more easily."]], against: [["Plans sprawl a little today", "Keep to one or two things rather than starting many."]] },
-  fire: { suits: [["You come across well today", "A good day to be seen and to share what you know."]], against: [["Tempers run a little warm", "Take a breath before you answer anything sharp."]] },
-  earth: { suits: [["Steady ground under you", "Solid, patient work goes further than usual."]], against: [["The day may feel heavy", "Keep the list short and move at your own pace."]] },
-  metal: { suits: [["You're thinking clearly", "Decisions and edits come easier than usual."]], against: [["Edges feel sharper today", "Softer handling goes further with people."]] },
-  water: { suits: [["Things flow your way", "Conversations and ideas move easily today."]], against: [["Things move slower than you'd like", "Let them take the time they take."]] },
+  wood: {
+    suits: [
+      ["Room to grow today", "New starts and fresh plans take hold more easily."],
+      ["Good soil for a new habit", "Begin one small routine today and give it a week."],
+      ["Ideas sprout quickly today", "Get the rough first version down while it's fresh."],
+    ],
+    against: [
+      ["Plans sprawl a little today", "Keep to one or two things rather than starting many."],
+      ["Too many branches at once", "Close one task before you open the next tab."],
+      ["Restless to start everything", "Pick the one start that matters and park the rest."],
+      ["Growth runs ahead of you", "Prune your list to what fits in the hours you have."],
+    ],
+  },
+  fire: {
+    suits: [
+      ["You come across well today", "Be seen today, and share what you know."],
+      ["Your warmth carries further", "A short message or a quick hello lands better than usual."],
+      ["A day to speak up", "Ideas you voice today get a fair hearing."],
+    ],
+    against: [
+      ["Tempers run a little warm", "Take a breath before you answer anything sharp."],
+      ["Things heat up quickly", "Let a hot message sit for ten minutes before sending."],
+      ["Short fuses around you", "Lower your voice a notch and others tend to follow."],
+      ["A day that runs hot", "Leave a gap in your schedule so nothing boils over."],
+    ],
+  },
+  earth: {
+    suits: [
+      ["Steady ground under you", "Solid, patient work goes further than usual."],
+      ["A good day to dig in", "Long tasks that need patience move along without much fuss."],
+      ["People can lean on you today", "Your calm makes you the one others check with."],
+    ],
+    against: [
+      ["The day may feel heavy", "Keep the list short and move at your own pace."],
+      ["Slow going today", "Expect things to take longer, and plan a little slack."],
+      ["Stuck in the mud a little", "One small finished task gets you moving again."],
+      ["Weighed down by the to-do list", "Hand off or drop one item so the rest feel lighter."],
+    ],
+  },
+  metal: {
+    suits: [
+      ["You're thinking clearly", "Decisions and edits come easier than usual."],
+      ["A sharp eye today", "Cut what isn't working from a draft, a plan or a cupboard."],
+      ["Good for making the call", "Choose between the options you've been weighing for a while."],
+    ],
+    against: [
+      ["Edges feel sharper today", "Softer handling goes further with people."],
+      ["Words may cut deeper", "Read your reply once more before it goes out."],
+      ["A critical streak runs through the day", "Mention one thing you like before the thing you'd change."],
+      ["Everyone's a little brittle today", "Ask before you correct, and give people room to disagree."],
+    ],
+  },
+  water: {
+    suits: [
+      ["Things flow your way", "Conversations and ideas move easily today."],
+      ["Easy to adapt today", "When plans change, you find the new route quickly."],
+      ["Good for listening", "People tell you more than usual if you leave a pause."],
+    ],
+    against: [
+      ["Things move slower than you'd like", "Let them take the time they take."],
+      ["A day that wanders", "Write the next step somewhere you'll see it tomorrow."],
+      ["Hard to get a firm answer", "Give people a clear date to reply by, kindly."],
+      ["Murky going today", "When things blur, ask the one question that settles it."],
+    ],
+  },
 };
 
 /** The day's character, by its English name. Each a pool, stepped by visit (M24-11). */
 export const TEN_GOD_CARDS: Record<string, readonly CardText[]> = {
-  "Friend": [["A day for doing it together", "People in the same spot as you are the best company today."]],
-  "Rob Wealth": [["A competitive streak", "Someone close may want the same thing you do. Keep it friendly."]],
-  "Eating God": [["A day to make things for fun", "Cook, draw, tinker: things done for the joy of it go well."]],
-  "Hurting Officer": [["Clever, a little cheeky", "You spot the shortcut others miss. Say it kindly."]],
-  "Indirect Wealth": [["A day for lucky finds", "Unplanned chances show up, so keep an eye out."]],
-  "Direct Wealth": [["A day for steady work", "Plain, reliable effort pays off today."]],
-  "Seven Killings": [["Pressure that sharpens you", "Demands run high, and meeting them builds strength."]],
-  "Direct Officer": [["A day for doing things properly", "Rules, routines and fair play work in your favour."]],
-  "Indirect Resource": [["Good for learning sideways", "Answers come from odd angles: a side conversation, a walk, a stray article."]],
-  "Direct Resource": [["A day to be looked after", "Help and care reach you more easily today. Let them."]],
+  "Friend": [["A day for doing it together", "People in the same spot as you are the best company today."], ["Strength in company", "Work alongside a friend or sibling and the hours go quicker."]],
+  "Rob Wealth": [["A competitive streak", "Someone close may want the same thing you do. Keep it friendly."], ["Someone's after the same prize", "Say what you want early, and the race stays good-natured."]],
+  "Eating God": [["A day to make things for fun", "Cook, draw, tinker: things done for the joy of it go well."], ["Pleasure is productive today", "An hour on a hobby or a slow meal leaves you sharper."]],
+  "Hurting Officer": [["Clever, a little cheeky", "You spot the shortcut others miss. Say it kindly."], ["A sharp tongue and a sharp eye", "Your ideas are sharp today; deliver them with a smile."]],
+  "Indirect Wealth": [["A day for lucky finds", "Unplanned chances show up, so keep an eye out."], ["Chance favours the curious", "Follow up the odd lead or offer that turns up today."]],
+  "Direct Wealth": [["A day for steady work", "Plain, reliable effort pays off today."], ["Steady effort adds up", "Chip away at the dull task; by evening it shows."]],
+  "Seven Killings": [["Pressure that sharpens you", "Demands run high, and meeting them builds strength."], ["High expectations all round", "Meet one demand properly before you turn to the next."]],
+  "Direct Officer": [["A day for doing things properly", "Rules, routines and fair play work in your favour."], ["Fair play gets noticed", "Do it by the book today and people trust you for it."]],
+  "Indirect Resource": [["Good for learning sideways", "Answers come from odd angles: a side conversation, a walk, a stray article."], ["Hunches are worth a look", "Follow up the thought that arrives while you're busy with something else."]],
+  "Direct Resource": [["A day to be looked after", "Help and care reach you more easily today. Let them."], ["Support is close by", "Ask the person who usually helps; they're glad to today."]],
 };
 
 /** Your pace: the day's stage in the twelve-stage cycle, by its English name. Each a pool, stepped by visit (M24-11). */
 export const STAGE_CARDS: Record<string, readonly CardText[]> = {
-  "Growth": [["Something new is starting", "Fresh and eager, still finding its feet."]],
-  "Bath": [["Open and a little exposed", "Impressions land easily today, good and bad."]],
-  "Coming of Age": [["Ready to be taken seriously", "A good day to step up and be counted."]],
-  "Taking Office": [["Capable and in motion", "Plenty of drive for the work in front of you."]],
-  "Peak": [["You're at full strength", "Plenty in the tank, with little held back for later."]],
-  "Decline": [["Just past your peak", "Still strong. Ease the pace before it eases you."]],
-  "Illness": [["Running at half speed", "Trim the list rather than push through it."]],
-  "Stillness": [["A pause day", "Good for waiting before you decide."]],
-  "Storage": [["A day to put things away", "Sorting and keeping go better than starting."]],
-  "Severance": [["A clean slate", "Something has ended, so there's room to begin."]],
-  "Conception": [["An idea taking shape", "Something new is forming that isn't visible yet."]],
-  "Nurture": [["Growing quietly", "Progress happens out of sight today; let it."]],
+  "Growth": [["Something new is starting", "Fresh and eager, still finding its feet."], ["Something young needs tending", "Small, regular attention helps whatever you've just begun."]],
+  "Bath": [["Open and a little exposed", "Impressions land easily today, good and bad."], ["Easily swayed today", "Other people's moods rub off on you, so pick your company."]],
+  "Coming of Age": [["Ready to be taken seriously", "Step forward today and let yourself be counted."], ["Grown into the role", "Speak with the confidence you've earned; people are ready to listen."]],
+  "Taking Office": [["Capable and in motion", "Plenty of drive for the work at hand."], ["Up to the job", "You have the stamina for a long, demanding stretch today."]],
+  "Peak": [["You're at full strength", "Plenty in the tank, with little held back for later."], ["Top of your form", "Spend your best hours on the work that counts most."]],
+  "Decline": [["Just past your peak", "Still strong. Ease the pace before it eases you."], ["Coasting down from a high", "Wrap up what's open before you take on anything new."]],
+  "Illness": [["Running at half speed", "Trim the list rather than push through it."], ["Low on reserves today", "Do the essentials well and let the extras wait."]],
+  "Stillness": [["A pause day", "Good for waiting before you decide."], ["A quiet, waiting kind of day", "Gather what you need to know, and decide once things settle."]],
+  "Storage": [["A day to put things away", "Sorting and keeping go better than starting."], ["Good for tidying away", "File, save and label things, so they're easy to find later."]],
+  "Severance": [["A clean slate", "Something has ended, so there's room to begin."], ["Something has run its course", "Let it go cleanly and enjoy the extra space."]],
+  "Conception": [["An idea taking shape", "Something new is forming that isn't visible yet."], ["The seed of a plan", "Keep the new idea to yourself a little longer while it forms."]],
+  "Nurture": [["Growing quietly", "Progress happens out of sight today; let it."], ["Quiet progress underway", "Keep feeding the slow project; it's further along than it looks."]],
 };
 
 /** A stage the bank has no entry for. */

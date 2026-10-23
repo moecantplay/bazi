@@ -49,6 +49,28 @@ export function colourFixLine(staple: Colour, helper: Colour): string {
  * {colour} is the day's colour.
  */
 export const DAY_COLOUR_LINES: Record<"lean" | "steady", readonly string[]> = {
-  lean: ["It matches the day. Wear it, or keep something {colour} close."],
-  steady: ["It keeps you steady today. A little goes far: a scarf, a mug, a pen."],
+  lean: [
+    "Today and {colour} go together. Let it show somewhere: socks, a sleeve, a phone case.",
+    "It's the day's own colour, and it suits you. Wear as much or as little as you like.",
+    "Something {colour} on your desk keeps you in tune with the day.",
+    "It matches the day. Wear it, or keep something {colour} close.",
+    "This one goes with the grain of today. Even a small touch counts.",
+    "Lean into it. Your favourite {colour} thing is a fine pick.",
+    "The day wears it, so you can too. Carry one {colour} piece with you.",
+    "It's in step with today. A touch at your wrist or on your bag is plenty.",
+    "Match the day with a little {colour}, wherever you'll see it often.",
+    "Today's shade and yours line up. Keep some {colour} where your eyes land.",
+  ],
+  steady: [
+    "It keeps you steady today. A little goes far: a scarf, a mug, a pen.",
+    "This one balances you out. Keep something {colour} within reach.",
+    "A touch of {colour} helps you keep an even keel.",
+    "It evens you out. One {colour} thing in view is enough.",
+    "Think of it as ballast: a small amount keeps you level.",
+    "It gives you something to lean on. Have one {colour} item with you through the day.",
+    "Keep some {colour} nearby to stay settled, whatever the hours bring.",
+    "It brings you back to balance. A sock, a sleeve or a screen background will do.",
+    "Small doses work best. Try {colour} in a pocket or on a keyring.",
+    "It anchors you. Add one {colour} touch to whatever you're wearing.",
+  ],
 };

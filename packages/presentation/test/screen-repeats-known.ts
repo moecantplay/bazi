@@ -7,8 +7,8 @@
 import type { ScreenCounts } from "./screen-repeats.js";
 
 export const KNOWN_SCREEN_COUNTS: ScreenCounts = {
-  "Today": { "contrast": 15, "window repeats": 3732 },
-  "Topic pages": { "phrase pairs": 1456, "contrast": 3778, "long-sentence": 144 },
+  "Today": { "window repeats": 2 },
+  "Topic pages": { "phrase pairs": 1325, "contrast": 3328, "long-sentence": 144 },
   "Ahead": { "phrase pairs": 11, "contrast": 12 },
   "You": { "phrase pairs": 5, "em-dash": 2, "contrast": 3 },
   "Your chart": { "phrase pairs": 12, "em-dash": 49, "long-sentence": 8, "contrast": 10, "stock-phrase": 3 },
