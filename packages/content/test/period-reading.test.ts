@@ -75,7 +75,8 @@ describe("periodReading", () => {
     const reading = periodReading(PERIOD_FACTS, "month", SEED);
     expect(reading.lead.topic).toBe("interaction:six-clash:day");
     expect(reading.lead.headline).toBe("Home asks for some give this month.");
-    expect(reading.lead.body.endsWith("Steady, patient building suits you this month.")).toBe(true);
+    const earthSentences = PERIOD_ELEMENT_SENTENCES.earth.suits.map((sentence) => sentence.replaceAll("{span}", "this month"));
+    expect(earthSentences.some((sentence) => reading.lead.body.endsWith(sentence)), reading.lead.body).toBe(true);
     expect(reading.cards.map((card) => card.topic)).toEqual(["interaction:trine:hour", "ten-god:Friend"]);
   });
 

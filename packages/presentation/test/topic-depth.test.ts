@@ -70,7 +70,7 @@ describe("topic depth", () => {
 
   it("every page ends on the closing line and never lists a date outside Today's range", () => {
     const page = pageFor("2026-10-09", "interaction:six-clash:year");
-    expect(plainGloss(page.closing)).toBe("This describes how a day tends to lean, not what will happen.");
+    expect(plainGloss(page.closing)).toBe("This describes how a day tends to lean; what it becomes is up to you.");
     expect(page.recurrences.every((date) => date > "2026-10-09" && date <= "2026-11-09")).toBe(true);
   });
 });

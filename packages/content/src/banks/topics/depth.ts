@@ -51,24 +51,24 @@ export const TOPIC_DEPTH: Record<string, TopicDepth> = {
     how: STEADY_HOW,
     where: [
       ["Work", "Finishing beats starting. Close out the task that's nearly done before you open anything new."],
-      ["People", "Someone may lean on you. Help with one thing, not everything."],
+      ["People", "Someone may lean on you. Pick one thing to help with and let the rest wait."],
       ["Home", "A good day for the chore you keep stepping around."],
     ],
     work: ["Pick three tasks and write them where you'll see them.", "Ask for help with the biggest one before lunch.", "When the three are done, stop taking on new work for the day."],
     nameOrigin:
-      "The old calendars give each day a character from how the day's element relates to the element at the centre of your birth chart. There are ten of these characters, known as the ten gods, though they describe roles, not deities. What this page says about this one follows The True Meaning of Zi Ping, an eighteenth-century handbook.",
+      "The old calendars give each day a character from how the day's element relates to the element at the centre of your birth chart. There are ten of these characters, known as the ten gods; despite the name, each one describes a role. What this page says about this one follows The True Meaning of Zi Ping, an eighteenth-century handbook.",
   },
   "stage:Coming of Age": {
     source: "San Ming Tong Hui vol. 2 論五行旺相休囚死並寄生十二宮: 冠帶，萬物漸榮秀，如人具衣冠也.",
     strong: {
       tagline: "Speak up today. People are listening.",
-      forYou: "Your chart moves through a twelve-step cycle, one step a day, like a life from first steps to rest. Today is step three: past the shaky start, not yet in charge.",
+      forYou: "Your chart moves through a twelve-step cycle, one step a day. Today is step three: past the shaky start, with being in charge still ahead.",
       goodFor: ["Putting your name to something", "Speaking up when it counts", "Owning a decision"],
       holdOff: ["Waiting for permission you don't need"],
     },
     weak: {
       tagline: "Speak up today. People are listening.",
-      forYou: "Your chart moves through a twelve-step cycle, one step a day, like a life from first steps to rest. Today is step three: past the shaky start, not yet in charge.",
+      forYou: "Your chart moves through a twelve-step cycle, one step a day. Today is step three: past the shaky start, with being in charge still ahead.",
       goodFor: ["Putting your name to something", "Speaking up when it counts", "Owning a decision"],
       holdOff: ["Waiting for permission you don't need"],
     },
@@ -83,7 +83,7 @@ export const TOPIC_DEPTH: Record<string, TopicDepth> = {
     ],
     work: ["Choose one thing to put your name on today.", "Say it once, clearly, to the person who decides.", "Write down what you agreed to, so it's easy to follow through tomorrow."],
     nameOrigin:
-      "The old calendars follow the element at the centre of your birth chart through twelve stages, like a life from first steps to rest, and each day lands you on one of them. The Complete Guide to the Three Fates, a sixteenth-century handbook, describes this stage as the point where things start to flourish, like a young person dressing as an adult for the first time.",
+      "The old calendars follow the element at the centre of your birth chart through twelve stages, like a life from first steps to rest. Each day lands you on one of them. The Complete Guide to the Three Fates, a sixteenth-century handbook, calls this stage the point where things start to flourish. It is like a young person dressing as an adult for the first time.",
   },
   "interaction:six-clash:year": {
     source: "San Ming Tong Hui vol. 2 論衝擊: 相衝者，十二支戰擊之神，大概為凶 (mostly trouble, so the page spends its words on the remedy).",
@@ -100,7 +100,7 @@ export const TOPIC_DEPTH: Record<string, TopicDepth> = {
       holdOff: ["Promising both sides you'll be there", "Sorting it out over text"],
     },
     how: [
-      "Expect two things to want the same slot: a family visit and a plan at home, a parent's request and someone else's. It tends to show up as friction you can see, not a quiet mood.",
+      "Expect two things to want the same slot: a family visit and a plan at home, a parent's request and someone else's. It tends to show up as friction you can see, out in the open.",
       "Left alone, it tends to settle in the least convenient way. Handled early, you get to choose what moves.",
     ],
     where: [
@@ -108,15 +108,15 @@ export const TOPIC_DEPTH: Record<string, TopicDepth> = {
       ["Home & partner", "The person closest to you may feel squeezed too. Talk it through together before either of you says yes to anyone."],
       ["Work", "Mostly clear. Just don't book anything that pulls the family knot tighter."],
     ],
-    work: ["Before noon, write down the two plans that clash.", "Pick the one that gives way, and tell the people involved yourself.", "Offer the other side a real date, not a vague 'soon'."],
+    work: ["Before noon, write down the two plans that clash.", "Pick the plan that moves, and break the news to the people involved yourself.", "Offer the other side a real date they can hold you to."],
     nameOrigin:
-      "Every day carries one of twelve animal signs, and your birth chart holds four, one for each part of life. When today's sign sits directly opposite one of yours, the two pull against each other. The Complete Guide to the Three Fates calls these signs that strike each other and counts them as mostly trouble, which is why this page spends its words on what to do about it.",
+      "Every day carries one of twelve animal signs, and your birth chart holds four, one for each part of life. When today's sign sits directly opposite one of yours, the two pull against each other. The Complete Guide to the Three Fates calls these signs that strike each other, and counts them as mostly trouble. That is why this page spends its words on what to do about it.",
   },
 };
 
 /** Added to a sign-link page when the chart already holds the same clash (owner, 2026-10-10: say it straight). */
 export const CLASH_ALREADY_IN_CHART =
-  "To be straight with you: this one usually lands harder on you than on most people, because your birth chart already carries this same tug between those two parts of life.";
+  "To be straight with you: this one usually lands harder on you than on most people. Your birth chart already carries this same tug between those two parts of life.";
 
 /** The twelve stages in plain words, with a height for the hill drawing (rise to full strength, fall to rest). */
 export const STAGE_STEPS: Record<string, { label: string; height: number }> = {
@@ -137,7 +137,7 @@ export const STAGE_STEPS: Record<string, { label: string; height: number }> = {
 /** Problem and remedy in everyday words (Shen Feng Tong Kao 病藥說; M20-23 moves the math into the engine). */
 export const SORE_SPOT_WORDS: Record<Element, { problem: string; problemChip: string; remedyChip: string; action: string }> = {
   wood: { problem: "getting pulled in too many directions", problemChip: "Pulled in too many directions", remedyChip: "Something new to grow", action: "start one small new thing and give it ten minutes" },
-  fire: { problem: "running too hot", problemChip: "Running too hot", remedyChip: "Warm company", action: "spend some time with someone who lifts you up" },
+  fire: { problem: "running too hot", problemChip: "Running too hot", remedyChip: "Warm company", action: "spend an hour with someone who lifts you up" },
   earth: { problem: "getting stuck in a rut", problemChip: "Stuck in a rut", remedyChip: "A steady routine", action: "keep to your usual routine, even the dull parts" },
   metal: { problem: "being too hard on yourself", problemChip: "Too hard on yourself", remedyChip: "Clear limits", action: "set a clear limit: three things, written down, done before anything new" },
   water: { problem: "drifting and overthinking", problemChip: "Drifting and overthinking", remedyChip: "Time to think", action: "give yourself an hour to think it through before you decide" },
@@ -150,4 +150,4 @@ export const SORE_STATUS_LABEL = {
   both: "Today presses on it, and helps",
 } as const;
 
-export const TOPIC_CLOSING = "This describes how a day tends to lean, not what will happen.";
+export const TOPIC_CLOSING = "This describes how a day tends to lean; what it becomes is up to you.";

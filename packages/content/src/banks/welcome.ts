@@ -10,7 +10,7 @@ export const OFFICER_DAY_HEADLINES: Record<string, string> = {
   man: "A full, generous day that likes company.",
   ping: "An even, steady day.",
   ding: "A settled day: what you set down stays put.",
-  zhi: "A day for follow-through, not fresh starts.",
+  zhi: "A day for following through on what you've started.",
   po: "A day better for endings than beginnings.",
   wei: "A day to step carefully rather than leap.",
   cheng: "A day when things like to come together.",

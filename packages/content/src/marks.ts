@@ -32,7 +32,7 @@ export const MARKS_ENTRIES: Record<string, GlossaryEntry> = {
   [MARKS_TOPIC.dial]: {
     title: "The week and the day",
     body: [
-      "The seven rings are the days ahead: a solid green ring leans your way, a dashed amber ring is a day to take slower, and a faint ring sits even. The filled one is the day on screen; tap any ring to open that day.",
+      "The seven rings are the days ahead, and the filled one is the day on screen: tap any ring to open its day. A solid green ring leans your way, a dashed amber ring is a day to take slower, and a faint ring sits even.",
       "The dial below is the whole day, noon at the top and midnight at the bottom. When you're looking at today, the hand points at now.",
       roughAndEasy("arc", "arc"),
       `The thin arc just outside the ring is your best hour, labelled Suits you: the two hours whose element your birth chart runs better with. ${BEST_HOUR_IS_YOURS}`,

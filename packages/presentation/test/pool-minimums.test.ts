@@ -1,20 +1,16 @@
 /**
  * M24-11 R4, R5: every pool is big enough that no line comes back within its
- * window for any fixture or pool chart: 14 days on Today (over a year), 12 consecutive
- * months and a decade's years on Ahead. Pools written before the rotation sit
- * on a known list that may only shrink.
+ * window for any reading fixture or pool chart: 14 days on Today (over a
+ * year), 12 consecutive months and a decade's years on Ahead.
  */
 
 import { describe, expect, it } from "vitest";
 import { READING_FIXTURES } from "./fixtures.js";
-import { KNOWN_SHORT_POOLS } from "./pool-minimums-known.js";
-import { POOL_CHARTS, aheadPoolNeeds, todayPoolNeeds, type PoolNeed } from "./pool-minimums.js";
+import { POOL_CHARTS, aheadPoolNeeds, todayPoolNeeds } from "./pool-minimums.js";
 
 const profiles = [...READING_FIXTURES.map(([, profile]) => profile), ...POOL_CHARTS];
 const today = todayPoolNeeds(profiles);
 const ahead = aheadPoolNeeds(profiles);
-const short: PoolNeed[] = [...today, ...ahead].filter((need) => need.repeats);
-const known = new Set(KNOWN_SHORT_POOLS);
 
 describe("pool minimums", () => {
   it("covers every rotating slot on Today and Ahead", () => {
@@ -26,13 +22,8 @@ describe("pool minimums", () => {
     }
   });
 
-  it("no pool repeats within its window unless it is on the known list", () => {
-    const fresh = short.filter((need) => !known.has(need.slot)).map((need) => `${need.slot}: ${need.poolSize} of ${need.needed}`);
-    expect(fresh, "pools too small").toEqual([]);
-  });
-
-  it("every listed pool still repeats (trim the list as pools grow)", () => {
-    const grown = [...known].filter((slot) => !short.some((need) => need.slot === slot));
-    expect(grown, "pools now big enough, still on the known list").toEqual([]);
+  it("no pool repeats a line within its window", () => {
+    const short = [...today, ...ahead].filter((need) => need.repeats).map((need) => `${need.slot}: ${need.poolSize} of ${need.needed}`);
+    expect(short, "pools too small").toEqual([]);
   });
 });

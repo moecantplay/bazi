@@ -166,10 +166,10 @@ export function interactionTagRuns(
  * terminal punctuation — they render as captions and inline asides.
  */
 export const INTERACTION_GLOSSES: Record<InteractionType, string> = {
-  "six-clash": "two schedules booked for the same hour — something has to move",
+  "six-clash": "two schedules booked for the same hour, so something has to move",
   "six-combine": "two people who finish each other's sentences",
   trine: "three branches pulling one direction, a crew that has rowed together for years",
-  punishment: "a stone in your shoe — small, recurring, quieter once named",
+  punishment: "a stone in your shoe, small and recurring, quieter once named",
   harm: "a slow leak rather than a burst pipe",
 };
 
@@ -209,61 +209,61 @@ export const LUCK_PILLAR_GLOSS = "a ten-year stretch of prevailing weather";
 
 /** What a life stage is, for headings and captions. */
 export const LIFE_STAGE_GLOSS =
-  "where your stem stands in a twelve-step cycle of a life — from first growth to rest and back";
+  "where your stem stands in a twelve-step cycle of a life, from first growth to rest and back";
 
 /** What Na Yin is, for the chart screen. */
 export const NAYIN_GLOSS =
-  "each pillar's 'sound' — an old poetic name for the flavor its pair carries";
+  "each pillar's 'sound', the old poetic name its pair carries";
 
 /**
  * Everyday translation of each of the twelve life stages, keyed by the
- * engine's english label. Stages are seasons of a cycle, never verdicts.
+ * engine's english label. Stages are seasons of a cycle, and every one passes.
  */
 export const LIFE_STAGE_GLOSSES: Record<string, string> = {
-  Growth: "first shoots — new, eager, unproven",
-  Bath: "freshly washed — open, impressionable, a little exposed",
-  "Coming of Age": "putting on the graduation robe — ready to be taken seriously",
-  "Taking Office": "first day at the new desk — capable and in motion",
-  Peak: "noon sun — full power, nothing left in reserve",
-  Decline: "just past the summit — still high, starting to descend",
-  Illness: "a head cold, not a diagnosis — running at half speed",
+  Growth: "first shoots, new, eager and unproven",
+  Bath: "freshly washed, open, impressionable and a little exposed",
+  "Coming of Age": "putting on the graduation robe, ready to be taken seriously",
+  "Taking Office": "first day at the new desk, capable and in motion",
+  Peak: "noon sun, full power with nothing left in reserve",
+  Decline: "just past the summit, still high and starting to descend",
+  Illness: "running at half speed for a while, like a passing cold",
   Stillness: "the pause between out-breath and in-breath",
-  Storage: "the harvest in the barn — quiet, kept, not gone",
-  Severance: "the field after clearing — empty so something new can start",
+  Storage: "the harvest in the barn, quiet and kept",
+  Severance: "the field after clearing, empty so something new can start",
   Conception: "an idea that exists but isn't visible yet",
-  Nurture: "the seedling under glass — growing where no one sees",
+  Nurture: "the seedling under glass, growing where no one sees",
 };
 
 /**
  * Everyday translation of each symbolic star, keyed by the engine's star key.
- * A star is a motif the chart keeps returning to, never a prediction.
+ * A star is a motif the chart keeps returning to.
  */
 export const STAR_GLOSSES: Record<string, string> = {
-  "tianyi-nobleman": "helpful people show up for you — the stranger who holds the door at the right moment",
-  "tiande-virtue": "a quiet tailwind of goodwill — trouble tends to shrink near it",
-  "tiande-companion": "the tailwind's echo — goodwill answered in kind",
+  "tianyi-nobleman": "helpful people who show up, like the stranger holding the door at the right moment",
+  "tiande-virtue": "a quiet tailwind of goodwill that tends to shrink trouble",
+  "tiande-companion": "the tailwind's echo, goodwill answered in kind",
   "yuede-virtue": "a soft moon-lit version of the same tailwind",
-  "taiji-nobleman": "a pull toward the deep questions — philosophy, patterns, the why under the why",
-  "wenchang-scholar": "the study lamp — learning, writing, and exams come a shade easier",
-  "lushen-emolument": "bread on the table — your effort converts to keep",
+  "taiji-nobleman": "a pull toward the deep questions of philosophy and pattern, the why under the why",
+  "wenchang-scholar": "the study lamp, making learning, writing and exams a shade easier",
+  "lushen-emolument": "bread on the table, effort that turns into something you keep",
   "jiangxing-general": "the one the room turns to when a call needs making",
-  "huagai-canopy": "the artist's parasol — solitude that feeds craft and reflection",
-  "yima-travel-horse": "packed bags by the door — movement, travel, changes of scene",
-  "taohua-peach-blossom": "charm in bloom — you get noticed whether or not you try",
-  "hongluan-phoenix": "the romance bell — connection knocks more often",
-  "tianxi-joy": "small good news — occasions, celebrations, glad tidings",
-  "hongyan-charm": "magnetism of the softer kind — attraction that precedes words",
-  "yangren-blade": "a drawn blade — decisive force that needs a sheath",
-  "feiren-flying-blade": "the blade's shadow — sharpness that can nick when rushed",
-  "zaisha-calamity": "a pothole sign on the road — slow down through this stretch",
-  "sangmen-mourning": "a room where grief once sat — tenderness worth honoring",
-  "kongwang-void": "an empty seat at the table — what's booked there lands lighter than expected",
+  "huagai-canopy": "the artist's parasol, solitude that feeds craft and reflection",
+  "yima-travel-horse": "packed bags by the door, a pull toward travel and changes of scene",
+  "taohua-peach-blossom": "charm in bloom, so you get noticed whether or not you try",
+  "hongluan-phoenix": "the romance bell, as connection knocks more often",
+  "tianxi-joy": "small good news, like occasions, celebrations and glad tidings",
+  "hongyan-charm": "magnetism of the softer kind, attraction that comes before words",
+  "yangren-blade": "a drawn blade, decisive force that needs a sheath",
+  "feiren-flying-blade": "the blade's shadow, sharpness that can nick when rushed",
+  "zaisha-calamity": "a pothole sign on the road, asking you to slow down through this stretch",
+  "sangmen-mourning": "a room where grief once sat, tenderness worth honoring",
+  "kongwang-void": "an empty seat at the table, where what's booked lands lighter than expected",
 };
 
 /**
  * Everyday translation of each of the twelve Day Officers (建除十二神), keyed by
  * the engine's officer key. A plain-life gloss in the register of the other
- * glosses: concrete, no fatalism, weather not verdict. Short fragments with no
+ * glosses: concrete, no fatalism, weather to work with. Short fragments with no
  * terminal punctuation — they render as captions and complete "A 成 Success
  * day — {gloss}."
  */
@@ -324,20 +324,20 @@ export const ACTIVITY_LABELS: Record<ActivityKey, ActivityLabel> = Object.fromEn
 
 /**
  * The three checks behind strong/weak, in plain terms (令 season, 地 ground,
- * 勢 numbers). Each phrase completes "you ..." — used to explain the verdict.
+ * 勢 numbers). Each phrase completes "you ..." and explains the strong/weak reading.
  */
 export const STRENGTH_CHECK_GLOSSES = {
   seasonal: {
-    yes: "were born in a season that feeds your element (得令 — in season)",
-    no: "were born in a season that doesn't feed your element (失令 — out of season)",
+    yes: "were born in a season that feeds your element (得令, in season)",
+    no: "were born in a season that doesn't feed your element (失令, out of season)",
   },
   rooted: {
-    yes: "have ground under you — your own element hides inside your branches (得地 — rooted)",
-    no: "stand on borrowed ground — no root of your element hides in your branches (失地 — unrooted)",
+    yes: "have your own element hidden in your branches (得地, rooted)",
+    no: "have none of your own element hidden in your branches (失地, unrooted)",
   },
   backed: {
-    yes: "have allies — most of the visible stems are on your side (得勢 — backed)",
-    no: "field a small team — few of the visible stems are on your side (失勢 — outnumbered)",
+    yes: "have most of the visible stems on your side (得勢, backed)",
+    no: "have few of the visible stems on your side (失勢, outnumbered)",
   },
 } as const;
 
@@ -363,24 +363,21 @@ export const STRENGTH_CHECK_GLOSS_RUNS: Record<
   },
   rooted: {
     yes: [
-      { kind: "text", text: "have ground under you — your own element hides inside your branches " },
+      { kind: "text", text: "have your own element hidden in your branches " },
       { kind: "term", term: "得地", gloss: "rooted", han: "得地" },
     ],
     no: [
-      {
-        kind: "text",
-        text: "stand on borrowed ground — no root of your element hides in your branches ",
-      },
+      { kind: "text", text: "have none of your own element hidden in your branches " },
       { kind: "term", term: "失地", gloss: "unrooted", han: "失地" },
     ],
   },
   backed: {
     yes: [
-      { kind: "text", text: "have allies — most of the visible stems are on your side " },
+      { kind: "text", text: "have most of the visible stems on your side " },
       { kind: "term", term: "得勢", gloss: "backed", han: "得勢" },
     ],
     no: [
-      { kind: "text", text: "field a small team — few of the visible stems are on your side " },
+      { kind: "text", text: "have few of the visible stems on your side " },
       { kind: "term", term: "失勢", gloss: "outnumbered", han: "失勢" },
     ],
   },

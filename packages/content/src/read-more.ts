@@ -31,56 +31,56 @@ const INTERACTION_DIVES: Record<InteractionType, ReadMoreEntry> = {
   "six-clash": {
     title: "Inside the clash",
     body: [
-      "A clash day tends to arrive as scheduling friction made visible: the meeting that moves, the plan that collides with a better one, the thing you postponed refusing to stay postponed.",
-      "It reads as pressure, but the pressure is honest — it lands exactly where something was already overdue to move. Days like this run cheap for endings and expensive for holding patterns.",
-      "Left alone, a clash tends to resolve itself in the least convenient direction. Handled early, you get to choose what moves — which is the whole difference between a disruption and a decision.",
+      "A clash day tends to arrive as scheduling friction you can see: the meeting that moves, the plan that collides with a better one. The thing you postponed refuses to stay postponed.",
+      "It reads as pressure, and the pressure lands exactly where something was already overdue to move. Days like this run cheap for endings and expensive for holding patterns.",
+      "Left alone, a clash tends to resolve itself in the least convenient direction. Handled early, you get to choose what moves, and that choice turns a disruption into a decision.",
     ],
     advice: [
-      "Pick which of the two commitments gives way and say so plainly — the friction eases the moment something actually moves. What grinds is trying to hold both.",
+      "Pick which of the two commitments gives way and say so plainly; the friction eases the moment something actually moves. What grinds is trying to hold both.",
     ],
   },
   "six-combine": {
     title: "Inside the combine",
     body: [
       "A combine day tends to feel like traction: replies come back warmer, the introduction takes, the ask that felt heavy turns out to weigh nothing.",
-      "The pull is real but quiet — it doesn't do the work, it lowers the cost of starting it.",
-      "Openness like this has a shelf life measured in days, not seasons. It favors whatever you've been waiting on a good moment for; this is what a good moment looks like.",
+      "The pull is real but quiet: it lowers the cost of starting the work.",
+      "Openness like this has a shelf life of days. It favors whatever you've been waiting on a good moment for; this is what a good moment looks like.",
     ],
     advice: [
-      "Ask while the door is open: send the request, make the introduction, float the idea you've been sitting on. Ease is a resource — spend it on something you actually want.",
+      "Ask while the door is open: send the request, make the introduction, float the idea you've been sitting on. Ease is a resource, so spend it on something you actually want.",
     ],
   },
   trine: {
     title: "Inside the trine",
     body: [
-      "A trine reads as alignment you didn't have to arrange: the group agrees faster than usual, the pieces you've been holding separately admit they belong together.",
-      "Its gift is momentum in company — things move because several forces lean the same way at once, not because you pushed harder.",
+      "A trine reads as alignment you didn't have to arrange. The group agrees faster than usual, and pieces you've held separately admit they belong together.",
+      "Its gift is momentum in company: several forces lean the same way at once, so things move with less effort.",
       "With two of the three signs present, the shape is a standing invitation: the frame is built and waiting on its third. Notice what's missing; it's often nearer than it looks.",
     ],
     advice: [
-      "This is weather for joint work — loop the others in rather than pushing alone. If the frame is two of three, notice what the missing third might be; sometimes it's a person, sometimes it's simply time.",
+      "This is weather for joint work, so loop the others in rather than pushing alone. If the frame is two of three, notice what the missing third might be; sometimes it's a person, sometimes it's simply time.",
     ],
   },
   punishment: {
     title: "Inside the punishment",
     body: [
-      "A punishment rarely announces itself as an event — it shows up as a mood with a return ticket: the same small irritation, the same conversation you keep almost having.",
+      "A punishment rarely announces itself as an event. It shows up as a mood with a return ticket: the same small irritation, the same conversation you keep almost having.",
       "Its habit is repetition. What it touches isn't dangerous, just unresolved, and unresolved things bill you in small installments.",
-      "The pattern loses most of its force in daylight. Once you've said plainly what keeps pinching, it stops being weather and becomes a chore — boring, finite, doable.",
+      "The pattern loses most of its force in daylight. Once you've said plainly what keeps pinching, it stops being weather and becomes a chore: boring, finite, doable.",
     ],
     advice: [
-      "Name it in one plain sentence — to yourself first, to the person involved if the matter is small. What repeats is what stays unspoken; once the stone has a name, taking it out of the shoe is ordinary work.",
+      "Name it in one plain sentence, to yourself first and to the person involved if the matter is small. What repeats is what stays unspoken; once the stone has a name, taking it out of the shoe is ordinary work.",
     ],
   },
   harm: {
     title: "Inside the harm",
     body: [
       "A harm works quietly: nothing breaks, something erodes. It's the tone that cooled without a fight, the detail that slipped without anyone deciding it would.",
-      "Because nothing announces it, it rewards the people who check — the reread thread, the recounted assumption, the question asked a week before it's urgent.",
+      "Because nothing announces it, it rewards the people who check: the reread thread, the recounted assumption, the question asked a week before it's urgent.",
       "Caught early it's maintenance; left long enough, it can become a story about how things drifted. Early is cheap.",
     ],
     advice: [
-      "It rewards the quiet check, not the confrontation: reread the thread, ask the question you've been assuming the answer to. Small maintenance is the whole move — nothing here calls for force.",
+      "A quiet check works best: reread the thread, ask the question you've been assuming the answer to. Small maintenance is the whole move, and nothing here calls for force.",
     ],
   },
 };

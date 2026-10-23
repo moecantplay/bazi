@@ -53,7 +53,7 @@ export const INTERACTION_TOPICS: Record<InteractionType, InteractionTopic> = {
       "Each one is minor. Over a few days they add up if nobody notices.",
     ],
     work: ["Give important messages a second read.", "Ask the clarifying question now rather than later."],
-    nameOrigin: `${SIGNS_LEAD} When today's sign sits at an awkward angle to one of yours, not head-on, the result is a quiet rub rather than a collision.`,
+    nameOrigin: `${SIGNS_LEAD} When today's sign sits at an awkward angle to one of yours, the result is a quiet rub rather than a collision.`,
   },
   "six-combine": {
     oldName: "a combine",
@@ -63,7 +63,7 @@ export const INTERACTION_TOPICS: Record<InteractionType, InteractionTopic> = {
       "Conversations go more smoothly than usual, and asks land softly. Replies come back warmer.",
       "It's a good window for agreements, and windows close, so it rewards using it today.",
     ],
-    work: ["Make the ask you've been saving for a good moment.", "Settle something that needs two people to agree."],
+    work: ["Make the request you've held back for a good moment.", "Settle something that needs two people to agree."],
     nameOrigin: `${SIGNS_LEAD} Some pairs of signs fit together naturally. When today's sign pairs with one of yours, that part of life gets easier to move.`,
   },
   trine: {
@@ -74,7 +74,7 @@ export const INTERACTION_TOPICS: Record<InteractionType, InteractionTopic> = {
       "Things line up without you arranging them: people agree faster, and pieces you've been holding separately start to fit.",
       "The help is real but quiet. It makes doing things together cheaper; it doesn't do them for you.",
     ],
-    work: ["Bring in the people already leaning your way.", "Start the thing that needs more than one pair of hands."],
+    work: ["Ask the people who already agree with you to join in.", "Start the thing that needs more than one pair of hands."],
     nameOrigin: `${SIGNS_LEAD} Three of the twelve signs belong together as a set. When today's sign completes a set with signs in your birth chart, those parts of life pull the same way.`,
   },
 };
@@ -92,5 +92,5 @@ export const AREA_SIGN_SUBJECT: Record<LifeArea, string> = {
   work: "work",
   family: "family",
   home: "home and partner",
-  plans: "what you're building toward",
+  plans: "long-term plans",
 };
