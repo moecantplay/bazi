@@ -51,7 +51,7 @@ Topic page opening (the old name introduced once, then the plain mechanics):
 The examples below are for topic pages and "Your chart in full" only, not for Today or any other screen's reading text (rule 11).
 
 Day-master card (戊, mountain) — this is the register:
-> You are the mountain: slow to move, impossible to ignore. Your problem is never capacity. It is remembering you're allowed to choose what to carry.
+> You are the mountain: slow to move, impossible to ignore. You can hold almost anything, so remember you're allowed to choose what to carry.
 
 Clash day:
 > 子午 clash in your career palace: two schedules booked for the same hour, and something has to move. Send the message you've been sitting on.

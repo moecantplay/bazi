@@ -39,7 +39,7 @@ export const INTERACTION_CARDS: Record<InteractionType, Record<LifeArea, readonl
   trine: {
     work: [["Work pulls your way", "Bring others in rather than going solo."], ["Support at work", "Start the task that needs more hands."], ["Colleagues fall in step", "Put a shared goal on the table and people tend to join."]],
     family: [["Family is on your side", "The people you come from are easier to lean on today."], ["Your relatives pull together", "A good day for a shared plan."], ["A good day to gather the family", "Suggest the meal everyone keeps meaning to arrange."]],
-    home: [["Home works as a team", "Split the work and share the wins."], ["Everyone at home pulls one way", "Plans made together tend to hold."], ["The household runs smoothly", "Tackle the job at home that needs everyone at once."]],
+    home: [["Home works as a team", "Hand out the jobs fairly and enjoy what gets done together."], ["Everyone at home pulls one way", "Plans made together tend to hold."], ["The household runs smoothly", "Tackle the job at home that needs everyone at once."]],
     plans: [["A bigger plan has company", "Let support carry it rather than pushing alone."], ["Pieces of a goal fit together", "Move the ready parts first."], ["Allies for the long goal", "Tell someone what you're building; they may want to help."]],
   },
 };
@@ -122,7 +122,7 @@ export const TEN_GOD_CARDS: Record<string, readonly CardText[]> = {
   "Indirect Wealth": [["A day for lucky finds", "Unplanned chances show up, so keep an eye out."], ["Chance favours the curious", "Follow up the odd lead or offer that turns up today."]],
   "Direct Wealth": [["A day for steady work", "Plain, reliable effort pays off today."], ["Steady effort adds up", "Chip away at the dull task; by evening it shows."]],
   "Seven Killings": [["Pressure that sharpens you", "Demands run high, and meeting them builds strength."], ["High expectations all round", "Meet one demand properly before you turn to the next."]],
-  "Direct Officer": [["A day for doing things properly", "Rules, routines and fair play work in your favour."], ["Fair play gets noticed", "Do it by the book today and people trust you for it."]],
+  "Direct Officer": [["A day for doing things properly", "Rules and routines work for you today, so play it straight."], ["Fair play gets noticed", "Do it by the book today and people trust you for it."]],
   "Indirect Resource": [["Good for learning sideways", "Answers come from odd angles: a side conversation, a walk, a stray article."], ["Hunches are worth a look", "Follow up the thought that arrives while you're busy with something else."]],
   "Direct Resource": [["A day to be looked after", "Help and care reach you more easily today. Let them."], ["Support is close by", "Ask the person who usually helps; they're glad to today."]],
 };

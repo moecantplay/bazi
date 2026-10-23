@@ -102,7 +102,7 @@ function elementsSection(facts: readonly NatalFact[], seedKey: string): ReadingS
       factTag: `${strength.value} day-master`,
       topic: "strength",
     });
-    lines.push(strengthWhyLine(strength));
+    lines.push(...strengthWhyLines(strength));
   }
 
   if (lines.length === 0) {
@@ -111,35 +111,52 @@ function elementsSection(facts: readonly NatalFact[], seedKey: string): ReadingS
   return { key: "elements", title: "Your elements", lines: lines.map(finalizeLine) };
 }
 
+/** How many of the three checks pass, said in words. */
+const PASS_SUBJECTS = ["None of the three", "One of the three", "Two of the three", "All three"] as const;
+
 /**
- * Explain the strong/weak verdict via its three checks (令 season, 地 ground,
- * 勢 numbers), each glossed in ordinary terms so the reader sees the why.
+ * The tally sentence: how many checks pass, the strong/weak reading it gives,
+ * and whether the call was narrow. Only phrasing; the count comes from the fact.
  */
-function strengthWhyLine(strength: FactOf<"strength">): DraftLine {
+function strengthTally(strength: FactOf<"strength">, passes: number): string {
+  const subject = PASS_SUBJECTS[passes] ?? `${passes} of the three`;
+  const verb = passes <= 1 ? "runs" : "run";
+  const narrow = strength.narrow ? ", by a narrow margin" : "";
+  if (strength.value === "strong") {
+    return `${subject} ${verb} in your favor, so the chart reads strong${narrow}.`;
+  }
+  const lead = passes === 0 ? subject : `Only ${subject.toLowerCase()}`;
+  return `${lead} ${verb} in your favor, so the chart reads weak${narrow}.`;
+}
+
+/**
+ * Explain the strong/weak reading via its three checks (令 season, 地 ground,
+ * 勢 numbers), each glossed in ordinary terms so the reader sees the why. The
+ * checks and the tally are two lines: together they need three sentences to
+ * keep each under 25 words (Plain writing rule 2), and a line holds at most two
+ * (VOICE.md rule 2).
+ */
+function strengthWhyLines(strength: FactOf<"strength">): DraftLine[] {
   const checks = [
     STRENGTH_CHECK_GLOSSES.seasonal[strength.seasonal ? "yes" : "no"],
     STRENGTH_CHECK_GLOSSES.rooted[strength.rooted ? "yes" : "no"],
     STRENGTH_CHECK_GLOSSES.backed[strength.backed ? "yes" : "no"],
   ];
-  const passes = [strength.seasonal, strength.rooted, strength.backed].filter(Boolean).length;
-  // A narrow verdict (decided by one weighted point or less) says so: a close
-  // call is not a clear one, and the reader deserves to know which they got.
-  const closeness = strength.narrow ? ", though by a narrow margin — a close call, not a clear one" : "";
-  const tally =
-    strength.value === "strong"
-      ? `${passes} of the three run in your favor, so the chart reads strong${closeness}.`
-      : `Only ${passes} of the three run${passes === 1 ? "s" : ""} in your favor, so the chart reads weak${closeness} — light, not lacking.`;
-  const text = `Three checks sit behind that reading: you ${checks[0]}; you ${checks[1]}; and you ${checks[2]}. ${tally}`;
+  const text = `Three checks sit behind that reading: you ${checks[0]}. You ${checks[1]}, and you ${checks[2]}.`;
   const runs: TokenLine = [
     { kind: "text", text: "Three checks sit behind that reading: you " },
     ...STRENGTH_CHECK_GLOSS_RUNS.seasonal[strength.seasonal ? "yes" : "no"],
-    { kind: "text", text: "; you " },
+    { kind: "text", text: ". You " },
     ...STRENGTH_CHECK_GLOSS_RUNS.rooted[strength.rooted ? "yes" : "no"],
-    { kind: "text", text: "; and you " },
+    { kind: "text", text: ", and you " },
     ...STRENGTH_CHECK_GLOSS_RUNS.backed[strength.backed ? "yes" : "no"],
-    { kind: "text", text: `. ${tally}` },
+    { kind: "text", text: "." },
   ];
-  return { text, factTag: "strength · three checks", topic: "strength", runs };
+  const passes = [strength.seasonal, strength.rooted, strength.backed].filter(Boolean).length;
+  return [
+    { text, factTag: "strength · three checks", topic: "strength", runs },
+    { text: strengthTally(strength, passes), factTag: "strength · tally", topic: "strength" },
+  ];
 }
 
 function starsSection(facts: readonly NatalFact[], seedKey: string): ReadingSection | null {

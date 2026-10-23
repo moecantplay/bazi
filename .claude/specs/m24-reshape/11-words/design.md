@@ -53,6 +53,17 @@ Three phases in one ticket, each committed and reviewed on its own, deployed onc
 - **Sample (R9).** `copy-audit --sample <fixture>` prints a fixture's sample in reading order, from `collectSurfaces`. Fixtures A and D are published as one private page for the owner to read.
 - **After.** Commit `after.json` and the before/after table (R8). Owner sign-off, then one deploy.
 
+**What the rewrite changed in structure** (batches A to E, 2026-10-23):
+- The chart page's strength explanation is two lines: the three checks, then the tally ("Only two of the three run in your favour…", with "by a narrow margin" when it was close). Three checks and a tally won't fit two sentences of 25 words, and `voice.test.ts` allows two sentences per line.
+- Natal pattern lines write sign pairs out ("rat and horse") through a joiner in `natal-interactions.ts`, because `vocab.ts`'s "rat–horse" breaks rule 1. Captions keep "rat–horse".
+- Star lines open "Your {palace}: {gloss}." The earlier "In your {palace}:" made two stars in one palace share a phrase.
+- You's ease line has its own wording per element (`EASE_YOU` in `banks/you/you.ts`), so it never echoes the first "helps" line beside it.
+- The topic-page closing reads "This describes how a day tends to lean; what it becomes is up to you." It keeps M20-26's meaning (tendencies, the reader's choice) without the "X, not Y" shape.
+- The known-failures list and the screen ratchet are deleted now they're empty, and both tests require zero outright.
+- VOICE.md's day-master example now matches its bank line, because the old one was a "never X, it is Y" contrast.
+- Two em-dashes in fixed UI text on the chart page (`chart-view.tsx`) are outside this ticket (fixed UI strings are out of scope).
+- Find a day's doubled officer gloss is noted on M20-01.
+
 ## Changes
 
 | Area | Change |

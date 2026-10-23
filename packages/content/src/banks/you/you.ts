@@ -39,7 +39,16 @@ export const WEARS_YOU: Record<Element, string> = {
   water: "drift, overthinking and too much talk",
 };
 
+/** One small way back to each favourable element, worded apart from its chip line so the screen says it once. */
+const EASE_YOU: Record<Element, string> = {
+  wood: "start one small new thing and give it room",
+  fire: "show someone what you've been working on",
+  earth: "pick one patient job and see it through",
+  metal: "make one clean decision and clear one surface",
+  water: "go for a walk or ring someone for a chat",
+};
+
 /** The ease line, pointing back to the first element that helps. */
 export function easeLine(helps: Element): string {
-  return `When it wears on you, turn back to ${HELPS_YOU[helps]}.`;
+  return `When it wears on you, ${EASE_YOU[helps]}.`;
 }

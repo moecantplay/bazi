@@ -17,30 +17,30 @@ export interface StarInput {
   english: string;
 }
 
-/** How each star tends to show up — the "so what" after the gloss. */
+/** How each star tends to show up: the "so what" after the gloss. */
 const STAR_TEXTURES: Record<string, string> = {
   "tianyi-nobleman": "When you ask for help, it tends to actually arrive; asking is the skill worth practicing.",
-  "tiande-virtue": "Rough patches tend to soften around you early — notice it, and pass it on.",
+  "tiande-virtue": "Rough patches tend to soften around you early, so notice when it happens and pass the goodwill on.",
   "tiande-companion": "Kindness you extend has a way of circling back with interest.",
   "yuede-virtue": "People tend to give you the benefit of the doubt; spend it carefully.",
   "taiji-nobleman": "You do your best thinking one level deeper than the question you were asked.",
   "wenchang-scholar": "Reading, writing, and studying repay you faster than they repay most people.",
-  "lushen-emolument": "Steady work tends to feed you reliably — you rarely need to gamble for your bread.",
-  "jiangxing-general": "Responsibility finds you even when you don't raise your hand — decide on purpose whether to take it.",
-  "huagai-canopy": "Time alone isn't loneliness for you — it's where your best work ripens.",
-  "yima-travel-horse": "You think better in motion; a change of scene is a legitimate tool, not an escape.",
+  "lushen-emolument": "Steady work tends to pay you back reliably, so you rarely need to gamble for your bread.",
+  "jiangxing-general": "Responsibility finds you even when you don't raise your hand, so decide on purpose whether to take it.",
+  "huagai-canopy": "Time alone restores you, and it's where your best work ripens.",
+  "yima-travel-horse": "You think better in motion, and a change of scene is a real tool you can use on purpose.",
   "taohua-peach-blossom": "Attention comes easily; choosing what to do with it is the actual work.",
-  "hongluan-phoenix": "Openings for connection appear more often than average — they still need you to say yes.",
+  "hongluan-phoenix": "Openings for connection appear more often than average, and they still need you to say yes.",
   "tianxi-joy": "Small celebrations suit you; mark the minor wins instead of saving joy for the big ones.",
   "hongyan-charm": "First impressions run warm for you; let the second impression be earned too.",
-  "yangren-blade": "Your decisiveness is real force — aimed, it cuts through; unaimed, it cuts whatever's near.",
+  "yangren-blade": "Your decisiveness is real force; point it at the task at hand, and it cuts where you meant it to.",
   "feiren-flying-blade": "Speed is where your sharp edge slips; one breath before you act keeps it clean.",
-  "zaisha-calamity": "Not a verdict — just a stretch of road worth taking slower and double-checking.",
-  "sangmen-mourning": "Endings deserve a nod from you rather than a shrug; you close chapters well when you close them consciously.",
+  "zaisha-calamity": "Here it pays to go slower and double-check the details.",
+  "sangmen-mourning": "Endings deserve a proper nod from you, and you close chapters well when you close them on purpose.",
   "kongwang-void": "Plans anchored there benefit from a second anchor somewhere solid.",
 };
 
-const GENERIC_TEXTURE = "Read it as a motif your chart keeps returning to, not a fixed trait.";
+const GENERIC_TEXTURE = "It's a pattern your chart keeps coming back to, and you decide what to make of it.";
 
 /** Every star line fragment, for exhaustive voice checking. */
 export const STAR_TEMPLATES: readonly string[] = [
@@ -62,15 +62,17 @@ function starTermRun(input: StarInput): Extract<ContentRun, { kind: "term" }> {
 }
 
 /**
- * A natal star line: "In your career palace: {gloss}. {texture}". The star's
+ * A natal star line: "Your career palace: {gloss}. {texture}". The star's
  * term run renders as its gloss, so the gloss is said once (M20-01, M24-11).
+ * The palace stands alone before the colon, so two stars in one palace share
+ * no 4-word phrase (Plain writing rule 5).
  */
 export function natalStarLine(input: StarInput, palace: Palace): DraftLine {
   const gloss = glossFor(input);
   const texture = textureFor(input);
-  const text = `In your ${palaceWord(palace)}: ${gloss}. ${texture}`;
+  const text = `Your ${palaceWord(palace)}: ${gloss}. ${texture}`;
   const runs: TokenLine = [
-    { kind: "text", text: `In your ${palaceWord(palace)}: ` },
+    { kind: "text", text: `Your ${palaceWord(palace)}: ` },
     starTermRun(input),
     { kind: "text", text: `. ${texture}` },
   ];

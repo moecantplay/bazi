@@ -73,7 +73,8 @@ describe("youElements and youColours", () => {
     expect(elements?.helps.map((entry) => entry.element)).toEqual(["fire", "earth"]);
     expect(elements?.wears.map((entry) => entry.element)).toEqual(["wood", "metal", "water"]);
     expect(elements?.helps[0]?.line).toBe("Being seen and sharing what you know");
-    expect(elements?.ease).toBe("When it wears on you, turn back to being seen and sharing what you know.");
+    // The ease line has its own wording, so it never echoes the first "helps" line beside it (M24-11).
+    expect(elements?.ease).toBe("When it wears on you, show someone what you've been working on.");
     expect(youElements([], ELEMENTS)).toBeNull();
   });
 

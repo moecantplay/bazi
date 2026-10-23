@@ -17,7 +17,7 @@ export interface TopicSuits {
 
 export const TEN_GOD_SUITS: Record<string, TopicSuits> = {
   "Friend": {
-    goodFor: ["Pairing up on a task you'd usually do alone", "Catching up with a friend or sibling", "Asking someone in your position how they handle it"],
+    goodFor: ["Pairing up on a task you'd usually do alone", "Catching up with a brother, sister or old friend", "Asking someone in your position how they handle it"],
     holdOff: ["Going it alone to prove a point"],
   },
   "Rob Wealth": {
@@ -70,7 +70,7 @@ export const ELEMENT_SUITS: Record<Element, { suits: TopicSuits; against: TopicS
   },
   earth: {
     suits: { goodFor: ["Patient, steady tasks", "Sorting out the home", "Keeping to your routines"], holdOff: ["Chasing quick wins"] },
-    against: { goodFor: ["A short list", "Light, easy tasks", "Moving at your own pace"], holdOff: ["Taking on someone else's load", "Heavy decisions"] },
+    against: { goodFor: ["A short list", "Light, easy tasks", "Taking it slowly"], holdOff: ["Taking on someone else's load", "Heavy decisions"] },
   },
   metal: {
     suits: { goodFor: ["A decision you've been weighing", "Editing and cutting back", "Clearing out clutter"], holdOff: ["Going round in circles on a choice"] },
@@ -94,7 +94,7 @@ export const STAGE_SUITS: Record<string, TopicSuits> = {
   "Stillness": { goodFor: ["Waiting a day before deciding", "Listening more than talking", "Looking back over the week"], holdOff: ["Forcing a decision", "Rushing a reply"] },
   "Storage": { goodFor: ["Filing and sorting", "Putting things back where they belong", "Saving notes for later"], holdOff: ["Opening new threads"] },
   "Severance": { goodFor: ["Ending what's already over", "Clearing a drawer or an inbox", "A clean goodbye"], holdOff: ["Picking up what you just put down", "Reopening old arguments"] },
-  "Conception": { goodFor: ["Writing ideas down", "Sketching plans", "Daydreaming on purpose"], holdOff: ["Announcing the idea before it's ready", "Asking for feedback too early"] },
+  "Conception": { goodFor: ["Writing ideas down", "Sketching plans", "Daydreaming on purpose"], holdOff: ["Announcing a plan before it has shape", "Asking for feedback too early"] },
   "Nurture": { goodFor: ["Tending a slow project", "Checking in on someone", "Small, steady habits"], holdOff: ["Digging up a plan to see if it's growing", "Comparing your pace with others"] },
 };
 

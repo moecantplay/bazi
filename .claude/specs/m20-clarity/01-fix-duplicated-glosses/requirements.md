@@ -3,6 +3,8 @@
 Status: draft · Milestone: M20 · Ticket: 01
 
 > 2026-10-23: the chart page's star lines ("The an empty seat at the table — … sits in your roots — an empty seat at the table — …") printed their gloss twice too. [M24-11](../../m24-reshape/11-words/requirements.md) fixed that one (`natalStarLine` says the gloss once). Check the rest of this list against the app as it is now before running this ticket.
+>
+> Still live (found in M24-11 phase 3): Find a day's top result says the officer's description twice. `officerFrameRuns` in `content/src/day-guidance.ts` renders the officer term as its gloss, then fills `{officerGloss}` with the same gloss: "A the day the month's work likes to come together day: the day the month's work likes to come together."
 
 ## Problem
 

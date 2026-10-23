@@ -125,7 +125,7 @@ describe("coverage: natal", () => {
     for (const fact of variants) {
       const text = natalText([fact]);
       expect(text.length, JSON.stringify(fact)).toBeGreaterThan(0);
-      expect(text, "must not be the generic fallback").not.toMatch(/one of your chart's textures/);
+      expect(text, "must not be the generic fallback").not.toMatch(/a pattern of its own/);
     }
   });
 
@@ -138,7 +138,7 @@ describe("coverage: natal", () => {
       palaces: ["year", "month"] as Palace[],
     } satisfies NatalFact;
     const text = natalText([bogus]);
-    expect(text).toMatch(/one of your chart's textures/);
+    expect(text).toMatch(/a pattern of its own/);
   });
 });
 

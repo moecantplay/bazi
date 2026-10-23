@@ -1,19 +1,15 @@
 /**
- * VOICE.md "Plain writing" rules 1–4 (M24-11 R2) over every bank line. Lines
- * written before the rules sit on a known-failures list that may only shrink:
- * a new failure fails the test, and so does a listed line that now passes, so
- * the list is trimmed as each bank is rewritten.
+ * VOICE.md "Plain writing" rules 1–4 (M24-11 R2) over every bank line: every
+ * string the banks and reference copy export, rendered; every function bank;
+ * and the chart page's composed lines.
  */
 
 import { describe, expect, it } from "vitest";
-import { KNOWN_PLAIN_WRITING_FAILURES } from "./plain-writing-known.js";
 import { brokenRules } from "../src/plain-writing.js";
 import { failureKey, plainWritingLines, uncheckedFunctions, type PlainFailure } from "./plain-writing-rules.js";
 
 const { lines, functionExports } = await plainWritingLines();
 const failures: PlainFailure[] = lines.flatMap(({ module, text }) => brokenRules(text).map((rule) => ({ rule, module, text })));
-const current = new Set(failures.map(failureKey));
-const known = new Set(KNOWN_PLAIN_WRITING_FAILURES);
 
 describe("plain writing (VOICE.md)", () => {
   it("reaches every bank", () => {
@@ -24,14 +20,8 @@ describe("plain writing (VOICE.md)", () => {
     expect(uncheckedFunctions(functionExports), "add to CALLED_FUNCTIONS (and call it) or NON_LINE_FUNCTIONS").toEqual([]);
   });
 
-  it("no line breaks a rule unless it is on the known-failures list", () => {
-    const fresh = [...current].filter((key) => !known.has(key));
-    expect(fresh, "new plain-writing failures").toEqual([]);
-  });
-
-  it("every listed line still fails (trim the list as lines are fixed)", () => {
-    const fixed = [...known].filter((key) => !current.has(key));
-    expect(fixed, "fixed lines still on the known-failures list").toEqual([]);
+  it("no line breaks a rule", () => {
+    expect(failures.map(failureKey)).toEqual([]);
   });
 
   it("checks each rule", () => {

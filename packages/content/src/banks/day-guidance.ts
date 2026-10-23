@@ -22,23 +22,23 @@ export type FrictionSource = "clash" | "officer";
 
 /** The opening line: names the officer, glossed in the same breath (rule 11). */
 export const OFFICER_LINE_FRAMES: readonly string[] = [
-  "A {officerCn} {officerEn} day — {officerGloss}.",
+  "A {officerCn} {officerEn} day: {officerGloss}.",
   "Today runs {officerCn} {officerEn}: {officerGloss}.",
-  "{officerCn} {officerEn} shapes the day — {officerGloss}.",
+  "{officerCn} {officerEn} shapes the day: {officerGloss}.",
 ];
 
 /** Lines that explain why a favouring chip leans with the day. */
 export const FAVORS_FRAMES: Record<FavorsSource, readonly string[]> = {
   combine: [
-    "The day sets a combine on your {palace} — two who finish each other's sentences. Doors give with a push, so lean into {actLower}.",
+    "The day sets a combine on your {palace}: two who finish each other's sentences. Doors give with a push, so lean into {actLower}.",
     "A combine settles over your {palace} today, neighbours who already get along. Fair footing for {actLower}.",
   ],
   element: [
-    "{element} runs warm for you today — fair light for {actLower}. Say yes to the thing you've already half-decided.",
+    "{element} runs warm for you today, which gives fair light for {actLower}. Say yes to the thing you've already half-decided.",
     "The day's {element} sits with your grain, so {actLower} catch a following wind. Lean in where you've been hesitating.",
   ],
   officer: [
-    "This is the day's kind of work — its grain leans toward {actLower}. Say yes to the thing you've already half-decided.",
+    "This is the day's kind of work: its grain leans toward {actLower}. Say yes to the thing you've already half-decided.",
     "The day's grain runs with {actLower}; the thing you've half-decided is worth a nod today.",
   ],
 };
@@ -46,32 +46,32 @@ export const FAVORS_FRAMES: Record<FavorsSource, readonly string[]> = {
 /** Lines that explain why a friction chip runs against the day (postponement). */
 export const FRICTION_FRAMES: Record<FrictionSource, readonly string[]> = {
   clash: [
-    "The day sets a clash across your {palace} — two schedules booked for the same hour, and something has to move. Give {actLower} one more day.",
+    "The day sets a clash across your {palace}: two schedules booked for the same hour, and something has to move. Give {actLower} one more day.",
     "A clash crosses your {palace} today, a door and a draft. Let {actLower} wait for steadier footing.",
   ],
   officer: [
-    "The day's grain runs the other way from {actLower} — restless work today. The boxes will still be there tomorrow; let {actLower} wait a day.",
+    "The day's grain runs the other way from {actLower}, so it's restless work today. It will keep until tomorrow; let {actLower} wait a day.",
     "Today's grain is set against {actLower}. Nothing is lost by giving it another day.",
   ],
 };
 
 /** Closing line when the day pulls hard in no direction at all. */
 export const EVEN_DAY_FRAMES: readonly string[] = [
-  "Nothing in the day pulls hard either way — steady, even footing for doing the ordinary thing well.",
+  "Nothing in the day pulls hard either way. It's steady, even footing for doing the ordinary thing well.",
   "The day sits level, no strong current in it. A fair time for the small, unglamorous task.",
 ];
 
 /** Detail line for an area row whose activity carries no leaning today. */
 export const NEUTRAL_AREA_FRAMES: readonly string[] = [
   "Nothing in the day pulls at {actLower} either way; it goes the way you take it.",
-  "For {actLower}, the day sits level — no current with it, none against.",
+  "For {actLower}, the day sits level, with no current running either way.",
   "The day carries no particular grain for {actLower}. Ordinary footing, yours to use.",
 ];
 
 /** A candidate day's verdict sentence in the finder, by how the day leans. */
 export const DATE_VERDICT_FRAMES: Record<"favors" | "neutral" | "friction", readonly string[]> = {
   favors: [
-    "For {actLower}, {why} — a fair window.",
+    "For {actLower}, {why}: a fair window.",
     "For {actLower}, {why}, so the day leans your way.",
   ],
   neutral: [
@@ -79,7 +79,7 @@ export const DATE_VERDICT_FRAMES: Record<"favors" | "neutral" | "friction", read
     "For {actLower}, an even, unremarkable day.",
   ],
   friction: [
-    "For {actLower}, {why} — another date will cost you less.",
+    "For {actLower}, {why}. Another date will cost you less.",
     "For {actLower}, {why}, so a later date serves you better.",
   ],
 };

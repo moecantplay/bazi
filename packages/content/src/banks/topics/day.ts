@@ -5,16 +5,16 @@
  */
 
 export const TEN_GOD_TOPICS: Record<string, { how: string; work: string }> = {
-  "Friend": { how: "People in the same position as you, peers and siblings, are the best company today. Shared work goes further than solo effort.", work: "Pair up on something you'd normally do alone." },
-  "Rob Wealth": { how: "A friendly competitive edge runs through the day: someone near you may want the same thing, the same credit or the same slot. The rivalry is usually good-natured, and naming it keeps it that way.", work: "Say out loud what you're after, so it doesn't turn into quiet jostling." },
-  "Eating God": { how: "Work done for the joy of it goes well: cooking, making, playing. The day rewards enjoying things without keeping score.", work: "Make something small just because you like making it." },
+  "Friend": { how: "Peers and siblings make good allies today, since they know your situation from the inside. Shared work goes further than solo effort.", work: "Pair up on something you'd normally do alone." },
+  "Rob Wealth": { how: "A friendly competitive edge runs through the day: a colleague or friend may be eyeing the credit or the prize you want. The rivalry is usually good-natured, and naming it keeps it that way.", work: "Say out loud what you're after, so it doesn't turn into quiet jostling." },
+  "Eating God": { how: "Play and pleasure pay their way today: cooking, making, idle tinkering. The day rewards enjoying things without keeping score.", work: "Make something small just because you like making it." },
   "Hurting Officer": { how: "You're sharp and a little rule-bending today, quick to spot what could be done better.", work: "Offer the better way, and leave out the part about the old way being wrong." },
   "Indirect Wealth": { how: "Chances show up unplanned: an offer, a lead, a lucky find. They reward attention more than planning.", work: "Say yes to one unexpected invitation." },
-  "Direct Wealth": { how: "Plain, steady effort pays off today, more than bright ideas or shortcuts.", work: "Finish the task that's nearly done before you start a new one." },
+  "Direct Wealth": { how: "Plain, steady work earns more today than bright ideas or shortcuts.", work: "Finish the task that's nearly done before you start a new one." },
   "Seven Killings": { how: "The day brings pressure: demands, deadlines, people who expect a lot. Met one at a time, it builds strength.", work: "Take on the hardest thing first, and let one lesser demand wait." },
-  "Direct Officer": { how: "Order, fairness and doing things properly work in your favour today. Shortcuts cost more than they save.", work: "Keep one small promise exactly as you made it." },
-  "Indirect Resource": { how: "Answers come sideways today: from a side conversation, a walk, an article you didn't mean to read.", work: "Step away from the problem for an hour and let it come back to you." },
-  "Direct Resource": { how: "Care and help reach you more easily: advice, support, someone looking out for you.", work: "Accept the help that's offered without explaining why you don't need it." },
+  "Direct Officer": { how: "Order and fairness count for more than usual, and doing things properly gets noticed. Shortcuts cost more than they save.", work: "Keep one small promise exactly as you made it." },
+  "Indirect Resource": { how: "Your best thinking happens off to the side today: in the shower, on the bus or halfway through something unrelated.", work: "Step away from the problem for an hour and let it come back to you." },
+  "Direct Resource": { how: "Support is easier to find today: advice, a hand with the heavy part, someone who has your back.", work: "Accept the help that's offered without explaining why you don't need it." },
 };
 
 export const TEN_GOD_NAME_ORIGIN =
@@ -34,12 +34,12 @@ export const ELEMENT_TOPIC = {
 } as const;
 
 export const ELEMENT_NAME_ORIGIN =
-  "The old calendars sort everything into five elements: Wood, Fire, Earth, Metal and Water. Your birth chart runs better with more of some and less of others, and each day brings one.";
+  "The old calendars sort everything into five elements: Wood, Fire, Earth, Metal and Water. Each day carries one of them, and every chart leans toward some and away from others.";
 
 export const STAGE_WORK: Record<string, string> = {
   "Growth": "Start small, and let the new thing find its feet.",
   "Bath": "Be a little choosy about whose opinions you take in today.",
-  "Coming of Age": "Put your name to something you've been holding back.",
+  "Coming of Age": "Own the piece of work you've been holding back.",
   "Taking Office": "Take on the task that needs someone capable.",
   "Peak": "Spend today's drive on the one thing that matters most, and leave something for tomorrow.",
   "Decline": "Finish things rather than start them.",
@@ -56,7 +56,7 @@ export const STAGE_NAME_ORIGIN =
 
 export const HOURS_TOPIC = {
   how: "Plans made in the easy window tend to settle without a fuss. In the rough window, small things jostle.",
-  work: ["Put the conversation that matters in the easy window.", "Keep the rough window for routine work."],
+  work: ["Save the conversation that matters for the smoother hours.", "Keep the rough window for routine work."],
   nameOrigin: "The day splits into twelve two-hour blocks, each with its own animal sign. One block pulls with today's sign and one pulls against it; the old almanacs call them the day's lucky and unlucky hours.",
 };
 

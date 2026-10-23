@@ -1,7 +1,10 @@
 /**
  * Natal branch-interaction lines: how a pattern baked into the birth chart is
- * described. Friction (clash, punishment, harm) is texture with a use, never a
- * curse (VOICE.md §8).
+ * described. Friction (clash, punishment, harm) is something to use, never a
+ * curse (VOICE.md §8). Each template names the pattern once, framed as the old
+ * books' name, then says it plainly (rule 11). No two templates share a 4-word
+ * phrase, so several patterns on one chart page never echo each other (Plain
+ * writing rule 5).
  *
  * Templates carry placeholders the builder fills from the fact — this package
  * never computes an interaction, it only phrases one the engine already found.
@@ -9,9 +12,9 @@
 
 import type { Element, InteractionType, Palace } from "@daymaster/bazi-engine";
 import type { DraftLine } from "../types.js";
-import type { TokenLine } from "../tokens.js";
+import type { ContentRun, TokenLine } from "../tokens.js";
 import { fillRuns } from "../tokens.js";
-import { elementWord, interactionTagRuns, joinBranchRuns, palacePhrase } from "../vocab.js";
+import { branchTokenRuns, elementWord, interactionTagRuns, palacePhrase } from "../vocab.js";
 import { pick } from "../hash.js";
 
 /** Everything the builder needs, already extracted from a natal-interaction fact. */
@@ -25,42 +28,42 @@ export interface NatalInteractionInput {
 }
 
 const COMBINE: readonly string[] = [
-  "A six-combine ties your {palaces} together — {branches} pulling toward each other like two people finishing each other's sentences. Things in those rooms tend to move as a pair.",
-  "{branches} sit in combine across your {palaces}, cooperating the way old colleagues do without a meeting. The only risk is comfort settling into inertia.",
+  "The old calendars call this a combine: your {branches} pull toward each other like two people finishing each other's sentences. Things in your {palaces} tend to move as a pair.",
+  "In the old books, {branches} make a combine: old colleagues who cooperate without needing a meeting. The one risk for your {palaces} is comfort settling into inertia.",
 ];
 
 const CLASH: readonly string[] = [
-  "{branches} clash across your {palaces} — two schedules permanently booked for the same hour. Friction lives here, and friction is movement: a hinge, not a wound.",
-  "A six-clash runs between your {palaces}: {branches} facing off, furniture that never quite fits the same room. Read the restlessness there as a prompt to act, not a verdict.",
+  "Your {branches} face off across the {palaces}, which the old calendars name a clash. It's two schedules booked for the same hour, and the friction keeps things moving.",
+  "The old books' word for {branches} facing off is a clash, like furniture that never quite fits the same room. Treat the restlessness in the {palaces} as a prompt to act.",
 ];
 
 const TRINE_FULL: readonly string[] = [
-  "A full {element} trine sits in your chart — {branches} locking together like a three-legged stool, the steadiest shape there is. It gives you a dependable reserve of {element} to lean on.",
-  "{branches} form a complete {element} trine: three branches pulling one direction, a crew that has rowed together for years. That current of {element} is yours to draw from.",
+  "Your {branches} lock together like the three legs of a stool, known to the old calendars as a full {element} trine. It gives you a dependable reserve of {element} to lean on.",
+  "Three signs, {branches}, row in one direction like a crew that has worked together for years. Its old name is a complete {element} trine, and that current of {element} is yours to draw from.",
 ];
 
 const TRINE_HALF: readonly string[] = [
-  "A half {element} trine forms in your chart — {branches}, two legs of a three-legged stool. The frame holds in outline; it steadies whenever the third branch turns up in passing.",
-  "{branches} make a half {element} trine — two friends waiting on a third before the plan really moves. The current of {element} is real but partial.",
+  "Your {branches} are two legs of a three-legged stool: the old name for this is a half {element} trine. The frame holds in outline and steadies whenever the third sign turns up in passing.",
+  "The old books call {branches} half of a {element} trine: two friends waiting on a third before the plan really moves. The pull of {element} is real but partial.",
 ];
 
 const PUNISHMENT_MUTUAL: readonly string[] = [
-  "A punishment pattern ({branches}) crosses your {palaces} — a stone in your shoe, small but insistent. It tends to repeat until it's named; named, it mostly quiets.",
-  "{branches} form a punishment between your {palaces}, the squeaky stair you keep stepping on. The knot loosens when you meet it head-on instead of working around it.",
+  "The old calendars list this as a punishment, a stone in your shoe across your own {palaces}. The {branches} keep catching until the snag is named, and once named it mostly quiets.",
+  "The old books name {branches} a punishment: the squeaky stair you keep stepping on. In your own {palaces}, the knot loosens once you meet it head-on.",
 ];
 
 const PUNISHMENT_SELF: readonly string[] = [
-  "A self-punishment sits on {branches} in your {palaces} — the bar you keep raising on yourself after everyone else has gone home. When this room aches, look first at your own grip.",
-  "{branches} carry a self-punishment in your {palaces}: pressure from inside, like re-grading your own finished work at midnight. Easing that grip is the work here.",
+  "The old books know this as a self-punishment: your {branches}, the same sign twice, in your chart's {palaces}. It's the bar you keep raising on yourself, so when it aches, look first at your own grip.",
+  "By its old name this is a self-punishment: {branches} pressing from inside your chart's {palaces}. It's like re-grading your own finished work at midnight, and easing that grip is the work here.",
 ];
 
 const HARM: readonly string[] = [
-  "A harm links {branches} across your {palaces} — a slow leak rather than a burst pipe. It rewards attention before it rewards force.",
-  "{branches} form a harm between your {palaces}: small erosions, the overnight drip of a kitchen tap. Catch them early and they stay small.",
+  "The old calendars mark {branches} as a harm between {palaces}: a slow leak, small and easy to miss. It rewards attention before it rewards force.",
+  "The old books' name for {branches} here is a harm: small erosions between {palaces}, like a dripping tap. Catch them early and they stay small.",
 ];
 
 const GENERIC: readonly string[] = [
-  "A distinct pattern sits between your {palaces} ({branches}). Read it as one of your chart's textures — something to work with, not against.",
+  "Your chart holds a pattern of its own linking {palaces} ({branches}). Treat it as one more part of you to work with.",
 ];
 
 /** Every natal-interaction template, for exhaustive voice checking. */
@@ -92,6 +95,22 @@ function templatesFor(input: NatalInteractionInput): readonly string[] {
   }
 }
 
+/**
+ * The branches as a spoken list ("rat and horse", "monkey, rat and dragon"):
+ * a line's prose keeps en-dashes for numbers only (Plain writing rule 1). The
+ * fact tag keeps vocab's compact "rat–horse".
+ */
+function branchListRuns(branches: readonly string[]): TokenLine {
+  const runs: ContentRun[] = [];
+  branches.forEach((branch, index) => {
+    if (index > 0) {
+      runs.push({ kind: "text", text: index === branches.length - 1 ? " and " : ", " });
+    }
+    runs.push(...branchTokenRuns(branch));
+  });
+  return runs;
+}
+
 /** Build one natal-interaction line, seeded and voice-compliant. */
 export function natalInteractionLine(
   input: NatalInteractionInput,
@@ -101,7 +120,7 @@ export function natalInteractionLine(
   const template = pick(templatesFor(input), seedKey, salt);
   const element = input.element ? elementWord(input.element) : "";
   const runs: TokenLine = fillRuns(template, {
-    branches: joinBranchRuns(input.branches),
+    branches: branchListRuns(input.branches),
     palaces: [{ kind: "text", text: palacePhrase(input.palaces) }],
     element: [{ kind: "text", text: element }],
   });
