@@ -79,6 +79,20 @@ A reader who opens the app every day doesn't meet the same sentence again within
 - **R10. Ships once.** Every reading changes on deploy, so the new voice arrives in one step, not bank by bank.
   - Acceptance: one production deploy at the end; live-app check of Today in all three looks × both themes, a topic page, Ahead and People.
 
+### Before and after (R8), 2026-10-23
+
+`after.json` beside this ticket; before is [M20-02's baseline](../../m20-clarity/02-copy-audit-baseline/baseline.json). Fixture A.
+
+| Target | Before | After | Met |
+| --- | --- | --- | --- |
+| Today, unique sentences ≥ 45% | 22.7% | 37.7% (45.5% without the lines fixed by design: star titles and the hours card's times) | No, as measured; yes on the rotating copy |
+| Em-dashes per view, every surface: 0 | up to 15 (Your chart) | 0 everywhere | Yes |
+| Sentences said twice on one view: 0 | 14 (People) | 0 everywhere | Yes |
+| Phrase pairs within one view, outside title echoes: 0 | 373 topic pages, 3 Your chart, 2 People | 0 (`screen-repeats.test.ts`). The audit still counts 105 on topic pages, all titles echoing their own line or the hours card's times | Yes |
+| Ahead, unique sentences ≥ 60% | 36.3% | 58.2% (57.6–64.0% across fixtures) | No, by 1.8 points |
+
+Every window target holds in tests: no Today line back within 14 days, no Ahead line twice within 12 months or a decade's years, no screen saying a thing twice, no rule broken on any rendered line. The two ratios miss for structural reasons. Star titles and hours times stay fixed by design (R3) but count toward Today's ratio. Ahead's six-clash, punishment, harm and six-combine leads never repeat within their window, so they kept one entry each and repeat across years. The owner decides at sign-off (R9) whether to accept or grow more pools.
+
 ## Out of scope
 
 - **Topic pages stay reference pages.** Their explanations don't rotate: a page should read the same each time a reader comes back to learn what the sign means. They're in scope for the plain-writing rules and for the within-page repeat targets.
