@@ -5,9 +5,14 @@
  * with no count steps by the day number instead. The slot string names both
  * the line and its situation ("card:stage:Peak"), so it is also the key the
  * visits are counted under.
+ *
+ * A picked entry's choice groups (R11) step once per comeback: each time the
+ * same entry returns, it reads in its next combination, every combination
+ * before a repeat, starting where the chart's hash puts it.
  */
 
-import { cyclePick, dayNumber } from "./hash.js";
+import { choiceCount, resolveChoices } from "./choices.js";
+import { cyclePick, dayNumber, fnv1a } from "./hash.js";
 import type { DailySeed } from "./types.js";
 
 /** One rotating pick a reading makes: the slot it was made under and the size of its pool. */
@@ -18,11 +23,21 @@ export interface RotationSlot {
 
 export type Picker = <T>(pool: readonly T[], slot: string) => T;
 
+/** The pool entry at `step`, in the wording for its comeback number. */
+function pickWording<T>(pool: readonly T[], chart: string, slot: string, step: number): T {
+  const entry = cyclePick(pool, chart, slot, step);
+  if (choiceCount(entry) === 1) {
+    return entry;
+  }
+  const comeback = Math.floor(step / pool.length);
+  return resolveChoices(entry, fnv1a(`${chart}|${slot}|wording`) + comeback);
+}
+
 /** A picker for one reading; with `record`, it also lists every slot it picks under. */
 export function pickerFor(seed: DailySeed, record?: RotationSlot[]): Picker {
   return <T>(pool: readonly T[], slot: string): T => {
     record?.push({ slot, poolSize: pool.length });
-    return cyclePick(pool, seed.chart, slot, seed.visits?.[slot] ?? dayNumber(seed.date));
+    return pickWording(pool, seed.chart, slot, seed.visits?.[slot] ?? dayNumber(seed.date));
   };
 }
 
@@ -34,7 +49,7 @@ export function pickerFor(seed: DailySeed, record?: RotationSlot[]): Picker {
 export function steppedPicker(chart: string, step: number, record?: RotationSlot[]): Picker {
   return <T>(pool: readonly T[], slot: string): T => {
     record?.push({ slot, poolSize: pool.length });
-    return cyclePick(pool, chart, slot, step);
+    return pickWording(pool, chart, slot, step);
   };
 }
 

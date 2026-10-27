@@ -6,6 +6,7 @@
 
 import type { DayFact, Element, InteractionType, NatalFact, Palace, Stem } from "@daymaster/bazi-engine";
 import { DAY_MASTER_LINES } from "../src/banks/day-master.js";
+import { everyWording } from "../src/choices.js";
 import {
   BALANCED_LINES,
   CAREER_LINES,
@@ -126,7 +127,7 @@ export function allBankLines(): string[] {
     ...Object.values(STAR_GLOSSES).map((gloss) => `A star — ${gloss}.`),
     ...Object.values(LIFE_STAGE_GLOSSES).map((gloss) => `A stage — ${gloss}.`),
   ];
-  return raw.map(render);
+  return raw.flatMap(everyWording).map(render);
 }
 
 /** A compare fact array with one fact of every kind/variant present. */

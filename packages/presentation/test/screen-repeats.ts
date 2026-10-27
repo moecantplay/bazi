@@ -9,6 +9,8 @@
  *   titles sit out the phrase check.
  * - Plain writing (VOICE.md rules 1–4) on every rendered line, which reaches
  *   the lines composed inside `readings/**` that the bank walk can't.
+ * - A choice group that reached the screen unresolved (R11): its bracket or
+ *   pipe, from a bank read outside the pickers.
  */
 
 import { brokenRules, plainGloss, type PlainRule } from "@daymaster/content";
@@ -18,7 +20,7 @@ import { addDays } from "../src/dates.js";
 import { todayScreenModel } from "../src/today-screen.js";
 import type { StoredProfile } from "../src/types.js";
 
-export type ScreenCount = "window repeats" | "said twice" | "phrase pairs" | PlainRule;
+export type ScreenCount = "window repeats" | "said twice" | "phrase pairs" | "unresolved choice" | PlainRule;
 
 export type ScreenCounts = Record<SurfaceName, Partial<Record<ScreenCount, number>>>;
 
@@ -27,6 +29,7 @@ const DAYS = 90;
 const START = "2026-10-20";
 const TITLE_SLOTS = ["title", "card title", "star title"];
 const UNROTATED_CARDS = ["hours", "stars"];
+const CHOICE_SYNTAX = /[[\]|]/;
 
 /** Every sentence Today shows on a day that has to rotate: the hours card keeps only its best-hour note. */
 function rotatingSentences(profile: StoredProfile, date: string): string[] {
@@ -77,6 +80,7 @@ export function screenCounts(fixtures: readonly (readonly [string, StoredProfile
     for (const view of views) {
       for (const { text } of view.slots) {
         brokenRules(text).forEach((rule) => add(rule, 1));
+        add("unresolved choice", CHOICE_SYNTAX.test(text) ? 1 : 0);
       }
     }
     if (name === "Today") {

@@ -8,6 +8,7 @@ import type { Branch, DayFact } from "@daymaster/bazi-engine";
 import { textRun } from "../tokens.js";
 import type { DailySeed, TopicContext, TopicPage } from "../types.js";
 import { BRANCH_ANIMALS, elementWord, hourWindowLabel } from "../vocab.js";
+import { resolveChoices } from "../choices.js";
 import { pickerFor, type Picker } from "../rotation.js";
 import { ELEMENT_CARDS, STAGE_CARDS, STAGE_CARD_FALLBACK, STAR_TITLES, TEN_GOD_CARDS } from "../banks/daily/cards.js";
 import { AREA_SIGN_SUBJECT, AREA_TITLE_PHRASE, INTERACTION_TOPICS } from "../banks/topics/interactions.js";
@@ -167,9 +168,9 @@ function starsPage(stars: readonly FactOf<"star-day">[]): TopicPage {
   });
 }
 
-/** Without the day's seed, a card pool's first entry heads the page. */
+/** Without the day's seed, a card pool's first entry heads the page, in its first wording. */
 function firstEntry<T>(pool: readonly T[]): T {
-  return pool[0] as T;
+  return resolveChoices(pool[0] as T, 0);
 }
 
 /**

@@ -30,6 +30,7 @@ import {
   natalFactSets,
   natalWithInteractions,
 } from "./collect.js";
+import { plainWritingLines } from "./plain-writing-rules.js";
 import { lineText } from "./token-utils.js";
 
 /** Words VOICE.md bans outright, plus regulated-domain directives. */
@@ -105,6 +106,12 @@ describe("voice compliance", () => {
     for (const line of lines) {
       assertVoiceCompliant(line);
     }
+  });
+
+  it("every wording of every bank string avoids the banned words (choice groups, M24-11 R11)", async () => {
+    const { lines } = await plainWritingLines();
+    const banned = lines.filter(({ text }) => BANNED_PATTERNS.some((pattern) => pattern.test(text))).map(({ module, text }) => `${module} | ${text}`);
+    expect(banned).toEqual([]);
   });
 
   it("every line the public API emits obeys VOICE.md", () => {

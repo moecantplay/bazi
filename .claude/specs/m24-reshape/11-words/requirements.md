@@ -1,6 +1,6 @@
 # Words
 
-Status: in-progress · Milestone: M24 · Ticket: 11 · Approved by the owner 2026-10-20 ("approved", every recommendation below) · Carries [M20-12](../../m20-clarity/12-no-repeat-selection/requirements.md) (no repeats day to day), [M20-13](../../m20-clarity/13-voice-lint/requirements.md) (voice lint) and [M20-14](../../m20-clarity/14-copy-rewrite/requirements.md) (copy rewrite), all dropped into this ticket 2026-10-10. R11–R12 (word variety) added at the owner's request 2026-10-23, design awaiting approval. Judged against the [M20-02 baseline](../../m20-clarity/02-copy-audit-baseline/requirements.md#baseline).
+Status: in-progress · Milestone: M24 · Ticket: 11 · Approved by the owner 2026-10-20 ("approved", every recommendation below) · Carries [M20-12](../../m20-clarity/12-no-repeat-selection/requirements.md) (no repeats day to day), [M20-13](../../m20-clarity/13-voice-lint/requirements.md) (voice lint) and [M20-14](../../m20-clarity/14-copy-rewrite/requirements.md) (copy rewrite), all dropped into this ticket 2026-10-10. R11–R12 (word variety) added at the owner's request 2026-10-23, design approved 2026-10-27. Judged against the [M20-02 baseline](../../m20-clarity/02-copy-audit-baseline/requirements.md#baseline).
 
 ## Problem
 
@@ -121,7 +121,7 @@ Every window target holds in tests: no Today line back within 14 days, no Ahead 
 - [x] **Who writes?** M20-14 recommended a human copywriter for the core banks. Since then you've chosen the content-writer agent's draft over copy written in the main conversation (M24-10) and have no budget for paid services yet. Recommendation: content-writer drafts every bank, and you read the R9 sample before ship. A copywriter can still take one pass later over the banks the sample flags. Answer (owner, 2026-10-20): the content-writer agent drafts, the owner reads the R9 sample.
 - [x] **Approve the R8 targets**, or set others. Answer (owner, 2026-10-20): approved as proposed.
 - [x] **Add word variety to this ticket?** Answer (owner, 2026-10-23): yes, as R11 and R12, deploy held until they're done; lines may mix and match parts so they aren't tied to one sentence.
-- [ ] **Approve the R11 design** (`design.md`, Phase 4): choice groups inside bank strings, at most 3 per sentence and 4 parts per group, stepped so a returning line comes back in its next combination. Recommendation: approve.
+- [x] **Approve the R11 design** (`design.md`, Phase 4): choice groups inside bank strings, at most 3 per sentence and 4 parts per group, stepped so a returning line comes back in its next combination. Recommendation: approve. Answer (owner, 2026-10-27): approved.
 - [ ] **R12 caps and exempt list.** Measured in task 15 over every fixture, then proposed here with numbers. Starting point: no word more than 5 times in a week of Today or 12 months of Ahead, and no more than twice on one topic page, People screen or the chart page.
 - [ ] **The two R8 ratios** (Today 37.7%, Ahead 58.2%). Choice groups count toward unique sentences, so both should rise; decide at the new R9 sign-off.
 

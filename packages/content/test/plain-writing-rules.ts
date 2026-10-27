@@ -5,6 +5,7 @@
  * values; every function those modules export; and the chart page's composed
  * lines. Bank files are found on disk, so a new bank is checked without anyone
  * remembering to add it, and a new function bank fails until it is called here.
+ * A string with choice groups (R11) is checked in every wording.
  */
 
 import { readdirSync, statSync } from "node:fs";
@@ -18,6 +19,7 @@ import { natalStarLine } from "../src/banks/stars.js";
 import { welcomeHeadline } from "../src/banks/welcome.js";
 import { portraitLine, portraitRest } from "../src/banks/you/portrait.js";
 import { easeLine } from "../src/banks/you/you.js";
+import { everyWording } from "../src/choices.js";
 import { DISCLAIMER, natalReading } from "../src/index.js";
 import type { PlainRule } from "../src/plain-writing.js";
 import { finalizeLine } from "../src/types.js";
@@ -52,6 +54,8 @@ const NON_LINE_FUNCTIONS = [
 export interface PlainLine {
   module: string;
   text: string;
+  /** The bank string this wording came from, groups and placeholders unresolved. */
+  source: string;
 }
 
 export interface PlainFailure extends PlainLine {
@@ -119,10 +123,12 @@ export async function plainWritingLines(): Promise<{ lines: PlainLine[]; functio
     functionExports.push(...Object.entries(exports).filter(([, value]) => typeof value === "function").map(([name]) => name));
     const found: string[] = [];
     Object.values(exports).forEach((value) => stringsIn(value, found));
-    lines.push(...[...new Set(found.map(render))].map((text) => ({ module, text })));
+    for (const source of new Set(found)) {
+      lines.push(...[...new Set(everyWording(source).map(render))].map((text) => ({ module, text, source })));
+    }
   }
-  lines.push(...[...new Set(functionBankLines())].map((text) => ({ module: "function banks", text })));
-  lines.push(...[...new Set(natalReadingLines())].map((text) => ({ module: "rendered: chart page", text })));
+  lines.push(...[...new Set(functionBankLines())].map((text) => ({ module: "function banks", text, source: text })));
+  lines.push(...[...new Set(natalReadingLines())].map((text) => ({ module: "rendered: chart page", text, source: text })));
   const allowed = new Set(ALLOWED_LINES.map((entry) => entry.text));
   return { lines: lines.filter((line) => !allowed.has(line.text)), functionExports };
 }
