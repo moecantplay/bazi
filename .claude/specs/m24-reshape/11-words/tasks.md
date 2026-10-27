@@ -32,5 +32,5 @@ Check a task only with a one-line evidence note.
 
 ## Ship
 
-- [ ] 10. `copy-audit --sample`; publish the A and D sample for the owner; record sign-off (R9) — first sample (https://claude.ai/artifact/T1t6dN9dLh455hnWbp5K6B) read 2026-10-23: owner asked for more word variety (R11, R12); second sample after phase 4 and two review rounds published 2026-10-27 (https://claude.ai/artifact/5CzrtKbMunsmBoC4DxPr7C, private); waiting on owner sign-off
+- [x] 10. `copy-audit --sample`; publish the A and D sample for the owner; record sign-off (R9) — first sample (https://claude.ai/artifact/T1t6dN9dLh455hnWbp5K6B) read 2026-10-23: owner asked for more word variety (R11, R12); second sample after phase 4 and two review rounds published 2026-10-27 (https://claude.ai/artifact/5CzrtKbMunsmBoC4DxPr7C, private); "niggle" banned and replaced at the owner's request after reading it; signed off by the owner 2026-10-27 ("signed off")
 - [ ] 12. `pnpm verify`, `e2e:looks`, one deploy, live-app check of Today in each look × both themes, a topic page, Ahead and People (R10)

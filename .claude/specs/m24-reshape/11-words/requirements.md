@@ -75,7 +75,7 @@ A reader who opens the app every day doesn't meet the same sentence again within
 
   - Acceptance: `pnpm copy-audit --out` committed beside the baseline as `after.json`, with a before/after table in this ticket.
 - **R9. The owner reads it before it ships.** A rendered sample for Fixtures A and D: 7 days of Today, the topic pages those days open, Ahead's 12 months of 2027, and People for two pairings, in reading order. `pnpm copy-audit --sample <fixture>` prints it from the same collector the audit uses. The owner signs off before deploy.
-  - Acceptance: owner sign-off recorded here.
+  - Acceptance: owner sign-off recorded here. Signed off by the owner 2026-10-27 ("signed off") on the second sample (https://claude.ai/artifact/5CzrtKbMunsmBoC4DxPr7C), after phase 4 and with "niggle" removed at their request.
 - **R10. Ships once.** Every reading changes on deploy, so the new voice arrives in one step, not bank by bank.
   - Acceptance: one production deploy at the end; live-app check of Today in all three looks × both themes, a topic page, Ahead and People.
 
