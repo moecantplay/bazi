@@ -91,15 +91,15 @@ export const TRINE_BODIES: Pool = {
     "Support from your relatives is easier to find. Lean on them for [a task|an errand] you'd normally handle alone.",
     "Family members may [rally|unite] without much effort. Suggest the shared plan or group call you've been thinking about.",
     "Your relatives may offer help unprompted. [Accept it|Say yes], and let them feel useful.",
-    "Relatives may line up behind you. [Request|Raise] the favour you'd normally hesitate over.",
+    "Relatives may line up behind you. [Request|Ask for] the favour you'd normally hesitate over.",
     "Your family [acts|moves] as one. A shared plan made now [often sticks|usually holds].",
   ],
   home: [
     "At home, everyone pulls in one direction without needing to talk it through. [Arrangements|Plans] you make [as a household|jointly] now [often hold|usually stick].",
     "Your household [hums|moves] like a [practised|well-drilled] team. Split the chores and share the wins.",
-    "Your household may be more ready to help than you think. [Speak up|Say so], and let the load spread.",
+    "Your household may be more ready to help than you think. [Speak up|Ask], and let the load spread.",
     "The whole household may be after one outcome, for once. Use it to settle [a debate|the matter] you've all been circling.",
-    "Help at home may [arrive|turn up] unasked. Accept it, and return [it tomorrow|the favour soon].",
+    "Help at home may [arrive|turn up] unasked. Accept it, and return the favour [soon|later in the week].",
   ],
   plans: [
     "Your bigger plans and the [friends|allies] around you pull the same way. Let that support carry you instead of pushing harder on your own.",

@@ -47,8 +47,11 @@ const FUNCTION_WORDS = new Set(
   let lets let's get gets got`.split(/\s+/)
 );
 
+/** Words that end in "s" without being plurals. */
+const UNFOLDED = new Set(["news", "always", "perhaps", "series", "across", "towards", "afterwards", "sometimes"]);
+
 function fold(word: string): string {
-  if (FUNCTION_WORDS.has(word) || word.length <= 3 || !word.endsWith("s") || word.endsWith("ss")) {
+  if (FUNCTION_WORDS.has(word) || UNFOLDED.has(word) || word.length <= 3 || !word.endsWith("s") || word.endsWith("ss")) {
     return word;
   }
   return word.slice(0, -1);
@@ -67,7 +70,7 @@ export function termsOf(text: string): string[] {
     .slice(1)
     .map((word, index) => [words[index] as string, word] as const)
     .filter(([first, second]) => !(FUNCTION_WORDS.has(first) && FUNCTION_WORDS.has(second)))
-    .map(([first, second]) => `${first} ${fold(second)}`);
+    .map(([first, second]) => `${fold(first)} ${fold(second)}`);
   return [...singles, ...pairs];
 }
 

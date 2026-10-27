@@ -22,8 +22,8 @@ export interface PeriodLeadText {
 export const PERIOD_LEADS: Record<InteractionType, Record<LifeArea, readonly PeriodLeadText[]>> = {
   "six-clash": {
     work: [{
-      headline: "[One work commitment|A deadline or a role|One of your duties] has to make room.",
-      body: "Two demands [at work|on the job] may [compete for|claim] the same slot: a role and a new direction, or your [idea|project] and someone else's. You get to choose which one moves, and [choosing|settling it] ahead of time keeps it calm.",
+      headline: "[One work commitment|One deadline|One of your duties] has to make room.",
+      body: "Two demands [at work|on the job] may [compete for|claim] the same slot: two deadlines, or your [idea|project] and someone else's. You get to choose which one moves, and [choosing|settling it] ahead of time keeps it calm.",
       action: "Name the [commitment|meeting|duty] you'd drop first, and tell one [colleague|person].",
     }],
     family: [{
@@ -38,7 +38,7 @@ export const PERIOD_LEADS: Record<InteractionType, Record<LifeArea, readonly Per
     }],
     plans: [{
       headline: "A bigger [goal|ambition] may need [a new route|a detour|another route].",
-      body: "What you're building toward may meet [a wall|an obstacle|a fixed limit] that won't move. Adjusting [now|soon] costs less than defending a plan that no longer fits.",
+      body: "What you're building toward may meet [a wall|an obstacle|a hard limit] that won't move. Adjusting [now|soon] costs less than defending a plan that no longer fits.",
       action: "Write down which part of the [plan|approach] you'd change first.",
     }],
   },
@@ -55,7 +55,7 @@ export const PERIOD_LEADS: Record<InteractionType, Record<LifeArea, readonly Per
     }],
     home: [{
       headline: "The same [minor snag|old niggle|sore point] at home.",
-      body: "[A chore, a habit or a tone|One household habit] may keep coming up. Talk about the pattern kindly, [instead of each time it happens|and let single slips go].",
+      body: "[A chore, a habit or a tone|One household habit] may keep coming up. Talk about the pattern kindly, [once and in full|and let single slips go].",
       action: "Raise the recurring [chore dispute|household gripe] once, calmly.",
     }],
     plans: [{
@@ -72,7 +72,7 @@ export const PERIOD_LEADS: Record<InteractionType, Record<LifeArea, readonly Per
     }],
     family: [{
       headline: "[A little wear|Some fraying] in family ties.",
-      body: "[Minor|Unspoken] misunderstandings with relatives can build if nobody mentions them. Reaching out first, even briefly, [stops them growing|clears most of them].",
+      body: "[Minor|Little] misunderstandings with [relatives|family] can build if nobody mentions them. Reaching out first, even briefly, [stops them growing|clears most of them].",
       action: "[Send a short message to|Call] the [relative|family member] you've drifted from.",
     }],
     home: [{
@@ -95,11 +95,11 @@ export const PERIOD_LEADS: Record<InteractionType, Record<LifeArea, readonly Per
     family: [{
       headline: "Family ties [feel warm|run warm|grow warmer].",
       body: "The people you come from are easier to reach. Visits and calls [go smoothly|land well], and [help|a hand] is easier to accept.",
-      action: "Let a relative [take on|handle] one [errand|chore] on your list.",
+      action: "Let [a relative|someone in the family] [take on|handle] one [errand|chore] on your list.",
     }],
     home: [{
       headline: "[Home is|You're both] on the same page.",
-      body: "You and the person closest to you [often|may] want the same [outcome|next step]. It's a [fine moment|fitting stretch] to make a shared decision.",
+      body: "You and the person closest to you [often|may] want the same [outcome|next step]. It's a [fitting|timely] stretch to make a shared decision.",
       action: "Settle one household choice you've both been [putting off|circling].",
     }],
     plans: [{
@@ -115,16 +115,16 @@ export const PERIOD_LEADS: Record<InteractionType, Record<LifeArea, readonly Per
       action: "Start the [task|assignment] that needs more than one pair of hands.",
     }, {
       headline: "Colleagues are [easier to rally|quick to sign on].",
-      body: "[Coworkers|Your team] often say yes when invited onto a project. Pick the one that stalled for lack of hands and gather a [crew|team] around it.",
+      body: "[Coworkers|Teammates] often say yes when invited onto a project. Pick the one that stalled for lack of hands and gather a [crew|team] around it.",
       action: "[Get two colleagues to join|Bring two colleagues in on] one stalled task.",
     }, {
       headline: "[Help|Backing] at work arrives from more directions.",
-      body: "A manager, a peer or someone in another team may offer to carry part of your load. [Say yes out loud|Accept plainly], and give each helper one clear [piece|part].",
+      body: "A manager, a peer or someone in another team may offer to carry part of your load. [Say yes out loud|Accept gladly], and give each helper one clear [piece|part].",
       action: "[List|Jot down] who could share your heaviest task.",
     }],
     family: [{
       headline: "Family [pulls together|rallies round].",
-      body: "Relatives [often|usually] move as a group, which makes [joint outings|shared projects] easier to carry. Lean on that [instead of organising|so you're not organising] everything yourself.",
+      body: "Relatives [often|usually] move as a group, which makes [joint outings|shared projects] easier to pull off. Lean on that [instead of organising|so you're not organising] everything yourself.",
       action: "Suggest one [family outing|shared family project].",
     }, {
       headline: "Relatives are ready to share the load.",
@@ -132,7 +132,7 @@ export const PERIOD_LEADS: Record<InteractionType, Record<LifeArea, readonly Per
       action: "Hand one relative a [specific|clear] job from your list.",
     }, {
       headline: "Family gatherings [come together|fall into place] with little fuss.",
-      body: "When several relatives are involved, dates line up and everyone agrees. Use that ease for the [reunion|big meal] that usually takes weeks to arrange.",
+      body: "When several relatives are involved, dates often line up and agreement comes easily. Use that ease for the [reunion|big meal] that usually takes weeks to arrange.",
       action: "Propose a date for the next family get-together.",
     }],
     home: [{
@@ -145,7 +145,7 @@ export const PERIOD_LEADS: Record<InteractionType, Record<LifeArea, readonly Per
       action: "Over dinner, name one goal you'd like [the household's help|a hand] with.",
     }, {
       headline: "Shared jobs at home get done faster.",
-      body: "Chores, repairs and [projects|fix-ups] for the house [move quickly|go quickly] when everyone pitches in. Split the list by what each person enjoys, and the dull jobs shrink.",
+      body: "Chores, repairs and [projects|errands] for the house [move quickly|go quickly] when everyone pitches in. Split the list by what each person enjoys, and the dull jobs shrink.",
       action: "Choose one [home project|repair] and book an afternoon to [do it side by side|tackle it as a household].",
     }],
     plans: [{
@@ -181,7 +181,7 @@ export const PERIOD_QUIET_LEADS: Record<string, readonly PeriodLeadText[]> = {
   }],
   "Rob Wealth": [{
     headline: "Pace-setters at your elbow.",
-    body: "Peers set the pace, which [sharpens you|holds you alert]. It's easy to spend time, and money, matching every move; [choose whose pace you follow|pick whose lead to follow].",
+    body: "Peers set the pace, which [sharpens you|wakes you up]. It's easy to spend time, and money, matching every move; [choose whose pace you follow|pick whose lead to follow].",
     action: "[Choose|Name] one person whose pace you won't try to match.",
   }, {
     headline: "[Other people's success|A friend's quick progress] may tug at you.",
@@ -262,7 +262,7 @@ export const PERIOD_QUIET_LEADS: Record<string, readonly PeriodLeadText[]> = {
     body: "Rules, routines and fair play [run in your favour|back you up]. Structure gives you a frame to lean on.",
     action: "Set one routine and [stick with|hold to] it for a week.",
   }, {
-    headline: "Fair dealing [is noticed|gets seen].",
+    headline: "Fair dealing [gets noticed|earns respect].",
     body: "Those in charge often value careful, honest [effort|craft]. Playing by the rules may feel slow, and it builds [a solid name|your reputation].",
     action: "[Tidy up|Close out] one commitment so it's clearly done right.",
   }, {
@@ -308,7 +308,7 @@ export const PERIOD_ELEMENT_SENTENCES: Record<Element, { suits: readonly string[
       "Modest beginnings [spread|branch out], so plant the seeds you care about.",
     ],
     against: [
-      "[Projects|Lists] sprawl easily, so [hold them to a few|trim them often].",
+      "[Projects|Commitments] sprawl easily, so [cap them at a few|prune them often].",
       "Too many fresh starts may compete for your [hours|evenings]; finish one before opening another.",
       "Growth comes fast and untidy, so [prune|cut back] what you don't need.",
       "Your [list|to-do list] can outgrow your week, so cross a few [items|tasks] off.",
@@ -364,7 +364,7 @@ export const PERIOD_ELEMENT_SENTENCES: Record<Element, { suits: readonly string[
       "[Schedules|Arrangements] bend easily, which helps when one has to change.",
     ],
     against: [
-      "[Replies|Projects] may move slower than you'd like, so give them time.",
+      "[Decisions|Projects] may move slower than you'd like, so give them time.",
       "Answers may be slow to arrive, so build in some waiting room.",
       "Moods can run deep; give yourself a quiet evening to sort through them.",
       "[Projects|Intentions] may drift, so write the next step down.",
@@ -405,7 +405,7 @@ export const PERIOD_INTERACTION_CARDS: Record<InteractionType, Record<LifeArea, 
     ],
     family: [
       ["Family pulls together", "[Group outings|Joint efforts] are easier to carry."],
-      ["[Relatives in step|Kin in step]", "Let several relatives each take a piece of [the plan|the effort]."],
+      ["[Relatives in step|Kin in step]", "Let several [relatives|family members] each take a piece of [the plan|the effort]."],
       ["Family backing", "[Relatives stand behind you|Your people back you up] when it counts."],
     ],
     home: [

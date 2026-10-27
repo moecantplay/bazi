@@ -29,7 +29,7 @@ export const CLASH_BODIES: Pool = {
     "You and whoever you share your home with may want [different evenings|different nights]. Neither of you is wrong; talk it over [soon|at breakfast] and choose which wish gives way.",
     "Plans at home may collide: two ideas of how the evening goes, or whose turn it is. A [brief|short] chat now saves a [drawn-out|tense] one later.",
     "A chore, a decision or an errand at home may have to switch hands. Find out what matters most to the other person, then [make|state] your case.",
-    "Home may pull two ways tonight: rest or outings, company or quiet. Say what you need [first|by afternoon], and [invite the same back|hear theirs too].",
+    "Home may pull two ways tonight: rest or outings, company or quiet. Say what you need [first|by afternoon], and [hear theirs too|listen to theirs].",
     "A [minor|brief] standoff at home is possible over timing or chores. Give ground on [the point|whatever] you care about least.",
   ],
   plans: [
@@ -42,10 +42,10 @@ export const CLASH_BODIES: Pool = {
 };
 
 export const CLASH_HEADLINES: Pool = {
-  work: ["[A meeting|A deadline] at work has to give. You choose which.", "Two priorities at work, room for one.", "Work [wants|needs] you to pick a lane.", "Two calls on your time at work.", "A work collision you can steer."],
-  family: ["Family [arrangements|commitments] and yours want the same hours.", "A family tug-of-war you can settle [now|soon].", "Your [relatives|family] want you somewhere else.", "Two family [requests|demands] on your evening.", "Family [wants|needs] you; your schedule does too."],
+  work: ["A meeting or deadline has to give. [You choose|You pick] which.", "Two priorities at work, room for one.", "Work [wants|needs] you to pick a lane.", "Two calls on your time at work.", "A work collision you can steer."],
+  family: ["Family [arrangements|commitments] and yours want the same hours.", "A family tug-of-war you can settle [now|soon].", "Your [relatives|loved ones] want you somewhere else.", "Two family [requests|demands] on your evening.", "Family [wants|needs] you; your schedule does too."],
   home: ["Home has two [agendas|wishes] for the same evening.", "Two ideas of tonight, one evening to share.", "At home, [a wish|an arrangement] has to give.", "Rest or outings? Home may want both.", "A [minor|brief] home standoff you can settle."],
-  plans: ["Your bigger aim [collides|meets] with the rush.", "One [big|major] plan may need a new route.", "A test of which plans are worth holding.", "Urgent [errands|requests] tug at your biggest goal.", "A bigger plan meets a new fact."],
+  plans: ["Your bigger aim [collides|competes] with the rush.", "One [big|major] plan may need a new route.", "A test of which plans are worth holding.", "Urgent [errands|requests] tug at your biggest goal.", "A bigger plan meets a new fact."],
 };
 
 export const CLASH_AGENCY: Pool = {
@@ -97,9 +97,9 @@ export const PUNISHMENT_BODIES: Pool = {
   home: [
     "A recurring friction at home may [show up again|resurface]: the dishes, the timing, the same remark. Talk kindly about the pattern itself, and the next round [gets smaller|shrinks].",
     "A minor snag at home may [nag|rub], like a stone in your shoe. Stop and tip it out: one honest conversation beats a week of limping.",
-    "An old household niggle may [return|resurface]. Laughing about it [with them|as a pair] usually [beats|does more than] winning it.",
+    "An old household niggle may [return|resurface]. Laughing about it [together|as a pair] usually [beats|does more than] winning it.",
     "A familiar issue at home may crop up again. Swap roles on it for [an evening|a night] and see if it eases.",
-    "A home routine that chafes may rub again. Change one [part|step] of it instead of the whole [routine|setup].",
+    "A home routine that chafes may rub again. Change one [part|step] of it instead of the whole [setup|arrangement].",
   ],
   plans: [
     "A recurring setback may [resurface|return] in your [bigger|far-reaching] plans. A [modest|minor] fix to the plan often clears it faster than a bigger push.",
@@ -114,7 +114,7 @@ export const PUNISHMENT_HEADLINES: Pool = {
   work: ["The same snag at work, one more time.", "A work niggle that won't [stay quiet|settle].", "Time to fix the [step|part] that [snags|sticks].", "An old work habit trips you again.", "Break a [stale|tired] work loop."],
   family: ["A [sore|tender] family nerve, touched again.", "The family rerun you've seen [already|a hundred times].", "Family habits [rub|grate] again.", "An old family script, playing again.", "A family niggle, [minor|faint] as ever."],
   home: ["The same [gripe|quarrel] at home, again.", "A household niggle that wants fixing properly.", "Time to settle an old argument at home.", "Home's usual friction, one more round.", "A familiar rub at home."],
-  plans: ["The same obstacle on the [far road|road ahead].", "A recurring snag in the bigger plan.", "What [slows|stalls] your big plan again?", "Your [big|main] plan hits a familiar wall.", "A repeat stall on [what you're building|your project]."],
+  plans: ["The same obstacle [on the road ahead|in your path].", "A recurring snag in the bigger plan.", "What [slows|stalls] your big plan again?", "Your [big|main] plan hits a familiar wall.", "A repeat stall on [what you're building|your project]."],
 };
 
 export const PUNISHMENT_AGENCY: Pool = {
@@ -154,12 +154,12 @@ export const HARM_BODIES: Pool = {
     "Work may look smooth while a [detail|step] goes wrong underneath. A second look [at anything outgoing|ahead of sending] catches most of it.",
     "A quiet mix-up at work may grow if nobody names it. [Raise|Pose] the obvious question; it's rarely as obvious as it seems.",
     "A file, a date or a half-made promise may go astray at work. A quick checklist [as you close up|at the end of the shift] catches it.",
-    "Work details may drift while the big picture looks [sound|healthy]. Spend five minutes on the [fine print|footnotes].",
+    "Work details may drift while the big picture looks [sound|healthy]. Spend five minutes on the fine print.",
   ],
   family: [
     "An old family habit may rub: a comment that lands wrong, a favour that feels like a duty. It stays minor if you deal with it [promptly|soon].",
     "Some distance or a misread message may creep into a family [bond|relationship]. Reaching out first, even briefly, stops it from settling in.",
-    "A family bond may wear [thin in one spot|a touch], like a tap dripping overnight. Nothing breaks, and a kind word now saves a harder talk later.",
+    "A family bond may wear thin in [one spot|places], like a tap dripping overnight. Nothing breaks, and a kind word now saves a harder talk later.",
     "A message in the family may be read the wrong way. [Make|Write] it short and warm, and [check|confirm] rather than assume.",
     "A gap may open in the family without anyone meaning it. A quick call [closes|bridges] it sooner than a [lengthy|big] one later.",
   ],
@@ -182,7 +182,7 @@ export const HARM_BODIES: Pool = {
 export const HARM_HEADLINES: Pool = {
   work: ["Work looks smooth. Check underneath [first|anyway].", "A snag hides under a smooth workday.", "Slips at work, easy to catch [now|in time].", "Mind the [fine print|details] at work.", "Work's details want a second pass."],
   family: ["A quiet family friction worth catching [soon|in time].", "[Faint|Slight] wear in a family bond.", "A relative [could use|would welcome] a gentle check-in.", "A family message may land sideways.", "Close a [minor|narrow] family gap [soon|now]."],
-  home: ["[A detail|One detail] is off at home. [Raise|Mention] it.", "A quiet misreading at home, easy to fix.", "Home [needs|could use] a [brief|short] check-in.", "A mix-up at home, quickly cleared.", "Quiet irritations at home, best named [soon|first]."],
+  home: ["[A detail|One detail] is off at home. [Raise|Mention] it.", "A quiet misreading at home, easy to fix.", "Home [needs|could use] a [brief|short] check-in.", "A mix-up at home, quickly cleared.", "Quiet irritations at home, best named [soon|now]."],
   plans: ["A [far-reaching|big] plan springs a slow leak.", "Your bigger plan needs a quick check.", "[Slight|Quiet] drift in what you're building.", "Leaks in [the main plan|a big project].", "Remember why you started the [plan|project]."],
 };
 
@@ -206,7 +206,7 @@ export const HARM_AGENCY: Pool = {
     "Clear up one [niggle|stray chore] at home by bedtime.",
     "Say the [minor|quiet] gripe you've been holding back at home.",
     "Say tonight's plan out loud once, just to be sure.",
-    "Name one [gripe|irritation] that bothered you, kindly.",
+    "Name one [irritation|annoyance] from the week, kindly.",
   ],
   plans: [
     "Write down one [habit|resource] your bigger plan quietly depends on.",

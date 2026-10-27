@@ -68,8 +68,25 @@ describe("pickers resolve choice groups", () => {
     expect(new Set(starts).size).toBeGreaterThan(1);
   });
 
-  it("does the same for Ahead's stepped picker", () => {
-    const steps = Array.from({ length: 6 }, (_, step) => steppedPicker("chart", step)([LINE], "lead"));
-    expect(new Set(steps).size).toBe(6);
+  it("brings an Ahead entry back each cycle in its next wording, every one before a repeat, whatever the pool size", () => {
+    // An Ahead situation recurs on the 12-step cycle (same month next year, same year twelve years on).
+    const wordings = (parts: number): string => `Go [${Array.from({ length: parts }, (_, index) => `w${index}`).join("|")}].`;
+    for (let size = 1; size <= 8; size += 1) {
+      for (let parts = 2; parts <= 4; parts += 1) {
+        const pool = Array.from({ length: size }, (_, index) => `${index} ${wordings(parts)}`);
+        for (const start of [0, 5, 11]) {
+          const shown = new Map<string, string[]>();
+          for (let cycle = 0; cycle < size * parts * 2; cycle += 1) {
+            const text = steppedPicker("chart", start + 12 * cycle)(pool, "month:lead");
+            const entry = text.split(" ")[0] as string;
+            shown.set(entry, [...(shown.get(entry) ?? []), text]);
+          }
+          for (const [entry, texts] of shown) {
+            const firstRound = texts.slice(0, parts);
+            expect(new Set(firstRound).size, `pool ${size}, ${parts} wordings, entry ${entry} from ${start}`).toBe(parts);
+          }
+        }
+      }
+    }
   });
 });

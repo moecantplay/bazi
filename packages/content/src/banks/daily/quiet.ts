@@ -19,7 +19,7 @@ export const QUIET_BODIES: Record<string, readonly string[]> = {
   "Eating God": [
     "There's room for play. [Pursuits|Pastimes] done for the joy of it go well: cooking, making, tinkering.",
     "Light and easy. It rewards enjoying [yourself|the moment] [without counting|without a scorecard].",
-    "Gentle and [a bit|slightly] indulgent. Make [a dish|a sketch|a gift] for the pleasure of it, and share it if you like.",
+    "Gentle and [a bit|slightly] indulgent. Make [a sketch|a gift|a playlist] for the pleasure of it, and share it if you like.",
   ],
   "Hurting Officer": [
     "[There's space|There's room] to be inventive. You're likely to spot the shortcut others miss.",
@@ -74,7 +74,7 @@ export const QUIET_HEADLINES: Record<string, readonly string[]> = {
 export const QUIET_AGENCY: Record<string, readonly string[]> = {
   "Friend": ["Invite a friend [along on|to join you for] one errand.", "Message [a friend|a peer] in the same boat as you.", "Eat lunch with [a colleague|a friend] instead of alone."],
   "Rob Wealth": ["Congratulate [a rival|a friend] on a win you wish were yours.", "Say out loud what you're hoping for this week.", "Split one treat or chore fairly, unprompted."],
-  "Eating God": ["Make [a sketch|a snack|a playlist] just because you like making it.", "Cook [a meal|a treat] for [a friend|someone else] tonight.", "Spend half an hour on a hobby."],
+  "Eating God": ["Play [a game|a round of cards] with someone, just for fun.", "Cook [a meal|a treat] for [a friend|someone else] tonight.", "Spend half an hour on a hobby."],
   "Hurting Officer": ["Suggest one better way to do a routine task, [briefly|in a sentence or two].", "Write down the idea, then argue for it.", "Fix one [nuisance|annoyance] that's always bothered you."],
   "Indirect Wealth": ["Accept one unexpected invitation.", "[Walk|Travel] a different route and look around.", "Reply to the message you nearly ignored."],
   "Direct Wealth": ["Finish one task you've left at ninety percent.", "Sort one form or [admin task|piece of paperwork].", "Do the dull job first and enjoy the rest."],

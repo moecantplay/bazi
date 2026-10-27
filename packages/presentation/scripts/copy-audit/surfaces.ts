@@ -91,7 +91,7 @@ function todayAndTopics([fixture, profile]: Fixture): { today: FixtureView[]; to
         ...runs("body", reading.body.runs),
         ...runs("agency", reading.agency.runs),
         ...reading.cards.flatMap((card) => [
-          ...card.titles.flatMap((title) => runs("card title", title)),
+          ...card.titles.flatMap((title) => runs(card.topic === "stars" ? "star title" : "card title", title)),
           ...runs("card line", card.line),
           ...runs("card note", card.note)
         ]),

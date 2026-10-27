@@ -24,32 +24,51 @@ export interface RotationSlot {
 export type Picker = <T>(pool: readonly T[], slot: string) => T;
 
 /** The pool entry at `step`, in the wording for its comeback number. */
-function pickWording<T>(pool: readonly T[], chart: string, slot: string, step: number): T {
+function pickWording<T>(pool: readonly T[], chart: string, slot: string, step: number, comeback: number): T {
   const entry = cyclePick(pool, chart, slot, step);
   if (choiceCount(entry) === 1) {
     return entry;
   }
-  const comeback = Math.floor(step / pool.length);
   return resolveChoices(entry, fnv1a(`${chart}|${slot}|wording`) + comeback);
+}
+
+/** Ahead's situations recur on the twelve-branch cycle: a month's next year, a year's twelve years on. */
+const BRANCH_CYCLE = 12;
+
+function greatestCommonDivisor(a: number, b: number): number {
+  return b === 0 ? a : greatestCommonDivisor(b, a % b);
+}
+
+/**
+ * How many times the entry at `step` has come back for a slot that recurs
+ * every twelve steps. Each cycle moves the pool by 12, so one entry returns
+ * every `size / gcd(12, size)` cycles; counting those returns, rather than
+ * raw steps, keeps every pool size from landing on the same wording again.
+ */
+function cycleComeback(step: number, size: number): number {
+  const cycle = Math.floor(step / BRANCH_CYCLE);
+  return Math.floor(cycle / (size / greatestCommonDivisor(BRANCH_CYCLE, size)));
 }
 
 /** A picker for one reading; with `record`, it also lists every slot it picks under. */
 export function pickerFor(seed: DailySeed, record?: RotationSlot[]): Picker {
   return <T>(pool: readonly T[], slot: string): T => {
     record?.push({ slot, poolSize: pool.length });
-    return pickWording(pool, seed.chart, slot, seed.visits?.[slot] ?? dayNumber(seed.date));
+    const step = seed.visits?.[slot] ?? dayNumber(seed.date);
+    return pickWording(pool, seed.chart, slot, step, Math.floor(step / pool.length));
   };
 }
 
 /**
  * A picker that steps every slot by one number: Ahead's period number (months
  * since 1970, the year, the decade), so neighbouring periods read differently
- * without counting visits over every period on screen.
+ * without counting visits over every period on screen. Wordings step by the
+ * branch cycle, since that is how often an Ahead situation comes back.
  */
 export function steppedPicker(chart: string, step: number, record?: RotationSlot[]): Picker {
   return <T>(pool: readonly T[], slot: string): T => {
     record?.push({ slot, poolSize: pool.length });
-    return pickWording(pool, chart, slot, step);
+    return pickWording(pool, chart, slot, step, cycleComeback(step, pool.length));
   };
 }
 

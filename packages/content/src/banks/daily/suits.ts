@@ -31,7 +31,7 @@ export const WATCH_REASONS: Record<"unsettled" | "officer" | "plain", readonly s
     "While the dust {area} settles, {acts} can be saved for later.",
     "There's enough going on {area} [already|for now], so let {acts} wait.",
     "Once matters {area} calm down, {acts} may [feel easier|go more smoothly].",
-    "Hold {acts} back [a while|a few days] while the picture {area} shifts.",
+    "Hold {acts} back [for now|a few days] while the picture {area} shifts.",
     "Arrangements {area} are still shifting, which makes {acts} worth [a short wait|a pause].",
     "Leave {acts} until the footing {area} feels firmer.",
     "With a lot in motion {area}, {acts} might fit better later in the week.",
@@ -43,7 +43,7 @@ export const WATCH_REASONS: Record<"unsettled" | "officer" | "plain", readonly s
   officer: [
     "The moment favours {favours}, so {acts} can wait [a while|a few days].",
     "The pull is toward {favours}, leaving {acts} for a calmer [slot|stretch].",
-    "[Focus|Lean] on {favours}, and save {acts} for another time.",
+    "[Focus on|Lean into] {favours}, and save {acts} for another time.",
     "With the [tide|current] pulling toward {favours}, {acts} may [go easier|flow better] later.",
     "What pays now is {favours}; give {acts} a few more days.",
     "The grain runs toward {favours}, and {acts} can follow [after|in a while].",

@@ -85,7 +85,7 @@ Added 2026-10-23 at the owner's request after reading the R9 sample ("there coul
 
 - **R11. Lines are built from interchangeable parts.** A rotating line may hold choice groups, written `[part|part|part]` inside the bank string, so one entry reads several ways. Each time the line comes back for a chart, it comes back in its next combination, and every combination is used before one repeats. A sentence holds at most 3 groups and a group at most 4 parts; every part fits the sentence around it. Topic-page explanations stay fixed (out of scope), so their banks hold no groups.
   - Acceptance: the determinism test, extended (same chart and date give the same text, whatever order days are viewed in); every combination of every bank line passes `plain-writing.test.ts` and `voice.test.ts` and an "a"/"an" check; no `[` or `|` reaches a rendered screen; a test that a line's combinations all appear before any repeats.
-- **R12. No word carries the screen.** Over every fixture and 90 days, no content word or two-word phrase appears more than its cap per 7 days of Today, per 12 months of Ahead, or per screen on topic pages, People and the chart page. VOICE.md lists the overused words with plain alternatives. The words a slot exists to name (its part of life: work, family, home, plans) and the fixed lines (topic-page closing, sore-spot, old-name and best-hour lines) are exempt.
+- **R12. No word carries the screen.** Over every fixture and 90 days, no content word or two-word phrase appears more than its cap per 7 days of Today, per 12 months of Ahead, or per screen on topic pages, People and the chart page. VOICE.md lists the overused words with plain alternatives. Name words (the part of life a line is about: work, family, home, plan; an element, animal sign or palace) get twice the cap. The fixed lines sit out: the hours card's times, star titles (on Today and on topic pages), and a topic page's old name, name origin, sore spot and closing. The rotating best-hour note counts.
   - Acceptance: `presentation/test/word-variety.test.ts` passes with no exceptions; caps and the exempt list approved by the owner before the rewrite starts.
 
 R9 applies again: a fresh sample with R11 and R12 in, read and signed off before the one deploy (R10).
@@ -96,11 +96,11 @@ R9 applies again: a fresh sample with R11 and R12 in, read and signed off before
 
 | Target | Before | After phase 3 (2026-10-23) | After phase 4 | Met |
 | --- | --- | --- | --- | --- |
-| Today, unique sentences ≥ 45% | 22.7% | 37.7% | 49.1% (49.1–51.6% across fixtures) | Yes |
+| Today, unique sentences ≥ 45% | 22.7% | 37.7% | 49.0% (49.0–51.5% across fixtures) | Yes |
 | Em-dashes per view, every surface: 0 | up to 15 (Your chart) | 0 | 0 | Yes |
 | Sentences said twice on one view: 0 | 14 (People) | 0 | 0 | Yes |
-| Phrase pairs within one view, outside title echoes: 0 | 373 topic pages, 3 Your chart, 2 People | 0 | 0 (`screen-repeats.test.ts`). The audit counts 60 on Fixture A's topic pages (280 over all fixtures, from 500), every one a title echoing its own line or the hours card's times | Yes |
-| Ahead, unique sentences ≥ 60% | 36.3% | 58.2% | 62.3% (60.1–71.3% across fixtures) | Yes |
+| Phrase pairs within one view, outside title echoes: 0 | 373 topic pages, 3 Your chart, 2 People | 0 | 0 (`screen-repeats.test.ts`). The audit counts 105 on Fixture A's topic pages (500 over all fixtures), every one a star or card title echoing its own line, or the hours card's times | Yes |
+| Ahead, unique sentences ≥ 60% | 36.3% | 58.2% | 64.6% (62.4–68.8% across fixtures) | Yes |
 | Words over their cap (R12): 0 | — | 78 | 0 (`word-variety.test.ts`) | Yes |
 
 Every window target holds in tests: no Today line back within 14 days, no Ahead line twice within 12 months or a decade's years, no screen saying a thing twice, no rule broken on any rendered line or any wording of a bank line, no word over its cap. Choice groups lifted both ratios past their targets: a returning line comes back in other words. Star titles and the hours times still repeat by design ("Drawn to the big questions" 30 times in Fixture A's 90 days).

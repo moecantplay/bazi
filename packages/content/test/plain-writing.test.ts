@@ -13,6 +13,9 @@ import { failureKey, plainWritingLines, uncheckedFunctions, type PlainFailure } 
 const { lines, functionExports } = await plainWritingLines();
 const failures: PlainFailure[] = lines.flatMap((line) => brokenRules(line.text).map((rule) => ({ ...line, rule })));
 
+/** Banks every reader picks through the rotation picker, so their choice groups resolve (design, Phase 4). */
+const PICKED_BANKS = /^banks\/(?:daily\/|ahead\/|colours\.ts$)/;
+
 const MAX_GROUPS_PER_SENTENCE = 3;
 const MAX_PARTS_PER_GROUP = 4;
 const grouped = [...new Set(lines.map((line) => line.source))].filter((source) => source.includes("["));
@@ -60,6 +63,11 @@ describe("plain writing (VOICE.md)", () => {
   it("uses \"a\" and \"an\" right in every wording a choice group builds", () => {
     const wrong = lines.filter((line) => line.source.includes("[") && ARTICLE.test(line.text)).map((line) => line.text);
     expect(wrong).toEqual([]);
+  });
+
+  it("keeps choice groups to the banks read through a picker", () => {
+    const outside = lines.filter((line) => line.source.includes("[") && !PICKED_BANKS.test(line.module)).map((line) => `${line.module} | ${line.source}`);
+    expect([...new Set(outside)]).toEqual([]);
   });
 
   it("finds choice-group problems", () => {

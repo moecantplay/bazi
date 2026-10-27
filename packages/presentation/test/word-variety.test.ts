@@ -13,6 +13,7 @@ describe("word variety", () => {
   });
 
   it("counts words with \"-s\" folded and function words skipped, and two-word phrases", () => {
-    expect(termsOf("Plans tend to shift this month.")).toEqual(["plan", "tend", "shift", "month", "plans tend", "tend to", "to shift", "shift this", "this month"]);
+    expect(termsOf("Plans tend to shift this month.")).toEqual(["plan", "tend", "shift", "month", "plan tend", "tend to", "to shift", "shift this", "this month"]);
+    expect(termsOf("Good news, always.")).toEqual(["good", "news", "always", "good news", "news always"]);
   });
 });

@@ -15,7 +15,7 @@ export const INTERACTION_CARDS: Record<InteractionType, Record<LifeArea, readonl
   "six-clash": {
     work: [["Two [tasks|demands] at work want one slot", "Decide [by mid-morning|by lunch] which one gives way."], ["A choice to make at work", "[One commitment|One deadline] has to move; pick which."]],
     family: [["Family [arrangements|schedules] may collide", "Settle [the order|who goes first] while there's still slack."], ["A family scheduling knot", "Choose what you can give, and [say so|tell them]."]],
-    home: [["Two [ideas|wishes] at home", "Talk it through and agree [which wish waits|what moves]."], ["Home [has to bend|needs a compromise]", "Decide it [as a pair|side by side] rather than alone."]],
+    home: [["Two [ideas|wishes] at home", "Talk it through and agree [which one waits|what moves]."], ["Home [has to bend|needs a compromise]", "Decide it [as a pair|side by side] rather than alone."]],
     plans: [["A [goal|project] meets a hurry", "Protect [an hour|a slice of time] for the bigger aim."], ["A bigger plan may need rerouting", "[Change course|Adjust the route] while it's still cheap to."]],
   },
   punishment: {
@@ -34,11 +34,11 @@ export const INTERACTION_CARDS: Record<InteractionType, Record<LifeArea, readonl
     work: [["Easy agreement at work", "[Requests|Proposals] land softly."], ["Work [clicks|flows]", "Settle [the question|the issue] that's been hanging."]],
     family: [["Family [feels easy|is easy company]", "A call or visit is likely [welcome|appreciated]."], ["Warm family ties", "[Accept a relative's help|Say yes to a relative's offer]."]],
     home: [["[Accord|Harmony] at home", "The person closest to you is on your wavelength."], ["Home is on the same page", "[Settle|Reach] a joint decision this evening."]],
-    plans: [["A helping hand for a bigger [plan|goal]", "Say yes to the [fit|offer]."], ["A [distant|far-off] goal moves [more easily|with less strain]", "Push the part that's been waiting."]],
+    plans: [["A helping hand for a bigger [plan|goal]", "Say yes to the [help that fits|offer]."], ["A [distant|far-off] goal moves [more easily|with less strain]", "Push the part that's been waiting."]],
   },
   trine: {
     work: [["Work pulls your way", "Bring others in [rather than going solo|and share the load]."], ["[Backing|Support] at work", "Start the job that needs [more hands|a crew]."], ["Colleagues fall in step", "Put a shared goal on the table and [others|the rest] [often|usually] join."]],
-    family: [["Family is on your side", "Relatives are easier to lean on [than usual|these days]."], ["Your relatives [pull in one direction|line up behind you]", "[Suggest|Float] a shared plan."], ["[Gather|Round up] the family", "Suggest the meal everyone [means|has been meaning] to arrange."]],
+    family: [["Family is on your side", "Relatives are easier to lean on than usual."], ["Your relatives [pull in one direction|line up behind you]", "[Suggest|Float] a shared plan."], ["[Gather|Round up] the family", "Suggest the meal everyone [has been meaning|has wanted] to arrange."]],
     home: [["Home [acts|pulls] as a team", "Hand out the jobs fairly and enjoy [the result|what gets done]."], ["Everyone at home [faces|leans] one way", "[Arrangements|Decisions] made as a household [hold|stick]."], ["The household [hums along|moves smoothly]", "Tackle the [chore|job] that needs everyone at once."]],
     plans: [["A bigger [plan|goal] has company", "Let support carry it [rather than pushing alone|for a stretch]."], ["Pieces of a goal [fit|line up]", "Move the ready parts first."], ["Allies for [the bigger aim|your next goal]", "Tell [a friend|an ally] what you're building; they may want to help."]],
   },
@@ -122,7 +122,7 @@ export const TEN_GOD_CARDS: Record<string, readonly CardText[]> = {
   "Indirect Wealth": [["[Lucky|Happy] finds", "Unplanned chances show up, so [watch for them|stay alert]."], ["Chance favours the curious", "Follow up the odd [lead|offer] that turns up."]],
   "Direct Wealth": [["Diligence pays", "Reliable, unglamorous [chores|routines] [pay off|add up]."], ["Persistence adds up", "Chip away at the [dull chore|tedious job]; by evening it shows."]],
   "Seven Killings": [["Pressure that sharpens you", "Demands [climb|pile up], and meeting them builds strength."], ["High expectations all round", "Meet one demand properly, then turn to the next."]],
-  "Direct Officer": [["Do it properly", "Rules and routines [serve you well|are on your side], so play it straight."], ["Fair play gets noticed", "Do it by the book and [others|everyone] trust you for it."]],
+  "Direct Officer": [["Do it properly", "Rules and routines [serve you well|are on your side], so play it straight."], ["Fair play gets noticed", "Do it by the book and [others trust you|everyone trusts you] for it."]],
   "Indirect Resource": [["Learning sideways", "Answers [arrive|turn up] from odd angles: a side conversation, a walk, a stray article."], ["Hunches are worth a look", "Follow the thought that arrives while you're busy [elsewhere|on another job]."]],
   "Direct Resource": [["[Looked after|Cared for]", "Help and care reach you more easily. Let them."], ["Support is close by", "[Turn to|Call on] the person who usually helps; they're glad to."]],
 };
@@ -148,25 +148,25 @@ export const STAGE_CARD_FALLBACK: CardText = ["Your pace", "Move at the speed th
 
 /** Small signs: one plain title per star key. */
 export const STAR_TITLES: Record<string, string> = {
-  "tianyi-nobleman": "A helper turns up",
+  "tianyi-nobleman": "Someone helpful turns up",
   "tiande-virtue": "Goodwill is on your side",
-  "tiande-companion": "Kindness finds its way back",
-  "yuede-virtue": "A gentle stretch of goodwill",
+  "tiande-companion": "Kindness comes back to you",
+  "yuede-virtue": "A gentle run of goodwill",
   "taiji-nobleman": "Drawn to the big questions",
-  "wenchang-scholar": "Study and writing flow easily",
+  "wenchang-scholar": "Study and writing come easier",
   "lushen-emolument": "Your effort pays its way",
-  "jiangxing-general": "Others look to you to decide",
-  "huagai-canopy": "Solitude pays off",
-  "yima-travel-horse": "A change of scene suits you",
+  "jiangxing-general": "People look to you to decide",
+  "huagai-canopy": "Time alone pays off",
+  "yima-travel-horse": "Good for a change of scene",
   "taohua-peach-blossom": "You get noticed",
-  "hongluan-phoenix": "Connection knocks at the door",
-  "tianxi-joy": "Cheerful news on the way",
-  "hongyan-charm": "Your quiet charm shows",
-  "yangren-blade": "A strong will, so aim it",
-  "feiren-flying-blade": "Rushing leads to nicks and cuts",
-  "zaisha-calamity": "Ease your pace a notch",
+  "hongluan-phoenix": "Connection comes knocking",
+  "tianxi-joy": "Small good news",
+  "hongyan-charm": "Quiet charm works for you",
+  "yangren-blade": "Strong will today; aim it",
+  "feiren-flying-blade": "Rushing causes small cuts",
+  "zaisha-calamity": "Take things a little slower",
   "sangmen-mourning": "Be gentle with old sadness",
-  "kongwang-void": "What's booked may land lighter",
+  "kongwang-void": "Plans may land lighter than booked",
 };
 
 export const CARD_KICKERS = {

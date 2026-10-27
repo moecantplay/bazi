@@ -21,7 +21,7 @@ export const MODIFIERS: Record<Element, { suits: readonly string[]; against: rea
     against: ["Everything may feel heavy, so move at your own pace.", "Progress may feel slow and stuck, and that's fine.", "Your load may feel heavier; [share|split] it.", "It may feel like wading through sand, so pace yourself."],
   },
   metal: {
-    suits: ["You're thinking clearly, so choosing is easier.", "Decisions [feel lighter|are simpler] than usual.", "Your judgement is sharp; trust it.", "What [stays|lasts] and what goes is plain to you."],
+    suits: ["You're thinking clearly, so choosing is easier.", "Decisions [feel lighter|are simpler] than usual.", "Your judgement is sharp; trust it.", "What stays and what goes is plain to you."],
     against: ["Edges feel sharper, so go gently.", "Words may land harder than meant; soften them.", "Criticism may sting more; [hold|treat] it lightly.", "Others may bristle more easily, so lead with [a kind word|kindness]."],
   },
   water: {
