@@ -121,7 +121,7 @@
         ],
         "wordsPerView": {
           "min": 85,
-          "average": 131.8,
+          "average": 131.9,
           "max": 178
         },
         "emDashesPerView": {
@@ -622,7 +622,7 @@
           ],
           "wordsPerView": {
             "min": 95,
-            "average": 134.2,
+            "average": 134.3,
             "max": 178
           },
           "emDashesPerView": {
@@ -776,7 +776,7 @@
               "count": 9
             },
             {
-              "sentence": "A meeting or deadline has to give.",
+              "sentence": "A meeting or deadline at work has to give.",
               "count": 8
             },
             {
@@ -875,7 +875,7 @@
           "wordsPerView": {
             "min": 2,
             "average": 6.4,
-            "max": 11
+            "max": 12
           },
           "emDashesPerView": {
             "average": 0,
@@ -4734,8 +4734,8 @@
       "overall": {
         "views": 210,
         "sentences": 1744,
-        "uniqueSentences": 537,
-        "uniqueRatio": 0.308,
+        "uniqueSentences": 539,
+        "uniqueRatio": 0.309,
         "topRepeats": [
           {
             "sentence": "Settle one household decision instead of letting it drift.",
@@ -4839,7 +4839,7 @@
           }
         ],
         "wordsPerView": {
-          "min": 34,
+          "min": 33,
           "average": 66.8,
           "max": 96
         },
@@ -4985,8 +4985,8 @@
         "unknown time": {
           "views": 42,
           "sentences": 314,
-          "uniqueSentences": 216,
-          "uniqueRatio": 0.688,
+          "uniqueSentences": 215,
+          "uniqueRatio": 0.685,
           "topRepeats": [
             {
               "sentence": "Settle one household decision instead of letting it drift.",
@@ -5041,10 +5041,6 @@
               "count": 2
             },
             {
-              "sentence": "A hobby or a meal for friends brightens everything else.",
-              "count": 2
-            },
-            {
               "sentence": "A manager, a peer or someone in another team may offer to carry part of your load.",
               "count": 2
             },
@@ -5087,12 +5083,16 @@
             {
               "sentence": "Call the family member you've drifted from.",
               "count": 2
+            },
+            {
+              "sentence": "Check instead of guessing.",
+              "count": 2
             }
           ],
           "wordsPerView": {
-            "min": 37,
+            "min": 36,
             "average": 60.8,
-            "max": 89
+            "max": 90
           },
           "emDashesPerView": {
             "average": 0,
@@ -5110,8 +5110,8 @@
         "B": {
           "views": 42,
           "sentences": 356,
-          "uniqueSentences": 222,
-          "uniqueRatio": 0.624,
+          "uniqueSentences": 220,
+          "uniqueRatio": 0.618,
           "topRepeats": [
             {
               "sentence": "A second look catches most of them.",
@@ -5202,22 +5202,22 @@
               "count": 3
             },
             {
+              "sentence": "Plenty of drive; choose whose pace you match.",
+              "count": 3
+            },
+            {
               "sentence": "Settle one household decision instead of letting it drift.",
               "count": 3
             },
             {
               "sentence": "The same obstacle keeps turning up.",
               "count": 3
-            },
-            {
-              "sentence": "Write down which part of the approach you'd change first.",
-              "count": 3
             }
           ],
           "wordsPerView": {
-            "min": 34,
-            "average": 67.6,
-            "max": 88
+            "min": 33,
+            "average": 67.4,
+            "max": 89
           },
           "emDashesPerView": {
             "average": 0,
@@ -5235,8 +5235,8 @@
         "C": {
           "views": 42,
           "sentences": 366,
-          "uniqueSentences": 241,
-          "uniqueRatio": 0.658,
+          "uniqueSentences": 238,
+          "uniqueRatio": 0.65,
           "topRepeats": [
             {
               "sentence": "Colleagues may meet you halfway, and proposals land softly.",
@@ -5271,6 +5271,10 @@
               "count": 3
             },
             {
+              "sentence": "Jot down the odd idea before it slips away.",
+              "count": 3
+            },
+            {
               "sentence": "Many hands at home",
               "count": 3
             },
@@ -5284,6 +5288,10 @@
             },
             {
               "sentence": "Pace-setters at your elbow",
+              "count": 3
+            },
+            {
+              "sentence": "Plenty of drive; choose whose pace you match.",
               "count": 3
             },
             {
@@ -5329,19 +5337,11 @@
             {
               "sentence": "You may hold yourself to a strict standard; ease it a notch.",
               "count": 3
-            },
-            {
-              "sentence": "A clear plan for the week makes the busy days lighter.",
-              "count": 2
-            },
-            {
-              "sentence": "A little wear in the family",
-              "count": 2
             }
           ],
           "wordsPerView": {
             "min": 36,
-            "average": 70.1,
+            "average": 70.2,
             "max": 90
           },
           "emDashesPerView": {
@@ -5360,8 +5360,8 @@
         "D": {
           "views": 42,
           "sentences": 366,
-          "uniqueSentences": 230,
-          "uniqueRatio": 0.628,
+          "uniqueSentences": 229,
+          "uniqueRatio": 0.626,
           "topRepeats": [
             {
               "sentence": "A chore, a habit or a tone may keep coming up.",
@@ -5385,6 +5385,10 @@
             },
             {
               "sentence": "Arguments can flare quickly, so let heated messages wait an hour.",
+              "count": 3
+            },
+            {
+              "sentence": "Crafts done for their own sake go well.",
               "count": 3
             },
             {
@@ -5458,15 +5462,11 @@
             {
               "sentence": "Slow and sure",
               "count": 3
-            },
-            {
-              "sentence": "Talk about the pattern kindly, and let single slips go.",
-              "count": 3
             }
           ],
           "wordsPerView": {
-            "min": 36,
-            "average": 68.5,
+            "min": 39,
+            "average": 68.6,
             "max": 96
           },
           "emDashesPerView": {
@@ -5587,7 +5587,7 @@
               "count": 3
             },
             {
-              "sentence": "Competition lifts your game.",
+              "sentence": "Competition sharpens you.",
               "count": 3
             }
           ],
@@ -5717,7 +5717,7 @@
             }
           ],
           "wordsPerView": {
-            "min": 21,
+            "min": 20,
             "average": 32.3,
             "max": 47
           },
@@ -5737,8 +5737,8 @@
         "action": {
           "views": 210,
           "sentences": 210,
-          "uniqueSentences": 67,
-          "uniqueRatio": 0.319,
+          "uniqueSentences": 68,
+          "uniqueRatio": 0.324,
           "topRepeats": [
             {
               "sentence": "Settle one household decision instead of letting it drift.",
@@ -5968,7 +5968,7 @@
           ],
           "wordsPerView": {
             "min": 2,
-            "average": 7.1,
+            "average": 7.2,
             "max": 16
           },
           "emDashesPerView": {
@@ -5987,8 +5987,8 @@
         "card line": {
           "views": 187,
           "sentences": 347,
-          "uniqueSentences": 105,
-          "uniqueRatio": 0.303,
+          "uniqueSentences": 106,
+          "uniqueRatio": 0.305,
           "topRepeats": [
             {
               "sentence": "Say yes when it clicks.",
@@ -6003,16 +6003,12 @@
               "count": 9
             },
             {
-              "sentence": "Pick the challenges worth it.",
-              "count": 7
+              "sentence": "Plenty of drive; choose whose pace you match.",
+              "count": 8
             },
             {
-              "sentence": "Regular, unglamorous effort adds up nicely.",
+              "sentence": "Crafts done for their own sake go well.",
               "count": 7
-            },
-            {
-              "sentence": "A hobby or a meal for friends brightens everything else.",
-              "count": 6
             },
             {
               "sentence": "Ask instead of guessing.",
@@ -6020,10 +6016,6 @@
             },
             {
               "sentence": "Check instead of guessing.",
-              "count": 6
-            },
-            {
-              "sentence": "Jot down the odd idea before it slips away.",
               "count": 6
             },
             {
@@ -6035,7 +6027,7 @@
               "count": 6
             },
             {
-              "sentence": "Crafts done for their own sake go well.",
+              "sentence": "A hobby or a meal for friends brightens everything else.",
               "count": 5
             },
             {
@@ -6051,19 +6043,19 @@
               "count": 5
             },
             {
+              "sentence": "Jot down the odd idea before it slips away.",
+              "count": 5
+            },
+            {
+              "sentence": "Leave a little room to say yes.",
+              "count": 5
+            },
+            {
               "sentence": "Make one decision together.",
               "count": 5
             },
             {
-              "sentence": "Pair up on the chore you'd normally do alone.",
-              "count": 5
-            },
-            {
-              "sentence": "Pastimes done for their own sake go well.",
-              "count": 5
-            },
-            {
-              "sentence": "Plenty of drive; choose whose pace you follow.",
+              "sentence": "Peers carrying the same load make fine company.",
               "count": 5
             },
             {
@@ -6079,21 +6071,29 @@
               "count": 5
             },
             {
-              "sentence": "Routines run in your favour.",
-              "count": 5
-            },
-            {
-              "sentence": "Say what you spot, gently.",
+              "sentence": "Routines pay off.",
               "count": 5
             },
             {
               "sentence": "Settle whatever's been hanging.",
               "count": 5
+            },
+            {
+              "sentence": "Taking advice from an elder goes smoothly.",
+              "count": 5
+            },
+            {
+              "sentence": "A second look catches most of them.",
+              "count": 4
+            },
+            {
+              "sentence": "An odd invitation or a side project may be worth exploring.",
+              "count": 4
             }
           ],
           "wordsPerView": {
             "min": 3,
-            "average": 14.3,
+            "average": 14.2,
             "max": 30
           },
           "emDashesPerView": {

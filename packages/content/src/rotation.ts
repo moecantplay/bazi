@@ -32,7 +32,14 @@ function pickWording<T>(pool: readonly T[], chart: string, slot: string, step: n
   return resolveChoices(entry, fnv1a(`${chart}|${slot}|wording`) + comeback);
 }
 
-/** Ahead's situations recur on the twelve-branch cycle: a month's next year, a year's twelve years on. */
+/**
+ * How often an Ahead situation comes back. One keyed by the period's
+ * character (its ten god, from the stem) recurs on the ten-stem cycle; every
+ * other one (an interaction or element, from the branch) on the twelve-branch
+ * cycle: a month's next year, a year's twelve years on.
+ */
+const STEM_KEYED_SLOT = /:(?:card:ten-god|lead:quiet):/;
+const STEM_CYCLE = 10;
 const BRANCH_CYCLE = 12;
 
 function greatestCommonDivisor(a: number, b: number): number {
@@ -41,13 +48,14 @@ function greatestCommonDivisor(a: number, b: number): number {
 
 /**
  * How many times the entry at `step` has come back for a slot that recurs
- * every twelve steps. Each cycle moves the pool by 12, so one entry returns
- * every `size / gcd(12, size)` cycles; counting those returns, rather than
- * raw steps, keeps every pool size from landing on the same wording again.
+ * every `cycle` steps. Each cycle moves the pool by `cycle`, so one entry
+ * returns every `size / gcd(cycle, size)` cycles; counting those returns,
+ * rather than raw steps, keeps every pool size from landing on the same
+ * wording again.
  */
-function cycleComeback(step: number, size: number): number {
-  const cycle = Math.floor(step / BRANCH_CYCLE);
-  return Math.floor(cycle / (size / greatestCommonDivisor(BRANCH_CYCLE, size)));
+function cycleComeback(step: number, size: number, cycle: number): number {
+  const cycles = Math.floor(step / cycle);
+  return Math.floor(cycles / (size / greatestCommonDivisor(cycle, size)));
 }
 
 /** A picker for one reading; with `record`, it also lists every slot it picks under. */
@@ -63,12 +71,13 @@ export function pickerFor(seed: DailySeed, record?: RotationSlot[]): Picker {
  * A picker that steps every slot by one number: Ahead's period number (months
  * since 1970, the year, the decade), so neighbouring periods read differently
  * without counting visits over every period on screen. Wordings step by the
- * branch cycle, since that is how often an Ahead situation comes back.
+ * stem or branch cycle, whichever the slot's situation comes back on.
  */
 export function steppedPicker(chart: string, step: number, record?: RotationSlot[]): Picker {
   return <T>(pool: readonly T[], slot: string): T => {
     record?.push({ slot, poolSize: pool.length });
-    return pickWording(pool, chart, slot, step, cycleComeback(step, pool.length));
+    const cycle = STEM_KEYED_SLOT.test(slot) ? STEM_CYCLE : BRANCH_CYCLE;
+    return pickWording(pool, chart, slot, step, cycleComeback(step, pool.length, cycle));
   };
 }
 

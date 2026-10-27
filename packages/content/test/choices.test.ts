@@ -68,16 +68,21 @@ describe("pickers resolve choice groups", () => {
     expect(new Set(starts).size).toBeGreaterThan(1);
   });
 
-  it("brings an Ahead entry back each cycle in its next wording, every one before a repeat, whatever the pool size", () => {
-    // An Ahead situation recurs on the 12-step cycle (same month next year, same year twelve years on).
+  it.each([
+    // A situation keyed by the period's sign recurs on the 12-step branch cycle; one keyed by its character, on the 10-step stem cycle.
+    { slot: "month:lead:six-clash:work", cycle: 12 },
+    { slot: "year:card:interaction:harm:home", cycle: 12 },
+    { slot: "month:card:ten-god:Eating God", cycle: 10 },
+    { slot: "year:lead:quiet:Friend", cycle: 10 },
+  ])("brings Ahead's $slot back each $cycle steps in its next wording, every one before a repeat, whatever the pool size", ({ slot, cycle: period }) => {
     const wordings = (parts: number): string => `Go [${Array.from({ length: parts }, (_, index) => `w${index}`).join("|")}].`;
     for (let size = 1; size <= 8; size += 1) {
       for (let parts = 2; parts <= 4; parts += 1) {
         const pool = Array.from({ length: size }, (_, index) => `${index} ${wordings(parts)}`);
-        for (const start of [0, 5, 11]) {
+        for (const start of [0, 5, period - 1]) {
           const shown = new Map<string, string[]>();
           for (let cycle = 0; cycle < size * parts * 2; cycle += 1) {
-            const text = steppedPicker("chart", start + 12 * cycle)(pool, "month:lead");
+            const text = steppedPicker("chart", start + period * cycle)(pool, slot);
             const entry = text.split(" ")[0] as string;
             shown.set(entry, [...(shown.get(entry) ?? []), text]);
           }

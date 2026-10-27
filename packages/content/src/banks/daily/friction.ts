@@ -42,7 +42,7 @@ export const CLASH_BODIES: Pool = {
 };
 
 export const CLASH_HEADLINES: Pool = {
-  work: ["A meeting or deadline has to give. [You choose|You pick] which.", "Two priorities at work, room for one.", "Work [wants|needs] you to pick a lane.", "Two calls on your time at work.", "A work collision you can steer."],
+  work: ["A meeting or deadline at work has to give. [You choose|You pick] which.", "Two priorities at work, room for one.", "Work [wants|needs] you to pick a lane.", "Two calls on your time at work.", "A work collision you can steer."],
   family: ["Family [arrangements|commitments] and yours want the same hours.", "A family tug-of-war you can settle [now|soon].", "Your [relatives|loved ones] want you somewhere else.", "Two family [requests|demands] on your evening.", "Family [wants|needs] you; your schedule does too."],
   home: ["Home has two [agendas|wishes] for the same evening.", "Two ideas of tonight, one evening to share.", "At home, [a wish|an arrangement] has to give.", "Rest or outings? Home may want both.", "A [minor|brief] home standoff you can settle."],
   plans: ["Your bigger aim [collides|competes] with the rush.", "One [big|major] plan may need a new route.", "A test of which plans are worth holding.", "Urgent [errands|requests] tug at your biggest goal.", "A bigger plan meets a new fact."],
@@ -206,7 +206,7 @@ export const HARM_AGENCY: Pool = {
     "Clear up one [niggle|stray chore] at home by bedtime.",
     "Say the [minor|quiet] gripe you've been holding back at home.",
     "Say tonight's plan out loud once, just to be sure.",
-    "Name one [irritation|annoyance] from the week, kindly.",
+    "Name one [irritation|annoyance] that's been bothering you, kindly.",
   ],
   plans: [
     "Write down one [habit|resource] your bigger plan quietly depends on.",

@@ -100,7 +100,7 @@ R9 applies again: a fresh sample with R11 and R12 in, read and signed off before
 | Em-dashes per view, every surface: 0 | up to 15 (Your chart) | 0 | 0 | Yes |
 | Sentences said twice on one view: 0 | 14 (People) | 0 | 0 | Yes |
 | Phrase pairs within one view, outside title echoes: 0 | 373 topic pages, 3 Your chart, 2 People | 0 | 0 (`screen-repeats.test.ts`). The audit counts 105 on Fixture A's topic pages (500 over all fixtures), every one a star or card title echoing its own line, or the hours card's times | Yes |
-| Ahead, unique sentences ≥ 60% | 36.3% | 58.2% | 64.6% (62.4–68.8% across fixtures) | Yes |
+| Ahead, unique sentences ≥ 60% | 36.3% | 58.2% | 64.6% (61.8–68.5% across fixtures) | Yes |
 | Words over their cap (R12): 0 | — | 78 | 0 (`word-variety.test.ts`) | Yes |
 
 Every window target holds in tests: no Today line back within 14 days, no Ahead line twice within 12 months or a decade's years, no screen saying a thing twice, no rule broken on any rendered line or any wording of a bank line, no word over its cap. Choice groups lifted both ratios past their targets: a returning line comes back in other words. Star titles and the hours times still repeat by design ("Drawn to the big questions" 30 times in Fixture A's 90 days).
