@@ -22,7 +22,8 @@ for (const look of LOOKS) {
     const card = page.locator('a[data-topic="hours"]');
     await expect(card).toContainText("Easiest 3–5 am");
     await expect(card).toContainText("Roughest 9–11 am.");
-    await expect(card.locator("[data-card-note]")).toHaveText("11 am–1 pm suits you best.");
+    // The note's wording rotates (M24-11); the window it names doesn't.
+    await expect(card.locator("[data-card-note]")).toContainText("11 am–1 pm");
   });
 
   test(`${look}: when the best hour is the easy hour, the card says so once`, async ({ page, context }) => {

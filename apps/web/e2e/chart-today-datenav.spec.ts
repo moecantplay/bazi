@@ -215,7 +215,8 @@ test("Today's colour follows what the day suits, and Today links neither Find a 
 
   const colour = page.getByLabel("Today's colour");
   await expect(colour.getByRole("heading", { name: "beige" })).toBeVisible();
-  await expect(colour).toContainText("It keeps you steady today.");
+  // The line's wording rotates (M24-11); content's day-colour test checks it fits the day. Here: it shows, fully resolved.
+  await expect(colour.locator("p").last()).toHaveText(/^[^[\]{}|]{20,}$/);
   const suitsBottom = await page.locator("[data-guidance]").evaluate((element) => element.getBoundingClientRect().bottom);
   const colourTop = await colour.evaluate((element) => element.getBoundingClientRect().top);
   expect(colourTop).toBeGreaterThan(suitsBottom);

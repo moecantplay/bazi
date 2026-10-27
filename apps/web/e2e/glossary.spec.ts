@@ -101,5 +101,6 @@ test("M20-26: a written-out topic page carries every section, and a date it come
   await expect(topicPage.locator("[data-topic-closing]")).toBeVisible();
   await topicPage.getByRole("link", { name: /16 Oct/ }).click();
   await expect(page).toHaveURL(/date=2026-10-16&topic=ten-god/);
-  await expect(page.locator("[data-topic-page] h1")).toHaveText("A day for steady work");
+  // The title rotates with its card (M24-11); the page for the new day still opens with one.
+  await expect(page.locator("[data-topic-page] h1")).toHaveText(/\w/);
 });
