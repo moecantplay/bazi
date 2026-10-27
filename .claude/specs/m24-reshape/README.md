@@ -41,7 +41,7 @@ What changes:
 | 08 | [You](08-you/requirements.md) | done | 01 | R6, R15, R16 |
 | 09 | [People](09-people/requirements.md) | done | 08 | R7 |
 | 10 | [First week](10-first-week/requirements.md) (M20-11) | done — live 2026-10-15 | 05, 06 | — |
-| 11 | [Words](11-words/requirements.md): voice lint, no-repeat rotation, copy rewrite over every screen (M20-12, 13, 14) | in-progress | 06–09, [M20-02](../m20-clarity/02-copy-audit-baseline/requirements.md) | — |
+| 11 | [Words](11-words/requirements.md): voice lint, no-repeat rotation, copy rewrite over every screen (M20-12, 13, 14) | done — live 2026-10-27 | 06–09, [M20-02](../m20-clarity/02-copy-audit-baseline/requirements.md) | — |
 | 12 | [Retire the legacy screens and the trial](12-retire-legacy/requirements.md) (M19.9-11) | done — live 2026-10-14 | 04–09 | — |
 | 13 | [Your best hour](13-your-best-hour/requirements.md) | done — live 2026-10-13 | 06 | — |
 | 14 | [NOW pill covers an hour label](14-now-pill-covers-hour-label/requirements.md) | done — live 2026-10-14 | — | — |

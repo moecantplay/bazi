@@ -1,6 +1,6 @@
 # Words
 
-Status: in-progress · Milestone: M24 · Ticket: 11 · Approved by the owner 2026-10-20 ("approved", every recommendation below) · Carries [M20-12](../../m20-clarity/12-no-repeat-selection/requirements.md) (no repeats day to day), [M20-13](../../m20-clarity/13-voice-lint/requirements.md) (voice lint) and [M20-14](../../m20-clarity/14-copy-rewrite/requirements.md) (copy rewrite), all dropped into this ticket 2026-10-10. R11–R12 (word variety) added at the owner's request 2026-10-23, design approved 2026-10-27. Judged against the [M20-02 baseline](../../m20-clarity/02-copy-audit-baseline/requirements.md#baseline).
+Status: done · live 2026-10-27 · Milestone: M24 · Ticket: 11 · Approved by the owner 2026-10-20 ("approved", every recommendation below) · Carries [M20-12](../../m20-clarity/12-no-repeat-selection/requirements.md) (no repeats day to day), [M20-13](../../m20-clarity/13-voice-lint/requirements.md) (voice lint) and [M20-14](../../m20-clarity/14-copy-rewrite/requirements.md) (copy rewrite), all dropped into this ticket 2026-10-10. R11–R12 (word variety) added at the owner's request 2026-10-23, design approved 2026-10-27. Judged against the [M20-02 baseline](../../m20-clarity/02-copy-audit-baseline/requirements.md#baseline).
 
 ## Problem
 
