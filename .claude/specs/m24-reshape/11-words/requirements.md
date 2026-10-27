@@ -122,7 +122,16 @@ Every window target holds in tests: no Today line back within 14 days, no Ahead 
 - [x] **Approve the R8 targets**, or set others. Answer (owner, 2026-10-20): approved as proposed.
 - [x] **Add word variety to this ticket?** Answer (owner, 2026-10-23): yes, as R11 and R12, deploy held until they're done; lines may mix and match parts so they aren't tied to one sentence.
 - [x] **Approve the R11 design** (`design.md`, Phase 4): choice groups inside bank strings, at most 3 per sentence and 4 parts per group, stepped so a returning line comes back in its next combination. Recommendation: approve. Answer (owner, 2026-10-27): approved.
-- [ ] **R12 caps and exempt list.** Measured in task 15 over every fixture, then proposed here with numbers. Starting point: no word more than 5 times in a week of Today or 12 months of Ahead, and no more than twice on one topic page, People screen or the chart page.
+- [x] **R12 caps and exempt list.** Answer (owner, 2026-10-27): approved as proposed. Measured 2026-10-27 (task 15) over every fixture, 90 days of Today, 24 months and a decade of years on Ahead, every topic page, People pairing, You and chart page. A "name word" (the part of life a line is about: work, family, home, plan; an element, animal sign or palace) gets twice the cap. Proposed:
+
+  | Window | Cap | Name words | Over the cap now | Worst now |
+  | --- | --- | --- | --- | --- |
+  | Today, any 7 days | 7 (about once a day) | 14 | 22 | "today" 32, "day" 20, "thing" 20, "work" 18, "good" 12, "keep" 12 |
+  | Ahead, any 12 months | 6 (every other month) | 12 | 16 | "this month" 36, "plan" 20, "work" 19, "tend" 12, "small" 12 |
+  | Ahead, a decade's years | 5 | 10 | 13 | "this year" 30, "plan" 17, "work" 16, "tend" 13 |
+  | One screen: a decade, topic page, People, You, chart | 3 | 6 | 27 | "plan" 7 and "day" 6 on a topic page, "tend" 6 on the chart page |
+
+  Counting: words with a plain "-s" folded off ("plans" is "plan") and two-word phrases; function words skipped; the fixed lines (hours times, star titles, a topic page's old name, name origin, sore spot and closing) sit out. 78 words and phrases over in all: the rewrite's worklist.
 - [ ] **The two R8 ratios** (Today 37.7%, Ahead 58.2%). Choice groups count toward unique sentences, so both should rise; decide at the new R9 sign-off.
 
 Raised during the build (2026-10-20, phase 1 review):

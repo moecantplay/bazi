@@ -25,8 +25,8 @@ Check a task only with a one-line evidence note.
 
 - [x] 13. Choice groups resolved in `pickerFor` and `steppedPicker`, next combination per comeback; tests first: determinism, every combination before a repeat, no bracket on a rendered screen (R11) — `src/choices.ts`, `choices.test.ts` (11 tests, 4 failing before the pickers were wired); `screen-repeats` counts unresolved choices: a planted People group gave 4, the same group in a Today bank resolved and topic pages still mirrored their cards
 - [x] 14. `collect.ts` expands every combination; plain-writing, voice and "a"/"an" checks on each; group limits; no groups in topic-page or fixed banks; test time measured (R11) — one planted bad line failed all four checks (rule, limits, article, banned word); non-picker banks are guarded by the rendered leak count (design); `pnpm verify` green, voice 179 → 295 ms with no groups yet, re-measured in task 17
-- [ ] 15. Measure word and phrase counts per surface over every fixture; propose caps and the exempt list for owner approval; VOICE.md overused-word list with alternatives (R12)
-- [ ] 16. `word-variety.test.ts` with the approved caps; first failing run committed as the worklist (R12)
+- [x] 15. Measure word and phrase counts per surface over every fixture; propose caps and the exempt list for owner approval; VOICE.md overused-word list with alternatives (R12) — `test/word-variety.ts` measures in ~1.1 s; caps approved 2026-10-27 (table in requirements); VOICE.md rules 6 and 7 plus the overused-word table
+- [x] 16. `word-variety.test.ts` with the approved caps; first failing run committed as the worklist (R12) — 78 terms in `word-variety-known.ts`, which the test requires exactly (a ratchet, as phase 3's was); deleted when empty
 - [ ] 17. Rewrite with the content-writer agent, worst first, adding choice groups, until 16 passes and every earlier test stays green (R11, R12)
 - [ ] 18. Re-run the copy audit; refresh `after.json` and the before/after table with word counts (R8, R12)
 

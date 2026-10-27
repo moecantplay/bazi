@@ -31,6 +31,24 @@ What makes copy read as generated, named so a test can catch it (owner, 2026-10-
 3. **No contrast constructions:** "not X, but Y"; "X; un-X, Y"; "aimed, it cuts through; unaimed, it cuts whatever's near"; "X, not Y" ("a hinge, not a wound"; owner, 2026-10-23). Say what it is.
 4. **No stock openers or filler from a named list.** The list lives in `packages/content/src/plain-writing.ts` with a reason beside each entry, and grows when a phrase starts repeating. It starts with the old Today's fixed opener ("The day sits at your…") and the reassurance and abstraction the reference copy repeats: "verdict", "texture", "flavour", "seasoning", "never a prediction", "they never sentence". "Today's sign…" stays: it is how a topic page opens the mechanics (rule 11), once per page and never on Today.
 5. **A screen says each thing once.** No sentence twice on one screen, and no two sentences on one screen sharing a 4-word phrase. A title may echo the line it introduces.
+6. **No word carries the screen** (owner, 2026-10-27, M24-11 R12). A word or two-word phrase appears at most 7 times in any 7 days of Today, 6 times in any 12 months of Ahead, 5 times across a decade's years, and 3 times on any other screen. A name word (work, family, home, plan; an element, animal sign or palace) gets twice that. Enforced by `packages/presentation/test/word-variety.test.ts`.
+7. **Choice groups** (M24-11 R11). A rotating line may hold `[part|part]` so it reads several ways; each comeback shows the next wording. At most 3 groups a sentence and 4 parts a group, and every part must read right with everything around it. Topic-page explanations, People, the chart page and Find a day take none. Enforced by `packages/content/test/plain-writing.test.ts`.
+
+Overused words and what to write instead (rule 6):
+
+| Word | Instead |
+| --- | --- |
+| today, this month, this year | Usually nothing: the screen already says when. Or a narrower time: this afternoon, by Friday, these weeks. |
+| day, a day | Name the part of it: the morning, the evening, the hours ahead. |
+| thing, something | Name it: a task, a bill, a conversation, an errand, a decision. |
+| small, little | Quick, light, brief, minor, one; or drop it. |
+| tend to, tends to | Often, usually; or say it plainly. |
+| good, good for | Say what it helps: useful for, worth, suits. |
+| keep | Hold, stick with, stay with, protect. |
+| plan (outside the plans card) | Goal, project, idea, the long game. |
+| ask | Check with, find out, put the question to. |
+| together, people | With someone, side by side, as a pair; others, colleagues, friends. |
+| early, before | First, by noon, soon, ahead of time. |
 
 Review checklist (not mechanical): at most one metaphor or comparison per card.
 
