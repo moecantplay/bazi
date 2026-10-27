@@ -98,5 +98,6 @@ describe("plain writing (VOICE.md)", () => {
     expect(brokenRules("A stage is a season, not a verdict.")).toEqual(["contrast", "stock-phrase"]);
     expect(brokenRules("Friction is movement: a hinge, not a wound.")).toEqual(["contrast"]);
     expect(brokenRules("Whether or not you go, rest first.")).toEqual([]);
+    expect(brokenRules("An old niggle at work.")).toEqual(["stock-phrase"]);
   });
 });

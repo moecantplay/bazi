@@ -15,7 +15,7 @@
       "overall": {
         "views": 450,
         "sentences": 8793,
-        "uniqueSentences": 1827,
+        "uniqueSentences": 1828,
         "uniqueRatio": 0.208,
         "topRepeats": [
           {
@@ -768,8 +768,8 @@
         "headline": {
           "views": 450,
           "sentences": 474,
-          "uniqueSentences": 179,
-          "uniqueRatio": 0.378,
+          "uniqueSentences": 180,
+          "uniqueRatio": 0.38,
           "topRepeats": [
             {
               "sentence": "A work collision you can steer.",

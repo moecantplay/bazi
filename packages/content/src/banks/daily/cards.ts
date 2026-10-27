@@ -19,9 +19,9 @@ export const INTERACTION_CARDS: Record<InteractionType, Record<LifeArea, readonl
     plans: [["A [goal|project] meets a hurry", "Protect [an hour|a slice of time] for the bigger aim."], ["A bigger plan may need rerouting", "[Change course|Adjust the route] while it's still cheap to."]],
   },
   punishment: {
-    work: [["An old work niggle returns", "[Name it|Say it out loud] once and it [loosens|eases off]."], ["The same work snag again", "Find [its cause|where it starts], and fix that once."]],
+    work: [["An old work irritation returns", "[Name it|Say it out loud] once and it [loosens|eases off]."], ["The same work snag again", "Find [its cause|where it starts], and fix that once."]],
     family: [["A familiar family friction", "Decide your answer [ahead of time|in advance]."], ["An old family sore spot", "[Answer|Respond] from who you are now."]],
-    home: [["A [familiar|worn] loop at home", "Talk about the pattern, [kindly|gently]."], ["A household niggle", "[Laugh it off|Joke about it] as a pair if you can."]],
+    home: [["A [familiar|worn] loop at home", "Talk about the pattern, [kindly|gently]."], ["A household squabble", "[Laugh it off|Joke about it] as a pair if you can."]],
     plans: [["A recurring setback", "[Adjust|Tweak] one detail, then try again."], ["The same obstacle again", "[Look into|Find out] why it [returns|recurs]."]],
   },
   harm: {

@@ -54,7 +54,7 @@ export const PAIR_INTERACTION_CARDS: Record<InteractionType, readonly CardText[]
   harm: [
     ["Small leaks", "Little irritations add up if they're left unsaid."],
     ["Quiet misunderstandings", "They may read you wrong, or you them, so check before assuming."],
-    ["Unspoken niggles", "A small kindness between you does a lot to smooth things over."],
+    ["Unspoken grumbles", "A small kindness between you does a lot to smooth things over."],
     ["Thin patience", "When either of you is tired, small things sting, so pick calm moments to talk."],
   ],
   "six-combine": [

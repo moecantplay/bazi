@@ -92,12 +92,12 @@ export const PUNISHMENT_BODIES: Pool = {
     "An old family sore point may get pressed. Answer as the person you are now, and let the [years-old|old] version of the argument rest.",
     "Family habits may grate, [familiar as ever|in the usual way]. You don't have to fix them; just decide how you'll respond [in advance|ahead of time].",
     "An old family pattern may play out again, familiar lines and all. [Stepping out of|Dropping] your usual part changes the scene more than arguing does.",
-    "A family niggle that never quite goes away may surface. Treat it lightly; it rarely needs [solving on the spot|an answer right away].",
+    "A family [grumble|sore point] that never quite goes away may surface. Treat it lightly; it rarely needs [solving on the spot|an answer right away].",
   ],
   home: [
     "A recurring friction at home may [show up again|resurface]: the dishes, the timing, the same remark. Talk kindly about the pattern itself, and the next round [gets smaller|shrinks].",
     "A minor snag at home may [nag|rub], like a stone in your shoe. Stop and tip it out: one honest conversation beats a week of limping.",
-    "An old household niggle may [return|resurface]. Laughing about it [together|as a pair] usually [beats|does more than] winning it.",
+    "An old household squabble may [return|resurface]. Laughing about it [together|as a pair] usually [beats|does more than] winning it.",
     "A familiar issue at home may crop up again. Swap roles on it for [an evening|a night] and see if it eases.",
     "A home routine that chafes may rub again. Change one [part|step] of it instead of the whole [setup|arrangement].",
   ],
@@ -111,9 +111,9 @@ export const PUNISHMENT_BODIES: Pool = {
 };
 
 export const PUNISHMENT_HEADLINES: Pool = {
-  work: ["The same snag at work, one more time.", "A work niggle that won't [stay quiet|settle].", "Time to fix the [step|part] that [snags|sticks].", "An old work habit trips you again.", "Break a [stale|tired] work loop."],
-  family: ["A [sore|tender] family nerve, touched again.", "The family rerun you've seen [already|a hundred times].", "Family habits [rub|grate] again.", "An old family script, playing again.", "A family niggle, [minor|faint] as ever."],
-  home: ["The same [gripe|quarrel] at home, again.", "A household niggle that wants fixing properly.", "Time to settle an old argument at home.", "Home's usual friction, one more round.", "A familiar rub at home."],
+  work: ["The same snag at work, one more time.", "A work [irritation|annoyance] that won't [stay quiet|settle].", "Time to fix the [step|part] that [snags|sticks].", "An old work habit trips you again.", "Break a [stale|tired] work loop."],
+  family: ["A [sore|tender] family nerve, touched again.", "The family rerun you've seen [already|a hundred times].", "Family habits [rub|grate] again.", "An old family script, playing again.", "A family quibble, [minor|faint] as ever."],
+  home: ["The same [gripe|quarrel] at home, again.", "A chore dispute that wants fixing properly.", "Time to settle an old argument at home.", "Home's usual friction, one more round.", "A familiar rub at home."],
   plans: ["The same obstacle [on the road ahead|in your path].", "A recurring snag in the bigger plan.", "What [slows|stalls] your big plan again?", "Your [big|main] plan hits a familiar wall.", "A repeat stall on [what you're building|your project]."],
 };
 
@@ -203,7 +203,7 @@ export const HARM_AGENCY: Pool = {
   ],
   home: [
     "[Find out|Check] how the person you live with is really doing.",
-    "Clear up one [niggle|stray chore] at home by bedtime.",
+    "Clear up one [stray chore|pile of clutter] at home by bedtime.",
     "Say the [minor|quiet] gripe you've been holding back at home.",
     "Say tonight's plan out loud once, just to be sure.",
     "Name one [irritation|annoyance] that's been bothering you, kindly.",

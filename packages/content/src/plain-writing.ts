@@ -33,6 +33,7 @@ const STOCK: readonly Banned[] = [
   { pattern: /\bseasoning\b/i, reason: "abstract stand-in; say what it changes" },
   { pattern: /\bnever a prediction\b/i, reason: "repeated disclaimer; the topic page's closing line says it once" },
   { pattern: /\bnever sentence\b/i, reason: "repeated reassurance in every officer entry" },
+  { pattern: /\bniggl(?:e|es|ing)\b/i, reason: "the owner dislikes the word (2026-10-27); name the snag, gripe or sore point" },
 ];
 
 function sentencesOf(text: string): string[] {

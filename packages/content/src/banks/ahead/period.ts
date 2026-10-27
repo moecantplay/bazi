@@ -54,7 +54,7 @@ export const PERIOD_LEADS: Record<InteractionType, Record<LifeArea, readonly Per
       action: "[Pick|Write down] your answer to the family question you always dread.",
     }],
     home: [{
-      headline: "The same [minor snag|old niggle|sore point] at home.",
+      headline: "The same [minor snag|old squabble|sore point] at home.",
       body: "[A chore, a habit or a tone|One household habit] may keep coming up. Talk about the pattern kindly, [once and in full|and let single slips go].",
       action: "Raise the recurring [chore dispute|household gripe] once, calmly.",
     }],
