@@ -31,7 +31,7 @@ describe("You's wording", () => {
       assertPlain(HELPS_YOU[element]);
       assertPlain(WEARS_YOU[element]);
       assertPlain(easeLine(element));
-      assertPlain(CAREER_LINES[element].replace(/^Rooms you tend to do well in lean \w+: /, ""));
+      assertPlain(CAREER_LINES[element].replace(/^\w+ inclines you to fields such as /, ""));
       expect(ELEMENT_COLOURS[element].length).toBeLessThanOrEqual(3);
     }
     assertPlain(COLOURS_WHERE);

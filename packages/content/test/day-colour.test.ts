@@ -18,6 +18,6 @@ describe("dayColour", () => {
       }
     }
     const fire = dayColour("fire", "lean", SEED);
-    expect(fire.line).toBe(`It matches the day. Wear it, or keep something ${fire.colour} close.`);
+    expect(fire.line).toBe(`It matches the mood. Wear it, or carry one ${fire.colour} item.`);
   });
 });

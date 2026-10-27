@@ -19,13 +19,13 @@ export interface StarInput {
 
 /** How each star tends to show up: the "so what" after the gloss. */
 const STAR_TEXTURES: Record<string, string> = {
-  "tianyi-nobleman": "When you ask for help, it tends to actually arrive; asking is the skill worth practicing.",
-  "tiande-virtue": "Rough patches tend to soften around you early, so notice when it happens and pass the goodwill on.",
+  "tianyi-nobleman": "When you ask for help, it usually arrives, so asking is the skill worth practicing.",
+  "tiande-virtue": "Rough patches often soften around you, so notice when it happens and pass the kindness on.",
   "tiande-companion": "Kindness you extend has a way of circling back with interest.",
-  "yuede-virtue": "People tend to give you the benefit of the doubt; spend it carefully.",
+  "yuede-virtue": "People often give you the benefit of the doubt; spend it carefully.",
   "taiji-nobleman": "You do your best thinking one level deeper than the question you were asked.",
   "wenchang-scholar": "Reading, writing, and studying repay you faster than they repay most people.",
-  "lushen-emolument": "Steady work tends to pay you back reliably, so you rarely need to gamble for your bread.",
+  "lushen-emolument": "Steady work pays you back reliably, so you rarely need to gamble for your bread.",
   "jiangxing-general": "Responsibility finds you even when you don't raise your hand, so decide on purpose whether to take it.",
   "huagai-canopy": "Time alone restores you, and it's where your best work ripens.",
   "yima-travel-horse": "You think better in motion, and a change of scene is a real tool you can use on purpose.",

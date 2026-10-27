@@ -14,7 +14,7 @@ import type { Element } from "@daymaster/bazi-engine";
 export const DOMINANT_LINES: Record<Element, readonly string[]> = {
   wood: [
     "Wood runs loudest in your chart: growth, plans, the urge to keep starting things. Your challenge is finishing what you've already planted.",
-    "You lead with Wood: expansion, direction, the reach upward. Pruning tends to come harder to you than sowing.",
+    "You lead with Wood: expansion, direction, the reach upward. Pruning comes harder to you than sowing.",
   ],
   fire: [
     "Fire is your loudest element: warmth, visibility, quick enthusiasm. The work is pacing the burn so it lasts.",
@@ -42,15 +42,15 @@ export const MISSING_LINES: Record<Element, readonly string[]> = {
   ],
   fire: [
     "Fire is absent here: the outward warmth, the easy visibility. You may run cooler and more private, and warmth is something you can choose to add.",
-    "Your chart carries no Fire, the spark that seeks a room's attention. Being seen tends to be a decision for you rather than a reflex.",
+    "Your chart carries no Fire, the spark that seeks a room's attention. Being seen is often a decision for you rather than a reflex.",
   ],
   earth: [
-    "Earth is missing from your chart: the ballast, the settled ground. You tend to keep your footing through motion more than through anchoring.",
+    "Earth is missing from your chart: the ballast, the settled ground. You usually keep your footing through motion more than through anchoring.",
     "There's no Earth in your chart, no built-in steadying weight. Stability is something you build on purpose rather than stand on by default.",
   ],
   metal: [
     "Metal is absent here: the hard edge and the clean no. Boundaries may be something you construct deliberately rather than feel by instinct.",
-    "Your chart carries no Metal, the cut that separates and decides. Firmness tends to be a skill you build with practice.",
+    "Your chart carries no Metal, the cut that separates and decides. Firmness is a skill you build with practice.",
   ],
   water: [
     "Water is missing from your chart: the flow, the give, the depth beneath. Adapting may take conscious effort where others simply bend.",
@@ -60,7 +60,7 @@ export const MISSING_LINES: Record<Element, readonly string[]> = {
 
 /** Lines when all five elements are present (nothing missing) — a balanced chart. */
 export const BALANCED_LINES: readonly string[] = [
-  "Your five elements sit close to even. No single note drowns the others, which makes you adaptable and, sometimes, hard to pin down.",
+  "Your five elements sit close to even. No single note drowns the others, which makes you adaptable and, at times, tricky to read.",
   "The elements in your chart are fairly balanced. Your work is less about fixing an excess and more about choosing where to lean.",
   "No element runs away with your chart. That evenness is its own kind of steadiness.",
 ];
@@ -68,7 +68,7 @@ export const BALANCED_LINES: readonly string[] = [
 /** Strong-day-master lines: resourced, able to carry load. */
 export const STRONG_LINES: readonly string[] = [
   "Your day-master, the stem that stands for you, reads strong: a hiker with a full pack and good boots. You can take on load; the risk is taking on too much before you notice.",
-  "You carry a strong day-master, meaning the you at the chart's center is well-rooted and well-supplied. The discipline worth practicing is knowing when to stop pushing.",
+  "You have a strong day-master, meaning the you at the chart's center is deeply rooted and amply supplied. The discipline worth practicing is knowing when to stop pushing.",
   "A strong day-master means you rarely run empty, like a stove that holds its heat. Direct that surplus on purpose, or it spends itself on whatever's nearest.",
 ];
 
@@ -81,18 +81,18 @@ export const WEAK_LINES: readonly string[] = [
 
 /** One line per favorable element. Any two can share the page with any career line, so no two share a 4-word phrase. */
 export const FAVORABLE_LINES: Record<Element, string> = {
-  wood: "Wood tends to suit you: growth, beginnings and green patience. Time spent starting and tending things usually repays you.",
-  fire: "Fire works in your favor, with its warmth, expression and visibility. Being seen and sharing what you know tends to feed you.",
+  wood: "Wood suits you: growth, beginnings and green patience. Time spent starting and nurturing projects usually repays you.",
+  fire: "Fire works in your favor, with its warmth, expression and visibility. Being seen and sharing what you know often feeds you.",
   earth: "Earth is good company for you: steadiness, care and solid ground. Building slowly and holding steady usually agrees with you.",
   metal: "Metal helps you along: clarity, craft and clean decisions. Refining, cutting and finishing bring out your best.",
-  water: "Water is on your side: flow, depth and connection. Moving, linking and going deep serve you well.",
+  water: "Water is on your side: flow, depth and connection. Moving, linking and going deep pay off for you.",
 };
 
-/** Career inclinations per element: rooms you tend to do well in, framed as inclination (VOICE.md §5). */
+/** Career inclinations per element: the fields each one inclines you to, framed as inclination (VOICE.md §5). */
 export const CAREER_LINES: Record<Element, string> = {
-  wood: "Rooms you tend to do well in lean Wood: publishing, botany and agriculture, textiles, early-stage ventures still finding their shape. Growth-stage work tends to fit your grain.",
-  fire: "Rooms you tend to do well in lean Fire: teaching and training, media, marketing, food and drink, power and utilities, electronics. Work that puts you in front of people tends to fit.",
-  earth: "Rooms you tend to do well in lean Earth: property, construction, consulting, people and HR work, wellness. Work built on trust and steadiness is a natural fit.",
-  metal: "Rooms you tend to do well in lean Metal: engineering, hardware, finance operations, law. Work that rewards precision and structure tends to fit your hand.",
-  water: "Rooms you tend to do well in lean Water: logistics, trading, communications, tourism. Work that keeps things moving and connected is usually a good match.",
+  wood: "Wood inclines you to fields such as publishing, botany and agriculture, textiles, early-stage ventures still finding their shape. Growth-stage work suits your grain.",
+  fire: "Fire inclines you to fields such as teaching and training, media, marketing, food and drink, power and utilities, electronics. Work that puts you in front of people often fits.",
+  earth: "Earth inclines you to fields such as property, construction, consulting, people and HR work, wellness. Work built on trust and steadiness is a natural fit.",
+  metal: "Metal inclines you to fields such as engineering, hardware, finance operations, law. Work that rewards precision and structure suits your hand.",
+  water: "Water inclines you to fields such as logistics, trading, communications, tourism. Work that keeps goods, people and messages moving is usually a good match.",
 };

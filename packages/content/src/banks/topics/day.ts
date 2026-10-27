@@ -8,10 +8,10 @@ export const TEN_GOD_TOPICS: Record<string, { how: string; work: string }> = {
   "Friend": { how: "Peers and siblings make good allies today, since they know your situation from the inside. Shared work goes further than solo effort.", work: "Pair up on something you'd normally do alone." },
   "Rob Wealth": { how: "A friendly competitive edge runs through the day: a colleague or friend may be eyeing the credit or the prize you want. The rivalry is usually good-natured, and naming it keeps it that way.", work: "Say out loud what you're after, so it doesn't turn into quiet jostling." },
   "Eating God": { how: "Play and pleasure pay their way today: cooking, making, idle tinkering. The day rewards enjoying things without keeping score.", work: "Make something small just because you like making it." },
-  "Hurting Officer": { how: "You're sharp and a little rule-bending today, quick to spot what could be done better.", work: "Offer the better way, and leave out the part about the old way being wrong." },
+  "Hurting Officer": { how: "You're quick and a little rule-bending today, first to spot what could be done better.", work: "Offer the better way, and leave out the part about the old way being wrong." },
   "Indirect Wealth": { how: "Chances show up unplanned: an offer, a lead, a lucky find. They reward attention more than planning.", work: "Say yes to one unexpected invitation." },
   "Direct Wealth": { how: "Plain, steady work earns more today than bright ideas or shortcuts.", work: "Finish the task that's nearly done before you start a new one." },
-  "Seven Killings": { how: "The day brings pressure: demands, deadlines, people who expect a lot. Met one at a time, it builds strength.", work: "Take on the hardest thing first, and let one lesser demand wait." },
+  "Seven Killings": { how: "The day brings pressure: deadlines, high expectations, people who want a lot. Met one at a time, it makes you tougher.", work: "Take on the hardest job first, and let one lesser request wait." },
   "Direct Officer": { how: "Order and fairness count for more than usual, and doing things properly gets noticed. Shortcuts cost more than they save.", work: "Keep one small promise exactly as you made it." },
   "Indirect Resource": { how: "Your best thinking happens off to the side today: in the shower, on the bus or halfway through something unrelated.", work: "Step away from the problem for an hour and let it come back to you." },
   "Direct Resource": { how: "Support is easier to find today: advice, a hand with the heavy part, someone who has your back.", work: "Accept the help that's offered without explaining why you don't need it." },
@@ -55,8 +55,8 @@ export const STAGE_NAME_ORIGIN =
   "The old calendars follow the element at the centre of your birth chart through twelve stages, like a life from first shoots to rest. Each day lands you on one of them.";
 
 export const HOURS_TOPIC = {
-  how: "Plans made in the easy window tend to settle without a fuss. In the rough window, small things jostle.",
-  work: ["Save the conversation that matters for the smoother hours.", "Keep the rough window for routine work."],
+  how: "Plans made in the easy window tend to settle without a fuss. In the rough one, small things jostle.",
+  work: ["Save the conversation that matters for the smoother hours.", "Give the rougher stretch to routine work."],
   nameOrigin: "The day splits into twelve two-hour blocks, each with its own animal sign. One block pulls with today's sign and one pulls against it; the old almanacs call them the day's lucky and unlucky hours.",
 };
 
@@ -94,7 +94,7 @@ export const BEST_HOUR_LINES = {
     "The easy hour suits you best too.",
   ],
   why: (window: string, element: string) => `${window} suits you best: it brings ${element}, and your birth chart runs better with more of it.`,
-  whyIsEasyHour: (element: string) => `The easy hour suits you best too: it brings ${element}, and your birth chart runs better with more of it.`,
+  whyIsEasyHour: (element: string) => `That easy stretch suits you best too: it brings ${element}, and your birth chart runs better with more of it.`,
 };
 
 export const STAR_LINES: Record<string, string> = {

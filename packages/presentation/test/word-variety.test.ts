@@ -5,12 +5,11 @@
 
 import { describe, expect, it } from "vitest";
 import { READING_FIXTURES } from "./fixtures.js";
-import { WORD_VARIETY_KNOWN } from "./word-variety-known.js";
 import { overCaps, termsOf, wordPeaks } from "./word-variety.js";
 
 describe("word variety", () => {
-  it("keeps every word under its cap, but for the rewrite's worklist", () => {
-    expect(overCaps(wordPeaks(READING_FIXTURES))).toEqual(WORD_VARIETY_KNOWN);
+  it("keeps every word under its cap", () => {
+    expect(overCaps(wordPeaks(READING_FIXTURES))).toEqual([]);
   });
 
   it("counts words with \"-s\" folded and function words skipped, and two-word phrases", () => {

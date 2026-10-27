@@ -80,6 +80,8 @@ Proposed 2026-10-23, for the owner to approve.
 
 **Word caps (R12).** `presentation/test/word-variety.test.ts` counts content words and two-word phrases on rendered screens, using the copy audit's collector like `screen-repeats` does: per 7-day window of Today, per 12-month window of Ahead, per screen elsewhere. Stop words and the R12 exempt list are skipped. Caps are proposed from a measured run (task 15), then approved. The first failing run becomes the rewrite's worklist, as phase 1's did.
 
+**First-screen budget.** `composed-daily.test.ts` checks every wording: the 70-word budget against each part's longest wording (which bounds every combination), and the 4-word phrase check between every pair of parts that share the first screen. Before, it read bank strings with groups unresolved, which counted every part of a group toward the budget (found by the Today writer, 2026-10-27).
+
 **Rewrite.** The content-writer agent takes the worst banks first, as in phase 3, with a brief that adds: VOICE.md's overused-word list, the bank's top words from the worklist, and "add choice groups where a word or phrase repeats; every part must fit its sentence."
 
 ## Changes

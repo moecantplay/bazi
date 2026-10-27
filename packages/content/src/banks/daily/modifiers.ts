@@ -9,23 +9,23 @@ import type { Element } from "@daymaster/bazi-engine";
 
 export const MODIFIERS: Record<Element, { suits: readonly string[]; against: readonly string[] }> = {
   wood: {
-    suits: ["Fresh starts come naturally today, so take one.", "You have room to grow today, so use it.", "New ideas take hold for you today.", "Anything you begin today has a good chance of taking root."],
-    against: ["Plans may sprawl a little today, so keep to one or two.", "Too many starts at once may scatter you today.", "Keep the list short today; it grows fast.", "Your attention may scatter today, so give it one job."],
+    suits: ["Fresh starts [feel natural|suit you], so try one.", "You have room to [grow|stretch], so use it.", "New ideas [catch on|find their footing] quickly for you.", "Anything you begin has [a fair|a strong] chance of taking root."],
+    against: ["Your to-do list may sprawl, so stick to one or two [items|tasks].", "Too many starts at once may scatter you.", "[Cap|Limit] the list at a few items; it grows fast.", "Your attention may [scatter|wander], so give it one job."],
   },
   fire: {
-    suits: ["You come across well today, which helps.", "People warm to you today, so say it out loud.", "You're easy to hear today; use that.", "Your words carry warmth today, and people notice."],
-    against: ["Tempers may run warm today, so take a breath before answering.", "Things may feel a bit heated today; slow down.", "Keep your cool today, even when it's easy not to.", "Irritation flares faster today, yours included, so pause first."],
+    suits: ["You make a [fine|warm] impression, which helps.", "Others warm to you, so speak up.", "You're easy to hear; use that.", "Your words carry warmth, and [others|listeners] notice."],
+    against: ["Tempers may [flare|rise], so [breathe|pause] once and then answer.", "The air may feel heated; [slow down|ease off].", "Stay cool, even when it's easy not to.", "Irritation flares faster, yours included, so pause first."],
   },
   earth: {
-    suits: ["You're steadier than usual today, so you can answer without heat.", "Your footing is solid today, which makes this easier.", "Patience comes naturally to you today.", "People find you reassuring today, and that steadies things."],
-    against: ["The day may feel heavy, so move at your own pace.", "Things may feel slow and stuck today, and that's fine.", "Your load may feel heavier today; share it.", "Today may feel like wading through sand, so pace yourself."],
+    suits: ["You're steadier than usual, so you can answer [calmly|without heat].", "Your footing is solid, which makes this easier.", "You have [patience|calm] to spare.", "Others find you reassuring, and that steadies [the room|everyone]."],
+    against: ["Everything may feel heavy, so move at your own pace.", "Progress may feel slow and stuck, and that's fine.", "Your load may feel heavier; [share|split] it.", "It may feel like wading through sand, so pace yourself."],
   },
   metal: {
-    suits: ["You're thinking clearly today, so choosing is easier.", "Decisions come easier than usual today.", "Your judgement is sharp today; trust it.", "What to keep and what to drop is plain to you today."],
-    against: ["Edges feel sharper today, so go gently.", "Words may land harder than meant today; soften them.", "Criticism may sting more today; take it lightly.", "People may bristle more easily today, so lead with something kind."],
+    suits: ["You're thinking clearly, so choosing is easier.", "Decisions [feel lighter|are simpler] than usual.", "Your judgement is sharp; trust it.", "What [stays|lasts] and what goes is plain to you."],
+    against: ["Edges feel sharper, so go gently.", "Words may land harder than meant; soften them.", "Criticism may sting more; [hold|treat] it lightly.", "Others may bristle more easily, so lead with [a kind word|kindness]."],
   },
   water: {
-    suits: ["Words come easily to you today.", "Conversations flow your way today.", "You're adaptable today, so a change costs you less.", "You read the room well today, so listen before you answer."],
-    against: ["Things move slower than you'd like today; give them room.", "Progress may feel slow today; give it time.", "Plans may drift today, so write them down."],
+    suits: ["Words [arrive|land] easily for you.", "Conversations [flow|drift] your way.", "You're adaptable, so a change costs you less.", "You read the room well, so [listen first|hear others out], then answer."],
+    against: ["Replies move slower than you'd like; give them room.", "Progress may [crawl|dawdle]; give it time.", "Arrangements may drift, so write them down."],
   },
 };

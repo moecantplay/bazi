@@ -13,7 +13,7 @@ import type { PeriodLeadText } from "../ahead/period.js";
 export const PAIR_LEADS: Record<ElementRelation, PeriodLeadText> = {
   same: {
     headline: "Two of a kind.",
-    body: "You two run on the same fuel, which makes you quick to understand each other and quick to compete. Agree early on who leads what.",
+    body: "You run on the same fuel, which makes you quick to understand each other and quick to compete. Agree early on who leads what.",
     action: "Split one shared job clearly between you.",
   },
   output: {
@@ -41,13 +41,13 @@ export const PAIR_LEADS: Record<ElementRelation, PeriodLeadText> = {
 export const PAIR_INTERACTION_CARDS: Record<InteractionType, readonly CardText[]> = {
   "six-clash": [
     ["Friction to work through", "You pull in different directions here; talk it out early."],
-    ["Opposite pulls", "When you each want something different, decide together who bends this time."],
+    ["Opposite pulls", "When you each want something different, agree who bends this time."],
     ["Crossed wires", "They may push just when you want to rest, so agree on timing first."],
     ["A tug of war", "Disagreements between you clear faster when you name them the same day."],
   ],
   punishment: [
     ["An old pattern between you", "The same small argument may recur; name it once."],
-    ["A familiar loop", "You two may keep circling one sore subject, so settle it properly."],
+    ["A familiar loop", "You may keep circling one sore subject, so deal with it properly."],
     ["A repeat quarrel", "When an old disagreement resurfaces, ask what's really behind it."],
     ["Old habits between you", "Habits that grate on each other tend to come back until you talk them through."],
   ],
@@ -58,14 +58,14 @@ export const PAIR_INTERACTION_CARDS: Record<InteractionType, readonly CardText[]
     ["Thin patience", "When either of you is tired, small things sting, so pick calm moments to talk."],
   ],
   "six-combine": [
-    ["Easy together", "Cooperation comes naturally here."],
-    ["A natural fit", "You two tend to agree without much discussion."],
-    ["Good partners", "Shared tasks between you tend to go smoothly and quickly."],
+    ["Easy rapport", "Cooperation comes naturally here."],
+    ["A natural fit", "You often agree without much discussion."],
+    ["Good partners", "Shared tasks tend to go smoothly and quickly."],
     ["In step", "You tend to sense what they need before they ask."],
   ],
   trine: [
-    ["A shared drive", "Together you move faster, and faster still with one more on board."],
-    ["Common ground", "You two want similar things, which makes plans easy to share."],
+    ["A shared drive", "As a pair you move fast, and faster still with a third on board."],
+    ["Common ground", "Your goals line up, which makes plans easy to share."],
     ["Big projects in tandem", "Large undertakings suit you as a pair, since you push the same way."],
     ["Pulling the same way", "When one of you starts something, the other tends to join in."],
   ],
@@ -84,7 +84,7 @@ export const PAIR_AREA_SUFFIX: Record<LifeArea, string> = {
  * sees in the other. A pool, so the two lines differ when both see the same.
  */
 export const PAIR_BRINGS: Record<string, readonly string[]> = {
-  "Friend": ["Doing it together.", "A teammate for the long haul."],
+  "Friend": ["Someone to share the load.", "A teammate for the long haul."],
   "Rob Wealth": ["Pace-setters at your elbow.", "A friendly race to keep up."],
   "Eating God": ["Making for the joy of it.", "Easy laughter and good food."],
   "Hurting Officer": ["A sharp, busy eye.", "The nerve to speak up."],

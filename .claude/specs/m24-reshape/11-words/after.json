@@ -15,27 +15,27 @@
       "overall": {
         "views": 450,
         "sentences": 8793,
-        "uniqueSentences": 1271,
-        "uniqueRatio": 0.145,
+        "uniqueSentences": 1830,
+        "uniqueRatio": 0.208,
         "topRepeats": [
           {
             "sentence": "Drawn to the big questions",
             "count": 104
           },
           {
-            "sentence": "Someone helpful turns up",
+            "sentence": "A helper turns up",
             "count": 75
           },
           {
-            "sentence": "Plans may land lighter than booked",
+            "sentence": "What's booked may land lighter",
             "count": 71
           },
           {
-            "sentence": "Take things a little slower",
+            "sentence": "Ease your pace a notch",
             "count": 70
           },
           {
-            "sentence": "Time alone pays off",
+            "sentence": "Solitude pays off",
             "count": 68
           },
           {
@@ -43,15 +43,15 @@
             "count": 67
           },
           {
-            "sentence": "Good for a change of scene",
+            "sentence": "A change of scene suits you",
             "count": 65
           },
           {
-            "sentence": "People look to you to decide",
+            "sentence": "Others look to you to decide",
             "count": 65
           },
           {
-            "sentence": "A gentle run of goodwill",
+            "sentence": "A gentle stretch of goodwill",
             "count": 45
           },
           {
@@ -103,26 +103,26 @@
             "count": 40
           },
           {
+            "sentence": "A strong will, so aim it",
+            "count": 39
+          },
+          {
             "sentence": "Goodwill is on your side",
             "count": 39
           },
           {
-            "sentence": "Kindness comes back to you",
+            "sentence": "Kindness finds its way back",
             "count": 39
           },
           {
-            "sentence": "Quiet charm works for you",
-            "count": 39
-          },
-          {
-            "sentence": "Strong will today; aim it",
+            "sentence": "Study and writing flow easily",
             "count": 39
           }
         ],
         "wordsPerView": {
-          "min": 90,
-          "average": 139.4,
-          "max": 188
+          "min": 86,
+          "average": 131.9,
+          "max": 178
         },
         "emDashesPerView": {
           "average": 0,
@@ -141,31 +141,31 @@
         "A": {
           "views": 90,
           "sentences": 1775,
-          "uniqueSentences": 669,
-          "uniqueRatio": 0.377,
+          "uniqueSentences": 871,
+          "uniqueRatio": 0.491,
           "topRepeats": [
             {
               "sentence": "Drawn to the big questions",
               "count": 30
             },
             {
-              "sentence": "Good for a change of scene",
+              "sentence": "A change of scene suits you",
               "count": 15
             },
             {
-              "sentence": "People look to you to decide",
+              "sentence": "A helper turns up",
               "count": 15
             },
             {
-              "sentence": "Someone helpful turns up",
+              "sentence": "Ease your pace a notch",
               "count": 15
             },
             {
-              "sentence": "Take things a little slower",
+              "sentence": "Others look to you to decide",
               "count": 15
             },
             {
-              "sentence": "Time alone pays off",
+              "sentence": "Solitude pays off",
               "count": 15
             },
             {
@@ -173,15 +173,19 @@
               "count": 15
             },
             {
-              "sentence": "Plans may land lighter than booked",
+              "sentence": "What's booked may land lighter",
               "count": 14
             },
             {
-              "sentence": "A gentle run of goodwill",
+              "sentence": "A gentle stretch of goodwill",
               "count": 9
             },
             {
-              "sentence": "Connection comes knocking",
+              "sentence": "A strong will, so aim it",
+              "count": 8
+            },
+            {
+              "sentence": "Connection knocks at the door",
               "count": 8
             },
             {
@@ -213,11 +217,7 @@
               "count": 8
             },
             {
-              "sentence": "Kindness comes back to you",
-              "count": 8
-            },
-            {
-              "sentence": "Quiet charm works for you",
+              "sentence": "Kindness finds its way back",
               "count": 8
             },
             {
@@ -246,9 +246,9 @@
             }
           ],
           "wordsPerView": {
-            "min": 103,
-            "average": 141.7,
-            "max": 180
+            "min": 94,
+            "average": 134,
+            "max": 167
           },
           "emDashesPerView": {
             "average": 0,
@@ -266,31 +266,31 @@
         "unknown time": {
           "views": 90,
           "sentences": 1709,
-          "uniqueSentences": 675,
-          "uniqueRatio": 0.395,
+          "uniqueSentences": 861,
+          "uniqueRatio": 0.504,
           "topRepeats": [
             {
               "sentence": "Drawn to the big questions",
               "count": 30
             },
             {
-              "sentence": "Good for a change of scene",
+              "sentence": "A change of scene suits you",
               "count": 15
             },
             {
-              "sentence": "People look to you to decide",
+              "sentence": "A helper turns up",
               "count": 15
             },
             {
-              "sentence": "Someone helpful turns up",
+              "sentence": "Ease your pace a notch",
               "count": 15
             },
             {
-              "sentence": "Take things a little slower",
+              "sentence": "Others look to you to decide",
               "count": 15
             },
             {
-              "sentence": "Time alone pays off",
+              "sentence": "Solitude pays off",
               "count": 15
             },
             {
@@ -298,15 +298,19 @@
               "count": 15
             },
             {
-              "sentence": "Plans may land lighter than booked",
+              "sentence": "What's booked may land lighter",
               "count": 14
             },
             {
-              "sentence": "A gentle run of goodwill",
+              "sentence": "A gentle stretch of goodwill",
               "count": 9
             },
             {
-              "sentence": "Connection comes knocking",
+              "sentence": "A strong will, so aim it",
+              "count": 8
+            },
+            {
+              "sentence": "Connection knocks at the door",
               "count": 8
             },
             {
@@ -338,11 +342,7 @@
               "count": 8
             },
             {
-              "sentence": "Kindness comes back to you",
-              "count": 8
-            },
-            {
-              "sentence": "Quiet charm works for you",
+              "sentence": "Kindness finds its way back",
               "count": 8
             },
             {
@@ -371,9 +371,9 @@
             }
           ],
           "wordsPerView": {
-            "min": 92,
-            "average": 134.5,
-            "max": 176
+            "min": 91,
+            "average": 127.5,
+            "max": 173
           },
           "emDashesPerView": {
             "average": 0,
@@ -391,19 +391,19 @@
         "B": {
           "views": 90,
           "sentences": 1769,
-          "uniqueSentences": 672,
-          "uniqueRatio": 0.38,
+          "uniqueSentences": 875,
+          "uniqueRatio": 0.495,
           "topRepeats": [
             {
-              "sentence": "Take things a little slower",
+              "sentence": "Ease your pace a notch",
               "count": 16
             },
             {
-              "sentence": "Someone helpful turns up",
+              "sentence": "A helper turns up",
               "count": 15
             },
             {
-              "sentence": "Time alone pays off",
+              "sentence": "Solitude pays off",
               "count": 15
             },
             {
@@ -411,23 +411,23 @@
               "count": 15
             },
             {
+              "sentence": "A change of scene suits you",
+              "count": 14
+            },
+            {
               "sentence": "Drawn to the big questions",
               "count": 14
             },
             {
-              "sentence": "Good for a change of scene",
+              "sentence": "Others look to you to decide",
               "count": 14
             },
             {
-              "sentence": "People look to you to decide",
+              "sentence": "What's booked may land lighter",
               "count": 14
             },
             {
-              "sentence": "Plans may land lighter than booked",
-              "count": 14
-            },
-            {
-              "sentence": "A gentle run of goodwill",
+              "sentence": "A gentle stretch of goodwill",
               "count": 9
             },
             {
@@ -435,11 +435,11 @@
               "count": 9
             },
             {
-              "sentence": "Kindness comes back to you",
+              "sentence": "Kindness finds its way back",
               "count": 9
             },
             {
-              "sentence": "Connection comes knocking",
+              "sentence": "Connection knocks at the door",
               "count": 8
             },
             {
@@ -491,14 +491,14 @@
               "count": 8
             },
             {
-              "sentence": "Rushing causes small cuts",
+              "sentence": "Rushing leads to nicks and cuts",
               "count": 8
             }
           ],
           "wordsPerView": {
-            "min": 92,
-            "average": 140.9,
-            "max": 181
+            "min": 86,
+            "average": 133.3,
+            "max": 178
           },
           "emDashesPerView": {
             "average": 0,
@@ -516,23 +516,23 @@
         "C": {
           "views": 90,
           "sentences": 1789,
-          "uniqueSentences": 673,
-          "uniqueRatio": 0.376,
+          "uniqueSentences": 898,
+          "uniqueRatio": 0.502,
           "topRepeats": [
             {
-              "sentence": "Take things a little slower",
+              "sentence": "Ease your pace a notch",
               "count": 16
+            },
+            {
+              "sentence": "A helper turns up",
+              "count": 15
             },
             {
               "sentence": "Drawn to the big questions",
               "count": 15
             },
             {
-              "sentence": "Someone helpful turns up",
-              "count": 15
-            },
-            {
-              "sentence": "Time alone pays off",
+              "sentence": "Solitude pays off",
               "count": 15
             },
             {
@@ -540,23 +540,31 @@
               "count": 15
             },
             {
-              "sentence": "Good for a change of scene",
+              "sentence": "A change of scene suits you",
               "count": 14
             },
             {
-              "sentence": "People look to you to decide",
+              "sentence": "Others look to you to decide",
               "count": 14
             },
             {
-              "sentence": "Plans may land lighter than booked",
+              "sentence": "What's booked may land lighter",
               "count": 14
             },
             {
-              "sentence": "A gentle run of goodwill",
+              "sentence": "A gentle stretch of goodwill",
               "count": 9
             },
             {
+              "sentence": "A strong will, so aim it",
+              "count": 8
+            },
+            {
               "sentence": "Be gentle with old sadness",
+              "count": 8
+            },
+            {
+              "sentence": "Cheerful news on the way",
               "count": 8
             },
             {
@@ -584,10 +592,6 @@
               "count": 8
             },
             {
-              "sentence": "Quiet charm works for you",
-              "count": 8
-            },
-            {
               "sentence": "Roughest 11 pm–1 am.",
               "count": 8
             },
@@ -612,18 +616,14 @@
               "count": 8
             },
             {
-              "sentence": "Small good news",
-              "count": 8
-            },
-            {
-              "sentence": "Strong will today; aim it",
+              "sentence": "Study and writing flow easily",
               "count": 8
             }
           ],
           "wordsPerView": {
-            "min": 105,
-            "average": 141.8,
-            "max": 188
+            "min": 97,
+            "average": 134.3,
+            "max": 177
           },
           "emDashesPerView": {
             "average": 0,
@@ -641,27 +641,39 @@
         "D": {
           "views": 90,
           "sentences": 1751,
-          "uniqueSentences": 694,
-          "uniqueRatio": 0.396,
+          "uniqueSentences": 903,
+          "uniqueRatio": 0.516,
           "topRepeats": [
+            {
+              "sentence": "A helper turns up",
+              "count": 15
+            },
             {
               "sentence": "Drawn to the big questions",
               "count": 15
             },
             {
-              "sentence": "Plans may land lighter than booked",
+              "sentence": "What's booked may land lighter",
               "count": 15
             },
             {
-              "sentence": "Someone helpful turns up",
-              "count": 15
-            },
-            {
-              "sentence": "A gentle run of goodwill",
+              "sentence": "A gentle stretch of goodwill",
               "count": 9
             },
             {
+              "sentence": "A strong will, so aim it",
+              "count": 8
+            },
+            {
               "sentence": "Be gentle with old sadness",
+              "count": 8
+            },
+            {
+              "sentence": "Cheerful news on the way",
+              "count": 8
+            },
+            {
+              "sentence": "Ease your pace a notch",
               "count": 8
             },
             {
@@ -689,10 +701,6 @@
               "count": 8
             },
             {
-              "sentence": "Quiet charm works for you",
-              "count": 8
-            },
-            {
               "sentence": "Roughest 11 pm–1 am.",
               "count": 8
             },
@@ -717,38 +725,30 @@
               "count": 8
             },
             {
-              "sentence": "Small good news",
+              "sentence": "Solitude pays off",
               "count": 8
             },
             {
-              "sentence": "Strong will today; aim it",
+              "sentence": "Study and writing flow easily",
               "count": 8
             },
             {
-              "sentence": "Study and writing come easier",
+              "sentence": "Your quiet charm shows",
               "count": 8
             },
             {
-              "sentence": "Take things a little slower",
-              "count": 8
-            },
-            {
-              "sentence": "Time alone pays off",
-              "count": 8
-            },
-            {
-              "sentence": "Connection comes knocking",
+              "sentence": "A change of scene suits you",
               "count": 7
             },
             {
-              "sentence": "Easiest 11 pm–1 am",
+              "sentence": "Connection knocks at the door",
               "count": 7
             }
           ],
           "wordsPerView": {
-            "min": 90,
-            "average": 138.2,
-            "max": 179
+            "min": 87,
+            "average": 130.6,
+            "max": 171
           },
           "emDashesPerView": {
             "average": 0,
@@ -768,31 +768,19 @@
         "headline": {
           "views": 450,
           "sentences": 474,
-          "uniqueSentences": 127,
-          "uniqueRatio": 0.268,
+          "uniqueSentences": 179,
+          "uniqueRatio": 0.378,
           "topRepeats": [
             {
               "sentence": "A work collision you can steer.",
               "count": 9
             },
             {
-              "sentence": "A long-range plan springs a slow leak today.",
-              "count": 8
-            },
-            {
-              "sentence": "At home, something has to give today.",
-              "count": 8
-            },
-            {
               "sentence": "Home may want both.",
               "count": 8
             },
             {
-              "sentence": "Rest or plans?",
-              "count": 8
-            },
-            {
-              "sentence": "Something at work has to give.",
+              "sentence": "Rest or outings?",
               "count": 8
             },
             {
@@ -800,35 +788,11 @@
               "count": 8
             },
             {
-              "sentence": "You get to choose what.",
+              "sentence": "You choose which.",
               "count": 8
             },
             {
-              "sentence": "A small home standoff you can settle.",
-              "count": 7
-            },
-            {
-              "sentence": "Family asks; your plans ask too.",
-              "count": 7
-            },
-            {
-              "sentence": "Family plans and yours want the same hours.",
-              "count": 7
-            },
-            {
               "sentence": "Help at work from several sides.",
-              "count": 7
-            },
-            {
-              "sentence": "Home has two plans for the same evening.",
-              "count": 7
-            },
-            {
-              "sentence": "Mind the small print at work.",
-              "count": 7
-            },
-            {
-              "sentence": "One day, two family calls on your time.",
               "count": 7
             },
             {
@@ -840,41 +804,77 @@
               "count": 7
             },
             {
-              "sentence": "Urgent things tug at the long game today.",
-              "count": 7
-            },
-            {
-              "sentence": "Work asks you to pick a lane today.",
-              "count": 7
-            },
-            {
               "sentence": "Work's details want a second pass.",
               "count": 7
             },
             {
-              "sentence": "A family tug-of-war you can settle early.",
+              "sentence": "A test of which plans are worth holding.",
               "count": 6
             },
             {
-              "sentence": "A team day at work.",
+              "sentence": "Group projects move quickly.",
               "count": 6
             },
             {
-              "sentence": "A work niggle that won't stay quiet.",
+              "sentence": "Two ideas of tonight, one evening to share.",
               "count": 6
             },
             {
-              "sentence": "Check underneath before you lean on it.",
+              "sentence": "Work looks smooth.",
               "count": 6
             },
             {
-              "sentence": "Close a small family gap early.",
+              "sentence": "Your bigger plan needs a quick check.",
               "count": 6
+            },
+            {
+              "sentence": "A bigger plan meets a new fact.",
+              "count": 5
+            },
+            {
+              "sentence": "A minor home standoff you can settle.",
+              "count": 5
+            },
+            {
+              "sentence": "A snag hides under a smooth workday.",
+              "count": 5
+            },
+            {
+              "sentence": "A yes is easier to get at work.",
+              "count": 5
+            },
+            {
+              "sentence": "At home, an arrangement has to give.",
+              "count": 5
+            },
+            {
+              "sentence": "More hands for the big goal.",
+              "count": 5
+            },
+            {
+              "sentence": "The same snag at work, one more time.",
+              "count": 5
+            },
+            {
+              "sentence": "What you're building and who you build it with line up.",
+              "count": 5
+            },
+            {
+              "sentence": "Work pulls in your direction.",
+              "count": 5
+            },
+            {
+              "sentence": "A big plan springs a slow leak.",
+              "count": 4
+            },
+            {
+              "sentence": "A bigger plan gets a following wind.",
+              "count": 4
             }
           ],
           "wordsPerView": {
-            "min": 3,
-            "average": 6.9,
+            "min": 2,
+            "average": 6.4,
             "max": 11
           },
           "emDashesPerView": {
@@ -893,87 +893,47 @@
         "body": {
           "views": 450,
           "sentences": 1147,
-          "uniqueSentences": 285,
-          "uniqueRatio": 0.248,
+          "uniqueSentences": 433,
+          "uniqueRatio": 0.378,
           "topRepeats": [
             {
-              "sentence": "Fresh starts come naturally today, so take one.",
-              "count": 15
-            },
-            {
-              "sentence": "Anything you begin today has a good chance of taking root.",
+              "sentence": "You're adaptable, so a change costs you less.",
               "count": 14
-            },
-            {
-              "sentence": "You're adaptable today, so a change costs you less.",
-              "count": 14
-            },
-            {
-              "sentence": "Conversations flow your way today.",
-              "count": 13
-            },
-            {
-              "sentence": "New ideas take hold for you today.",
-              "count": 13
-            },
-            {
-              "sentence": "You have room to grow today, so use it.",
-              "count": 13
-            },
-            {
-              "sentence": "Words come easily to you today.",
-              "count": 12
-            },
-            {
-              "sentence": "You read the room well today, so listen before you answer.",
-              "count": 12
-            },
-            {
-              "sentence": "Expect a tug-of-war at work between what was planned and what just landed.",
-              "count": 10
             },
             {
               "sentence": "The sooner you name which one wins, the calmer the afternoon.",
               "count": 10
             },
             {
-              "sentence": "A short, early conversation saves a long, late one.",
+              "sentence": "A deadline and a meeting may want the same slot at work.",
               "count": 9
             },
             {
-              "sentence": "Decide early which one moves, and tell whoever it affects before it becomes a scramble.",
+              "sentence": "Plans at home may collide: two ideas of how the evening goes, or whose turn it is.",
               "count": 9
             },
             {
-              "sentence": "Plans at home may collide today: two ideas of how the evening goes, or whose turn it is.",
-              "count": 9
-            },
-            {
-              "sentence": "Two things at work may want the same slot today, like a deadline and a meeting.",
-              "count": 9
-            },
-            {
-              "sentence": "A family plan may run straight into one of yours today: a visit, a call, an expectation.",
+              "sentence": "A chore, a decision or an errand at home may have to switch hands.",
               "count": 8
             },
             {
-              "sentence": "A second look before anything goes out catches most of it.",
+              "sentence": "A relative may need your time just when you've promised it elsewhere.",
               "count": 8
             },
             {
-              "sentence": "Ask what matters most to the other person before you defend your side.",
+              "sentence": "Anything you begin has a fair chance of taking root.",
               "count": 8
             },
             {
-              "sentence": "Choose early which gives way, and say it kindly rather than late.",
+              "sentence": "Choose which gives way, and say it kindly and soon.",
               "count": 8
             },
             {
-              "sentence": "Choose the one that matters more and reschedule the other early.",
+              "sentence": "Fresh starts feel natural, so try one.",
               "count": 8
             },
             {
-              "sentence": "Group efforts move quickly, so use it for the task that stalls when you work solo.",
+              "sentence": "It may feel like wading through sand, so pace yourself.",
               "count": 8
             },
             {
@@ -981,26 +941,66 @@
               "count": 8
             },
             {
-              "sentence": "Someone in your family may need your time just when you've promised it elsewhere.",
+              "sentence": "Work has a following wind.",
               "count": 8
             },
             {
-              "sentence": "Something at home may have to switch hands today: a chore, a plan, a decision.",
-              "count": 8
+              "sentence": "A cherished goal may lose ground without anyone noticing.",
+              "count": 7
             },
             {
-              "sentence": "Something your bigger plans rest on may quietly wear today, like a habit that slips.",
-              "count": 8
+              "sentence": "Conversations drift your way.",
+              "count": 7
             },
             {
-              "sentence": "Sort out which comes first this morning, and let both sides know.",
-              "count": 8
+              "sentence": "Everything may feel heavy, so move at your own pace.",
+              "count": 7
+            },
+            {
+              "sentence": "Fresh starts suit you, so try one.",
+              "count": 7
+            },
+            {
+              "sentence": "Help at work may arrive from more than one direction.",
+              "count": 7
+            },
+            {
+              "sentence": "New ideas catch on quickly for you.",
+              "count": 7
+            },
+            {
+              "sentence": "Offer part of your time to each, and say which part.",
+              "count": 7
+            },
+            {
+              "sentence": "Others warm to you, so speak up.",
+              "count": 7
+            },
+            {
+              "sentence": "Progress may feel slow and stuck, and that's fine.",
+              "count": 7
+            },
+            {
+              "sentence": "What you're building toward and what's in front of you may pull against each other.",
+              "count": 7
+            },
+            {
+              "sentence": "You have room to stretch, so use it.",
+              "count": 7
+            },
+            {
+              "sentence": "You read the room well, so listen first, then answer.",
+              "count": 7
+            },
+            {
+              "sentence": "A bigger plan may need to change course, because the ground under it has moved.",
+              "count": 6
             }
           ],
           "wordsPerView": {
-            "min": 12,
-            "average": 27.4,
-            "max": 41
+            "min": 11,
+            "average": 25.1,
+            "max": 39
           },
           "emDashesPerView": {
             "average": 0,
@@ -1018,67 +1018,27 @@
         "agency": {
           "views": 450,
           "sentences": 450,
-          "uniqueSentences": 123,
-          "uniqueRatio": 0.273,
+          "uniqueSentences": 187,
+          "uniqueRatio": 0.416,
           "topRepeats": [
             {
-              "sentence": "Write down today's two biggest work asks and push one to tomorrow.",
-              "count": 9
-            },
-            {
-              "sentence": "Move one meeting or deadline before lunch, and say why.",
+              "sentence": "Reply to the overlapping invite with a new time.",
               "count": 8
-            },
-            {
-              "sentence": "Offer one family member a specific time that works for you.",
-              "count": 8
-            },
-            {
-              "sentence": "Reply to the overlapping invite with a new time today.",
-              "count": 8
-            },
-            {
-              "sentence": "Tell the people at home one thing you want from tonight, before noon.",
-              "count": 8
-            },
-            {
-              "sentence": "Ask at breakfast what everyone wants from tonight.",
-              "count": 7
-            },
-            {
-              "sentence": "Ask whoever shares your evening which plan matters more to them.",
-              "count": 7
-            },
-            {
-              "sentence": "Call the meeting you've been holding off on; people are ready.",
-              "count": 7
             },
             {
               "sentence": "Confirm one detail at work you've been assuming.",
               "count": 7
             },
             {
-              "sentence": "Double-check the numbers on anything leaving your desk today.",
+              "sentence": "Double-check the numbers on anything leaving your desk.",
               "count": 7
             },
             {
-              "sentence": "Give way on one minor point at home without keeping score.",
+              "sentence": "Put the question to whoever shares your evenings: which plan counts most?",
               "count": 7
             },
             {
-              "sentence": "Send one family message today that says what you can offer.",
-              "count": 7
-            },
-            {
-              "sentence": "Share credit for something at work, out loud.",
-              "count": 7
-            },
-            {
-              "sentence": "Suggest a middle way for tonight before anyone digs in.",
-              "count": 7
-            },
-            {
-              "sentence": "Tell a colleague the thing you've been meaning to say plainly.",
+              "sentence": "Send one family message that says what you can offer.",
               "count": 7
             },
             {
@@ -1086,45 +1046,85 @@
               "count": 7
             },
             {
-              "sentence": "Tell your manager which of two tasks you'll finish first.",
-              "count": 7
-            },
-            {
               "sentence": "Write down one plan you're ready to change, and how.",
               "count": 7
-            },
-            {
-              "sentence": "Ask one colleague to join you on the hardest task today.",
-              "count": 6
-            },
-            {
-              "sentence": "Guard one half hour for the goal that matters most.",
-              "count": 6
-            },
-            {
-              "sentence": "Hand one piece of your work to someone who's keen.",
-              "count": 6
-            },
-            {
-              "sentence": "Put one small step toward a big goal on today's list.",
-              "count": 6
-            },
-            {
-              "sentence": "Reread one work plan or message before you send it.",
-              "count": 6
             },
             {
               "sentence": "Reread the note where you first wrote the plan down.",
               "count": 6
             },
             {
-              "sentence": "Restart one small habit that keeps a big goal moving.",
-              "count": 6
+              "sentence": "Bring your manager the request you've been saving up.",
+              "count": 5
+            },
+            {
+              "sentence": "List the two biggest requests at work and push one to tomorrow.",
+              "count": 5
+            },
+            {
+              "sentence": "Move one meeting or deadline by lunch, and say why.",
+              "count": 5
+            },
+            {
+              "sentence": "Send a short, warm note to one relative.",
+              "count": 5
+            },
+            {
+              "sentence": "Spend ten minutes checking where your biggest goal stands.",
+              "count": 5
+            },
+            {
+              "sentence": "Tell your team which of two tasks you'll finish first.",
+              "count": 5
+            },
+            {
+              "sentence": "Write the next three steps of your biggest goal and share them.",
+              "count": 5
+            },
+            {
+              "sentence": "Answer the family message you've been leaving on read.",
+              "count": 4
+            },
+            {
+              "sentence": "Call one relative just to say hello.",
+              "count": 4
+            },
+            {
+              "sentence": "Call the meeting you've been holding off on; the team is ready.",
+              "count": 4
+            },
+            {
+              "sentence": "Find out at breakfast what everyone wants from tonight.",
+              "count": 4
+            },
+            {
+              "sentence": "Fix one recurring annoyance at work by noon.",
+              "count": 4
+            },
+            {
+              "sentence": "Give way on one minor point at home without keeping score.",
+              "count": 4
+            },
+            {
+              "sentence": "Guard one half hour for your biggest aim.",
+              "count": 4
+            },
+            {
+              "sentence": "Hand one job off your list to someone at home.",
+              "count": 4
+            },
+            {
+              "sentence": "List the two biggest demands at work and push one to tomorrow.",
+              "count": 4
+            },
+            {
+              "sentence": "Offer one relative a specific time that fits you.",
+              "count": 4
             }
           ],
           "wordsPerView": {
-            "min": 6,
-            "average": 9.8,
+            "min": 4,
+            "average": 9.5,
             "max": 14
           },
           "emDashesPerView": {
@@ -1143,27 +1143,27 @@
         "card title": {
           "views": 450,
           "sentences": 2867,
-          "uniqueSentences": 146,
-          "uniqueRatio": 0.051,
+          "uniqueSentences": 196,
+          "uniqueRatio": 0.068,
           "topRepeats": [
             {
               "sentence": "Drawn to the big questions",
               "count": 104
             },
             {
-              "sentence": "Someone helpful turns up",
+              "sentence": "A helper turns up",
               "count": 75
             },
             {
-              "sentence": "Plans may land lighter than booked",
+              "sentence": "What's booked may land lighter",
               "count": 71
             },
             {
-              "sentence": "Take things a little slower",
+              "sentence": "Ease your pace a notch",
               "count": 70
             },
             {
-              "sentence": "Time alone pays off",
+              "sentence": "Solitude pays off",
               "count": 68
             },
             {
@@ -1171,15 +1171,15 @@
               "count": 67
             },
             {
-              "sentence": "Good for a change of scene",
+              "sentence": "A change of scene suits you",
               "count": 65
             },
             {
-              "sentence": "People look to you to decide",
+              "sentence": "Others look to you to decide",
               "count": 65
             },
             {
-              "sentence": "A gentle run of goodwill",
+              "sentence": "A gentle stretch of goodwill",
               "count": 45
             },
             {
@@ -1207,27 +1207,27 @@
               "count": 40
             },
             {
+              "sentence": "A strong will, so aim it",
+              "count": 39
+            },
+            {
               "sentence": "Goodwill is on your side",
               "count": 39
             },
             {
-              "sentence": "Kindness comes back to you",
+              "sentence": "Kindness finds its way back",
               "count": 39
             },
             {
-              "sentence": "Quiet charm works for you",
+              "sentence": "Study and writing flow easily",
               "count": 39
             },
             {
-              "sentence": "Strong will today; aim it",
+              "sentence": "Your quiet charm shows",
               "count": 39
             },
             {
-              "sentence": "Study and writing come easier",
-              "count": 39
-            },
-            {
-              "sentence": "Connection comes knocking",
+              "sentence": "Connection knocks at the door",
               "count": 38
             },
             {
@@ -1239,18 +1239,18 @@
               "count": 37
             },
             {
-              "sentence": "Small good news",
+              "sentence": "Cheerful news on the way",
               "count": 37
             },
             {
-              "sentence": "Rushing causes small cuts",
+              "sentence": "Rushing leads to nicks and cuts",
               "count": 36
             }
           ],
           "wordsPerView": {
             "min": 11,
-            "average": 29,
-            "max": 54
+            "average": 27.2,
+            "max": 50
           },
           "emDashesPerView": {
             "average": 0,
@@ -1268,8 +1268,8 @@
         "card line": {
           "views": 450,
           "sentences": 1932,
-          "uniqueSentences": 131,
-          "uniqueRatio": 0.068,
+          "uniqueSentences": 251,
+          "uniqueRatio": 0.13,
           "topRepeats": [
             {
               "sentence": "Roughest 11 pm–1 am.",
@@ -1320,62 +1320,62 @@
               "count": 35
             },
             {
-              "sentence": "An hour on a hobby or a slow meal leaves you sharper.",
-              "count": 22
-            },
-            {
-              "sentence": "Answers come from odd angles: a side conversation, a walk, a stray article.",
-              "count": 22
-            },
-            {
-              "sentence": "Demands run high, and meeting them builds strength.",
-              "count": 22
-            },
-            {
-              "sentence": "Follow up the odd lead or offer that turns up today.",
-              "count": 22
-            },
-            {
-              "sentence": "Follow up the thought that arrives while you're busy with something else.",
-              "count": 22
-            },
-            {
-              "sentence": "People in the same spot as you are the best company today.",
-              "count": 22
-            },
-            {
-              "sentence": "Work alongside a friend or sibling and the hours go quicker.",
-              "count": 22
-            },
-            {
-              "sentence": "Cook, draw, tinker: things done for the joy of it go well.",
+              "sentence": "Meet one demand properly, then turn to the next.",
               "count": 21
             },
             {
-              "sentence": "Meet one demand properly before you turn to the next.",
-              "count": 21
-            },
-            {
-              "sentence": "Unplanned chances show up, so keep an eye out.",
-              "count": 21
-            },
-            {
-              "sentence": "Ease the pace before it eases you.",
-              "count": 20
-            },
-            {
-              "sentence": "Help and care reach you more easily today.",
+              "sentence": "Help and care reach you more easily.",
               "count": 20
             },
             {
               "sentence": "Let them.",
               "count": 20
+            },
+            {
+              "sentence": "Still strong.",
+              "count": 20
+            },
+            {
+              "sentence": "Trim the list rather than push through it.",
+              "count": 20
+            },
+            {
+              "sentence": "Step forward and let yourself be counted.",
+              "count": 19
+            },
+            {
+              "sentence": "Brief, regular attention helps whatever you've just begun.",
+              "count": 18
+            },
+            {
+              "sentence": "Fresh and eager, still finding its feet.",
+              "count": 18
+            },
+            {
+              "sentence": "Let it go cleanly and enjoy the extra space.",
+              "count": 18
+            },
+            {
+              "sentence": "Progress happens out of sight; let it.",
+              "count": 18
+            },
+            {
+              "sentence": "Sorting and storing go better than starting.",
+              "count": 18
+            },
+            {
+              "sentence": "You spot the shortcut others miss.",
+              "count": 18
+            },
+            {
+              "sentence": "The person closest to you is on your wavelength.",
+              "count": 14
             }
           ],
           "wordsPerView": {
             "min": 11,
-            "average": 32.4,
-            "max": 57
+            "average": 30.8,
+            "max": 56
           },
           "emDashesPerView": {
             "average": 0,
@@ -1518,8 +1518,8 @@
         "suits heading": {
           "views": 450,
           "sentences": 450,
-          "uniqueSentences": 59,
-          "uniqueRatio": 0.131,
+          "uniqueSentences": 72,
+          "uniqueRatio": 0.16,
           "topRepeats": [
             {
               "sentence": "Close up and put away",
@@ -1530,19 +1530,19 @@
               "count": 15
             },
             {
-              "sentence": "Level ground today",
+              "sentence": "Level ground",
               "count": 14
             },
             {
-              "sentence": "Good for chasing replies",
+              "sentence": "Chase up replies",
               "count": 13
             },
             {
-              "sentence": "Everything lines up today",
+              "sentence": "Arrangements hold firm",
               "count": 12
             },
             {
-              "sentence": "Good for keeping things balanced",
+              "sentence": "Everything lines up",
               "count": 12
             },
             {
@@ -1550,60 +1550,28 @@
               "count": 12
             },
             {
-              "sentence": "Things hold their place",
-              "count": 12
-            },
-            {
-              "sentence": "A day for endings more than beginnings",
-              "count": 11
-            },
-            {
               "sentence": "Share what you've got",
               "count": 11
             },
             {
-              "sentence": "The door is open today",
+              "sentence": "The door is open",
               "count": 11
-            },
-            {
-              "sentence": "Bring things to a close",
-              "count": 10
-            },
-            {
-              "sentence": "Good for keeping at it",
-              "count": 10
-            },
-            {
-              "sentence": "Lay the groundwork today",
-              "count": 10
             },
             {
               "sentence": "Put the frame in place",
               "count": 10
             },
             {
-              "sentence": "Keep your word today",
+              "sentence": "Stay at it",
+              "count": 10
+            },
+            {
+              "sentence": "Let an old project finish",
               "count": 9
             },
             {
-              "sentence": "Let something finish today",
+              "sentence": "Start with the base",
               "count": 9
-            },
-            {
-              "sentence": "Pack it away for now",
-              "count": 9
-            },
-            {
-              "sentence": "The base comes first today",
-              "count": 9
-            },
-            {
-              "sentence": "There's enough to go round",
-              "count": 9
-            },
-            {
-              "sentence": "A day to step carefully",
-              "count": 8
             },
             {
               "sentence": "Calm and even-handed",
@@ -1614,18 +1582,50 @@
               "count": 8
             },
             {
-              "sentence": "Easy does it today",
+              "sentence": "Double-check the details",
               "count": 8
             },
             {
-              "sentence": "Good for double-checking",
+              "sentence": "Easy does it",
               "count": 8
+            },
+            {
+              "sentence": "Join forces",
+              "count": 8
+            },
+            {
+              "sentence": "Let decisions set",
+              "count": 8
+            },
+            {
+              "sentence": "Mind your footing",
+              "count": 8
+            },
+            {
+              "sentence": "Step carefully",
+              "count": 8
+            },
+            {
+              "sentence": "Clear the decks",
+              "count": 7
+            },
+            {
+              "sentence": "Cut the ribbon",
+              "count": 7
+            },
+            {
+              "sentence": "Declutter, inside and out",
+              "count": 7
+            },
+            {
+              "sentence": "Open a new chapter",
+              "count": 7
             }
           ],
           "wordsPerView": {
-            "min": 3,
-            "average": 4.5,
-            "max": 7
+            "min": 2,
+            "average": 3.7,
+            "max": 6
           },
           "emDashesPerView": {
             "average": 0,
@@ -1643,28 +1643,20 @@
         "colour line": {
           "views": 450,
           "sentences": 787,
-          "uniqueSentences": 142,
-          "uniqueRatio": 0.18,
+          "uniqueSentences": 227,
+          "uniqueRatio": 0.288,
           "topRepeats": [
-            {
-              "sentence": "A little goes far: a scarf, a mug, a pen.",
-              "count": 25
-            },
             {
               "sentence": "It anchors you.",
               "count": 25
             },
             {
-              "sentence": "It keeps you steady today.",
+              "sentence": "It steadies you.",
               "count": 25
             },
             {
               "sentence": "This one balances you out.",
               "count": 25
-            },
-            {
-              "sentence": "Small doses work best.",
-              "count": 24
             },
             {
               "sentence": "It evens you out.",
@@ -1675,19 +1667,15 @@
               "count": 22
             },
             {
-              "sentence": "It brings you back to balance.",
+              "sentence": "It gives you a steady footing.",
               "count": 22
             },
             {
-              "sentence": "It gives you something to lean on.",
+              "sentence": "It matches the mood.",
               "count": 22
             },
             {
-              "sentence": "It matches the day.",
-              "count": 22
-            },
-            {
-              "sentence": "It's the day's own colour, and it suits you.",
+              "sentence": "It's the colour of the moment, and it suits you.",
               "count": 22
             },
             {
@@ -1695,62 +1683,74 @@
               "count": 22
             },
             {
-              "sentence": "Think of it as ballast: a small amount keeps you level.",
-              "count": 22
+              "sentence": "Its shade and yours line up.",
+              "count": 21
             },
             {
-              "sentence": "Wear as much or as little as you like.",
-              "count": 22
+              "sentence": "This one goes with the grain.",
+              "count": 21
+            },
+            {
+              "sentence": "A dash goes far: a scarf, a mug, a pen.",
+              "count": 13
+            },
+            {
+              "sentence": "A hint goes far: a scarf, a mug, a pen.",
+              "count": 12
             },
             {
               "sentence": "A touch at your wrist or on your bag is plenty.",
-              "count": 21
+              "count": 12
             },
             {
-              "sentence": "Even a small touch counts.",
-              "count": 21
+              "sentence": "It draws you back to balance.",
+              "count": 12
             },
             {
-              "sentence": "It's in step with today.",
-              "count": 21
+              "sentence": "It fits the season well, so wear it.",
+              "count": 12
+            },
+            {
+              "sentence": "Light doses do the most.",
+              "count": 12
+            },
+            {
+              "sentence": "Modest doses do the most.",
+              "count": 12
+            },
+            {
+              "sentence": "Think of it as ballast: a single piece holds you level.",
+              "count": 12
+            },
+            {
+              "sentence": "Even a faint touch counts.",
+              "count": 11
+            },
+            {
+              "sentence": "It's in tune with you.",
+              "count": 11
             },
             {
               "sentence": "Let it show somewhere: socks, a sleeve, a phone case.",
-              "count": 21
+              "count": 11
             },
             {
-              "sentence": "The day wears it, so you can too.",
-              "count": 21
+              "sentence": "This colour has your back.",
+              "count": 11
             },
             {
-              "sentence": "This one goes with the grain of today.",
-              "count": 21
+              "sentence": "Wear a lot of it or a trace, as you like.",
+              "count": 11
             },
             {
-              "sentence": "Today's shade and yours line up.",
-              "count": 21
-            },
-            {
-              "sentence": "Add one black touch to whatever you're wearing.",
-              "count": 8
-            },
-            {
-              "sentence": "Have one navy item with you through the day.",
-              "count": 7
-            },
-            {
-              "sentence": "Keep something black within reach.",
-              "count": 7
-            },
-            {
-              "sentence": "One navy thing in view is enough.",
-              "count": 7
+              "sentence": "Wear plenty of it or a hint, as you like.",
+              "count": 11
             }
           ],
           "wordsPerView": {
-            "min": 10,
-            "average": 12.9,
-            "max": 18
+            "min": 8,
+            "average": 12.8,
+            "max": 21
           },
           "emDashesPerView": {
             "average": 0,
@@ -1768,113 +1768,113 @@
         "watch reason": {
           "views": 236,
           "sentences": 236,
-          "uniqueSentences": 127,
-          "uniqueRatio": 0.538,
+          "uniqueSentences": 154,
+          "uniqueRatio": 0.653,
           "topRepeats": [
             {
-              "sentence": "Today belongs to bringing things together; clearing out can be held over.",
+              "sentence": "This is a time for joining forces; clearing out can be held over.",
               "count": 5
             },
             {
-              "sentence": "Put your effort into bringing things together today, and pencil clearing out in for later.",
+              "sentence": "Conditions suit setting up; clearing out can hold a bit.",
               "count": 4
             },
             {
-              "sentence": "The day leans toward bringing things together, leaving clearing out for a calmer slot.",
+              "sentence": "Lean on setting up, and save clearing out for another time.",
               "count": 4
             },
             {
-              "sentence": "The day leans toward finishing over starting, leaving commitments, launches and moving for a calmer slot.",
+              "sentence": "The momentum sits with care over speed; travel may go better another time.",
               "count": 4
             },
             {
-              "sentence": "The day's strength is bringing things together, so clearing out might wait a little.",
+              "sentence": "Throw yourself into joining forces, and pencil clearing out in for later.",
               "count": 4
             },
             {
-              "sentence": "Today favours starting things, so clearing out can wait for another day.",
-              "count": 4
-            },
-            {
-              "sentence": "Today is about setting things up, so save clearing out for another time.",
-              "count": 4
-            },
-            {
-              "sentence": "Today suits setting things up; clearing out can keep a day.",
-              "count": 4
-            },
-            {
-              "sentence": "Today's grain runs toward setting things up, and clearing out can follow after.",
-              "count": 4
-            },
-            {
-              "sentence": "Today's pull is toward care over speed; travel may go better another time.",
-              "count": 4
-            },
-            {
-              "sentence": "Everything today tilts toward bringing things together; clearing out can find a better day soon.",
+              "sentence": "Conditions suit starting fresh; clearing out can wait a bit.",
               "count": 3
             },
             {
-              "sentence": "Everything today tilts toward care over speed; travel can find a better day soon.",
+              "sentence": "Everything tilts toward joining forces; clearing out can find a better date soon.",
               "count": 3
             },
             {
-              "sentence": "Everything today tilts toward starting things; clearing out can find a better day soon.",
+              "sentence": "Focus on starting fresh, and save clearing out for another time.",
               "count": 3
             },
             {
-              "sentence": "Make care over speed the focus today and let travel take a later turn.",
+              "sentence": "Lean on endings, and save commitments, launches and deals & paperwork for another time.",
               "count": 3
             },
             {
-              "sentence": "Once things at home calm down, commitments, launches and deals & paperwork may come easier.",
+              "sentence": "Put the focus on care over speed and let travel wait for later.",
               "count": 3
             },
             {
-              "sentence": "The day leans toward setting things up, leaving clearing out for a calmer slot.",
+              "sentence": "The moment favours starting fresh, so clearing out can wait a few days.",
               "count": 3
             },
             {
-              "sentence": "Today favours bringing things together, so clearing out can wait for another day.",
+              "sentence": "The momentum sits with starting fresh; clearing out may go better another time.",
               "count": 3
             },
             {
-              "sentence": "Today favours care over speed, so travel can wait for another day.",
+              "sentence": "The pull is toward finishing over starting, leaving commitments, launches and moving for a calmer stretch.",
               "count": 3
             },
             {
-              "sentence": "Today is about bringing things together, so save clearing out for another time.",
+              "sentence": "The pull is toward joining forces, leaving clearing out for a calmer stretch.",
               "count": 3
             },
             {
-              "sentence": "Today is about endings, so save commitments, launches and deals & paperwork for another time.",
+              "sentence": "The strength right now is in joining forces, so clearing out might wait a while.",
               "count": 3
             },
             {
-              "sentence": "Today is about starting things, so save clearing out for another time.",
+              "sentence": "What pays now is care over speed; give travel a few more days.",
               "count": 3
             },
             {
-              "sentence": "Today suits care over speed; travel can keep a day.",
+              "sentence": "What pays now is finishing over starting; give commitments, launches and moving a few more days.",
               "count": 3
             },
             {
-              "sentence": "Today suits starting things; clearing out can keep a day.",
+              "sentence": "What pays now is joining forces; give clearing out a few more days.",
               "count": 3
             },
             {
-              "sentence": "Today's grain runs toward care over speed, and travel can follow after.",
+              "sentence": "What pays now is starting fresh; give clearing out a few more days.",
               "count": 3
             },
             {
-              "sentence": "Today's pull is toward starting things; clearing out may go better another time.",
-              "count": 3
+              "sentence": "Conditions suit care over speed; travel can wait a bit.",
+              "count": 2
+            },
+            {
+              "sentence": "Everything tilts toward care over speed; travel can find a better slot soon.",
+              "count": 2
+            },
+            {
+              "sentence": "Everything tilts toward starting fresh; clearing out can find a better slot soon.",
+              "count": 2
+            },
+            {
+              "sentence": "Focus on care over speed, and save travel for another time.",
+              "count": 2
+            },
+            {
+              "sentence": "Focus on finishing over starting, and save commitments, launches and moving for another time.",
+              "count": 2
+            },
+            {
+              "sentence": "Focus on joining forces, and save clearing out for another time.",
+              "count": 2
             }
           ],
           "wordsPerView": {
-            "min": 9,
-            "average": 14,
+            "min": 10,
+            "average": 13.8,
             "max": 20
           },
           "emDashesPerView": {
@@ -1896,8 +1896,8 @@
       "overall": {
         "views": 2979,
         "sentences": 50183,
-        "uniqueSentences": 813,
-        "uniqueRatio": 0.016,
+        "uniqueSentences": 917,
+        "uniqueRatio": 0.018,
         "topRepeats": [
           {
             "sentence": "This describes how a day tends to lean; what it becomes is up to you.",
@@ -1928,11 +1928,11 @@
             "count": 450
           },
           {
-            "sentence": "In the rough window, small things jostle.",
+            "sentence": "Give the rougher stretch to routine work.",
             "count": 450
           },
           {
-            "sentence": "Keep the rough window for routine work.",
+            "sentence": "In the rough one, small things jostle.",
             "count": 450
           },
           {
@@ -2002,22 +2002,16 @@
         ],
         "wordsPerView": {
           "min": 81,
-          "average": 164.9,
-          "max": 369
+          "average": 164,
+          "max": 356
         },
         "emDashesPerView": {
           "average": 0,
           "max": 0
         },
         "withinViewRepeats": {
-          "pairs": 500,
+          "pairs": 280,
           "examples": [
-            {
-              "view": "A 2026-10-21 stars",
-              "first": "Time alone pays off",
-              "second": "Time alone pays off today.",
-              "phrase": "time alone pays off"
-            },
             {
               "view": "A 2026-10-23 hours",
               "first": "Easiest 1–3 pm, roughest 11 pm–1 am",
@@ -2026,7 +2020,7 @@
             },
             {
               "view": "A 2026-10-23 stars",
-              "first": "People look to you to decide",
+              "first": "Others look to you to decide",
               "second": "Others may look to you to make the call.",
               "phrase": "look to you to"
             },
@@ -2038,39 +2032,45 @@
             },
             {
               "view": "A 2026-10-25 stars",
-              "first": "A gentle run of goodwill",
-              "second": "A gentle run of goodwill surrounds you.",
-              "phrase": "a gentle run of"
-            },
-            {
-              "view": "A 2026-10-25 stars",
-              "first": "Good for a change of scene",
+              "first": "A change of scene suits you",
               "second": "A change of scene helps, even a short one.",
               "phrase": "a change of scene"
-            },
-            {
-              "view": "A 2026-10-27 stars",
-              "first": "Time alone pays off",
-              "second": "Time alone pays off today.",
-              "phrase": "time alone pays off"
-            },
-            {
-              "view": "A 2026-10-27 stars",
-              "first": "Plans may land lighter than booked",
-              "second": "Plans may land lighter than you booked them.",
-              "phrase": "plans may land lighter"
-            },
-            {
-              "view": "A 2026-10-28 stars",
-              "first": "Plans may land lighter than booked",
-              "second": "Plans may land lighter than you booked them.",
-              "phrase": "plans may land lighter"
             },
             {
               "view": "A 2026-10-29 hours",
               "first": "Easiest 1–3 am, roughest 11 am–1 pm",
               "second": "The horse hour, 11 am–1 pm, runs against it.",
               "phrase": "11 am 1 pm"
+            },
+            {
+              "view": "A 2026-10-29 stars",
+              "first": "Others look to you to decide",
+              "second": "Others may look to you to make the call.",
+              "phrase": "look to you to"
+            },
+            {
+              "view": "A 2026-10-30 hours",
+              "first": "Easiest 11 pm–1 am, roughest 1–3 pm",
+              "second": "The rat hour, 11 pm–1 am, runs with today's sign, the ox.",
+              "phrase": "11 pm 1 am"
+            },
+            {
+              "view": "A 2026-10-31 stars",
+              "first": "A change of scene suits you",
+              "second": "A change of scene helps, even a short one.",
+              "phrase": "a change of scene"
+            },
+            {
+              "view": "A 2026-11-04 hours",
+              "first": "Easiest 1–3 pm, roughest 11 pm–1 am",
+              "second": "The rat hour, 11 pm–1 am, runs against it.",
+              "phrase": "11 pm 1 am"
+            },
+            {
+              "view": "A 2026-11-04 stars",
+              "first": "Others look to you to decide",
+              "second": "Others may look to you to make the call.",
+              "phrase": "look to you to"
             }
           ]
         },
@@ -2083,8 +2083,8 @@
         "A": {
           "views": 594,
           "sentences": 10030,
-          "uniqueSentences": 627,
-          "uniqueRatio": 0.063,
+          "uniqueSentences": 706,
+          "uniqueRatio": 0.07,
           "topRepeats": [
             {
               "sentence": "This describes how a day tends to lean; what it becomes is up to you.",
@@ -2127,11 +2127,11 @@
               "count": 90
             },
             {
-              "sentence": "In the rough window, small things jostle.",
+              "sentence": "Give the rougher stretch to routine work.",
               "count": 90
             },
             {
-              "sentence": "Keep the rough window for routine work.",
+              "sentence": "In the rough one, small things jostle.",
               "count": 90
             },
             {
@@ -2189,22 +2189,16 @@
           ],
           "wordsPerView": {
             "min": 81,
-            "average": 163,
-            "max": 365
+            "average": 162.2,
+            "max": 354
           },
           "emDashesPerView": {
             "average": 0,
             "max": 0
           },
           "withinViewRepeats": {
-            "pairs": 105,
+            "pairs": 60,
             "examples": [
-              {
-                "view": "A 2026-10-21 stars",
-                "first": "Time alone pays off",
-                "second": "Time alone pays off today.",
-                "phrase": "time alone pays off"
-              },
               {
                 "view": "A 2026-10-23 hours",
                 "first": "Easiest 1–3 pm, roughest 11 pm–1 am",
@@ -2213,7 +2207,7 @@
               },
               {
                 "view": "A 2026-10-23 stars",
-                "first": "People look to you to decide",
+                "first": "Others look to you to decide",
                 "second": "Others may look to you to make the call.",
                 "phrase": "look to you to"
               },
@@ -2225,39 +2219,45 @@
               },
               {
                 "view": "A 2026-10-25 stars",
-                "first": "A gentle run of goodwill",
-                "second": "A gentle run of goodwill surrounds you.",
-                "phrase": "a gentle run of"
-              },
-              {
-                "view": "A 2026-10-25 stars",
-                "first": "Good for a change of scene",
+                "first": "A change of scene suits you",
                 "second": "A change of scene helps, even a short one.",
                 "phrase": "a change of scene"
-              },
-              {
-                "view": "A 2026-10-27 stars",
-                "first": "Time alone pays off",
-                "second": "Time alone pays off today.",
-                "phrase": "time alone pays off"
-              },
-              {
-                "view": "A 2026-10-27 stars",
-                "first": "Plans may land lighter than booked",
-                "second": "Plans may land lighter than you booked them.",
-                "phrase": "plans may land lighter"
-              },
-              {
-                "view": "A 2026-10-28 stars",
-                "first": "Plans may land lighter than booked",
-                "second": "Plans may land lighter than you booked them.",
-                "phrase": "plans may land lighter"
               },
               {
                 "view": "A 2026-10-29 hours",
                 "first": "Easiest 1–3 am, roughest 11 am–1 pm",
                 "second": "The horse hour, 11 am–1 pm, runs against it.",
                 "phrase": "11 am 1 pm"
+              },
+              {
+                "view": "A 2026-10-29 stars",
+                "first": "Others look to you to decide",
+                "second": "Others may look to you to make the call.",
+                "phrase": "look to you to"
+              },
+              {
+                "view": "A 2026-10-30 hours",
+                "first": "Easiest 11 pm–1 am, roughest 1–3 pm",
+                "second": "The rat hour, 11 pm–1 am, runs with today's sign, the ox.",
+                "phrase": "11 pm 1 am"
+              },
+              {
+                "view": "A 2026-10-31 stars",
+                "first": "A change of scene suits you",
+                "second": "A change of scene helps, even a short one.",
+                "phrase": "a change of scene"
+              },
+              {
+                "view": "A 2026-11-04 hours",
+                "first": "Easiest 1–3 pm, roughest 11 pm–1 am",
+                "second": "The rat hour, 11 pm–1 am, runs against it.",
+                "phrase": "11 pm 1 am"
+              },
+              {
+                "view": "A 2026-11-04 stars",
+                "first": "Others look to you to decide",
+                "second": "Others may look to you to make the call.",
+                "phrase": "look to you to"
               }
             ]
           },
@@ -2269,8 +2269,8 @@
         "unknown time": {
           "views": 572,
           "sentences": 9593,
-          "uniqueSentences": 620,
-          "uniqueRatio": 0.065,
+          "uniqueSentences": 689,
+          "uniqueRatio": 0.072,
           "topRepeats": [
             {
               "sentence": "This describes how a day tends to lean; what it becomes is up to you.",
@@ -2313,11 +2313,11 @@
               "count": 90
             },
             {
-              "sentence": "In the rough window, small things jostle.",
+              "sentence": "Give the rougher stretch to routine work.",
               "count": 90
             },
             {
-              "sentence": "Keep the rough window for routine work.",
+              "sentence": "In the rough one, small things jostle.",
               "count": 90
             },
             {
@@ -2375,22 +2375,16 @@
           ],
           "wordsPerView": {
             "min": 82,
-            "average": 162.4,
-            "max": 356
+            "average": 161.4,
+            "max": 354
           },
           "emDashesPerView": {
             "average": 0,
             "max": 0
           },
           "withinViewRepeats": {
-            "pairs": 105,
+            "pairs": 60,
             "examples": [
-              {
-                "view": "unknown time 2026-10-21 stars",
-                "first": "Time alone pays off",
-                "second": "Time alone pays off today.",
-                "phrase": "time alone pays off"
-              },
               {
                 "view": "unknown time 2026-10-23 hours",
                 "first": "Easiest 1–3 pm, roughest 11 pm–1 am",
@@ -2399,7 +2393,7 @@
               },
               {
                 "view": "unknown time 2026-10-23 stars",
-                "first": "People look to you to decide",
+                "first": "Others look to you to decide",
                 "second": "Others may look to you to make the call.",
                 "phrase": "look to you to"
               },
@@ -2411,39 +2405,45 @@
               },
               {
                 "view": "unknown time 2026-10-25 stars",
-                "first": "A gentle run of goodwill",
-                "second": "A gentle run of goodwill surrounds you.",
-                "phrase": "a gentle run of"
-              },
-              {
-                "view": "unknown time 2026-10-25 stars",
-                "first": "Good for a change of scene",
+                "first": "A change of scene suits you",
                 "second": "A change of scene helps, even a short one.",
                 "phrase": "a change of scene"
-              },
-              {
-                "view": "unknown time 2026-10-27 stars",
-                "first": "Time alone pays off",
-                "second": "Time alone pays off today.",
-                "phrase": "time alone pays off"
-              },
-              {
-                "view": "unknown time 2026-10-27 stars",
-                "first": "Plans may land lighter than booked",
-                "second": "Plans may land lighter than you booked them.",
-                "phrase": "plans may land lighter"
-              },
-              {
-                "view": "unknown time 2026-10-28 stars",
-                "first": "Plans may land lighter than booked",
-                "second": "Plans may land lighter than you booked them.",
-                "phrase": "plans may land lighter"
               },
               {
                 "view": "unknown time 2026-10-29 hours",
                 "first": "Easiest 1–3 am, roughest 11 am–1 pm",
                 "second": "The horse hour, 11 am–1 pm, runs against it.",
                 "phrase": "11 am 1 pm"
+              },
+              {
+                "view": "unknown time 2026-10-29 stars",
+                "first": "Others look to you to decide",
+                "second": "Others may look to you to make the call.",
+                "phrase": "look to you to"
+              },
+              {
+                "view": "unknown time 2026-10-30 hours",
+                "first": "Easiest 11 pm–1 am, roughest 1–3 pm",
+                "second": "The rat hour, 11 pm–1 am, runs with today's sign, the ox.",
+                "phrase": "11 pm 1 am"
+              },
+              {
+                "view": "unknown time 2026-10-31 stars",
+                "first": "A change of scene suits you",
+                "second": "A change of scene helps, even a short one.",
+                "phrase": "a change of scene"
+              },
+              {
+                "view": "unknown time 2026-11-04 hours",
+                "first": "Easiest 1–3 pm, roughest 11 pm–1 am",
+                "second": "The rat hour, 11 pm–1 am, runs against it.",
+                "phrase": "11 pm 1 am"
+              },
+              {
+                "view": "unknown time 2026-11-04 stars",
+                "first": "Others look to you to decide",
+                "second": "Others may look to you to make the call.",
+                "phrase": "look to you to"
               }
             ]
           },
@@ -2455,8 +2455,8 @@
         "B": {
           "views": 593,
           "sentences": 10065,
-          "uniqueSentences": 625,
-          "uniqueRatio": 0.062,
+          "uniqueSentences": 690,
+          "uniqueRatio": 0.069,
           "topRepeats": [
             {
               "sentence": "This describes how a day tends to lean; what it becomes is up to you.",
@@ -2495,11 +2495,11 @@
               "count": 90
             },
             {
-              "sentence": "In the rough window, small things jostle.",
+              "sentence": "Give the rougher stretch to routine work.",
               "count": 90
             },
             {
-              "sentence": "Keep the rough window for routine work.",
+              "sentence": "In the rough one, small things jostle.",
               "count": 90
             },
             {
@@ -2560,40 +2560,22 @@
             }
           ],
           "wordsPerView": {
-            "min": 82,
-            "average": 163.9,
-            "max": 346
+            "min": 81,
+            "average": 163,
+            "max": 330
           },
           "emDashesPerView": {
             "average": 0,
             "max": 0
           },
           "withinViewRepeats": {
-            "pairs": 104,
+            "pairs": 58,
             "examples": [
-              {
-                "view": "B 2026-10-20 stars",
-                "first": "Rushing causes small cuts",
-                "second": "Rushing causes small cuts.",
-                "phrase": "rushing causes small cuts"
-              },
-              {
-                "view": "B 2026-10-21 stars",
-                "first": "Time alone pays off",
-                "second": "Time alone pays off today.",
-                "phrase": "time alone pays off"
-              },
               {
                 "view": "B 2026-10-23 hours",
                 "first": "Easiest 1–3 pm, roughest 11 pm–1 am",
                 "second": "The rat hour, 11 pm–1 am, runs against it.",
                 "phrase": "11 pm 1 am"
-              },
-              {
-                "view": "B 2026-10-23 stars",
-                "first": "A gentle run of goodwill",
-                "second": "A gentle run of goodwill surrounds you.",
-                "phrase": "a gentle run of"
               },
               {
                 "view": "B 2026-10-24 hours",
@@ -2603,13 +2585,13 @@
               },
               {
                 "view": "B 2026-10-26 stars",
-                "first": "People look to you to decide",
+                "first": "Others look to you to decide",
                 "second": "Others may look to you to make the call.",
                 "phrase": "look to you to"
               },
               {
                 "view": "B 2026-10-28 stars",
-                "first": "Good for a change of scene",
+                "first": "A change of scene suits you",
                 "second": "A change of scene helps, even a short one.",
                 "phrase": "a change of scene"
               },
@@ -2621,15 +2603,33 @@
               },
               {
                 "view": "B 2026-10-29 stars",
-                "first": "People look to you to decide",
+                "first": "Others look to you to decide",
                 "second": "Others may look to you to make the call.",
                 "phrase": "look to you to"
               },
               {
-                "view": "B 2026-10-29 stars",
-                "first": "Plans may land lighter than booked",
-                "second": "Plans may land lighter than you booked them.",
-                "phrase": "plans may land lighter"
+                "view": "B 2026-10-30 hours",
+                "first": "Easiest 11 pm–1 am, roughest 1–3 pm",
+                "second": "The rat hour, 11 pm–1 am, runs with today's sign, the ox.",
+                "phrase": "11 pm 1 am"
+              },
+              {
+                "view": "B 2026-10-31 stars",
+                "first": "A change of scene suits you",
+                "second": "A change of scene helps, even a short one.",
+                "phrase": "a change of scene"
+              },
+              {
+                "view": "B 2026-11-04 hours",
+                "first": "Easiest 1–3 pm, roughest 11 pm–1 am",
+                "second": "The rat hour, 11 pm–1 am, runs against it.",
+                "phrase": "11 pm 1 am"
+              },
+              {
+                "view": "B 2026-11-05 hours",
+                "first": "Easiest 11 am–1 pm, roughest 1–3 am",
+                "second": "The horse hour, 11 am–1 pm, runs with today's sign, the goat.",
+                "phrase": "11 am 1 pm"
               }
             ]
           },
@@ -2641,8 +2641,8 @@
         "C": {
           "views": 616,
           "sentences": 10411,
-          "uniqueSentences": 634,
-          "uniqueRatio": 0.061,
+          "uniqueSentences": 707,
+          "uniqueRatio": 0.068,
           "topRepeats": [
             {
               "sentence": "This describes how a day tends to lean; what it becomes is up to you.",
@@ -2685,11 +2685,11 @@
               "count": 90
             },
             {
-              "sentence": "In the rough window, small things jostle.",
+              "sentence": "Give the rougher stretch to routine work.",
               "count": 90
             },
             {
-              "sentence": "Keep the rough window for routine work.",
+              "sentence": "In the rough one, small things jostle.",
               "count": 90
             },
             {
@@ -2746,34 +2746,22 @@
             }
           ],
           "wordsPerView": {
-            "min": 83,
-            "average": 166.2,
-            "max": 369
+            "min": 82,
+            "average": 165.3,
+            "max": 356
           },
           "emDashesPerView": {
             "average": 0,
             "max": 0
           },
           "withinViewRepeats": {
-            "pairs": 103,
+            "pairs": 58,
             "examples": [
-              {
-                "view": "C 2026-10-21 stars",
-                "first": "Time alone pays off",
-                "second": "Time alone pays off today.",
-                "phrase": "time alone pays off"
-              },
               {
                 "view": "C 2026-10-23 hours",
                 "first": "Easiest 1–3 pm, roughest 11 pm–1 am",
                 "second": "The rat hour, 11 pm–1 am, runs against it.",
                 "phrase": "11 pm 1 am"
-              },
-              {
-                "view": "C 2026-10-23 stars",
-                "first": "A gentle run of goodwill",
-                "second": "A gentle run of goodwill surrounds you.",
-                "phrase": "a gentle run of"
               },
               {
                 "view": "C 2026-10-24 hours",
@@ -2783,38 +2771,50 @@
               },
               {
                 "view": "C 2026-10-26 stars",
-                "first": "People look to you to decide",
+                "first": "Others look to you to decide",
                 "second": "Others may look to you to make the call.",
                 "phrase": "look to you to"
               },
               {
-                "view": "C 2026-10-26 stars",
-                "first": "Rushing causes small cuts",
-                "second": "Rushing causes small cuts.",
-                "phrase": "rushing causes small cuts"
-              },
-              {
-                "view": "C 2026-10-27 stars",
-                "first": "Plans may land lighter than booked",
-                "second": "Plans may land lighter than you booked them.",
-                "phrase": "plans may land lighter"
-              },
-              {
                 "view": "C 2026-10-28 stars",
-                "first": "Good for a change of scene",
+                "first": "A change of scene suits you",
                 "second": "A change of scene helps, even a short one.",
                 "phrase": "a change of scene"
-              },
-              {
-                "view": "C 2026-10-28 stars",
-                "first": "Plans may land lighter than booked",
-                "second": "Plans may land lighter than you booked them.",
-                "phrase": "plans may land lighter"
               },
               {
                 "view": "C 2026-10-29 hours",
                 "first": "Easiest 1–3 am, roughest 11 am–1 pm",
                 "second": "The horse hour, 11 am–1 pm, runs against it.",
+                "phrase": "11 am 1 pm"
+              },
+              {
+                "view": "C 2026-10-29 stars",
+                "first": "Others look to you to decide",
+                "second": "Others may look to you to make the call.",
+                "phrase": "look to you to"
+              },
+              {
+                "view": "C 2026-10-30 hours",
+                "first": "Easiest 11 pm–1 am, roughest 1–3 pm",
+                "second": "The rat hour, 11 pm–1 am, runs with today's sign, the ox.",
+                "phrase": "11 pm 1 am"
+              },
+              {
+                "view": "C 2026-10-31 stars",
+                "first": "A change of scene suits you",
+                "second": "A change of scene helps, even a short one.",
+                "phrase": "a change of scene"
+              },
+              {
+                "view": "C 2026-11-04 hours",
+                "first": "Easiest 1–3 pm, roughest 11 pm–1 am",
+                "second": "The rat hour, 11 pm–1 am, runs against it.",
+                "phrase": "11 pm 1 am"
+              },
+              {
+                "view": "C 2026-11-05 hours",
+                "first": "Easiest 11 am–1 pm, roughest 1–3 am",
+                "second": "The horse hour, 11 am–1 pm, runs with today's sign, the goat.",
                 "phrase": "11 am 1 pm"
               }
             ]
@@ -2827,8 +2827,8 @@
         "D": {
           "views": 604,
           "sentences": 10084,
-          "uniqueSentences": 636,
-          "uniqueRatio": 0.063,
+          "uniqueSentences": 707,
+          "uniqueRatio": 0.07,
           "topRepeats": [
             {
               "sentence": "This describes how a day tends to lean; what it becomes is up to you.",
@@ -2871,11 +2871,11 @@
               "count": 90
             },
             {
-              "sentence": "In the rough window, small things jostle.",
+              "sentence": "Give the rougher stretch to routine work.",
               "count": 90
             },
             {
-              "sentence": "Keep the rough window for routine work.",
+              "sentence": "In the rough one, small things jostle.",
               "count": 90
             },
             {
@@ -2932,29 +2932,17 @@
             }
           ],
           "wordsPerView": {
-            "min": 86,
-            "average": 168.6,
-            "max": 368
+            "min": 85,
+            "average": 167.7,
+            "max": 355
           },
           "emDashesPerView": {
             "average": 0,
             "max": 0
           },
           "withinViewRepeats": {
-            "pairs": 83,
+            "pairs": 44,
             "examples": [
-              {
-                "view": "D 2026-10-20 stars",
-                "first": "Plans may land lighter than booked",
-                "second": "Plans may land lighter than you booked them.",
-                "phrase": "plans may land lighter"
-              },
-              {
-                "view": "D 2026-10-21 stars",
-                "first": "Time alone pays off",
-                "second": "Time alone pays off today.",
-                "phrase": "time alone pays off"
-              },
               {
                 "view": "D 2026-10-23 hours",
                 "first": "Easiest 1–3 pm, roughest 11 pm–1 am",
@@ -2968,12 +2956,6 @@
                 "phrase": "11 am 1 pm"
               },
               {
-                "view": "D 2026-10-26 stars",
-                "first": "Rushing causes small cuts",
-                "second": "Rushing causes small cuts.",
-                "phrase": "rushing causes small cuts"
-              },
-              {
                 "view": "D 2026-10-29 hours",
                 "first": "Easiest 1–3 am, roughest 11 am–1 pm",
                 "second": "The horse hour, 11 am–1 pm, runs against it.",
@@ -2981,13 +2963,7 @@
               },
               {
                 "view": "D 2026-10-29 stars",
-                "first": "A gentle run of goodwill",
-                "second": "A gentle run of goodwill surrounds you.",
-                "phrase": "a gentle run of"
-              },
-              {
-                "view": "D 2026-10-29 stars",
-                "first": "People look to you to decide",
+                "first": "Others look to you to decide",
                 "second": "Others may look to you to make the call.",
                 "phrase": "look to you to"
               },
@@ -2999,9 +2975,33 @@
               },
               {
                 "view": "D 2026-10-31 stars",
-                "first": "Good for a change of scene",
+                "first": "A change of scene suits you",
                 "second": "A change of scene helps, even a short one.",
                 "phrase": "a change of scene"
+              },
+              {
+                "view": "D 2026-11-04 hours",
+                "first": "Easiest 1–3 pm, roughest 11 pm–1 am",
+                "second": "The rat hour, 11 pm–1 am, runs against it.",
+                "phrase": "11 pm 1 am"
+              },
+              {
+                "view": "D 2026-11-05 hours",
+                "first": "Easiest 11 am–1 pm, roughest 1–3 am",
+                "second": "The horse hour, 11 am–1 pm, runs with today's sign, the goat.",
+                "phrase": "11 am 1 pm"
+              },
+              {
+                "view": "D 2026-11-10 hours",
+                "first": "Easiest 1–3 am, roughest 11 am–1 pm",
+                "second": "The horse hour, 11 am–1 pm, runs against it.",
+                "phrase": "11 am 1 pm"
+              },
+              {
+                "view": "D 2026-11-10 stars",
+                "first": "Others look to you to decide",
+                "second": "Others may look to you to make the call.",
+                "phrase": "look to you to"
               }
             ]
           },
@@ -3015,8 +3015,8 @@
         "title": {
           "views": 2979,
           "sentences": 2979,
-          "uniqueSentences": 112,
-          "uniqueRatio": 0.038,
+          "uniqueSentences": 141,
+          "uniqueRatio": 0.047,
           "topRepeats": [
             {
               "sentence": "Today's small signs",
@@ -3027,7 +3027,7 @@
               "count": 60
             },
             {
-              "sentence": "Room to grow today",
+              "sentence": "Room to grow",
               "count": 60
             },
             {
@@ -3039,7 +3039,7 @@
               "count": 59
             },
             {
-              "sentence": "Things flow your way",
+              "sentence": "The current flows your way",
               "count": 59
             },
             {
@@ -3047,7 +3047,7 @@
               "count": 45
             },
             {
-              "sentence": "The day may feel heavy",
+              "sentence": "Heavy going",
               "count": 41
             },
             {
@@ -3095,7 +3095,7 @@
               "count": 38
             },
             {
-              "sentence": "Edges feel sharper today",
+              "sentence": "Edges feel sharper",
               "count": 38
             },
             {
@@ -3121,7 +3121,7 @@
           ],
           "wordsPerView": {
             "min": 2,
-            "average": 5.3,
+            "average": 4.9,
             "max": 9
           },
           "emDashesPerView": {
@@ -3265,8 +3265,8 @@
         "for you": {
           "views": 2553,
           "sentences": 3700,
-          "uniqueSentences": 201,
-          "uniqueRatio": 0.054,
+          "uniqueSentences": 240,
+          "uniqueRatio": 0.065,
           "topRepeats": [
             {
               "sentence": "Your birth chart already has plenty of what Earth brings, so today can feel like a bit much.",
@@ -3289,15 +3289,15 @@
               "count": 54
             },
             {
+              "sentence": "That easy stretch suits you best too: it brings Water, and your birth chart runs better with more of it.",
+              "count": 40
+            },
+            {
               "sentence": "The dog hour, 7–9 pm, runs against it.",
               "count": 40
             },
             {
               "sentence": "The dog hour, 7–9 pm, runs with today's sign, the rabbit.",
-              "count": 40
-            },
-            {
-              "sentence": "The easy hour suits you best too: it brings Water, and your birth chart runs better with more of it.",
               "count": 40
             },
             {
@@ -3370,9 +3370,9 @@
             }
           ],
           "wordsPerView": {
-            "min": 6,
-            "average": 19.1,
-            "max": 44
+            "min": 5,
+            "average": 18.9,
+            "max": 43
           },
           "emDashesPerView": {
             "average": 0,
@@ -3390,11 +3390,11 @@
         "how": {
           "views": 2141,
           "sentences": 5084,
-          "uniqueSentences": 85,
-          "uniqueRatio": 0.017,
+          "uniqueSentences": 121,
+          "uniqueRatio": 0.024,
           "topRepeats": [
             {
-              "sentence": "In the rough window, small things jostle.",
+              "sentence": "In the rough one, small things jostle.",
               "count": 450
             },
             {
@@ -3446,7 +3446,7 @@
               "count": 142
             },
             {
-              "sentence": "It tends to show up as friction you can see: a meeting that moves, two plans that collide, something you postponed refusing to stay postponed.",
+              "sentence": "It tends to show up as friction you can see: a meeting that moves, plans that collide, something you postponed refusing to stay postponed.",
               "count": 104
             },
             {
@@ -3466,20 +3466,20 @@
               "count": 102
             },
             {
-              "sentence": "New starts and fresh plans take hold more easily.",
-              "count": 60
-            },
-            {
               "sentence": "To be straight with you: this one usually lands harder on you than on most people.",
               "count": 60
             },
             {
-              "sentence": "Your birth chart already carries this same tug between those two parts of life.",
+              "sentence": "Your birth chart already carries this same tug between those parts of life.",
               "count": 60
             },
             {
-              "sentence": "Conversations and ideas move easily today.",
-              "count": 59
+              "sentence": "New starts and fresh ideas take root readily.",
+              "count": 56
+            },
+            {
+              "sentence": "Conversations and ideas move easily.",
+              "count": 55
             },
             {
               "sentence": "A friendly competitive edge runs through the day: a colleague or friend may be eyeing the credit or the prize you want.",
@@ -3495,9 +3495,9 @@
             }
           ],
           "wordsPerView": {
-            "min": 6,
-            "average": 26.8,
-            "max": 92
+            "min": 5,
+            "average": 26.4,
+            "max": 82
           },
           "emDashesPerView": {
             "average": 0,
@@ -3640,7 +3640,7 @@
         "good for": {
           "views": 2103,
           "sentences": 6253,
-          "uniqueSentences": 113,
+          "uniqueSentences": 114,
           "uniqueRatio": 0.018,
           "topRepeats": [
             {
@@ -3668,10 +3668,6 @@
               "count": 143
             },
             {
-              "sentence": "Rescheduling early",
-              "count": 143
-            },
-            {
               "sentence": "Making an introduction",
               "count": 142
             },
@@ -3684,11 +3680,15 @@
               "count": 142
             },
             {
+              "sentence": "Choosing which commitment moves",
+              "count": 104
+            },
+            {
               "sentence": "Ending something that's already over",
               "count": 104
             },
             {
-              "sentence": "Saying which of two plans moves",
+              "sentence": "Rescheduling early",
               "count": 104
             },
             {
@@ -3765,8 +3765,8 @@
         "hold off": {
           "views": 2103,
           "sentences": 3688,
-          "uniqueSentences": 65,
-          "uniqueRatio": 0.018,
+          "uniqueSentences": 64,
+          "uniqueRatio": 0.017,
           "topRepeats": [
             {
               "sentence": "Doing it all yourself",
@@ -3809,6 +3809,10 @@
               "count": 102
             },
             {
+              "sentence": "Taking on someone else's load",
+              "count": 99
+            },
+            {
               "sentence": "Blunt criticism",
               "count": 72
             },
@@ -3826,10 +3830,6 @@
             },
             {
               "sentence": "Rigid plans with no room to move",
-              "count": 72
-            },
-            {
-              "sentence": "Taking on someone else's load",
               "count": 72
             },
             {
@@ -3894,7 +3894,7 @@
           "uniqueRatio": 0.011,
           "topRepeats": [
             {
-              "sentence": "Keep the rough window for routine work.",
+              "sentence": "Give the rougher stretch to routine work.",
               "count": 450
             },
             {
@@ -3938,7 +3938,7 @@
               "count": 104
             },
             {
-              "sentence": "Pick which of the two gives way, and say so early.",
+              "sentence": "Pick which one gives way, and tell the people it affects.",
               "count": 104
             },
             {
@@ -3990,14 +3990,14 @@
               "count": 45
             },
             {
-              "sentence": "Take on the hardest thing first, and let one lesser demand wait.",
+              "sentence": "Take on the hardest job first, and let one lesser request wait.",
               "count": 45
             }
           ],
           "wordsPerView": {
             "min": 5,
             "average": 14.9,
-            "max": 35
+            "max": 34
           },
           "emDashesPerView": {
             "average": 0,
@@ -4177,19 +4177,19 @@
               "count": 104
             },
             {
-              "sentence": "Someone helpful turns up",
+              "sentence": "A helper turns up",
               "count": 75
             },
             {
-              "sentence": "Plans may land lighter than booked",
+              "sentence": "What's booked may land lighter",
               "count": 71
             },
             {
-              "sentence": "Take things a little slower",
+              "sentence": "Ease your pace a notch",
               "count": 70
             },
             {
-              "sentence": "Time alone pays off",
+              "sentence": "Solitude pays off",
               "count": 68
             },
             {
@@ -4197,39 +4197,39 @@
               "count": 67
             },
             {
-              "sentence": "Good for a change of scene",
+              "sentence": "A change of scene suits you",
               "count": 65
             },
             {
-              "sentence": "People look to you to decide",
+              "sentence": "Others look to you to decide",
               "count": 65
             },
             {
-              "sentence": "A gentle run of goodwill",
+              "sentence": "A gentle stretch of goodwill",
               "count": 45
+            },
+            {
+              "sentence": "A strong will, so aim it",
+              "count": 39
             },
             {
               "sentence": "Goodwill is on your side",
               "count": 39
             },
             {
-              "sentence": "Kindness comes back to you",
+              "sentence": "Kindness finds its way back",
               "count": 39
             },
             {
-              "sentence": "Quiet charm works for you",
+              "sentence": "Study and writing flow easily",
               "count": 39
             },
             {
-              "sentence": "Strong will today; aim it",
+              "sentence": "Your quiet charm shows",
               "count": 39
             },
             {
-              "sentence": "Study and writing come easier",
-              "count": 39
-            },
-            {
-              "sentence": "Connection comes knocking",
+              "sentence": "Connection knocks at the door",
               "count": 38
             },
             {
@@ -4241,17 +4241,17 @@
               "count": 37
             },
             {
-              "sentence": "Small good news",
+              "sentence": "Cheerful news on the way",
               "count": 37
             },
             {
-              "sentence": "Rushing causes small cuts",
+              "sentence": "Rushing leads to nicks and cuts",
               "count": 36
             }
           ],
           "wordsPerView": {
             "min": 3,
-            "average": 11.3,
+            "average": 11.4,
             "max": 27
           },
           "emDashesPerView": {
@@ -4500,11 +4500,11 @@
           "uniqueRatio": 0.03,
           "topRepeats": [
             {
-              "sentence": "Choose early.",
+              "sentence": "Choose which one bends.",
               "count": 39
             },
             {
-              "sentence": "Two family plans, one day.",
+              "sentence": "Family plans collide.",
               "count": 39
             },
             {
@@ -4512,7 +4512,7 @@
               "count": 38
             },
             {
-              "sentence": "Speak up today.",
+              "sentence": "Speak up.",
               "count": 38
             },
             {
@@ -4526,7 +4526,7 @@
           ],
           "wordsPerView": {
             "min": 4,
-            "average": 6.2,
+            "average": 5.9,
             "max": 7
           },
           "emDashesPerView": {
@@ -4549,7 +4549,7 @@
           "uniqueRatio": 0.025,
           "topRepeats": [
             {
-              "sentence": "A good day for the chore you keep stepping around.",
+              "sentence": "Choose one way to help and let the rest wait.",
               "count": 45
             },
             {
@@ -4561,7 +4561,7 @@
               "count": 45
             },
             {
-              "sentence": "Pick one thing to help with and let the rest wait.",
+              "sentence": "Make a start on the chore you keep stepping around.",
               "count": 45
             },
             {
@@ -4569,11 +4569,11 @@
               "count": 45
             },
             {
-              "sentence": "A relative's plans may run into yours, or two relatives' plans into each other.",
+              "sentence": "A relative's arrangements may run into yours, or one relative's into another's.",
               "count": 39
             },
             {
-              "sentence": "Decide early which one gives way, and tell people before the day fills up.",
+              "sentence": "Decide soon which one gives way, and tell people before the day fills up.",
               "count": 39
             },
             {
@@ -4611,8 +4611,8 @@
           ],
           "wordsPerView": {
             "min": 35,
-            "average": 45.5,
-            "max": 61
+            "average": 44.5,
+            "max": 59
           },
           "emDashesPerView": {
             "average": 0,
@@ -4633,114 +4633,114 @@
       "overall": {
         "views": 210,
         "sentences": 1744,
-        "uniqueSentences": 446,
-        "uniqueRatio": 0.256,
+        "uniqueSentences": 532,
+        "uniqueRatio": 0.305,
         "topRepeats": [
           {
-            "sentence": "Name the work commitment you'd drop first, and tell one person.",
-            "count": 20
-          },
-          {
-            "sentence": "You get to choose which gives way, and choosing early keeps it calm.",
-            "count": 20
-          },
-          {
-            "sentence": "Settle one home plan instead of letting it drift.",
-            "count": 18
-          },
-          {
-            "sentence": "Talk early about which one moves, and decide it together rather than alone.",
-            "count": 18
-          },
-          {
-            "sentence": "A second look and an early question catch most of them.",
-            "count": 14
-          },
-          {
-            "sentence": "Double-check one thing you'd normally send without looking.",
-            "count": 14
-          },
-          {
-            "sentence": "A regular quick check keeps the drift small.",
+            "sentence": "Talk soon about which one moves, and decide it as a pair.",
             "count": 13
           },
           {
-            "sentence": "Family may want you in one place while your own plans point elsewhere.",
+            "sentence": "You get to choose which one moves, and settling it ahead of time keeps it calm.",
             "count": 13
           },
           {
-            "sentence": "Have the family conversation you've been putting off.",
+            "sentence": "You may hold yourself to a strict standard; ease it a notch.",
             "count": 13
           },
           {
-            "sentence": "Neither has to lose outright; decide early what you can give, and say it clearly.",
-            "count": 13
-          },
-          {
-            "sentence": "Set one check-in date for your biggest plan.",
-            "count": 13
-          },
-          {
-            "sentence": "Something in your longer plans may slip without anyone noticing.",
-            "count": 13
-          },
-          {
-            "sentence": "Adjusting early costs less than defending a plan that no longer fits.",
-            "count": 12
-          },
-          {
-            "sentence": "Ask rather than guess.",
-            "count": 12
-          },
-          {
-            "sentence": "Something small is off at home",
-            "count": 12
-          },
-          {
-            "sentence": "What you're building toward may meet something that won't move.",
-            "count": 12
-          },
-          {
-            "sentence": "Write down which part of the plan you'd change first.",
-            "count": 12
-          },
-          {
-            "sentence": "A small repeat at home",
+            "sentence": "Life at home needs a little give.",
             "count": 11
           },
           {
-            "sentence": "Bring up the work request you've been holding back.",
+            "sentence": "One work commitment has to make room.",
             "count": 11
           },
           {
-            "sentence": "Decide something together.",
-            "count": 11
-          },
-          {
-            "sentence": "Home is on the same page",
-            "count": 11
-          },
-          {
-            "sentence": "It's a good stretch to settle things that have been hanging.",
-            "count": 11
-          },
-          {
-            "sentence": "Let someone help you.",
-            "count": 11
-          },
-          {
-            "sentence": "Talk about the pattern, kindly.",
+            "sentence": "Settle one household decision instead of letting it drift.",
             "count": 11
           },
           {
             "sentence": "Warm family ties",
             "count": 11
+          },
+          {
+            "sentence": "A second look and a quick check-in catch most of them.",
+            "count": 10
+          },
+          {
+            "sentence": "Family pulls together",
+            "count": 10
+          },
+          {
+            "sentence": "Making for the joy of it",
+            "count": 10
+          },
+          {
+            "sentence": "Say yes when it clicks.",
+            "count": 10
+          },
+          {
+            "sentence": "Family backing",
+            "count": 9
+          },
+          {
+            "sentence": "Let that support do some of the carrying.",
+            "count": 9
+          },
+          {
+            "sentence": "Long talks and slow thinking both repay you.",
+            "count": 9
+          },
+          {
+            "sentence": "Luck in the margins",
+            "count": 9
+          },
+          {
+            "sentence": "Many hands at home",
+            "count": 9
+          },
+          {
+            "sentence": "Pace-setters at your elbow",
+            "count": 9
+          },
+          {
+            "sentence": "Your plans have company",
+            "count": 9
+          },
+          {
+            "sentence": "A regular look catches the drift.",
+            "count": 8
+          },
+          {
+            "sentence": "Adjusting soon costs less than defending a plan that no longer fits.",
+            "count": 8
+          },
+          {
+            "sentence": "Check instead of guessing.",
+            "count": 8
+          },
+          {
+            "sentence": "Double-check one message you'd normally send without looking.",
+            "count": 8
+          },
+          {
+            "sentence": "High demands",
+            "count": 8
+          },
+          {
+            "sentence": "Hunches worth noting",
+            "count": 8
+          },
+          {
+            "sentence": "In step at home",
+            "count": 8
           }
         ],
         "wordsPerView": {
-          "min": 43,
-          "average": 74,
-          "max": 104
+          "min": 33,
+          "average": 67.1,
+          "max": 99
         },
         "emDashesPerView": {
           "average": 0,
@@ -4759,87 +4759,55 @@
         "A": {
           "views": 42,
           "sentences": 342,
-          "uniqueSentences": 199,
-          "uniqueRatio": 0.582,
+          "uniqueSentences": 213,
+          "uniqueRatio": 0.623,
           "topRepeats": [
             {
-              "sentence": "A second look and an early question catch most of them.",
+              "sentence": "Agreements at work come easily.",
               "count": 4
             },
             {
-              "sentence": "A small repeat at home",
+              "sentence": "Family wishes and yours pull apart.",
               "count": 4
             },
             {
-              "sentence": "Bring up the work request you've been holding back.",
+              "sentence": "Minor slips at work add up.",
               "count": 4
             },
             {
-              "sentence": "Double-check one thing you'd normally send without looking.",
+              "sentence": "Relatives may want you in one place while your own hopes point elsewhere.",
               "count": 4
             },
             {
-              "sentence": "Family may want you in one place while your own plans point elsewhere.",
+              "sentence": "Say yes when you see the fit.",
               "count": 4
             },
             {
-              "sentence": "Have the family conversation you've been putting off.",
+              "sentence": "The same gripe at home",
               "count": 4
             },
             {
-              "sentence": "It's a good stretch to settle things that have been hanging.",
-              "count": 4
-            },
-            {
-              "sentence": "Name the work commitment you'd drop first, and tell one person.",
-              "count": 4
-            },
-            {
-              "sentence": "Neither has to lose outright; decide early what you can give, and say it clearly.",
-              "count": 4
-            },
-            {
-              "sentence": "Pieces of your longer plans may click with people or chances that suit them.",
-              "count": 4
-            },
-            {
-              "sentence": "Push forward the part of a plan that's been waiting.",
-              "count": 4
-            },
-            {
-              "sentence": "Say yes to the fit when you see it.",
-              "count": 4
-            },
-            {
-              "sentence": "Talk about the pattern, kindly.",
-              "count": 4
-            },
-            {
-              "sentence": "You get to choose which gives way, and choosing early keeps it calm.",
-              "count": 4
-            },
-            {
-              "sentence": "A regular quick check keeps the drift small.",
+              "sentence": "A bigger goal finds its fit.",
               "count": 3
             },
             {
-              "sentence": "Adjusting early costs less than defending a plan that no longer fits.",
+              "sentence": "A regular look stops the slide.",
               "count": 3
             },
             {
-              "sentence": "Ask rather than guess.",
+              "sentence": "A slow leak in your long game.",
               "count": 3
             },
             {
-              "sentence": "Ask two colleagues to join you on one stalled task.",
+              "sentence": "Adjusting soon costs less than defending a plan that no longer fits.",
               "count": 3
             },
             {
-              "sentence": "Decide something together.",
+              "sentence": "Check instead of guessing.",
               "count": 3
             },
             {
-              "sentence": "Doing it together",
+              "sentence": "Colleagues may meet you halfway, and proposals land softly.",
               "count": 3
             },
             {
@@ -4851,22 +4819,54 @@
               "count": 3
             },
             {
-              "sentence": "Home is on the same page",
+              "sentence": "In step at home",
               "count": 3
             },
             {
-              "sentence": "It loosens once you name it and fix the cause rather than each new version.",
+              "sentence": "Joint efforts are easier to carry.",
               "count": 3
             },
             {
-              "sentence": "Let someone help you.",
+              "sentence": "Let a relative pitch in.",
+              "count": 3
+            },
+            {
+              "sentence": "Life at home needs a little give.",
+              "count": 3
+            },
+            {
+              "sentence": "Part of your longer plans may slip without anyone noticing.",
+              "count": 3
+            },
+            {
+              "sentence": "Pieces of what you're building may click with people or openings that suit them.",
+              "count": 3
+            },
+            {
+              "sentence": "Relatives stand behind you when it counts.",
+              "count": 3
+            },
+            {
+              "sentence": "Some fraying in family ties.",
+              "count": 3
+            },
+            {
+              "sentence": "Talk about the pattern, kindly.",
+              "count": 3
+            },
+            {
+              "sentence": "Unspoken moods at home",
+              "count": 3
+            },
+            {
+              "sentence": "Warm family ties",
               "count": 3
             }
           ],
           "wordsPerView": {
-            "min": 56,
-            "average": 74.4,
-            "max": 99
+            "min": 47,
+            "average": 67.5,
+            "max": 96
           },
           "emDashesPerView": {
             "average": 0,
@@ -4884,63 +4884,19 @@
         "unknown time": {
           "views": 42,
           "sentences": 314,
-          "uniqueSentences": 201,
-          "uniqueRatio": 0.64,
+          "uniqueSentences": 224,
+          "uniqueRatio": 0.713,
           "topRepeats": [
             {
-              "sentence": "A second look and an early question catch most of them.",
+              "sentence": "You get to choose which one moves, and settling it ahead of time keeps it calm.",
               "count": 4
             },
             {
-              "sentence": "Decide something together.",
-              "count": 4
-            },
-            {
-              "sentence": "Double-check one thing you'd normally send without looking.",
-              "count": 4
-            },
-            {
-              "sentence": "Home is on the same page",
-              "count": 4
-            },
-            {
-              "sentence": "Name the work commitment you'd drop first, and tell one person.",
-              "count": 4
-            },
-            {
-              "sentence": "Reaching out first, even briefly, keeps them small.",
-              "count": 4
-            },
-            {
-              "sentence": "Send a short message to the relative you've drifted from.",
-              "count": 4
-            },
-            {
-              "sentence": "Settle one home plan instead of letting it drift.",
-              "count": 4
-            },
-            {
-              "sentence": "Small misunderstandings with family can build if nobody mentions them.",
-              "count": 4
-            },
-            {
-              "sentence": "Talk early about which one moves, and decide it together rather than alone.",
-              "count": 4
-            },
-            {
-              "sentence": "You get to choose which gives way, and choosing early keeps it calm.",
-              "count": 4
-            },
-            {
-              "sentence": "A small repeat at home",
+              "sentence": "A little wear in family ties.",
               "count": 3
             },
             {
-              "sentence": "Bring up the work request you've been holding back.",
-              "count": 3
-            },
-            {
-              "sentence": "Family may want you in one place while your own plans point elsewhere.",
+              "sentence": "A second look and a quick check-in catch most of them.",
               "count": 3
             },
             {
@@ -4948,19 +4904,27 @@
               "count": 3
             },
             {
-              "sentence": "Have the family conversation you've been putting off.",
+              "sentence": "Home asks for some give.",
               "count": 3
             },
             {
-              "sentence": "It's a good stretch to settle things that have been hanging.",
+              "sentence": "Home is on the same page",
               "count": 3
             },
             {
-              "sentence": "Neither has to lose outright; decide early what you can give, and say it clearly.",
+              "sentence": "Long talks and slow thinking both repay you.",
               "count": 3
             },
             {
-              "sentence": "Shared plans are easier to carry.",
+              "sentence": "Name the meeting you'd drop first, and tell one colleague.",
+              "count": 3
+            },
+            {
+              "sentence": "Quiet slips at work add up.",
+              "count": 3
+            },
+            {
+              "sentence": "Settle one household decision instead of letting it drift.",
               "count": 3
             },
             {
@@ -4968,30 +4932,66 @@
               "count": 3
             },
             {
-              "sentence": "A hobby or a meal for friends tends to lift everything else.",
+              "sentence": "Talk soon about which one moves, and decide it as a pair.",
+              "count": 3
+            },
+            {
+              "sentence": "Yeses from colleagues come easily.",
+              "count": 3
+            },
+            {
+              "sentence": "A clean yes or a clean no comes more simply.",
               "count": 2
             },
             {
-              "sentence": "A little competition sharpens you, as long as you set your own finish line.",
+              "sentence": "A clear schedule frees you up.",
               "count": 2
             },
             {
-              "sentence": "A little wear in family ties this month.",
+              "sentence": "A deadline or a role has to make room.",
               "count": 2
             },
             {
-              "sentence": "A shared push at work moves things along this month.",
+              "sentence": "A manager, a peer or someone in another team may offer to carry part of your load.",
               "count": 2
             },
             {
-              "sentence": "An old work snag keeps coming back this month.",
+              "sentence": "A quiet chill at home",
+              "count": 2
+            },
+            {
+              "sentence": "A recurring snag at home",
+              "count": 2
+            },
+            {
+              "sentence": "An old work snag keeps coming back.",
+              "count": 2
+            },
+            {
+              "sentence": "Ask instead of guessing.",
+              "count": 2
+            },
+            {
+              "sentence": "At home, everyone pulls in the same direction.",
+              "count": 2
+            },
+            {
+              "sentence": "Bring up the request you've been holding back with your manager.",
+              "count": 2
+            },
+            {
+              "sentence": "Clear decisions come more readily.",
+              "count": 2
+            },
+            {
+              "sentence": "Colleagues in your corner",
               "count": 2
             }
           ],
           "wordsPerView": {
-            "min": 48,
-            "average": 68.4,
-            "max": 96
+            "min": 37,
+            "average": 61.3,
+            "max": 90
           },
           "emDashesPerView": {
             "average": 0,
@@ -5009,11 +5009,11 @@
         "B": {
           "views": 42,
           "sentences": 356,
-          "uniqueSentences": 205,
-          "uniqueRatio": 0.576,
+          "uniqueSentences": 214,
+          "uniqueRatio": 0.601,
           "topRepeats": [
             {
-              "sentence": "A good fit for a bigger plan",
+              "sentence": "A familiar family friction returns.",
               "count": 4
             },
             {
@@ -5021,43 +5021,15 @@
               "count": 4
             },
             {
-              "sentence": "A setback in your longer plans may repeat until its cause is fixed.",
+              "sentence": "Home is on the same page.",
               "count": 4
             },
             {
-              "sentence": "An old pattern with family may show up again.",
+              "sentence": "It usually yields to a slight change of approach.",
               "count": 4
             },
             {
-              "sentence": "Decide ahead of time how you want to answer, and answer as who you are now.",
-              "count": 4
-            },
-            {
-              "sentence": "It usually yields to a small change of approach.",
-              "count": 4
-            },
-            {
-              "sentence": "It's a good stretch to decide something together.",
-              "count": 4
-            },
-            {
-              "sentence": "Let someone in your family help with something.",
-              "count": 4
-            },
-            {
-              "sentence": "List what the setbacks had in common each time.",
-              "count": 4
-            },
-            {
-              "sentence": "Make one shared decision at home you've been putting off.",
-              "count": 4
-            },
-            {
-              "sentence": "Name the work commitment you'd drop first, and tell one person.",
-              "count": 4
-            },
-            {
-              "sentence": "Pick your answer to the family question you always dread.",
+              "sentence": "Minor slips at work",
               "count": 4
             },
             {
@@ -5065,31 +5037,43 @@
               "count": 4
             },
             {
-              "sentence": "Small slips at work",
+              "sentence": "The people you come from are easier to reach.",
               "count": 4
             },
             {
-              "sentence": "Visits, calls and shared plans tend to go well, and help is easier to accept.",
+              "sentence": "The right match for a bigger plan",
               "count": 4
             },
             {
-              "sentence": "You get to choose which gives way, and choosing early keeps it calm.",
+              "sentence": "You get to choose which one moves, and settling it ahead of time keeps it calm.",
               "count": 4
             },
             {
-              "sentence": "A regular quick check keeps the drift small.",
+              "sentence": "A bigger goal may need a detour.",
               "count": 3
             },
             {
-              "sentence": "Adjusting early costs less than defending a plan that no longer fits.",
+              "sentence": "A little wear in family ties.",
               "count": 3
             },
             {
-              "sentence": "Ask rather than guess, and check in before small things harden.",
+              "sentence": "A quiet chill may creep in at home.",
               "count": 3
             },
             {
-              "sentence": "Ask the person you live with how they're really doing.",
+              "sentence": "A regular look catches the drift.",
+              "count": 3
+            },
+            {
+              "sentence": "A slow leak in a long-term goal.",
+              "count": 3
+            },
+            {
+              "sentence": "Being seen helps you.",
+              "count": 3
+            },
+            {
+              "sentence": "Duties may feel heavy, so trim the list.",
               "count": 3
             },
             {
@@ -5097,26 +5081,42 @@
               "count": 3
             },
             {
-              "sentence": "Family may want you in one place while your own plans point elsewhere.",
-              "count": 3
-            },
-            {
               "sentence": "Family pulls together",
               "count": 3
             },
             {
-              "sentence": "Good drive; choose whose pace you keep.",
+              "sentence": "Group outings are easier to carry.",
               "count": 3
             },
             {
-              "sentence": "Have the family conversation you've been putting off.",
+              "sentence": "Home runs as a team",
+              "count": 3
+            },
+            {
+              "sentence": "It's a fitting stretch to make a shared decision.",
+              "count": 3
+            },
+            {
+              "sentence": "Let a relative take on one chore on your list.",
+              "count": 3
+            },
+            {
+              "sentence": "Let that support do some of the carrying.",
+              "count": 3
+            },
+            {
+              "sentence": "Life at home needs a little give.",
+              "count": 3
+            },
+            {
+              "sentence": "Long talks and slow thinking both repay you.",
               "count": 3
             }
           ],
           "wordsPerView": {
-            "min": 44,
-            "average": 73.8,
-            "max": 96
+            "min": 33,
+            "average": 67.8,
+            "max": 91
           },
           "emDashesPerView": {
             "average": 0,
@@ -5134,39 +5134,23 @@
         "C": {
           "views": 42,
           "sentences": 366,
-          "uniqueSentences": 213,
-          "uniqueRatio": 0.582,
+          "uniqueSentences": 231,
+          "uniqueRatio": 0.631,
           "topRepeats": [
             {
-              "sentence": "A little wear in the family",
+              "sentence": "A recurring snag at home",
               "count": 4
             },
             {
-              "sentence": "A regular quick check keeps the drift small.",
+              "sentence": "In step at home",
               "count": 4
             },
             {
-              "sentence": "A small repeat at home",
+              "sentence": "Life at home needs a little give.",
               "count": 4
             },
             {
-              "sentence": "Bring up the work request you've been holding back.",
-              "count": 4
-            },
-            {
-              "sentence": "Decide something together.",
-              "count": 4
-            },
-            {
-              "sentence": "Home is on the same page",
-              "count": 4
-            },
-            {
-              "sentence": "It's a good stretch to settle things that have been hanging.",
-              "count": 4
-            },
-            {
-              "sentence": "Name the work commitment you'd drop first, and tell one person.",
+              "sentence": "Part of your longer aims may slip without anyone noticing.",
               "count": 4
             },
             {
@@ -5174,74 +5158,90 @@
               "count": 4
             },
             {
-              "sentence": "Set one check-in date for your biggest plan.",
+              "sentence": "Some fraying in the family",
               "count": 4
             },
             {
-              "sentence": "Settle one home plan instead of letting it drift.",
+              "sentence": "The same roadblock again",
               "count": 4
             },
             {
-              "sentence": "Something in your longer plans may slip without anyone noticing.",
+              "sentence": "Try one fresh method on it.",
               "count": 4
             },
             {
-              "sentence": "Talk about the pattern, kindly.",
+              "sentence": "Yeses from colleagues come easily.",
               "count": 4
             },
             {
-              "sentence": "Talk early about which one moves, and decide it together rather than alone.",
-              "count": 4
-            },
-            {
-              "sentence": "The same obstacle again",
-              "count": 4
-            },
-            {
-              "sentence": "Try one different method on it.",
-              "count": 4
-            },
-            {
-              "sentence": "You get to choose which gives way, and choosing early keeps it calm.",
-              "count": 4
-            },
-            {
-              "sentence": "A good fit for a bigger plan",
+              "sentence": "A regular look catches the drift.",
               "count": 3
             },
             {
-              "sentence": "A second look and an early question catch most of them.",
+              "sentence": "Colleagues may meet you halfway, and requests land softly.",
               "count": 3
             },
             {
-              "sentence": "Adjusting early costs less than defending a plan that no longer fits.",
+              "sentence": "Hunches worth noting",
               "count": 3
             },
             {
-              "sentence": "Ask rather than guess.",
+              "sentence": "It's a useful stretch to settle the open questions that have been hanging.",
               "count": 3
             },
             {
-              "sentence": "Bring others in rather than carrying everything alone; shared tasks move faster.",
+              "sentence": "Many hands at home",
               "count": 3
             },
             {
-              "sentence": "Bring others in rather than going solo.",
+              "sentence": "Name the duty you'd drop first, and tell one colleague.",
               "count": 3
             },
             {
-              "sentence": "Double-check one thing you'd normally send without looking.",
+              "sentence": "Pace-setters at your elbow",
               "count": 3
             },
             {
-              "sentence": "Family may want you in one place while your own plans point elsewhere.",
+              "sentence": "Quiet slips at work mount.",
+              "count": 3
+            },
+            {
+              "sentence": "Say yes when it clicks.",
+              "count": 3
+            },
+            {
+              "sentence": "Schedules bend easily, which helps when one has to change.",
+              "count": 3
+            },
+            {
+              "sentence": "Settle one home question instead of letting it drift.",
+              "count": 3
+            },
+            {
+              "sentence": "The right match for a bigger plan",
+              "count": 3
+            },
+            {
+              "sentence": "Two demands at work may claim the same slot: a role and a new direction, or your project and someone else's.",
+              "count": 3
+            },
+            {
+              "sentence": "Unspoken moods at home",
+              "count": 3
+            },
+            {
+              "sentence": "Warm family ties",
+              "count": 3
+            },
+            {
+              "sentence": "Work leans your way",
               "count": 3
             }
           ],
           "wordsPerView": {
-            "min": 43,
-            "average": 76.6,
-            "max": 95
+            "min": 36,
+            "average": 70.2,
+            "max": 90
           },
           "emDashesPerView": {
             "average": 0,
@@ -5259,91 +5259,55 @@
         "D": {
           "views": 42,
           "sentences": 366,
-          "uniqueSentences": 212,
-          "uniqueRatio": 0.579,
+          "uniqueSentences": 223,
+          "uniqueRatio": 0.609,
           "topRepeats": [
             {
-              "sentence": "A familiar family friction",
+              "sentence": "A quiet chill at home",
               "count": 4
             },
             {
-              "sentence": "A little wear in the family",
+              "sentence": "Family wishes may collide",
               "count": 4
             },
             {
-              "sentence": "A setback in your longer plans may repeat until its cause is fixed.",
+              "sentence": "Home asks for some give.",
               "count": 4
             },
             {
-              "sentence": "Ask rather than guess.",
+              "sentence": "Some fraying in the family",
               "count": 4
             },
             {
-              "sentence": "Decide your answer before it comes.",
+              "sentence": "Talk about the pattern kindly, instead of each time it happens.",
               "count": 4
             },
             {
-              "sentence": "Family plans may collide",
+              "sentence": "Talk soon about which one moves, and decide it as a pair.",
               "count": 4
             },
             {
-              "sentence": "It usually yields to a small change of approach.",
+              "sentence": "The old family argument",
               "count": 4
             },
             {
-              "sentence": "List what the setbacks had in common each time.",
+              "sentence": "You may hold yourself to a strict standard; ease it a notch.",
               "count": 4
             },
             {
-              "sentence": "Name the work commitment you'd drop first, and tell one person.",
-              "count": 4
-            },
-            {
-              "sentence": "Raise the recurring home niggle once, calmly.",
-              "count": 4
-            },
-            {
-              "sentence": "Reach out first, even briefly.",
-              "count": 4
-            },
-            {
-              "sentence": "Settle one home plan instead of letting it drift.",
-              "count": 4
-            },
-            {
-              "sentence": "Settle whose plan comes first, early.",
-              "count": 4
-            },
-            {
-              "sentence": "Something small at home may keep coming up: a chore, a habit, a tone.",
-              "count": 4
-            },
-            {
-              "sentence": "Something small is off at home",
-              "count": 4
-            },
-            {
-              "sentence": "Talk about the pattern, kindly, rather than each time it happens.",
-              "count": 4
-            },
-            {
-              "sentence": "Talk early about which one moves, and decide it together rather than alone.",
-              "count": 4
-            },
-            {
-              "sentence": "You get to choose which gives way, and choosing early keeps it calm.",
-              "count": 4
-            },
-            {
-              "sentence": "A good fit for a bigger plan",
+              "sentence": "A hitch in your longer plans may repeat until its cause is fixed.",
               "count": 3
             },
             {
-              "sentence": "A regular quick check keeps the drift small.",
+              "sentence": "A manager, a peer or someone in another team may offer to carry part of your load.",
               "count": 3
             },
             {
-              "sentence": "A second look and an early question catch most of them.",
+              "sentence": "A neat fit for a bigger plan",
+              "count": 3
+            },
+            {
+              "sentence": "A second look and a quick check-in catch most of them.",
               "count": 3
             },
             {
@@ -5351,22 +5315,58 @@
               "count": 3
             },
             {
-              "sentence": "Adjusting early costs less than defending a plan that no longer fits.",
+              "sentence": "Agree ahead of time whose wishes come first.",
               "count": 3
             },
             {
-              "sentence": "Ask one person to take on the next step of a long-range plan.",
+              "sentence": "Check instead of guessing.",
               "count": 3
             },
             {
-              "sentence": "Double-check one thing you'd normally send without looking.",
+              "sentence": "Crafts done for their own sake go well.",
+              "count": 3
+            },
+            {
+              "sentence": "Decide your answer before it comes.",
+              "count": 3
+            },
+            {
+              "sentence": "Duties may feel heavy, so shorten the list.",
+              "count": 3
+            },
+            {
+              "sentence": "Easy agreement at work",
+              "count": 3
+            },
+            {
+              "sentence": "Family backing",
+              "count": 3
+            },
+            {
+              "sentence": "It usually yields to a slight change of approach.",
+              "count": 3
+            },
+            {
+              "sentence": "It's a fitting stretch to make a shared decision.",
+              "count": 3
+            },
+            {
+              "sentence": "Jot down who could share your heaviest task.",
+              "count": 3
+            },
+            {
+              "sentence": "Let that support do some of the carrying.",
+              "count": 3
+            },
+            {
+              "sentence": "List what the hold-ups had in common.",
               "count": 3
             }
           ],
           "wordsPerView": {
-            "min": 45,
-            "average": 76.7,
-            "max": 104
+            "min": 37,
+            "average": 68.9,
+            "max": 99
           },
           "emDashesPerView": {
             "average": 0,
@@ -5386,114 +5386,114 @@
         "headline": {
           "views": 210,
           "sentences": 210,
-          "uniqueSentences": 85,
-          "uniqueRatio": 0.405,
+          "uniqueSentences": 72,
+          "uniqueRatio": 0.343,
           "topRepeats": [
             {
-              "sentence": "Home asks for some give this month.",
-              "count": 10
+              "sentence": "Life at home needs a little give.",
+              "count": 11
             },
             {
-              "sentence": "Something at work has to make way this month.",
-              "count": 10
+              "sentence": "One work commitment has to make room.",
+              "count": 11
             },
             {
-              "sentence": "A bigger plan may need a new route this month.",
+              "sentence": "Your family's hopes and your own pull apart.",
               "count": 8
             },
             {
-              "sentence": "A slow leak in a bigger plan this month.",
-              "count": 8
+              "sentence": "A slow leak in a long-term goal.",
+              "count": 7
             },
             {
-              "sentence": "Family plans and yours pull apart this month.",
-              "count": 8
+              "sentence": "Home asks for some give.",
+              "count": 7
             },
             {
-              "sentence": "Small slips at work add up this month.",
-              "count": 8
+              "sentence": "Yeses from colleagues come easily.",
+              "count": 7
             },
             {
-              "sentence": "A little wear in family ties this month.",
+              "sentence": "A little wear in family ties.",
               "count": 6
             },
             {
-              "sentence": "An old work snag keeps coming back this month.",
-              "count": 6
-            },
-            {
-              "sentence": "Work agreements come easily this month.",
-              "count": 6
-            },
-            {
-              "sentence": "Something at work has to make way this decade.",
+              "sentence": "A deadline or a role has to make room.",
               "count": 5
             },
             {
-              "sentence": "Something at work has to make way this year.",
+              "sentence": "An old work snag keeps coming back.",
               "count": 5
             },
             {
-              "sentence": "A slow leak in a bigger plan this year.",
+              "sentence": "Family wishes and yours pull apart.",
+              "count": 5
+            },
+            {
+              "sentence": "Minor slips at work add up.",
+              "count": 5
+            },
+            {
+              "sentence": "Quiet slips at work add up.",
+              "count": 5
+            },
+            {
+              "sentence": "The same setback keeps turning up.",
+              "count": 5
+            },
+            {
+              "sentence": "A bigger goal may need a detour.",
               "count": 4
             },
             {
-              "sentence": "Allies for your long game show up this month.",
+              "sentence": "A clear schedule frees you up.",
               "count": 4
             },
             {
-              "sentence": "Family plans and yours pull apart this decade.",
+              "sentence": "A familiar family friction returns.",
               "count": 4
             },
             {
-              "sentence": "Home asks for some give this decade.",
+              "sentence": "Agreements at work come easily.",
               "count": 4
             },
             {
-              "sentence": "Home asks for some give this year.",
+              "sentence": "Help at work arrives from more directions.",
               "count": 4
             },
             {
-              "sentence": "Home is on the same page this month.",
+              "sentence": "Home is on the same page.",
               "count": 4
             },
             {
-              "sentence": "Home works as a team this month.",
+              "sentence": "Home runs like a team.",
               "count": 4
             },
             {
-              "sentence": "The same obstacle keeps turning up this month.",
+              "sentence": "Long-range plans move better in company.",
               "count": 4
             },
             {
-              "sentence": "Work pulls your way this month.",
+              "sentence": "One of your duties has to make room.",
               "count": 4
             },
             {
-              "sentence": "A bigger plan may need a new route this year.",
-              "count": 3
+              "sentence": "Quiet slips at work mount.",
+              "count": 4
             },
             {
-              "sentence": "A little wear in family ties this year.",
-              "count": 3
+              "sentence": "Some fraying in family ties.",
+              "count": 4
             },
             {
-              "sentence": "Help at work arrives from more directions this decade.",
-              "count": 3
-            },
-            {
-              "sentence": "Small slips at work add up this decade.",
-              "count": 3
-            },
-            {
-              "sentence": "Small slips at work add up this year.",
-              "count": 3
+              "sentence": "Work leans your way.",
+              "count": 4
             }
           ],
           "wordsPerView": {
-            "min": 5,
-            "average": 8,
-            "max": 10
+            "min": 2,
+            "average": 6.3,
+            "max": 9
           },
           "emDashesPerView": {
             "average": 0,
@@ -5511,114 +5511,114 @@
         "body": {
           "views": 210,
           "sentences": 630,
-          "uniqueSentences": 204,
-          "uniqueRatio": 0.324,
+          "uniqueSentences": 210,
+          "uniqueRatio": 0.333,
           "topRepeats": [
             {
-              "sentence": "You get to choose which gives way, and choosing early keeps it calm.",
-              "count": 20
-            },
-            {
-              "sentence": "Talk early about which one moves, and decide it together rather than alone.",
-              "count": 18
-            },
-            {
-              "sentence": "A second look and an early question catch most of them.",
-              "count": 14
-            },
-            {
-              "sentence": "A regular quick check keeps the drift small.",
+              "sentence": "Talk soon about which one moves, and decide it as a pair.",
               "count": 13
             },
             {
-              "sentence": "Family may want you in one place while your own plans point elsewhere.",
+              "sentence": "You get to choose which one moves, and settling it ahead of time keeps it calm.",
               "count": 13
             },
             {
-              "sentence": "Neither has to lose outright; decide early what you can give, and say it clearly.",
+              "sentence": "You may hold yourself to a strict standard; ease it a notch.",
               "count": 13
             },
             {
-              "sentence": "Something in your longer plans may slip without anyone noticing.",
-              "count": 13
-            },
-            {
-              "sentence": "Adjusting early costs less than defending a plan that no longer fits.",
-              "count": 12
-            },
-            {
-              "sentence": "What you're building toward may meet something that won't move.",
-              "count": 12
-            },
-            {
-              "sentence": "It's a good stretch to settle things that have been hanging.",
-              "count": 11
-            },
-            {
-              "sentence": "Reaching out first, even briefly, keeps them small.",
+              "sentence": "A second look and a quick check-in catch most of them.",
               "count": 10
             },
             {
-              "sentence": "Small misunderstandings with family can build if nobody mentions them.",
-              "count": 10
+              "sentence": "Long talks and slow thinking both repay you.",
+              "count": 9
             },
             {
-              "sentence": "Two plans at home may want the same space or the same time this month.",
-              "count": 10
-            },
-            {
-              "sentence": "Two things at work may want the same room this month: a role and a new direction, or your plan and someone else's.",
-              "count": 10
-            },
-            {
-              "sentence": "A setback in your longer plans may repeat until its cause is fixed.",
+              "sentence": "A regular look catches the drift.",
               "count": 8
             },
             {
-              "sentence": "It loosens once you name it and fix the cause rather than each new version.",
+              "sentence": "Adjusting soon costs less than defending a plan that no longer fits.",
               "count": 8
             },
             {
-              "sentence": "It usually yields to a small change of approach.",
+              "sentence": "Relatives may want you in one place while your own hopes point elsewhere.",
               "count": 8
             },
             {
-              "sentence": "Little misreadings at work tend to pile up quietly this month.",
+              "sentence": "Two demands at work may claim the same slot: a role and a new direction, or your project and someone else's.",
               "count": 8
             },
             {
-              "sentence": "You may hold yourself to a strict standard this month; ease it a notch.",
+              "sentence": "Words may come out harder than you mean, so read them twice.",
               "count": 8
             },
             {
-              "sentence": "It's a good stretch to decide something together.",
+              "sentence": "A manager, a peer or someone in another team may offer to carry part of your load.",
               "count": 7
             },
             {
-              "sentence": "Say yes out loud, and give each helper one clear piece.",
+              "sentence": "Edges feel sharp; softer handling helps.",
               "count": 7
             },
             {
-              "sentence": "Small criticisms may sting more this month, so give feedback gently.",
+              "sentence": "Ideas and conversations flow toward you.",
               "count": 7
             },
             {
-              "sentence": "At work, asks land softly and people tend to meet you halfway this month.",
+              "sentence": "It usually yields to a slight change of approach.",
+              "count": 7
+            },
+            {
+              "sentence": "Part of your longer aims may slip without anyone noticing.",
+              "count": 7
+            },
+            {
+              "sentence": "You get to choose which one moves, and choosing ahead of time keeps it calm.",
+              "count": 7
+            },
+            {
+              "sentence": "Colleagues may meet you halfway, and requests land softly.",
               "count": 6
             },
             {
-              "sentence": "Obligations multiply easily this month; turn down one new one.",
+              "sentence": "It's a fitting stretch to make a shared decision.",
               "count": 6
             },
             {
-              "sentence": "One familiar irritation at work tends to return this month: the same delay, the same friction.",
+              "sentence": "Misread emails can pile up unnoticed.",
+              "count": 6
+            },
+            {
+              "sentence": "Modest beginnings branch out, so plant the seeds you care about.",
+              "count": 6
+            },
+            {
+              "sentence": "Obligations multiply easily; decline one new one.",
+              "count": 6
+            },
+            {
+              "sentence": "Part of your longer plans may slip without anyone noticing.",
+              "count": 6
+            },
+            {
+              "sentence": "Schedules bend easily, which helps when one has to change.",
+              "count": 6
+            },
+            {
+              "sentence": "Two wishes at home may claim the same space or the same hours.",
+              "count": 6
+            },
+            {
+              "sentence": "What you're building toward may meet an obstacle that won't move.",
               "count": 6
             }
           ],
           "wordsPerView": {
-            "min": 25,
-            "average": 37,
-            "max": 52
+            "min": 21,
+            "average": 32.6,
+            "max": 51
           },
           "emDashesPerView": {
             "average": 0,
@@ -5636,87 +5636,83 @@
         "action": {
           "views": 210,
           "sentences": 210,
-          "uniqueSentences": 41,
-          "uniqueRatio": 0.195,
+          "uniqueSentences": 73,
+          "uniqueRatio": 0.348,
           "topRepeats": [
             {
-              "sentence": "Name the work commitment you'd drop first, and tell one person.",
-              "count": 20
-            },
-            {
-              "sentence": "Settle one home plan instead of letting it drift.",
-              "count": 18
-            },
-            {
-              "sentence": "Double-check one thing you'd normally send without looking.",
-              "count": 14
-            },
-            {
-              "sentence": "Have the family conversation you've been putting off.",
-              "count": 13
-            },
-            {
-              "sentence": "Set one check-in date for your biggest plan.",
-              "count": 13
-            },
-            {
-              "sentence": "Write down which part of the plan you'd change first.",
-              "count": 12
-            },
-            {
-              "sentence": "Bring up the work request you've been holding back.",
+              "sentence": "Settle one household decision instead of letting it drift.",
               "count": 11
             },
             {
-              "sentence": "Send a short message to the relative you've drifted from.",
-              "count": 10
-            },
-            {
-              "sentence": "List what the setbacks had in common each time.",
+              "sentence": "Double-check one message you'd normally send without looking.",
               "count": 8
             },
             {
-              "sentence": "Write down the work snag that keeps repeating, and one fix.",
+              "sentence": "Name the duty you'd drop first, and tell one colleague.",
               "count": 8
             },
             {
-              "sentence": "Make one shared decision at home you've been putting off.",
+              "sentence": "Set one check-in date for your main goal.",
+              "count": 8
+            },
+            {
+              "sentence": "Have the family talk you've been putting off.",
               "count": 7
             },
             {
-              "sentence": "Write a short list of who could help with your biggest task.",
+              "sentence": "Jot down who could share your heaviest task.",
               "count": 7
             },
             {
-              "sentence": "Ask one person to take on the next step of a long-range plan.",
+              "sentence": "Settle one home question instead of letting it drift.",
+              "count": 7
+            },
+            {
+              "sentence": "Have the family conversation you've been putting off.",
+              "count": 6
+            },
+            {
+              "sentence": "Write down which part of the approach you'd change first.",
+              "count": 6
+            },
+            {
+              "sentence": "Write down which part of the plan you'd change first.",
+              "count": 6
+            },
+            {
+              "sentence": "List what the hold-ups had in common.",
               "count": 5
             },
             {
-              "sentence": "Hand one home job to someone else.",
+              "sentence": "Set one check-in date for your biggest plan.",
               "count": 5
             },
             {
-              "sentence": "Start the work task that needs more than one pair of hands.",
-              "count": 5
-            },
-            {
-              "sentence": "Describe your biggest plan to one person who'd understand it.",
+              "sentence": "Ask one person to handle the next stage of a long-range goal.",
               "count": 4
             },
             {
-              "sentence": "Let someone in your family help with something.",
+              "sentence": "Bring up the proposal you've been holding back at work.",
               "count": 4
             },
             {
-              "sentence": "Pick your answer to the family question you always dread.",
+              "sentence": "Bring up the request you've been holding back with your manager.",
               "count": 4
             },
             {
-              "sentence": "Push forward the part of a plan that's been waiting.",
+              "sentence": "Send a short message to the family member you've drifted from.",
               "count": 4
             },
             {
-              "sentence": "Raise the recurring home niggle once, calmly.",
+              "sentence": "Settle one household choice you've both been putting off.",
+              "count": 4
+            },
+            {
+              "sentence": "Write down the hold-up that keeps repeating, and one fix.",
+              "count": 4
+            },
+            {
+              "sentence": "Write down the snag that keeps repeating, and one fix.",
               "count": 4
             },
             {
@@ -5724,26 +5720,30 @@
               "count": 4
             },
             {
-              "sentence": "Agree with a teammate who owns which part of the shared work.",
+              "sentence": "Call the family member you've drifted from.",
               "count": 3
             },
             {
-              "sentence": "Ask the person you live with how they're really doing.",
+              "sentence": "Decide with a teammate who owns which part of the task.",
               "count": 3
             },
             {
-              "sentence": "Ask two colleagues to join you on one stalled task.",
+              "sentence": "Double-check one email you'd normally send without looking.",
               "count": 3
             },
             {
-              "sentence": "Finish one thing you've half-done.",
-              "count": 2
+              "sentence": "Double-check one report you'd normally send without looking.",
+              "count": 3
+            },
+            {
+              "sentence": "Hand one chore to someone else.",
+              "count": 3
             }
           ],
           "wordsPerView": {
             "min": 6,
-            "average": 9.7,
-            "max": 14
+            "average": 9.3,
+            "max": 13
           },
           "emDashesPerView": {
             "average": 0,
@@ -5761,28 +5761,12 @@
         "card title": {
           "views": 187,
           "sentences": 347,
-          "uniqueSentences": 54,
-          "uniqueRatio": 0.156,
+          "uniqueSentences": 70,
+          "uniqueRatio": 0.202,
           "topRepeats": [
-            {
-              "sentence": "Something small is off at home",
-              "count": 12
-            },
-            {
-              "sentence": "A small repeat at home",
-              "count": 11
-            },
-            {
-              "sentence": "Home is on the same page",
-              "count": 11
-            },
             {
               "sentence": "Warm family ties",
               "count": 11
-            },
-            {
-              "sentence": "A good fit for a bigger plan",
-              "count": 10
             },
             {
               "sentence": "Family pulls together",
@@ -5813,14 +5797,6 @@
               "count": 9
             },
             {
-              "sentence": "A little wear in the family",
-              "count": 8
-            },
-            {
-              "sentence": "Doing it together",
-              "count": 8
-            },
-            {
               "sentence": "High demands",
               "count": 8
             },
@@ -5829,7 +5805,15 @@
               "count": 8
             },
             {
+              "sentence": "In step at home",
+              "count": 8
+            },
+            {
               "sentence": "Slow and sure",
+              "count": 8
+            },
+            {
+              "sentence": "Some fraying in the family",
               "count": 8
             },
             {
@@ -5853,6 +5837,18 @@
               "count": 7
             },
             {
+              "sentence": "The right match for a bigger plan",
+              "count": 7
+            },
+            {
+              "sentence": "A quiet chill at home",
+              "count": 6
+            },
+            {
+              "sentence": "A recurring snag at home",
+              "count": 6
+            },
+            {
               "sentence": "A test worth taking",
               "count": 6
             },
@@ -5861,14 +5857,18 @@
               "count": 6
             },
             {
-              "sentence": "Chances off the plan",
+              "sentence": "Company in the same boat",
+              "count": 6
+            },
+            {
+              "sentence": "Easy agreement at work",
               "count": 6
             }
           ],
           "wordsPerView": {
             "min": 2,
-            "average": 7.4,
-            "max": 17
+            "average": 7.1,
+            "max": 15
           },
           "emDashesPerView": {
             "average": 0,
@@ -5886,114 +5886,114 @@
         "card line": {
           "views": 187,
           "sentences": 347,
-          "uniqueSentences": 62,
-          "uniqueRatio": 0.179,
+          "uniqueSentences": 108,
+          "uniqueRatio": 0.311,
           "topRepeats": [
-            {
-              "sentence": "Ask rather than guess.",
-              "count": 12
-            },
-            {
-              "sentence": "Decide something together.",
-              "count": 11
-            },
-            {
-              "sentence": "Let someone help you.",
-              "count": 11
-            },
-            {
-              "sentence": "Talk about the pattern, kindly.",
-              "count": 11
-            },
             {
               "sentence": "Say yes when it clicks.",
               "count": 10
             },
             {
-              "sentence": "Shared plans are easier to carry.",
-              "count": 10
-            },
-            {
-              "sentence": "Things done for their own sake go well.",
-              "count": 10
-            },
-            {
-              "sentence": "Good drive; choose whose pace you keep.",
+              "sentence": "Let that support do some of the carrying.",
               "count": 9
             },
             {
-              "sentence": "Household jobs go quicker when everyone takes a share.",
-              "count": 9
-            },
-            {
-              "sentence": "Let support carry them.",
-              "count": 9
-            },
-            {
-              "sentence": "Openings tend to arrive through people you barely know.",
-              "count": 9
-            },
-            {
-              "sentence": "Hard asks may come fast, and meeting one well builds your nerve.",
+              "sentence": "Check instead of guessing.",
               "count": 8
             },
             {
-              "sentence": "Peers carrying the same load make good company.",
+              "sentence": "Talk about the pattern, kindly.",
               "count": 8
             },
             {
               "sentence": "Reach out first, even briefly.",
-              "count": 8
+              "count": 7
             },
             {
               "sentence": "Write down the odd idea before it slips away.",
-              "count": 8
-            },
-            {
-              "sentence": "A hobby or a meal for friends tends to lift everything else.",
               "count": 7
             },
             {
-              "sentence": "Pick the challenges worth it.",
-              "count": 7
-            },
-            {
-              "sentence": "Say what you spot, kindly.",
-              "count": 7
-            },
-            {
-              "sentence": "You may itch to fix how things are done, so pick one rule to question.",
-              "count": 7
-            },
-            {
-              "sentence": "An odd invitation or a side project may be worth a look.",
+              "sentence": "Crafts done for their own sake go well.",
               "count": 6
             },
             {
-              "sentence": "Keep a little room to say yes.",
+              "sentence": "Hard requests may come fast, and meeting one well builds your nerve.",
               "count": 6
             },
             {
-              "sentence": "Let several relatives each take a piece of the plan.",
+              "sentence": "Make one decision together.",
               "count": 6
             },
             {
-              "sentence": "Pair up on the job you'd normally do alone.",
+              "sentence": "Openings often arrive through people you barely know.",
               "count": 6
             },
             {
-              "sentence": "Routines work in your favour.",
+              "sentence": "Peers carrying the same load make welcome company.",
               "count": 6
             },
             {
-              "sentence": "Settle what's been hanging.",
+              "sentence": "Relatives stand behind you when it counts.",
               "count": 6
+            },
+            {
+              "sentence": "Group outings are easier to carry.",
+              "count": 5
+            },
+            {
+              "sentence": "Hold a little room to say yes.",
+              "count": 5
+            },
+            {
+              "sentence": "Joint efforts are easier to carry.",
+              "count": 5
+            },
+            {
+              "sentence": "Let someone close lend a hand.",
+              "count": 5
+            },
+            {
+              "sentence": "Make one decision as a pair.",
+              "count": 5
+            },
+            {
+              "sentence": "Regular, unglamorous graft adds up nicely.",
+              "count": 5
+            },
+            {
+              "sentence": "Split the chores, share the wins.",
+              "count": 5
+            },
+            {
+              "sentence": "Taking advice from a teacher goes smoothly.",
+              "count": 5
+            },
+            {
+              "sentence": "Treat the toughest request as practice, and ask for support early.",
+              "count": 5
+            },
+            {
+              "sentence": "A hobby or a meal for friends lifts everything else.",
+              "count": 4
+            },
+            {
+              "sentence": "A second look catches most of them.",
+              "count": 4
+            },
+            {
+              "sentence": "Ask instead of guessing.",
+              "count": 4
+            },
+            {
+              "sentence": "Check your progress against your own last effort, and the race quiets down.",
+              "count": 4
             }
           ],
           "wordsPerView": {
             "min": 3,
-            "average": 14.3,
-            "max": 28
+            "average": 14.2,
+            "max": 29
           },
           "emDashesPerView": {
             "average": 0,
@@ -6026,7 +6026,7 @@
             "count": 5
           },
           {
-            "sentence": "Growing and starting things",
+            "sentence": "Growth and fresh starts",
             "count": 4
           },
           {
@@ -6046,11 +6046,11 @@
             "count": 4
           },
           {
-            "sentence": "Worry, weight and things that won't budge",
+            "sentence": "Worry, weight and problems that won't budge",
             "count": 4
           },
           {
-            "sentence": "You adapt easily and can be hard to pin down.",
+            "sentence": "You adapt easily and can be tricky to pin down.",
             "count": 4
           },
           {
@@ -6078,7 +6078,7 @@
             "count": 2
           },
           {
-            "sentence": "Make sure some of the weight you carry is your own choosing.",
+            "sentence": "Make sure some of that weight is your own choosing.",
             "count": 2
           },
           {
@@ -6098,7 +6098,7 @@
             "count": 2
           },
           {
-            "sentence": "The skill is choosing what to carry.",
+            "sentence": "The skill is choosing what to take on.",
             "count": 2
           },
           {
@@ -6114,14 +6114,14 @@
             "count": 2
           },
           {
-            "sentence": "Work that keeps things moving and connected is usually a good match.",
+            "sentence": "Work that keeps goods, people and messages moving is usually a good match.",
             "count": 2
           }
         ],
         "wordsPerView": {
-          "min": 179,
-          "average": 188.6,
-          "max": 195
+          "min": 177,
+          "average": 188.2,
+          "max": 198
         },
         "emDashesPerView": {
           "average": 0,
@@ -6144,9 +6144,9 @@
           "uniqueRatio": 1,
           "topRepeats": [],
           "wordsPerView": {
-            "min": 186,
-            "average": 186,
-            "max": 186
+            "min": 184,
+            "average": 184,
+            "max": 184
           },
           "emDashesPerView": {
             "average": 0,
@@ -6168,9 +6168,9 @@
           "uniqueRatio": 1,
           "topRepeats": [],
           "wordsPerView": {
-            "min": 179,
-            "average": 179,
-            "max": 179
+            "min": 177,
+            "average": 177,
+            "max": 177
           },
           "emDashesPerView": {
             "average": 0,
@@ -6192,9 +6192,9 @@
           "uniqueRatio": 1,
           "topRepeats": [],
           "wordsPerView": {
-            "min": 189,
-            "average": 189,
-            "max": 189
+            "min": 186,
+            "average": 186,
+            "max": 186
           },
           "emDashesPerView": {
             "average": 0,
@@ -6216,9 +6216,9 @@
           "uniqueRatio": 1,
           "topRepeats": [],
           "wordsPerView": {
-            "min": 194,
-            "average": 194,
-            "max": 194
+            "min": 198,
+            "average": 198,
+            "max": 198
           },
           "emDashesPerView": {
             "average": 0,
@@ -6240,9 +6240,9 @@
           "uniqueRatio": 1,
           "topRepeats": [],
           "wordsPerView": {
-            "min": 195,
-            "average": 195,
-            "max": 195
+            "min": 196,
+            "average": 196,
+            "max": 196
           },
           "emDashesPerView": {
             "average": 0,
@@ -6303,7 +6303,7 @@
               "count": 2
             },
             {
-              "sentence": "Make sure some of the weight you carry is your own choosing.",
+              "sentence": "Make sure some of that weight is your own choosing.",
               "count": 2
             },
             {
@@ -6325,8 +6325,8 @@
           ],
           "wordsPerView": {
             "min": 30,
-            "average": 31.6,
-            "max": 33
+            "average": 30.8,
+            "max": 31
           },
           "emDashesPerView": {
             "average": 0,
@@ -6366,8 +6366,8 @@
           ],
           "wordsPerView": {
             "min": 16,
-            "average": 16.4,
-            "max": 18
+            "average": 16,
+            "max": 16
           },
           "emDashesPerView": {
             "average": 0,
@@ -6434,7 +6434,7 @@
               "count": 4
             },
             {
-              "sentence": "You adapt easily and can be hard to pin down.",
+              "sentence": "You adapt easily and can be tricky to pin down.",
               "count": 4
             },
             {
@@ -6446,22 +6446,22 @@
               "count": 2
             },
             {
-              "sentence": "The skill is choosing what to carry.",
+              "sentence": "The skill is choosing what to take on.",
               "count": 2
             },
             {
-              "sentence": "Work that keeps things moving and connected is usually a good match.",
+              "sentence": "Work that keeps goods, people and messages moving is usually a good match.",
               "count": 2
             },
             {
-              "sentence": "You carry a lot unaided.",
+              "sentence": "You handle a lot unaided.",
               "count": 2
             }
           ],
           "wordsPerView": {
             "min": 40,
-            "average": 46.8,
-            "max": 51
+            "average": 47,
+            "max": 50
           },
           "emDashesPerView": {
             "average": 0,
@@ -6483,7 +6483,7 @@
           "uniqueRatio": 0.417,
           "topRepeats": [
             {
-              "sentence": "Growing and starting things",
+              "sentence": "Growth and fresh starts",
               "count": 4
             },
             {
@@ -6524,7 +6524,7 @@
               "count": 4
             },
             {
-              "sentence": "Worry, weight and things that won't budge",
+              "sentence": "Worry, weight and problems that won't budge",
               "count": 4
             },
             {
@@ -6563,8 +6563,8 @@
           ],
           "wordsPerView": {
             "min": 12,
-            "average": 13.2,
-            "max": 15
+            "average": 13.8,
+            "max": 17
           },
           "emDashesPerView": {
             "average": 0,
@@ -6642,11 +6642,11 @@
         "uniqueRatio": 0.677,
         "topRepeats": [
           {
-            "sentence": "Moving, linking and going deep serve you well.",
+            "sentence": "Moving, linking and going deep pay off for you.",
             "count": 4
           },
           {
-            "sentence": "No single note drowns the others, which makes you adaptable and, sometimes, hard to pin down.",
+            "sentence": "No single note drowns the others, which makes you adaptable and, at times, tricky to read.",
             "count": 4
           },
           {
@@ -6654,7 +6654,7 @@
             "count": 4
           },
           {
-            "sentence": "Time spent starting and tending things usually repays you.",
+            "sentence": "Time spent starting and nurturing projects usually repays you.",
             "count": 4
           },
           {
@@ -6662,7 +6662,7 @@
             "count": 4
           },
           {
-            "sentence": "Wood tends to suit you: growth, beginnings and green patience.",
+            "sentence": "Wood suits you: growth, beginnings and green patience.",
             "count": 4
           },
           {
@@ -6690,7 +6690,15 @@
             "count": 2
           },
           {
-            "sentence": "It's two schedules booked for the same hour, and the friction keeps things moving.",
+            "sentence": "It's two schedules booked for the same hour, and the friction stops anything going stale.",
+            "count": 2
+          },
+          {
+            "sentence": "Its Metal strength is real but partial.",
+            "count": 2
+          },
+          {
+            "sentence": "Its Water strength is real but partial.",
             "count": 2
           },
           {
@@ -6699,10 +6707,6 @@
           },
           {
             "sentence": "Responsibility finds you even when you don't raise your hand, so decide on purpose whether to take it.",
-            "count": 2
-          },
-          {
-            "sentence": "Rooms you tend to do well in lean Water: logistics, trading, communications, tourism.",
             "count": 2
           },
           {
@@ -6726,15 +6730,11 @@
             "count": 2
           },
           {
-            "sentence": "The pull of Metal is real but partial.",
+            "sentence": "Water inclines you to fields such as logistics, trading, communications, tourism.",
             "count": 2
           },
           {
-            "sentence": "The pull of Water is real but partial.",
-            "count": 2
-          },
-          {
-            "sentence": "Work that keeps things moving and connected is usually a good match.",
+            "sentence": "Work that keeps goods, people and messages moving is usually a good match.",
             "count": 2
           },
           {
@@ -6743,9 +6743,9 @@
           }
         ],
         "wordsPerView": {
-          "min": 386,
-          "average": 419.2,
-          "max": 470
+          "min": 377,
+          "average": 412.2,
+          "max": 461
         },
         "emDashesPerView": {
           "average": 0,
@@ -6768,9 +6768,9 @@
           "uniqueRatio": 1,
           "topRepeats": [],
           "wordsPerView": {
-            "min": 392,
-            "average": 392,
-            "max": 392
+            "min": 388,
+            "average": 388,
+            "max": 388
           },
           "emDashesPerView": {
             "average": 0,
@@ -6792,9 +6792,9 @@
           "uniqueRatio": 1,
           "topRepeats": [],
           "wordsPerView": {
-            "min": 402,
-            "average": 402,
-            "max": 402
+            "min": 397,
+            "average": 397,
+            "max": 397
           },
           "emDashesPerView": {
             "average": 0,
@@ -6816,9 +6816,9 @@
           "uniqueRatio": 1,
           "topRepeats": [],
           "wordsPerView": {
-            "min": 386,
-            "average": 386,
-            "max": 386
+            "min": 377,
+            "average": 377,
+            "max": 377
           },
           "emDashesPerView": {
             "average": 0,
@@ -6840,9 +6840,9 @@
           "uniqueRatio": 1,
           "topRepeats": [],
           "wordsPerView": {
-            "min": 446,
-            "average": 446,
-            "max": 446
+            "min": 438,
+            "average": 438,
+            "max": 438
           },
           "emDashesPerView": {
             "average": 0,
@@ -6864,9 +6864,9 @@
           "uniqueRatio": 1,
           "topRepeats": [],
           "wordsPerView": {
-            "min": 470,
-            "average": 470,
-            "max": 470
+            "min": 461,
+            "average": 461,
+            "max": 461
           },
           "emDashesPerView": {
             "average": 0,
@@ -6947,7 +6947,7 @@
           "uniqueRatio": 0.595,
           "topRepeats": [
             {
-              "sentence": "No single note drowns the others, which makes you adaptable and, sometimes, hard to pin down.",
+              "sentence": "No single note drowns the others, which makes you adaptable and, at times, tricky to read.",
               "count": 4
             },
             {
@@ -6996,11 +6996,11 @@
           "uniqueRatio": 0.533,
           "topRepeats": [
             {
-              "sentence": "Moving, linking and going deep serve you well.",
+              "sentence": "Moving, linking and going deep pay off for you.",
               "count": 4
             },
             {
-              "sentence": "Time spent starting and tending things usually repays you.",
+              "sentence": "Time spent starting and nurturing projects usually repays you.",
               "count": 4
             },
             {
@@ -7008,22 +7008,22 @@
               "count": 4
             },
             {
-              "sentence": "Wood tends to suit you: growth, beginnings and green patience.",
+              "sentence": "Wood suits you: growth, beginnings and green patience.",
               "count": 4
             },
             {
-              "sentence": "Rooms you tend to do well in lean Water: logistics, trading, communications, tourism.",
+              "sentence": "Water inclines you to fields such as logistics, trading, communications, tourism.",
               "count": 2
             },
             {
-              "sentence": "Work that keeps things moving and connected is usually a good match.",
+              "sentence": "Work that keeps goods, people and messages moving is usually a good match.",
               "count": 2
             }
           ],
           "wordsPerView": {
-            "min": 61,
-            "average": 63.4,
-            "max": 69
+            "min": 56,
+            "average": 60,
+            "max": 66
           },
           "emDashesPerView": {
             "average": 0,
@@ -7045,7 +7045,15 @@
           "uniqueRatio": 0.821,
           "topRepeats": [
             {
-              "sentence": "It's two schedules booked for the same hour, and the friction keeps things moving.",
+              "sentence": "It's two schedules booked for the same hour, and the friction stops anything going stale.",
+              "count": 2
+            },
+            {
+              "sentence": "Its Metal strength is real but partial.",
+              "count": 2
+            },
+            {
+              "sentence": "Its Water strength is real but partial.",
               "count": 2
             },
             {
@@ -7055,20 +7063,12 @@
             {
               "sentence": "The old books call rooster and ox half of a Metal trine: two friends waiting on a third before the plan really moves.",
               "count": 2
-            },
-            {
-              "sentence": "The pull of Metal is real but partial.",
-              "count": 2
-            },
-            {
-              "sentence": "The pull of Water is real but partial.",
-              "count": 2
             }
           ],
           "wordsPerView": {
-            "min": 61,
-            "average": 93.8,
-            "max": 143
+            "min": 60,
+            "average": 90.8,
+            "max": 136
           },
           "emDashesPerView": {
             "average": 0,
@@ -7124,8 +7124,8 @@
           ],
           "wordsPerView": {
             "min": 82,
-            "average": 87.2,
-            "max": 95
+            "average": 86.6,
+            "max": 92
           },
           "emDashesPerView": {
             "average": 0,
@@ -7150,7 +7150,7 @@
         "uniqueRatio": 0.18,
         "topRepeats": [
           {
-            "sentence": "Together you move faster, and faster still with one more on board.",
+            "sentence": "As a pair you move fast, and faster still with a third on board.",
             "count": 20
           },
           {
@@ -7166,7 +7166,7 @@
             "count": 20
           },
           {
-            "sentence": "You two want similar things, which makes plans easy to share.",
+            "sentence": "Your goals line up, which makes plans easy to share.",
             "count": 18
           },
           {
@@ -7190,7 +7190,7 @@
             "count": 12
           },
           {
-            "sentence": "You two tend to agree without much discussion.",
+            "sentence": "You often agree without much discussion.",
             "count": 12
           },
           {
@@ -7202,7 +7202,7 @@
             "count": 9
           },
           {
-            "sentence": "Easy together around work",
+            "sentence": "Easy rapport around work",
             "count": 8
           },
           {
@@ -7218,7 +7218,7 @@
             "count": 8
           },
           {
-            "sentence": "When you each want something different, decide together who bends this time.",
+            "sentence": "When you each want something different, agree who bends this time.",
             "count": 8
           },
           {
@@ -7251,8 +7251,8 @@
           }
         ],
         "wordsPerView": {
-          "min": 135,
-          "average": 163.7,
+          "min": 136,
+          "average": 163.2,
           "max": 207
         },
         "emDashesPerView": {
@@ -7337,11 +7337,11 @@
           "uniqueRatio": 0.512,
           "topRepeats": [
             {
-              "sentence": "Large undertakings suit you as a pair, since you push the same way.",
+              "sentence": "As a pair you move fast, and faster still with a third on board.",
               "count": 4
             },
             {
-              "sentence": "Together you move faster, and faster still with one more on board.",
+              "sentence": "Large undertakings suit you as a pair, since you push the same way.",
               "count": 4
             },
             {
@@ -7357,7 +7357,7 @@
               "count": 4
             },
             {
-              "sentence": "You two want similar things, which makes plans easy to share.",
+              "sentence": "Your goals line up, which makes plans easy to share.",
               "count": 4
             },
             {
@@ -7401,7 +7401,7 @@
               "count": 2
             },
             {
-              "sentence": "Easy together around work",
+              "sentence": "Easy rapport around work",
               "count": 2
             },
             {
@@ -7438,8 +7438,8 @@
             }
           ],
           "wordsPerView": {
-            "min": 156,
-            "average": 162.8,
+            "min": 157,
+            "average": 162.5,
             "max": 175
           },
           "emDashesPerView": {
@@ -7462,7 +7462,7 @@
           "uniqueRatio": 0.513,
           "topRepeats": [
             {
-              "sentence": "Together you move faster, and faster still with one more on board.",
+              "sentence": "As a pair you move fast, and faster still with a third on board.",
               "count": 4
             },
             {
@@ -7478,7 +7478,7 @@
               "count": 4
             },
             {
-              "sentence": "You two want similar things, which makes plans easy to share.",
+              "sentence": "Your goals line up, which makes plans easy to share.",
               "count": 4
             },
             {
@@ -7514,7 +7514,7 @@
               "count": 2
             },
             {
-              "sentence": "Easy together around work",
+              "sentence": "Easy rapport around work",
               "count": 2
             },
             {
@@ -7558,14 +7558,14 @@
               "count": 2
             },
             {
-              "sentence": "When you each want something different, decide together who bends this time.",
+              "sentence": "When you each want something different, agree who bends this time.",
               "count": 2
             }
           ],
           "wordsPerView": {
-            "min": 135,
-            "average": 147.3,
-            "max": 162
+            "min": 136,
+            "average": 147,
+            "max": 161
           },
           "emDashesPerView": {
             "average": 0,
@@ -7591,11 +7591,15 @@
               "count": 4
             },
             {
+              "sentence": "As a pair you move fast, and faster still with a third on board.",
+              "count": 4
+            },
+            {
               "sentence": "Cooperation comes naturally here.",
               "count": 4
             },
             {
-              "sentence": "Easy together around work",
+              "sentence": "Easy rapport around work",
               "count": 4
             },
             {
@@ -7604,10 +7608,6 @@
             },
             {
               "sentence": "Little irritations add up if they're left unsaid.",
-              "count": 4
-            },
-            {
-              "sentence": "Together you move faster, and faster still with one more on board.",
               "count": 4
             },
             {
@@ -7627,11 +7627,11 @@
               "count": 3
             },
             {
-              "sentence": "You two tend to agree without much discussion.",
+              "sentence": "You often agree without much discussion.",
               "count": 3
             },
             {
-              "sentence": "You two want similar things, which makes plans easy to share.",
+              "sentence": "Your goals line up, which makes plans easy to share.",
               "count": 3
             },
             {
@@ -7688,9 +7688,9 @@
             }
           ],
           "wordsPerView": {
-            "min": 139,
-            "average": 153,
-            "max": 195
+            "min": 138,
+            "average": 152.8,
+            "max": 196
           },
           "emDashesPerView": {
             "average": 0,
@@ -7753,15 +7753,15 @@
               "count": 4
             },
             {
+              "sentence": "As a pair you move fast, and faster still with a third on board.",
+              "count": 4
+            },
+            {
               "sentence": "Cooperation comes naturally here.",
               "count": 4
             },
             {
               "sentence": "Little irritations add up if they're left unsaid.",
-              "count": 4
-            },
-            {
-              "sentence": "Together you move faster, and faster still with one more on board.",
               "count": 4
             },
             {
@@ -7785,7 +7785,7 @@
               "count": 3
             },
             {
-              "sentence": "Easy together about family",
+              "sentence": "Easy rapport about family",
               "count": 3
             },
             {
@@ -7793,11 +7793,11 @@
               "count": 3
             },
             {
-              "sentence": "You two tend to agree without much discussion.",
+              "sentence": "You often agree without much discussion.",
               "count": 3
             },
             {
-              "sentence": "You two want similar things, which makes plans easy to share.",
+              "sentence": "Your goals line up, which makes plans easy to share.",
               "count": 3
             },
             {
@@ -7846,9 +7846,9 @@
             }
           ],
           "wordsPerView": {
-            "min": 138,
-            "average": 157.3,
-            "max": 196
+            "min": 137,
+            "average": 157,
+            "max": 197
           },
           "emDashesPerView": {
             "average": 0,
@@ -7895,11 +7895,11 @@
           "uniqueRatio": 0.471,
           "topRepeats": [
             {
-              "sentence": "The same small argument may recur; name it once.",
+              "sentence": "As a pair you move fast, and faster still with a third on board.",
               "count": 4
             },
             {
-              "sentence": "Together you move faster, and faster still with one more on board.",
+              "sentence": "The same small argument may recur; name it once.",
               "count": 4
             },
             {
@@ -7915,7 +7915,7 @@
               "count": 4
             },
             {
-              "sentence": "You two want similar things, which makes plans easy to share.",
+              "sentence": "Your goals line up, which makes plans easy to share.",
               "count": 4
             },
             {
@@ -7943,7 +7943,7 @@
               "count": 3
             },
             {
-              "sentence": "When you each want something different, decide together who bends this time.",
+              "sentence": "When you each want something different, agree who bends this time.",
               "count": 3
             },
             {
@@ -7975,7 +7975,7 @@
               "count": 2
             },
             {
-              "sentence": "Easy together in long-term plans",
+              "sentence": "Easy rapport in long-term plans",
               "count": 2
             },
             {
@@ -7996,8 +7996,8 @@
             }
           ],
           "wordsPerView": {
-            "min": 186,
-            "average": 198,
+            "min": 183,
+            "average": 196.5,
             "max": 207
           },
           "emDashesPerView": {
@@ -8009,13 +8009,13 @@
             "examples": [
               {
                 "view": "D with B",
-                "first": "Easy together in long-term plans",
+                "first": "Easy rapport in long-term plans",
                 "second": "Friction to work through in long-term plans",
                 "phrase": "in long term plans"
               },
               {
                 "view": "D with B",
-                "first": "Easy together in long-term plans",
+                "first": "Easy rapport in long-term plans",
                 "second": "A shared drive in long-term plans",
                 "phrase": "in long term plans"
               },
@@ -8027,7 +8027,7 @@
               },
               {
                 "view": "D with C",
-                "first": "Easy together in long-term plans",
+                "first": "Easy rapport in long-term plans",
                 "second": "Friction to work through in long-term plans",
                 "phrase": "in long term plans"
               }
@@ -8112,7 +8112,7 @@
               "count": 4
             },
             {
-              "sentence": "You two run on the same fuel, which makes you quick to understand each other and quick to compete.",
+              "sentence": "You run on the same fuel, which makes you quick to understand each other and quick to compete.",
               "count": 4
             },
             {
@@ -8134,8 +8134,8 @@
           ],
           "wordsPerView": {
             "min": 20,
-            "average": 22.7,
-            "max": 25
+            "average": 22.5,
+            "max": 24
           },
           "emDashesPerView": {
             "average": 0,
@@ -8214,7 +8214,7 @@
               "count": 9
             },
             {
-              "sentence": "Easy together around work",
+              "sentence": "Easy rapport around work",
               "count": 8
             },
             {
@@ -8294,7 +8294,7 @@
               "count": 3
             },
             {
-              "sentence": "Easy together about family",
+              "sentence": "Easy rapport about family",
               "count": 3
             },
             {
@@ -8388,7 +8388,7 @@
           "uniqueRatio": 0.11,
           "topRepeats": [
             {
-              "sentence": "Together you move faster, and faster still with one more on board.",
+              "sentence": "As a pair you move fast, and faster still with a third on board.",
               "count": 20
             },
             {
@@ -8396,7 +8396,7 @@
               "count": 20
             },
             {
-              "sentence": "You two want similar things, which makes plans easy to share.",
+              "sentence": "Your goals line up, which makes plans easy to share.",
               "count": 18
             },
             {
@@ -8420,7 +8420,7 @@
               "count": 12
             },
             {
-              "sentence": "You two tend to agree without much discussion.",
+              "sentence": "You often agree without much discussion.",
               "count": 12
             },
             {
@@ -8428,15 +8428,11 @@
               "count": 11
             },
             {
-              "sentence": "When you each want something different, decide together who bends this time.",
+              "sentence": "When you each want something different, agree who bends this time.",
               "count": 8
             },
             {
               "sentence": "A teammate for the long haul.",
-              "count": 4
-            },
-            {
-              "sentence": "Doing it together.",
               "count": 4
             },
             {
@@ -8448,7 +8444,11 @@
               "count": 4
             },
             {
-              "sentence": "You two may keep circling one sore subject, so settle it properly.",
+              "sentence": "Someone to share the load.",
+              "count": 4
+            },
+            {
+              "sentence": "You may keep circling one sore subject, so deal with it properly.",
               "count": 4
             },
             {
@@ -8456,7 +8456,7 @@
               "count": 3
             },
             {
-              "sentence": "Shared tasks between you tend to go smoothly and quickly.",
+              "sentence": "Shared tasks tend to go smoothly and quickly.",
               "count": 2
             },
             {
@@ -8470,7 +8470,7 @@
           ],
           "wordsPerView": {
             "min": 59,
-            "average": 78.9,
+            "average": 78.6,
             "max": 113
           },
           "emDashesPerView": {

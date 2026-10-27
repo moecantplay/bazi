@@ -27,8 +27,8 @@ Check a task only with a one-line evidence note.
 - [x] 14. `collect.ts` expands every combination; plain-writing, voice and "a"/"an" checks on each; group limits; no groups in topic-page or fixed banks; test time measured (R11) — one planted bad line failed all four checks (rule, limits, article, banned word); non-picker banks are guarded by the rendered leak count (design); `pnpm verify` green, voice 179 → 295 ms with no groups yet, re-measured in task 17
 - [x] 15. Measure word and phrase counts per surface over every fixture; propose caps and the exempt list for owner approval; VOICE.md overused-word list with alternatives (R12) — `test/word-variety.ts` measures in ~1.1 s; caps approved 2026-10-27 (table in requirements); VOICE.md rules 6 and 7 plus the overused-word table
 - [x] 16. `word-variety.test.ts` with the approved caps; first failing run committed as the worklist (R12) — 78 terms in `word-variety-known.ts`, which the test requires exactly (a ratchet, as phase 3's was); deleted when empty
-- [ ] 17. Rewrite with the content-writer agent, worst first, adding choice groups, until 16 passes and every earlier test stays green (R11, R12)
-- [ ] 18. Re-run the copy audit; refresh `after.json` and the before/after table with word counts (R8, R12)
+- [x] 17. Rewrite with the content-writer agent, worst first, adding choice groups, until 16 passes and every earlier test stays green (R11, R12) — three writers in parallel on separate files: Today 22 → 0 (about 470 entries with groups), Ahead 31 → 0 (149 of 156), topic pages, People, You and chart 25 → 0 (no groups: they don't rotate); worklist deleted, the test requires zero; `composed-daily` now checks real wordings (it counted every part of a group toward the 70-word budget); palace names joined the name words (owner's rule: "an element, animal sign or palace"); 12 star titles reworded, still fixed and still shared with their topic page; `pnpm verify` green
+- [x] 18. Re-run the copy audit; refresh `after.json` and the before/after table with word counts (R8, R12) — every R8 target now met: Today 49.1%, Ahead 62.3%; words over cap 78 → 0
 
 ## Ship
 

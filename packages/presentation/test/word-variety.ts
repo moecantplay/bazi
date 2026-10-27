@@ -149,7 +149,8 @@ export const WORD_CAPS: Record<WindowName, number> = {
 /** What a line is about (its part of life, an element, an animal sign, a palace): these get twice the cap. */
 const NAME_WORDS = new Set(
   `work family home plan wood fire earth metal water
-  rat ox tiger rabbit dragon snake horse goat monkey rooster dog pig palace`.split(/\s+/)
+  rat ox tiger rabbit dragon snake horse goat monkey rooster dog pig
+  palace roots career horizon`.split(/\s+/)
 );
 
 function capFor(window: WindowName, term: string): number {

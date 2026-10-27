@@ -44,7 +44,7 @@ export const DAY_MASTER_LINES: Record<Stem, readonly string[]> = {
   ],
   戊: [
     "You are the mountain: slow to move, impossible to ignore. You can hold almost anything, so remember you're allowed to choose what to carry.",
-    "People lean on you because you hold. Make sure some of the weight you carry is your own choosing.",
+    "People lean on you because you hold. Make sure some of that weight is your own choosing.",
     "You change on a geological clock. What looks like stubbornness is often just your honest pace.",
     "You are the fixed point others navigate by. That is steadying for them and, sometimes, lonely for you.",
     "A mountain does not chase. Let things come to you; enough of them will.",
@@ -61,7 +61,7 @@ export const DAY_MASTER_LINES: Record<Stem, readonly string[]> = {
   庚: [
     "You are raw iron: unrefined ore with an edge already in it. You are made to cut through, and you feel dull when you don't.",
     "You value directness and clean lines. Bluntness is your honesty, though it lands hard on softer ground.",
-    "Pressure and heat are how you take shape. You often come into your own when things get hard.",
+    "Pressure and heat are how you take shape. You often come into your own under strain.",
     "You cut to the decision fast. Slow down just enough to be sure it is the right cut.",
     "Your strength wants a task worthy of it. Idle, metal rusts; used, it sharpens.",
     "You would rather be true than smooth. That is a rare and useful spine.",

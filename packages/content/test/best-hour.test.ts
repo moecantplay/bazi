@@ -76,7 +76,7 @@ describe("hours topic page", () => {
 
   it("names the easy hour instead of repeating its window when they coincide", () => {
     const page = topicPage("hours", [ROUGH, EASY, bestHour({ hourBranch: "未", startHour: 13, endHour: 15, isEasyHour: true, element: "earth" })]);
-    expect(text(page!.forYou)).toContain("The easy hour suits you best too: it brings Earth, and your birth chart runs better with more of it.");
+    expect(text(page!.forYou)).toContain("That easy stretch suits you best too: it brings Earth, and your birth chart runs better with more of it.");
   });
 
   it("is unchanged with no best hour", () => {

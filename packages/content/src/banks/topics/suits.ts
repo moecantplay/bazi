@@ -101,7 +101,7 @@ export const STAGE_SUITS: Record<string, TopicSuits> = {
 /** A sign link, by interaction. */
 export const INTERACTION_SUITS: Record<InteractionType, TopicSuits> = {
   "six-clash": {
-    goodFor: ["Saying which of two plans moves", "Rescheduling early", "Ending something that's already over"],
+    goodFor: ["Choosing which commitment moves", "Rescheduling early", "Ending something that's already over"],
     holdOff: ["Double-booking yourself", "Promising both sides you'll make it"],
   },
   punishment: {

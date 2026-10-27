@@ -5,6 +5,7 @@
 
 import { describe, expect, it } from "vitest";
 import type { Element, InteractionType, Palace, DayFact } from "@daymaster/bazi-engine";
+import { everyWording } from "../src/choices.js";
 import { dailyReading, plainGloss } from "../src/index.js";
 import type { DailyReading } from "../src/index.js";
 import {
@@ -170,7 +171,7 @@ describe("pools", () => {
       ...Object.values(QUIET_BODIES).flat(), ...Object.values(QUIET_HEADLINES).flat(), ...Object.values(QUIET_AGENCY).flat(),
       ...ELEMENTS.flatMap((element) => [...MODIFIERS[element].suits, ...MODIFIERS[element].against]),
     ];
-    for (const entry of all) {
+    for (const entry of all.flatMap(everyWording)) {
       assertPlain(entry);
       assertVoice(entry);
     }
@@ -197,21 +198,33 @@ describe("pools", () => {
       }
     }
     for (const combo of combos) {
-      for (const headline of combo.headlines) {
+      const headlines = combo.headlines.flatMap(everyWording);
+      const bases = combo.bases.flatMap(everyWording);
+      const modifiers = combo.modifiers.flatMap(everyWording);
+      const agencies = combo.agencies.flatMap(everyWording);
+      for (const headline of headlines) {
         expect(wordsOf(headline).length, `headline over 12 words: "${headline}"`).toBeLessThanOrEqual(12);
-        for (const base of combo.bases) {
-          for (const modifier of combo.modifiers) {
-            const body = modifier ? `${base} ${modifier}` : base;
-            const sentences = sentenceCount(body);
-            expect(sentences, `body must be 2–3 sentences (${combo.label}): "${body}"`).toBeGreaterThanOrEqual(2);
-            expect(sentences, `body must be 2–3 sentences (${combo.label}): "${body}"`).toBeLessThanOrEqual(3);
-            for (const agency of combo.agencies) {
-              const words = wordsOf(`${headline} ${body} ${agency}`).length;
-              expect(words, `over ${FIRST_SCREEN_BUDGET} words (${combo.label}): ${headline} | ${body} | ${agency}`).toBeLessThanOrEqual(FIRST_SCREEN_BUDGET);
-              const pairs: [string, string][] = [[headline, body], [headline, agency], [body, agency]];
-              for (const [a, b] of pairs) {
-                expect(sharedFourGrams(a, b), `repeats across the first screen (${combo.label}): "${a}" / "${b}"`).toEqual([]);
-              }
+      }
+      for (const base of bases) {
+        for (const modifier of modifiers) {
+          const body = modifier ? `${base} ${modifier}` : base;
+          const sentences = sentenceCount(body);
+          expect(sentences, `body must be 2–3 sentences (${combo.label}): "${body}"`).toBeGreaterThanOrEqual(2);
+          expect(sentences, `body must be 2–3 sentences (${combo.label}): "${body}"`).toBeLessThanOrEqual(3);
+        }
+      }
+      // The longest wording of each part bounds every combination's length.
+      const longest = (texts: readonly string[]): number => Math.max(0, ...texts.map((text) => wordsOf(text).length));
+      const words = longest(headlines) + longest(bases) + longest(modifiers) + longest(agencies);
+      expect(words, `over ${FIRST_SCREEN_BUDGET} words at the longest (${combo.label})`).toBeLessThanOrEqual(FIRST_SCREEN_BUDGET);
+      const parts: (readonly string[])[] = [headlines, bases, modifiers, agencies];
+      // Every pair of parts that share the first screen, but a body's base and its modifier.
+      const sharing: [number, number][] = [[0, 1], [0, 2], [0, 3], [1, 3], [2, 3]];
+      for (const [first, second] of sharing) {
+        for (const a of parts[first] ?? []) {
+          for (const b of parts[second] ?? []) {
+            if (a && b) {
+              expect(sharedFourGrams(a, b), `repeats across the first screen (${combo.label}): "${a}" / "${b}"`).toEqual([]);
             }
           }
         }

@@ -58,7 +58,7 @@ export function youReading(facts: readonly NatalFact[], seedKey: string): PlainR
   const favorable = factOf(facts, "favorable");
   if (favorable && favorable.elements.length > 0) {
     const careerElement = pick(favorable.elements, seedKey, `career:${favorable.elements.join("")}`);
-    const rooms = CAREER_LINES[careerElement].replace(/^Rooms you tend to do well in lean \w+: /, "");
+    const rooms = CAREER_LINES[careerElement].replace(/^\w+ inclines you to fields such as /, "");
     cards.push({ topic: "favorable", title: ROOMS_TITLE, line: capitalise(rooms) });
   }
 

@@ -1,8 +1,10 @@
 /**
  * Natal branch-interaction lines: how a pattern baked into the birth chart is
  * described. Friction (clash, punishment, harm) is something to use, never a
- * curse (VOICE.md §8). Each template names the pattern once, framed as the old
- * books' name, then says it plainly (rule 11). No two templates share a 4-word
+ * curse (VOICE.md §8). Each template names the pattern once, framed as a name
+ * ("known as a clash", or the old books' name), and says it plainly (rule 11);
+ * few templates say "old", so a page with several patterns doesn't lean on the
+ * word (Plain writing rule 6). No two templates share a 4-word
  * phrase, so several patterns on one chart page never echo each other (Plain
  * writing rule 5).
  *
@@ -28,13 +30,13 @@ export interface NatalInteractionInput {
 }
 
 const COMBINE: readonly string[] = [
-  "The old calendars call this a combine: your {branches} pull toward each other like two people finishing each other's sentences. Things in your {palaces} tend to move as a pair.",
+  "Your {branches} draw close like two people finishing each other's sentences, a bond known as a combine. Your {palaces} often move as a pair.",
   "In the old books, {branches} make a combine: old colleagues who cooperate without needing a meeting. The one risk for your {palaces} is comfort settling into inertia.",
 ];
 
 const CLASH: readonly string[] = [
-  "Your {branches} face off across the {palaces}, which the old calendars name a clash. It's two schedules booked for the same hour, and the friction keeps things moving.",
-  "The old books' word for {branches} facing off is a clash, like furniture that never quite fits the same room. Treat the restlessness in the {palaces} as a prompt to act.",
+  "Your {branches} face off across the {palaces}, which the old calendars name a clash. It's two schedules booked for the same hour, and the friction stops anything going stale.",
+  "When {branches} face off, the result is called a clash, like furniture that never quite fits the same room. Treat the restlessness in the {palaces} as a prompt to act.",
 ];
 
 const TRINE_FULL: readonly string[] = [
@@ -43,22 +45,22 @@ const TRINE_FULL: readonly string[] = [
 ];
 
 const TRINE_HALF: readonly string[] = [
-  "Your {branches} are two legs of a three-legged stool: the old name for this is a half {element} trine. The frame holds in outline and steadies whenever the third sign turns up in passing.",
-  "The old books call {branches} half of a {element} trine: two friends waiting on a third before the plan really moves. The pull of {element} is real but partial.",
+  "Your {branches} are two legs of a three-legged stool, a shape called a half {element} trine. The frame holds in outline and steadies whenever the third sign turns up in passing.",
+  "The old books call {branches} half of a {element} trine: two friends waiting on a third before the plan really moves. Its {element} strength is real but partial.",
 ];
 
 const PUNISHMENT_MUTUAL: readonly string[] = [
-  "The old calendars list this as a punishment, a stone in your shoe across your own {palaces}. The {branches} keep catching until the snag is named, and once named it mostly quiets.",
+  "This one goes by the name of a punishment, a stone in your shoe across your own {palaces}. The {branches} keep catching until the snag is named, and once named it mostly quiets.",
   "The old books name {branches} a punishment: the squeaky stair you keep stepping on. In your own {palaces}, the knot loosens once you meet it head-on.",
 ];
 
 const PUNISHMENT_SELF: readonly string[] = [
   "The old books know this as a self-punishment: your {branches}, the same sign twice, in your chart's {palaces}. It's the bar you keep raising on yourself, so when it aches, look first at your own grip.",
-  "By its old name this is a self-punishment: {branches} pressing from inside your chart's {palaces}. It's like re-grading your own finished work at midnight, and easing that grip is the work here.",
+  "Known as a self-punishment, this is {branches} pressing from inside your chart's {palaces}. It's like re-grading your own finished work at midnight, and easing that grip is the work here.",
 ];
 
 const HARM: readonly string[] = [
-  "The old calendars mark {branches} as a harm between {palaces}: a slow leak, small and easy to miss. It rewards attention before it rewards force.",
+  "Your {branches} form what is called a harm between {palaces}: a slow leak, small and easy to miss. It rewards attention before it rewards force.",
   "The old books' name for {branches} here is a harm: small erosions between {palaces}, like a dripping tap. Catch them early and they stay small.",
 ];
 

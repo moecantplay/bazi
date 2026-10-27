@@ -90,19 +90,20 @@ Added 2026-10-23 at the owner's request after reading the R9 sample ("there coul
 
 R9 applies again: a fresh sample with R11 and R12 in, read and signed off before the one deploy (R10).
 
-### Before and after (R8), 2026-10-23
+### Before and after (R8, R12), 2026-10-27
 
-`after.json` beside this ticket; before is [M20-02's baseline](../../m20-clarity/02-copy-audit-baseline/baseline.json). Fixture A.
+`after.json` beside this ticket, regenerated after phase 4; before is [M20-02's baseline](../../m20-clarity/02-copy-audit-baseline/baseline.json). Fixture A unless noted.
 
-| Target | Before | After | Met |
-| --- | --- | --- | --- |
-| Today, unique sentences ≥ 45% | 22.7% | 37.7% (45.5% without the lines fixed by design: star titles and the hours card's times) | No, as measured; yes on the rotating copy |
-| Em-dashes per view, every surface: 0 | up to 15 (Your chart) | 0 everywhere | Yes |
-| Sentences said twice on one view: 0 | 14 (People) | 0 everywhere | Yes |
-| Phrase pairs within one view, outside title echoes: 0 | 373 topic pages, 3 Your chart, 2 People | 0 (`screen-repeats.test.ts`). The audit still counts 105 on topic pages, all titles echoing their own line or the hours card's times | Yes |
-| Ahead, unique sentences ≥ 60% | 36.3% | 58.2% (57.6–64.0% across fixtures) | No, by 1.8 points |
+| Target | Before | After phase 3 (2026-10-23) | After phase 4 | Met |
+| --- | --- | --- | --- | --- |
+| Today, unique sentences ≥ 45% | 22.7% | 37.7% | 49.1% (49.1–51.6% across fixtures) | Yes |
+| Em-dashes per view, every surface: 0 | up to 15 (Your chart) | 0 | 0 | Yes |
+| Sentences said twice on one view: 0 | 14 (People) | 0 | 0 | Yes |
+| Phrase pairs within one view, outside title echoes: 0 | 373 topic pages, 3 Your chart, 2 People | 0 | 0 (`screen-repeats.test.ts`). The audit counts 60 on Fixture A's topic pages (280 over all fixtures, from 500), every one a title echoing its own line or the hours card's times | Yes |
+| Ahead, unique sentences ≥ 60% | 36.3% | 58.2% | 62.3% (60.1–71.3% across fixtures) | Yes |
+| Words over their cap (R12): 0 | — | 78 | 0 (`word-variety.test.ts`) | Yes |
 
-Every window target holds in tests: no Today line back within 14 days, no Ahead line twice within 12 months or a decade's years, no screen saying a thing twice, no rule broken on any rendered line. The two ratios miss for structural reasons. Star titles and hours times stay fixed by design (R3) but count toward Today's ratio. Ahead's six-clash, punishment, harm and six-combine leads never repeat within their window, so they kept one entry each and repeat across years. The owner decides at sign-off (R9) whether to accept or grow more pools.
+Every window target holds in tests: no Today line back within 14 days, no Ahead line twice within 12 months or a decade's years, no screen saying a thing twice, no rule broken on any rendered line or any wording of a bank line, no word over its cap. Choice groups lifted both ratios past their targets: a returning line comes back in other words. Star titles and the hours times still repeat by design ("Drawn to the big questions" 30 times in Fixture A's 90 days).
 
 ## Out of scope
 
@@ -132,7 +133,7 @@ Every window target holds in tests: no Today line back within 14 days, no Ahead 
   | One screen: a decade, topic page, People, You, chart | 3 | 6 | 27 | "plan" 7 and "day" 6 on a topic page, "tend" 6 on the chart page |
 
   Counting: words with a plain "-s" folded off ("plans" is "plan") and two-word phrases; function words skipped; the fixed lines (hours times, star titles, a topic page's old name, name origin, sore spot and closing) sit out. 78 words and phrases over in all: the rewrite's worklist.
-- [ ] **The two R8 ratios** (Today 37.7%, Ahead 58.2%). Choice groups count toward unique sentences, so both should rise; decide at the new R9 sign-off.
+- [x] **The two R8 ratios** (Today 37.7%, Ahead 58.2%). Choice groups count toward unique sentences, so both should rise; decide at the new R9 sign-off. Resolved 2026-10-27: both met after phase 4 (Today 49.1%, Ahead 62.3%).
 
 Raised during the build (2026-10-20, phase 1 review):
 

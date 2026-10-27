@@ -42,7 +42,7 @@ describe("pairReading", () => {
   it("reads a pair from how the day-masters relate", () => {
     const reading = pairReading(PAIR);
     expect(reading?.lead.headline).toBe("You tend to give more, and it mostly works.");
-    expect(reading?.cards.map((card) => card.title)).toEqual(["Easy together at home", "What they bring out in you", "What you bring them"]);
+    expect(reading?.cards.map((card) => card.title)).toEqual(["Easy rapport at home", "What they bring out in you", "What you bring them"]);
     for (const card of reading?.cards ?? []) {
       assertPlain(`${card.title} ${card.line}`);
     }

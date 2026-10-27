@@ -27,10 +27,10 @@ export const INTERACTION_TOPICS: Record<InteractionType, InteractionTopic> = {
     verb: "sits opposite",
     title: "Something has to give",
     how: [
-      "It tends to show up as friction you can see: a meeting that moves, two plans that collide, something you postponed refusing to stay postponed.",
+      "It tends to show up as friction you can see: a meeting that moves, plans that collide, something you postponed refusing to stay postponed.",
       "Left alone, it usually settles in the least convenient direction. Handled early, you get to choose what moves.",
     ],
-    work: ["Pick which of the two gives way, and say so early.", "Holding on to both is what makes it grind."],
+    work: ["Pick which one gives way, and tell the people it affects.", "Holding on to both is what makes it grind."],
     nameOrigin: `${SIGNS_LEAD} When today's sign sits directly opposite one of yours, the two pull against each other.`,
   },
   punishment: {
